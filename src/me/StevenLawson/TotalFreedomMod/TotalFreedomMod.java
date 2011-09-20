@@ -26,11 +26,11 @@ public class TotalFreedomMod extends JavaPlugin
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
-    Player player = null;
-    if (sender instanceof Player)
+        Player player = null;
+        if (sender instanceof Player)
         {
             player = (Player)sender;
-    }
+        }
         
         if(cmd.getName().equalsIgnoreCase("opme"))
         {
@@ -40,7 +40,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                if (isUserSuperadmin(sender))
+                if (isUserSuperadmin(sender.getName()))
                 {
                     sender.setOp(true);
                     sender.sendMessage(ChatColor.YELLOW + "You are now op!");
@@ -67,10 +67,13 @@ public class TotalFreedomMod extends JavaPlugin
             boolean first = true;
             for (Player p : Bukkit.getOnlinePlayers())
             {
-                if (!first)
+                if (first)
+                {
+                    first = false;
+                }
+                else
                 {
                     onlineUsers.append(", ");
-                    first = false;
                 }
                 if (p.isOp())
                 {
@@ -88,23 +91,54 @@ public class TotalFreedomMod extends JavaPlugin
         }
         else if(cmd.getName().equalsIgnoreCase("deopall"))
         {
-            log.info("[Total Freedom Mod] - Got deopall command.");
+            if (isUserSuperadmin(sender.getName()) || player == null)
+            {
+                for (Player p : Bukkit.getOnlinePlayers())
+                {
+                    if (!isUserSuperadmin(p.getName()) && !p.getName().equals(sender.getName()))
+                    {
+                        p.setOp(false);
+                    }
+                }
+                
+                log.log(Level.INFO, "[Total Freedom Mod]: {0} used deopall.", sender.getName());
+                Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " de-op'd everyone on the server.");
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
             return true;
         }
         else if(cmd.getName().equalsIgnoreCase("opall"))
         {
-            log.info("[Total Freedom Mod] - Got opall command.");
+            if (isUserSuperadmin(sender.getName()) || player == null)
+            {
+                for (Player p : Bukkit.getOnlinePlayers())
+                {
+                    p.setOp(true);
+                }
+                
+                log.log(Level.INFO, "[Total Freedom Mod]: {0} used opall.", sender.getName());
+                Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " op'd everyone on the server.");
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
             return true;
         }
         return false; 
     }
     
-    private boolean isUserSuperadmin(CommandSender sender)
+    private boolean isUserSuperadmin(String userName)
     {
         return Arrays.asList(
                 "miwojedk",
                 "markbyron",
                 "madgeek1450"
-                ).contains(sender.getName().toLowerCase());
+                ).contains(userName.toLowerCase());
     }
 }
