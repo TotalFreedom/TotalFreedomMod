@@ -16,12 +16,13 @@ public class TotalFreedomMod extends JavaPlugin
 
     public void onEnable()
     {
-        log.info("[Total Freedom Mod] - Enabled! - v1.0.0 by Madgeek1450");
+        log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
+        log.log(Level.WARNING, "[Total Freedom Mod]: In-game superadmin commands wont work if online-mode is set to false!");
     }
 
     public void onDisable()
     {
-        log.info("[Total Freedom Mod] - Disabled.");
+        log.log(Level.INFO, "[Total Freedom Mod] - Disabled.");
     }
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
@@ -44,7 +45,7 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     sender.setOp(true);
                     sender.sendMessage(ChatColor.YELLOW + "You are now op!");
-                    log.log(Level.INFO, "[Total Freedom Mod]: {0} gave themselves op.", sender.getName());
+                    log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " gave themselves op.");
                 }
                 else
                 {
@@ -101,7 +102,7 @@ public class TotalFreedomMod extends JavaPlugin
                     }
                 }
                 
-                log.log(Level.INFO, "[Total Freedom Mod]: {0} used deopall.", sender.getName());
+                log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " used deopall.");
                 Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " de-op'd everyone on the server.");
             }
             else
@@ -120,8 +121,56 @@ public class TotalFreedomMod extends JavaPlugin
                     p.setOp(true);
                 }
                 
-                log.log(Level.INFO, "[Total Freedom Mod]: {0} used opall.", sender.getName());
+                log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " used opall.");
                 Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " op'd everyone on the server.");
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
+            return true;
+        }
+        else if(cmd.getName().equalsIgnoreCase("qop")) //Quick OP
+        {
+            if (args.length != 1)
+            {
+                return false;
+            }
+        
+            if (sender.isOp() || player == null || isUserSuperadmin(sender.getName()))
+            {
+                for (Player p : Bukkit.matchPlayer(args[0]))
+                {
+                    p.setOp(true);
+                    Command.broadcastCommandMessage(sender, "Oping " + p.getName());
+                    p.sendMessage(ChatColor.YELLOW + "You are now op!");
+                    log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " op'd " + p.getName() + ".");
+                }
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
+            return true;
+        }
+        else if(cmd.getName().equalsIgnoreCase("qdeop")) //Quick De-op
+        {
+            if (args.length != 1)
+            {
+                return false;
+            }
+        
+            if (sender.isOp() || player == null || isUserSuperadmin(sender.getName()))
+            {
+                for (Player p : Bukkit.matchPlayer(args[0]))
+                {
+                    p.setOp(false);
+                    Command.broadcastCommandMessage(sender, "De-opping " + p.getName());
+                    p.sendMessage(ChatColor.YELLOW + "You are now op!");
+                    log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " de-op'd " + p.getName() + ".");
+                }
             }
             else
             {
@@ -135,6 +184,11 @@ public class TotalFreedomMod extends JavaPlugin
     
     private boolean isUserSuperadmin(String userName)
     {
+        if (!Bukkit.getOnlineMode())
+        {
+            return false;
+        }
+        
         return Arrays.asList(
                 "miwojedk",
                 "markbyron",
