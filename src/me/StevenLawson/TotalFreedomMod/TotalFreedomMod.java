@@ -17,7 +17,11 @@ public class TotalFreedomMod extends JavaPlugin
     public void onEnable()
     {
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
-        log.log(Level.WARNING, "[Total Freedom Mod]: In-game superadmin commands wont work if online-mode is set to false!");
+        
+        if (!Bukkit.getOnlineMode())
+        {
+            log.log(Level.WARNING, "[Total Freedom Mod]: 'online-mode' is set to FALSE in server.properties. This must be set to TRUE in order for in-game superadmin commands to work.");
+        }
     }
 
     public void onDisable()
@@ -140,12 +144,20 @@ public class TotalFreedomMod extends JavaPlugin
         
             if (sender.isOp() || player == null || isUserSuperadmin(sender.getName()))
             {
+                boolean matched_player = false;
                 for (Player p : Bukkit.matchPlayer(args[0]))
                 {
+                    matched_player = true;
+                    
                     p.setOp(true);
+                    
                     Command.broadcastCommandMessage(sender, "Oping " + p.getName());
                     p.sendMessage(ChatColor.YELLOW + "You are now op!");
                     log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " op'd " + p.getName() + ".");
+                }
+                if (!matched_player)
+                {
+                    sender.sendMessage("No targets matched.");
                 }
             }
             else
@@ -164,12 +176,20 @@ public class TotalFreedomMod extends JavaPlugin
         
             if (sender.isOp() || player == null || isUserSuperadmin(sender.getName()))
             {
+                boolean matched_player = false;
                 for (Player p : Bukkit.matchPlayer(args[0]))
                 {
+                    matched_player = true;
+                    
                     p.setOp(false);
+                    
                     Command.broadcastCommandMessage(sender, "De-opping " + p.getName());
                     p.sendMessage(ChatColor.YELLOW + "You are now op!");
                     log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " de-op'd " + p.getName() + ".");
+                }
+                if (!matched_player)
+                {
+                    sender.sendMessage("No targets matched.");
                 }
             }
             else
