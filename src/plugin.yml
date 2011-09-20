@@ -1,0 +1,12 @@
+name: TotalFreedomMod
+main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
+version: 1.0.0
+description: Plugin for the Total Freedom server
+author: StevenLawson / Madgeek1450
+commands:
+  listreal:
+    description: Lists the real names of all online players.
+    usage: /<command>
+  opme:
+    description: Superadmin command - Automatically ops user.
+    usage: /<command>
