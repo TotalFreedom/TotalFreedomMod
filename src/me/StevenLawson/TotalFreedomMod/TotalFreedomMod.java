@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
@@ -9,14 +10,29 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.config.Configuration;
 
 public class TotalFreedomMod extends JavaPlugin
 {
-    private Logger log = Logger.getLogger("Minecraft");
+    private static final Logger log = Logger.getLogger("Minecraft");
+    protected static Configuration CONFIG;
+    private List<String> superadmins = new ArrayList<String>();
 
     public void onEnable()
     {
+        CONFIG = getConfiguration();
+        CONFIG.load();
+        if (CONFIG.getString("superadmins", null) == null)
+        {
+            log.log(Level.INFO, "[Total Freedom Mod] - Generating default config file (plugins/TotalFreedomMod/config.yml)...");
+            CONFIG.setProperty("superadmins", new String[] {"madgeek1450", "markbyron"});
+            CONFIG.save();
+            CONFIG.load();
+        }
+        superadmins = CONFIG.getStringList("superadmins", null);
+        
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
+        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + superadmins.toString());
         
         if (!Bukkit.getOnlineMode())
         {
@@ -204,15 +220,7 @@ public class TotalFreedomMod extends JavaPlugin
     
     private boolean isUserSuperadmin(String userName)
     {
-        if (!Bukkit.getOnlineMode())
-        {
-            return false;
-        }
-        
-        return Arrays.asList(
-                "miwojedk",
-                "markbyron",
-                "madgeek1450"
-                ).contains(userName.toLowerCase());
+        if (!Bukkit.getOnlineMode()) return false;
+        return superadmins.contains(userName);
     }
 }
