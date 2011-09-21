@@ -25,7 +25,7 @@ public class TotalFreedomMod extends JavaPlugin
         if (CONFIG.getString("superadmins", null) == null)
         {
             log.log(Level.INFO, "[Total Freedom Mod] - Generating default config file (plugins/TotalFreedomMod/config.yml)...");
-            CONFIG.setProperty("superadmins", new String[] {"madgeek1450", "markbyron"});
+            CONFIG.setProperty("superadmins", new String[] {"Madgeek1450", "markbyron"});
             CONFIG.save();
             CONFIG.load();
         }
@@ -33,11 +33,6 @@ public class TotalFreedomMod extends JavaPlugin
         
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
         log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + superadmins.toString());
-        
-        if (!Bukkit.getOnlineMode())
-        {
-            log.log(Level.WARNING, "[Total Freedom Mod]: 'online-mode' is set to FALSE in server.properties. This must be set to TRUE in order for in-game superadmin commands to work.");
-        }
     }
 
     public void onDisable()
@@ -220,7 +215,6 @@ public class TotalFreedomMod extends JavaPlugin
     
     private boolean isUserSuperadmin(String userName)
     {
-        if (!Bukkit.getOnlineMode()) return false;
         return superadmins.contains(userName);
     }
 }
