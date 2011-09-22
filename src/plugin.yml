@@ -4,8 +4,17 @@ version: 1.1.2
 description: Plugin for the Total Freedom server
 author: StevenLawson / Madgeek1450
 commands:
+  creative:
+    description: Quickly change your own gamemode to creative, or define someone's username to change theirs.
+    usage: /<command> [partialname]
   deopall:
     description: Superadmin command - Deop everyone on the server.
+    usage: /<command>
+  gtfo:
+    description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
+    usage: /<command> [partialname]
+  list:
+    description: Lists the real names of all online players.
     usage: /<command>
   listreal:
     description: Lists the real names of all online players.
@@ -18,7 +27,19 @@ commands:
     usage: /<command>
   qdeop:
     description: Quick De-Op - deop someone based on a partial name.
-    usage: /<command> [partialname]
+    usage: /<command> <partialname>
   qop:
     description: Quick Op - op someone based on a partial name.
+    usage: /<command> <partialname>
+  say:
+    description: Broadcasts the given message as the console, includes sender.
+    usage: /<command> <message>
+  stop:
+    description: Kicks everyone and stops the server.
+    usage: /<command>
+  survival:
+    description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
     usage: /<command> [partialname]
+  wildcard:
+    description: Superadmin command - Run any command on all users, username placeholder = ?.
+    usage: /<command> [fluff] ? [fluff] ?

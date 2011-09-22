@@ -1,11 +1,13 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +34,7 @@ public class TotalFreedomMod extends JavaPlugin
         superadmins = CONFIG.getStringList("superadmins", null);
         
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
-        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + superadmins.toString());
+        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + implodeStringList(", ", superadmins));
     }
 
     public void onDisable()
@@ -46,6 +48,11 @@ public class TotalFreedomMod extends JavaPlugin
         if (sender instanceof Player)
         {
             player = (Player)sender;
+            log.log(Level.INFO, String.format("[PLAYER_COMMAND] %s(%s): /%s %s", player.getName(), player.getDisplayName(), commandLabel, implodeStringList(" ", Arrays.asList(args))));
+        }
+        else
+        {
+            log.log(Level.INFO, String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, implodeStringList(" ", Arrays.asList(args))));
         }
         
         if(cmd.getName().equalsIgnoreCase("opme"))
@@ -70,7 +77,7 @@ public class TotalFreedomMod extends JavaPlugin
             
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("listreal"))
+        else if(cmd.getName().equalsIgnoreCase("listreal") || cmd.getName().equalsIgnoreCase("list"))
         {
             StringBuilder online = new StringBuilder();
             online.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(Bukkit.getOnlinePlayers().length);
@@ -116,8 +123,7 @@ public class TotalFreedomMod extends JavaPlugin
                         p.setOp(false);
                     }
                 }
-                
-                log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " used deopall.");
+
                 Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " de-op'd everyone on the server.");
             }
             else
@@ -131,12 +137,28 @@ public class TotalFreedomMod extends JavaPlugin
         {
             if (isUserSuperadmin(sender.getName()) || player == null)
             {
+                boolean doSetGamemode = false;
+                GameMode targetGamemode = GameMode.CREATIVE;
+                if (args.length != 0)
+                {
+                    if (args[0].equals("-c"))
+                    {
+                        doSetGamemode = true;
+                        targetGamemode = GameMode.CREATIVE;
+                    }
+                    else if (args[0].equals("-s"))
+                    {
+                        doSetGamemode = true;
+                        targetGamemode = GameMode.SURVIVAL;
+                    }
+                }
+                
                 for (Player p : Bukkit.getOnlinePlayers())
                 {
                     p.setOp(true);
+                    if (doSetGamemode) p.setGameMode(targetGamemode);
                 }
                 
-                log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " used opall.");
                 Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " op'd everyone on the server.");
             }
             else
@@ -164,7 +186,6 @@ public class TotalFreedomMod extends JavaPlugin
                     
                     Command.broadcastCommandMessage(sender, "Oping " + p.getName());
                     p.sendMessage(ChatColor.YELLOW + "You are now op!");
-                    log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " op'd " + p.getName() + ".");
                 }
                 if (!matched_player)
                 {
@@ -195,8 +216,7 @@ public class TotalFreedomMod extends JavaPlugin
                     p.setOp(false);
                     
                     Command.broadcastCommandMessage(sender, "De-opping " + p.getName());
-                    p.sendMessage(ChatColor.YELLOW + "You are now op!");
-                    log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " de-op'd " + p.getName() + ".");
+                    p.sendMessage(ChatColor.YELLOW + "You have been de-op'd.");
                 }
                 if (!matched_player)
                 {
@@ -210,7 +230,208 @@ public class TotalFreedomMod extends JavaPlugin
             
             return true;
         }
+        else if(cmd.getName().equalsIgnoreCase("survival"))
+        {
+            if (player == null)
+            {
+                if (args.length == 0)
+                {
+                    sender.sendMessage("When used from the console, you must define a target user to change gamemode on.");
+                    return true;
+                }
+            }
+            else
+            {
+                if (!sender.isOp())
+                {
+                    sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                    return true;
+                }
+            }
+            
+            Player p;
+            if (args.length == 0)
+            {
+                p = Bukkit.getPlayerExact(sender.getName());
+            }
+            else
+            {
+                List<Player> matches = Bukkit.matchPlayer(args[0]);
+                if (matches.isEmpty())
+                {
+                    sender.sendMessage("Can't find user " + args[0]);
+                    return true;
+                }
+                else
+                {
+                    p = matches.get(0);
+                }
+            }
+            
+            sender.sendMessage("Setting " + p.getName() + " to game mode 'Survival'.");
+            p.sendMessage(sender.getName() + " set your game mode to 'Survival'.");
+            p.setGameMode(GameMode.SURVIVAL);
+            
+            return true;
+        }
+        else if(cmd.getName().equalsIgnoreCase("creative"))
+        {
+            if (player == null)
+            {
+                if (args.length == 0)
+                {
+                    sender.sendMessage("When used from the console, you must define a target user to change gamemode on.");
+                    return true;
+                }
+            }
+            else
+            {
+                if (!sender.isOp())
+                {
+                    sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                    return true;
+                }
+            }
+            
+            Player p;
+            if (args.length == 0)
+            {
+                p = Bukkit.getPlayerExact(sender.getName());
+            }
+            else
+            {
+                List<Player> matches = Bukkit.matchPlayer(args[0]);
+                if (matches.isEmpty())
+                {
+                    sender.sendMessage("Can't find user " + args[0]);
+                    return true;
+                }
+                else
+                {
+                    p = matches.get(0);
+                }
+            }
+            
+            sender.sendMessage("Setting " + p.getName() + " to game mode 'Creative'.");
+            p.sendMessage(sender.getName() + " set your game mode to 'Creative'.");
+            p.setGameMode(GameMode.CREATIVE);
+            
+            return true;
+        }
+        else if(cmd.getName().equalsIgnoreCase("wildcard"))
+        {
+            if (player == null || isUserSuperadmin(sender.getName()))
+            {
+                if (args[0].equals("wildcard"))
+                {
+                    sender.sendMessage("What the hell are you trying to do, you stupid idiot...");
+                    return true;
+                }
+                
+                String base_command = implodeStringList(" ", Arrays.asList(args));
+
+                for (Player p : Bukkit.getOnlinePlayers())
+                {
+                    String out_command = base_command.replaceAll("\\x3f", p.getName());
+                    sender.sendMessage("Running Command: " + out_command);
+                    Bukkit.getServer().dispatchCommand(sender, out_command);
+                }
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
+            return true;
+        }
+        else if(cmd.getName().equalsIgnoreCase("say"))
+        {
+            if (player == null || sender.isOp())
+            {
+                String message = implodeStringList(" ", Arrays.asList(args));
+                Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "[Server:" + sender.getName() + "] " + message);
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
+            return true;
+        }
+        else if(cmd.getName().equalsIgnoreCase("gtfo"))
+        {
+            if (args.length != 1)
+            {
+                return false;
+            }
+            
+            if (player == null || isUserSuperadmin(sender.getName()))
+            {
+                Player p;
+                List<Player> matches = Bukkit.matchPlayer(args[0]);
+                if (matches.isEmpty())
+                {
+                    sender.sendMessage("Can't find user " + args[0]);
+                    return true;
+                }
+                else
+                {
+                    p = matches.get(0);
+                }
+                
+                Bukkit.getServer().dispatchCommand(sender, "smite " + p.getName());
+                
+                p.setOp(false);
+                
+                String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+                
+                Bukkit.broadcastMessage(ChatColor.RED + "Banning " + p.getName());
+                Bukkit.banIP(user_ip);
+                Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
+                
+                p.kickPlayer("GTFO");
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
+            return true;
+        }
+        else if(cmd.getName().equalsIgnoreCase("stop"))
+        {
+            if (player == null || isUserSuperadmin(sender.getName()))
+            {
+                for (Player p : Bukkit.getOnlinePlayers())
+                {
+                    p.kickPlayer("Server is going offline, come back in a few minutes.");
+                }
+                
+                Bukkit.shutdown();
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
+            return true;
+        }
+        
         return false; 
+    }
+    
+    private static String implodeStringList(String glue, List<String> pieces)
+    {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < pieces.size(); i++)
+        {
+            if (i != 0)
+            {
+                output.append(glue);
+            }
+            output.append(pieces.get(i));
+        }
+        return output.toString();
     }
     
     private boolean isUserSuperadmin(String userName)
