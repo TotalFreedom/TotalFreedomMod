@@ -101,35 +101,43 @@ public class TotalFreedomMod extends JavaPlugin
         }
         else if(cmd.getName().equalsIgnoreCase("listreal") || cmd.getName().equalsIgnoreCase("list"))
         {
-            StringBuilder online = new StringBuilder();
-            online.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(Bukkit.getOnlinePlayers().length);
-            online.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(Bukkit.getMaxPlayers());
-            online.append(ChatColor.BLUE).append(" players online.");
-            sender.sendMessage(online.toString());
-
+            StringBuilder onlineStats = new StringBuilder();
             StringBuilder onlineUsers = new StringBuilder();
-            onlineUsers.append("Connected players: ");
-            boolean first = true;
-            for (Player p : Bukkit.getOnlinePlayers())
+            
+            if (player == null)
             {
-                if (first)
+                onlineStats.append(String.format("There are %d out of a maximum %d players online.", Bukkit.getOnlinePlayers().length, Bukkit.getMaxPlayers()));
+                
+                onlineUsers.append("Connected players: ");
+                boolean first = true;
+                for (Player p : Bukkit.getOnlinePlayers())
                 {
-                    first = false;
-                }
-                else
-                {
-                    onlineUsers.append(", ");
-                }
-                if (p.isOp())
-                {
-                    onlineUsers.append(ChatColor.RED).append(p.getName());
-                }
-                else
-                {
+                    if (first) first = false;
+                    else onlineUsers.append(", ");
                     onlineUsers.append(p.getName());
                 }
-                onlineUsers.append(ChatColor.WHITE);
             }
+            else
+            {
+                onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(Bukkit.getOnlinePlayers().length);
+                onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(Bukkit.getMaxPlayers());
+                onlineStats.append(ChatColor.BLUE).append(" players online.");
+                
+                onlineUsers.append("Connected players: ");
+                boolean first = true;
+                for (Player p : Bukkit.getOnlinePlayers())
+                {
+                    if (first) first = false;
+                    else onlineUsers.append(", ");
+                    
+                    if (p.isOp()) onlineUsers.append(ChatColor.RED).append(p.getName());
+                    else onlineUsers.append(p.getName());
+                    
+                    onlineUsers.append(ChatColor.WHITE);
+                }
+            }
+            
+            sender.sendMessage(onlineStats.toString());
             sender.sendMessage(onlineUsers.toString());
 
             return true;
