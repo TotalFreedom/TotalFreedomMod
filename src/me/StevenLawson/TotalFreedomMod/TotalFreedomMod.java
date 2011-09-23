@@ -11,6 +11,8 @@ import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
@@ -19,6 +21,8 @@ public class TotalFreedomMod extends JavaPlugin
     private static final Logger log = Logger.getLogger("Minecraft");
     protected static Configuration CONFIG;
     private List<String> superadmins = new ArrayList<String>();
+    private final TotalFreedomModEntityListener entityListener = new TotalFreedomModEntityListener(this);
+    public Boolean allowExplosions = false;
 
     public void onEnable()
     {
@@ -28,10 +32,15 @@ public class TotalFreedomMod extends JavaPlugin
         {
             log.log(Level.INFO, "[Total Freedom Mod] - Generating default config file (plugins/TotalFreedomMod/config.yml)...");
             CONFIG.setProperty("superadmins", new String[] {"Madgeek1450", "markbyron"});
+            CONFIG.setProperty("allow_explosions", false);
             CONFIG.save();
             CONFIG.load();
         }
         superadmins = CONFIG.getStringList("superadmins", null);
+        allowExplosions = CONFIG.getBoolean("allow_explosions", false);
+        
+        PluginManager pm = this.getServer().getPluginManager();
+        pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
         
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
         log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + implodeStringList(", ", superadmins));
@@ -48,7 +57,7 @@ public class TotalFreedomMod extends JavaPlugin
         if (sender instanceof Player)
         {
             player = (Player)sender;
-            log.log(Level.INFO, String.format("[PLAYER_COMMAND] %s(%s): /%s %s", player.getName(), player.getDisplayName(), commandLabel, implodeStringList(" ", Arrays.asList(args))));
+            log.log(Level.INFO, String.format("[PLAYER_COMMAND] %s(%s): /%s %s", player.getName(), player.getDisplayName().replaceAll("\\xA7.", ""), commandLabel, implodeStringList(" ", Arrays.asList(args))));
         }
         else
         {
@@ -67,7 +76,6 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     sender.setOp(true);
                     sender.sendMessage(ChatColor.YELLOW + "You are now op!");
-                    log.log(Level.INFO, "[Total Freedom Mod]: " + sender.getName() + " gave themselves op.");
                 }
                 else
                 {
@@ -408,6 +416,33 @@ public class TotalFreedomMod extends JavaPlugin
                 }
                 
                 Bukkit.shutdown();
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
+            return true;
+        }
+        else if(cmd.getName().equalsIgnoreCase("explosives"))
+        {
+            if (player == null || isUserSuperadmin(sender.getName()))
+            {
+                if (args.length != 1)
+                {
+                    return false;
+                }
+                
+                if (args[0].equalsIgnoreCase("on"))
+                {
+                    this.allowExplosions = true;
+                    sender.sendMessage("Explosives are now enabled. Don't blow your fingers off!");
+                }
+                else
+                {
+                    this.allowExplosions = false;
+                    sender.sendMessage("Explosives are now disabled. Funtime is over...");
+                }
             }
             else
             {

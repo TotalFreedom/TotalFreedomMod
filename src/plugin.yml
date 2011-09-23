@@ -10,6 +10,9 @@ commands:
   deopall:
     description: Superadmin command - Deop everyone on the server.
     usage: /<command>
+  explosives:
+    description: Superadmin command - Enable/disable explosives.
+    usage: /<command> [on|off]
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> [partialname]
