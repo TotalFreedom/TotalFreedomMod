@@ -18,29 +18,43 @@ import org.bukkit.util.config.Configuration;
 
 public class TotalFreedomMod extends JavaPlugin
 {
+    private final TotalFreedomModEntityListener entityListener = new TotalFreedomModEntityListener(this);
+    private final TotalFreedomModBlockListener blockListener = new TotalFreedomModBlockListener(this);
+    //private final TotalFreedomModPlayerListener playerListener = new TotalFreedomModPlayerListener(this);
+    
     private static final Logger log = Logger.getLogger("Minecraft");
+    
     protected static Configuration CONFIG;
     private List<String> superadmins = new ArrayList<String>();
-    private final TotalFreedomModEntityListener entityListener = new TotalFreedomModEntityListener(this);
     public Boolean allowExplosions = false;
+    public Boolean allowLavaDamage = false;
+    public Boolean allowFireDamage = false;
 
     public void onEnable()
     {
         CONFIG = getConfiguration();
         CONFIG.load();
-        if (CONFIG.getString("superadmins", null) == null)
+        if (CONFIG.getString("superadmins", null) == null) //Generate config file:
         {
             log.log(Level.INFO, "[Total Freedom Mod] - Generating default config file (plugins/TotalFreedomMod/config.yml)...");
             CONFIG.setProperty("superadmins", new String[] {"Madgeek1450", "markbyron"});
             CONFIG.setProperty("allow_explosions", false);
+            CONFIG.setProperty("allow_lava_damage", false);
+            CONFIG.setProperty("allow_fire", false);
             CONFIG.save();
             CONFIG.load();
         }
         superadmins = CONFIG.getStringList("superadmins", null);
         allowExplosions = CONFIG.getBoolean("allow_explosions", false);
+        allowLavaDamage = CONFIG.getBoolean("allow_lava_damage", false);
+        allowFireDamage = CONFIG.getBoolean("allow_fire", false);
         
         PluginManager pm = this.getServer().getPluginManager();
         pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.BLOCK_IGNITE, blockListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);
         
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
         log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + implodeStringList(", ", superadmins));

@@ -1,5 +1,8 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityListener;
 
@@ -15,6 +18,30 @@ public class TotalFreedomModEntityListener extends EntityListener
     @Override
     public void onEntityExplode(EntityExplodeEvent event)
     {
-        event.setCancelled(!plugin.allowExplosions);
+        if (!plugin.allowExplosions)
+        {
+            event.setCancelled(true);
+            return;
+        }
+    }
+
+    @Override
+    public void onEntityCombust(EntityCombustEvent event)
+    {
+        if (!plugin.allowFireDamage)
+        {
+            event.setCancelled(true);
+            return;
+        }
+    }
+
+    @Override
+    public void onEntityDamage(EntityDamageEvent event)
+    {
+        if (event.getCause() == DamageCause.LAVA && !plugin.allowLavaDamage)
+        {
+            event.setCancelled(true);
+            return;
+        }
     }
 }
