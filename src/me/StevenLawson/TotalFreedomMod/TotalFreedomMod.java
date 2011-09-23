@@ -28,7 +28,7 @@ public class TotalFreedomMod extends JavaPlugin
     private List<String> superadmins = new ArrayList<String>();
     public Boolean allowExplosions = false;
     public Boolean allowLavaDamage = false;
-    public Boolean allowFireDamage = false;
+    public Boolean allowFire = false;
 
     public void onEnable()
     {
@@ -47,7 +47,7 @@ public class TotalFreedomMod extends JavaPlugin
         superadmins = CONFIG.getStringList("superadmins", null);
         allowExplosions = CONFIG.getBoolean("allow_explosions", false);
         allowLavaDamage = CONFIG.getBoolean("allow_lava_damage", false);
-        allowFireDamage = CONFIG.getBoolean("allow_fire", false);
+        allowFire = CONFIG.getBoolean("allow_fire", false);
         
         PluginManager pm = this.getServer().getPluginManager();
         pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
@@ -114,7 +114,16 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     if (first) first = false;
                     else onlineUsers.append(", ");
-                    onlineUsers.append(p.getName());
+                    
+                    if (sender.getName().equalsIgnoreCase("remotebukkit"))
+                    {
+                        onlineUsers.append(p.getName());
+                    }
+                    else
+                    {
+                        if (p.isOp()) onlineUsers.append("[OP]").append(p.getName());
+                        else onlineUsers.append(p.getName());
+                    }
                 }
             }
             else
@@ -154,7 +163,7 @@ public class TotalFreedomMod extends JavaPlugin
                     }
                 }
 
-                Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " de-op'd everyone on the server.");
+                tfBroadcastMessage(ChatColor.YELLOW + sender.getName() + " de-op'd everyone on the server.");
             }
             else
             {
@@ -189,7 +198,7 @@ public class TotalFreedomMod extends JavaPlugin
                     if (doSetGamemode) p.setGameMode(targetGamemode);
                 }
                 
-                Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " op'd everyone on the server.");
+                tfBroadcastMessage(ChatColor.YELLOW + sender.getName() + " op'd everyone on the server.");
             }
             else
             {
@@ -214,7 +223,7 @@ public class TotalFreedomMod extends JavaPlugin
                     
                     p.setOp(true);
                     
-                    Command.broadcastCommandMessage(sender, "Oping " + p.getName());
+                    tfBroadcastMessage("Oping " + p.getName());
                     p.sendMessage(ChatColor.YELLOW + "You are now op!");
                 }
                 if (!matched_player)
@@ -245,7 +254,7 @@ public class TotalFreedomMod extends JavaPlugin
                     
                     p.setOp(false);
                     
-                    Command.broadcastCommandMessage(sender, "De-opping " + p.getName());
+                    tfBroadcastMessage("De-opping " + p.getName());
                     p.sendMessage(ChatColor.YELLOW + "You have been de-op'd.");
                 }
                 if (!matched_player)
@@ -376,10 +385,15 @@ public class TotalFreedomMod extends JavaPlugin
         }
         else if(cmd.getName().equalsIgnoreCase("say"))
         {
+            if (args.length == 0)
+            {
+                return false;
+            }
+            
             if (player == null || sender.isOp())
             {
                 String message = implodeStringList(" ", Arrays.asList(args));
-                Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "[Server:" + sender.getName() + "] " + message);
+                tfBroadcastMessage(ChatColor.LIGHT_PURPLE + "[Server:" + sender.getName() + "] " + message);
             }
             else
             {
@@ -415,7 +429,7 @@ public class TotalFreedomMod extends JavaPlugin
                 
                 String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
                 
-                Bukkit.broadcastMessage(ChatColor.RED + "Banning " + p.getName());
+                tfBroadcastMessage(String.format("%sBanning: %s, IP: %s.", ChatColor.RED, p.getName(), user_ip));
                 Bukkit.banIP(user_ip);
                 Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
                 
@@ -473,8 +487,70 @@ public class TotalFreedomMod extends JavaPlugin
             
             return true;
         }
+        else if(cmd.getName().equalsIgnoreCase("fire"))
+        {
+            if (player == null || isUserSuperadmin(sender.getName()))
+            {
+                if (args.length != 1)
+                {
+                    return false;
+                }
+                
+                if (args[0].equalsIgnoreCase("on"))
+                {
+                    this.allowFire = true;
+                    sender.sendMessage("Fire is now enabled.");
+                }
+                else
+                {
+                    this.allowFire = false;
+                    sender.sendMessage("Fire is now disabled.");
+                }
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
+            return true;
+        }
+        else if(cmd.getName().equalsIgnoreCase("lavadmg"))
+        {
+            if (player == null || isUserSuperadmin(sender.getName()))
+            {
+                if (args.length != 1)
+                {
+                    return false;
+                }
+                
+                if (args[0].equalsIgnoreCase("on"))
+                {
+                    this.allowLavaDamage = true;
+                    sender.sendMessage("Lava damage is now enabled.");
+                }
+                else
+                {
+                    this.allowLavaDamage = false;
+                    sender.sendMessage("Lava damage is now disabled.");
+                }
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+            }
+            
+            return true;
+        }
         
         return false; 
+    }
+    
+    public static void tfBroadcastMessage(String message)
+    {
+        for (Player p : Bukkit.getOnlinePlayers())
+        {
+            p.sendMessage(message);
+        }
     }
     
     private static String implodeStringList(String glue, List<String> pieces)

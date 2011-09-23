@@ -16,7 +16,7 @@ public class TotalFreedomModBlockListener extends BlockListener
     @Override
     public void onBlockBurn(BlockBurnEvent event)
     {
-        if (!plugin.allowFireDamage)
+        if (!plugin.allowFire)
         {
             event.setCancelled(true);
             return;
@@ -26,7 +26,7 @@ public class TotalFreedomModBlockListener extends BlockListener
     @Override
     public void onBlockIgnite(BlockIgniteEvent event)
     {
-        if (!plugin.allowFireDamage)
+        if (!plugin.allowFire)
         {
             event.setCancelled(true);
             return;

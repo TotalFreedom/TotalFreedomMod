@@ -28,7 +28,7 @@ public class TotalFreedomModEntityListener extends EntityListener
     @Override
     public void onEntityCombust(EntityCombustEvent event)
     {
-        if (!plugin.allowFireDamage)
+        if (!plugin.allowFire)
         {
             event.setCancelled(true);
             return;

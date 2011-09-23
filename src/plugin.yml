@@ -13,9 +13,15 @@ commands:
   explosives:
     description: Superadmin command - Enable/disable explosives.
     usage: /<command> [on|off]
+  fire:
+    description: Superadmin command - Enable/disable fire.
+    usage: /<command> [on|off]
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> [partialname]
+  lavadmg:
+    description: Superadmin command - Enable/disable lava damage.
+    usage: /<command> [on|off]
   list:
     description: Lists the real names of all online players.
     usage: /<command>
