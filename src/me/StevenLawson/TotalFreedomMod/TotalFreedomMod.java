@@ -29,6 +29,8 @@ public class TotalFreedomMod extends JavaPlugin
     public Boolean allowExplosions = false;
     public Boolean allowLavaDamage = false;
     public Boolean allowFire = false;
+    
+    public final static String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
 
     public void onEnable()
     {
@@ -93,7 +95,7 @@ public class TotalFreedomMod extends JavaPlugin
                 }
                 else
                 {
-                    sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                    sender.sendMessage(MSG_NO_PERMS);
                 }
             }
             
@@ -167,7 +169,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -202,7 +204,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -233,7 +235,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -264,7 +266,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -283,7 +285,7 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 if (!sender.isOp())
                 {
-                    sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                    sender.sendMessage(MSG_NO_PERMS);
                     return true;
                 }
             }
@@ -327,7 +329,7 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 if (!sender.isOp())
                 {
-                    sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                    sender.sendMessage(MSG_NO_PERMS);
                     return true;
                 }
             }
@@ -378,7 +380,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -397,7 +399,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -437,7 +439,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -455,7 +457,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -482,7 +484,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -509,7 +511,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
@@ -536,7 +538,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else
             {
-                sender.sendMessage(ChatColor.YELLOW + "You do not have permission to use this command.");
+                sender.sendMessage(MSG_NO_PERMS);
             }
             
             return true;
