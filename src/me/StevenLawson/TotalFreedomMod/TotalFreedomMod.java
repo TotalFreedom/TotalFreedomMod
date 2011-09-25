@@ -2,12 +2,14 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -185,7 +187,7 @@ public class TotalFreedomMod extends JavaPlugin
             if (isUserSuperadmin(sender.getName()) || player == null)
             {
                 tfBroadcastMessage(String.format("(%s: De-opping everyone)", sender.getName()), ChatColor.GRAY);
-                
+
                 for (Player p : Bukkit.getOnlinePlayers())
                 {
                     if (!isUserSuperadmin(p.getName()) && !p.getName().equals(sender.getName()))
@@ -207,7 +209,7 @@ public class TotalFreedomMod extends JavaPlugin
             if (isUserSuperadmin(sender.getName()) || player == null)
             {
                 tfBroadcastMessage(String.format("(%s: Opping everyone)", sender.getName()), ChatColor.GRAY);
-                
+
                 boolean doSetGamemode = false;
                 GameMode targetGamemode = GameMode.CREATIVE;
                 if (args.length != 0)
@@ -228,7 +230,7 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     p.setOp(true);
                     p.sendMessage(YOU_ARE_OP);
-                    
+
                     if (doSetGamemode)
                     {
                         p.setGameMode(targetGamemode);
@@ -255,7 +257,7 @@ public class TotalFreedomMod extends JavaPlugin
                 for (Player p : Bukkit.matchPlayer(args[0]))
                 {
                     matched_player = true;
-                    
+
                     tfBroadcastMessage(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                     p.setOp(true);
                     p.sendMessage(YOU_ARE_OP);
@@ -285,7 +287,7 @@ public class TotalFreedomMod extends JavaPlugin
                 for (Player p : Bukkit.matchPlayer(args[0]))
                 {
                     matched_player = true;
-                    
+
                     tfBroadcastMessage(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                     p.setOp(false);
                     p.sendMessage(YOU_ARE_NOT_OP);
@@ -480,7 +482,7 @@ public class TotalFreedomMod extends JavaPlugin
             if (player == null || isUserSuperadmin(sender.getName()))
             {
                 tfBroadcastMessage("Server is going offline.", ChatColor.GRAY);
-                
+
                 for (Player p : Bukkit.getOnlinePlayers())
                 {
                     p.kickPlayer("Server is going offline, come back in a few minutes.");
@@ -576,6 +578,51 @@ public class TotalFreedomMod extends JavaPlugin
 
             return true;
         }
+        else if (cmd.getName().equalsIgnoreCase("radar"))
+        {
+            if (player == null)
+            {
+				sender.sendMessage("This command can only be used in-game.");
+				return true;
+            }
+
+			Player sender_player = Bukkit.getPlayerExact(sender.getName());
+			Location sender_pos = sender_player.getLocation();
+			String sender_world = sender_player.getWorld().getName();
+
+			List<RadarData> radar_data = new ArrayList<RadarData>();
+
+			for (Player p : Bukkit.getOnlinePlayers())
+			{
+				if (sender_world.equals(p.getWorld().getName()))
+				{
+					radar_data.add(new RadarData(p, sender_pos.distance(p.getLocation())));
+				}
+			}
+
+			Collections.sort(radar_data, new RadarData());
+
+			sender.sendMessage(ChatColor.YELLOW + "People nearby in " + sender_world + ":");
+
+			int countmax = 5;
+			if (args.length == 1)
+			{
+				countmax = Integer.parseInt(args[0]);
+			}
+
+			int count = 0;
+			for (RadarData i : radar_data)
+			{
+				if (count++ > countmax)
+				{
+					break;
+				}
+
+				sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d", i.player.getName(), Math.round(i.distance)));
+			}
+
+            return true;
+        }
 
         return false;
     }
@@ -583,13 +630,13 @@ public class TotalFreedomMod extends JavaPlugin
     public static void tfBroadcastMessage(String message, ChatColor color)
     {
         log.info(message);
-        
+
         for (Player p : Bukkit.getOnlinePlayers())
         {
             p.sendMessage(color + message);
         }
     }
-    
+
     private static String implodeStringList(String glue, List<String> pieces)
     {
         StringBuilder output = new StringBuilder();

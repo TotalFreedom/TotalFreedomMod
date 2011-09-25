@@ -40,6 +40,9 @@ commands:
   qop:
     description: Quick Op - op someone based on a partial name.
     usage: /<command> <partialname>
+  radar:
+    description: Shows nearby people sorted by distance.
+    usage: /<command>
   say:
     description: Broadcasts the given message as the console, includes sender.
     usage: /<command> <message>
