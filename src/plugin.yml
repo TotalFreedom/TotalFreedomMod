@@ -11,17 +11,17 @@ commands:
     description: Superadmin command - Deop everyone on the server.
     usage: /<command>
   explosives:
-    description: Superadmin command - Enable/disable explosives.
-    usage: /<command> [on|off]
+    description: Superadmin command - Enable/disable explosives and set yield radius.
+    usage: /<command> <on|off> [radius]
   fire:
     description: Superadmin command - Enable/disable fire.
-    usage: /<command> [on|off]
+    usage: /<command> <on|off>
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> [partialname]
   lavadmg:
     description: Superadmin command - Enable/disable lava damage.
-    usage: /<command> [on|off]
+    usage: /<command> <on|off>
   list:
     description: Lists the real names of all online players.
     usage: /<command>
@@ -42,6 +42,9 @@ commands:
     usage: /<command> <partialname>
   radar:
     description: Shows nearby people sorted by distance.
+    usage: /<command>
+  rd:
+    description: Removes drops, arrows, etc.
     usage: /<command>
   say:
     description: Broadcasts the given message as the console, includes sender.
