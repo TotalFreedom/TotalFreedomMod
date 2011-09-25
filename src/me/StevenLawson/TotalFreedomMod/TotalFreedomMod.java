@@ -21,16 +21,15 @@ public class TotalFreedomMod extends JavaPlugin
     private final TotalFreedomModEntityListener entityListener = new TotalFreedomModEntityListener(this);
     private final TotalFreedomModBlockListener blockListener = new TotalFreedomModBlockListener(this);
     //private final TotalFreedomModPlayerListener playerListener = new TotalFreedomModPlayerListener(this);
-    
     private static final Logger log = Logger.getLogger("Minecraft");
-    
     protected static Configuration CONFIG;
     private List<String> superadmins = new ArrayList<String>();
     public Boolean allowExplosions = false;
     public Boolean allowLavaDamage = false;
     public Boolean allowFire = false;
-    
     public final static String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
+    public final static String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
+    public final static String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
 
     public void onEnable()
     {
@@ -39,7 +38,10 @@ public class TotalFreedomMod extends JavaPlugin
         if (CONFIG.getString("superadmins", null) == null) //Generate config file:
         {
             log.log(Level.INFO, "[Total Freedom Mod] - Generating default config file (plugins/TotalFreedomMod/config.yml)...");
-            CONFIG.setProperty("superadmins", new String[] {"Madgeek1450", "markbyron"});
+            CONFIG.setProperty("superadmins", new String[]
+                    {
+                        "Madgeek1450", "markbyron"
+                    });
             CONFIG.setProperty("allow_explosions", false);
             CONFIG.setProperty("allow_lava_damage", false);
             CONFIG.setProperty("allow_fire", false);
@@ -50,14 +52,14 @@ public class TotalFreedomMod extends JavaPlugin
         allowExplosions = CONFIG.getBoolean("allow_explosions", false);
         allowLavaDamage = CONFIG.getBoolean("allow_lava_damage", false);
         allowFire = CONFIG.getBoolean("allow_fire", false);
-        
+
         PluginManager pm = this.getServer().getPluginManager();
         pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_IGNITE, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);
-        
+
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
         log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + implodeStringList(", ", superadmins));
     }
@@ -66,21 +68,21 @@ public class TotalFreedomMod extends JavaPlugin
     {
         log.log(Level.INFO, "[Total Freedom Mod] - Disabled.");
     }
-    
+
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
         Player player = null;
         if (sender instanceof Player)
         {
-            player = (Player)sender;
+            player = (Player) sender;
             log.log(Level.INFO, String.format("[PLAYER_COMMAND] %s(%s): /%s %s", player.getName(), player.getDisplayName().replaceAll("\\xA7.", ""), commandLabel, implodeStringList(" ", Arrays.asList(args))));
         }
         else
         {
             log.log(Level.INFO, String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, implodeStringList(" ", Arrays.asList(args))));
         }
-        
-        if(cmd.getName().equalsIgnoreCase("opme"))
+
+        if (cmd.getName().equalsIgnoreCase("opme"))
         {
             if (player == null)
             {
@@ -90,41 +92,54 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 if (isUserSuperadmin(sender.getName()))
                 {
+                    tfBroadcastMessage(String.format("(%s: Opping %s)", sender.getName(), sender.getName()), ChatColor.GRAY);
                     sender.setOp(true);
-                    sender.sendMessage(ChatColor.YELLOW + "You are now op!");
+                    sender.sendMessage(YOU_ARE_OP);
                 }
                 else
                 {
                     sender.sendMessage(MSG_NO_PERMS);
                 }
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("listreal") || cmd.getName().equalsIgnoreCase("list"))
+        else if (cmd.getName().equalsIgnoreCase("listreal") || cmd.getName().equalsIgnoreCase("list"))
         {
             StringBuilder onlineStats = new StringBuilder();
             StringBuilder onlineUsers = new StringBuilder();
-            
+
             if (player == null)
             {
                 onlineStats.append(String.format("There are %d out of a maximum %d players online.", Bukkit.getOnlinePlayers().length, Bukkit.getMaxPlayers()));
-                
+
                 onlineUsers.append("Connected players: ");
                 boolean first = true;
                 for (Player p : Bukkit.getOnlinePlayers())
                 {
-                    if (first) first = false;
-                    else onlineUsers.append(", ");
-                    
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        onlineUsers.append(", ");
+                    }
+
                     if (sender.getName().equalsIgnoreCase("remotebukkit"))
                     {
                         onlineUsers.append(p.getName());
                     }
                     else
                     {
-                        if (p.isOp()) onlineUsers.append("[OP]").append(p.getName());
-                        else onlineUsers.append(p.getName());
+                        if (p.isOp())
+                        {
+                            onlineUsers.append("[OP]").append(p.getName());
+                        }
+                        else
+                        {
+                            onlineUsers.append(p.getName());
+                        }
                     }
                 }
             }
@@ -133,51 +148,66 @@ public class TotalFreedomMod extends JavaPlugin
                 onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(Bukkit.getOnlinePlayers().length);
                 onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(Bukkit.getMaxPlayers());
                 onlineStats.append(ChatColor.BLUE).append(" players online.");
-                
+
                 onlineUsers.append("Connected players: ");
                 boolean first = true;
                 for (Player p : Bukkit.getOnlinePlayers())
                 {
-                    if (first) first = false;
-                    else onlineUsers.append(", ");
-                    
-                    if (p.isOp()) onlineUsers.append(ChatColor.RED).append(p.getName());
-                    else onlineUsers.append(p.getName());
-                    
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        onlineUsers.append(", ");
+                    }
+
+                    if (p.isOp())
+                    {
+                        onlineUsers.append(ChatColor.RED).append(p.getName());
+                    }
+                    else
+                    {
+                        onlineUsers.append(p.getName());
+                    }
+
                     onlineUsers.append(ChatColor.WHITE);
                 }
             }
-            
+
             sender.sendMessage(onlineStats.toString());
             sender.sendMessage(onlineUsers.toString());
 
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("deopall"))
+        else if (cmd.getName().equalsIgnoreCase("deopall"))
         {
             if (isUserSuperadmin(sender.getName()) || player == null)
             {
+                tfBroadcastMessage(String.format("(%s: De-opping everyone)", sender.getName()), ChatColor.GRAY);
+                
                 for (Player p : Bukkit.getOnlinePlayers())
                 {
                     if (!isUserSuperadmin(p.getName()) && !p.getName().equals(sender.getName()))
                     {
                         p.setOp(false);
+                        p.sendMessage(YOU_ARE_NOT_OP);
                     }
                 }
-
-                tfBroadcastMessage(ChatColor.YELLOW + sender.getName() + " de-op'd everyone on the server.");
             }
             else
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("opall"))
+        else if (cmd.getName().equalsIgnoreCase("opall"))
         {
             if (isUserSuperadmin(sender.getName()) || player == null)
             {
+                tfBroadcastMessage(String.format("(%s: Opping everyone)", sender.getName()), ChatColor.GRAY);
+                
                 boolean doSetGamemode = false;
                 GameMode targetGamemode = GameMode.CREATIVE;
                 if (args.length != 0)
@@ -193,29 +223,32 @@ public class TotalFreedomMod extends JavaPlugin
                         targetGamemode = GameMode.SURVIVAL;
                     }
                 }
-                
+
                 for (Player p : Bukkit.getOnlinePlayers())
                 {
                     p.setOp(true);
-                    if (doSetGamemode) p.setGameMode(targetGamemode);
+                    p.sendMessage(YOU_ARE_OP);
+                    
+                    if (doSetGamemode)
+                    {
+                        p.setGameMode(targetGamemode);
+                    }
                 }
-                
-                tfBroadcastMessage(ChatColor.YELLOW + sender.getName() + " op'd everyone on the server.");
             }
             else
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("qop")) //Quick OP
+        else if (cmd.getName().equalsIgnoreCase("qop")) //Quick OP
         {
             if (args.length != 1)
             {
                 return false;
             }
-        
+
             if (sender.isOp() || player == null || isUserSuperadmin(sender.getName()))
             {
                 boolean matched_player = false;
@@ -223,10 +256,9 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     matched_player = true;
                     
+                    tfBroadcastMessage(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                     p.setOp(true);
-                    
-                    tfBroadcastMessage("Oping " + p.getName());
-                    p.sendMessage(ChatColor.YELLOW + "You are now op!");
+                    p.sendMessage(YOU_ARE_OP);
                 }
                 if (!matched_player)
                 {
@@ -237,16 +269,16 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("qdeop")) //Quick De-op
+        else if (cmd.getName().equalsIgnoreCase("qdeop")) //Quick De-op
         {
             if (args.length != 1)
             {
                 return false;
             }
-        
+
             if (sender.isOp() || player == null || isUserSuperadmin(sender.getName()))
             {
                 boolean matched_player = false;
@@ -254,10 +286,9 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     matched_player = true;
                     
+                    tfBroadcastMessage(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                     p.setOp(false);
-                    
-                    tfBroadcastMessage("De-opping " + p.getName());
-                    p.sendMessage(ChatColor.YELLOW + "You have been de-op'd.");
+                    p.sendMessage(YOU_ARE_NOT_OP);
                 }
                 if (!matched_player)
                 {
@@ -268,10 +299,10 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("survival"))
+        else if (cmd.getName().equalsIgnoreCase("survival"))
         {
             if (player == null)
             {
@@ -289,7 +320,7 @@ public class TotalFreedomMod extends JavaPlugin
                     return true;
                 }
             }
-            
+
             Player p;
             if (args.length == 0)
             {
@@ -308,14 +339,14 @@ public class TotalFreedomMod extends JavaPlugin
                     p = matches.get(0);
                 }
             }
-            
+
             sender.sendMessage("Setting " + p.getName() + " to game mode 'Survival'.");
             p.sendMessage(sender.getName() + " set your game mode to 'Survival'.");
             p.setGameMode(GameMode.SURVIVAL);
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("creative"))
+        else if (cmd.getName().equalsIgnoreCase("creative"))
         {
             if (player == null)
             {
@@ -333,7 +364,7 @@ public class TotalFreedomMod extends JavaPlugin
                     return true;
                 }
             }
-            
+
             Player p;
             if (args.length == 0)
             {
@@ -352,14 +383,14 @@ public class TotalFreedomMod extends JavaPlugin
                     p = matches.get(0);
                 }
             }
-            
+
             sender.sendMessage("Setting " + p.getName() + " to game mode 'Creative'.");
             p.sendMessage(sender.getName() + " set your game mode to 'Creative'.");
             p.setGameMode(GameMode.CREATIVE);
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("wildcard"))
+        else if (cmd.getName().equalsIgnoreCase("wildcard"))
         {
             if (player == null || isUserSuperadmin(sender.getName()))
             {
@@ -368,7 +399,7 @@ public class TotalFreedomMod extends JavaPlugin
                     sender.sendMessage("What the hell are you trying to do, you stupid idiot...");
                     return true;
                 }
-                
+
                 String base_command = implodeStringList(" ", Arrays.asList(args));
 
                 for (Player p : Bukkit.getOnlinePlayers())
@@ -382,35 +413,35 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("say"))
+        else if (cmd.getName().equalsIgnoreCase("say"))
         {
             if (args.length == 0)
             {
                 return false;
             }
-            
+
             if (player == null || sender.isOp())
             {
                 String message = implodeStringList(" ", Arrays.asList(args));
-                tfBroadcastMessage(ChatColor.LIGHT_PURPLE + "[Server:" + sender.getName() + "] " + message);
+                tfBroadcastMessage(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
             }
             else
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("gtfo"))
+        else if (cmd.getName().equalsIgnoreCase("gtfo"))
         {
             if (args.length != 1)
             {
                 return false;
             }
-            
+
             if (player == null || isUserSuperadmin(sender.getName()))
             {
                 Player p;
@@ -424,45 +455,47 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     p = matches.get(0);
                 }
-                
+
                 Bukkit.getServer().dispatchCommand(sender, "smite " + p.getName());
-                
+
                 p.setOp(false);
-                
+
                 String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
-                
-                tfBroadcastMessage(String.format("%sBanning: %s, IP: %s.", ChatColor.RED, p.getName(), user_ip));
+
+                tfBroadcastMessage(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
                 Bukkit.banIP(user_ip);
                 Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
-                
+
                 p.kickPlayer("GTFO");
             }
             else
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("stop"))
+        else if (cmd.getName().equalsIgnoreCase("stop"))
         {
             if (player == null || isUserSuperadmin(sender.getName()))
             {
+                tfBroadcastMessage("Server is going offline.", ChatColor.GRAY);
+                
                 for (Player p : Bukkit.getOnlinePlayers())
                 {
                     p.kickPlayer("Server is going offline, come back in a few minutes.");
                 }
-                
+
                 Bukkit.shutdown();
             }
             else
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("explosives"))
+        else if (cmd.getName().equalsIgnoreCase("explosives"))
         {
             if (player == null || isUserSuperadmin(sender.getName()))
             {
@@ -470,26 +503,26 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     return false;
                 }
-                
+
                 if (args[0].equalsIgnoreCase("on"))
                 {
                     this.allowExplosions = true;
-                    sender.sendMessage("Explosives are now enabled. Don't blow your fingers off!");
+                    sender.sendMessage("Explosives are now enabled.");
                 }
                 else
                 {
                     this.allowExplosions = false;
-                    sender.sendMessage("Explosives are now disabled. Funtime is over...");
+                    sender.sendMessage("Explosives are now disabled.");
                 }
             }
             else
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("fire"))
+        else if (cmd.getName().equalsIgnoreCase("fire"))
         {
             if (player == null || isUserSuperadmin(sender.getName()))
             {
@@ -497,7 +530,7 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     return false;
                 }
-                
+
                 if (args[0].equalsIgnoreCase("on"))
                 {
                     this.allowFire = true;
@@ -513,10 +546,10 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        else if(cmd.getName().equalsIgnoreCase("lavadmg"))
+        else if (cmd.getName().equalsIgnoreCase("lavadmg"))
         {
             if (player == null || isUserSuperadmin(sender.getName()))
             {
@@ -524,7 +557,7 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     return false;
                 }
-                
+
                 if (args[0].equalsIgnoreCase("on"))
                 {
                     this.allowLavaDamage = true;
@@ -540,18 +573,20 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 sender.sendMessage(MSG_NO_PERMS);
             }
-            
+
             return true;
         }
-        
-        return false; 
+
+        return false;
     }
-    
-    public static void tfBroadcastMessage(String message)
+
+    public static void tfBroadcastMessage(String message, ChatColor color)
     {
+        log.info(message);
+        
         for (Player p : Bukkit.getOnlinePlayers())
         {
-            p.sendMessage(message);
+            p.sendMessage(color + message);
         }
     }
     
@@ -568,7 +603,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
         return output.toString();
     }
-    
+
     private boolean isUserSuperadmin(String userName)
     {
         return superadmins.contains(userName);
