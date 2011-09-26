@@ -1,6 +1,6 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 1.3
+version: 1.4
 description: Plugin for the Total Freedom server
 author: StevenLawson / Madgeek1450
 commands:
@@ -37,6 +37,9 @@ commands:
   opme:
     description: Superadmin command - Automatically ops user.
     usage: /<command>
+  prelog:
+    description: Superadmin command - Enable/disable the command prelogger. When this is on, logs will be filled with many duplicate messages.
+    usage: /<command> <on|off>
   qdeop:
     description: Quick De-Op - deop someone based on a partial name.
     usage: /<command> <partialname>
