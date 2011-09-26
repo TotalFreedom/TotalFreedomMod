@@ -5,6 +5,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityListener;
+import org.bukkit.event.entity.ExplosionPrimeEvent;
 
 public class TotalFreedomModEntityListener extends EntityListener
 {
@@ -23,8 +24,18 @@ public class TotalFreedomModEntityListener extends EntityListener
             event.setCancelled(true);
             return;
         }
+    }
+
+    @Override
+    public void onExplosionPrime(ExplosionPrimeEvent event)
+    {
+        if (!plugin.allowExplosions)
+        {
+            event.setCancelled(true);
+            return;
+        }
         
-        event.setYield((float)plugin.explosiveRadius);
+        event.setRadius((float)plugin.explosiveRadius);
     }
 	
     @Override

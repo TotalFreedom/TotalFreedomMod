@@ -1,6 +1,6 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 1.2.0
+version: 1.3
 description: Plugin for the Total Freedom server
 author: StevenLawson / Madgeek1450
 commands:
@@ -11,7 +11,7 @@ commands:
     description: Superadmin command - Deop everyone on the server.
     usage: /<command>
   explosives:
-    description: Superadmin command - Enable/disable explosives and set yield radius.
+    description: Superadmin command - Enable/disable explosives and set effect radius.
     usage: /<command> <on|off> [radius]
   fire:
     description: Superadmin command - Enable/disable fire.
@@ -28,9 +28,12 @@ commands:
   listreal:
     description: Lists the real names of all online players.
     usage: /<command>
-  opall:
-    description: Superadmin command - Op everyone on the server.
+  mp:
+    description: Use moblimiter to purge all mobs.
     usage: /<command>
+  opall:
+    description: Superadmin command - Op everyone on the server, optionally change everyone's gamemode at the same time.
+    usage: /<command> [-c|-s]
   opme:
     description: Superadmin command - Automatically ops user.
     usage: /<command>
@@ -44,7 +47,7 @@ commands:
     description: Shows nearby people sorted by distance.
     usage: /<command>
   rd:
-    description: Removes drops, arrows, etc.
+    description: Use WorldEdit to remove drops, arrows, and primed TNT.
     usage: /<command>
   say:
     description: Broadcasts the given message as the console, includes sender.
