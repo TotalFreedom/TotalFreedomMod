@@ -29,7 +29,7 @@ public class TotalFreedomMod extends JavaPlugin
 	public Boolean allowExplosions = false;
 	public Boolean allowLavaDamage = false;
 	public Boolean allowFire = false;
-	public double explosiveRadius = 1.0;
+	public double explosiveRadius = 2.0;
 	public final static String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
 	public final static String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
 	public final static String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
@@ -518,8 +518,7 @@ public class TotalFreedomMod extends JavaPlugin
 				if (args[0].equalsIgnoreCase("on"))
 				{
 					this.allowExplosions = true;
-					//sender.sendMessage("Explosives are now enabled, radius set to " + explosiveRadius + " blocks.");
-					sender.sendMessage("Explosives are now enabled.");
+					sender.sendMessage("Explosives are now enabled, radius set to " + explosiveRadius + " blocks.");
 				}
 				else
 				{
@@ -606,7 +605,7 @@ public class TotalFreedomMod extends JavaPlugin
 			{
 				if (sender_world.equals(p.getWorld().getName()) && !p.getName().equals(sender.getName()))
 				{
-					radar_data.add(new RadarData(p, sender_pos.distance(p.getLocation())));
+					radar_data.add(new RadarData(p, sender_pos.distance(p.getLocation()), p.getLocation()));
 				}
 			}
 
@@ -628,7 +627,7 @@ public class TotalFreedomMod extends JavaPlugin
 					break;
 				}
 
-				sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d", i.player.getName(), Math.round(i.distance)));
+				sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d blocks away @ ", i.player.getName(), Math.round(i.distance), formatLocation(i.location)));
 			}
 
 			return true;
@@ -643,11 +642,11 @@ public class TotalFreedomMod extends JavaPlugin
 
 			if (sender.isOp())
 			{
-				sender.sendMessage(ChatColor.GRAY + "Using WorldEdit to remove all entity drops.");
+				sender.sendMessage(ChatColor.GRAY + "Using WorldEdit to remove all dropped items, arrows, and TNT.");
 
-				Bukkit.getServer().dispatchCommand(sender, "remove arrows -1");
 				Bukkit.getServer().dispatchCommand(sender, "remove items -1");
-				Bukkit.getServer().dispatchCommand(sender, "remove drops -1");
+				Bukkit.getServer().dispatchCommand(sender, "remove arrows -1");
+                Bukkit.getServer().dispatchCommand(sender, "remove tnt -1");
 			}
 			else
 			{

@@ -23,8 +23,8 @@ public class TotalFreedomModEntityListener extends EntityListener
             event.setCancelled(true);
             return;
         }
-		
-		//event.setYield((float)plugin.explosiveRadius);
+        
+        event.setYield((float)plugin.explosiveRadius);
     }
 	
     @Override

@@ -1,17 +1,20 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.Comparator;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class RadarData implements Comparator<RadarData>
 {
 	Player player;
 	double distance;
+    Location location;
 	
-	public RadarData(Player inplayer, double indistance)
+	public RadarData(Player inplayer, double indistance, Location inlocation)
 	{
 		this.player = inplayer;
 		this.distance = indistance;
+        this.location = inlocation;
 	}
 	
 	public RadarData()
