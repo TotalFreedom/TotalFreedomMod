@@ -73,13 +73,16 @@ public class TotalFreedomMod extends JavaPlugin
         preprocessLogEnabled = CONFIG.getBoolean("preprocess_log", false);
 
         PluginManager pm = this.getServer().getPluginManager();
+        
         pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.EXPLOSION_PRIME, entityListener, Event.Priority.High, this);
+        
         pm.registerEvent(Event.Type.BLOCK_IGNITE, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Event.Priority.High, this);
+        
         pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
 
@@ -199,7 +202,7 @@ public class TotalFreedomMod extends JavaPlugin
                         onlineUsers.append(ChatColor.WHITE);
                     }
                 }
-
+                
                 sender.sendMessage(onlineStats.toString());
                 sender.sendMessage(onlineUsers.toString());
 
@@ -748,6 +751,12 @@ public class TotalFreedomMod extends JavaPlugin
                     sender.sendMessage(MSG_NO_PERMS);
                 }
                 
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("status"))
+            {
+                sender.sendMessage(ChatColor.GRAY + "Server is currently running with 'online-mode=" + (Bukkit.getOnlineMode() ? "true" : "false") + "'.");
+
                 return true;
             }
         }

@@ -12,69 +12,71 @@ import org.bukkit.inventory.ItemStack;
 
 public class TotalFreedomModBlockListener extends BlockListener
 {
-	public static TotalFreedomMod plugin;
+    public static TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
 
-	TotalFreedomModBlockListener(TotalFreedomMod instance)
-	{
-		plugin = instance;
-	}
+    TotalFreedomModBlockListener(TotalFreedomMod instance)
+    {
+        plugin = instance;
+    }
 
-	@Override
-	public void onBlockBurn(BlockBurnEvent event)
-	{
-		if (!plugin.allowFire)
-		{
-			event.setCancelled(true);
-			return;
-		}
-	}
+    @Override
+    public void onBlockBurn(BlockBurnEvent event)
+    {
+        if (!plugin.allowFire)
+        {
+            event.setCancelled(true);
+            return;
+        }
+    }
 
-	@Override
-	public void onBlockIgnite(BlockIgniteEvent event)
-	{
-		if (!plugin.allowFire)
-		{
-			event.setCancelled(true);
-			return;
-		}
-	}
+    @Override
+    public void onBlockIgnite(BlockIgniteEvent event)
+    {
+        if (!plugin.allowFire)
+        {
+            event.setCancelled(true);
+            return;
+        }
+    }
 
-	@Override
-	public void onBlockPlace(BlockPlaceEvent event)
-	{
-		ItemStack is = new ItemStack(event.getBlockPlaced().getType(), 1, (short) 0, event.getBlockPlaced().getData());
-		if (is.getType() == Material.LAVA || is.getType() == Material.STATIONARY_LAVA)
-		{
-			log.info(String.format("%s placed lava @ %s",
-					event.getPlayer().getName(),
-					plugin.formatLocation(event.getBlock().getLocation())
-					));
-		}
-		else if (is.getType() == Material.WATER || is.getType() == Material.STATIONARY_WATER)
-		{
-			log.info(String.format("%s placed water @ %s",
-					event.getPlayer().getName(),
-					plugin.formatLocation(event.getBlock().getLocation())
-					));
-		}
-		else if (is.getType() == Material.TNT)
-		{
-			Player p = event.getPlayer();
+    @Override
+    public void onBlockPlace(BlockPlaceEvent event)
+    {
+        log.info("Got onBlockPlace by " + event.getPlayer().getName());
+        
+        ItemStack is = new ItemStack(event.getBlockPlaced().getType(), 1, (short) 0, event.getBlockPlaced().getData());
+        if (is.getType() == Material.LAVA || is.getType() == Material.STATIONARY_LAVA)
+        {
+            log.info(String.format("%s placed lava @ %s",
+                    event.getPlayer().getName(),
+                    plugin.formatLocation(event.getBlock().getLocation())));
+            
+            event.getItemInHand().setType(Material.COOKIE);
+            event.getItemInHand().setAmount(1);
+        }
+        else if (is.getType() == Material.WATER || is.getType() == Material.STATIONARY_WATER)
+        {
+            log.info(String.format("%s placed water @ %s",
+                    event.getPlayer().getName(),
+                    plugin.formatLocation(event.getBlock().getLocation())));
+        }
+        else if (is.getType() == Material.TNT)
+        {
+            Player p = event.getPlayer();
 
-			if (!plugin.allowExplosions)
-			{
-				p.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
-				event.setCancelled(true);
-				return;
-			}
+            if (!plugin.allowExplosions)
+            {
+                p.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
+                event.setCancelled(true);
+                return;
+            }
             else
             {
                 log.info(String.format("%s placed TNT @ %s",
-                    p.getName(),
-                    plugin.formatLocation(event.getBlock().getLocation())
-                    ));
+                        p.getName(),
+                        plugin.formatLocation(event.getBlock().getLocation())));
             }
-		}
-	}
+        }
+    }
 }
