@@ -81,6 +81,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
 
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
         log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + implodeStringList(", ", superadmins));

@@ -3,7 +3,9 @@ package me.StevenLawson.TotalFreedomMod;
 import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
 
 class TotalFreedomModPlayerListener extends PlayerListener
@@ -14,6 +16,15 @@ class TotalFreedomModPlayerListener extends PlayerListener
     TotalFreedomModPlayerListener(TotalFreedomMod instance)
     {
         plugin = instance;
+    }
+
+    @Override
+    public void onPlayerInteract(PlayerInteractEvent event)
+    {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+        {
+            log.info("Right Click Block: " + event.getMaterial() + " - " + event.getItem());
+        }
     }
 
     @Override
