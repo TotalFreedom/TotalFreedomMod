@@ -481,16 +481,40 @@ public class TotalFreedomMod extends JavaPlugin
                         p = matches.get(0);
                     }
 
-                    Bukkit.getServer().dispatchCommand(sender, "smite " + p.getName());
+                    tfBroadcastMessage(p.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
 
+                    //Deop
                     p.setOp(false);
 
-                    String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+                    //Set gamemode to survival:
+                    p.setGameMode(GameMode.SURVIVAL);
 
+                    //Clear inventory:
+                    p.getInventory().clear();
+
+                    //Strike with lightning effect:
+                    final Location target_pos = p.getLocation();
+                    for (int x = -1; x <= 1; x++)
+                    {
+                        for (int z = -1; z <= 1; z++)
+                        {
+                            final Location strike_pos = new Location(target_pos.getWorld(), target_pos.getBlockX() + x, target_pos.getBlockY(), target_pos.getBlockZ() + z);
+                            target_pos.getWorld().strikeLightning(strike_pos);
+                        }
+                    }
+
+                    //Attempt to kill:
+                    p.setHealth(0);
+
+                    //Ban IP Address:
+                    String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
                     tfBroadcastMessage(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
                     Bukkit.banIP(user_ip);
+                    
+                    //Ban Username:
                     Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
 
+                    //Kick Player:
                     p.kickPlayer("GTFO");
                 }
                 else
