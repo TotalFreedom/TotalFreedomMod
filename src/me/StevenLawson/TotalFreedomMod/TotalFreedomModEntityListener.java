@@ -10,7 +10,7 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 public class TotalFreedomModEntityListener extends EntityListener
 {
     public static TotalFreedomMod plugin;
-    
+
     TotalFreedomModEntityListener(TotalFreedomMod instance)
     {
         plugin = instance;
@@ -34,10 +34,10 @@ public class TotalFreedomModEntityListener extends EntityListener
             event.setCancelled(true);
             return;
         }
-        
-        event.setRadius((float)plugin.explosiveRadius);
+
+        event.setRadius((float) plugin.explosiveRadius);
     }
-	
+
     @Override
     public void onEntityCombust(EntityCombustEvent event)
     {

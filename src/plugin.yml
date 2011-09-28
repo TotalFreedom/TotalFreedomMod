@@ -16,6 +16,9 @@ commands:
   fire:
     description: Superadmin command - Enable/disable fire.
     usage: /<command> <on|off>
+  gadmin:
+    description: Superadmin command - Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci
+    usage: /<command> [list | <kick|nameban|ipban|ban|op|deop|ci> <targethash>]
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> [partialname]
@@ -59,7 +62,7 @@ commands:
     description: Show random server info.
     usage: /<command>
   stop:
-    description: Kicks everyone and stops the server.
+    description: Superadmin command - Kicks everyone and stops the server.
     usage: /<command>
   survival:
     description: Quickly change your own gamemode to survival, or define someone's username to change theirs.

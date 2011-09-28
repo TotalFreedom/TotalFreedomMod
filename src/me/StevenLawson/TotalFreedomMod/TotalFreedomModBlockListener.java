@@ -43,23 +43,32 @@ public class TotalFreedomModBlockListener extends BlockListener
     @Override
     public void onBlockPlace(BlockPlaceEvent event)
     {
-        log.info("Got onBlockPlace by " + event.getPlayer().getName());
-        
         ItemStack is = new ItemStack(event.getBlockPlaced().getType(), 1, (short) 0, event.getBlockPlaced().getData());
         if (is.getType() == Material.LAVA || is.getType() == Material.STATIONARY_LAVA)
         {
-            log.info(String.format("%s placed lava @ %s",
-                    event.getPlayer().getName(),
-                    plugin.formatLocation(event.getBlock().getLocation())));
-            
-            event.getItemInHand().setType(Material.COOKIE);
-            event.getItemInHand().setAmount(1);
+            Player player = event.getPlayer();
+
+            int slot = player.getInventory().getHeldItemSlot();
+            ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
+            player.getInventory().setItem(slot, heldItem);
+
+            player.sendMessage(ChatColor.GOLD + "LAVA NO FUN, YOU EAT COOKIE INSTEAD, NO?");
+
+            event.setCancelled(true);
+            return;
         }
         else if (is.getType() == Material.WATER || is.getType() == Material.STATIONARY_WATER)
         {
-            log.info(String.format("%s placed water @ %s",
-                    event.getPlayer().getName(),
-                    plugin.formatLocation(event.getBlock().getLocation())));
+            Player player = event.getPlayer();
+
+            int slot = player.getInventory().getHeldItemSlot();
+            ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
+            player.getInventory().setItem(slot, heldItem);
+
+            player.sendMessage(ChatColor.GOLD + "Does this look like a waterpark to you?");
+
+            event.setCancelled(true);
+            return;
         }
         else if (is.getType() == Material.TNT)
         {
@@ -67,7 +76,14 @@ public class TotalFreedomModBlockListener extends BlockListener
 
             if (!plugin.allowExplosions)
             {
-                p.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
+                Player player = event.getPlayer();
+
+                int slot = player.getInventory().getHeldItemSlot();
+                ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
+                player.getInventory().setItem(slot, heldItem);
+
+                player.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
+
                 event.setCancelled(true);
                 return;
             }

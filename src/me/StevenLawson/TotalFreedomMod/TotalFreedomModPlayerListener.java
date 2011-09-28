@@ -8,6 +8,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.inventory.ItemStack;
 
 class TotalFreedomModPlayerListener extends PlayerListener
 {
@@ -26,20 +27,29 @@ class TotalFreedomModPlayerListener extends PlayerListener
         {
             if (event.getMaterial() == Material.WATER_BUCKET)
             {
-                log.info(String.format("%s placed water @ %s",
-                        event.getPlayer().getName(),
-                        plugin.formatLocation(event.getClickedBlock().getLocation())));
+                Player player = event.getPlayer();
+
+                int slot = player.getInventory().getHeldItemSlot();
+                ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
+                player.getInventory().setItem(slot, heldItem);
+
+                player.sendMessage(ChatColor.GOLD + "Does this look like a waterpark to you?");
+
+                event.setCancelled(true);
+                return;
             }
             else if (event.getMaterial() == Material.LAVA_BUCKET)
             {
-                log.info(String.format("%s tried to placed lava @ %s",
-                        event.getPlayer().getName(),
-                        plugin.formatLocation(event.getClickedBlock().getLocation())));
+                Player player = event.getPlayer();
 
-                event.getPlayer().getItemInHand().setType(Material.COOKIE);
-                event.getPlayer().getItemInHand().setAmount(1);
-                
+                int slot = player.getInventory().getHeldItemSlot();
+                ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
+                player.getInventory().setItem(slot, heldItem);
+
+                player.sendMessage(ChatColor.GOLD + "LAVA NO FUN, YOU EAT COOKIE INSTEAD, NO?");
+
                 event.setCancelled(true);
+                return;
             }
         }
     }
@@ -55,15 +65,38 @@ class TotalFreedomModPlayerListener extends PlayerListener
             log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", player.getName(), ChatColor.stripColor(player.getDisplayName()), command));
         }
 
-        if (command.startsWith("/stop") && !command.equals("/stop"))
+        command = command.toLowerCase();
+
+        boolean block_command = false;
+
+        if (command.matches("^/stop"))
         {
-            event.setCancelled(true);
-            player.sendMessage(ChatColor.RED + "Piss off.");
+            if (!plugin.isUserSuperadmin(player))
+            {
+                block_command = true;
+            }
         }
-        else if (command.startsWith("/zeus") || command.startsWith("/vulcan"))
+        else if (command.matches("^/reload"))
         {
+            if (!plugin.isUserSuperadmin(player))
+            {
+                block_command = true;
+            }
+        }
+        else if (command.matches("^/zeus"))
+        {
+            block_command = true;
+        }
+        else if (command.matches("^/vulcan"))
+        {
+            block_command = true;
+        }
+
+        if (block_command)
+        {
+            player.sendMessage(ChatColor.RED + "That command is prohibited.");
             event.setCancelled(true);
-            player.sendMessage(ChatColor.RED + "Piss off.");
+            return;
         }
     }
 }

@@ -25,9 +25,7 @@ public class TotalFreedomMod extends JavaPlugin
     private final TotalFreedomModEntityListener entityListener = new TotalFreedomModEntityListener(this);
     private final TotalFreedomModBlockListener blockListener = new TotalFreedomModBlockListener(this);
     private final TotalFreedomModPlayerListener playerListener = new TotalFreedomModPlayerListener(this);
-    
     private static final Logger log = Logger.getLogger("Minecraft");
-    
     protected static Configuration CONFIG;
     private List<String> superadmins = new ArrayList<String>();
     private List<String> superadmin_ips = new ArrayList<String>();
@@ -36,7 +34,6 @@ public class TotalFreedomMod extends JavaPlugin
     public Boolean allowFire = false;
     public double explosiveRadius = 4.0;
     public Boolean preprocessLogEnabled = false;
-    
     public final static String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public final static String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public final static String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
@@ -73,16 +70,16 @@ public class TotalFreedomMod extends JavaPlugin
         preprocessLogEnabled = CONFIG.getBoolean("preprocess_log", false);
 
         PluginManager pm = this.getServer().getPluginManager();
-        
+
         pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.EXPLOSION_PRIME, entityListener, Event.Priority.High, this);
-        
+
         pm.registerEvent(Event.Type.BLOCK_IGNITE, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Event.Priority.High, this);
-        
+
         pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
 
@@ -202,7 +199,7 @@ public class TotalFreedomMod extends JavaPlugin
                         onlineUsers.append(ChatColor.WHITE);
                     }
                 }
-                
+
                 sender.sendMessage(onlineStats.toString());
                 sender.sendMessage(onlineUsers.toString());
 
@@ -513,7 +510,7 @@ public class TotalFreedomMod extends JavaPlugin
                     String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
                     tfBroadcastMessage(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
                     Bukkit.banIP(user_ip);
-                    
+
                     //Ban Username:
                     Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
 
@@ -741,7 +738,7 @@ public class TotalFreedomMod extends JavaPlugin
                         this.preprocessLogEnabled = false;
                         sender.sendMessage("Command preprocess logging is now disabled.");
                     }
-                    
+
                     CONFIG.load();
                     CONFIG.setProperty("preprocess_log", this.preprocessLogEnabled);
                     CONFIG.save();
@@ -750,7 +747,93 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     sender.sendMessage(MSG_NO_PERMS);
                 }
-                
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("gadmin"))
+            {
+                if (args.length == 0)
+                {
+                    return false;
+                }
+
+                String mode = args[0].toLowerCase();
+
+                if (player == null || isUserSuperadmin(sender))
+                {
+                    if (mode.equals("list"))
+                    {
+                        sender.sendMessage(ChatColor.GOLD + "[Real Name]:[Display Name] - Hash:");
+                    }
+                    
+                    for (Player p : Bukkit.getOnlinePlayers())
+                    {
+                        String hash = p.getUniqueId().toString().substring(0, 4);
+                        if (mode.equals("list"))
+                        {
+                            sender.sendMessage(ChatColor.GOLD + String.format("[%s]:[%s] - %s",
+                                    p.getName(),
+                                    ChatColor.stripColor(p.getDisplayName()),
+                                    hash));
+                        }
+                        else if (hash.equalsIgnoreCase(args[1]))
+                        {
+                            if (mode.equals("kick"))
+                            {
+                                p.kickPlayer("Kicked by Administrator");
+                            }
+                            else if (mode.equals("nameban"))
+                            {
+                                Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
+                                tfBroadcastMessage(String.format("Banning Name: %s.", p.getName()), ChatColor.RED);
+                                p.kickPlayer("Username banned by Administrator.");
+                            }
+                            else if (mode.equals("ipban"))
+                            {
+                                String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+                                tfBroadcastMessage(String.format("Banning IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                                Bukkit.banIP(user_ip);
+                                p.kickPlayer("IP address banned by Administrator.");
+                            }
+                            else if (mode.equals("ban"))
+                            {
+                                String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+                                tfBroadcastMessage(String.format("Banning Name: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                                Bukkit.banIP(user_ip);
+                                Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
+                                p.kickPlayer("IP and username banned by Administrator.");
+                            }
+                            else if (mode.equals("op"))
+                            {
+                                tfBroadcastMessage(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                                p.setOp(false);
+                                p.sendMessage(YOU_ARE_OP);
+                            }
+                            else if (mode.equals("deop"))
+                            {
+                                tfBroadcastMessage(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                                p.setOp(false);
+                                p.sendMessage(YOU_ARE_NOT_OP);
+                            }
+                            else if (mode.equals("ci"))
+                            {
+                                p.getInventory().clear();
+                            }
+                            
+                            return true;
+                        }
+                    }
+                    
+                    if (!mode.equals("list"))
+                    {
+                        sender.sendMessage(ChatColor.RED + "Invalid hash.");
+                    }
+                }
+                else
+                {
+                    sender.sendMessage(MSG_NO_PERMS);
+                }
+
                 return true;
             }
             else if (cmd.getName().equalsIgnoreCase("status"))
@@ -809,7 +892,7 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 return true;
             }
-            
+
             if (Bukkit.getOnlineMode())
             {
                 if (superadmins.contains(user.getName()))
