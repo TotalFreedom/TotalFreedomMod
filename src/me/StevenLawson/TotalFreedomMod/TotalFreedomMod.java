@@ -34,10 +34,14 @@ public class TotalFreedomMod extends JavaPlugin
     public Boolean allowFire = false;
     public double explosiveRadius = 4.0;
     public Boolean preprocessLogEnabled = false;
+    public boolean nukeMonitor = false;
+    public double nukeMonitorRange = 10.0;
+    public boolean playersFrozen = false;
     public final static String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public final static String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public final static String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
 
+    @Override
     public void onEnable()
     {
         CONFIG = getConfiguration();
@@ -79,19 +83,23 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvent(Event.Type.BLOCK_IGNITE, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Event.Priority.Normal, this);
 
         pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
 
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
         log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + implodeStringList(", ", superadmins));
     }
 
+    @Override
     public void onDisable()
     {
         log.log(Level.INFO, "[Total Freedom Mod] - Disabled.");
     }
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
         try
@@ -840,6 +848,57 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 sender.sendMessage(ChatColor.GRAY + "Server is currently running with 'online-mode=" + (Bukkit.getOnlineMode() ? "true" : "false") + "'.");
 
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("fr"))
+            {
+                if (player == null || isUserSuperadmin(sender))
+                {
+                    this.playersFrozen = !this.playersFrozen;
+
+                    if (this.playersFrozen)
+                    {
+                        this.playersFrozen = true;
+                        sender.sendMessage("Players are now frozen.");
+                        tfBroadcastMessage(sender.getName() + " has temporarily frozen everyone on the server.", ChatColor.AQUA);
+                    }
+                    else
+                    {
+                        this.playersFrozen = false;
+                        sender.sendMessage("Players are now free to move.");
+                        tfBroadcastMessage(sender.getName() + " has unfrozen everyone.", ChatColor.AQUA);
+                    }
+                }
+                else
+                {
+                    sender.sendMessage(MSG_NO_PERMS);
+                }
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("nonuke"))
+            {
+                if (args.length < 1)
+                {
+                    return false;
+                }
+                
+                if (args.length == 2)
+                {
+                    this.nukeMonitorRange = Integer.parseInt(args[1]);
+                }
+
+                if (args[0].equalsIgnoreCase("on"))
+                {
+                    this.nukeMonitor = true;
+                    sender.sendMessage("Nuke monitor is enabled, range is set to " + this.nukeMonitorRange + " blocks.");
+                }
+                else
+                {
+                    this.nukeMonitor = false;
+                    sender.sendMessage("Nuke monitor is disabled.");
+                }
+                
                 return true;
             }
         }

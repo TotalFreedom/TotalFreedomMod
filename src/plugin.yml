@@ -16,6 +16,9 @@ commands:
   fire:
     description: Superadmin command - Enable/disable fire.
     usage: /<command> <on|off>
+  fr:
+    description: Superadmin command - Freeze all players (toggles on and off).
+    usage: /<command>
   gadmin:
     description: Superadmin command - Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci
     usage: /<command> [list | <kick|nameban|ipban|ban|op|deop|ci> <targethash>]
@@ -34,6 +37,9 @@ commands:
   mp:
     description: Use moblimiter to purge all mobs.
     usage: /<command>
+  nonuke:
+    description: Attempt to detect "invisible griefers" and "nukers".
+    usage: /<command> <on|off> [range]
   opall:
     description: Superadmin command - Op everyone on the server, optionally change everyone's gamemode at the same time.
     usage: /<command> [-c|-s]

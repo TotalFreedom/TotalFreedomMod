@@ -2,12 +2,14 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.logging.Logger;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
 class TotalFreedomModPlayerListener extends PlayerListener
@@ -51,6 +53,27 @@ class TotalFreedomModPlayerListener extends PlayerListener
                 event.setCancelled(true);
                 return;
             }
+        }
+    }
+
+    @Override
+    public void onPlayerMove(PlayerMoveEvent event)
+    {
+        if (plugin.playersFrozen)
+        {
+            if (plugin.isUserSuperadmin(event.getPlayer()))
+            {
+                return;
+            }
+            
+            Location from = event.getFrom();
+            Location to = event.getTo().clone();
+            
+            to.setX(from.getX());
+            to.setY(from.getY());
+            to.setZ(from.getZ());
+
+            event.setTo(to);
         }
     }
 

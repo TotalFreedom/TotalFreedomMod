@@ -2,8 +2,11 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.logging.Logger;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockListener;
@@ -37,6 +40,29 @@ public class TotalFreedomModBlockListener extends BlockListener
         {
             event.setCancelled(true);
             return;
+        }
+    }
+
+    @Override
+    public void onBlockBreak(BlockBreakEvent event)
+    {
+        if (plugin.nukeMonitor)
+        {
+            Player p = event.getPlayer();
+
+            Location player_pos = p.getLocation();
+            Location block_pos = event.getBlock().getLocation();
+
+            if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            {
+                p.setOp(false);
+                p.setGameMode(GameMode.SURVIVAL);
+                p.getInventory().clear();
+                
+                plugin.tfBroadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+
+                event.setCancelled(true);
+            }
         }
     }
 
