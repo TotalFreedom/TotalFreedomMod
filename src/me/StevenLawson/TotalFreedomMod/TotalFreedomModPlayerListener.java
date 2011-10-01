@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -59,21 +60,73 @@ class TotalFreedomModPlayerListener extends PlayerListener
     @Override
     public void onPlayerMove(PlayerMoveEvent event)
     {
-        if (plugin.playersFrozen)
+        try
         {
-            if (plugin.isUserSuperadmin(event.getPlayer()))
+            Player p = event.getPlayer();
+
+            boolean do_freeze = false;
+            if (plugin.allPlayersFrozen)
             {
+                if (!plugin.isUserSuperadmin(p))
+                {
+                    do_freeze = true;
+                }
+            }
+            else
+            {
+                TFUserInfo playerdata = (TFUserInfo) plugin.userinfo.get(p);
+                if (playerdata != null)
+                {
+                    if (playerdata.isFrozen())
+                    {
+                        do_freeze = true;
+                    }
+                }
+            }
+
+            if (do_freeze)
+            {
+                Location from = event.getFrom();
+                Location to = event.getTo().clone();
+    
+                to.setX(from.getX());
+                to.setY(from.getY());
+                to.setZ(from.getZ());
+    
+                event.setTo(to);
+            }
+        }
+        catch (Exception ex)
+        {
+            log.severe("Exception in TFM Player Listener onMove: " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void onPlayerChat(PlayerChatEvent event)
+    {
+        Player p = event.getPlayer();
+        
+        TFUserInfo playerdata = (TFUserInfo) plugin.userinfo.get(p);
+        if (playerdata != null)
+        {
+            playerdata.incrementMsgCount();
+            
+            if (playerdata.getMsgCount() > 10)
+            {
+                p.setOp(false);
+                p.kickPlayer("No Spamming");
+                plugin.tfBroadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+                
+                event.setCancelled(true);
                 return;
             }
-            
-            Location from = event.getFrom();
-            Location to = event.getTo().clone();
-            
-            to.setX(from.getX());
-            to.setY(from.getY());
-            to.setZ(from.getZ());
-
-            event.setTo(to);
+        }
+        else
+        {
+            playerdata = new TFUserInfo();
+            playerdata.incrementMsgCount();
+            plugin.userinfo.put(p, playerdata);
         }
     }
 
