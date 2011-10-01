@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,21 +23,29 @@ import org.bukkit.util.config.Configuration;
 
 public class TotalFreedomMod extends JavaPlugin
 {
+    public TotalFreedomMod tfm = this;
+    
     private final TotalFreedomModEntityListener entityListener = new TotalFreedomModEntityListener(this);
     private final TotalFreedomModBlockListener blockListener = new TotalFreedomModBlockListener(this);
     private final TotalFreedomModPlayerListener playerListener = new TotalFreedomModPlayerListener(this);
+    
     private static final Logger log = Logger.getLogger("Minecraft");
+    
     protected static Configuration CONFIG;
-    private List<String> superadmins = new ArrayList<String>();
-    private List<String> superadmin_ips = new ArrayList<String>();
+    public List<String> superadmins = new ArrayList<String>();
+    public List<String> superadmin_ips = new ArrayList<String>();
     public Boolean allowExplosions = false;
     public Boolean allowLavaDamage = false;
     public Boolean allowFire = false;
     public double explosiveRadius = 4.0;
     public Boolean preprocessLogEnabled = false;
-    public boolean nukeMonitor = false;
+    public boolean nukeMonitor = true;
     public double nukeMonitorRange = 10.0;
-    public boolean playersFrozen = false;
+    public int nukeMonitorCount = 40;
+    public boolean allPlayersFrozen = false;
+    
+    public HashMap userinfo = new HashMap();
+    
     public final static String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public final static String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public final static String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
@@ -62,6 +71,9 @@ public class TotalFreedomMod extends JavaPlugin
             CONFIG.setProperty("allow_fire", false);
             CONFIG.setProperty("explosiveRadius", 4.0);
             CONFIG.setProperty("preprocess_log", false);
+            CONFIG.setProperty("nuke_monitor", true);
+            CONFIG.setProperty("nuke_monitor_range", 10.0);
+            CONFIG.setProperty("nuke_monitor_count", 40);
             CONFIG.save();
         }
         CONFIG.load();
@@ -72,6 +84,8 @@ public class TotalFreedomMod extends JavaPlugin
         allowFire = CONFIG.getBoolean("allow_fire", false);
         explosiveRadius = CONFIG.getDouble("explosiveRadius", 4.0);
         preprocessLogEnabled = CONFIG.getBoolean("preprocess_log", false);
+        nukeMonitorRange = CONFIG.getDouble("nuke_monitor_range", 10.0);
+        nukeMonitorCount = CONFIG.getInt("nuke_monitor_count", 40);
 
         PluginManager pm = this.getServer().getPluginManager();
 
@@ -88,9 +102,19 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Normal, this);
 
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
         log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + implodeStringList(", ", superadmins));
+
+        Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                tfm.resetCounts();
+            }
+        }, 100L, 100L);
     }
 
     @Override
@@ -773,7 +797,7 @@ public class TotalFreedomMod extends JavaPlugin
                     {
                         sender.sendMessage(ChatColor.GOLD + "[Real Name]:[Display Name] - Hash:");
                     }
-                    
+
                     for (Player p : Bukkit.getOnlinePlayers())
                     {
                         String hash = p.getUniqueId().toString().substring(0, 4);
@@ -827,11 +851,27 @@ public class TotalFreedomMod extends JavaPlugin
                             {
                                 p.getInventory().clear();
                             }
-                            
+                            else if (mode.equals("fr"))
+                            {
+                                TFUserInfo playerdata = (TFUserInfo) this.userinfo.get(p);
+                                if (playerdata != null)
+                                {
+                                    playerdata.setFrozen(!playerdata.isFrozen());
+                                }
+                                else
+                                {
+                                    playerdata = new TFUserInfo();
+                                    playerdata.setFrozen(true);
+                                    this.userinfo.put(p, playerdata);
+                                }
+                                sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                                p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                            }
+
                             return true;
                         }
                     }
-                    
+
                     if (!mode.equals("list"))
                     {
                         sender.sendMessage(ChatColor.RED + "Invalid hash.");
@@ -854,19 +894,51 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 if (player == null || isUserSuperadmin(sender))
                 {
-                    this.playersFrozen = !this.playersFrozen;
-
-                    if (this.playersFrozen)
+                    if (args.length == 0)
                     {
-                        this.playersFrozen = true;
-                        sender.sendMessage("Players are now frozen.");
-                        tfBroadcastMessage(sender.getName() + " has temporarily frozen everyone on the server.", ChatColor.AQUA);
+                        this.allPlayersFrozen = !this.allPlayersFrozen;
+
+                        if (this.allPlayersFrozen)
+                        {
+                            this.allPlayersFrozen = true;
+                            sender.sendMessage("Players are now frozen.");
+                            tfBroadcastMessage(sender.getName() + " has temporarily frozen everyone on the server.", ChatColor.AQUA);
+                        }
+                        else
+                        {
+                            this.allPlayersFrozen = false;
+                            sender.sendMessage("Players are now free to move.");
+                            tfBroadcastMessage(sender.getName() + " has unfrozen everyone.", ChatColor.AQUA);
+                        }
                     }
                     else
                     {
-                        this.playersFrozen = false;
-                        sender.sendMessage("Players are now free to move.");
-                        tfBroadcastMessage(sender.getName() + " has unfrozen everyone.", ChatColor.AQUA);
+                        Player p;
+                        List<Player> matches = Bukkit.matchPlayer(args[0]);
+                        if (matches.isEmpty())
+                        {
+                            sender.sendMessage("Can't find user " + args[0]);
+                            return true;
+                        }
+                        else
+                        {
+                            p = matches.get(0);
+                        }
+
+                        TFUserInfo playerdata = (TFUserInfo) this.userinfo.get(p);
+                        if (playerdata != null)
+                        {
+                            playerdata.setFrozen(!playerdata.isFrozen());
+                        }
+                        else
+                        {
+                            playerdata = new TFUserInfo();
+                            playerdata.setFrozen(true);
+                            this.userinfo.put(p, playerdata);
+                        }
+
+                        sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                        p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                     }
                 }
                 else
@@ -882,23 +954,36 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     return false;
                 }
-                
-                if (args.length == 2)
+
+                if (args.length >= 2)
                 {
-                    this.nukeMonitorRange = Integer.parseInt(args[1]);
+                    this.nukeMonitorRange = Double.parseDouble(args[1]);
+                }
+                
+                if (args.length >= 3)
+                {
+                    this.nukeMonitorCount = Integer.parseInt(args[2]);
                 }
 
                 if (args[0].equalsIgnoreCase("on"))
                 {
                     this.nukeMonitor = true;
-                    sender.sendMessage("Nuke monitor is enabled, range is set to " + this.nukeMonitorRange + " blocks.");
+                    sender.sendMessage(ChatColor.GRAY + "Nuke monitor is enabled.");
+                    sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + this.nukeMonitorRange + " blocks.");
+                    sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + this.nukeMonitorCount + " blocks destroyed per 5 seconds.");
                 }
                 else
                 {
                     this.nukeMonitor = false;
                     sender.sendMessage("Nuke monitor is disabled.");
                 }
-                
+
+                CONFIG.load();
+                CONFIG.setProperty("nuke_monitor", this.nukeMonitor);
+                CONFIG.setProperty("nuke_monitor_range", this.nukeMonitorRange);
+                CONFIG.setProperty("nuke_monitor_count", this.nukeMonitorCount);
+                CONFIG.save();
+
                 return true;
             }
         }
@@ -983,5 +1068,18 @@ public class TotalFreedomMod extends JavaPlugin
         }
 
         return false;
+    }
+
+    private void resetCounts()
+    {
+        for (Player p : Bukkit.getOnlinePlayers())
+        {
+            TFUserInfo playerdata = (TFUserInfo) this.userinfo.get(p);
+            if (playerdata != null)
+            {
+                playerdata.resetMsgCount();
+                playerdata.resetBlockDestroyCount();
+            }
+        }
     }
 }

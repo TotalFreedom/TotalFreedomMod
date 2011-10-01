@@ -46,23 +46,55 @@ public class TotalFreedomModBlockListener extends BlockListener
     @Override
     public void onBlockBreak(BlockBreakEvent event)
     {
-        if (plugin.nukeMonitor)
+        try
         {
-            Player p = event.getPlayer();
-
-            Location player_pos = p.getLocation();
-            Location block_pos = event.getBlock().getLocation();
-
-            if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            if (plugin.nukeMonitor)
             {
-                p.setOp(false);
-                p.setGameMode(GameMode.SURVIVAL);
-                p.getInventory().clear();
-                
-                plugin.tfBroadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+                Player p = event.getPlayer();
 
-                event.setCancelled(true);
+                Location player_pos = p.getLocation();
+                Location block_pos = event.getBlock().getLocation();
+
+                if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+                {
+                    p.setOp(false);
+                    p.setGameMode(GameMode.SURVIVAL);
+                    p.getInventory().clear();
+
+                    plugin.tfBroadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+
+                    event.setCancelled(true);
+                    return;
+                }
+
+                TFUserInfo playerdata = (TFUserInfo) plugin.userinfo.get(p);
+                if (playerdata != null)
+                {
+                    playerdata.incrementBlockDestroyCount();
+
+                    if (playerdata.getBlockDestroyCount() > plugin.nukeMonitorCount)
+                    {
+                        plugin.tfBroadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
+
+                        p.setOp(false);
+                        p.setGameMode(GameMode.SURVIVAL);
+                        p.getInventory().clear();
+
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
+                else
+                {
+                    playerdata = new TFUserInfo();
+                    playerdata.incrementBlockDestroyCount();
+                    plugin.userinfo.put(p, playerdata);
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            log.info("Exception in TFM Block Listener onBlockBreak: " + ex.getMessage());
         }
     }
 
