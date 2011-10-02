@@ -61,7 +61,7 @@ public class TFM_BlockListener extends BlockListener
                     p.setGameMode(GameMode.SURVIVAL);
                     p.getInventory().clear();
 
-                    plugin.tfBroadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+                    plugin.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
 
                     event.setCancelled(true);
                     return;
@@ -74,7 +74,7 @@ public class TFM_BlockListener extends BlockListener
 
                     if (playerdata.getBlockDestroyCount() > plugin.nukeMonitorCount)
                     {
-                        plugin.tfBroadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
+                        plugin.tfm_broadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
 
                         p.setOp(false);
                         p.setGameMode(GameMode.SURVIVAL);

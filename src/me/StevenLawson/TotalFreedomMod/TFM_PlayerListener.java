@@ -116,7 +116,7 @@ class TFM_PlayerListener extends PlayerListener
             {
                 p.setOp(false);
                 p.kickPlayer("No Spamming");
-                plugin.tfBroadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+                plugin.tfm_broadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
 
                 event.setCancelled(true);
                 return;
