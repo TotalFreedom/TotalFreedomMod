@@ -29,9 +29,9 @@ public class TotalFreedomMod extends JavaPlugin
 {
     public TotalFreedomMod tfm = this;
     
-    private final TotalFreedomModEntityListener entityListener = new TotalFreedomModEntityListener(this);
-    private final TotalFreedomModBlockListener blockListener = new TotalFreedomModBlockListener(this);
-    private final TotalFreedomModPlayerListener playerListener = new TotalFreedomModPlayerListener(this);
+    private final TFM_EntityListener entityListener = new TFM_EntityListener(this);
+    private final TFM_BlockListener blockListener = new TFM_BlockListener(this);
+    private final TFM_PlayerListener playerListener = new TFM_PlayerListener(this);
     
     private static final Logger log = Logger.getLogger("Minecraft");
     
@@ -775,17 +775,17 @@ public class TotalFreedomMod extends JavaPlugin
                 Location sender_pos = sender_player.getLocation();
                 String sender_world = sender_player.getWorld().getName();
 
-                List<RadarData> radar_data = new ArrayList<RadarData>();
+                List<TFM_RadarData> radar_data = new ArrayList<TFM_RadarData>();
 
                 for (Player p : Bukkit.getOnlinePlayers())
                 {
                     if (sender_world.equals(p.getWorld().getName()) && !p.getName().equals(sender.getName()))
                     {
-                        radar_data.add(new RadarData(p, sender_pos.distance(p.getLocation()), p.getLocation()));
+                        radar_data.add(new TFM_RadarData(p, sender_pos.distance(p.getLocation()), p.getLocation()));
                     }
                 }
 
-                Collections.sort(radar_data, new RadarData());
+                Collections.sort(radar_data, new TFM_RadarData());
 
                 sender.sendMessage(ChatColor.YELLOW + "People nearby in " + sender_world + ":");
 
@@ -796,7 +796,7 @@ public class TotalFreedomMod extends JavaPlugin
                 }
 
                 int count = 0;
-                for (RadarData i : radar_data)
+                for (TFM_RadarData i : radar_data)
                 {
                     if (count++ > countmax)
                     {
@@ -952,14 +952,14 @@ public class TotalFreedomMod extends JavaPlugin
                             }
                             else if (mode.equals("fr"))
                             {
-                                TFUserInfo playerdata = (TFUserInfo) this.userinfo.get(p);
+                                TFM_UserInfo playerdata = (TFM_UserInfo) this.userinfo.get(p);
                                 if (playerdata != null)
                                 {
                                     playerdata.setFrozen(!playerdata.isFrozen());
                                 }
                                 else
                                 {
-                                    playerdata = new TFUserInfo();
+                                    playerdata = new TFM_UserInfo();
                                     playerdata.setFrozen(true);
                                     this.userinfo.put(p, playerdata);
                                 }
@@ -1024,14 +1024,14 @@ public class TotalFreedomMod extends JavaPlugin
                             p = matches.get(0);
                         }
 
-                        TFUserInfo playerdata = (TFUserInfo) this.userinfo.get(p);
+                        TFM_UserInfo playerdata = (TFM_UserInfo) this.userinfo.get(p);
                         if (playerdata != null)
                         {
                             playerdata.setFrozen(!playerdata.isFrozen());
                         }
                         else
                         {
-                            playerdata = new TFUserInfo();
+                            playerdata = new TFM_UserInfo();
                             playerdata.setFrozen(true);
                             this.userinfo.put(p, playerdata);
                         }
@@ -1218,7 +1218,7 @@ public class TotalFreedomMod extends JavaPlugin
     {
         for (Player p : Bukkit.getOnlinePlayers())
         {
-            TFUserInfo playerdata = (TFUserInfo) this.userinfo.get(p);
+            TFM_UserInfo playerdata = (TFM_UserInfo) this.userinfo.get(p);
             if (playerdata != null)
             {
                 playerdata.resetMsgCount();

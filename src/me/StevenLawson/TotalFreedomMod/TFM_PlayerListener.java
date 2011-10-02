@@ -13,12 +13,12 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
-class TotalFreedomModPlayerListener extends PlayerListener
+class TFM_PlayerListener extends PlayerListener
 {
     public static TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    TotalFreedomModPlayerListener(TotalFreedomMod instance)
+    TFM_PlayerListener(TotalFreedomMod instance)
     {
         plugin = instance;
     }
@@ -74,7 +74,7 @@ class TotalFreedomModPlayerListener extends PlayerListener
             }
             else
             {
-                TFUserInfo playerdata = (TFUserInfo) plugin.userinfo.get(p);
+                TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
                 if (playerdata != null)
                 {
                     if (playerdata.isFrozen())
@@ -107,7 +107,7 @@ class TotalFreedomModPlayerListener extends PlayerListener
     {
         Player p = event.getPlayer();
 
-        TFUserInfo playerdata = (TFUserInfo) plugin.userinfo.get(p);
+        TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
         if (playerdata != null)
         {
             playerdata.incrementMsgCount();
@@ -124,7 +124,7 @@ class TotalFreedomModPlayerListener extends PlayerListener
         }
         else
         {
-            playerdata = new TFUserInfo();
+            playerdata = new TFM_UserInfo();
             playerdata.incrementMsgCount();
             plugin.userinfo.put(p, playerdata);
         }

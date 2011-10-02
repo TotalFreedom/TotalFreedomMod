@@ -1,12 +1,12 @@
 package me.StevenLawson.TotalFreedomMod;
 
-public class TFUserInfo
+public class TFM_UserInfo
 {
     private boolean user_frozen = false;
     private int msg_count = 0;
     private int bd_count = 0;
 
-    public TFUserInfo()
+    public TFM_UserInfo()
     {
     }
 

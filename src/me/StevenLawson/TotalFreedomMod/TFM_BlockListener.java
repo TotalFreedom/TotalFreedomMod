@@ -13,12 +13,12 @@ import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class TotalFreedomModBlockListener extends BlockListener
+public class TFM_BlockListener extends BlockListener
 {
     public static TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    TotalFreedomModBlockListener(TotalFreedomMod instance)
+    TFM_BlockListener(TotalFreedomMod instance)
     {
         plugin = instance;
     }
@@ -67,7 +67,7 @@ public class TotalFreedomModBlockListener extends BlockListener
                     return;
                 }
 
-                TFUserInfo playerdata = (TFUserInfo) plugin.userinfo.get(p);
+                TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
                 if (playerdata != null)
                 {
                     playerdata.incrementBlockDestroyCount();
@@ -86,7 +86,7 @@ public class TotalFreedomModBlockListener extends BlockListener
                 }
                 else
                 {
-                    playerdata = new TFUserInfo();
+                    playerdata = new TFM_UserInfo();
                     playerdata.incrementBlockDestroyCount();
                     plugin.userinfo.put(p, playerdata);
                 }
