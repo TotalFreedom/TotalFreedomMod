@@ -4,6 +4,9 @@ version: 1.4
 description: Plugin for the Total Freedom server
 author: StevenLawson / Madgeek1450
 commands:
+  cake:
+    description: For the people that are still alive.
+    usage: /<command>
   creative:
     description: Quickly change your own gamemode to creative, or define someone's username to change theirs.
     usage: /<command> [partialname]
@@ -13,8 +16,11 @@ commands:
   explosives:
     description: Superadmin command - Enable/disable explosives and set effect radius.
     usage: /<command> <on|off> [radius]
-  fire:
-    description: Superadmin command - Enable/disable fire.
+  fireplace:
+    description: Superadmin command - Enable/disable fire placement.
+    usage: /<command> <on|off>
+  firespread:
+    description: Superadmin command - Enable/disable fire spread.
     usage: /<command> <on|off>
   fr:
     description: Superadmin command - Freeze all players (toggles on and off).
@@ -27,6 +33,9 @@ commands:
     usage: /<command> [partialname]
   lavadmg:
     description: Superadmin command - Enable/disable lava damage.
+    usage: /<command> <on|off>
+  lavaplace:
+    description: Superadmin command - Enable/disable lava placement.
     usage: /<command> <on|off>
   list:
     description: Lists the real names of all online players.
@@ -73,6 +82,9 @@ commands:
   survival:
     description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
     usage: /<command> [partialname]
+  waterplace:
+    description: Superadmin command - Enable/disable water placement.
+    usage: /<command> <on|off>
   wildcard:
     description: Superadmin command - Run any command on all users, username placeholder = ?.
     usage: /<command> [fluff] ? [fluff] ?

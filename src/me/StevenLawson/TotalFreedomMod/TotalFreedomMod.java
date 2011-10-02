@@ -7,16 +7,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
@@ -35,20 +39,25 @@ public class TotalFreedomMod extends JavaPlugin
     public List<String> superadmins = new ArrayList<String>();
     public List<String> superadmin_ips = new ArrayList<String>();
     public Boolean allowExplosions = false;
+    public boolean allowFirePlace = false;
+    public Boolean allowFireSpread = false;
     public Boolean allowLavaDamage = false;
-    public Boolean allowFire = false;
+    public boolean allowLavaPlace = false;
+    public boolean allowWaterPlace = false;
+    public boolean autoEntityWipe = false;
     public double explosiveRadius = 4.0;
-    public Boolean preprocessLogEnabled = false;
     public boolean nukeMonitor = true;
-    public double nukeMonitorRange = 10.0;
     public int nukeMonitorCount = 40;
-    public boolean allPlayersFrozen = false;
+    public double nukeMonitorRange = 10.0;
+    public Boolean preprocessLogEnabled = false;
     
+    public boolean allPlayersFrozen = false;
     public HashMap userinfo = new HashMap();
     
     public final static String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public final static String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public final static String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
+    public final static String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
 
     @Override
     public void onEnable()
@@ -67,25 +76,34 @@ public class TotalFreedomMod extends JavaPlugin
                         "0.0.0.0"
                     });
             CONFIG.setProperty("allow_explosions", false);
+            CONFIG.setProperty("allow_fire_place", false);
+            CONFIG.setProperty("allow_fire_spread", false);
             CONFIG.setProperty("allow_lava_damage", false);
-            CONFIG.setProperty("allow_fire", false);
+            CONFIG.setProperty("allow_lava_place", false);
+            CONFIG.setProperty("allow_water_place", false);
+            CONFIG.setProperty("auto_wipe", false);
             CONFIG.setProperty("explosiveRadius", 4.0);
-            CONFIG.setProperty("preprocess_log", false);
             CONFIG.setProperty("nuke_monitor", true);
-            CONFIG.setProperty("nuke_monitor_range", 10.0);
             CONFIG.setProperty("nuke_monitor_count", 40);
+            CONFIG.setProperty("nuke_monitor_range", 10.0);
+            CONFIG.setProperty("preprocess_log", false);
             CONFIG.save();
         }
         CONFIG.load();
         superadmins = CONFIG.getStringList("superadmins", null);
         superadmin_ips = CONFIG.getStringList("superadmin_ips", null);
         allowExplosions = CONFIG.getBoolean("allow_explosions", false);
+        allowFirePlace = CONFIG.getBoolean("allow_fire_place", false);
+        allowFireSpread = CONFIG.getBoolean("allow_fire_spread", false);
         allowLavaDamage = CONFIG.getBoolean("allow_lava_damage", false);
-        allowFire = CONFIG.getBoolean("allow_fire", false);
+        allowLavaPlace = CONFIG.getBoolean("allow_lava_place", false);
+        allowWaterPlace = CONFIG.getBoolean("allow_water_place", false);
+        autoEntityWipe = CONFIG.getBoolean("auto_wipe", false);
         explosiveRadius = CONFIG.getDouble("explosiveRadius", 4.0);
-        preprocessLogEnabled = CONFIG.getBoolean("preprocess_log", false);
-        nukeMonitorRange = CONFIG.getDouble("nuke_monitor_range", 10.0);
+        nukeMonitor = CONFIG.getBoolean("nuke_monitor", true);
         nukeMonitorCount = CONFIG.getInt("nuke_monitor_count", 40);
+        nukeMonitorRange = CONFIG.getDouble("nuke_monitor_range", 10.0);
+        preprocessLogEnabled = CONFIG.getBoolean("preprocess_log", false);
 
         PluginManager pm = this.getServer().getPluginManager();
 
@@ -105,14 +123,16 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Normal, this);
 
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
-        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmins: " + implodeStringList(", ", superadmins));
+        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmin names: " + implodeStringList(", ", superadmins));
+        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmin IPs: " + implodeStringList(", ", superadmins));
+        log.log(Level.INFO, "[Total Freedom Mod] - Auto drop deleter is " + (autoEntityWipe ? "enabled" : "disabled") + ".");
 
         Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable()
         {
             @Override
             public void run()
             {
-                tfm.resetCounts();
+                tfm.tfHeartbeat();
             }
         }, 100L, 100L);
     }
@@ -608,7 +628,7 @@ public class TotalFreedomMod extends JavaPlugin
 
                 return true;
             }
-            else if (cmd.getName().equalsIgnoreCase("fire"))
+            else if (cmd.getName().equalsIgnoreCase("firespread"))
             {
                 if (player == null || isUserSuperadmin(sender))
                 {
@@ -619,13 +639,40 @@ public class TotalFreedomMod extends JavaPlugin
 
                     if (args[0].equalsIgnoreCase("on"))
                     {
-                        this.allowFire = true;
-                        sender.sendMessage("Fire is now enabled.");
+                        this.allowFireSpread = true;
+                        sender.sendMessage("Fire spread is now enabled.");
                     }
                     else
                     {
-                        this.allowFire = false;
-                        sender.sendMessage("Fire is now disabled.");
+                        this.allowFireSpread = false;
+                        sender.sendMessage("Fire spread is now disabled.");
+                    }
+                }
+                else
+                {
+                    sender.sendMessage(MSG_NO_PERMS);
+                }
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("fireplace"))
+            {
+                if (player == null || isUserSuperadmin(sender))
+                {
+                    if (args.length != 1)
+                    {
+                        return false;
+                    }
+
+                    if (args[0].equalsIgnoreCase("on"))
+                    {
+                        this.allowFirePlace = true;
+                        sender.sendMessage("Fire placement is now enabled.");
+                    }
+                    else
+                    {
+                        this.allowFirePlace = false;
+                        sender.sendMessage("Fire placement is now disabled.");
                     }
                 }
                 else
@@ -653,6 +700,60 @@ public class TotalFreedomMod extends JavaPlugin
                     {
                         this.allowLavaDamage = false;
                         sender.sendMessage("Lava damage is now disabled.");
+                    }
+                }
+                else
+                {
+                    sender.sendMessage(MSG_NO_PERMS);
+                }
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("lavaplace"))
+            {
+                if (player == null || isUserSuperadmin(sender))
+                {
+                    if (args.length != 1)
+                    {
+                        return false;
+                    }
+
+                    if (args[0].equalsIgnoreCase("on"))
+                    {
+                        this.allowLavaPlace = true;
+                        sender.sendMessage("Lava placement is now enabled.");
+                    }
+                    else
+                    {
+                        this.allowLavaPlace = false;
+                        sender.sendMessage("Lava placement is now disabled.");
+                    }
+                }
+                else
+                {
+                    sender.sendMessage(MSG_NO_PERMS);
+                }
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("waterplace"))
+            {
+                if (player == null || isUserSuperadmin(sender))
+                {
+                    if (args.length != 1)
+                    {
+                        return false;
+                    }
+
+                    if (args[0].equalsIgnoreCase("on"))
+                    {
+                        this.allowWaterPlace = true;
+                        sender.sendMessage("Water placement is now enabled.");
+                    }
+                    else
+                    {
+                        this.allowWaterPlace = false;
+                        sender.sendMessage("Water placement is now disabled.");
                     }
                 }
                 else
@@ -709,19 +810,10 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else if (cmd.getName().equalsIgnoreCase("rd"))
             {
-                if (player == null)
+                if (player == null || sender.isOp())
                 {
-                    sender.sendMessage("This command can only be used in-game.");
-                    return true;
-                }
-
-                if (sender.isOp())
-                {
-                    sender.sendMessage(ChatColor.GRAY + "Using WorldEdit to remove all dropped items, arrows, and TNT.");
-
-                    Bukkit.getServer().dispatchCommand(sender, "remove items -1");
-                    Bukkit.getServer().dispatchCommand(sender, "remove arrows -1");
-                    Bukkit.getServer().dispatchCommand(sender, "remove tnt -1");
+                    sender.sendMessage(ChatColor.GRAY + "Removing all dropped items, arrows, exp. orbs and TNT...");
+                    sender.sendMessage(ChatColor.GRAY + String.valueOf(wipeDropEntities()) + " dropped enties removed.");
                 }
                 else
                 {
@@ -732,17 +824,24 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else if (cmd.getName().equalsIgnoreCase("mp"))
             {
-                if (player == null)
+                if (player == null || sender.isOp())
                 {
-                    sender.sendMessage("This command can only be used in-game.");
-                    return true;
-                }
+                    sender.sendMessage(ChatColor.GRAY + "Purging all mobs...");
 
-                if (sender.isOp())
-                {
-                    sender.sendMessage(ChatColor.GRAY + "Using MobLimiter to purge all mobs.");
+                    int removed = 0;
+                    for (World world : Bukkit.getWorlds())
+                    {
+                        for (Entity ent : world.getEntities())
+                        {
+                            if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime)
+                            {
+                                ent.remove();
+                                removed++;
+                            }
+                        }
+                    }
 
-                    Bukkit.getServer().dispatchCommand(sender, "moblimiter purge");
+                    sender.sendMessage(ChatColor.GRAY + String.valueOf(removed) + " mobs removed.");
                 }
                 else
                 {
@@ -795,7 +894,7 @@ public class TotalFreedomMod extends JavaPlugin
                 {
                     if (mode.equals("list"))
                     {
-                        sender.sendMessage(ChatColor.GOLD + "[Real Name]:[Display Name] - Hash:");
+                        sender.sendMessage(ChatColor.GRAY + "[ Real Name ] : [ Display Name ] - Hash:");
                     }
 
                     for (Player p : Bukkit.getOnlinePlayers())
@@ -803,7 +902,7 @@ public class TotalFreedomMod extends JavaPlugin
                         String hash = p.getUniqueId().toString().substring(0, 4);
                         if (mode.equals("list"))
                         {
-                            sender.sendMessage(ChatColor.GOLD + String.format("[%s]:[%s] - %s",
+                            sender.sendMessage(ChatColor.GRAY + String.format("[ %s ] : [ %s ] - %s",
                                     p.getName(),
                                     ChatColor.stripColor(p.getDisplayName()),
                                     hash));
@@ -950,39 +1049,74 @@ public class TotalFreedomMod extends JavaPlugin
             }
             else if (cmd.getName().equalsIgnoreCase("nonuke"))
             {
-                if (args.length < 1)
+                if (player == null || isUserSuperadmin(sender))
                 {
-                    return false;
-                }
+                    if (args.length < 1)
+                    {
+                        return false;
+                    }
 
-                if (args.length >= 2)
-                {
-                    this.nukeMonitorRange = Double.parseDouble(args[1]);
-                }
-                
-                if (args.length >= 3)
-                {
-                    this.nukeMonitorCount = Integer.parseInt(args[2]);
-                }
+                    if (args.length >= 2)
+                    {
+                        this.nukeMonitorRange = Double.parseDouble(args[1]);
+                    }
 
-                if (args[0].equalsIgnoreCase("on"))
-                {
-                    this.nukeMonitor = true;
-                    sender.sendMessage(ChatColor.GRAY + "Nuke monitor is enabled.");
-                    sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + this.nukeMonitorRange + " blocks.");
-                    sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + this.nukeMonitorCount + " blocks destroyed per 5 seconds.");
+                    if (args.length >= 3)
+                    {
+                        this.nukeMonitorCount = Integer.parseInt(args[2]);
+                    }
+
+                    if (args[0].equalsIgnoreCase("on"))
+                    {
+                        this.nukeMonitor = true;
+                        sender.sendMessage(ChatColor.GRAY + "Nuke monitor is enabled.");
+                        sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + this.nukeMonitorRange + " blocks.");
+                        sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + this.nukeMonitorCount + " blocks destroyed per 5 seconds.");
+                    }
+                    else
+                    {
+                        this.nukeMonitor = false;
+                        sender.sendMessage("Nuke monitor is disabled.");
+                    }
+
+                    CONFIG.load();
+                    CONFIG.setProperty("nuke_monitor", this.nukeMonitor);
+                    CONFIG.setProperty("nuke_monitor_range", this.nukeMonitorRange);
+                    CONFIG.setProperty("nuke_monitor_count", this.nukeMonitorCount);
+                    CONFIG.save();
                 }
                 else
                 {
-                    this.nukeMonitor = false;
-                    sender.sendMessage("Nuke monitor is disabled.");
+                    sender.sendMessage(MSG_NO_PERMS);
                 }
 
-                CONFIG.load();
-                CONFIG.setProperty("nuke_monitor", this.nukeMonitor);
-                CONFIG.setProperty("nuke_monitor_range", this.nukeMonitorRange);
-                CONFIG.setProperty("nuke_monitor_count", this.nukeMonitorCount);
-                CONFIG.save();
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("cake"))
+            {
+                if (player == null || isUserSuperadmin(sender))
+                {
+                    StringBuilder output = new StringBuilder();
+                    Random randomGenerator = new Random();
+
+                    for (String word : CAKE_LYRICS.split(" "))
+                    {
+                        String color_code = Integer.toHexString(1 + randomGenerator.nextInt(14));
+                        output.append("§").append(color_code).append(word).append(" ");
+                    }
+
+                    for (Player p : Bukkit.getOnlinePlayers())
+                    {
+                        ItemStack heldItem = new ItemStack(Material.CAKE, 1);
+                        p.getInventory().setItem(p.getInventory().firstEmpty(), heldItem);
+                    }
+
+                    tfBroadcastMessage(output.toString());
+                }
+                else
+                {
+                    sender.sendMessage(MSG_NO_PERMS);
+                }
 
                 return true;
             }
@@ -1002,6 +1136,16 @@ public class TotalFreedomMod extends JavaPlugin
         for (Player p : Bukkit.getOnlinePlayers())
         {
             p.sendMessage(color + message);
+        }
+    }
+
+    public void tfBroadcastMessage(String message)
+    {
+        log.info(ChatColor.stripColor(message));
+
+        for (Player p : Bukkit.getOnlinePlayers())
+        {
+            p.sendMessage(message);
         }
     }
 
@@ -1070,7 +1214,7 @@ public class TotalFreedomMod extends JavaPlugin
         return false;
     }
 
-    private void resetCounts()
+    private void tfHeartbeat()
     {
         for (Player p : Bukkit.getOnlinePlayers())
         {
@@ -1081,5 +1225,27 @@ public class TotalFreedomMod extends JavaPlugin
                 playerdata.resetBlockDestroyCount();
             }
         }
+
+        if (this.autoEntityWipe)
+        {
+            wipeDropEntities();
+        }
+    }
+
+    public int wipeDropEntities()
+    {
+        int removed = 0;
+        for (World world : Bukkit.getWorlds())
+        {
+            for (Entity ent : world.getEntities())
+            {
+                if (ent instanceof Arrow || ent instanceof TNTPrimed || ent instanceof Item || ent instanceof ExperienceOrb)
+                {
+                    ent.remove();
+                    removed++;
+                }
+            }
+        }
+        return removed;
     }
 }

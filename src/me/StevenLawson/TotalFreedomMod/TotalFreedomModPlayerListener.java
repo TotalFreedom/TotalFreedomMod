@@ -88,11 +88,11 @@ class TotalFreedomModPlayerListener extends PlayerListener
             {
                 Location from = event.getFrom();
                 Location to = event.getTo().clone();
-    
+
                 to.setX(from.getX());
                 to.setY(from.getY());
                 to.setZ(from.getZ());
-    
+
                 event.setTo(to);
             }
         }
@@ -106,18 +106,18 @@ class TotalFreedomModPlayerListener extends PlayerListener
     public void onPlayerChat(PlayerChatEvent event)
     {
         Player p = event.getPlayer();
-        
+
         TFUserInfo playerdata = (TFUserInfo) plugin.userinfo.get(p);
         if (playerdata != null)
         {
             playerdata.incrementMsgCount();
-            
+
             if (playerdata.getMsgCount() > 10)
             {
                 p.setOp(false);
                 p.kickPlayer("No Spamming");
                 plugin.tfBroadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
-                
+
                 event.setCancelled(true);
                 return;
             }
