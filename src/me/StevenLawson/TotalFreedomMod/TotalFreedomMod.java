@@ -81,7 +81,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
         log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmin names: " + implodeStringList(", ", superadmins));
-        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmin IPs: " + implodeStringList(", ", superadmins));
+        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmin IPs: " + implodeStringList(", ", superadmin_ips));
         log.log(Level.INFO, "[Total Freedom Mod] - Auto drop deleter is " + (autoEntityWipe ? "enabled" : "disabled") + ".");
     }
 
@@ -290,6 +290,8 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("radar").setExecutor(GeneralCommands);
         this.getCommand("mp").setExecutor(GeneralCommands);
         this.getCommand("rd").setExecutor(GeneralCommands);
+        this.getCommand("flatlands").setExecutor(GeneralCommands);
+        this.getCommand("skylands").setExecutor(GeneralCommands);
 
         this.getCommand("fr").setExecutor(AdminCommands);
         this.getCommand("gtfo").setExecutor(AdminCommands);

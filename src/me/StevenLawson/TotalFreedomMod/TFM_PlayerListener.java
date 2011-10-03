@@ -167,6 +167,59 @@ class TFM_PlayerListener extends PlayerListener
         {
             block_command = true;
         }
+        else if (command.matches("^/myballsareonfire"))
+        {
+            block_command = true;
+        }
+        else if (command.matches("^/mv\\s?create"))
+        {
+            if (!plugin.isUserSuperadmin(player))
+            {
+                block_command = true;
+            }
+        }
+        else if (command.matches("^/mv\\s?import"))
+        {
+            if (!plugin.isUserSuperadmin(player))
+            {
+                block_command = true;
+            }
+        }
+        else if (command.matches("^/mv\\s?unload"))
+        {
+            if (!plugin.isUserSuperadmin(player))
+            {
+                block_command = true;
+            }
+        }
+        else if (command.matches("^/mv\\s?remove"))
+        {
+            if (!plugin.isUserSuperadmin(player))
+            {
+                block_command = true;
+            }
+        }
+        else if (command.matches("^/mv\\s?delete"))
+        {
+            if (!plugin.isUserSuperadmin(player))
+            {
+                block_command = true;
+            }
+        }
+        else if (command.matches("^/mv\\s?confirm"))
+        {
+            if (!plugin.isUserSuperadmin(player))
+            {
+                block_command = true;
+            }
+        }
+        else if (command.matches("^/mv\\s?modify"))
+        {
+            if (!plugin.isUserSuperadmin(player))
+            {
+                block_command = true;
+            }
+        }
 
         if (block_command)
         {

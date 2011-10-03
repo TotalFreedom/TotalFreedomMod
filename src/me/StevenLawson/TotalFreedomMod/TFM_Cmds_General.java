@@ -233,6 +233,16 @@ public class TFM_Cmds_General implements CommandExecutor
 
                 return true;
             }
+			else if (cmd.getName().equalsIgnoreCase("flatlands"))
+			{
+				Bukkit.getServer().dispatchCommand(sender, "mv tp flatlands");
+				return true;
+			}
+			else if (cmd.getName().equalsIgnoreCase("skylands"))
+			{
+				Bukkit.getServer().dispatchCommand(sender, "mv tp skylands");
+				return true;
+			}
         }
         catch (Exception ex)
         {

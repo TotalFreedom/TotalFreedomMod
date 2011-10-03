@@ -22,6 +22,9 @@ commands:
   firespread:
     description: Superadmin command - Enable/disable fire spread.
     usage: /<command> <on|off>
+  flatlands:
+    description: Goto the flatlands.
+    usage: /<command>
   fr:
     description: Superadmin command - Freeze all players (toggles on and off).
     usage: /<command>
@@ -73,6 +76,9 @@ commands:
   say:
     description: Broadcasts the given message as the console, includes sender.
     usage: /<command> <message>
+  skylands:
+    description: Goto the skylands.
+    usage: /<command>
   status:
     description: Show random server info.
     usage: /<command>
