@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+import me.desmin88.mobdisguise.api.MobDisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -186,7 +187,11 @@ public class TFM_Cmds_General implements CommandExecutor
                         break;
                     }
 
-                    sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d blocks away @ %s.", i.player.getName(), Math.round(i.distance), plugin.formatLocation(i.location)));
+                    sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d, Disguised: %s",
+                            i.player.getName(),
+                            Math.round(i.distance),
+                            MobDisguiseAPI.isDisguised(i.player) ? "Yes" : "No"
+                            ));
                 }
 
                 return true;

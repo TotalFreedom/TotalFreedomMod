@@ -5,7 +5,7 @@ description: Plugin for the Total Freedom server
 author: StevenLawson / Madgeek1450
 commands:
   cake:
-    description: For the people that are still alive.
+    description: Superadmin command - For the people that are still alive.
     usage: /<command>
   creative:
     description: Quickly change your own gamemode to creative, or define someone's username to change theirs.
@@ -31,9 +31,12 @@ commands:
   gadmin:
     description: Superadmin command - Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci
     usage: /<command> [list | <kick|nameban|ipban|ban|op|deop|ci> <targethash>]
+  gcmd:
+    description: Superadmin command - Send a command as someone else.
+    usage: /<command> <fromname> <outcommand>
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
-    usage: /<command> [partialname]
+    usage: /<command> <partialname>
   lavadmg:
     description: Superadmin command - Enable/disable lava damage.
     usage: /<command> <on|off>
@@ -61,6 +64,9 @@ commands:
   prelog:
     description: Superadmin command - Enable/disable the command prelogger. When this is on, logs will be filled with many duplicate messages.
     usage: /<command> <on|off>
+  qjail:
+    description: Quick Jail - Quickly jail someone (mgjail must be set as a jail!)
+    usage: /<command> <partialname>
   qdeop:
     description: Quick De-Op - deop someone based on a partial name.
     usage: /<command> <partialname>
@@ -88,6 +94,9 @@ commands:
   survival:
     description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
     usage: /<command> [partialname]
+  umd:
+    description: Superadmin command - Undisguse all players.
+    usage: /<command>
   waterplace:
     description: Superadmin command - Enable/disable water placement.
     usage: /<command> <on|off>

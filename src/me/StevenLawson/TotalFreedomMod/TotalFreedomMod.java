@@ -300,6 +300,9 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("nonuke").setExecutor(AdminCommands);
         this.getCommand("prelog").setExecutor(AdminCommands);
         this.getCommand("cake").setExecutor(AdminCommands);
+        this.getCommand("gcmd").setExecutor(AdminCommands);
+        this.getCommand("qjail").setExecutor(AdminCommands);
+        this.getCommand("umd").setExecutor(AdminCommands);
 
         this.getCommand("explosives").setExecutor(AntiblockCommands);
         this.getCommand("lavadmg").setExecutor(AntiblockCommands);

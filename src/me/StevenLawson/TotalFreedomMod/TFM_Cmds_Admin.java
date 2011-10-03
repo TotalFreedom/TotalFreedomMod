@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
+import me.desmin88.mobdisguise.api.MobDisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -132,7 +133,10 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         p = matches.get(0);
                     }
 
-                    plugin.tfm_broadcastMessage(p.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
+                    plugin.tfm_broadcastMessage(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
+                    
+                    //Undo WorldEdits:
+                    Bukkit.getServer().dispatchCommand(sender, String.format("/undo %d %s", 15, p.getName()));
 
                     //Deop
                     p.setOp(false);
@@ -153,9 +157,6 @@ public class TFM_Cmds_Admin implements CommandExecutor
                             target_pos.getWorld().strikeLightning(strike_pos);
                         }
                     }
-
-                    //Attempt to kill:
-                    p.setHealth(0);
 
                     //Ban IP Address:
                     String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
@@ -405,6 +406,143 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                 }
 
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("gcmd"))
+            {
+                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                {
+                    if (args.length < 2)
+                    {
+                        return false;
+                    }
+                    
+                    Player p;
+                    List<Player> matches = Bukkit.matchPlayer(args[0]);
+                    if (matches.isEmpty())
+                    {
+                        sender.sendMessage(ChatColor.GRAY + "Can't find user " + args[0]);
+                        return true;
+                    }
+                    else
+                    {
+                        p = matches.get(0);
+                    }
+                    
+                    String outcommand = "";
+                    try
+                    {
+                        StringBuilder outcommand_bldr = new StringBuilder();
+                        for (int i = 1; i < args.length; i++)
+                        {
+                            outcommand_bldr.append(args[i]).append(" ");
+                        }
+                        outcommand = outcommand_bldr.toString().trim();
+                    }
+                    catch (Exception cmdex)
+                    {
+                        sender.sendMessage(ChatColor.GRAY + "Error building command: " + cmdex.getMessage());
+                    }
+                    
+                    try
+                    {
+                        sender.sendMessage(ChatColor.GRAY + "Sending command as " + p.getName() + ": " + outcommand);
+                        if (Bukkit.getServer().dispatchCommand(p, outcommand))
+                        {
+                            sender.sendMessage(ChatColor.GRAY + "Command sent.");
+                        }
+                        else
+                        {
+                            sender.sendMessage(ChatColor.GRAY + "Unknown error sending command.");
+                        }
+                    }
+                    catch (Exception cmdex)
+                    {
+                        sender.sendMessage(ChatColor.GRAY + "Error sending command: " + cmdex.getMessage());
+                    }
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("qjail"))
+            {
+                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                {
+                    if (args.length < 1)
+                    {
+                        return false;
+                    }
+                    
+                    Player p;
+                    List<Player> matches = Bukkit.matchPlayer(args[0]);
+                    if (matches.isEmpty())
+                    {
+                        sender.sendMessage(ChatColor.GRAY +  "Can't find user " + args[0]);
+                        return true;
+                    }
+                    else
+                    {
+                        p = matches.get(0);
+                    }
+                    
+                    //Deop
+                    p.setOp(false);
+
+                    //Set gamemode to survival:
+                    p.setGameMode(GameMode.SURVIVAL);
+
+                    //Clear inventory:
+                    p.getInventory().clear();
+
+                    //Strike with lightning effect:
+                    final Location target_pos = p.getLocation();
+                    for (int x = -1; x <= 1; x++)
+                    {
+                        for (int z = -1; z <= 1; z++)
+                        {
+                            final Location strike_pos = new Location(target_pos.getWorld(), target_pos.getBlockX() + x, target_pos.getBlockY(), target_pos.getBlockZ() + z);
+                            target_pos.getWorld().strikeLightning(strike_pos);
+                        }
+                    }
+                    
+                    //Send to jail "mgjail":
+                    Bukkit.getServer().dispatchCommand(sender, String.format("tjail %s mgjail", p.getName()));
+                    
+                    plugin.tfm_broadcastMessage(p.getName() + " has been JAILED!", ChatColor.RED);
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("umd"))
+            {
+                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                {
+                    for (Player p : Bukkit.getOnlinePlayers())
+                    {
+                        if (MobDisguiseAPI.isDisguised(p))
+                        {
+                            p.sendMessage(ChatColor.GRAY + "You have been undisguised by an administrator.");
+                        }
+                        
+                        MobDisguiseAPI.undisguisePlayer(p);
+                        MobDisguiseAPI.undisguisePlayerAsPlayer(p, "");
+                    }
+                    
+                    sender.sendMessage(ChatColor.GRAY + "All players have been undisguised.");
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
+                
                 return true;
             }
         }
