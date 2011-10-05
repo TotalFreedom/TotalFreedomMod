@@ -60,45 +60,38 @@ class TFM_PlayerListener extends PlayerListener
     @Override
     public void onPlayerMove(PlayerMoveEvent event)
     {
-        try
-        {
-            Player p = event.getPlayer();
+        Player p = event.getPlayer();
 
-            boolean do_freeze = false;
-            if (plugin.allPlayersFrozen)
+        boolean do_freeze = false;
+        if (plugin.allPlayersFrozen)
+        {
+            if (!plugin.isUserSuperadmin(p))
             {
-                if (!plugin.isUserSuperadmin(p))
+                do_freeze = true;
+            }
+        }
+        else
+        {
+            TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
+            if (playerdata != null)
+            {
+                if (playerdata.isFrozen())
                 {
                     do_freeze = true;
                 }
             }
-            else
-            {
-                TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
-                if (playerdata != null)
-                {
-                    if (playerdata.isFrozen())
-                    {
-                        do_freeze = true;
-                    }
-                }
-            }
-
-            if (do_freeze)
-            {
-                Location from = event.getFrom();
-                Location to = event.getTo().clone();
-
-                to.setX(from.getX());
-                to.setY(from.getY());
-                to.setZ(from.getZ());
-
-                event.setTo(to);
-            }
         }
-        catch (Exception ex)
+
+        if (do_freeze)
         {
-            log.severe("Exception in TFM Player Listener onMove: " + ex.getMessage());
+            Location from = event.getFrom();
+            Location to = event.getTo().clone();
+
+            to.setX(from.getX());
+            to.setY(from.getY());
+            to.setZ(from.getZ());
+
+            event.setTo(to);
         }
     }
 
@@ -141,7 +134,7 @@ class TFM_PlayerListener extends PlayerListener
             log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", player.getName(), ChatColor.stripColor(player.getDisplayName()), command));
         }
 
-        command = command.toLowerCase();
+        command = command.toLowerCase().trim();
 
         boolean block_command = false;
 
@@ -171,49 +164,49 @@ class TFM_PlayerListener extends PlayerListener
         {
             block_command = true;
         }
-        else if (command.matches("^/mv\\s?create"))
+        else if (command.matches("^/mv\\s*c"))
         {
             if (!plugin.isUserSuperadmin(player))
             {
                 block_command = true;
             }
         }
-        else if (command.matches("^/mv\\s?import"))
+        else if (command.matches("^/mv\\s*delete"))
         {
             if (!plugin.isUserSuperadmin(player))
             {
                 block_command = true;
             }
         }
-        else if (command.matches("^/mv\\s?unload"))
+        else if (command.matches("^/mv\\s*im"))
         {
             if (!plugin.isUserSuperadmin(player))
             {
                 block_command = true;
             }
         }
-        else if (command.matches("^/mv\\s?remove"))
+        else if (command.matches("^/mv\\s*m"))
         {
             if (!plugin.isUserSuperadmin(player))
             {
                 block_command = true;
             }
         }
-        else if (command.matches("^/mv\\s?delete"))
+        else if (command.matches("^/mv\\s*reload"))
         {
             if (!plugin.isUserSuperadmin(player))
             {
                 block_command = true;
             }
         }
-        else if (command.matches("^/mv\\s?confirm"))
+        else if (command.matches("^/mv\\s*remove"))
         {
             if (!plugin.isUserSuperadmin(player))
             {
                 block_command = true;
             }
         }
-        else if (command.matches("^/mv\\s?modify"))
+        else if (command.matches("^/mv\\s*unload"))
         {
             if (!plugin.isUserSuperadmin(player))
             {

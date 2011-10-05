@@ -40,9 +40,10 @@ public class TotalFreedomMod extends JavaPlugin
     public boolean autoEntityWipe = false;
     public double explosiveRadius = 4.0D;
     public boolean nukeMonitor = true;
-    public int nukeMonitorCount = 40;
+    public int nukeMonitorCountBreak = 40;
     public double nukeMonitorRange = 10.0D;
     public Boolean preprocessLogEnabled = false;
+    public int freecamTriggerCount = 10;
     
     public boolean allPlayersFrozen = false;
     public HashMap userinfo = new HashMap();
@@ -201,7 +202,7 @@ public class TotalFreedomMod extends JavaPlugin
         {
             for (Entity ent : world.getEntities())
             {
-                if (ent instanceof Arrow || ent instanceof TNTPrimed || ent instanceof Item || ent instanceof ExperienceOrb)
+                if (ent instanceof Arrow || (ent instanceof TNTPrimed && !this.allowExplosions) || ent instanceof Item || ent instanceof ExperienceOrb)
                 {
                     ent.remove();
                     removed++;
@@ -237,6 +238,7 @@ public class TotalFreedomMod extends JavaPlugin
             CONFIG.setProperty("nuke_monitor_count", 40);
             CONFIG.setProperty("nuke_monitor_range", 10.0D);
             CONFIG.setProperty("preprocess_log", false);
+            CONFIG.setProperty("freecam_trigger_count", 10);
             CONFIG.save();
         }
         CONFIG.load();
@@ -251,9 +253,10 @@ public class TotalFreedomMod extends JavaPlugin
         autoEntityWipe = CONFIG.getBoolean("auto_wipe", false);
         explosiveRadius = CONFIG.getDouble("explosiveRadius", 4.0D);
         nukeMonitor = CONFIG.getBoolean("nuke_monitor", true);
-        nukeMonitorCount = CONFIG.getInt("nuke_monitor_count", 40);
+        nukeMonitorCountBreak = CONFIG.getInt("nuke_monitor_count", 40);
         nukeMonitorRange = CONFIG.getDouble("nuke_monitor_range", 10.0D);
         preprocessLogEnabled = CONFIG.getBoolean("preprocess_log", false);
+        freecamTriggerCount = CONFIG.getInt("freecam_trigger_count", 10);
     }
 
     private void registerEventHandlers()
@@ -303,6 +306,7 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("gcmd").setExecutor(AdminCommands);
         this.getCommand("qjail").setExecutor(AdminCommands);
         this.getCommand("umd").setExecutor(AdminCommands);
+        this.getCommand("csay").setExecutor(AdminCommands);
 
         this.getCommand("explosives").setExecutor(AntiblockCommands);
         this.getCommand("lavadmg").setExecutor(AntiblockCommands);

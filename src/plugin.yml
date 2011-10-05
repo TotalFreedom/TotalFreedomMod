@@ -10,6 +10,9 @@ commands:
   creative:
     description: Quickly change your own gamemode to creative, or define someone's username to change theirs.
     usage: /<command> [partialname]
+  csay:
+    description: Telnet command - Send a chat message with chat formatting over telnet.
+    usage: /<command> [partialname]
   deopall:
     description: Superadmin command - Deop everyone on the server.
     usage: /<command>

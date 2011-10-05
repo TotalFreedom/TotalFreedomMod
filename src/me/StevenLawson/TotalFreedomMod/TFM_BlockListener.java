@@ -46,64 +46,90 @@ public class TFM_BlockListener extends BlockListener
     @Override
     public void onBlockBreak(BlockBreakEvent event)
     {
-        try
+        if (plugin.nukeMonitor)
         {
-            if (plugin.nukeMonitor)
+            Player p = event.getPlayer();
+            
+            TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
+            if (playerdata == null)
             {
-                Player p = event.getPlayer();
+                playerdata = new TFM_UserInfo();
+                plugin.userinfo.put(p, playerdata);
+            }
 
-                Location player_pos = p.getLocation();
-                Location block_pos = event.getBlock().getLocation();
+            Location player_pos = p.getLocation();
+            Location block_pos = event.getBlock().getLocation();
 
-                if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            {
+                playerdata.incrementFreecamDestroyCount();
+                if (playerdata.getFreecamPlaceCount() > plugin.freecamTriggerCount)
                 {
                     p.setOp(false);
                     p.setGameMode(GameMode.SURVIVAL);
                     p.getInventory().clear();
-
+                    
                     plugin.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+                    
+                    playerdata.resetFreecamDestroyCount();
 
                     event.setCancelled(true);
                     return;
                 }
-
-                TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
-                if (playerdata != null)
-                {
-                    playerdata.incrementBlockDestroyCount();
-
-                    if (playerdata.getBlockDestroyCount() > plugin.nukeMonitorCount)
-                    {
-                        plugin.tfm_broadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
-
-                        p.setOp(false);
-                        p.setGameMode(GameMode.SURVIVAL);
-                        p.getInventory().clear();
-
-                        event.setCancelled(true);
-                        return;
-                    }
-                }
-                else
-                {
-                    playerdata = new TFM_UserInfo();
-                    playerdata.incrementBlockDestroyCount();
-                    plugin.userinfo.put(p, playerdata);
-                }
             }
-        }
-        catch (Exception ex)
-        {
-            log.info("Exception in TFM Block Listener onBlockBreak: " + ex.getMessage());
+
+            playerdata.incrementBlockDestroyCount();
+            if (playerdata.getBlockDestroyCount() > plugin.nukeMonitorCountBreak)
+            {
+                plugin.tfm_broadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
+
+                p.setOp(false);
+                p.setGameMode(GameMode.SURVIVAL);
+                p.getInventory().clear();
+
+                event.setCancelled(true);
+                return;
+            }
         }
     }
 
     @Override
     public void onBlockPlace(BlockPlaceEvent event)
     {
-        ItemStack is = new ItemStack(event.getBlockPlaced().getType(), 1, (short) 0, event.getBlockPlaced().getData());
         Player p = event.getPlayer();
+        
+        if (plugin.nukeMonitor)
+        {
+            Location player_pos = p.getLocation();
+            Location block_pos = event.getBlock().getLocation();
 
+            if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            {
+                TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
+                if (playerdata == null)
+                {
+                    playerdata = new TFM_UserInfo();
+                    plugin.userinfo.put(p, playerdata);
+                }
+        
+                playerdata.incrementFreecamPlaceCount();
+                if (playerdata.getFreecamPlaceCount() > plugin.freecamTriggerCount)
+                {
+                    p.setOp(false);
+                    p.setGameMode(GameMode.SURVIVAL);
+                    p.getInventory().clear();
+
+                    plugin.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
+                    
+                    playerdata.resetFreecamPlaceCount();
+
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+        }
+        
+        ItemStack is = new ItemStack(event.getBlockPlaced().getType(), 1, (short) 0, event.getBlockPlaced().getData());
         if (is.getType() == Material.LAVA || is.getType() == Material.STATIONARY_LAVA)
         {
             if (plugin.allowLavaPlace)

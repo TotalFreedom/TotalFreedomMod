@@ -320,7 +320,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
 
                     if (args.length >= 3)
                     {
-                        plugin.nukeMonitorCount = Integer.parseInt(args[2]);
+                        plugin.nukeMonitorCountBreak = Integer.parseInt(args[2]);
                     }
 
                     if (args[0].equalsIgnoreCase("on"))
@@ -328,7 +328,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         plugin.nukeMonitor = true;
                         sender.sendMessage(ChatColor.GRAY + "Nuke monitor is enabled.");
                         sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + plugin.nukeMonitorRange + " blocks.");
-                        sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + plugin.nukeMonitorCount + " blocks destroyed per 5 seconds.");
+                        sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + plugin.nukeMonitorCountBreak + " blocks destroyed per 5 seconds.");
                     }
                     else
                     {
@@ -339,7 +339,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     TotalFreedomMod.CONFIG.load();
                     TotalFreedomMod.CONFIG.setProperty("nuke_monitor", plugin.nukeMonitor);
                     TotalFreedomMod.CONFIG.setProperty("nuke_monitor_range", plugin.nukeMonitorRange);
-                    TotalFreedomMod.CONFIG.setProperty("nuke_monitor_count", plugin.nukeMonitorCount);
+                    TotalFreedomMod.CONFIG.setProperty("nuke_monitor_count", plugin.nukeMonitorCountBreak);
                     TotalFreedomMod.CONFIG.save();
                 }
                 else
@@ -537,6 +537,34 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     }
                     
                     sender.sendMessage(ChatColor.GRAY + "All players have been undisguised.");
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
+                
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("csay"))
+            {
+                if (senderIsConsole)
+                {
+                    String sender_name = sender.getName();
+                    
+                    if (sender_name.equalsIgnoreCase("remotebukkit"))
+                    {
+                        sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                    }
+                    
+                    sender_name = sender_name.split("-")[0];
+                    
+                    StringBuilder outmessage_bldr = new StringBuilder();
+                    for (int i = 0; i < args.length; i++)
+                    {
+                        outmessage_bldr.append(args[i]).append(" ");
+                    }
+                    
+                    plugin.tfm_broadcastMessage(String.format("§7[CONSOLE]§f<§c%s§f> %s", sender_name, outmessage_bldr.toString().trim()));
                 }
                 else
                 {

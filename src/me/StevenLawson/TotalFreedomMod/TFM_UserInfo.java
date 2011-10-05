@@ -4,7 +4,10 @@ public class TFM_UserInfo
 {
     private boolean user_frozen = false;
     private int msg_count = 0;
-    private int bd_count = 0;
+    private int block_destroy_total = 0;
+    
+    private int freecam_destroy_count = 0;
+    private int freecam_place_count = 0;
 
     public TFM_UserInfo()
     {
@@ -37,16 +40,46 @@ public class TFM_UserInfo
 
     public void incrementBlockDestroyCount()
     {
-        this.bd_count++;
+        this.block_destroy_total++;
     }
 
     public int getBlockDestroyCount()
     {
-        return this.bd_count;
+        return this.block_destroy_total;
     }
 
     public void resetBlockDestroyCount()
     {
-        this.bd_count = 0;
+        this.block_destroy_total = 0;
+    }
+    
+    public void incrementFreecamDestroyCount()
+    {
+        this.freecam_destroy_count++;
+    }
+
+    public int getFreecamDestroyCount()
+    {
+        return this.freecam_destroy_count;
+    }
+
+    public void resetFreecamDestroyCount()
+    {
+        this.freecam_destroy_count = 0;
+    }
+    
+    public void incrementFreecamPlaceCount()
+    {
+        this.freecam_place_count++;
+    }
+
+    public int getFreecamPlaceCount()
+    {
+        return this.freecam_place_count;
+    }
+
+    public void resetFreecamPlaceCount()
+    {
+        this.freecam_place_count = 0;
     }
 }
