@@ -15,12 +15,12 @@ import org.bukkit.inventory.ItemStack;
 
 class TFM_PlayerListener extends PlayerListener
 {
-    public static TotalFreedomMod plugin;
+    private TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
 
     TFM_PlayerListener(TotalFreedomMod instance)
     {
-        plugin = instance;
+        this.plugin = instance;
     }
 
     @Override
@@ -61,6 +61,7 @@ class TFM_PlayerListener extends PlayerListener
     public void onPlayerMove(PlayerMoveEvent event)
     {
         Player p = event.getPlayer();
+        TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
 
         boolean do_freeze = false;
         if (plugin.allPlayersFrozen)
@@ -72,7 +73,6 @@ class TFM_PlayerListener extends PlayerListener
         }
         else
         {
-            TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
             if (playerdata != null)
             {
                 if (playerdata.isFrozen())
@@ -93,6 +93,24 @@ class TFM_PlayerListener extends PlayerListener
 
             event.setTo(to);
         }
+        
+        if (playerdata != null)
+        {
+            if (playerdata.isCaged())
+            {
+                Location target_pos = p.getLocation().add(0, 1, 0);
+
+                if (target_pos.distance(playerdata.getCagePos()) > 2.5)
+                {
+                    playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(0), playerdata.getCageMaterial(1));
+                    playerdata.regenerateHistory();
+                    playerdata.clearHistory();
+                    plugin.buildHistory(target_pos, 2, playerdata);
+                    plugin.generateCube(target_pos, 2, playerdata.getCageMaterial(0));
+                    plugin.generateCube(target_pos, 1, playerdata.getCageMaterial(1));
+                }
+            }
+        }
     }
 
     @Override
@@ -100,7 +118,7 @@ class TFM_PlayerListener extends PlayerListener
     {
         Player p = event.getPlayer();
 
-        TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
+        TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
         if (playerdata != null)
         {
             playerdata.incrementMsgCount();
@@ -119,7 +137,7 @@ class TFM_PlayerListener extends PlayerListener
         {
             playerdata = new TFM_UserInfo();
             playerdata.incrementMsgCount();
-            plugin.userinfo.put(p, playerdata);
+            TotalFreedomMod.userinfo.put(p, playerdata);
         }
     }
 
@@ -152,67 +170,67 @@ class TFM_PlayerListener extends PlayerListener
                 block_command = true;
             }
         }
-        else if (command.matches("^/zeus"))
-        {
-            block_command = true;
-        }
-        else if (command.matches("^/vulcan"))
-        {
-            block_command = true;
-        }
-        else if (command.matches("^/myballsareonfire"))
-        {
-            block_command = true;
-        }
-        else if (command.matches("^/mv\\s*c"))
-        {
-            if (!plugin.isUserSuperadmin(player))
-            {
-                block_command = true;
-            }
-        }
-        else if (command.matches("^/mv\\s*delete"))
-        {
-            if (!plugin.isUserSuperadmin(player))
-            {
-                block_command = true;
-            }
-        }
-        else if (command.matches("^/mv\\s*im"))
-        {
-            if (!plugin.isUserSuperadmin(player))
-            {
-                block_command = true;
-            }
-        }
-        else if (command.matches("^/mv\\s*m"))
-        {
-            if (!plugin.isUserSuperadmin(player))
-            {
-                block_command = true;
-            }
-        }
-        else if (command.matches("^/mv\\s*reload"))
-        {
-            if (!plugin.isUserSuperadmin(player))
-            {
-                block_command = true;
-            }
-        }
-        else if (command.matches("^/mv\\s*remove"))
-        {
-            if (!plugin.isUserSuperadmin(player))
-            {
-                block_command = true;
-            }
-        }
-        else if (command.matches("^/mv\\s*unload"))
-        {
-            if (!plugin.isUserSuperadmin(player))
-            {
-                block_command = true;
-            }
-        }
+//        else if (command.matches("^/zeus"))
+//        {
+//            block_command = true;
+//        }
+//        else if (command.matches("^/vulcan"))
+//        {
+//            block_command = true;
+//        }
+//        else if (command.matches("^/myballsareonfire"))
+//        {
+//            block_command = true;
+//        }
+//        else if (command.matches("^/mv\\s*c"))
+//        {
+//            if (!plugin.isUserSuperadmin(player))
+//            {
+//                block_command = true;
+//            }
+//        }
+//        else if (command.matches("^/mv\\s*delete"))
+//        {
+//            if (!plugin.isUserSuperadmin(player))
+//            {
+//                block_command = true;
+//            }
+//        }
+//        else if (command.matches("^/mv\\s*im"))
+//        {
+//            if (!plugin.isUserSuperadmin(player))
+//            {
+//                block_command = true;
+//            }
+//        }
+//        else if (command.matches("^/mv\\s*m"))
+//        {
+//            if (!plugin.isUserSuperadmin(player))
+//            {
+//                block_command = true;
+//            }
+//        }
+//        else if (command.matches("^/mv\\s*reload"))
+//        {
+//            if (!plugin.isUserSuperadmin(player))
+//            {
+//                block_command = true;
+//            }
+//        }
+//        else if (command.matches("^/mv\\s*remove"))
+//        {
+//            if (!plugin.isUserSuperadmin(player))
+//            {
+//                block_command = true;
+//            }
+//        }
+//        else if (command.matches("^/mv\\s*unload"))
+//        {
+//            if (!plugin.isUserSuperadmin(player))
+//            {
+//                block_command = true;
+//            }
+//        }
 
         if (block_command)
         {

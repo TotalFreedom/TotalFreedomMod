@@ -9,11 +9,11 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 
 public class TFM_EntityListener extends EntityListener
 {
-    public static TotalFreedomMod plugin;
+    private TotalFreedomMod plugin;
 
     TFM_EntityListener(TotalFreedomMod instance)
     {
-        plugin = instance;
+        this.plugin = instance;
     }
 
     @Override

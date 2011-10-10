@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 
 public class TFM_RadarData implements Comparator<TFM_RadarData>
 {
-    Player player;
-    double distance;
-    Location location;
+    public Player player;
+    public double distance;
+    public Location location;
 
     public TFM_RadarData(Player inplayer, double indistance, Location inlocation)
     {

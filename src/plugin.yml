@@ -1,9 +1,15 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 1.5
+version: 1.6
 description: Plugin for the Total Freedom server
 author: StevenLawson / Madgeek1450
 commands:
+  banlist:
+    description: Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.
+    usage: /<command> [purge]
+  cage:
+    description: Superadmin command - Place a cage around someone.
+    usage: /<command> [partialname]
   cake:
     description: Superadmin command - For the people that are still alive.
     usage: /<command>
@@ -54,6 +60,9 @@ commands:
     usage: /<command>
   mp:
     description: Use moblimiter to purge all mobs.
+    usage: /<command>
+  nether:
+    description: Goto the nether.
     usage: /<command>
   nonuke:
     description: Attempt to detect "invisible griefers" and "nukers".

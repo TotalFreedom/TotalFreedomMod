@@ -15,12 +15,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class TFM_BlockListener extends BlockListener
 {
-    public static TotalFreedomMod plugin;
+    private TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
 
     TFM_BlockListener(TotalFreedomMod instance)
     {
-        plugin = instance;
+        this.plugin = instance;
     }
 
     @Override
@@ -50,11 +50,11 @@ public class TFM_BlockListener extends BlockListener
         {
             Player p = event.getPlayer();
             
-            TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
+            TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
             if (playerdata == null)
             {
                 playerdata = new TFM_UserInfo();
-                plugin.userinfo.put(p, playerdata);
+                TotalFreedomMod.userinfo.put(p, playerdata);
             }
 
             Location player_pos = p.getLocation();
@@ -105,11 +105,11 @@ public class TFM_BlockListener extends BlockListener
 
             if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
             {
-                TFM_UserInfo playerdata = (TFM_UserInfo) plugin.userinfo.get(p);
+                TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
                 if (playerdata == null)
                 {
                     playerdata = new TFM_UserInfo();
-                    plugin.userinfo.put(p, playerdata);
+                    TotalFreedomMod.userinfo.put(p, playerdata);
                 }
         
                 playerdata.incrementFreecamPlaceCount();

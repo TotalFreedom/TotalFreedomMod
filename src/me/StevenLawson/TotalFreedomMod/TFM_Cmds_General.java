@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -240,14 +241,60 @@ public class TFM_Cmds_General implements CommandExecutor
             }
 			else if (cmd.getName().equalsIgnoreCase("flatlands"))
 			{
-				Bukkit.getServer().dispatchCommand(sender, "mv tp flatlands");
+                plugin.gotoWorld(sender, "flatlands");
 				return true;
 			}
 			else if (cmd.getName().equalsIgnoreCase("skylands"))
 			{
-				Bukkit.getServer().dispatchCommand(sender, "mv tp skylands");
+                plugin.gotoWorld(sender, "skylands");
 				return true;
 			}
+			else if (cmd.getName().equalsIgnoreCase("nether"))
+			{
+                plugin.gotoWorld(sender, "nether");
+				return true;
+			}
+            else if (cmd.getName().equalsIgnoreCase("banlist"))
+            {
+                if (args.length > 0)
+                {
+                    if (args[0].equalsIgnoreCase("purge"))
+                    {
+                        if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                        {
+                            for (OfflinePlayer p : Bukkit.getBannedPlayers())
+                            {
+                                p.setBanned(false);
+                            }
+
+                            sender.sendMessage(ChatColor.GRAY + "Ban list has been purged.");
+
+                            return true;
+                        }
+                        else
+                        {
+                            sender.sendMessage(ChatColor.YELLOW + "You do not have permission to purge the ban list, you may only view it.");
+                        }
+                    }
+                }
+                
+                StringBuilder banned_players = new StringBuilder();
+                banned_players.append("Banned Players: ");
+                boolean first = true;
+                for (OfflinePlayer p : Bukkit.getBannedPlayers())
+                {
+                    if (!first)
+                    {
+                        banned_players.append(", ");
+                    }
+                    first = false;
+                    banned_players.append(p.getName().trim());
+                }
+                
+                sender.sendMessage(ChatColor.GRAY + banned_players.toString());
+                
+                return true;
+            }
         }
         catch (Exception ex)
         {

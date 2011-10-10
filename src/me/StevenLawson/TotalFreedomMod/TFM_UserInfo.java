@@ -1,5 +1,10 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.bukkit.Location;
+import org.bukkit.Material;
+
 public class TFM_UserInfo
 {
     private boolean user_frozen = false;
@@ -8,10 +13,85 @@ public class TFM_UserInfo
     
     private int freecam_destroy_count = 0;
     private int freecam_place_count = 0;
+    
+    // -- Start Cage
+    
+    private boolean user_caged = false;
+    private Location user_cage_pos;
+    private List<TFM_BlockData> user_cage_history = new ArrayList<TFM_BlockData>();
+    private Material cage_material_outer;
+    private Material cage_material_inner;
 
     public TFM_UserInfo()
     {
     }
+    
+    public void setCaged(boolean state)
+    {
+        this.user_caged = state;
+    }
+    
+    public void setCaged(boolean state, Location location, Material material_outer, Material material_inner)
+    {
+        this.user_caged = state;
+        this.user_cage_pos = location;
+        this.cage_material_outer = material_outer;
+        this.cage_material_inner = material_inner;
+    }
+    
+    public boolean isCaged()
+    {
+        return this.user_caged;
+    }
+    
+    public Material getCageMaterial(int layer)
+    {
+        if (layer == 1)
+        {
+            return this.cage_material_inner;
+        }
+        else
+        {
+            return this.cage_material_outer;
+        }
+    }
+    
+    public Location getCagePos()
+    {
+        return this.user_cage_pos;
+    }
+    
+    public void clearHistory()
+    {
+        this.user_cage_history.clear();
+    }
+    
+    public void insertHistoryBlock(Location location, Material material)
+    {
+        this.user_cage_history.add(new TFM_BlockData(location, material));
+    }
+    
+    public void regenerateHistory()
+    {
+        for (TFM_BlockData blockdata : this.user_cage_history)
+        {
+            blockdata.location.getBlock().setType(blockdata.material);
+        }
+    }
+    
+    class TFM_BlockData
+    {
+        public Material material;
+        public Location location;
+
+        public TFM_BlockData(Location location, Material material)
+        {
+            this.location = location;
+            this.material = material;
+        }
+    }
+    
+    // -- End Cage
 
     public boolean isFrozen()
     {

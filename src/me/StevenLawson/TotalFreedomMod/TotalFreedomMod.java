@@ -5,12 +5,15 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
@@ -46,9 +49,9 @@ public class TotalFreedomMod extends JavaPlugin
     public int freecamTriggerCount = 10;
     
     public boolean allPlayersFrozen = false;
-    public HashMap userinfo = new HashMap();
+    public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
     
-    private static final long HEARTBEAT_RATE = 5L; //Seconds
+    public static final long HEARTBEAT_RATE = 5L; //Seconds
     
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
@@ -181,7 +184,7 @@ public class TotalFreedomMod extends JavaPlugin
     {
         for (Player p : Bukkit.getOnlinePlayers())
         {
-            TFM_UserInfo playerdata = (TFM_UserInfo) this.userinfo.get(p);
+            TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
             if (playerdata != null)
             {
                 playerdata.resetMsgCount();
@@ -295,6 +298,8 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("rd").setExecutor(GeneralCommands);
         this.getCommand("flatlands").setExecutor(GeneralCommands);
         this.getCommand("skylands").setExecutor(GeneralCommands);
+        this.getCommand("nether").setExecutor(GeneralCommands);
+        this.getCommand("banlist").setExecutor(GeneralCommands);
 
         this.getCommand("fr").setExecutor(AdminCommands);
         this.getCommand("gtfo").setExecutor(AdminCommands);
@@ -307,6 +312,7 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("qjail").setExecutor(AdminCommands);
         this.getCommand("umd").setExecutor(AdminCommands);
         this.getCommand("csay").setExecutor(AdminCommands);
+        this.getCommand("cage").setExecutor(AdminCommands);
 
         this.getCommand("explosives").setExecutor(AntiblockCommands);
         this.getCommand("lavadmg").setExecutor(AntiblockCommands);
@@ -319,5 +325,65 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("stop").setExecutor(OverrideCommands);
         this.getCommand("list").setExecutor(OverrideCommands);
         this.getCommand("listreal").setExecutor(OverrideCommands);
+    }
+    
+    public void gotoWorld(CommandSender sender, String targetworld)
+    {
+        if (sender instanceof Player)
+        {
+            Player sender_p = (Player) sender;
+            
+            if (sender_p.getWorld().getName().equalsIgnoreCase(targetworld))
+            {
+                sender.sendMessage(ChatColor.GRAY + "Going to main world.");
+                Bukkit.getServer().dispatchCommand(sender, "world 0");
+                return;
+            }
+
+            for (World world : Bukkit.getWorlds())
+            {
+                if (world.getName().equalsIgnoreCase(targetworld))
+                {
+                    sender.sendMessage(ChatColor.GRAY + "Going to world: " + targetworld);
+                    Bukkit.getServer().dispatchCommand(sender, "mv tp " + targetworld);
+                    return;
+                }
+            }
+        }
+        else
+        {
+            sender.sendMessage("This command may not be used from the console.");
+        }
+    }
+    
+    public void buildHistory(Location location, int length, TFM_UserInfo playerdata)
+    {
+        Block center_block = location.getBlock();
+        for (int x_offset = -length; x_offset <= length; x_offset++)
+        {
+            for (int y_offset = -length; y_offset <= length; y_offset++)
+            {
+                for (int z_offset = -length; z_offset <= length; z_offset++)
+                {
+                    Block block = center_block.getRelative(x_offset, y_offset, z_offset);
+                    playerdata.insertHistoryBlock(block.getLocation(), block.getType());
+                }
+            }
+        }
+    }
+
+    public void generateCube(Location location, int length, Material material)
+    {
+        Block center_block = location.getBlock();
+        for (int x_offset = -length; x_offset <= length; x_offset++)
+        {
+            for (int y_offset = -length; y_offset <= length; y_offset++)
+            {
+                for (int z_offset = -length; z_offset <= length; z_offset++)
+                {
+                    center_block.getRelative(x_offset, y_offset, z_offset).setType(material);
+                }
+            }
+        }
     }
 }
