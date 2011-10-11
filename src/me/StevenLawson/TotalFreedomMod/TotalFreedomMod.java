@@ -313,6 +313,7 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("umd").setExecutor(AdminCommands);
         this.getCommand("csay").setExecutor(AdminCommands);
         this.getCommand("cage").setExecutor(AdminCommands);
+        this.getCommand("orbit").setExecutor(AdminCommands);
 
         this.getCommand("explosives").setExecutor(AntiblockCommands);
         this.getCommand("lavadmg").setExecutor(AntiblockCommands);

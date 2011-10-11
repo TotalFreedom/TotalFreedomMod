@@ -9,7 +9,7 @@ commands:
     usage: /<command> [purge]
   cage:
     description: Superadmin command - Place a cage around someone.
-    usage: /<command> [partialname]
+    usage: /<command> <partialname> [off|outermaterial] [water|lava]
   cake:
     description: Superadmin command - For the people that are still alive.
     usage: /<command>
@@ -73,6 +73,9 @@ commands:
   opme:
     description: Superadmin command - Automatically ops user.
     usage: /<command>
+  orbit:
+    description: Superadmin command - POW!!! Right in the kisser! One of these days Alice, straight to the Moon!
+    usage: /<command> <target> [power]
   prelog:
     description: Superadmin command - Enable/disable the command prelogger. When this is on, logs will be filled with many duplicate messages.
     usage: /<command> <on|off>

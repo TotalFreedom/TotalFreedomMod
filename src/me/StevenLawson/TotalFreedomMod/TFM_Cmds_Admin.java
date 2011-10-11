@@ -15,6 +15,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 //TFM_Cmds_Admin:
 //fr
@@ -645,6 +646,42 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     p.setGameMode(GameMode.SURVIVAL);
                     
                     plugin.tfm_broadcastMessage(sender.getName() + " caged " + p.getName() + "!", ChatColor.YELLOW);
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
+                
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("orbit"))
+            {
+                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                {
+                    if (args.length == 0)
+                    {
+                        return false;
+                    }
+                    
+                    Player p;
+                    List<Player> matches = Bukkit.matchPlayer(args[0]);
+                    if (matches.isEmpty())
+                    {
+                        sender.sendMessage(ChatColor.GRAY +  "Can't find user " + args[0]);
+                        return true;
+                    }
+                    else
+                    {
+                        p = matches.get(0);
+                    }
+                    
+                    double strength = 100.0;
+                    if (args.length >= 2)
+                    {
+                        strength = Double.parseDouble(args[1]);
+                    }
+                    
+                    p.setVelocity(new Vector(0, strength, 0));
                 }
                 else
                 {
