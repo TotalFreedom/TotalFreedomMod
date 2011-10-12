@@ -72,7 +72,7 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onEnable()
     {
-        loadConfig();
+        loadTFMConfig();
 
         registerEventHandlers();
 
@@ -219,8 +219,10 @@ public class TotalFreedomMod extends JavaPlugin
         return removed;
     }
 
-    private void loadConfig()
+    private void loadTFMConfig()
     {
+        log.info("[Total Freedom Mod] Loading configuration...");
+        
         createDefaultConfiguration("config.yml");
         
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml"));
@@ -259,13 +261,15 @@ public class TotalFreedomMod extends JavaPlugin
         File actual = new File(getDataFolder(), name);
         if (!actual.exists())
         {
+            log.info("[Total Freedom Mod]: Loading default configuration file: " + name);
             InputStream input = null;
             try
             {
                 JarFile file = new JarFile(getFile());
-                ZipEntry copy = file.getEntry("src/" + name);
+                ZipEntry copy = file.getEntry(name);
                 if (copy == null)
                 {
+                    log.severe("[TotalFreedomMod]: Unable to read default configuration: " + name);
                     return;
                 }
                 input = file.getInputStream(copy);
@@ -280,6 +284,7 @@ public class TotalFreedomMod extends JavaPlugin
 
                 try
                 {
+                    getDataFolder().mkdirs();
                     output = new FileOutputStream(actual);
                     byte[] buf = new byte[8192];
                     int length = 0;
@@ -288,11 +293,11 @@ public class TotalFreedomMod extends JavaPlugin
                         output.write(buf, 0, length);
                     }
 
-                    log.info("[TotalFreedomMod]: Default configuration file written: " + name);
+                    log.info("[Total Freedom Mod]: Default configuration file written: " + name);
                 }
                 catch (IOException ioex)
                 {
-                    log.severe("[TotalFreedomMod]: Unable to write default configuration: " + name);
+                    log.log(Level.SEVERE, "[Total Freedom Mod]: Unable to write default configuration: " + name, ioex);
                 }
                 finally
                 {
