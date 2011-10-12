@@ -1,0 +1,30 @@
+#Block placement prevention:
+allow_fire_place: false
+allow_fire_spread: false
+allow_lava_damage: false
+allow_lava_place: false
+allow_water_place: false
+
+# Explosion management:
+allow_explosions: false
+explosiveRadius: 4.0
+
+#Automatically wipe dropped objects:
+auto_wipe: true
+
+# Nuking prevention:
+nuke_monitor: true
+nuke_monitor_count: 100
+nuke_monitor_range: 10.0
+freecam_trigger_count: 10
+
+# Show all attempted commands in the log, will result in duplicate log messages:
+preprocess_log: true
+
+# Superadmins: Users that can always log in and use the most powerful commands:
+# When online-mode = false, only superadmin_ips will be used.
+superadmins:
+  - Madgeek1450
+  - markbyron
+superadmin_ips:
+  - 0.0.0.0
