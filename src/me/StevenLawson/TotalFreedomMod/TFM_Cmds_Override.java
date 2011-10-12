@@ -9,11 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-//TFM_Cmds_Override:
-//say
-//stop
-//list/listreal
-
 public class TFM_Cmds_Override implements CommandExecutor
 {
     private TotalFreedomMod plugin;

@@ -37,66 +37,65 @@ public class TotalFreedomMod extends JavaPlugin
     
     private static final Logger log = Logger.getLogger("Minecraft");
     
-    public List<String> superadmins = new ArrayList<String>();
-    public List<String> superadmin_ips = new ArrayList<String>();
-    public Boolean allowExplosions = false;
-    public boolean allowFirePlace = false;
-    public Boolean allowFireSpread = false;
-    public Boolean allowLavaDamage = false;
-    public boolean allowLavaPlace = false;
-    public boolean allowWaterPlace = false;
-    public boolean autoEntityWipe = false;
-    public double explosiveRadius = 4.0D;
-    public boolean nukeMonitor = true;
-    public int nukeMonitorCountBreak = 40;
-    public double nukeMonitorRange = 10.0D;
-    public Boolean preprocessLogEnabled = false;
-    public int freecamTriggerCount = 10;
+    public boolean allPlayersFrozen = false;
+    public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
     
     public static final long HEARTBEAT_RATE = 5L; //Seconds
-    
+    public static final String CONFIG_FILE = "config.yml";
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
-    
-    public boolean allPlayersFrozen = false;
-    public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
-    
-    private TFM_Cmds_OP OPCommands = new TFM_Cmds_OP(this);
-    private TFM_Cmds_Override OverrideCommands = new TFM_Cmds_Override(this);
-    private TFM_Cmds_General GeneralCommands = new TFM_Cmds_General(this);
-    private TFM_Cmds_AntiBlock AntiblockCommands = new TFM_Cmds_AntiBlock(this);
-    private TFM_Cmds_Admin AdminCommands = new TFM_Cmds_Admin(this);
 
     @Override
     public void onEnable()
     {
         loadTFMConfig();
-
         registerEventHandlers();
-
         registerCommands();
+        
+        Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
-        Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                tfm.tfm_Heartbeat();
-            }
-        }, HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
-
-        log.log(Level.INFO, "[Total Freedom Mod] - Enabled! - Version: " + this.getDescription().getVersion() + " by Madgeek1450");
-        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmin names: " + implodeStringList(", ", superadmins));
-        log.log(Level.INFO, "[Total Freedom Mod] - Loaded superadmin IPs: " + implodeStringList(", ", superadmin_ips));
-        log.log(Level.INFO, "[Total Freedom Mod] - Auto drop deleter is " + (autoEntityWipe ? "enabled" : "disabled") + ".");
+        log.log(Level.INFO, getDescription().getName() + " - Enabled! - Version: " + getDescription().getVersion() + " by Madgeek1450");
+        log.log(Level.INFO, getDescription().getName() + " - Loaded superadmin names: " + implodeStringList(", ", superadmins));
+        log.log(Level.INFO, getDescription().getName() + " - Loaded superadmin IPs: " + implodeStringList(", ", superadmin_ips));
+        log.log(Level.INFO, getDescription().getName() + " - Auto drop deleter is " + (autoEntityWipe ? "enabled" : "disabled") + ".");
     }
 
     @Override
     public void onDisable()
     {
-        log.log(Level.INFO, "[Total Freedom Mod] - Disabled.");
+        Bukkit.getScheduler().cancelTasks(this);
+        log.log(Level.INFO, getDescription().getName() + " - Disabled.");
+    }
+    
+    class TFM_Heartbeat implements Runnable
+    {
+        private TotalFreedomMod plugin;
+
+        TFM_Heartbeat(TotalFreedomMod instance)
+        {
+            this.plugin = instance;
+        }
+
+        @Override
+        public void run()
+        {
+            for (Player p : Bukkit.getOnlinePlayers())
+            {
+                TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
+                if (playerdata != null)
+                {
+                    playerdata.resetMsgCount();
+                    playerdata.resetBlockDestroyCount();
+                }
+            }
+
+            if (plugin.autoEntityWipe)
+            {
+                plugin.wipeDropEntities();
+            }
+        }
     }
 
     public void tfm_broadcastMessage(String message, ChatColor color)
@@ -184,24 +183,6 @@ public class TotalFreedomMod extends JavaPlugin
         return false;
     }
 
-    private void tfm_Heartbeat()
-    {
-        for (Player p : Bukkit.getOnlinePlayers())
-        {
-            TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
-            if (playerdata != null)
-            {
-                playerdata.resetMsgCount();
-                playerdata.resetBlockDestroyCount();
-            }
-        }
-
-        if (this.autoEntityWipe)
-        {
-            wipeDropEntities();
-        }
-    }
-
     public int wipeDropEntities()
     {
         int removed = 0;
@@ -217,181 +198,6 @@ public class TotalFreedomMod extends JavaPlugin
             }
         }
         return removed;
-    }
-
-    private void loadTFMConfig()
-    {
-        log.info("[Total Freedom Mod] Loading configuration...");
-        
-        createDefaultConfiguration("config.yml");
-        
-        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml"));
-
-        allowExplosions = config.getBoolean("allow_explosions", false);
-        allowFirePlace = config.getBoolean("allow_fire_place", false);
-        allowFireSpread = config.getBoolean("allow_fire_spread", false);
-        allowLavaDamage = config.getBoolean("allow_lava_damage", false);
-        allowLavaPlace = config.getBoolean("allow_lava_place", false);
-        allowWaterPlace = config.getBoolean("allow_water_place", false);
-        autoEntityWipe = config.getBoolean("auto_wipe", true);
-        explosiveRadius = config.getDouble("explosiveRadius", 4.0D);
-        nukeMonitor = config.getBoolean("nuke_monitor", true);
-        nukeMonitorCountBreak = config.getInt("nuke_monitor_count", 100);
-        nukeMonitorRange = config.getDouble("nuke_monitor_range", 10.0D);
-        preprocessLogEnabled = config.getBoolean("preprocess_log", true);
-        freecamTriggerCount = config.getInt("freecam_trigger_count", 10);
-
-        superadmins = (List<String>) config.getList("superadmins", null);
-        if (superadmins == null)
-        {
-            superadmins = new ArrayList<String>();
-            superadmins.add("Madgeek1450");
-            superadmins.add("markbyron");
-        }
-
-        superadmin_ips = (List<String>) config.getList("superadmin_ips", null);
-        if (superadmin_ips == null)
-        {
-            superadmin_ips = new ArrayList<String>();
-        }
-    }
-
-    private void createDefaultConfiguration(String name)
-    {
-        File actual = new File(getDataFolder(), name);
-        if (!actual.exists())
-        {
-            log.info("[Total Freedom Mod]: Loading default configuration file: " + name);
-            InputStream input = null;
-            try
-            {
-                JarFile file = new JarFile(getFile());
-                ZipEntry copy = file.getEntry(name);
-                if (copy == null)
-                {
-                    log.severe("[TotalFreedomMod]: Unable to read default configuration: " + name);
-                    return;
-                }
-                input = file.getInputStream(copy);
-            }
-            catch (IOException ioex)
-            {
-                log.severe("[TotalFreedomMod]: Unable to read default configuration: " + name);
-            }
-            if (input != null)
-            {
-                FileOutputStream output = null;
-
-                try
-                {
-                    getDataFolder().mkdirs();
-                    output = new FileOutputStream(actual);
-                    byte[] buf = new byte[8192];
-                    int length = 0;
-                    while ((length = input.read(buf)) > 0)
-                    {
-                        output.write(buf, 0, length);
-                    }
-
-                    log.info("[Total Freedom Mod]: Default configuration file written: " + name);
-                }
-                catch (IOException ioex)
-                {
-                    log.log(Level.SEVERE, "[Total Freedom Mod]: Unable to write default configuration: " + name, ioex);
-                }
-                finally
-                {
-                    try
-                    {
-                        if (input != null)
-                        {
-                            input.close();
-                        }
-                    }
-                    catch (IOException ioex)
-                    {
-                    }
-
-                    try
-                    {
-                        if (output != null)
-                        {
-                            output.close();
-                        }
-                    }
-                    catch (IOException ioex)
-                    {
-                    }
-                }
-            }
-        }
-    }
-
-    private void registerEventHandlers()
-    {
-        PluginManager pm = this.getServer().getPluginManager();
-
-        pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.EXPLOSION_PRIME, entityListener, Event.Priority.High, this);
-
-        pm.registerEvent(Event.Type.BLOCK_IGNITE, blockListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Event.Priority.Normal, this);
-
-        pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Normal, this);
-    }
-
-    private void registerCommands()
-    {
-        this.getCommand("opme").setExecutor(OPCommands);
-        this.getCommand("opall").setExecutor(OPCommands);
-        this.getCommand("deopall").setExecutor(OPCommands);
-        this.getCommand("qop").setExecutor(OPCommands);
-        this.getCommand("qdeop").setExecutor(OPCommands);
-
-        this.getCommand("creative").setExecutor(GeneralCommands);
-        this.getCommand("survival").setExecutor(GeneralCommands);
-        this.getCommand("status").setExecutor(GeneralCommands);
-        this.getCommand("radar").setExecutor(GeneralCommands);
-        this.getCommand("mp").setExecutor(GeneralCommands);
-        this.getCommand("rd").setExecutor(GeneralCommands);
-        this.getCommand("flatlands").setExecutor(GeneralCommands);
-        this.getCommand("skylands").setExecutor(GeneralCommands);
-        this.getCommand("nether").setExecutor(GeneralCommands);
-        this.getCommand("banlist").setExecutor(GeneralCommands);
-        this.getCommand("ipbanlist").setExecutor(GeneralCommands);
-
-        this.getCommand("fr").setExecutor(AdminCommands);
-        this.getCommand("gtfo").setExecutor(AdminCommands);
-        this.getCommand("gadmin").setExecutor(AdminCommands);
-        this.getCommand("wildcard").setExecutor(AdminCommands);
-        this.getCommand("nonuke").setExecutor(AdminCommands);
-        this.getCommand("prelog").setExecutor(AdminCommands);
-        this.getCommand("cake").setExecutor(AdminCommands);
-        this.getCommand("gcmd").setExecutor(AdminCommands);
-        this.getCommand("qjail").setExecutor(AdminCommands);
-        this.getCommand("umd").setExecutor(AdminCommands);
-        this.getCommand("csay").setExecutor(AdminCommands);
-        this.getCommand("cage").setExecutor(AdminCommands);
-        this.getCommand("orbit").setExecutor(AdminCommands);
-
-        this.getCommand("explosives").setExecutor(AntiblockCommands);
-        this.getCommand("lavadmg").setExecutor(AntiblockCommands);
-        this.getCommand("lavaplace").setExecutor(AntiblockCommands);
-        this.getCommand("firespread").setExecutor(AntiblockCommands);
-        this.getCommand("fireplace").setExecutor(AntiblockCommands);
-        this.getCommand("waterplace").setExecutor(AntiblockCommands);
-
-        this.getCommand("say").setExecutor(OverrideCommands);
-        this.getCommand("stop").setExecutor(OverrideCommands);
-        this.getCommand("list").setExecutor(OverrideCommands);
-        this.getCommand("listreal").setExecutor(OverrideCommands);
     }
 
     public void gotoWorld(CommandSender sender, String targetworld)
@@ -452,5 +258,203 @@ public class TotalFreedomMod extends JavaPlugin
                 }
             }
         }
+    }
+    
+    public boolean allowFirePlace = false;
+    public Boolean allowFireSpread = false;
+    public Boolean allowLavaDamage = false;
+    public boolean allowLavaPlace = false;
+    public boolean allowWaterPlace = false;
+    public Boolean allowExplosions = false;
+    public double explosiveRadius = 4.0D;
+    public boolean autoEntityWipe = true;
+    public boolean nukeMonitor = true;
+    public int nukeMonitorCountBreak = 100;
+    public double nukeMonitorRange = 10.0D;
+    public int freecamTriggerCount = 10;
+    public Boolean preprocessLogEnabled = true;
+    public List<String> superadmins = new ArrayList<String>();
+    public List<String> superadmin_ips = new ArrayList<String>();
+
+    private void loadTFMConfig()
+    {
+        log.info(getDescription().getName() + " Loading configuration...");
+
+        createDefaultConfiguration(CONFIG_FILE);
+
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), CONFIG_FILE));
+
+        allowFirePlace = config.getBoolean("allow_fire_place", allowFirePlace);
+        allowFireSpread = config.getBoolean("allow_fire_spread", allowFireSpread);
+        allowLavaDamage = config.getBoolean("allow_lava_damage", allowLavaDamage);
+        allowLavaPlace = config.getBoolean("allow_lava_place", allowLavaPlace);
+        allowWaterPlace = config.getBoolean("allow_water_place", allowWaterPlace);
+        allowExplosions = config.getBoolean("allow_explosions", allowExplosions);
+        explosiveRadius = config.getDouble("explosiveRadius", explosiveRadius);
+        autoEntityWipe = config.getBoolean("auto_wipe", autoEntityWipe);
+        nukeMonitor = config.getBoolean("nuke_monitor", nukeMonitor);
+        nukeMonitorCountBreak = config.getInt("nuke_monitor_count", nukeMonitorCountBreak);
+        nukeMonitorRange = config.getDouble("nuke_monitor_range", nukeMonitorRange);
+        freecamTriggerCount = config.getInt("freecam_trigger_count", freecamTriggerCount);
+        preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
+
+        superadmins = (List<String>) config.getList("superadmins", null);
+        if (superadmins == null)
+        {
+            superadmins = new ArrayList<String>();
+            superadmins.add("Madgeek1450");
+            superadmins.add("markbyron");
+        }
+
+        superadmin_ips = (List<String>) config.getList("superadmin_ips", null);
+        if (superadmin_ips == null)
+        {
+            superadmin_ips = new ArrayList<String>();
+            superadmin_ips.add("127.0.0.1");
+        }
+    }
+
+    private void createDefaultConfiguration(String name)
+    {
+        File actual = new File(getDataFolder(), name);
+        if (!actual.exists())
+        {
+            log.info(getDescription().getName() + ": Installing default configuration file template: " + actual.getPath());
+            InputStream input = null;
+            try
+            {
+                JarFile file = new JarFile(getFile());
+                ZipEntry copy = file.getEntry(name);
+                if (copy == null)
+                {
+                    log.severe(getDescription().getName() + ": Unable to read default configuration: " + actual.getPath());
+                    return;
+                }
+                input = file.getInputStream(copy);
+            }
+            catch (IOException ioex)
+            {
+                log.severe(getDescription().getName() + ": Unable to read default configuration: " + actual.getPath());
+            }
+            if (input != null)
+            {
+                FileOutputStream output = null;
+
+                try
+                {
+                    getDataFolder().mkdirs();
+                    output = new FileOutputStream(actual);
+                    byte[] buf = new byte[8192];
+                    int length = 0;
+                    while ((length = input.read(buf)) > 0)
+                    {
+                        output.write(buf, 0, length);
+                    }
+
+                    log.info(getDescription().getName() + ": Default configuration file written: " + actual.getPath());
+                }
+                catch (IOException ioex)
+                {
+                    log.log(Level.SEVERE, getDescription().getName() + ": Unable to write default configuration: " + actual.getPath(), ioex);
+                }
+                finally
+                {
+                    try
+                    {
+                        if (input != null)
+                        {
+                            input.close();
+                        }
+                    }
+                    catch (IOException ioex)
+                    {
+                    }
+
+                    try
+                    {
+                        if (output != null)
+                        {
+                            output.close();
+                        }
+                    }
+                    catch (IOException ioex)
+                    {
+                    }
+                }
+            }
+        }
+    }
+
+    private void registerEventHandlers()
+    {
+        PluginManager pm = this.getServer().getPluginManager();
+
+        pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.EXPLOSION_PRIME, entityListener, Event.Priority.High, this);
+
+        pm.registerEvent(Event.Type.BLOCK_IGNITE, blockListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Event.Priority.Normal, this);
+
+        pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Normal, this);
+    }
+
+    private TFM_Cmds_OP OPCommands = new TFM_Cmds_OP(this);
+    private TFM_Cmds_Override OverrideCommands = new TFM_Cmds_Override(this);
+    private TFM_Cmds_General GeneralCommands = new TFM_Cmds_General(this);
+    private TFM_Cmds_AntiBlock AntiblockCommands = new TFM_Cmds_AntiBlock(this);
+    private TFM_Cmds_Admin AdminCommands = new TFM_Cmds_Admin(this);
+    
+    private void registerCommands()
+    {
+        this.getCommand("opme").setExecutor(OPCommands);
+        this.getCommand("opall").setExecutor(OPCommands);
+        this.getCommand("deopall").setExecutor(OPCommands);
+        this.getCommand("qop").setExecutor(OPCommands);
+        this.getCommand("qdeop").setExecutor(OPCommands);
+
+        this.getCommand("creative").setExecutor(GeneralCommands);
+        this.getCommand("survival").setExecutor(GeneralCommands);
+        this.getCommand("status").setExecutor(GeneralCommands);
+        this.getCommand("radar").setExecutor(GeneralCommands);
+        this.getCommand("mp").setExecutor(GeneralCommands);
+        this.getCommand("rd").setExecutor(GeneralCommands);
+        this.getCommand("flatlands").setExecutor(GeneralCommands);
+        this.getCommand("skylands").setExecutor(GeneralCommands);
+        this.getCommand("nether").setExecutor(GeneralCommands);
+        this.getCommand("banlist").setExecutor(GeneralCommands);
+        this.getCommand("ipbanlist").setExecutor(GeneralCommands);
+
+        this.getCommand("fr").setExecutor(AdminCommands);
+        this.getCommand("gtfo").setExecutor(AdminCommands);
+        this.getCommand("gadmin").setExecutor(AdminCommands);
+        this.getCommand("wildcard").setExecutor(AdminCommands);
+        this.getCommand("nonuke").setExecutor(AdminCommands);
+        this.getCommand("prelog").setExecutor(AdminCommands);
+        this.getCommand("cake").setExecutor(AdminCommands);
+        this.getCommand("gcmd").setExecutor(AdminCommands);
+        this.getCommand("qjail").setExecutor(AdminCommands);
+        this.getCommand("umd").setExecutor(AdminCommands);
+        this.getCommand("csay").setExecutor(AdminCommands);
+        this.getCommand("cage").setExecutor(AdminCommands);
+        this.getCommand("orbit").setExecutor(AdminCommands);
+
+        this.getCommand("explosives").setExecutor(AntiblockCommands);
+        this.getCommand("lavadmg").setExecutor(AntiblockCommands);
+        this.getCommand("lavaplace").setExecutor(AntiblockCommands);
+        this.getCommand("firespread").setExecutor(AntiblockCommands);
+        this.getCommand("fireplace").setExecutor(AntiblockCommands);
+        this.getCommand("waterplace").setExecutor(AntiblockCommands);
+
+        this.getCommand("say").setExecutor(OverrideCommands);
+        this.getCommand("stop").setExecutor(OverrideCommands);
+        this.getCommand("list").setExecutor(OverrideCommands);
+        this.getCommand("listreal").setExecutor(OverrideCommands);
     }
 }

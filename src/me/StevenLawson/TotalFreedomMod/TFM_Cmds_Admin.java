@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -14,20 +13,9 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-
-//TFM_Cmds_Admin:
-//fr
-//gtfo
-//gadmin
-//wildcard
-//nonuke
-//prelog
-//cake
 
 public class TFM_Cmds_Admin implements CommandExecutor
 {
@@ -340,11 +328,11 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         sender.sendMessage("Nuke monitor is disabled.");
                     }
                     
-                    FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
-                    config.set("nuke_monitor", plugin.nukeMonitor);
-                    config.set("nuke_monitor_range", plugin.nukeMonitorRange);
-                    config.set("nuke_monitor_count", plugin.nukeMonitorCountBreak);
-                    config.save(new File(plugin.getDataFolder(), "config.yml"));
+//                    FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), TotalFreedomMod.CONFIG_FILE));
+//                    config.set("nuke_monitor", plugin.nukeMonitor);
+//                    config.set("nuke_monitor_range", plugin.nukeMonitorRange);
+//                    config.set("nuke_monitor_count", plugin.nukeMonitorCountBreak);
+//                    config.save(new File(plugin.getDataFolder(), TotalFreedomMod.CONFIG_FILE));
                 }
                 else
                 {
@@ -373,9 +361,9 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         sender.sendMessage("Command preprocess logging is now disabled.");
                     }
                     
-                    FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
-                    config.set("preprocess_log", plugin.preprocessLogEnabled);
-                    config.save(new File(plugin.getDataFolder(), "config.yml"));
+//                    FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), TotalFreedomMod.CONFIG_FILE));
+//                    config.set("preprocess_log", plugin.preprocessLogEnabled);
+//                    config.save(new File(plugin.getDataFolder(), TotalFreedomMod.CONFIG_FILE));
                 }
                 else
                 {

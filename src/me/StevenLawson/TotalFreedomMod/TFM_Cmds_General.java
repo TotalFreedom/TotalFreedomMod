@@ -17,14 +17,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
-//TFM_Cmds_General:
-//creative
-//survival
-//status
-//radar
-//mp
-//rd
-
 public class TFM_Cmds_General implements CommandExecutor
 {
     private TotalFreedomMod plugin;

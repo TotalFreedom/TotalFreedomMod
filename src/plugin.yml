@@ -1,7 +1,7 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 1.6
-description: Plugin for the Total Freedom server
+version: 1.7
+description: Plugin for the Total Freedom server.
 author: StevenLawson / Madgeek1450
 commands:
   banlist:

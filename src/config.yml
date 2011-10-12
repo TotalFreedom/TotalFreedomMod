@@ -27,4 +27,4 @@ superadmins:
   - Madgeek1450
   - markbyron
 superadmin_ips:
-  - 0.0.0.0
+  - 127.0.0.1

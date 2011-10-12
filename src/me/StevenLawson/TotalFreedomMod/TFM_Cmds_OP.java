@@ -10,13 +10,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-//TFM_Cmds_OP:
-//opme
-//opall
-//deopall
-//qop
-//qdeop
-
 public class TFM_Cmds_OP implements CommandExecutor
 {
     private TotalFreedomMod plugin;

@@ -8,14 +8,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-//TFM_Cmds_AntiBlock:
-//explosives
-//lavadmg
-//firespread
-//lavaplace
-//waterplace
-//fireplace
-
 public class TFM_Cmds_AntiBlock implements CommandExecutor
 {
     private TotalFreedomMod plugin;
