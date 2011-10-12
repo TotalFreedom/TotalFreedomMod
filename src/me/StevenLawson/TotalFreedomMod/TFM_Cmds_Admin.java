@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +14,8 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -337,11 +340,11 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         sender.sendMessage("Nuke monitor is disabled.");
                     }
                     
-                    plugin.reloadConfig();
-                    plugin.getConfig().set("nuke_monitor", plugin.nukeMonitor);
-                    plugin.getConfig().set("nuke_monitor_range", plugin.nukeMonitorRange);
-                    plugin.getConfig().set("nuke_monitor_count", plugin.nukeMonitorCountBreak);
-                    plugin.saveConfig();
+                    FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
+                    config.set("nuke_monitor", plugin.nukeMonitor);
+                    config.set("nuke_monitor_range", plugin.nukeMonitorRange);
+                    config.set("nuke_monitor_count", plugin.nukeMonitorCountBreak);
+                    config.save(new File(plugin.getDataFolder(), "config.yml"));
                 }
                 else
                 {
@@ -370,9 +373,9 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         sender.sendMessage("Command preprocess logging is now disabled.");
                     }
                     
-                    plugin.reloadConfig();
-                    plugin.getConfig().set("preprocess_log", plugin.preprocessLogEnabled);
-                    plugin.saveConfig();
+                    FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
+                    config.set("preprocess_log", plugin.preprocessLogEnabled);
+                    config.save(new File(plugin.getDataFolder(), "config.yml"));
                 }
                 else
                 {

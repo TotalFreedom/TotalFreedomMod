@@ -20,6 +20,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
@@ -221,23 +223,23 @@ public class TotalFreedomMod extends JavaPlugin
     {
         createDefaultConfiguration("config.yml");
         
-        reloadConfig();
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml"));
 
-        allowExplosions = getConfig().getBoolean("allow_explosions", false);
-        allowFirePlace = getConfig().getBoolean("allow_fire_place", false);
-        allowFireSpread = getConfig().getBoolean("allow_fire_spread", false);
-        allowLavaDamage = getConfig().getBoolean("allow_lava_damage", false);
-        allowLavaPlace = getConfig().getBoolean("allow_lava_place", false);
-        allowWaterPlace = getConfig().getBoolean("allow_water_place", false);
-        autoEntityWipe = getConfig().getBoolean("auto_wipe", true);
-        explosiveRadius = getConfig().getDouble("explosiveRadius", 4.0D);
-        nukeMonitor = getConfig().getBoolean("nuke_monitor", true);
-        nukeMonitorCountBreak = getConfig().getInt("nuke_monitor_count", 100);
-        nukeMonitorRange = getConfig().getDouble("nuke_monitor_range", 10.0D);
-        preprocessLogEnabled = getConfig().getBoolean("preprocess_log", true);
-        freecamTriggerCount = getConfig().getInt("freecam_trigger_count", 10);
+        allowExplosions = config.getBoolean("allow_explosions", false);
+        allowFirePlace = config.getBoolean("allow_fire_place", false);
+        allowFireSpread = config.getBoolean("allow_fire_spread", false);
+        allowLavaDamage = config.getBoolean("allow_lava_damage", false);
+        allowLavaPlace = config.getBoolean("allow_lava_place", false);
+        allowWaterPlace = config.getBoolean("allow_water_place", false);
+        autoEntityWipe = config.getBoolean("auto_wipe", true);
+        explosiveRadius = config.getDouble("explosiveRadius", 4.0D);
+        nukeMonitor = config.getBoolean("nuke_monitor", true);
+        nukeMonitorCountBreak = config.getInt("nuke_monitor_count", 100);
+        nukeMonitorRange = config.getDouble("nuke_monitor_range", 10.0D);
+        preprocessLogEnabled = config.getBoolean("preprocess_log", true);
+        freecamTriggerCount = config.getInt("freecam_trigger_count", 10);
 
-        superadmins = (List<String>) getConfig().getList("superadmins", null);
+        superadmins = (List<String>) config.getList("superadmins", null);
         if (superadmins == null)
         {
             superadmins = new ArrayList<String>();
@@ -245,7 +247,7 @@ public class TotalFreedomMod extends JavaPlugin
             superadmins.add("markbyron");
         }
 
-        superadmin_ips = (List<String>) getConfig().getList("superadmin_ips", null);
+        superadmin_ips = (List<String>) config.getList("superadmin_ips", null);
         if (superadmin_ips == null)
         {
             superadmin_ips = new ArrayList<String>();
