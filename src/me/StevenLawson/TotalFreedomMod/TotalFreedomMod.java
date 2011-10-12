@@ -300,6 +300,7 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("skylands").setExecutor(GeneralCommands);
         this.getCommand("nether").setExecutor(GeneralCommands);
         this.getCommand("banlist").setExecutor(GeneralCommands);
+        this.getCommand("ipbanlist").setExecutor(GeneralCommands);
 
         this.getCommand("fr").setExecutor(AdminCommands);
         this.getCommand("gtfo").setExecutor(AdminCommands);
