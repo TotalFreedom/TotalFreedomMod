@@ -337,11 +337,11 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         sender.sendMessage("Nuke monitor is disabled.");
                     }
                     
-                    TotalFreedomMod.CONFIG.load();
-                    TotalFreedomMod.CONFIG.setProperty("nuke_monitor", plugin.nukeMonitor);
-                    TotalFreedomMod.CONFIG.setProperty("nuke_monitor_range", plugin.nukeMonitorRange);
-                    TotalFreedomMod.CONFIG.setProperty("nuke_monitor_count", plugin.nukeMonitorCountBreak);
-                    TotalFreedomMod.CONFIG.save();
+                    plugin.reloadConfig();
+                    plugin.getConfig().set("nuke_monitor", plugin.nukeMonitor);
+                    plugin.getConfig().set("nuke_monitor_range", plugin.nukeMonitorRange);
+                    plugin.getConfig().set("nuke_monitor_count", plugin.nukeMonitorCountBreak);
+                    plugin.saveConfig();
                 }
                 else
                 {
@@ -369,10 +369,10 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         plugin.preprocessLogEnabled = false;
                         sender.sendMessage("Command preprocess logging is now disabled.");
                     }
-
-                    TotalFreedomMod.CONFIG.load();
-                    TotalFreedomMod.CONFIG.setProperty("preprocess_log", plugin.preprocessLogEnabled);
-                    TotalFreedomMod.CONFIG.save();
+                    
+                    plugin.reloadConfig();
+                    plugin.getConfig().set("preprocess_log", plugin.preprocessLogEnabled);
+                    plugin.saveConfig();
                 }
                 else
                 {

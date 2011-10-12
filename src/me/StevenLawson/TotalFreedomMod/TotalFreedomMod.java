@@ -1,13 +1,18 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,7 +24,6 @@ import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.config.Configuration;
 
 public class TotalFreedomMod extends JavaPlugin
 {
@@ -31,7 +35,6 @@ public class TotalFreedomMod extends JavaPlugin
     
     private static final Logger log = Logger.getLogger("Minecraft");
     
-    protected static Configuration CONFIG;
     public List<String> superadmins = new ArrayList<String>();
     public List<String> superadmin_ips = new ArrayList<String>();
     public Boolean allowExplosions = false;
@@ -48,15 +51,15 @@ public class TotalFreedomMod extends JavaPlugin
     public Boolean preprocessLogEnabled = false;
     public int freecamTriggerCount = 10;
     
-    public boolean allPlayersFrozen = false;
-    public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
-    
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
+    
+    public boolean allPlayersFrozen = false;
+    public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
     
     private TFM_Cmds_OP OPCommands = new TFM_Cmds_OP(this);
     private TFM_Cmds_Override OverrideCommands = new TFM_Cmds_Override(this);
@@ -67,7 +70,6 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onEnable()
     {
-        CONFIG = getConfiguration();
         loadConfig();
 
         registerEventHandlers();
@@ -217,49 +219,105 @@ public class TotalFreedomMod extends JavaPlugin
 
     private void loadConfig()
     {
-        File configfile = new File("plugins/TotalFreedomMod/config.yml");
-        if (!configfile.exists())
+        createDefaultConfiguration("config.yml");
+        
+        reloadConfig();
+
+        allowExplosions = getConfig().getBoolean("allow_explosions", false);
+        allowFirePlace = getConfig().getBoolean("allow_fire_place", false);
+        allowFireSpread = getConfig().getBoolean("allow_fire_spread", false);
+        allowLavaDamage = getConfig().getBoolean("allow_lava_damage", false);
+        allowLavaPlace = getConfig().getBoolean("allow_lava_place", false);
+        allowWaterPlace = getConfig().getBoolean("allow_water_place", false);
+        autoEntityWipe = getConfig().getBoolean("auto_wipe", true);
+        explosiveRadius = getConfig().getDouble("explosiveRadius", 4.0D);
+        nukeMonitor = getConfig().getBoolean("nuke_monitor", true);
+        nukeMonitorCountBreak = getConfig().getInt("nuke_monitor_count", 100);
+        nukeMonitorRange = getConfig().getDouble("nuke_monitor_range", 10.0D);
+        preprocessLogEnabled = getConfig().getBoolean("preprocess_log", true);
+        freecamTriggerCount = getConfig().getInt("freecam_trigger_count", 10);
+
+        superadmins = (List<String>) getConfig().getList("superadmins", null);
+        if (superadmins == null)
         {
-            log.log(Level.INFO, "[Total Freedom Mod] - Generating default config file (plugins/TotalFreedomMod/config.yml)...");
-            CONFIG.setProperty("superadmins", new String[]
-                    {
-                        "Madgeek1450", "markbyron"
-                    });
-            CONFIG.setProperty("superadmin_ips", new String[]
-                    {
-                        "0.0.0.0"
-                    });
-            CONFIG.setProperty("allow_explosions", false);
-            CONFIG.setProperty("allow_fire_place", false);
-            CONFIG.setProperty("allow_fire_spread", false);
-            CONFIG.setProperty("allow_lava_damage", false);
-            CONFIG.setProperty("allow_lava_place", false);
-            CONFIG.setProperty("allow_water_place", false);
-            CONFIG.setProperty("auto_wipe", false);
-            CONFIG.setProperty("explosiveRadius", 4.0D);
-            CONFIG.setProperty("nuke_monitor", true);
-            CONFIG.setProperty("nuke_monitor_count", 40);
-            CONFIG.setProperty("nuke_monitor_range", 10.0D);
-            CONFIG.setProperty("preprocess_log", false);
-            CONFIG.setProperty("freecam_trigger_count", 10);
-            CONFIG.save();
+            superadmins = new ArrayList<String>();
+            superadmins.add("Madgeek1450");
+            superadmins.add("markbyron");
         }
-        CONFIG.load();
-        superadmins = CONFIG.getStringList("superadmins", null);
-        superadmin_ips = CONFIG.getStringList("superadmin_ips", null);
-        allowExplosions = CONFIG.getBoolean("allow_explosions", false);
-        allowFirePlace = CONFIG.getBoolean("allow_fire_place", false);
-        allowFireSpread = CONFIG.getBoolean("allow_fire_spread", false);
-        allowLavaDamage = CONFIG.getBoolean("allow_lava_damage", false);
-        allowLavaPlace = CONFIG.getBoolean("allow_lava_place", false);
-        allowWaterPlace = CONFIG.getBoolean("allow_water_place", false);
-        autoEntityWipe = CONFIG.getBoolean("auto_wipe", false);
-        explosiveRadius = CONFIG.getDouble("explosiveRadius", 4.0D);
-        nukeMonitor = CONFIG.getBoolean("nuke_monitor", true);
-        nukeMonitorCountBreak = CONFIG.getInt("nuke_monitor_count", 40);
-        nukeMonitorRange = CONFIG.getDouble("nuke_monitor_range", 10.0D);
-        preprocessLogEnabled = CONFIG.getBoolean("preprocess_log", false);
-        freecamTriggerCount = CONFIG.getInt("freecam_trigger_count", 10);
+
+        superadmin_ips = (List<String>) getConfig().getList("superadmin_ips", null);
+        if (superadmin_ips == null)
+        {
+            superadmin_ips = new ArrayList<String>();
+        }
+    }
+
+    private void createDefaultConfiguration(String name)
+    {
+        File actual = new File(getDataFolder(), name);
+        if (!actual.exists())
+        {
+            InputStream input = null;
+            try
+            {
+                JarFile file = new JarFile(getFile());
+                ZipEntry copy = file.getEntry("src/" + name);
+                if (copy == null)
+                {
+                    return;
+                }
+                input = file.getInputStream(copy);
+            }
+            catch (IOException ioex)
+            {
+                log.severe("[TotalFreedomMod]: Unable to read default configuration: " + name);
+            }
+            if (input != null)
+            {
+                FileOutputStream output = null;
+
+                try
+                {
+                    output = new FileOutputStream(actual);
+                    byte[] buf = new byte[8192];
+                    int length = 0;
+                    while ((length = input.read(buf)) > 0)
+                    {
+                        output.write(buf, 0, length);
+                    }
+
+                    log.info("[TotalFreedomMod]: Default configuration file written: " + name);
+                }
+                catch (IOException ioex)
+                {
+                    log.severe("[TotalFreedomMod]: Unable to write default configuration: " + name);
+                }
+                finally
+                {
+                    try
+                    {
+                        if (input != null)
+                        {
+                            input.close();
+                        }
+                    }
+                    catch (IOException ioex)
+                    {
+                    }
+
+                    try
+                    {
+                        if (output != null)
+                        {
+                            output.close();
+                        }
+                    }
+                    catch (IOException ioex)
+                    {
+                    }
+                }
+            }
+        }
     }
 
     private void registerEventHandlers()
@@ -327,13 +385,13 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("list").setExecutor(OverrideCommands);
         this.getCommand("listreal").setExecutor(OverrideCommands);
     }
-    
+
     public void gotoWorld(CommandSender sender, String targetworld)
     {
         if (sender instanceof Player)
         {
             Player sender_p = (Player) sender;
-            
+
             if (sender_p.getWorld().getName().equalsIgnoreCase(targetworld))
             {
                 sender.sendMessage(ChatColor.GRAY + "Going to main world.");
@@ -356,7 +414,7 @@ public class TotalFreedomMod extends JavaPlugin
             sender.sendMessage("This command may not be used from the console.");
         }
     }
-    
+
     public void buildHistory(Location location, int length, TFM_UserInfo playerdata)
     {
         Block center_block = location.getBlock();
