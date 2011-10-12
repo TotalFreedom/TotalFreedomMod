@@ -46,6 +46,9 @@ commands:
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> <partialname>
+  ipbanlist:
+    description: Shows all banned IPs. Superadmins may optionally use 'purge' to clear the list.
+    usage: /<command> [purge]
   lavadmg:
     description: Superadmin command - Enable/disable lava damage.
     usage: /<command> <on|off>
