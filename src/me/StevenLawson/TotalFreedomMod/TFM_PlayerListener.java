@@ -105,9 +105,9 @@ class TFM_PlayerListener extends PlayerListener
                     playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(0), playerdata.getCageMaterial(1));
                     playerdata.regenerateHistory();
                     playerdata.clearHistory();
-                    plugin.buildHistory(target_pos, 2, playerdata);
-                    plugin.generateCube(target_pos, 2, playerdata.getCageMaterial(0));
-                    plugin.generateCube(target_pos, 1, playerdata.getCageMaterial(1));
+                    TotalFreedomMod.buildHistory(target_pos, 2, playerdata);
+                    TotalFreedomMod.generateCube(target_pos, 2, playerdata.getCageMaterial(0));
+                    TotalFreedomMod.generateCube(target_pos, 1, playerdata.getCageMaterial(1));
                 }
             }
         }
@@ -127,7 +127,7 @@ class TFM_PlayerListener extends PlayerListener
             {
                 p.setOp(false);
                 p.kickPlayer("No Spamming");
-                plugin.tfm_broadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+                TotalFreedomMod.tfm_broadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
 
                 event.setCancelled(true);
                 return;
@@ -170,68 +170,7 @@ class TFM_PlayerListener extends PlayerListener
                 block_command = true;
             }
         }
-//        else if (command.matches("^/zeus"))
-//        {
-//            block_command = true;
-//        }
-//        else if (command.matches("^/vulcan"))
-//        {
-//            block_command = true;
-//        }
-//        else if (command.matches("^/myballsareonfire"))
-//        {
-//            block_command = true;
-//        }
-//        else if (command.matches("^/mv\\s*c"))
-//        {
-//            if (!plugin.isUserSuperadmin(player))
-//            {
-//                block_command = true;
-//            }
-//        }
-//        else if (command.matches("^/mv\\s*delete"))
-//        {
-//            if (!plugin.isUserSuperadmin(player))
-//            {
-//                block_command = true;
-//            }
-//        }
-//        else if (command.matches("^/mv\\s*im"))
-//        {
-//            if (!plugin.isUserSuperadmin(player))
-//            {
-//                block_command = true;
-//            }
-//        }
-//        else if (command.matches("^/mv\\s*m"))
-//        {
-//            if (!plugin.isUserSuperadmin(player))
-//            {
-//                block_command = true;
-//            }
-//        }
-//        else if (command.matches("^/mv\\s*reload"))
-//        {
-//            if (!plugin.isUserSuperadmin(player))
-//            {
-//                block_command = true;
-//            }
-//        }
-//        else if (command.matches("^/mv\\s*remove"))
-//        {
-//            if (!plugin.isUserSuperadmin(player))
-//            {
-//                block_command = true;
-//            }
-//        }
-//        else if (command.matches("^/mv\\s*unload"))
-//        {
-//            if (!plugin.isUserSuperadmin(player))
-//            {
-//                block_command = true;
-//            }
-//        }
-
+        
         if (block_command)
         {
             player.sendMessage(ChatColor.RED + "That command is prohibited.");

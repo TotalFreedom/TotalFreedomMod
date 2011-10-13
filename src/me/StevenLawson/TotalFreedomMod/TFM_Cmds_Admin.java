@@ -38,12 +38,12 @@ public class TFM_Cmds_Admin implements CommandExecutor
             if (sender instanceof Player)
             {
                 sender_p = (Player) sender;
-                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, plugin.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
             }
             else
             {
                 senderIsConsole = true;
-                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, plugin.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
             }
             
             if (cmd.getName().equalsIgnoreCase("fr"))
@@ -58,13 +58,13 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         {
                             plugin.allPlayersFrozen = true;
                             sender.sendMessage("Players are now frozen.");
-                            plugin.tfm_broadcastMessage(sender.getName() + " has temporarily frozen everyone on the server.", ChatColor.AQUA);
+                            TotalFreedomMod.tfm_broadcastMessage(sender.getName() + " has temporarily frozen everyone on the server.", ChatColor.AQUA);
                         }
                         else
                         {
                             plugin.allPlayersFrozen = false;
                             sender.sendMessage("Players are now free to move.");
-                            plugin.tfm_broadcastMessage(sender.getName() + " has unfrozen everyone.", ChatColor.AQUA);
+                            TotalFreedomMod.tfm_broadcastMessage(sender.getName() + " has unfrozen everyone.", ChatColor.AQUA);
                         }
                     }
                     else
@@ -125,7 +125,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         p = matches.get(0);
                     }
 
-                    plugin.tfm_broadcastMessage(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
+                    TotalFreedomMod.tfm_broadcastMessage(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
                     
                     //Undo WorldEdits:
                     Bukkit.getServer().dispatchCommand(sender, String.format("/undo %d %s", 15, p.getName()));
@@ -152,7 +152,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
 
                     //Ban IP Address:
                     String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
-                    plugin.tfm_broadcastMessage(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                    TotalFreedomMod.tfm_broadcastMessage(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
                     Bukkit.banIP(user_ip);
 
                     //Ban Username:
@@ -203,33 +203,33 @@ public class TFM_Cmds_Admin implements CommandExecutor
                             else if (mode.equals("nameban"))
                             {
                                 Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
-                                plugin.tfm_broadcastMessage(String.format("Banning Name: %s.", p.getName()), ChatColor.RED);
+                                TotalFreedomMod.tfm_broadcastMessage(String.format("Banning Name: %s.", p.getName()), ChatColor.RED);
                                 p.kickPlayer("Username banned by Administrator.");
                             }
                             else if (mode.equals("ipban"))
                             {
                                 String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
-                                plugin.tfm_broadcastMessage(String.format("Banning IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                                TotalFreedomMod.tfm_broadcastMessage(String.format("Banning IP: %s.", p.getName(), user_ip), ChatColor.RED);
                                 Bukkit.banIP(user_ip);
                                 p.kickPlayer("IP address banned by Administrator.");
                             }
                             else if (mode.equals("ban"))
                             {
                                 String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
-                                plugin.tfm_broadcastMessage(String.format("Banning Name: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                                TotalFreedomMod.tfm_broadcastMessage(String.format("Banning Name: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
                                 Bukkit.banIP(user_ip);
                                 Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
                                 p.kickPlayer("IP and username banned by Administrator.");
                             }
                             else if (mode.equals("op"))
                             {
-                                plugin.tfm_broadcastMessage(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                                TotalFreedomMod.tfm_broadcastMessage(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                                 p.setOp(false);
                                 p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
                             }
                             else if (mode.equals("deop"))
                             {
-                                plugin.tfm_broadcastMessage(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                                TotalFreedomMod.tfm_broadcastMessage(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                                 p.setOp(false);
                                 p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                             }
@@ -280,7 +280,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         return true;
                     }
 
-                    String base_command = plugin.implodeStringList(" ", Arrays.asList(args));
+                    String base_command = TotalFreedomMod.implodeStringList(" ", Arrays.asList(args));
 
                     for (Player p : Bukkit.getOnlinePlayers())
                     {
@@ -391,7 +391,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         p.getInventory().setItem(p.getInventory().firstEmpty(), heldItem);
                     }
 
-                    plugin.tfm_broadcastMessage(output.toString());
+                    TotalFreedomMod.tfm_broadcastMessage(output.toString());
                 }
                 else
                 {
@@ -504,7 +504,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     //Send to jail "mgjail":
                     Bukkit.getServer().dispatchCommand(sender, String.format("tjail %s mgjail", p.getName()));
                     
-                    plugin.tfm_broadcastMessage(p.getName() + " has been JAILED!", ChatColor.RED);
+                    TotalFreedomMod.tfm_broadcastMessage(p.getName() + " has been JAILED!", ChatColor.RED);
                 }
                 else
                 {
@@ -556,7 +556,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         outmessage_bldr.append(args[i]).append(" ");
                     }
                     
-                    plugin.tfm_broadcastMessage(String.format("§7[CONSOLE]§f<§c%s§f> %s", sender_name, outmessage_bldr.toString().trim()));
+                    TotalFreedomMod.tfm_broadcastMessage(String.format("§7[CONSOLE]§f<§c%s§f> %s", sender_name, outmessage_bldr.toString().trim()));
                 }
                 else
                 {
@@ -630,13 +630,13 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     playerdata.setCaged(true, target_pos, cage_material_outer, cage_material_inner);
                     playerdata.regenerateHistory();
                     playerdata.clearHistory();
-                    plugin.buildHistory(target_pos, 2, playerdata);
-                    plugin.generateCube(target_pos, 2, playerdata.getCageMaterial(0));
-                    plugin.generateCube(target_pos, 1, playerdata.getCageMaterial(1));
+                    TotalFreedomMod.buildHistory(target_pos, 2, playerdata);
+                    TotalFreedomMod.generateCube(target_pos, 2, playerdata.getCageMaterial(0));
+                    TotalFreedomMod.generateCube(target_pos, 1, playerdata.getCageMaterial(1));
                     
                     p.setGameMode(GameMode.SURVIVAL);
                     
-                    plugin.tfm_broadcastMessage(sender.getName() + " caged " + p.getName() + "!", ChatColor.YELLOW);
+                    TotalFreedomMod.tfm_broadcastMessage(sender.getName() + " caged " + p.getName() + "!", ChatColor.YELLOW);
                 }
                 else
                 {

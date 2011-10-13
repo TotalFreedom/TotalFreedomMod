@@ -29,12 +29,12 @@ public class TFM_Cmds_AntiBlock implements CommandExecutor
             if (sender instanceof Player)
             {
                 sender_p = (Player) sender;
-                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, plugin.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
             }
             else
             {
                 senderIsConsole = true;
-                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, plugin.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
             }
             
             if (cmd.getName().equalsIgnoreCase("explosives"))

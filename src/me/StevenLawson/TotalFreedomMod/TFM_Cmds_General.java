@@ -38,12 +38,12 @@ public class TFM_Cmds_General implements CommandExecutor
             if (sender instanceof Player)
             {
                 sender_p = (Player) sender;
-                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, plugin.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
             }
             else
             {
                 senderIsConsole = true;
-                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, plugin.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
             }
             
             if (cmd.getName().equalsIgnoreCase("creative"))
@@ -233,17 +233,17 @@ public class TFM_Cmds_General implements CommandExecutor
             }
 			else if (cmd.getName().equalsIgnoreCase("flatlands"))
 			{
-                plugin.gotoWorld(sender, "flatlands");
+                TotalFreedomMod.gotoWorld(sender, "flatlands");
 				return true;
 			}
 			else if (cmd.getName().equalsIgnoreCase("skylands"))
 			{
-                plugin.gotoWorld(sender, "skylands");
+                TotalFreedomMod.gotoWorld(sender, "skylands");
 				return true;
 			}
 			else if (cmd.getName().equalsIgnoreCase("nether"))
 			{
-                plugin.gotoWorld(sender, "nether");
+                TotalFreedomMod.gotoWorld(sender, "nether");
 				return true;
 			}
             else if (cmd.getName().equalsIgnoreCase("banlist"))

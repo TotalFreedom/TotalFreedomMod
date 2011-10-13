@@ -30,12 +30,12 @@ public class TFM_Cmds_Override implements CommandExecutor
             if (sender instanceof Player)
             {
                 sender_p = (Player) sender;
-                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, plugin.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
             }
             else
             {
                 senderIsConsole = true;
-                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, plugin.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
             }
             
             if (cmd.getName().equalsIgnoreCase("say"))
@@ -47,8 +47,8 @@ public class TFM_Cmds_Override implements CommandExecutor
 
                 if (senderIsConsole || sender.isOp())
                 {
-                    String message = plugin.implodeStringList(" ", Arrays.asList(args));
-                    plugin.tfm_broadcastMessage(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
+                    String message = TotalFreedomMod.implodeStringList(" ", Arrays.asList(args));
+                    TotalFreedomMod.tfm_broadcastMessage(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
                 }
                 else
                 {
@@ -61,7 +61,7 @@ public class TFM_Cmds_Override implements CommandExecutor
             {
                 if (senderIsConsole || plugin.isUserSuperadmin(sender))
                 {
-                    plugin.tfm_broadcastMessage("Server is going offline.", ChatColor.GRAY);
+                    TotalFreedomMod.tfm_broadcastMessage("Server is going offline.", ChatColor.GRAY);
 
                     for (Player p : Bukkit.getOnlinePlayers())
                     {

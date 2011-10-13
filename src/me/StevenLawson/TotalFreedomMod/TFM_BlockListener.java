@@ -69,7 +69,7 @@ public class TFM_BlockListener extends BlockListener
                     p.setGameMode(GameMode.SURVIVAL);
                     p.getInventory().clear();
                     
-                    plugin.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+                    TotalFreedomMod.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
                     
                     playerdata.resetFreecamDestroyCount();
 
@@ -81,7 +81,7 @@ public class TFM_BlockListener extends BlockListener
             playerdata.incrementBlockDestroyCount();
             if (playerdata.getBlockDestroyCount() > plugin.nukeMonitorCountBreak)
             {
-                plugin.tfm_broadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
+                TotalFreedomMod.tfm_broadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
 
                 p.setOp(false);
                 p.setGameMode(GameMode.SURVIVAL);
@@ -119,7 +119,7 @@ public class TFM_BlockListener extends BlockListener
                     p.setGameMode(GameMode.SURVIVAL);
                     p.getInventory().clear();
 
-                    plugin.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
+                    TotalFreedomMod.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
                     
                     playerdata.resetFreecamPlaceCount();
 
@@ -136,7 +136,7 @@ public class TFM_BlockListener extends BlockListener
             {
                 log.info(String.format("%s placed lava @ %s",
                         p.getName(),
-                        plugin.formatLocation(event.getBlock().getLocation())));
+                        TotalFreedomMod.formatLocation(event.getBlock().getLocation())));
 
                 p.getInventory().clear(p.getInventory().getHeldItemSlot());
             }
@@ -158,7 +158,7 @@ public class TFM_BlockListener extends BlockListener
             {
                 log.info(String.format("%s placed water @ %s",
                         p.getName(),
-                        plugin.formatLocation(event.getBlock().getLocation())));
+                        TotalFreedomMod.formatLocation(event.getBlock().getLocation())));
 
                 p.getInventory().clear(p.getInventory().getHeldItemSlot());
             }
@@ -180,7 +180,7 @@ public class TFM_BlockListener extends BlockListener
             {
                 log.info(String.format("%s placed fire @ %s",
                         p.getName(),
-                        plugin.formatLocation(event.getBlock().getLocation())));
+                        TotalFreedomMod.formatLocation(event.getBlock().getLocation())));
 
                 p.getInventory().clear(p.getInventory().getHeldItemSlot());
             }
@@ -202,7 +202,7 @@ public class TFM_BlockListener extends BlockListener
             {
                 log.info(String.format("%s placed TNT @ %s",
                         p.getName(),
-                        plugin.formatLocation(event.getBlock().getLocation())));
+                        TotalFreedomMod.formatLocation(event.getBlock().getLocation())));
 
                 p.getInventory().clear(p.getInventory().getHeldItemSlot());
             }

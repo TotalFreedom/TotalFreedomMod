@@ -92,50 +92,18 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 plugin.wipeDropEntities();
             }
-        }
-    }
-
-    public void tfm_broadcastMessage(String message, ChatColor color)
-    {
-        log.info(message);
-
-        for (Player p : Bukkit.getOnlinePlayers())
-        {
-            p.sendMessage(color + message);
-        }
-    }
-
-    public void tfm_broadcastMessage(String message)
-    {
-        log.info(ChatColor.stripColor(message));
-
-        for (Player p : Bukkit.getOnlinePlayers())
-        {
-            p.sendMessage(message);
-        }
-    }
-
-    public String implodeStringList(String glue, List<String> pieces)
-    {
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < pieces.size(); i++)
-        {
-            if (i != 0)
+            
+            if (plugin.disableNight)
             {
-                output.append(glue);
+                for (World world : Bukkit.getWorlds())
+                {
+                    if (world.getTime() > 12000L)
+                    {
+                        TotalFreedomMod.setWorldTime(world, 1000L);
+                    }
+                }
             }
-            output.append(pieces.get(i));
         }
-        return output.toString();
-    }
-
-    public String formatLocation(Location in_loc)
-    {
-        return String.format("%s: (%d, %d, %d)",
-                in_loc.getWorld().getName(),
-                Math.round(in_loc.getX()),
-                Math.round(in_loc.getY()),
-                Math.round(in_loc.getZ()));
     }
 
     public boolean isUserSuperadmin(CommandSender user)
@@ -196,8 +164,51 @@ public class TotalFreedomMod extends JavaPlugin
         }
         return removed;
     }
+    
+    public static void tfm_broadcastMessage(String message, ChatColor color)
+    {
+        log.info(message);
 
-    public void gotoWorld(CommandSender sender, String targetworld)
+        for (Player p : Bukkit.getOnlinePlayers())
+        {
+            p.sendMessage(color + message);
+        }
+    }
+
+    public static void tfm_broadcastMessage(String message)
+    {
+        log.info(ChatColor.stripColor(message));
+
+        for (Player p : Bukkit.getOnlinePlayers())
+        {
+            p.sendMessage(message);
+        }
+    }
+
+    public static String implodeStringList(String glue, List<String> pieces)
+    {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < pieces.size(); i++)
+        {
+            if (i != 0)
+            {
+                output.append(glue);
+            }
+            output.append(pieces.get(i));
+        }
+        return output.toString();
+    }
+
+    public static String formatLocation(Location in_loc)
+    {
+        return String.format("%s: (%d, %d, %d)",
+                in_loc.getWorld().getName(),
+                Math.round(in_loc.getX()),
+                Math.round(in_loc.getY()),
+                Math.round(in_loc.getZ()));
+    }
+
+    public static void gotoWorld(CommandSender sender, String targetworld)
     {
         if (sender instanceof Player)
         {
@@ -226,7 +237,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
     }
 
-    public void buildHistory(Location location, int length, TFM_UserInfo playerdata)
+    public static void buildHistory(Location location, int length, TFM_UserInfo playerdata)
     {
         Block center_block = location.getBlock();
         for (int x_offset = -length; x_offset <= length; x_offset++)
@@ -242,7 +253,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
     }
 
-    public void generateCube(Location location, int length, Material material)
+    public static void generateCube(Location location, int length, Material material)
     {
         Block center_block = location.getBlock();
         for (int x_offset = -length; x_offset <= length; x_offset++)
@@ -255,6 +266,13 @@ public class TotalFreedomMod extends JavaPlugin
                 }
             }
         }
+    }
+    
+    public static void setWorldTime(World world, long ticks)
+    {
+        long time = world.getTime();
+        time -= time % 24000;
+        world.setTime(time + 24000 + ticks);
     }
     
     public boolean allowFirePlace = false;
@@ -270,6 +288,7 @@ public class TotalFreedomMod extends JavaPlugin
     public double nukeMonitorRange = 10.0D;
     public int freecamTriggerCount = 10;
     public Boolean preprocessLogEnabled = true;
+    public Boolean disableNight = true;
     public List<String> superadmins = new ArrayList<String>();
     public List<String> superadmin_ips = new ArrayList<String>();
 
@@ -292,6 +311,7 @@ public class TotalFreedomMod extends JavaPlugin
         nukeMonitorRange = config.getDouble("nuke_monitor_range", nukeMonitorRange);
         freecamTriggerCount = config.getInt("freecam_trigger_count", freecamTriggerCount);
         preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
+        disableNight = config.getBoolean("disable_night", disableNight);
 
         superadmins = (List<String>) config.getList("superadmins", null);
         if (superadmins == null)
@@ -383,7 +403,7 @@ public class TotalFreedomMod extends JavaPlugin
     private void registerEventHandlers()
     {
         PluginManager pm = this.getServer().getPluginManager();
-
+        
         pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
