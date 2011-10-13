@@ -56,17 +56,14 @@ public class TotalFreedomMod extends JavaPlugin
         
         Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
-        log.log(Level.INFO, getDescription().getName() + " - Enabled! - Version: " + getDescription().getVersion() + " by Madgeek1450");
-        log.log(Level.INFO, getDescription().getName() + " - Loaded superadmin names: " + implodeStringList(", ", superadmins));
-        log.log(Level.INFO, getDescription().getName() + " - Loaded superadmin IPs: " + implodeStringList(", ", superadmin_ips));
-        log.log(Level.INFO, getDescription().getName() + " - Auto drop deleter is " + (autoEntityWipe ? "enabled" : "disabled") + ".");
+        log.log(Level.INFO, "[" + getDescription().getName() + "] - Enabled! - Version: " + getDescription().getVersion() + " by Madgeek1450");
     }
 
     @Override
     public void onDisable()
     {
         Bukkit.getScheduler().cancelTasks(this);
-        log.log(Level.INFO, getDescription().getName() + " - Disabled.");
+        log.log(Level.INFO, "[" + getDescription().getName() + "] - Disabled.");
     }
     
     class TFM_Heartbeat implements Runnable
@@ -278,8 +275,6 @@ public class TotalFreedomMod extends JavaPlugin
 
     private void loadTFMConfig()
     {
-        log.info(getDescription().getName() + " Loading configuration...");
-
         createDefaultConfiguration(CONFIG_FILE);
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), CONFIG_FILE));
@@ -319,7 +314,7 @@ public class TotalFreedomMod extends JavaPlugin
         File actual = new File(getDataFolder(), name);
         if (!actual.exists())
         {
-            log.info(getDescription().getName() + ": Installing default configuration file template: " + actual.getPath());
+            log.info("[" + getDescription().getName() + "]: Installing default configuration file template: " + actual.getPath());
             InputStream input = null;
             try
             {
@@ -327,14 +322,14 @@ public class TotalFreedomMod extends JavaPlugin
                 ZipEntry copy = file.getEntry(name);
                 if (copy == null)
                 {
-                    log.severe(getDescription().getName() + ": Unable to read default configuration: " + actual.getPath());
+                    log.severe("[" + getDescription().getName() + "]: Unable to read default configuration: " + actual.getPath());
                     return;
                 }
                 input = file.getInputStream(copy);
             }
             catch (IOException ioex)
             {
-                log.severe(getDescription().getName() + ": Unable to read default configuration: " + actual.getPath());
+                log.severe("[" + getDescription().getName() + "]: Unable to read default configuration: " + actual.getPath());
             }
             if (input != null)
             {
@@ -351,11 +346,11 @@ public class TotalFreedomMod extends JavaPlugin
                         output.write(buf, 0, length);
                     }
 
-                    log.info(getDescription().getName() + ": Default configuration file written: " + actual.getPath());
+                    log.info("[" + getDescription().getName() + "]: Default configuration file written: " + actual.getPath());
                 }
                 catch (IOException ioex)
                 {
-                    log.log(Level.SEVERE, getDescription().getName() + ": Unable to write default configuration: " + actual.getPath(), ioex);
+                    log.log(Level.SEVERE, "[" + getDescription().getName() + "]: Unable to write default configuration: " + actual.getPath(), ioex);
                 }
                 finally
                 {
