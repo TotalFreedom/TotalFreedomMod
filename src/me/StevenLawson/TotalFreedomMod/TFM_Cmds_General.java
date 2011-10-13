@@ -38,12 +38,12 @@ public class TFM_Cmds_General implements CommandExecutor
             if (sender instanceof Player)
             {
                 sender_p = (Player) sender;
-                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TFM_Util.implodeStringList(" ", Arrays.asList(args))));
             }
             else
             {
                 senderIsConsole = true;
-                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TFM_Util.implodeStringList(" ", Arrays.asList(args))));
             }
             
             if (cmd.getName().equalsIgnoreCase("creative"))
@@ -194,7 +194,7 @@ public class TFM_Cmds_General implements CommandExecutor
                 if (senderIsConsole || sender.isOp())
                 {
                     sender.sendMessage(ChatColor.GRAY + "Removing all dropped items, arrows, exp. orbs and TNT...");
-                    sender.sendMessage(ChatColor.GRAY + String.valueOf(plugin.wipeDropEntities()) + " dropped enties removed.");
+                    sender.sendMessage(ChatColor.GRAY + String.valueOf(TFM_Util.wipeDropEntities(plugin)) + " dropped enties removed.");
                 }
                 else
                 {
@@ -233,17 +233,17 @@ public class TFM_Cmds_General implements CommandExecutor
             }
 			else if (cmd.getName().equalsIgnoreCase("flatlands"))
 			{
-                TotalFreedomMod.gotoWorld(sender, "flatlands");
+                TFM_Util.gotoWorld(sender, "flatlands");
 				return true;
 			}
 			else if (cmd.getName().equalsIgnoreCase("skylands"))
 			{
-                TotalFreedomMod.gotoWorld(sender, "skylands");
+                TFM_Util.gotoWorld(sender, "skylands");
 				return true;
 			}
 			else if (cmd.getName().equalsIgnoreCase("nether"))
 			{
-                TotalFreedomMod.gotoWorld(sender, "nether");
+                TFM_Util.gotoWorld(sender, "nether");
 				return true;
 			}
             else if (cmd.getName().equalsIgnoreCase("banlist"))
@@ -252,7 +252,7 @@ public class TFM_Cmds_General implements CommandExecutor
                 {
                     if (args[0].equalsIgnoreCase("purge"))
                     {
-                        if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                         {
                             for (OfflinePlayer p : Bukkit.getBannedPlayers())
                             {
@@ -293,7 +293,7 @@ public class TFM_Cmds_General implements CommandExecutor
                 {
                     if (args[0].equalsIgnoreCase("purge"))
                     {
-                        if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                         {
                             for (String ip : Bukkit.getIPBans())
                             {

@@ -1,11 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import org.bukkit.event.entity.EntityCombustEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityListener;
-import org.bukkit.event.entity.ExplosionPrimeEvent;
 
 public class TFM_EntityListener extends EntityListener
 {

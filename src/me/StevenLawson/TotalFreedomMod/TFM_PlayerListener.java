@@ -6,11 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
 class TFM_PlayerListener extends PlayerListener
@@ -66,7 +62,7 @@ class TFM_PlayerListener extends PlayerListener
         boolean do_freeze = false;
         if (plugin.allPlayersFrozen)
         {
-            if (!plugin.isUserSuperadmin(p))
+            if (!TFM_Util.isUserSuperadmin(p, plugin))
             {
                 do_freeze = true;
             }
@@ -105,9 +101,9 @@ class TFM_PlayerListener extends PlayerListener
                     playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(0), playerdata.getCageMaterial(1));
                     playerdata.regenerateHistory();
                     playerdata.clearHistory();
-                    TotalFreedomMod.buildHistory(target_pos, 2, playerdata);
-                    TotalFreedomMod.generateCube(target_pos, 2, playerdata.getCageMaterial(0));
-                    TotalFreedomMod.generateCube(target_pos, 1, playerdata.getCageMaterial(1));
+                    TFM_Util.buildHistory(target_pos, 2, playerdata);
+                    TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(0));
+                    TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(1));
                 }
             }
         }
@@ -127,7 +123,7 @@ class TFM_PlayerListener extends PlayerListener
             {
                 p.setOp(false);
                 p.kickPlayer("No Spamming");
-                TotalFreedomMod.tfm_broadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+                TFM_Util.tfm_broadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
 
                 event.setCancelled(true);
                 return;
@@ -158,14 +154,14 @@ class TFM_PlayerListener extends PlayerListener
 
         if (command.matches("^/stop"))
         {
-            if (!plugin.isUserSuperadmin(player))
+            if (!TFM_Util.isUserSuperadmin(player, plugin))
             {
                 block_command = true;
             }
         }
         else if (command.matches("^/reload"))
         {
-            if (!plugin.isUserSuperadmin(player))
+            if (!TFM_Util.isUserSuperadmin(player, plugin))
             {
                 block_command = true;
             }

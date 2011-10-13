@@ -30,12 +30,12 @@ public class TFM_Cmds_Override implements CommandExecutor
             if (sender instanceof Player)
             {
                 sender_p = (Player) sender;
-                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TFM_Util.implodeStringList(" ", Arrays.asList(args))));
             }
             else
             {
                 senderIsConsole = true;
-                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TFM_Util.implodeStringList(" ", Arrays.asList(args))));
             }
             
             if (cmd.getName().equalsIgnoreCase("say"))
@@ -47,8 +47,8 @@ public class TFM_Cmds_Override implements CommandExecutor
 
                 if (senderIsConsole || sender.isOp())
                 {
-                    String message = TotalFreedomMod.implodeStringList(" ", Arrays.asList(args));
-                    TotalFreedomMod.tfm_broadcastMessage(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
+                    String message = TFM_Util.implodeStringList(" ", Arrays.asList(args));
+                    TFM_Util.tfm_broadcastMessage(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
                 }
                 else
                 {
@@ -59,9 +59,9 @@ public class TFM_Cmds_Override implements CommandExecutor
             }
             else if (cmd.getName().equalsIgnoreCase("stop"))
             {
-                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
-                    TotalFreedomMod.tfm_broadcastMessage("Server is going offline.", ChatColor.GRAY);
+                    TFM_Util.tfm_broadcastMessage("Server is going offline.", ChatColor.GRAY);
 
                     for (Player p : Bukkit.getOnlinePlayers())
                     {

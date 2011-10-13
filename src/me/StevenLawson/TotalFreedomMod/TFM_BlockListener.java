@@ -6,11 +6,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.BlockListener;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.inventory.ItemStack;
 
 public class TFM_BlockListener extends BlockListener
@@ -69,7 +65,7 @@ public class TFM_BlockListener extends BlockListener
                     p.setGameMode(GameMode.SURVIVAL);
                     p.getInventory().clear();
                     
-                    TotalFreedomMod.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+                    TFM_Util.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
                     
                     playerdata.resetFreecamDestroyCount();
 
@@ -81,7 +77,7 @@ public class TFM_BlockListener extends BlockListener
             playerdata.incrementBlockDestroyCount();
             if (playerdata.getBlockDestroyCount() > plugin.nukeMonitorCountBreak)
             {
-                TotalFreedomMod.tfm_broadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
+                TFM_Util.tfm_broadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
 
                 p.setOp(false);
                 p.setGameMode(GameMode.SURVIVAL);
@@ -119,7 +115,7 @@ public class TFM_BlockListener extends BlockListener
                     p.setGameMode(GameMode.SURVIVAL);
                     p.getInventory().clear();
 
-                    TotalFreedomMod.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
+                    TFM_Util.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
                     
                     playerdata.resetFreecamPlaceCount();
 
@@ -136,7 +132,7 @@ public class TFM_BlockListener extends BlockListener
             {
                 log.info(String.format("%s placed lava @ %s",
                         p.getName(),
-                        TotalFreedomMod.formatLocation(event.getBlock().getLocation())));
+                        TFM_Util.formatLocation(event.getBlock().getLocation())));
 
                 p.getInventory().clear(p.getInventory().getHeldItemSlot());
             }
@@ -158,7 +154,7 @@ public class TFM_BlockListener extends BlockListener
             {
                 log.info(String.format("%s placed water @ %s",
                         p.getName(),
-                        TotalFreedomMod.formatLocation(event.getBlock().getLocation())));
+                        TFM_Util.formatLocation(event.getBlock().getLocation())));
 
                 p.getInventory().clear(p.getInventory().getHeldItemSlot());
             }
@@ -180,7 +176,7 @@ public class TFM_BlockListener extends BlockListener
             {
                 log.info(String.format("%s placed fire @ %s",
                         p.getName(),
-                        TotalFreedomMod.formatLocation(event.getBlock().getLocation())));
+                        TFM_Util.formatLocation(event.getBlock().getLocation())));
 
                 p.getInventory().clear(p.getInventory().getHeldItemSlot());
             }
@@ -202,7 +198,7 @@ public class TFM_BlockListener extends BlockListener
             {
                 log.info(String.format("%s placed TNT @ %s",
                         p.getName(),
-                        TotalFreedomMod.formatLocation(event.getBlock().getLocation())));
+                        TFM_Util.formatLocation(event.getBlock().getLocation())));
 
                 p.getInventory().clear(p.getInventory().getHeldItemSlot());
             }

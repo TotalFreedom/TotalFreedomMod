@@ -31,12 +31,12 @@ public class TFM_Cmds_OP implements CommandExecutor
             if (sender instanceof Player)
             {
                 sender_p = (Player) sender;
-                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TFM_Util.implodeStringList(" ", Arrays.asList(args))));
             }
             else
             {
                 senderIsConsole = true;
-                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TFM_Util.implodeStringList(" ", Arrays.asList(args))));
             }
             
             if (cmd.getName().equalsIgnoreCase("opme"))
@@ -47,9 +47,9 @@ public class TFM_Cmds_OP implements CommandExecutor
                 }
                 else
                 {
-                    if (plugin.isUserSuperadmin(sender))
+                    if (TFM_Util.isUserSuperadmin(sender, plugin))
                     {
-                        TotalFreedomMod.tfm_broadcastMessage(String.format("(%s: Opping %s)", sender.getName(), sender.getName()), ChatColor.GRAY);
+                        TFM_Util.tfm_broadcastMessage(String.format("(%s: Opping %s)", sender.getName(), sender.getName()), ChatColor.GRAY);
                         sender.setOp(true);
                         sender.sendMessage(TotalFreedomMod.YOU_ARE_OP);
                     }
@@ -63,9 +63,9 @@ public class TFM_Cmds_OP implements CommandExecutor
             }
             else if (cmd.getName().equalsIgnoreCase("opall"))
             {
-                if (plugin.isUserSuperadmin(sender) || senderIsConsole)
+                if (TFM_Util.isUserSuperadmin(sender, plugin) || senderIsConsole)
                 {
-                    TotalFreedomMod.tfm_broadcastMessage(String.format("(%s: Opping everyone)", sender.getName()), ChatColor.GRAY);
+                    TFM_Util.tfm_broadcastMessage(String.format("(%s: Opping everyone)", sender.getName()), ChatColor.GRAY);
 
                     boolean doSetGamemode = false;
                     GameMode targetGamemode = GameMode.CREATIVE;
@@ -103,17 +103,14 @@ public class TFM_Cmds_OP implements CommandExecutor
             }
             else if (cmd.getName().equalsIgnoreCase("deopall"))
             {
-                if (plugin.isUserSuperadmin(sender) || senderIsConsole)
+                if (TFM_Util.isUserSuperadmin(sender, plugin) || senderIsConsole)
                 {
-                    TotalFreedomMod.tfm_broadcastMessage(String.format("(%s: De-opping everyone)", sender.getName()), ChatColor.GRAY);
+                    TFM_Util.tfm_broadcastMessage(String.format("(%s: De-opping everyone)", sender.getName()), ChatColor.GRAY);
 
                     for (Player p : Bukkit.getOnlinePlayers())
                     {
-                        if (!plugin.isUserSuperadmin(p) && !p.getName().equals(sender.getName()))
-                        {
-                            p.setOp(false);
-                            p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
-                        }
+                        p.setOp(false);
+                        p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                     }
                 }
                 else
@@ -130,14 +127,14 @@ public class TFM_Cmds_OP implements CommandExecutor
                     return false;
                 }
 
-                if (sender.isOp() || senderIsConsole || plugin.isUserSuperadmin(sender))
+                if (sender.isOp() || senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
                     boolean matched_player = false;
                     for (Player p : Bukkit.matchPlayer(args[0]))
                     {
                         matched_player = true;
 
-                        TotalFreedomMod.tfm_broadcastMessage(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                        TFM_Util.tfm_broadcastMessage(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                         p.setOp(true);
                         p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
                     }
@@ -160,14 +157,14 @@ public class TFM_Cmds_OP implements CommandExecutor
                     return false;
                 }
 
-                if (sender.isOp() || senderIsConsole || plugin.isUserSuperadmin(sender))
+                if (sender.isOp() || senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
                     boolean matched_player = false;
                     for (Player p : Bukkit.matchPlayer(args[0]))
                     {
                         matched_player = true;
 
-                        TotalFreedomMod.tfm_broadcastMessage(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                        TFM_Util.tfm_broadcastMessage(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                         p.setOp(false);
                         p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                     }

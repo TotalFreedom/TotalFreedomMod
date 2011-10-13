@@ -29,17 +29,17 @@ public class TFM_Cmds_AntiBlock implements CommandExecutor
             if (sender instanceof Player)
             {
                 sender_p = (Player) sender;
-                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s", sender_p.getName(), ChatColor.stripColor(sender_p.getDisplayName()), commandLabel, TFM_Util.implodeStringList(" ", Arrays.asList(args))));
             }
             else
             {
                 senderIsConsole = true;
-                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TotalFreedomMod.implodeStringList(" ", Arrays.asList(args))));
+                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TFM_Util.implodeStringList(" ", Arrays.asList(args))));
             }
             
             if (cmd.getName().equalsIgnoreCase("explosives"))
             {
-                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
                     if (args.length == 0)
                     {
@@ -71,7 +71,7 @@ public class TFM_Cmds_AntiBlock implements CommandExecutor
             }
             else if (cmd.getName().equalsIgnoreCase("firespread"))
             {
-                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
                     if (args.length != 1)
                     {
@@ -98,7 +98,7 @@ public class TFM_Cmds_AntiBlock implements CommandExecutor
             }
             else if (cmd.getName().equalsIgnoreCase("fireplace"))
             {
-                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
                     if (args.length != 1)
                     {
@@ -125,7 +125,7 @@ public class TFM_Cmds_AntiBlock implements CommandExecutor
             }
             else if (cmd.getName().equalsIgnoreCase("lavadmg"))
             {
-                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
                     if (args.length != 1)
                     {
@@ -152,7 +152,7 @@ public class TFM_Cmds_AntiBlock implements CommandExecutor
             }
             else if (cmd.getName().equalsIgnoreCase("lavaplace"))
             {
-                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
                     if (args.length != 1)
                     {
@@ -179,7 +179,7 @@ public class TFM_Cmds_AntiBlock implements CommandExecutor
             }
             else if (cmd.getName().equalsIgnoreCase("waterplace"))
             {
-                if (senderIsConsole || plugin.isUserSuperadmin(sender))
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
                     if (args.length != 1)
                     {
