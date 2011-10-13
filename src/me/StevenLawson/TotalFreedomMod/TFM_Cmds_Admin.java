@@ -81,7 +81,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                             p = matches.get(0);
                         }
 
-                        TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
+                        TFM_UserInfo playerdata = plugin.userinfo.get(p);
                         if (playerdata != null)
                         {
                             playerdata.setFrozen(!playerdata.isFrozen());
@@ -90,7 +90,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         {
                             playerdata = new TFM_UserInfo();
                             playerdata.setFrozen(true);
-                            TotalFreedomMod.userinfo.put(p, playerdata);
+                            plugin.userinfo.put(p, playerdata);
                         }
 
                         sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
@@ -239,7 +239,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                             }
                             else if (mode.equals("fr"))
                             {
-                                TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
+                                TFM_UserInfo playerdata = plugin.userinfo.get(p);
                                 if (playerdata != null)
                                 {
                                     playerdata.setFrozen(!playerdata.isFrozen());
@@ -248,7 +248,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                                 {
                                     playerdata = new TFM_UserInfo();
                                     playerdata.setFrozen(true);
-                                    TotalFreedomMod.userinfo.put(p, playerdata);
+                                    plugin.userinfo.put(p, playerdata);
                                 }
                                 sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                                 p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
@@ -586,11 +586,11 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         p = matches.get(0);
                     }
                     
-                    TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
+                    TFM_UserInfo playerdata = plugin.userinfo.get(p);
                     if (playerdata == null)
                     {
                         playerdata = new TFM_UserInfo();
-                        TotalFreedomMod.userinfo.put(p, playerdata);
+                        plugin.userinfo.put(p, playerdata);
                     }
                     
                     Material cage_material_outer = Material.GLASS;

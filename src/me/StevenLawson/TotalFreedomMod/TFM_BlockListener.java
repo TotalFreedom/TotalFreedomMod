@@ -46,11 +46,11 @@ public class TFM_BlockListener extends BlockListener
         {
             Player p = event.getPlayer();
             
-            TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
+            TFM_UserInfo playerdata = plugin.userinfo.get(p);
             if (playerdata == null)
             {
                 playerdata = new TFM_UserInfo();
-                TotalFreedomMod.userinfo.put(p, playerdata);
+                plugin.userinfo.put(p, playerdata);
             }
 
             Location player_pos = p.getLocation();
@@ -101,11 +101,11 @@ public class TFM_BlockListener extends BlockListener
 
             if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
             {
-                TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
+                TFM_UserInfo playerdata = plugin.userinfo.get(p);
                 if (playerdata == null)
                 {
                     playerdata = new TFM_UserInfo();
-                    TotalFreedomMod.userinfo.put(p, playerdata);
+                    plugin.userinfo.put(p, playerdata);
                 }
         
                 playerdata.incrementFreecamPlaceCount();

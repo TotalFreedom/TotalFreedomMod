@@ -57,7 +57,7 @@ class TFM_PlayerListener extends PlayerListener
     public void onPlayerMove(PlayerMoveEvent event)
     {
         Player p = event.getPlayer();
-        TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
+        TFM_UserInfo playerdata = plugin.userinfo.get(p);
 
         boolean do_freeze = false;
         if (plugin.allPlayersFrozen)
@@ -114,7 +114,7 @@ class TFM_PlayerListener extends PlayerListener
     {
         Player p = event.getPlayer();
 
-        TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
+        TFM_UserInfo playerdata = plugin.userinfo.get(p);
         if (playerdata != null)
         {
             playerdata.incrementMsgCount();
@@ -133,7 +133,7 @@ class TFM_PlayerListener extends PlayerListener
         {
             playerdata = new TFM_UserInfo();
             playerdata.incrementMsgCount();
-            TotalFreedomMod.userinfo.put(p, playerdata);
+            plugin.userinfo.put(p, playerdata);
         }
     }
 

@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -19,23 +18,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class TotalFreedomMod extends JavaPlugin
 {
-    public TotalFreedomMod tfm = this;
-    
-    private final TFM_EntityListener entityListener = new TFM_EntityListener(this);
-    private final TFM_BlockListener blockListener = new TFM_BlockListener(this);
-    private final TFM_PlayerListener playerListener = new TFM_PlayerListener(this);
-    
     private static final Logger log = Logger.getLogger("Minecraft");
-    
-    public boolean allPlayersFrozen = false;
-    public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
     
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final String CONFIG_FILE = "config.yml";
+    
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
+    
+    public Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
+    public boolean allPlayersFrozen = false;
 
     @Override
     public void onEnable()
@@ -54,46 +48,6 @@ public class TotalFreedomMod extends JavaPlugin
     {
         Bukkit.getScheduler().cancelTasks(this);
         log.log(Level.INFO, "[" + getDescription().getName() + "] - Disabled.");
-    }
-    
-    class TFM_Heartbeat implements Runnable
-    {
-        private TotalFreedomMod plugin;
-
-        TFM_Heartbeat(TotalFreedomMod instance)
-        {
-            this.plugin = instance;
-        }
-
-        @Override
-        public void run()
-        {
-            for (Player p : Bukkit.getOnlinePlayers())
-            {
-                TFM_UserInfo playerdata = TotalFreedomMod.userinfo.get(p);
-                if (playerdata != null)
-                {
-                    playerdata.resetMsgCount();
-                    playerdata.resetBlockDestroyCount();
-                }
-            }
-
-            if (plugin.autoEntityWipe)
-            {
-                TFM_Util.wipeDropEntities(plugin);
-            }
-            
-            if (plugin.disableNight)
-            {
-                for (World world : Bukkit.getWorlds())
-                {
-                    if (world.getTime() > 12000L)
-                    {
-                        TFM_Util.setWorldTime(world, 1000L);
-                    }
-                }
-            }
-        }
     }
     
     public boolean allowFirePlace = false;
@@ -149,6 +103,10 @@ public class TotalFreedomMod extends JavaPlugin
             superadmin_ips.add("127.0.0.1");
         }
     }
+    
+    private final TFM_EntityListener entityListener = new TFM_EntityListener(this);
+    private final TFM_BlockListener blockListener = new TFM_BlockListener(this);
+    private final TFM_PlayerListener playerListener = new TFM_PlayerListener(this);
     
     private void registerEventHandlers()
     {
