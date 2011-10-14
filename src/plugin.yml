@@ -112,6 +112,9 @@ commands:
   survival:
     description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
     usage: /<command> [partialname]
+  tfsmite:
+    description: De-op, inventory clear, de-godmode, lightning, and kill your target. For naughty people only (or the entire server).
+    usage: /<command> [playername|all]
   umd:
     description: Superadmin command - Undisguse all players.
     usage: /<command>

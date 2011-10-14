@@ -41,6 +41,8 @@ public class TotalFreedomMod extends JavaPlugin
         Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
         log.log(Level.INFO, "[" + getDescription().getName() + "] - Enabled! - Version: " + getDescription().getVersion() + " by Madgeek1450");
+        
+        TFM_Util.deleteFolder(new File("./_deleteme"));
     }
 
     @Override
@@ -64,6 +66,7 @@ public class TotalFreedomMod extends JavaPlugin
     public int freecamTriggerCount = 10;
     public Boolean preprocessLogEnabled = true;
     public Boolean disableNight = true;
+    public Boolean disableWeather = true;
     public List<String> superadmins = new ArrayList<String>();
     public List<String> superadmin_ips = new ArrayList<String>();
 
@@ -87,6 +90,7 @@ public class TotalFreedomMod extends JavaPlugin
         freecamTriggerCount = config.getInt("freecam_trigger_count", freecamTriggerCount);
         preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
         disableNight = config.getBoolean("disable_night", disableNight);
+        disableWeather = config.getBoolean("disable_weather", disableWeather);
 
         superadmins = (List<String>) config.getList("superadmins", null);
         if (superadmins == null)
@@ -107,6 +111,7 @@ public class TotalFreedomMod extends JavaPlugin
     private final TFM_EntityListener entityListener = new TFM_EntityListener(this);
     private final TFM_BlockListener blockListener = new TFM_BlockListener(this);
     private final TFM_PlayerListener playerListener = new TFM_PlayerListener(this);
+    private final TFM_WeatherListener weatherListener = new TFM_WeatherListener(this);
     
     private void registerEventHandlers()
     {
@@ -126,6 +131,9 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
         pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Normal, this);
+        
+        pm.registerEvent(Event.Type.WEATHER_CHANGE, weatherListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.THUNDER_CHANGE, weatherListener, Event.Priority.High, this);
     }
 
     private TFM_Cmds_OP OPCommands = new TFM_Cmds_OP(this);
@@ -136,48 +144,49 @@ public class TotalFreedomMod extends JavaPlugin
     
     private void registerCommands()
     {
-        this.getCommand("opme").setExecutor(OPCommands);
-        this.getCommand("opall").setExecutor(OPCommands);
         this.getCommand("deopall").setExecutor(OPCommands);
-        this.getCommand("qop").setExecutor(OPCommands);
+        this.getCommand("opall").setExecutor(OPCommands);
+        this.getCommand("opme").setExecutor(OPCommands);
         this.getCommand("qdeop").setExecutor(OPCommands);
+        this.getCommand("qop").setExecutor(OPCommands);
 
-        this.getCommand("creative").setExecutor(GeneralCommands);
-        this.getCommand("survival").setExecutor(GeneralCommands);
-        this.getCommand("status").setExecutor(GeneralCommands);
-        this.getCommand("radar").setExecutor(GeneralCommands);
-        this.getCommand("mp").setExecutor(GeneralCommands);
-        this.getCommand("rd").setExecutor(GeneralCommands);
-        this.getCommand("flatlands").setExecutor(GeneralCommands);
-        this.getCommand("skylands").setExecutor(GeneralCommands);
-        this.getCommand("nether").setExecutor(GeneralCommands);
         this.getCommand("banlist").setExecutor(GeneralCommands);
+        this.getCommand("creative").setExecutor(GeneralCommands);
+        this.getCommand("flatlands").setExecutor(GeneralCommands);
         this.getCommand("ipbanlist").setExecutor(GeneralCommands);
+        this.getCommand("mp").setExecutor(GeneralCommands);
+        this.getCommand("nether").setExecutor(GeneralCommands);
+        this.getCommand("radar").setExecutor(GeneralCommands);
+        this.getCommand("rd").setExecutor(GeneralCommands);
+        this.getCommand("skylands").setExecutor(GeneralCommands);
+        this.getCommand("status").setExecutor(GeneralCommands);
+        this.getCommand("survival").setExecutor(GeneralCommands);
 
-        this.getCommand("fr").setExecutor(AdminCommands);
-        this.getCommand("gtfo").setExecutor(AdminCommands);
-        this.getCommand("gadmin").setExecutor(AdminCommands);
-        this.getCommand("wildcard").setExecutor(AdminCommands);
-        this.getCommand("nonuke").setExecutor(AdminCommands);
-        this.getCommand("prelog").setExecutor(AdminCommands);
-        this.getCommand("cake").setExecutor(AdminCommands);
-        this.getCommand("gcmd").setExecutor(AdminCommands);
-        this.getCommand("qjail").setExecutor(AdminCommands);
-        this.getCommand("umd").setExecutor(AdminCommands);
-        this.getCommand("csay").setExecutor(AdminCommands);
         this.getCommand("cage").setExecutor(AdminCommands);
+        this.getCommand("cake").setExecutor(AdminCommands);
+        this.getCommand("csay").setExecutor(AdminCommands);
+        this.getCommand("fr").setExecutor(AdminCommands);
+        this.getCommand("gadmin").setExecutor(AdminCommands);
+        this.getCommand("gcmd").setExecutor(AdminCommands);
+        this.getCommand("gtfo").setExecutor(AdminCommands);
+        this.getCommand("nonuke").setExecutor(AdminCommands);
         this.getCommand("orbit").setExecutor(AdminCommands);
+        this.getCommand("prelog").setExecutor(AdminCommands);
+        this.getCommand("qjail").setExecutor(AdminCommands);
+        this.getCommand("tfsmite").setExecutor(AdminCommands);
+        this.getCommand("umd").setExecutor(AdminCommands);
+        this.getCommand("wildcard").setExecutor(AdminCommands);
 
         this.getCommand("explosives").setExecutor(AntiblockCommands);
+        this.getCommand("fireplace").setExecutor(AntiblockCommands);
+        this.getCommand("firespread").setExecutor(AntiblockCommands);
         this.getCommand("lavadmg").setExecutor(AntiblockCommands);
         this.getCommand("lavaplace").setExecutor(AntiblockCommands);
-        this.getCommand("firespread").setExecutor(AntiblockCommands);
-        this.getCommand("fireplace").setExecutor(AntiblockCommands);
         this.getCommand("waterplace").setExecutor(AntiblockCommands);
 
-        this.getCommand("say").setExecutor(OverrideCommands);
-        this.getCommand("stop").setExecutor(OverrideCommands);
         this.getCommand("list").setExecutor(OverrideCommands);
         this.getCommand("listreal").setExecutor(OverrideCommands);
+        this.getCommand("say").setExecutor(OverrideCommands);
+        this.getCommand("stop").setExecutor(OverrideCommands);
     }
 }

@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
@@ -47,6 +48,25 @@ public class TFM_EntityListener extends EntityListener
     @Override
     public void onEntityDamage(EntityDamageEvent event)
     {
+        if (event.getEntity() instanceof Player)
+        {
+            Player p = (Player) event.getEntity();
+            if (p != null)
+            {
+                TFM_UserInfo playerdata = plugin.userinfo.get(p);
+                if (playerdata != null)
+                {
+                    if (playerdata.getForcedDeath())
+                    {
+                        event.setCancelled(false);
+                        event.setDamage(p.getHealth() + 1);
+                        playerdata.setForcedDeath(false);
+                        return;
+                    }
+                }
+            }
+        }
+        
         if (event.getCause() == DamageCause.LAVA && !plugin.allowLavaDamage)
         {
             event.setCancelled(true);

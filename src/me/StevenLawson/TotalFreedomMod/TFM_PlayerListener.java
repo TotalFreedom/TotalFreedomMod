@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -135,6 +136,14 @@ class TFM_PlayerListener extends PlayerListener
             playerdata.incrementMsgCount();
             plugin.userinfo.put(p, playerdata);
         }
+        
+        if (Pattern.compile("\\sbe\\s.*admin").matcher(event.getMessage().toLowerCase()).find())
+        {
+            log.info("Kicked " + p.getName() + " for being annoying.");
+            p.kickPlayer("No, bitch.");
+            event.setCancelled(true);
+            return;
+        }
     }
 
     @Override
@@ -152,14 +161,14 @@ class TFM_PlayerListener extends PlayerListener
 
         boolean block_command = false;
 
-        if (command.matches("^/stop"))
+        if (command.matches("^/stop.*"))
         {
             if (!TFM_Util.isUserSuperadmin(player, plugin))
             {
                 block_command = true;
             }
         }
-        else if (command.matches("^/reload"))
+        else if (command.matches("^/reload.*"))
         {
             if (!TFM_Util.isUserSuperadmin(player, plugin))
             {

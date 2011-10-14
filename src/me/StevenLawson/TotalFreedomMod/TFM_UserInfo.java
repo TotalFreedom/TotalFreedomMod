@@ -14,6 +14,8 @@ public class TFM_UserInfo
     private int freecam_destroy_count = 0;
     private int freecam_place_count = 0;
     
+    private boolean forced_death = false;
+    
     // -- Start Cage
     
     private boolean user_caged = false;
@@ -92,6 +94,16 @@ public class TFM_UserInfo
     }
     
     // -- End Cage
+    
+    public boolean getForcedDeath()
+    {
+        return this.forced_death;
+    }
+
+    void setForcedDeath(boolean forced_death)
+    {
+        this.forced_death = forced_death;
+    }
 
     public boolean isFrozen()
     {

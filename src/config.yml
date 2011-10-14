@@ -24,6 +24,9 @@ preprocess_log: true
 # Disable nighttime:
 disable_night: true
 
+# Disable weather:
+disable_weather: true
+
 # Superadmins: Users that can always log in and use the most powerful commands:
 # When online-mode = false, only superadmin_ips will be used.
 superadmins:

@@ -22,11 +22,11 @@ import org.bukkit.entity.*;
 public class TFM_Util
 {
     private static final Logger log = Logger.getLogger("Minecraft");
-    
+
     public TFM_Util()
     {
     }
-    
+
     public static void tfm_broadcastMessage(String message, ChatColor color)
     {
         log.info(message);
@@ -129,14 +129,14 @@ public class TFM_Util
             }
         }
     }
-    
+
     public static void setWorldTime(World world, long ticks)
     {
         long time = world.getTime();
         time -= time % 24000;
         world.setTime(time + 24000 + ticks);
     }
-    
+
     public static void createDefaultConfiguration(String name, TotalFreedomMod tfm, File plugin_file)
     {
         File actual = new File(tfm.getDataFolder(), name);
@@ -207,7 +207,7 @@ public class TFM_Util
             }
         }
     }
-    
+
     public static boolean isUserSuperadmin(CommandSender user, TotalFreedomMod tfm)
     {
         try
@@ -265,5 +265,28 @@ public class TFM_Util
             }
         }
         return removed;
+    }
+
+    public static boolean deleteFolder(File file)
+    {
+        if (file.exists())
+        {
+            if (file.isDirectory())
+            {
+                for (File f : file.listFiles())
+                {
+                    if (!TFM_Util.deleteFolder(f))
+                    {
+                        return false;
+                    }
+                }
+            }
+            file.delete();
+            return !file.exists();
+        }
+        else
+        {
+            return false;
+        }
     }
 }
