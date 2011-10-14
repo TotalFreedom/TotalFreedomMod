@@ -1,10 +1,12 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -111,6 +113,19 @@ public class TFM_Cmds_OP implements CommandExecutor
                     {
                         p.setOp(false);
                         p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+                    }
+                    
+                    if (args.length >= 1)
+                    {
+                        if (args[0].equalsIgnoreCase("purge"))
+                        {
+                            sender.sendMessage(ChatColor.GRAY + "Purging ops.txt.");
+                            
+                            for (OfflinePlayer p : Bukkit.getOperators())
+                            {
+                                p.setOp(false);
+                            }
+                        }
                     }
                 }
                 else

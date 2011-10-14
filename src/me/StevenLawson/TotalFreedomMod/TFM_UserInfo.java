@@ -10,14 +10,9 @@ public class TFM_UserInfo
     private boolean user_frozen = false;
     private int msg_count = 0;
     private int block_destroy_total = 0;
-    
     private int freecam_destroy_count = 0;
     private int freecam_place_count = 0;
-    
     private boolean forced_death = false;
-    
-    // -- Start Cage
-    
     private boolean user_caged = false;
     private Location user_cage_pos;
     private List<TFM_BlockData> user_cage_history = new ArrayList<TFM_BlockData>();
@@ -27,12 +22,12 @@ public class TFM_UserInfo
     public TFM_UserInfo()
     {
     }
-    
+
     public void setCaged(boolean state)
     {
         this.user_caged = state;
     }
-    
+
     public void setCaged(boolean state, Location location, Material material_outer, Material material_inner)
     {
         this.user_caged = state;
@@ -40,39 +35,45 @@ public class TFM_UserInfo
         this.cage_material_outer = material_outer;
         this.cage_material_inner = material_inner;
     }
-    
+
     public boolean isCaged()
     {
         return this.user_caged;
     }
-    
-    public Material getCageMaterial(int layer)
+
+    public enum CageLayer
     {
-        if (layer == 1)
+        INNER, OUTER
+    }
+
+    public Material getCageMaterial(CageLayer layer)
+    {
+        switch (layer)
         {
-            return this.cage_material_inner;
-        }
-        else
-        {
-            return this.cage_material_outer;
+            case OUTER:
+                return this.cage_material_outer;
+            case INNER:
+                return this.cage_material_inner;
+            default:
+                return this.cage_material_outer;
         }
     }
-    
+
     public Location getCagePos()
     {
         return this.user_cage_pos;
     }
-    
+
     public void clearHistory()
     {
         this.user_cage_history.clear();
     }
-    
+
     public void insertHistoryBlock(Location location, Material material)
     {
         this.user_cage_history.add(new TFM_BlockData(location, material));
     }
-    
+
     public void regenerateHistory()
     {
         for (TFM_BlockData blockdata : this.user_cage_history)
@@ -80,7 +81,7 @@ public class TFM_UserInfo
             blockdata.location.getBlock().setType(blockdata.material);
         }
     }
-    
+
     class TFM_BlockData
     {
         public Material material;
@@ -92,9 +93,7 @@ public class TFM_UserInfo
             this.material = material;
         }
     }
-    
-    // -- End Cage
-    
+
     public boolean getForcedDeath()
     {
         return this.forced_death;
@@ -144,7 +143,7 @@ public class TFM_UserInfo
     {
         this.block_destroy_total = 0;
     }
-    
+
     public void incrementFreecamDestroyCount()
     {
         this.freecam_destroy_count++;
@@ -159,7 +158,7 @@ public class TFM_UserInfo
     {
         this.freecam_destroy_count = 0;
     }
-    
+
     public void incrementFreecamPlaceCount()
     {
         this.freecam_place_count++;

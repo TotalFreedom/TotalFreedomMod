@@ -4,9 +4,6 @@ version: 1.7
 description: Plugin for the Total Freedom server.
 author: StevenLawson / Madgeek1450
 commands:
-  banlist:
-    description: Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.
-    usage: /<command> [purge]
   cage:
     description: Superadmin command - Place a cage around someone.
     usage: /<command> <partialname> [off|outermaterial] [water|lava]
@@ -20,8 +17,8 @@ commands:
     description: Telnet command - Send a chat message with chat formatting over telnet.
     usage: /<command> [partialname]
   deopall:
-    description: Superadmin command - Deop everyone on the server.
-    usage: /<command>
+    description: Superadmin command - Deop everyone on the server. Use 'purge' to clear ops.txt as well.
+    usage: /<command> [purge]
   explosives:
     description: Superadmin command - Enable/disable explosives and set effect radius.
     usage: /<command> <on|off> [radius]
@@ -46,9 +43,6 @@ commands:
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> <partialname>
-  ipbanlist:
-    description: Shows all banned IPs. Superadmins may optionally use 'purge' to clear the list.
-    usage: /<command> [purge]
   lavadmg:
     description: Superadmin command - Enable/disable lava damage.
     usage: /<command> <on|off>
@@ -112,6 +106,12 @@ commands:
   survival:
     description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
     usage: /<command> [partialname]
+  tfbanlist:
+    description: Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.
+    usage: /<command> [purge]
+  tfipbanlist:
+    description: Shows all banned IPs. Superadmins may optionally use 'purge' to clear the list.
+    usage: /<command> [purge]
   tfsmite:
     description: De-op, inventory clear, de-godmode, lightning, and kill your target. For naughty people only (or the entire server).
     usage: /<command> [playername|all]

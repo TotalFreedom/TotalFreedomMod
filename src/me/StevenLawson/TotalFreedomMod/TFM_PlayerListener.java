@@ -90,7 +90,7 @@ class TFM_PlayerListener extends PlayerListener
 
             event.setTo(to);
         }
-        
+
         if (playerdata != null)
         {
             if (playerdata.isCaged())
@@ -99,12 +99,12 @@ class TFM_PlayerListener extends PlayerListener
 
                 if (target_pos.distance(playerdata.getCagePos()) > 2.5)
                 {
-                    playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(0), playerdata.getCageMaterial(1));
+                    playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER), playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
                     playerdata.regenerateHistory();
                     playerdata.clearHistory();
                     TFM_Util.buildHistory(target_pos, 2, playerdata);
-                    TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(0));
-                    TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(1));
+                    TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
+                    TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
                 }
             }
         }
@@ -136,8 +136,10 @@ class TFM_PlayerListener extends PlayerListener
             playerdata.incrementMsgCount();
             plugin.userinfo.put(p, playerdata);
         }
-        
-        if (Pattern.compile("\\sbe\\s.*admin").matcher(event.getMessage().toLowerCase()).find())
+
+        String message = event.getMessage().toLowerCase();
+        if (Pattern.compile("\\sbe\\s.*admin").matcher(message).find()
+                || Pattern.compile("\\shave\\s.*admin").matcher(message).find())
         {
             log.info("Kicked " + p.getName() + " for being annoying.");
             p.kickPlayer("No, bitch.");
@@ -161,21 +163,21 @@ class TFM_PlayerListener extends PlayerListener
 
         boolean block_command = false;
 
-        if (command.matches("^/stop.*"))
+        if (Pattern.compile("^/stop").matcher(command).find())
         {
             if (!TFM_Util.isUserSuperadmin(player, plugin))
             {
                 block_command = true;
             }
         }
-        else if (command.matches("^/reload.*"))
+        else if (Pattern.compile("^/reload").matcher(command).find())
         {
             if (!TFM_Util.isUserSuperadmin(player, plugin))
             {
                 block_command = true;
             }
         }
-        
+
         if (block_command)
         {
             player.sendMessage(ChatColor.RED + "That command is prohibited.");

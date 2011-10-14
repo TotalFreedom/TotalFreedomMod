@@ -150,10 +150,10 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("qdeop").setExecutor(OPCommands);
         this.getCommand("qop").setExecutor(OPCommands);
 
-        this.getCommand("banlist").setExecutor(GeneralCommands);
+        this.getCommand("tfbanlist").setExecutor(GeneralCommands);
         this.getCommand("creative").setExecutor(GeneralCommands);
         this.getCommand("flatlands").setExecutor(GeneralCommands);
-        this.getCommand("ipbanlist").setExecutor(GeneralCommands);
+        this.getCommand("tfipbanlist").setExecutor(GeneralCommands);
         this.getCommand("mp").setExecutor(GeneralCommands);
         this.getCommand("nether").setExecutor(GeneralCommands);
         this.getCommand("radar").setExecutor(GeneralCommands);

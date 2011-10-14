@@ -246,7 +246,7 @@ public class TFM_Cmds_General implements CommandExecutor
                 TFM_Util.gotoWorld(sender, "nether");
 				return true;
 			}
-            else if (cmd.getName().equalsIgnoreCase("banlist"))
+            else if (cmd.getName().equalsIgnoreCase("tfbanlist"))
             {
                 if (args.length > 0)
                 {
@@ -287,7 +287,7 @@ public class TFM_Cmds_General implements CommandExecutor
                 
                 return true;
             }
-            else if (cmd.getName().equalsIgnoreCase("ipbanlist"))
+            else if (cmd.getName().equalsIgnoreCase("tfipbanlist"))
             {
                 if (args.length > 0)
                 {

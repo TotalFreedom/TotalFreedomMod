@@ -699,8 +699,8 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     playerdata.regenerateHistory();
                     playerdata.clearHistory();
                     TFM_Util.buildHistory(target_pos, 2, playerdata);
-                    TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(0));
-                    TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(1));
+                    TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
+                    TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
 
                     p.setGameMode(GameMode.SURVIVAL);
 

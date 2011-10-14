@@ -59,7 +59,9 @@ public class TFM_EntityListener extends EntityListener
                     if (playerdata.getForcedDeath())
                     {
                         event.setCancelled(false);
-                        event.setDamage(p.getHealth() + 1);
+                        p.setFoodLevel(0);
+                        p.setHealth(0);
+                        event.setDamage(100);
                         playerdata.setForcedDeath(false);
                         return;
                     }
