@@ -22,6 +22,9 @@ commands:
   explosives:
     description: Superadmin command - Enable/disable explosives and set effect radius.
     usage: /<command> <on|off> [radius]
+  expel:
+    description: Superadmin command - Push people away from you.
+    usage: /<command> [radius] [strength]
   fireplace:
     description: Superadmin command - Enable/disable fire placement.
     usage: /<command> <on|off>
@@ -58,6 +61,9 @@ commands:
   mp:
     description: Use moblimiter to purge all mobs.
     usage: /<command>
+  mp44:
+    description: Superadmin Command - Modern weaponry, FTW. Use 'draw' to start firing, 'sling' to stop firing.
+    usage: /<command> [draw|sling]
   nether:
     description: Goto the nether.
     usage: /<command>
@@ -106,6 +112,9 @@ commands:
   survival:
     description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
     usage: /<command> [partialname]
+  tossmob:
+    description: Throw a mob in the direction you are facing when you left click with a stick.
+    usage: /<command> [mobtype | off] [speed]
   tfbanlist:
     description: Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.
     usage: /<command> [purge]

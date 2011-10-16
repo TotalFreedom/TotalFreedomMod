@@ -27,6 +27,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
+    public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     
     public Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
     public boolean allPlayersFrozen = false;
@@ -92,19 +93,33 @@ public class TotalFreedomMod extends JavaPlugin
         disableNight = config.getBoolean("disable_night", disableNight);
         disableWeather = config.getBoolean("disable_weather", disableWeather);
 
-        superadmins = (List<String>) config.getList("superadmins", null);
-        if (superadmins == null)
+        superadmins = new ArrayList<String>();
+        List<String> superadmins_temp = (List<String>) config.getList("superadmins", null);
+        if (superadmins_temp == null || superadmins_temp.isEmpty())
         {
-            superadmins = new ArrayList<String>();
             superadmins.add("Madgeek1450");
             superadmins.add("markbyron");
         }
-
-        superadmin_ips = (List<String>) config.getList("superadmin_ips", null);
-        if (superadmin_ips == null)
+        else
         {
-            superadmin_ips = new ArrayList<String>();
+            for (String admin_name : superadmins_temp)
+            {
+                superadmins.add(admin_name.toLowerCase().trim());
+            }
+        }
+        
+        superadmin_ips = new ArrayList<String>();
+        List<String> superadmin_ips_temp = (List<String>) config.getList("superadmin_ips", null);
+        if (superadmin_ips_temp == null || superadmin_ips_temp.isEmpty())
+        {
             superadmin_ips.add("127.0.0.1");
+        }
+        else
+        {
+            for (String admin_ip : superadmin_ips_temp)
+            {
+                superadmin_ips.add(admin_ip.toLowerCase().trim());
+            }
         }
     }
     
@@ -131,6 +146,9 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
         pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, playerListener, Event.Priority.Normal, this);
+        pm.registerEvent(Event.Type.PLAYER_KICK, playerListener, Event.Priority.Monitor, this);
+        pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Monitor, this);
         
         pm.registerEvent(Event.Type.WEATHER_CHANGE, weatherListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.THUNDER_CHANGE, weatherListener, Event.Priority.High, this);
@@ -161,10 +179,12 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("skylands").setExecutor(GeneralCommands);
         this.getCommand("status").setExecutor(GeneralCommands);
         this.getCommand("survival").setExecutor(GeneralCommands);
+        this.getCommand("tossmob").setExecutor(GeneralCommands);
 
         this.getCommand("cage").setExecutor(AdminCommands);
         this.getCommand("cake").setExecutor(AdminCommands);
         this.getCommand("csay").setExecutor(AdminCommands);
+        this.getCommand("expel").setExecutor(AdminCommands);
         this.getCommand("fr").setExecutor(AdminCommands);
         this.getCommand("gadmin").setExecutor(AdminCommands);
         this.getCommand("gcmd").setExecutor(AdminCommands);
@@ -176,6 +196,7 @@ public class TotalFreedomMod extends JavaPlugin
         this.getCommand("tfsmite").setExecutor(AdminCommands);
         this.getCommand("umd").setExecutor(AdminCommands);
         this.getCommand("wildcard").setExecutor(AdminCommands);
+        this.getCommand("mp44").setExecutor(AdminCommands);
 
         this.getCommand("explosives").setExecutor(AntiblockCommands);
         this.getCommand("fireplace").setExecutor(AntiblockCommands);

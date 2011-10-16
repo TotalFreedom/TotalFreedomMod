@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -81,17 +82,8 @@ public class TFM_Cmds_Admin implements CommandExecutor
                             p = matches.get(0);
                         }
 
-                        TFM_UserInfo playerdata = plugin.userinfo.get(p);
-                        if (playerdata != null)
-                        {
-                            playerdata.setFrozen(!playerdata.isFrozen());
-                        }
-                        else
-                        {
-                            playerdata = new TFM_UserInfo();
-                            playerdata.setFrozen(true);
-                            plugin.userinfo.put(p, playerdata);
-                        }
+                        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+                        playerdata.setFrozen(!playerdata.isFrozen());
 
                         sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                         p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
@@ -128,7 +120,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     TFM_Util.tfm_broadcastMessage(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
 
                     //Undo WorldEdits:
-                    Bukkit.getServer().dispatchCommand(sender, String.format("/undo %d %s", 15, p.getName()));
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("/undo %d %s", 15, p.getName()));
 
                     //Deop
                     p.setOp(false);
@@ -211,11 +203,8 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         p.getInventory().clear();
 
                         //Flag for insta-kill:
-                        TFM_UserInfo playerdata = plugin.userinfo.get(p);
-                        if (playerdata != null)
-                        {
-                            playerdata.setForcedDeath(true);
-                        }
+                        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+                        playerdata.setForcedDeath(true);
 
                         //Strike with lightning effect:
                         final Location target_pos = p.getLocation();
@@ -307,17 +296,9 @@ public class TFM_Cmds_Admin implements CommandExecutor
                             }
                             else if (mode.equals("fr"))
                             {
-                                TFM_UserInfo playerdata = plugin.userinfo.get(p);
-                                if (playerdata != null)
-                                {
-                                    playerdata.setFrozen(!playerdata.isFrozen());
-                                }
-                                else
-                                {
-                                    playerdata = new TFM_UserInfo();
-                                    playerdata.setFrozen(true);
-                                    plugin.userinfo.put(p, playerdata);
-                                }
+                                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+                                playerdata.setFrozen(!playerdata.isFrozen());
+
                                 sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                                 p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                             }
@@ -354,7 +335,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     {
                         String out_command = base_command.replaceAll("\\x3f", p.getName());
                         sender.sendMessage("Running Command: " + out_command);
-                        Bukkit.getServer().dispatchCommand(sender, out_command);
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), out_command);
                     }
                 }
                 else
@@ -375,12 +356,24 @@ public class TFM_Cmds_Admin implements CommandExecutor
 
                     if (args.length >= 2)
                     {
-                        plugin.nukeMonitorRange = Double.parseDouble(args[1]);
+                        try
+                        {
+                            plugin.nukeMonitorRange = Double.parseDouble(args[1]);
+                        }
+                        catch (NumberFormatException nfex)
+                        {
+                        }
                     }
 
                     if (args.length >= 3)
                     {
-                        plugin.nukeMonitorCountBreak = Integer.parseInt(args[2]);
+                        try
+                        {
+                            plugin.nukeMonitorCountBreak = Integer.parseInt(args[2]);
+                        }
+                        catch (NumberFormatException nfex)
+                        {
+                        }
                     }
 
                     if (args[0].equalsIgnoreCase("on"))
@@ -570,7 +563,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     }
 
                     //Send to jail "mgjail":
-                    Bukkit.getServer().dispatchCommand(sender, String.format("tjail %s mgjail", p.getName()));
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tjail %s mgjail 1y", p.getName().replace(" ", "").trim()));
 
                     TFM_Util.tfm_broadcastMessage(p.getName() + " has been JAILED!", ChatColor.RED);
                 }
@@ -654,12 +647,7 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         p = matches.get(0);
                     }
 
-                    TFM_UserInfo playerdata = plugin.userinfo.get(p);
-                    if (playerdata == null)
-                    {
-                        playerdata = new TFM_UserInfo();
-                        plugin.userinfo.put(p, playerdata);
-                    }
+                    TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
 
                     Material cage_material_outer = Material.GLASS;
                     Material cage_material_inner = Material.AIR;
@@ -699,8 +687,8 @@ public class TFM_Cmds_Admin implements CommandExecutor
                     playerdata.regenerateHistory();
                     playerdata.clearHistory();
                     TFM_Util.buildHistory(target_pos, 2, playerdata);
-                    TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
-                    TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
+                    TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
+                    TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
 
                     p.setGameMode(GameMode.SURVIVAL);
 
@@ -734,13 +722,127 @@ public class TFM_Cmds_Admin implements CommandExecutor
                         p = matches.get(0);
                     }
 
-                    double strength = 100.0;
+                    TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+
+                    double strength = 10.0;
+
                     if (args.length >= 2)
                     {
-                        strength = Double.parseDouble(args[1]);
+                        if (args[1].equalsIgnoreCase("stop") || args[1].equalsIgnoreCase("end"))
+                        {
+                            sender.sendMessage(ChatColor.GRAY + "Stopped orbiting " + p.getName());
+                            playerdata.stopOrbiting();
+                            return true;
+                        }
+
+                        try
+                        {
+                            strength = Double.parseDouble(args[1]);
+                        }
+                        catch (NumberFormatException nfex)
+                        {
+                            strength = 10.0;
+                        }
                     }
 
+                    p.setGameMode(GameMode.SURVIVAL);
+                    playerdata.startOrbiting(strength);
+
                     p.setVelocity(new Vector(0, strength, 0));
+
+                    sender.sendMessage(ChatColor.GRAY + "Orbiting " + p.getName());
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("expel"))
+            {
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+                {
+                    if (senderIsConsole)
+                    {
+                        sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
+                        return true;
+                    }
+
+                    double radius = 50.0;
+                    double strength = 100.0;
+
+                    if (args.length >= 1)
+                    {
+                        try
+                        {
+                            radius = Double.parseDouble(args[0]);
+                        }
+                        catch (NumberFormatException nfex)
+                        {
+                        }
+                    }
+
+                    if (args.length >= 2)
+                    {
+                        try
+                        {
+                            strength = Double.parseDouble(args[1]);
+                        }
+                        catch (NumberFormatException nfex)
+                        {
+                        }
+                    }
+
+                    Location sender_pos = sender_p.getLocation();
+                    for (Player p : Bukkit.getOnlinePlayers())
+                    {
+                        if (!p.equals(sender_p))
+                        {
+                            Location target_pos = p.getLocation();
+                            if (target_pos.distance(sender_pos) < radius)
+                            {
+                                sender.sendMessage("Pushing " + p.getName());
+                                Vector expel_direction = target_pos.subtract(sender_pos).toVector().normalize();
+                                p.setVelocity(expel_direction.multiply(strength));
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("mp44"))
+            {
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+                {
+                    if (senderIsConsole)
+                    {
+                        sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
+                        return true;
+                    }
+                    
+                    if (args.length == 0)
+                    {
+                        return false;
+                    }
+
+                    TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(sender_p, plugin);
+                    
+                    if (args[0].equalsIgnoreCase("draw"))
+                    {
+                        playerdata.stopArrowShooter();
+                        int schedule_id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new ArrowShooter(sender_p), 1L, 1L);
+                        playerdata.startArrowShooter(schedule_id);
+                    }
+                    else
+                    {
+                        playerdata.stopArrowShooter();
+                    }
                 }
                 else
                 {
@@ -756,5 +858,22 @@ public class TFM_Cmds_Admin implements CommandExecutor
         }
 
         return false;
+    }
+    
+    class ArrowShooter implements Runnable
+    {
+        private Player _player;
+        
+        public ArrowShooter(Player player)
+        {
+            _player = player;
+        }
+
+        @Override
+        public void run()
+        {
+            Arrow shot_arrow = _player.shootArrow();
+            shot_arrow.setVelocity(shot_arrow.getVelocity().multiply(2.0));
+        }
     }
 }

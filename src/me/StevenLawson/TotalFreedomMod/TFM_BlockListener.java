@@ -45,13 +45,7 @@ public class TFM_BlockListener extends BlockListener
         if (plugin.nukeMonitor)
         {
             Player p = event.getPlayer();
-            
-            TFM_UserInfo playerdata = plugin.userinfo.get(p);
-            if (playerdata == null)
-            {
-                playerdata = new TFM_UserInfo();
-                plugin.userinfo.put(p, playerdata);
-            }
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
 
             Location player_pos = p.getLocation();
             Location block_pos = event.getBlock().getLocation();
@@ -59,7 +53,7 @@ public class TFM_BlockListener extends BlockListener
             if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
             {
                 playerdata.incrementFreecamDestroyCount();
-                if (playerdata.getFreecamPlaceCount() > plugin.freecamTriggerCount)
+                if (playerdata.getFreecamDestroyCount() > plugin.freecamTriggerCount)
                 {
                     p.setOp(false);
                     p.setGameMode(GameMode.SURVIVAL);
@@ -82,6 +76,7 @@ public class TFM_BlockListener extends BlockListener
                 p.setOp(false);
                 p.setGameMode(GameMode.SURVIVAL);
                 p.getInventory().clear();
+                p.kickPlayer("You are breaking blocks too fast. Nukers are not permitted on this server.");
 
                 event.setCancelled(true);
                 return;
@@ -101,12 +96,7 @@ public class TFM_BlockListener extends BlockListener
 
             if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
             {
-                TFM_UserInfo playerdata = plugin.userinfo.get(p);
-                if (playerdata == null)
-                {
-                    playerdata = new TFM_UserInfo();
-                    plugin.userinfo.put(p, playerdata);
-                }
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
         
                 playerdata.incrementFreecamPlaceCount();
                 if (playerdata.getFreecamPlaceCount() > plugin.freecamTriggerCount)

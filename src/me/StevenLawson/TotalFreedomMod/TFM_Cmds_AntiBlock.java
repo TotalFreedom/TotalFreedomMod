@@ -48,7 +48,13 @@ public class TFM_Cmds_AntiBlock implements CommandExecutor
 
                     if (args.length == 2)
                     {
-                        plugin.explosiveRadius = Double.parseDouble(args[1]);
+                        try
+                        {
+                            plugin.explosiveRadius = Double.parseDouble(args[1]);
+                        }
+                        catch (NumberFormatException nfex)
+                        {
+                        }
                     }
 
                     if (args[0].equalsIgnoreCase("on"))

@@ -3,7 +3,9 @@ package me.StevenLawson.TotalFreedomMod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import me.desmin88.mobdisguise.api.MobDisguiseAPI;
 import org.bukkit.Bukkit;
@@ -20,9 +22,8 @@ import org.bukkit.entity.*;
 public class TFM_Cmds_General implements CommandExecutor
 {
     private TotalFreedomMod plugin;
-    
     private static final Logger log = Logger.getLogger("Minecraft");
-    
+
     public TFM_Cmds_General(TotalFreedomMod plugin)
     {
         this.plugin = plugin;
@@ -45,7 +46,7 @@ public class TFM_Cmds_General implements CommandExecutor
                 senderIsConsole = true;
                 log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s", sender.getName(), commandLabel, TFM_Util.implodeStringList(" ", Arrays.asList(args))));
             }
-            
+
             if (cmd.getName().equalsIgnoreCase("creative"))
             {
                 if (senderIsConsole)
@@ -144,7 +145,7 @@ public class TFM_Cmds_General implements CommandExecutor
             {
                 if (senderIsConsole)
                 {
-                    sender.sendMessage("This command can only be used in-game.");
+                    sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
                     return true;
                 }
 
@@ -169,7 +170,13 @@ public class TFM_Cmds_General implements CommandExecutor
                 int countmax = 5;
                 if (args.length == 1)
                 {
-                    countmax = Integer.parseInt(args[0]);
+                    try
+                    {
+                        countmax = Integer.parseInt(args[0]);
+                    }
+                    catch (NumberFormatException nfex)
+                    {
+                    }
                 }
 
                 int count = 0;
@@ -183,8 +190,7 @@ public class TFM_Cmds_General implements CommandExecutor
                     sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d, Disguised: %s",
                             i.player.getName(),
                             Math.round(i.distance),
-                            MobDisguiseAPI.isDisguised(i.player) ? "Yes" : "No"
-                            ));
+                            MobDisguiseAPI.isDisguised(i.player) ? "Yes" : "No"));
                 }
 
                 return true;
@@ -194,7 +200,7 @@ public class TFM_Cmds_General implements CommandExecutor
                 if (senderIsConsole || sender.isOp())
                 {
                     sender.sendMessage(ChatColor.GRAY + "Removing all dropped items, arrows, exp. orbs and TNT...");
-                    sender.sendMessage(ChatColor.GRAY + String.valueOf(TFM_Util.wipeDropEntities(plugin)) + " dropped enties removed.");
+                    sender.sendMessage(ChatColor.GRAY + String.valueOf(TFM_Util.wipeDropEntities(true)) + " dropped enties removed.");
                 }
                 else
                 {
@@ -231,21 +237,21 @@ public class TFM_Cmds_General implements CommandExecutor
 
                 return true;
             }
-			else if (cmd.getName().equalsIgnoreCase("flatlands"))
-			{
+            else if (cmd.getName().equalsIgnoreCase("flatlands"))
+            {
                 TFM_Util.gotoWorld(sender, "flatlands");
-				return true;
-			}
-			else if (cmd.getName().equalsIgnoreCase("skylands"))
-			{
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("skylands"))
+            {
                 TFM_Util.gotoWorld(sender, "skylands");
-				return true;
-			}
-			else if (cmd.getName().equalsIgnoreCase("nether"))
-			{
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("nether"))
+            {
                 TFM_Util.gotoWorld(sender, "nether");
-				return true;
-			}
+                return true;
+            }
             else if (cmd.getName().equalsIgnoreCase("tfbanlist"))
             {
                 if (args.length > 0)
@@ -269,7 +275,7 @@ public class TFM_Cmds_General implements CommandExecutor
                         }
                     }
                 }
-                
+
                 StringBuilder banned_players = new StringBuilder();
                 banned_players.append("Banned Players: ");
                 boolean first = true;
@@ -282,9 +288,9 @@ public class TFM_Cmds_General implements CommandExecutor
                     first = false;
                     banned_players.append(p.getName().trim());
                 }
-                
+
                 sender.sendMessage(ChatColor.GRAY + banned_players.toString());
-                
+
                 return true;
             }
             else if (cmd.getName().equalsIgnoreCase("tfipbanlist"))
@@ -310,10 +316,10 @@ public class TFM_Cmds_General implements CommandExecutor
                         }
                     }
                 }
-                
+
                 List<String> ip_bans = Arrays.asList(Bukkit.getIPBans().toArray(new String[0]));
                 Collections.sort(ip_bans);
-                
+
                 StringBuilder banned_ips = new StringBuilder();
                 banned_ips.append("Banned IPs: ");
                 boolean first = true;
@@ -329,9 +335,86 @@ public class TFM_Cmds_General implements CommandExecutor
                         banned_ips.append(ip.trim());
                     }
                 }
-                
+
                 sender.sendMessage(ChatColor.GRAY + banned_ips.toString());
-                
+
+                return true;
+            }
+            else if (cmd.getName().equalsIgnoreCase("tossmob"))
+            {
+                if (senderIsConsole || sender.isOp())
+                {
+                    if (senderIsConsole)
+                    {
+                        sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
+                        return true;
+                    }
+                    
+                    TFM_UserInfo playerData = TFM_UserInfo.getPlayerData(sender_p, plugin);
+                    
+                    CreatureType creature = CreatureType.PIG;
+                    if (args.length >= 1)
+                    {
+                        if (args[0].equalsIgnoreCase("off") || args[0].equalsIgnoreCase("end"))
+                        {
+                            playerData.disableMobThrower();
+                            sender.sendMessage(ChatColor.GREEN + "MobThrower is disabled.");
+                            return true;
+                        }
+                        
+                        Map<String, CreatureType> mobtypes = new HashMap<String, CreatureType>();
+                        mobtypes.put("chicken", CreatureType.CHICKEN);
+                        mobtypes.put("cow", CreatureType.COW);
+                        mobtypes.put("creeper", CreatureType.CREEPER);
+                        mobtypes.put("pig", CreatureType.PIG);
+                        mobtypes.put("sheep", CreatureType.SHEEP);
+                        mobtypes.put("skeleton", CreatureType.SKELETON);
+                        mobtypes.put("spider", CreatureType.SPIDER);
+                        mobtypes.put("zombie", CreatureType.ZOMBIE);
+                        mobtypes.put("wolf", CreatureType.WOLF);
+                        
+                        CreatureType creature_query = mobtypes.get(args[0].toLowerCase().trim());
+                        if (creature_query != null)
+                        {
+                            creature = creature_query;
+                        }
+                        else
+                        {
+                            sender.sendMessage(args[1] + " is not a supported mob type. Using a pig instead.");
+                        }
+                    }
+                    
+                    double speed = 1.0;
+                    if (args.length >= 2)
+                    {                        
+                        try
+                        {
+                            speed = Double.parseDouble(args[1]);
+                        }
+                        catch (NumberFormatException nfex)
+                        {
+                        }
+                    }
+                    
+                    if (speed < 1.0)
+                    {
+                        speed = 1.0;
+                    }
+                    else if (speed > 5.0)
+                    {
+                        speed = 5.0;
+                    }
+                    
+                    playerData.enableMobThrower(creature, speed);
+                    sender.sendMessage(ChatColor.GREEN + "MobThrower is enabled. Creature: " + creature + " - Speed: " + speed + ".");
+                    sender.sendMessage(ChatColor.GREEN + "Left click while holding a stick to throw mobs!");
+                    sender.sendMessage(ChatColor.GREEN + "Type '/tossmob off' to disable.  -By Madgeek1450");
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
+
                 return true;
             }
         }
@@ -339,7 +422,7 @@ public class TFM_Cmds_General implements CommandExecutor
         {
             log.severe("Exception in TFM_Cmds_General.onCommand(): " + ex.getMessage());
         }
-        
+
         return false;
     }
 }

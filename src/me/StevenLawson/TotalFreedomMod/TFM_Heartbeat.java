@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -19,17 +18,14 @@ public class TFM_Heartbeat implements Runnable
     {
         for (Player p : Bukkit.getOnlinePlayers())
         {
-            TFM_UserInfo playerdata = plugin.userinfo.get(p);
-            if (playerdata != null)
-            {
-                playerdata.resetMsgCount();
-                playerdata.resetBlockDestroyCount();
-            }
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+            playerdata.resetMsgCount();
+            playerdata.resetBlockDestroyCount();
         }
 
         if (plugin.autoEntityWipe)
         {
-            TFM_Util.wipeDropEntities(plugin);
+            TFM_Util.wipeDropEntities(!plugin.allowExplosions);
         }
 
         if (plugin.disableNight)

@@ -5,10 +5,13 @@ import java.util.regex.Pattern;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 class TFM_PlayerListener extends PlayerListener
 {
@@ -23,12 +26,12 @@ class TFM_PlayerListener extends PlayerListener
     @Override
     public void onPlayerInteract(PlayerInteractEvent event)
     {
+        Player player = event.getPlayer();
+        
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
         {
             if (event.getMaterial() == Material.WATER_BUCKET)
             {
-                Player player = event.getPlayer();
-
                 int slot = player.getInventory().getHeldItemSlot();
                 ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
                 player.getInventory().setItem(slot, heldItem);
@@ -40,8 +43,6 @@ class TFM_PlayerListener extends PlayerListener
             }
             else if (event.getMaterial() == Material.LAVA_BUCKET)
             {
-                Player player = event.getPlayer();
-
                 int slot = player.getInventory().getHeldItemSlot();
                 ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
                 player.getInventory().setItem(slot, heldItem);
@@ -52,13 +53,32 @@ class TFM_PlayerListener extends PlayerListener
                 return;
             }
         }
+        else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK)
+        {
+            if (event.getMaterial() == Material.STICK)
+            {
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player, plugin);
+                if (playerdata.mobThrowerEnabled())
+                {
+                    Location player_pos = player.getLocation();
+                    Vector direction = player_pos.getDirection().normalize();
+                    Location rez_pos = player_pos.add(direction.multiply(2.0));
+                    
+                    LivingEntity rezzed_mob = player.getWorld().spawnCreature(rez_pos, playerdata.mobThrowerCreature());
+                    rezzed_mob.setVelocity(direction.multiply(playerdata.mobThrowerSpeed()));
+                    playerdata.enqueueMob(rezzed_mob);
+                    
+                    event.setCancelled(true);
+                }
+            }
+        }
     }
 
     @Override
     public void onPlayerMove(PlayerMoveEvent event)
     {
         Player p = event.getPlayer();
-        TFM_UserInfo playerdata = plugin.userinfo.get(p);
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
 
         boolean do_freeze = false;
         if (plugin.allPlayersFrozen)
@@ -70,12 +90,9 @@ class TFM_PlayerListener extends PlayerListener
         }
         else
         {
-            if (playerdata != null)
+            if (playerdata.isFrozen())
             {
-                if (playerdata.isFrozen())
-                {
-                    do_freeze = true;
-                }
+                do_freeze = true;
             }
         }
 
@@ -91,21 +108,26 @@ class TFM_PlayerListener extends PlayerListener
             event.setTo(to);
         }
 
-        if (playerdata != null)
+        if (playerdata.isCaged())
         {
-            if (playerdata.isCaged())
-            {
-                Location target_pos = p.getLocation().add(0, 1, 0);
+            Location target_pos = p.getLocation().add(0, 1, 0);
 
-                if (target_pos.distance(playerdata.getCagePos()) > 2.5)
-                {
-                    playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER), playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
-                    playerdata.regenerateHistory();
-                    playerdata.clearHistory();
-                    TFM_Util.buildHistory(target_pos, 2, playerdata);
-                    TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
-                    TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
-                }
+            if (target_pos.distance(playerdata.getCagePos()) > 2.5)
+            {
+                playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER), playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
+                playerdata.regenerateHistory();
+                playerdata.clearHistory();
+                TFM_Util.buildHistory(target_pos, 2, playerdata);
+                TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
+                TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
+            }
+        }
+
+        if (playerdata.isOrbiting())
+        {
+            if (p.getVelocity().length() < playerdata.orbitStrength() * (2.0 / 3.0))
+            {
+                p.setVelocity(new Vector(0, playerdata.orbitStrength(), 0));
             }
         }
     }
@@ -115,26 +137,18 @@ class TFM_PlayerListener extends PlayerListener
     {
         Player p = event.getPlayer();
 
-        TFM_UserInfo playerdata = plugin.userinfo.get(p);
-        if (playerdata != null)
-        {
-            playerdata.incrementMsgCount();
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+        playerdata.incrementMsgCount();
 
-            if (playerdata.getMsgCount() > 10)
-            {
-                p.setOp(false);
-                p.kickPlayer("No Spamming");
-                TFM_Util.tfm_broadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
-
-                event.setCancelled(true);
-                return;
-            }
-        }
-        else
+        if (playerdata.getMsgCount() > 10)
         {
-            playerdata = new TFM_UserInfo();
-            playerdata.incrementMsgCount();
-            plugin.userinfo.put(p, playerdata);
+            p.setOp(false);
+            p.kickPlayer("No Spamming");
+            TFM_Util.tfm_broadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+            playerdata.resetMsgCount();
+
+            event.setCancelled(true);
+            return;
         }
 
         String message = event.getMessage().toLowerCase();
@@ -177,6 +191,11 @@ class TFM_PlayerListener extends PlayerListener
                 block_command = true;
             }
         }
+        else if (Pattern.compile("^/time").matcher(command).find())
+        {
+            player.sendMessage(ChatColor.GRAY + "Server-side time changing is disabled. Please use /ptime to set your own personal time.");
+            block_command = true;
+        }
 
         if (block_command)
         {
@@ -184,5 +203,35 @@ class TFM_PlayerListener extends PlayerListener
             event.setCancelled(true);
             return;
         }
+    }
+
+    @Override
+    public void onPlayerDropItem(PlayerDropItemEvent event)
+    {
+        if (plugin.autoEntityWipe)
+        {
+            if (event.getPlayer().getWorld().getEntities().size() > 750)
+            {
+                event.setCancelled(true);
+            }
+            else
+            {
+                event.getItemDrop().remove();
+            }
+        }
+    }
+
+    @Override
+    public void onPlayerKick(PlayerKickEvent event)
+    {
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer(), plugin);
+        playerdata.stopArrowShooter();
+    }
+
+    @Override
+    public void onPlayerQuit(PlayerQuitEvent event)
+    {
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer(), plugin);
+        playerdata.stopArrowShooter();
     }
 }

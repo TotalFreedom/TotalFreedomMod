@@ -2,8 +2,12 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 public class TFM_UserInfo
 {
@@ -16,11 +20,50 @@ public class TFM_UserInfo
     private boolean user_caged = false;
     private Location user_cage_pos;
     private List<TFM_BlockData> user_cage_history = new ArrayList<TFM_BlockData>();
-    private Material cage_material_outer;
-    private Material cage_material_inner;
+    private Material cage_material_outer = Material.GLASS;
+    private Material cage_material_inner = Material.AIR;
+    private boolean is_orbiting = false;
+    private double orbit_strength = 10.0;
+    private boolean mob_thrower_enabled = false;
+    private CreatureType mob_thrower_creature = CreatureType.PIG;
+    private double mob_thrower_speed = 4.0;
+    private List<LivingEntity> mobqueue = new ArrayList<LivingEntity>();
+    private int schedule_id = -1;
 
     public TFM_UserInfo()
     {
+    }
+    
+    public static TFM_UserInfo getPlayerData(Player p, TotalFreedomMod tfm)
+    {
+        TFM_UserInfo playerdata = tfm.userinfo.get(p);
+        if (playerdata == null)
+        {
+            playerdata = new TFM_UserInfo();
+            tfm.userinfo.put(p, playerdata);
+        }
+        return playerdata;
+    }
+    
+    public boolean isOrbiting()
+    {
+        return this.is_orbiting;
+    }
+
+    public void startOrbiting(double orbit_strength)
+    {
+        this.is_orbiting = true;
+        this.orbit_strength = orbit_strength;
+    }
+    
+    public void stopOrbiting()
+    {
+        this.is_orbiting = false;
+    }
+
+    public double orbitStrength()
+    {
+        return this.orbit_strength;
     }
 
     public void setCaged(boolean state)
@@ -172,5 +215,59 @@ public class TFM_UserInfo
     public void resetFreecamPlaceCount()
     {
         this.freecam_place_count = 0;
+    }
+
+    public void enableMobThrower(CreatureType mob_thrower_creature, double mob_thrower_speed)
+    {
+        this.mob_thrower_enabled = true;
+        this.mob_thrower_creature = mob_thrower_creature;
+        this.mob_thrower_speed = mob_thrower_speed;
+    }
+    
+    public void disableMobThrower()
+    {
+        this.mob_thrower_enabled = false;
+    }
+
+    public CreatureType mobThrowerCreature()
+    {
+        return this.mob_thrower_creature;
+    }
+
+    public double mobThrowerSpeed()
+    {
+        return this.mob_thrower_speed;
+    }
+    
+    public boolean mobThrowerEnabled()
+    {
+        return this.mob_thrower_enabled;
+    }
+    
+    public void enqueueMob(LivingEntity mob)
+    {
+        mobqueue.add(mob);
+        if (mobqueue.size() > 4)
+        {
+            LivingEntity oldmob = mobqueue.remove(0);
+            if (oldmob != null)
+            {
+                oldmob.damage(20);
+            }
+        }
+    }
+    
+    void startArrowShooter(int schedule_id)
+    {
+        this.schedule_id = schedule_id;
+    }
+    
+    void stopArrowShooter()
+    {
+        if (this.schedule_id != -1)
+        {
+            Bukkit.getScheduler().cancelTask(this.schedule_id);
+            this.schedule_id = -1;
+        }
     }
 }

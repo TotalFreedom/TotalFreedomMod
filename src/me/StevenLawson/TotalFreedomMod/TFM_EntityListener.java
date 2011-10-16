@@ -53,18 +53,15 @@ public class TFM_EntityListener extends EntityListener
             Player p = (Player) event.getEntity();
             if (p != null)
             {
-                TFM_UserInfo playerdata = plugin.userinfo.get(p);
-                if (playerdata != null)
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+                if (playerdata.getForcedDeath())
                 {
-                    if (playerdata.getForcedDeath())
-                    {
-                        event.setCancelled(false);
-                        p.setFoodLevel(0);
-                        p.setHealth(0);
-                        event.setDamage(100);
-                        playerdata.setForcedDeath(false);
-                        return;
-                    }
+                    event.setCancelled(false);
+                    p.setFoodLevel(0);
+                    p.setHealth(0);
+                    event.setDamage(100);
+                    playerdata.setForcedDeath(false);
+                    return;
                 }
             }
         }

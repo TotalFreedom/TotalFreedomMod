@@ -95,7 +95,7 @@ public class TFM_Util
         }
         else
         {
-            sender.sendMessage("This command may not be used from the console.");
+            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
         }
     }
 
@@ -219,7 +219,7 @@ public class TFM_Util
 
             if (Bukkit.getOnlineMode())
             {
-                if (tfm.superadmins.contains(user.getName()))
+                if (tfm.superadmins.contains(user.getName().toLowerCase()))
                 {
                     return true;
                 }
@@ -250,14 +250,14 @@ public class TFM_Util
         return false;
     }
 
-    public static int wipeDropEntities(TotalFreedomMod tfm)
+    public static int wipeDropEntities(boolean wipe_tnt)
     {
         int removed = 0;
         for (World world : Bukkit.getWorlds())
         {
             for (Entity ent : world.getEntities())
             {
-                if (ent instanceof Arrow || (ent instanceof TNTPrimed && !tfm.allowExplosions) || ent instanceof Item || ent instanceof ExperienceOrb)
+                if (ent instanceof Arrow || (ent instanceof TNTPrimed && wipe_tnt) || ent instanceof Item || ent instanceof ExperienceOrb)
                 {
                     ent.remove();
                     removed++;
