@@ -14,7 +14,8 @@ auto_wipe: true
 
 # Nuking prevention:
 nuke_monitor: true
-nuke_monitor_count: 100
+nuke_monitor_count_break: 100
+nuke_monitor_count_place: 25
 nuke_monitor_range: 10.0
 freecam_trigger_count: 10
 

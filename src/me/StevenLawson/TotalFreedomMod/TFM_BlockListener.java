@@ -91,13 +91,13 @@ public class TFM_BlockListener extends BlockListener
         
         if (plugin.nukeMonitor)
         {
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+        
             Location player_pos = p.getLocation();
             Location block_pos = event.getBlock().getLocation();
 
             if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
             {
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
-        
                 playerdata.incrementFreecamPlaceCount();
                 if (playerdata.getFreecamPlaceCount() > plugin.freecamTriggerCount)
                 {
@@ -112,6 +112,20 @@ public class TFM_BlockListener extends BlockListener
                     event.setCancelled(true);
                     return;
                 }
+            }
+            
+            playerdata.incrementBlockPlaceCount();
+            if (playerdata.getBlockPlaceCount() > plugin.nukeMonitorCountPlace)
+            {
+                TFM_Util.tfm_broadcastMessage(p.getName() + " is placing blocks too fast!", ChatColor.RED);
+
+                p.setOp(false);
+                p.setGameMode(GameMode.SURVIVAL);
+                p.getInventory().clear();
+                p.kickPlayer("You are placing blocks too fast.");
+
+                event.setCancelled(true);
+                return;
             }
         }
         

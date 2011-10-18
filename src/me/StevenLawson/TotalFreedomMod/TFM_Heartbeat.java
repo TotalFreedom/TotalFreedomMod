@@ -21,6 +21,7 @@ public class TFM_Heartbeat implements Runnable
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
             playerdata.resetMsgCount();
             playerdata.resetBlockDestroyCount();
+            playerdata.resetBlockPlaceCount();
         }
 
         if (plugin.autoEntityWipe)

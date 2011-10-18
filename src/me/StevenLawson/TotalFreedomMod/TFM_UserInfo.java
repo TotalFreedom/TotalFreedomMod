@@ -14,6 +14,7 @@ public class TFM_UserInfo
     private boolean user_frozen = false;
     private int msg_count = 0;
     private int block_destroy_total = 0;
+    private int block_place_total = 0;
     private int freecam_destroy_count = 0;
     private int freecam_place_count = 0;
     private boolean forced_death = false;
@@ -27,8 +28,8 @@ public class TFM_UserInfo
     private boolean mob_thrower_enabled = false;
     private CreatureType mob_thrower_creature = CreatureType.PIG;
     private double mob_thrower_speed = 4.0;
-    private List<LivingEntity> mobqueue = new ArrayList<LivingEntity>();
-    private int schedule_id = -1;
+    private List<LivingEntity> mob_thrower_queue = new ArrayList<LivingEntity>();
+    private int mp44_schedule_id = -1;
 
     public TFM_UserInfo()
     {
@@ -186,6 +187,21 @@ public class TFM_UserInfo
     {
         this.block_destroy_total = 0;
     }
+    
+    public void incrementBlockPlaceCount()
+    {
+        this.block_place_total++;
+    }
+
+    public int getBlockPlaceCount()
+    {
+        return this.block_place_total;
+    }
+
+    public void resetBlockPlaceCount()
+    {
+        this.block_place_total = 0;
+    }
 
     public void incrementFreecamDestroyCount()
     {
@@ -246,10 +262,10 @@ public class TFM_UserInfo
     
     public void enqueueMob(LivingEntity mob)
     {
-        mobqueue.add(mob);
-        if (mobqueue.size() > 4)
+        mob_thrower_queue.add(mob);
+        if (mob_thrower_queue.size() > 4)
         {
-            LivingEntity oldmob = mobqueue.remove(0);
+            LivingEntity oldmob = mob_thrower_queue.remove(0);
             if (oldmob != null)
             {
                 oldmob.damage(20);
@@ -259,15 +275,15 @@ public class TFM_UserInfo
     
     void startArrowShooter(int schedule_id)
     {
-        this.schedule_id = schedule_id;
+        this.mp44_schedule_id = schedule_id;
     }
     
     void stopArrowShooter()
     {
-        if (this.schedule_id != -1)
+        if (this.mp44_schedule_id != -1)
         {
-            Bukkit.getScheduler().cancelTask(this.schedule_id);
-            this.schedule_id = -1;
+            Bukkit.getScheduler().cancelTask(this.mp44_schedule_id);
+            this.mp44_schedule_id = -1;
         }
     }
 }

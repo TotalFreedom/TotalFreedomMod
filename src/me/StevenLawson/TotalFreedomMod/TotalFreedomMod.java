@@ -63,6 +63,7 @@ public class TotalFreedomMod extends JavaPlugin
     public boolean autoEntityWipe = true;
     public boolean nukeMonitor = true;
     public int nukeMonitorCountBreak = 100;
+    public int nukeMonitorCountPlace = 25;
     public double nukeMonitorRange = 10.0D;
     public int freecamTriggerCount = 10;
     public Boolean preprocessLogEnabled = true;
@@ -86,7 +87,8 @@ public class TotalFreedomMod extends JavaPlugin
         explosiveRadius = config.getDouble("explosiveRadius", explosiveRadius);
         autoEntityWipe = config.getBoolean("auto_wipe", autoEntityWipe);
         nukeMonitor = config.getBoolean("nuke_monitor", nukeMonitor);
-        nukeMonitorCountBreak = config.getInt("nuke_monitor_count", nukeMonitorCountBreak);
+        nukeMonitorCountBreak = config.getInt("nuke_monitor_count_break", nukeMonitorCountBreak);
+        nukeMonitorCountPlace = config.getInt("nuke_monitor_count_place", nukeMonitorCountPlace);
         nukeMonitorRange = config.getDouble("nuke_monitor_range", nukeMonitorRange);
         freecamTriggerCount = config.getInt("freecam_trigger_count", freecamTriggerCount);
         preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
