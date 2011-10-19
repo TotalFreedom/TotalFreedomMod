@@ -1,6 +1,9 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.Listener;
 
 import java.util.logging.Logger;
+import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -14,7 +17,7 @@ public class TFM_BlockListener extends BlockListener
     private TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    TFM_BlockListener(TotalFreedomMod instance)
+    public TFM_BlockListener(TotalFreedomMod instance)
     {
         this.plugin = instance;
     }

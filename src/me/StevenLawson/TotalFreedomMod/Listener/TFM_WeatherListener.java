@@ -1,8 +1,9 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.Listener;
 
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.event.weather.*;
 
-class TFM_WeatherListener extends WeatherListener
+public class TFM_WeatherListener extends WeatherListener
 {
     private TotalFreedomMod plugin;
 

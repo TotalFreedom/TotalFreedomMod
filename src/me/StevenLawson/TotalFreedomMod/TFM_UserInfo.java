@@ -143,7 +143,7 @@ public class TFM_UserInfo
         return this.forced_death;
     }
 
-    void setForcedDeath(boolean forced_death)
+    public void setForcedDeath(boolean forced_death)
     {
         this.forced_death = forced_death;
     }
@@ -273,12 +273,12 @@ public class TFM_UserInfo
         }
     }
     
-    void startArrowShooter(int schedule_id)
+    public void startArrowShooter(int schedule_id)
     {
         this.mp44_schedule_id = schedule_id;
     }
     
-    void stopArrowShooter()
+    public void stopArrowShooter()
     {
         if (this.mp44_schedule_id != -1)
         {

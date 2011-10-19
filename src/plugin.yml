@@ -1,135 +1,133 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 1.7
+version: 2.0
 description: Plugin for the Total Freedom server.
 author: StevenLawson / Madgeek1450
 commands:
-  cage:
-    description: Superadmin command - Place a cage around someone.
-    usage: /<command> <partialname> [off|outermaterial] [water|lava]
-  cake:
-    description: Superadmin command - For the people that are still alive.
-    usage: /<command>
-  creative:
-    description: Quickly change your own gamemode to creative, or define someone's username to change theirs.
-    usage: /<command> [partialname]
-  csay:
-    description: Telnet command - Send a chat message with chat formatting over telnet.
-    usage: /<command> [partialname]
-  deopall:
-    description: Superadmin command - Deop everyone on the server. Use 'purge' to clear ops.txt as well.
-    usage: /<command> [purge]
-  explosives:
-    description: Superadmin command - Enable/disable explosives and set effect radius.
-    usage: /<command> <on|off> [radius]
-  expel:
-    description: Superadmin command - Push people away from you.
-    usage: /<command> [radius] [strength]
-  fireplace:
-    description: Superadmin command - Enable/disable fire placement.
-    usage: /<command> <on|off>
-  firespread:
-    description: Superadmin command - Enable/disable fire spread.
-    usage: /<command> <on|off>
-  flatlands:
-    description: Goto the flatlands.
-    usage: /<command>
-  fr:
-    description: Superadmin command - Freeze all players (toggles on and off).
-    usage: /<command>
-  gadmin:
-    description: Superadmin command - Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci
-    usage: /<command> [list | <kick|nameban|ipban|ban|op|deop|ci> <targethash>]
-  gcmd:
-    description: Superadmin command - Send a command as someone else.
-    usage: /<command> <fromname> <outcommand>
-  gtfo:
-    description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
-    usage: /<command> <partialname>
-  lavadmg:
-    description: Superadmin command - Enable/disable lava damage.
-    usage: /<command> <on|off>
-  lavaplace:
-    description: Superadmin command - Enable/disable lava placement.
-    usage: /<command> <on|off>
-  list:
-    description: Lists the real names of all online players.
-    usage: /<command>
-  listreal:
-    description: Lists the real names of all online players.
-    usage: /<command>
-  mp:
-    description: Use moblimiter to purge all mobs.
-    usage: /<command>
-  mp44:
-    description: Superadmin Command - Modern weaponry, FTW. Use 'draw' to start firing, 'sling' to stop firing.
-    usage: /<command> [draw|sling]
-  nether:
-    description: Goto the nether.
-    usage: /<command>
-  nonuke:
-    description: Attempt to detect "invisible griefers" and "nukers".
-    usage: /<command> <on|off> [range] [blockrate]
-  opall:
-    description: Superadmin command - Op everyone on the server, optionally change everyone's gamemode at the same time.
-    usage: /<command> [-c|-s]
-  opme:
-    description: Superadmin command - Automatically ops user.
-    usage: /<command>
-  orbit:
-    description: Superadmin command - POW!!! Right in the kisser! One of these days Alice, straight to the Moon!
-    usage: /<command> <target> [power]
-  prelog:
-    description: Superadmin command - Enable/disable the command prelogger. When this is on, logs will be filled with many duplicate messages.
-    usage: /<command> <on|off>
-  qjail:
-    description: Quick Jail - Quickly jail someone (mgjail must be set as a jail!)
-    usage: /<command> <partialname>
-  qdeop:
-    description: Quick De-Op - deop someone based on a partial name.
-    usage: /<command> <partialname>
-  qop:
-    description: Quick Op - op someone based on a partial name.
-    usage: /<command> <partialname>
-  radar:
-    description: Shows nearby people sorted by distance.
-    usage: /<command>
-  rd:
-    description: Use WorldEdit to remove drops, arrows, and primed TNT.
-    usage: /<command>
-  say:
-    description: Broadcasts the given message as the console, includes sender.
-    usage: /<command> <message>
-  skylands:
-    description: Goto the skylands.
-    usage: /<command>
-  status:
-    description: Show random server info.
-    usage: /<command>
-  stop:
-    description: Superadmin command - Kicks everyone and stops the server.
-    usage: /<command>
-  survival:
-    description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
-    usage: /<command> [partialname]
-  tossmob:
-    description: Throw a mob in the direction you are facing when you left click with a stick.
-    usage: /<command> [mobtype | off] [speed]
-  tfbanlist:
-    description: Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.
-    usage: /<command> [purge]
-  tfipbanlist:
-    description: Shows all banned IPs. Superadmins may optionally use 'purge' to clear the list.
-    usage: /<command> [purge]
-  tfsmite:
-    description: De-op, inventory clear, de-godmode, lightning, and kill your target. For naughty people only (or the entire server).
-    usage: /<command> [playername|all]
-  umd:
-    description: Superadmin command - Undisguse all players.
-    usage: /<command>
-  waterplace:
-    description: Superadmin command - Enable/disable water placement.
-    usage: /<command> <on|off>
-  wildcard:
-    description: Superadmin command - Run any command on all users, username placeholder = ?.
-    usage: /<command> [fluff] ? [fluff] ?
+    cage:
+        description: Superadmin command - Place a cage around someone.
+        usage: /<command> <partialname> [off | outermaterial] [water | lava]
+    cake:
+        description: Superadmin command - For the people that are still alive.
+        usage: /<command>
+    creative:
+        description: Quickly change your own gamemode to creative, or define someone's username to change theirs.
+        usage: /<command> [partialname]
+    csay:
+        description: Telnet command - Send a chat message with chat formatting over telnet.
+        usage: /<command> [partialname]
+    deopall:
+        description: Superadmin command - Deop everyone on the server. Use 'purge' to clear ops.txt as well.
+        usage: /<command> [purge]
+    expel:
+        description: Superadmin command - Push people away from you.
+        usage: /<command> [radius] [strength]
+    explosives:
+        description: Superadmin command - Enable/disable explosives and set effect radius.
+        usage: /<command> <on | off> [radius]
+    fireplace:
+        description: Superadmin command - Enable/disable fire placement.
+        usage: /<command> <on | off>
+    firespread:
+        description: Superadmin command - Enable/disable fire spread.
+        usage: /<command> <on | off>
+    flatlands:
+        description: Goto the flatlands.
+        usage: /<command>
+    fr:
+        description: Superadmin command - Freeze all players (toggles on and off).
+        usage: /<command>
+    gadmin:
+        description: Superadmin command - Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci
+        usage: /<command> [list | [<kick | nameban | ipban | ban | op | deop | ci> <targethash>] ]
+    gcmd:
+        description: Superadmin command - Send a command as someone else.
+        usage: /<command> <fromname> <outcommand>
+    gtfo:
+        description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
+        usage: /<command> <partialname>
+    lavadmg:
+        description: Superadmin command - Enable/disable lava damage.
+        usage: /<command> <on | off>
+    lavaplace:
+        description: Superadmin command - Enable/disable lava placement.
+        usage: /<command> <on | off>
+    list:
+        description: Lists the real names of all online players.
+        usage: /<command>
+        aliases: [listreal]
+    mp:
+        description: Purge all mobs in all worlds.
+        usage: /<command>
+    mp44:
+        description: Superadmin Command - Modern weaponry, FTW. Use 'draw' to start firing, 'sling' to stop firing.
+        usage: /<command> <draw | sling>
+    nether:
+        description: Goto the nether.
+        usage: /<command>
+    nonuke:
+        description: Superadmin command - Attempt to detect "invisible griefers" and "nukers".
+        usage: /<command> <on | off> [range] [blockrate]
+    opall:
+        description: Superadmin command - Op everyone on the server, optionally change everyone's gamemode at the same time.
+        usage: /<command> [-c | -s]
+    opme:
+        description: Superadmin command - Automatically ops user.
+        usage: /<command>
+    orbit:
+        description: Superadmin command - POW!!! Right in the kisser! One of these days Alice, straight to the Moon!
+        usage: /<command> <target> [power]
+    prelog:
+        description: Superadmin command - Enable/disable the command prelogger. When this is on, logs will be filled with many duplicate messages.
+        usage: /<command> <on | off>
+    qdeop:
+        description: Quick De-Op - deop someone based on a partial name.
+        usage: /<command> <partialname>
+    qjail:
+        description: Quick Jail - Quickly jail someone (mgjail must be set as a jail!)
+        usage: /<command> <partialname>
+    qop:
+        description: Quick Op - op someone based on a partial name.
+        usage: /<command> <partialname>
+    radar:
+        description: Shows nearby people sorted by distance.
+        usage: /<command> [range]
+    rd:
+        description: Remove drops, arrows, primed TNT, and expierence orbs in all worlds.
+        usage: /<command>
+    say:
+        description: Broadcasts the given message as the console, includes sender name.
+        usage: /<command> <message>
+    skylands:
+        description: Goto the skylands.
+        usage: /<command>
+    status:
+        description: Show misc. server info.
+        usage: /<command>
+    stop:
+        description: Superadmin command - Kicks everyone and stops the server.
+        usage: /<command>
+    survival:
+        description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
+        usage: /<command> [partialname]
+    tfbanlist:
+        description: Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.
+        usage: /<command> [purge]
+    tfipbanlist:
+        description: Shows all banned IPs. Superadmins may optionally use 'purge' to clear the list.
+        usage: /<command> [purge]
+    tfsmite:
+        description: De-op, inventory clear, de-godmode, lightning, and kill your target. For naughty people only (or the entire server).
+        usage: /<command> <playername | all>
+    tossmob:
+        description: Throw a mob in the direction you are facing when you left click with a stick.
+        usage: /<command> [mobtype | off] [speed]
+    umd:
+        description: Superadmin command - Undisguse all players.
+        usage: /<command>
+    waterplace:
+        description: Superadmin command - Enable/disable water placement.
+        usage: /<command> <on | off>
+    wildcard:
+        description: Superadmin command - Run any command on all users, username placeholder = ?.
+        usage: /<command> [fluff] ? [fluff] ?

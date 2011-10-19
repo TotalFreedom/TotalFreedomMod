@@ -1,7 +1,10 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.Listener;
 
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,12 +15,12 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-class TFM_PlayerListener extends PlayerListener
+public class TFM_PlayerListener extends PlayerListener
 {
     private TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    TFM_PlayerListener(TotalFreedomMod instance)
+    public TFM_PlayerListener(TotalFreedomMod instance)
     {
         this.plugin = instance;
     }

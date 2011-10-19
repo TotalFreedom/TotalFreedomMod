@@ -2,13 +2,18 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
+import me.StevenLawson.TotalFreedomMod.Listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -22,6 +27,8 @@ public class TotalFreedomMod extends JavaPlugin
     
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final String CONFIG_FILE = "config.yml";
+    private static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
+    private static final String COMMAND_PREFIX = "Command_";
     
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
@@ -37,7 +44,6 @@ public class TotalFreedomMod extends JavaPlugin
     {
         loadTFMConfig();
         registerEventHandlers();
-        registerCommands();
         
         Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
@@ -51,6 +57,63 @@ public class TotalFreedomMod extends JavaPlugin
     {
         Bukkit.getScheduler().cancelTasks(this);
         log.log(Level.INFO, "[" + getDescription().getName() + "] - Disabled.");
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
+    {
+        try
+        {
+            Player sender_p = null;
+            boolean senderIsConsole = false;
+            if (sender instanceof Player)
+            {
+                sender_p = (Player) sender;
+                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s",
+                        sender_p.getName(),
+                        ChatColor.stripColor(sender_p.getDisplayName()),
+                        commandLabel,
+                        TFM_Util.implodeStringList(" ", Arrays.asList(args))));
+            }
+            else
+            {
+                senderIsConsole = true;
+                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s",
+                        sender.getName(),
+                        commandLabel,
+                        TFM_Util.implodeStringList(" ", Arrays.asList(args))));
+            }
+
+            TFM_Command dispatcher;
+            try
+            {
+                ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
+                dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, cmd.getName().toLowerCase())).newInstance();
+                dispatcher.setPlugin(this);
+            }
+            catch (Throwable ex)
+            {
+                log.log(Level.SEVERE, "Command not loaded: " + cmd.getName(), ex);
+                sender.sendMessage(ChatColor.RED + "Command Error: Command not loaded: " + cmd.getName());
+                return true;
+            }
+
+            try
+            {
+                return dispatcher.run(sender, sender_p, cmd, commandLabel, args, senderIsConsole);
+            }
+            catch (Throwable ex)
+            {
+                sender.sendMessage(ChatColor.RED + "Command Error: " + ex.getMessage());
+            }
+        }
+        catch (Throwable ex)
+        {
+            log.log(Level.SEVERE, "Command Error: " + commandLabel, ex);
+            sender.sendMessage(ChatColor.RED + "Unknown Command Error.");
+        }
+
+        return true;
     }
     
     public boolean allowFirePlace = false;
@@ -154,62 +217,5 @@ public class TotalFreedomMod extends JavaPlugin
         
         pm.registerEvent(Event.Type.WEATHER_CHANGE, weatherListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.THUNDER_CHANGE, weatherListener, Event.Priority.High, this);
-    }
-
-    private TFM_Cmds_OP OPCommands = new TFM_Cmds_OP(this);
-    private TFM_Cmds_Override OverrideCommands = new TFM_Cmds_Override(this);
-    private TFM_Cmds_General GeneralCommands = new TFM_Cmds_General(this);
-    private TFM_Cmds_AntiBlock AntiblockCommands = new TFM_Cmds_AntiBlock(this);
-    private TFM_Cmds_Admin AdminCommands = new TFM_Cmds_Admin(this);
-    
-    private void registerCommands()
-    {
-        this.getCommand("deopall").setExecutor(OPCommands);
-        this.getCommand("opall").setExecutor(OPCommands);
-        this.getCommand("opme").setExecutor(OPCommands);
-        this.getCommand("qdeop").setExecutor(OPCommands);
-        this.getCommand("qop").setExecutor(OPCommands);
-
-        this.getCommand("tfbanlist").setExecutor(GeneralCommands);
-        this.getCommand("creative").setExecutor(GeneralCommands);
-        this.getCommand("flatlands").setExecutor(GeneralCommands);
-        this.getCommand("tfipbanlist").setExecutor(GeneralCommands);
-        this.getCommand("mp").setExecutor(GeneralCommands);
-        this.getCommand("nether").setExecutor(GeneralCommands);
-        this.getCommand("radar").setExecutor(GeneralCommands);
-        this.getCommand("rd").setExecutor(GeneralCommands);
-        this.getCommand("skylands").setExecutor(GeneralCommands);
-        this.getCommand("status").setExecutor(GeneralCommands);
-        this.getCommand("survival").setExecutor(GeneralCommands);
-        this.getCommand("tossmob").setExecutor(GeneralCommands);
-
-        this.getCommand("cage").setExecutor(AdminCommands);
-        this.getCommand("cake").setExecutor(AdminCommands);
-        this.getCommand("csay").setExecutor(AdminCommands);
-        this.getCommand("expel").setExecutor(AdminCommands);
-        this.getCommand("fr").setExecutor(AdminCommands);
-        this.getCommand("gadmin").setExecutor(AdminCommands);
-        this.getCommand("gcmd").setExecutor(AdminCommands);
-        this.getCommand("gtfo").setExecutor(AdminCommands);
-        this.getCommand("nonuke").setExecutor(AdminCommands);
-        this.getCommand("orbit").setExecutor(AdminCommands);
-        this.getCommand("prelog").setExecutor(AdminCommands);
-        this.getCommand("qjail").setExecutor(AdminCommands);
-        this.getCommand("tfsmite").setExecutor(AdminCommands);
-        this.getCommand("umd").setExecutor(AdminCommands);
-        this.getCommand("wildcard").setExecutor(AdminCommands);
-        this.getCommand("mp44").setExecutor(AdminCommands);
-
-        this.getCommand("explosives").setExecutor(AntiblockCommands);
-        this.getCommand("fireplace").setExecutor(AntiblockCommands);
-        this.getCommand("firespread").setExecutor(AntiblockCommands);
-        this.getCommand("lavadmg").setExecutor(AntiblockCommands);
-        this.getCommand("lavaplace").setExecutor(AntiblockCommands);
-        this.getCommand("waterplace").setExecutor(AntiblockCommands);
-
-        this.getCommand("list").setExecutor(OverrideCommands);
-        this.getCommand("listreal").setExecutor(OverrideCommands);
-        this.getCommand("say").setExecutor(OverrideCommands);
-        this.getCommand("stop").setExecutor(OverrideCommands);
     }
 }

@@ -1,5 +1,7 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.Listener;
 
+import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -8,7 +10,7 @@ public class TFM_EntityListener extends EntityListener
 {
     private TotalFreedomMod plugin;
 
-    TFM_EntityListener(TotalFreedomMod instance)
+    public TFM_EntityListener(TotalFreedomMod instance)
     {
         this.plugin = instance;
     }
