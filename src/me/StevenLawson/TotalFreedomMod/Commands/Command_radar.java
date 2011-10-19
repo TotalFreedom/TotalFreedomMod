@@ -23,24 +23,28 @@ public class Command_radar extends TFM_Command
             sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
             return true;
         }
-
-        Player sender_player = Bukkit.getPlayerExact(sender.getName());
-        Location sender_pos = sender_player.getLocation();
-        String sender_world = sender_player.getWorld().getName();
+        
+        Location sender_pos = sender_p.getLocation();
 
         List<TFM_RadarData> radar_data = new ArrayList<TFM_RadarData>();
 
-        for (Player p : Bukkit.getOnlinePlayers())
+        for (Player p : sender_pos.getWorld().getPlayers())
         {
-            if (sender_world.equals(p.getWorld().getName()) && !p.getName().equals(sender.getName()))
+            if (!p.equals(sender_p))
             {
                 radar_data.add(new TFM_RadarData(p, sender_pos.distance(p.getLocation()), p.getLocation()));
             }
         }
+        
+        if (radar_data.isEmpty())
+        {
+            sender.sendMessage(ChatColor.YELLOW + "You are the only player in this world. (Forever alone...)");
+            return true;
+        }
 
         Collections.sort(radar_data, new TFM_RadarData());
 
-        sender.sendMessage(ChatColor.YELLOW + "People nearby in " + sender_world + ":");
+        sender.sendMessage(ChatColor.YELLOW + "People nearby in " + sender_pos.getWorld().getName() + ":");
 
         int countmax = 5;
         if (args.length == 1)
@@ -53,19 +57,18 @@ public class Command_radar extends TFM_Command
             {
             }
         }
-
-        int count = 0;
+        
         for (TFM_RadarData i : radar_data)
         {
-            if (count++ > countmax)
-            {
-                break;
-            }
-
             sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d, Disguised: %s",
                     i.player.getName(),
                     Math.round(i.distance),
                     MobDisguiseAPI.isDisguised(i.player) ? "Yes" : "No"));
+            
+            if (--countmax <= 0)
+            {
+                break;
+            }
         }
 
         return true;

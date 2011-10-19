@@ -10,11 +10,11 @@ public class TFM_RadarData implements Comparator<TFM_RadarData>
     public double distance;
     public Location location;
 
-    public TFM_RadarData(Player inplayer, double indistance, Location inlocation)
+    public TFM_RadarData(Player player, double distance, Location location)
     {
-        this.player = inplayer;
-        this.distance = indistance;
-        this.location = inlocation;
+        this.player = player;
+        this.distance = distance;
+        this.location = location;
     }
 
     public TFM_RadarData()

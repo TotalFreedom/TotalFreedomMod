@@ -48,19 +48,16 @@ public class Command_expel extends TFM_Command
             }
 
             Location sender_pos = sender_p.getLocation();
-            for (Player p : Bukkit.getOnlinePlayers())
+            for (Player p : sender_pos.getWorld().getPlayers())
             {
                 if (!p.equals(sender_p))
                 {
                     Location target_pos = p.getLocation();
-                    if (target_pos.getWorld().equals(sender_pos.getWorld()))
+                    if (target_pos.distance(sender_pos) < radius)
                     {
-                        if (target_pos.distance(sender_pos) < radius)
-                        {
-                            sender.sendMessage("Pushing " + p.getName());
-                            Vector expel_direction = target_pos.subtract(sender_pos).toVector().normalize();
-                            p.setVelocity(expel_direction.multiply(strength));
-                        }
+                        sender.sendMessage("Pushing " + p.getName());
+                        Vector expel_direction = target_pos.subtract(sender_pos).toVector().normalize();
+                        p.setVelocity(expel_direction.multiply(strength));
                     }
                 }
             }
