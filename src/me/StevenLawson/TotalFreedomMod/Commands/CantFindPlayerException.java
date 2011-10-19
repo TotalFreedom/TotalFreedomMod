@@ -4,6 +4,7 @@ public class CantFindPlayerException extends Exception
 {
     public CantFindPlayerException()
     {
+        super("Can't find player.");
     }
 
     public CantFindPlayerException(String msg)
