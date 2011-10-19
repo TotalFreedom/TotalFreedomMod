@@ -1,6 +1,6 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 2.0
+version: 2.1
 description: Plugin for the Total Freedom server.
 author: StevenLawson / Madgeek1450
 commands:

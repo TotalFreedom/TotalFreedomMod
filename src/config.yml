@@ -1,4 +1,7 @@
-#Block placement prevention:
+# Total Freedom Mod v2.0 Configuration
+# by Madgeek1450
+
+# Block placement prevention:
 allow_fire_place: false
 allow_fire_spread: false
 allow_lava_damage: false
