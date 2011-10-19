@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -113,8 +114,18 @@ public class TFM_PlayerListener extends PlayerListener
         if (playerdata.isCaged())
         {
             Location target_pos = p.getLocation().add(0, 1, 0);
+            
+            boolean out_of_cage = false;
+            if (!target_pos.getWorld().equals(playerdata.getCagePos().getWorld()))
+            {
+                out_of_cage = true;
+            }
+            else
+            {
+                out_of_cage = target_pos.distance(playerdata.getCagePos()) > 2.5;
+            }
 
-            if (target_pos.distance(playerdata.getCagePos()) > 2.5)
+            if (out_of_cage)
             {
                 playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER), playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
                 playerdata.regenerateHistory();
@@ -146,6 +157,7 @@ public class TFM_PlayerListener extends PlayerListener
         {
             p.setOp(false);
             p.kickPlayer("No Spamming");
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
             TFM_Util.tfm_broadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
             playerdata.resetMsgCount();
 
