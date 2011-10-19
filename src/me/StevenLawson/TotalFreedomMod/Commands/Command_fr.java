@@ -37,15 +37,14 @@ public class Command_fr extends TFM_Command
             else
             {
                 Player p;
-                List<Player> matches = Bukkit.matchPlayer(args[0]);
-                if (matches.isEmpty())
+                try
                 {
-                    sender.sendMessage("Can't find user " + args[0]);
-                    return true;
+                    p = getPlayer(args[0]);
                 }
-                else
+                catch (CantFindPlayerException ex)
                 {
-                    p = matches.get(0);
+                    sender.sendMessage(ex.getMessage());
+                    return true;
                 }
 
                 TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);

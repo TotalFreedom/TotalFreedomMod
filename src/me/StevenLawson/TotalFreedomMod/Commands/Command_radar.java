@@ -47,7 +47,7 @@ public class Command_radar extends TFM_Command
         {
             try
             {
-                countmax = Integer.parseInt(args[0]);
+                countmax = Math.max(1, Math.min(64, Integer.parseInt(args[0])));
             }
             catch (NumberFormatException nfex)
             {

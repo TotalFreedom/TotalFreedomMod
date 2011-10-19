@@ -33,8 +33,4 @@ disable_weather: true
 
 # Superadmins: Users that can always log in and use the most powerful commands:
 # When online-mode = false, only superadmin_ips will be used.
-superadmins:
-  - Madgeek1450
-  - markbyron
-superadmin_ips:
-  - 127.0.0.1
+# The superadmin lists have been moved to superadmin.yml

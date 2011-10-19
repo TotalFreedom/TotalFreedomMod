@@ -27,6 +27,7 @@ public class TotalFreedomMod extends JavaPlugin
     
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final String CONFIG_FILE = "config.yml";
+    public static final String SUPERADMIN_FILE = "superadmin.yml";
     private static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
     private static final String COMMAND_PREFIX = "Command_";
     
@@ -42,7 +43,9 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onEnable()
     {
-        loadTFMConfig();
+        loadMainConfig();
+        loadSuperadminConfig();
+        
         registerEventHandlers();
         
         Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
@@ -93,7 +96,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             catch (Throwable ex)
             {
-                log.log(Level.SEVERE, "Command not loaded: " + cmd.getName(), ex);
+                log.log(Level.SEVERE, "[" + getDescription().getName() + "] Command not loaded: " + cmd.getName(), ex);
                 sender.sendMessage(ChatColor.RED + "Command Error: Command not loaded: " + cmd.getName());
                 return true;
             }
@@ -109,7 +112,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Throwable ex)
         {
-            log.log(Level.SEVERE, "Command Error: " + commandLabel, ex);
+            log.log(Level.SEVERE, "[" + getDescription().getName() + "] Command Error: " + commandLabel, ex);
             sender.sendMessage(ChatColor.RED + "Unknown Command Error.");
         }
 
@@ -132,13 +135,10 @@ public class TotalFreedomMod extends JavaPlugin
     public Boolean preprocessLogEnabled = true;
     public Boolean disableNight = true;
     public Boolean disableWeather = true;
-    public List<String> superadmins = new ArrayList<String>();
-    public List<String> superadmin_ips = new ArrayList<String>();
 
-    private void loadTFMConfig()
+    public void loadMainConfig()
     {
         TFM_Util.createDefaultConfiguration(CONFIG_FILE, this, getFile());
-
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), CONFIG_FILE));
 
         allowFirePlace = config.getBoolean("allow_fire_place", allowFirePlace);
@@ -157,9 +157,18 @@ public class TotalFreedomMod extends JavaPlugin
         preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
         disableNight = config.getBoolean("disable_night", disableNight);
         disableWeather = config.getBoolean("disable_weather", disableWeather);
+    }
+    
+    public List<String> superadmins = new ArrayList<String>();
+    public List<String> superadmin_ips = new ArrayList<String>();
+    
+    public void loadSuperadminConfig()
+    {
+        TFM_Util.createDefaultConfiguration(SUPERADMIN_FILE, this, getFile());
+        FileConfiguration sa_config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), SUPERADMIN_FILE));
 
         superadmins = new ArrayList<String>();
-        List<String> superadmins_temp = (List<String>) config.getList("superadmins", null);
+        List<String> superadmins_temp = (List<String>) sa_config.getList("superadmins", null);
         if (superadmins_temp == null || superadmins_temp.isEmpty())
         {
             superadmins.add("Madgeek1450");
@@ -174,7 +183,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
         
         superadmin_ips = new ArrayList<String>();
-        List<String> superadmin_ips_temp = (List<String>) config.getList("superadmin_ips", null);
+        List<String> superadmin_ips_temp = (List<String>) sa_config.getList("superadmin_ips", null);
         if (superadmin_ips_temp == null || superadmin_ips_temp.isEmpty())
         {
             superadmin_ips.add("127.0.0.1");

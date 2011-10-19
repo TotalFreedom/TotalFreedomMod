@@ -1,10 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -26,15 +24,14 @@ public class Command_cage extends TFM_Command
             }
 
             Player p;
-            List<Player> matches = Bukkit.matchPlayer(args[0]);
-            if (matches.isEmpty())
+            try
             {
-                sender.sendMessage(ChatColor.GRAY + "Can't find user " + args[0]);
-                return true;
+                p = getPlayer(args[0]);
             }
-            else
+            catch (CantFindPlayerException ex)
             {
-                p = matches.get(0);
+                sender.sendMessage(ex.getMessage());
+                return true;
             }
 
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);

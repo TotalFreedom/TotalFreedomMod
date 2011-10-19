@@ -22,15 +22,14 @@ public class Command_gcmd extends TFM_Command
             }
 
             Player p;
-            List<Player> matches = Bukkit.matchPlayer(args[0]);
-            if (matches.isEmpty())
+            try
             {
-                sender.sendMessage(ChatColor.GRAY + "Can't find user " + args[0]);
-                return true;
+                p = getPlayer(args[0]);
             }
-            else
+            catch (CantFindPlayerException ex)
             {
-                p = matches.get(0);
+                sender.sendMessage(ex.getMessage());
+                return true;
             }
 
             String outcommand = "";
@@ -43,9 +42,9 @@ public class Command_gcmd extends TFM_Command
                 }
                 outcommand = outcommand_bldr.toString().trim();
             }
-            catch (Exception cmdex)
+            catch (Throwable ex)
             {
-                sender.sendMessage(ChatColor.GRAY + "Error building command: " + cmdex.getMessage());
+                sender.sendMessage(ChatColor.GRAY + "Error building command: " + ex.getMessage());
             }
 
             try
@@ -60,9 +59,9 @@ public class Command_gcmd extends TFM_Command
                     sender.sendMessage(ChatColor.GRAY + "Unknown error sending command.");
                 }
             }
-            catch (Exception cmdex)
+            catch (Throwable ex)
             {
-                sender.sendMessage(ChatColor.GRAY + "Error sending command: " + cmdex.getMessage());
+                sender.sendMessage(ChatColor.GRAY + "Error sending command: " + ex.getMessage());
             }
         }
         else

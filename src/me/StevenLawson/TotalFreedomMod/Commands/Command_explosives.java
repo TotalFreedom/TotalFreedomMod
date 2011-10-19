@@ -22,7 +22,7 @@ public class Command_explosives extends TFM_Command
             {
                 try
                 {
-                    plugin.explosiveRadius = Double.parseDouble(args[1]);
+                    plugin.explosiveRadius = Math.max(1.0, Math.min(30.0, Double.parseDouble(args[1])));
                 }
                 catch (NumberFormatException nfex)
                 {

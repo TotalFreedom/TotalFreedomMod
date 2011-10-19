@@ -23,7 +23,7 @@ public class Command_nonuke extends TFM_Command
             {
                 try
                 {
-                    plugin.nukeMonitorRange = Double.parseDouble(args[1]);
+                    plugin.nukeMonitorRange = Math.max(1.0, Math.min(500.0, Double.parseDouble(args[1])));
                 }
                 catch (NumberFormatException nfex)
                 {
@@ -34,7 +34,7 @@ public class Command_nonuke extends TFM_Command
             {
                 try
                 {
-                    plugin.nukeMonitorCountBreak = Integer.parseInt(args[2]);
+                    plugin.nukeMonitorCountBreak = Math.max(1, Math.min(500, Integer.parseInt(args[2])));
                 }
                 catch (NumberFormatException nfex)
                 {

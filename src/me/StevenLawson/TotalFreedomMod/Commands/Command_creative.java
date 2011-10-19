@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,31 +22,28 @@ public class Command_creative extends TFM_Command
                 return true;
             }
         }
-        else
+
+        if (!sender.isOp())
         {
-            if (!sender.isOp())
-            {
-                sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-                return true;
-            }
+            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            return true;
         }
 
         Player p;
         if (args.length == 0)
         {
-            p = Bukkit.getPlayerExact(sender.getName());
+            p = sender_p;
         }
         else
         {
-            List<Player> matches = Bukkit.matchPlayer(args[0]);
-            if (matches.isEmpty())
+            try
             {
-                sender.sendMessage("Can't find user " + args[0]);
-                return true;
+                p = getPlayer(args[0]);
             }
-            else
+            catch (CantFindPlayerException ex)
             {
-                p = matches.get(0);
+                sender.sendMessage(ex.getMessage());
+                return true;
             }
         }
 

@@ -1,7 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.List;
 import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,5 +28,18 @@ public class TFM_Command
     public void setPlugin(TotalFreedomMod plugin)
     {
         this.plugin = plugin;
+    }
+    
+    public Player getPlayer(String partialname) throws CantFindPlayerException
+    {
+        List<Player> matches = Bukkit.matchPlayer(partialname);
+        if (matches.isEmpty())
+        {
+            throw new CantFindPlayerException(partialname);
+        }
+        else
+        {
+            return matches.get(0);
+        }
     }
 }

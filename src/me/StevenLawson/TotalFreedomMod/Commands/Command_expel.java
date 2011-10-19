@@ -29,7 +29,7 @@ public class Command_expel extends TFM_Command
             {
                 try
                 {
-                    radius = Double.parseDouble(args[0]);
+                    radius = Math.max(1.0, Math.min(200.0, Double.parseDouble(args[0])));
                 }
                 catch (NumberFormatException nfex)
                 {
@@ -40,7 +40,7 @@ public class Command_expel extends TFM_Command
             {
                 try
                 {
-                    strength = Double.parseDouble(args[1]);
+                    strength = Math.max(0.0, Math.min(200.0, Double.parseDouble(args[1])));
                 }
                 catch (NumberFormatException nfex)
                 {

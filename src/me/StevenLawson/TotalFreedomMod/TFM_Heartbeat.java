@@ -8,7 +8,7 @@ public class TFM_Heartbeat implements Runnable
 {
     private TotalFreedomMod plugin;
 
-    TFM_Heartbeat(TotalFreedomMod instance)
+    public TFM_Heartbeat(TotalFreedomMod instance)
     {
         this.plugin = instance;
     }

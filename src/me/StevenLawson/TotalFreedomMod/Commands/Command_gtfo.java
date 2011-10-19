@@ -24,15 +24,14 @@ public class Command_gtfo extends TFM_Command
         if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
         {
             Player p;
-            List<Player> matches = Bukkit.matchPlayer(args[0]);
-            if (matches.isEmpty())
+            try
             {
-                sender.sendMessage("Can't find user " + args[0]);
-                return true;
+                p = getPlayer(args[0]);
             }
-            else
+            catch (CantFindPlayerException ex)
             {
-                p = matches.get(0);
+                sender.sendMessage(ex.getMessage());
+                return true;
             }
 
             TFM_Util.tfm_broadcastMessage(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);

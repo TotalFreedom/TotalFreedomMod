@@ -24,15 +24,14 @@ public class Command_qjail extends TFM_Command
             }
 
             Player p;
-            List<Player> matches = Bukkit.matchPlayer(args[0]);
-            if (matches.isEmpty())
+            try
             {
-                sender.sendMessage(ChatColor.GRAY + "Can't find user " + args[0]);
-                return true;
+                p = getPlayer(args[0]);
             }
-            else
+            catch (CantFindPlayerException ex)
             {
-                p = matches.get(0);
+                sender.sendMessage(ex.getMessage());
+                return true;
             }
 
             //Deop
