@@ -38,6 +38,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     
     public Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
+    public List<TFM_LandmineData> landmines = new ArrayList<TFM_LandmineData>();
     public boolean allPlayersFrozen = false;
 
     @Override

@@ -1,16 +1,20 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
+import java.util.Iterator;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
@@ -30,54 +34,47 @@ public class TFM_PlayerListener extends PlayerListener
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         Player player = event.getPlayer();
+        Action action = event.getAction();
+        Material material = event.getMaterial();
 
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+        if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
         {
-            if (event.getMaterial() == Material.WATER_BUCKET)
+            if (material == Material.WATER_BUCKET)
             {
-                int slot = player.getInventory().getHeldItemSlot();
-                ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
-                player.getInventory().setItem(slot, heldItem);
-
+                player.getInventory().setItemInHand(new ItemStack(Material.COOKIE, 1));
                 player.sendMessage(ChatColor.GOLD + "Does this look like a waterpark to you?");
-
                 event.setCancelled(true);
                 return;
             }
-            else if (event.getMaterial() == Material.LAVA_BUCKET)
+            else if (material == Material.LAVA_BUCKET)
             {
-                int slot = player.getInventory().getHeldItemSlot();
-                ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
-                player.getInventory().setItem(slot, heldItem);
-
+                player.getInventory().setItemInHand(new ItemStack(Material.COOKIE, 1));
                 player.sendMessage(ChatColor.GOLD + "LAVA NO FUN, YOU EAT COOKIE INSTEAD, NO?");
-
                 event.setCancelled(true);
                 return;
             }
         }
-        else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK)
+        else if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK)
         {
-            if (event.getMaterial() == Material.STICK)
+            if (material == Material.STICK)
             {
                 TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player, plugin);
                 if (playerdata.mobThrowerEnabled())
                 {
                     Location player_pos = player.getLocation();
                     Vector direction = player_pos.getDirection().normalize();
-                    Location rez_pos = player_pos.add(direction.multiply(2.0));
 
-                    LivingEntity rezzed_mob = player.getWorld().spawnCreature(rez_pos, playerdata.mobThrowerCreature());
+                    LivingEntity rezzed_mob = player.getWorld().spawnCreature(player_pos.add(direction.multiply(2.0)), playerdata.mobThrowerCreature());
                     rezzed_mob.setVelocity(direction.multiply(playerdata.mobThrowerSpeed()));
                     playerdata.enqueueMob(rezzed_mob);
 
                     event.setCancelled(true);
                 }
             }
-            else if (event.getMaterial() == Material.SULPHUR)
+            else if (material == Material.SULPHUR)
             {
                 TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player, plugin);
-                
+
                 if (playerdata.isMP44Armed())
                 {
                     if (playerdata.toggleMP44Firing())
@@ -159,6 +156,29 @@ public class TFM_PlayerListener extends PlayerListener
             if (p.getVelocity().length() < playerdata.orbitStrength() * (2.0 / 3.0))
             {
                 p.setVelocity(new Vector(0, playerdata.orbitStrength(), 0));
+            }
+        }
+        
+        Iterator<TFM_LandmineData> landmines = plugin.landmines.iterator();
+        while (landmines.hasNext())
+        {
+            TFM_LandmineData landmine = landmines.next();
+            
+            if (!landmine.player.equals(p))
+            {
+                if (p.getWorld().equals(landmine.landmine_pos.getWorld()))
+                {
+                    if (p.getLocation().distance(landmine.landmine_pos) <= 2.0)
+                    {
+                        landmine.landmine_pos.getBlock().setType(Material.AIR);
+                        TNTPrimed primed_tnt = landmine.landmine_pos.getWorld().spawn(landmine.landmine_pos, TNTPrimed.class);
+                        primed_tnt.setFuseTicks(100);
+                        primed_tnt.setPassenger(p);
+                        primed_tnt.setVelocity(new Vector(0.0, 10.0, 0.0));
+                        p.setGameMode(GameMode.SURVIVAL);
+                        landmines.remove();
+                    }
+                }
             }
         }
     }

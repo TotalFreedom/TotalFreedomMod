@@ -27,7 +27,7 @@ public class Command_wildcard extends TFM_Command
             {
                 String out_command = base_command.replaceAll("\\x3f", p.getName());
                 sender.sendMessage("Running Command: " + out_command);
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), out_command);
+                Bukkit.getServer().dispatchCommand(sender, out_command);
             }
         }
         else
