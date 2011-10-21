@@ -113,6 +113,9 @@ commands:
   survival:
     description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
     usage: /<command> [partialname]
+  terminal:
+    description: Execute a system command.
+    usage: /<command> <syscmd>
   tfbanlist:
     description: Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.
     usage: /<command> [purge]

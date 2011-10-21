@@ -45,6 +45,7 @@ public class Command_gcmd extends TFM_Command
             catch (Throwable ex)
             {
                 sender.sendMessage(ChatColor.GRAY + "Error building command: " + ex.getMessage());
+                return true;
             }
 
             try
