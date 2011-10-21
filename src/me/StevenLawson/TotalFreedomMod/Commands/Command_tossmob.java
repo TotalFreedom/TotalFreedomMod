@@ -5,10 +5,12 @@ import java.util.Map;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Command_tossmob extends TFM_Command
 {
@@ -82,6 +84,8 @@ public class Command_tossmob extends TFM_Command
             sender.sendMessage(ChatColor.GREEN + "MobThrower is enabled. Creature: " + creature + " - Speed: " + speed + ".");
             sender.sendMessage(ChatColor.GREEN + "Left click while holding a stick to throw mobs!");
             sender.sendMessage(ChatColor.GREEN + "Type '/tossmob off' to disable.  -By Madgeek1450");
+            
+            sender_p.setItemInHand(new ItemStack(Material.STICK, 1));
         }
         else
         {

@@ -5,12 +5,11 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.CreatureType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 
 public class TFM_UserInfo
 {
+    private Player player;
     private boolean user_frozen = false;
     private int msg_count = 0;
     private int block_destroy_total = 0;
@@ -30,9 +29,12 @@ public class TFM_UserInfo
     private double mob_thrower_speed = 4.0;
     private List<LivingEntity> mob_thrower_queue = new ArrayList<LivingEntity>();
     private int mp44_schedule_id = -1;
+    private boolean mp44_armed = false;
+    private boolean mp44_firing = false;
 
-    public TFM_UserInfo()
+    private TFM_UserInfo(Player player)
     {
+        this.player = player;
     }
     
     public static TFM_UserInfo getPlayerData(Player p, TotalFreedomMod tfm)
@@ -40,7 +42,7 @@ public class TFM_UserInfo
         TFM_UserInfo playerdata = tfm.userinfo.get(p);
         if (playerdata == null)
         {
-            playerdata = new TFM_UserInfo();
+            playerdata = new TFM_UserInfo(p);
             tfm.userinfo.put(p, playerdata);
         }
         return playerdata;
@@ -84,7 +86,7 @@ public class TFM_UserInfo
     {
         return this.user_caged;
     }
-
+    
     public enum CageLayer
     {
         INNER, OUTER
@@ -273,9 +275,11 @@ public class TFM_UserInfo
         }
     }
     
-    public void startArrowShooter(int schedule_id)
+    public void startArrowShooter(TotalFreedomMod plugin)
     {
-        this.mp44_schedule_id = schedule_id;
+        this.stopArrowShooter();
+        this.mp44_schedule_id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new ArrowShooter(this.player), 1L, 1L);
+        mp44_firing = true;
     }
     
     public void stopArrowShooter()
@@ -285,5 +289,46 @@ public class TFM_UserInfo
             Bukkit.getScheduler().cancelTask(this.mp44_schedule_id);
             this.mp44_schedule_id = -1;
         }
+        mp44_firing = false;
+    }
+    
+    class ArrowShooter implements Runnable
+    {
+        private Player _player;
+        
+        public ArrowShooter(Player player)
+        {
+            this._player = player;
+        }
+
+        @Override
+        public void run()
+        {
+            Arrow shot_arrow = _player.shootArrow();
+            shot_arrow.setVelocity(shot_arrow.getVelocity().multiply(2.0));
+        }
+    }
+    
+    public void armMP44()
+    {
+        mp44_armed = true;
+        this.stopArrowShooter();
+    }
+    
+    public void disarmMP44()
+    {
+        mp44_armed = false;
+        this.stopArrowShooter();
+    }
+    
+    public boolean isMP44Armed()
+    {
+        return this.mp44_armed;
+    }
+    
+    public boolean toggleMP44Firing()
+    {
+        this.mp44_firing = !this.mp44_firing;
+        return this.mp44_firing;
     }
 }

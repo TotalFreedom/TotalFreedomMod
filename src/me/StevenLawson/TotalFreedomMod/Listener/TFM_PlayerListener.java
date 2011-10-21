@@ -30,7 +30,7 @@ public class TFM_PlayerListener extends PlayerListener
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         Player player = event.getPlayer();
-        
+
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
         {
             if (event.getMaterial() == Material.WATER_BUCKET)
@@ -66,11 +66,29 @@ public class TFM_PlayerListener extends PlayerListener
                     Location player_pos = player.getLocation();
                     Vector direction = player_pos.getDirection().normalize();
                     Location rez_pos = player_pos.add(direction.multiply(2.0));
-                    
+
                     LivingEntity rezzed_mob = player.getWorld().spawnCreature(rez_pos, playerdata.mobThrowerCreature());
                     rezzed_mob.setVelocity(direction.multiply(playerdata.mobThrowerSpeed()));
                     playerdata.enqueueMob(rezzed_mob);
-                    
+
+                    event.setCancelled(true);
+                }
+            }
+            else if (event.getMaterial() == Material.SULPHUR)
+            {
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player, plugin);
+                
+                if (playerdata.isMP44Armed())
+                {
+                    if (playerdata.toggleMP44Firing())
+                    {
+                        playerdata.startArrowShooter(plugin);
+                    }
+                    else
+                    {
+                        playerdata.stopArrowShooter();
+                    }
+
                     event.setCancelled(true);
                 }
             }
@@ -114,7 +132,7 @@ public class TFM_PlayerListener extends PlayerListener
         if (playerdata.isCaged())
         {
             Location target_pos = p.getLocation().add(0, 1, 0);
-            
+
             boolean out_of_cage = false;
             if (!target_pos.getWorld().equals(playerdata.getCagePos().getWorld()))
             {
@@ -239,13 +257,13 @@ public class TFM_PlayerListener extends PlayerListener
     public void onPlayerKick(PlayerKickEvent event)
     {
         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer(), plugin);
-        playerdata.stopArrowShooter();
+        playerdata.disarmMP44();
     }
 
     @Override
     public void onPlayerQuit(PlayerQuitEvent event)
     {
         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer(), plugin);
-        playerdata.stopArrowShooter();
+        playerdata.disarmMP44();
     }
 }

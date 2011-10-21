@@ -23,6 +23,8 @@ public class TFM_EntityListener extends EntityListener
             event.setCancelled(true);
             return;
         }
+        
+        event.setYield(0.0f);
     }
 
     @Override

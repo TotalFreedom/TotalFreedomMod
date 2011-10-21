@@ -22,11 +22,7 @@ import org.bukkit.entity.*;
 public class TFM_Util
 {
     private static final Logger log = Logger.getLogger("Minecraft");
-
-    public TFM_Util()
-    {
-    }
-
+    
     public static void tfm_broadcastMessage(String message, ChatColor color)
     {
         log.info(message);

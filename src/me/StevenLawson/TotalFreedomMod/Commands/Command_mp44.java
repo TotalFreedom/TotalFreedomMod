@@ -1,20 +1,21 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Command_mp44 extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+        //if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+        if (senderIsConsole || sender.isOp())
         {
             if (senderIsConsole)
             {
@@ -31,13 +32,18 @@ public class Command_mp44 extends TFM_Command
 
             if (args[0].equalsIgnoreCase("draw"))
             {
-                playerdata.stopArrowShooter();
-                int schedule_id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new ArrowShooter(sender_p), 1L, 1L);
-                playerdata.startArrowShooter(schedule_id);
+                playerdata.armMP44();
+                
+                sender.sendMessage(ChatColor.GREEN + "mp44 is ARMED! Left click with gunpowder to start firing, left click again to quit.");
+                sender.sendMessage(ChatColor.GREEN + "Type /mp44 sling to disable.  -by Madgeek1450");
+                
+                sender_p.setItemInHand(new ItemStack(Material.SULPHUR, 1));
             }
             else
             {
-                playerdata.stopArrowShooter();
+                playerdata.disarmMP44();
+                
+                sender.sendMessage(ChatColor.GREEN + "mp44 Disarmed.");
             }
         }
         else
@@ -46,22 +52,5 @@ public class Command_mp44 extends TFM_Command
         }
 
         return true;
-    }
-    
-    class ArrowShooter implements Runnable
-    {
-        private Player _player;
-        
-        public ArrowShooter(Player player)
-        {
-            _player = player;
-        }
-
-        @Override
-        public void run()
-        {
-            Arrow shot_arrow = _player.shootArrow();
-            shot_arrow.setVelocity(shot_arrow.getVelocity().multiply(2.0));
-        }
     }
 }
