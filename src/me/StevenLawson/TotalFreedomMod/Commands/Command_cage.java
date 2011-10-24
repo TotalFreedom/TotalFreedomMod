@@ -45,6 +45,7 @@ public class Command_cage extends TFM_Command
                     playerdata.setCaged(false);
                     playerdata.regenerateHistory();
                     playerdata.clearHistory();
+                    sender.sendMessage(ChatColor.GREEN + p.getName() + " uncaged.");
                     return true;
                 }
                 else
@@ -79,7 +80,7 @@ public class Command_cage extends TFM_Command
 
             p.setGameMode(GameMode.SURVIVAL);
 
-            TFM_Util.tfm_broadcastMessage(sender.getName() + " caged " + p.getName() + "!", ChatColor.YELLOW);
+            TFM_Util.bcastMsg(sender.getName() + " caged " + p.getName() + "!", ChatColor.YELLOW);
         }
         else
         {

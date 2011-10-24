@@ -16,7 +16,7 @@ public class Command_opall extends TFM_Command
     {
         if (TFM_Util.isUserSuperadmin(sender, plugin) || senderIsConsole)
         {
-            TFM_Util.tfm_broadcastMessage(String.format("(%s: Opping all players on server)", sender.getName()), ChatColor.YELLOW);
+            TFM_Util.bcastMsg(String.format("(%s: Opping all players on server)", sender.getName()), ChatColor.YELLOW);
 
             boolean doSetGamemode = false;
             GameMode targetGamemode = GameMode.CREATIVE;

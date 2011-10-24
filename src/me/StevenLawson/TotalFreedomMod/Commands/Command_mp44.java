@@ -14,15 +14,16 @@ public class Command_mp44 extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        //if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
-        if (senderIsConsole || sender.isOp())
+        if (senderIsConsole)
         {
-            if (senderIsConsole)
-            {
-                sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-                return true;
-            }
-
+            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
+        }
+        else if (!plugin.mp44Enabled)
+        {
+            sender.sendMessage(ChatColor.GREEN + "The mp44 is currently disabled.");
+        }
+        else if (sender.isOp())
+        {
             if (args.length == 0)
             {
                 return false;

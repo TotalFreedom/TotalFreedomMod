@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -18,11 +19,33 @@ public class Command_landmine extends TFM_Command
         {
             sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
         }
+        else if (!plugin.landminesEnabled)
+        {
+            sender.sendMessage(ChatColor.GREEN + "The landmine is currently disabled.");
+        }
+        else if (!plugin.allowExplosions)
+        {
+            sender.sendMessage(ChatColor.GREEN + "Explosions are currently disabled.");
+        }
         else if (sender.isOp())
         {
+            double radius = 2.0;
+            if (args.length >= 1)
+            {
+                try
+                {
+                    radius = Math.max(2.0, Math.min(6.0, Double.parseDouble(args[0])));
+                }
+                catch (NumberFormatException ex)
+                {
+                }
+            }
+            
             Block landmine = sender_p.getLocation().getBlock().getRelative(BlockFace.DOWN);
             landmine.setType(Material.TNT);
-            plugin.landmines.add(new TFM_LandmineData(landmine.getLocation(), sender_p));
+            plugin.landmines.add(new TFM_LandmineData(landmine.getLocation(), sender_p, radius));
+            
+            sender.sendMessage(ChatColor.GREEN + "Landmine planted. Radius: " + radius + " blocks.");
         }
         else
         {

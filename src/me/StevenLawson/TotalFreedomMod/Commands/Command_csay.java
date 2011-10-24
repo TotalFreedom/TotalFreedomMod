@@ -28,7 +28,7 @@ public class Command_csay extends TFM_Command
                 outmessage_bldr.append(args[i]).append(" ");
             }
 
-            TFM_Util.tfm_broadcastMessage(String.format("§7[CONSOLE]§f<§c%s§f> %s", sender_name, outmessage_bldr.toString().trim()));
+            TFM_Util.bcastMsg(String.format("§7[CONSOLE]§f<§c%s§f> %s", sender_name, outmessage_bldr.toString().trim()));
         }
         else
         {

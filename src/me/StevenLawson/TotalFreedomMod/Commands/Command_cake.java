@@ -32,7 +32,7 @@ public class Command_cake extends TFM_Command
                 p.getInventory().setItem(p.getInventory().firstEmpty(), heldItem);
             }
 
-            TFM_Util.tfm_broadcastMessage(output.toString());
+            TFM_Util.bcastMsg(output.toString());
         }
         else
         {

@@ -13,14 +13,12 @@ public class Command_expel extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+        if (senderIsConsole)
         {
-            if (senderIsConsole)
-            {
-                sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-                return true;
-            }
-
+            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
+        }
+        else if (TFM_Util.isUserSuperadmin(sender, plugin))
+        {
             double radius = 50.0;
             double strength = 100.0;
 

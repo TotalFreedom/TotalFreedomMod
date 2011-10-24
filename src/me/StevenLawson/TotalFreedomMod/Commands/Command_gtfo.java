@@ -33,7 +33,7 @@ public class Command_gtfo extends TFM_Command
                 return true;
             }
 
-            TFM_Util.tfm_broadcastMessage(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
+            TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
 
             //Undo WorldEdits:
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("/undo %d %s", 15, p.getName()));
@@ -60,7 +60,12 @@ public class Command_gtfo extends TFM_Command
 
             //Ban IP Address:
             String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
-            TFM_Util.tfm_broadcastMessage(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
+            String[] ip_parts = user_ip.split("\\.");
+            if (ip_parts.length == 4)
+            {
+                user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+            }
+            TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
             Bukkit.banIP(user_ip);
 
             //Ban Username:

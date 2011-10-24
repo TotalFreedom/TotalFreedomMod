@@ -49,7 +49,7 @@ public class Command_tfipbanlist extends TFM_Command
             {
                 banned_ips.append(", ");
             }
-            if (ip.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"))
+            if (ip.matches("^\\d{1,3}\\.\\d{1,3}\\.(\\d{1,3}|\\*)\\.(\\d{1,3}|\\*)$"))
             {
                 first = false;
                 banned_ips.append(ip.trim());

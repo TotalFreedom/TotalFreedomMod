@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,13 +19,20 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 
 public class TFM_Util
 {
     private static final Logger log = Logger.getLogger("Minecraft");
-    
-    public static void tfm_broadcastMessage(String message, ChatColor color)
+
+    private TFM_Util()
+    {
+        throw new AssertionError();
+    }
+
+    public static void bcastMsg(String message, ChatColor color)
     {
         log.info(message);
 
@@ -33,7 +42,7 @@ public class TFM_Util
         }
     }
 
-    public static void tfm_broadcastMessage(String message)
+    public static void bcastMsg(String message)
     {
         log.info(ChatColor.stripColor(message));
 
@@ -246,6 +255,57 @@ public class TFM_Util
         return false;
     }
 
+    public static boolean checkPartialSuperadminIP(String user_ip, TotalFreedomMod tfm)
+    {
+        user_ip = user_ip.trim();
+        
+        if (tfm.superadmin_ips.contains(user_ip))
+        {
+            return true;
+        }
+        else
+        {
+            String[] user_octets = user_ip.split("\\.");
+            if (user_octets.length != 4)
+            {
+                return false;
+            }
+
+            boolean match_found = false;
+            for (String test_ip : tfm.superadmin_ips)
+            {
+                String[] test_octets = test_ip.split("\\.");
+                if (test_octets.length == 4)
+                {
+                    if (user_octets[0].equals(test_octets[0]) && user_octets[1].equals(test_octets[1]) && user_octets[2].equals(test_octets[2]))
+                    {
+                        log.info("New IP '" + user_ip + "' matches old IP '" + test_ip + "' via partial match, adding it to superadmin list.");
+                        match_found = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (match_found)
+            {
+                tfm.superadmin_ips.add(user_ip);
+                
+                try
+                {
+                    FileConfiguration sa_config = YamlConfiguration.loadConfiguration(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+                    sa_config.set("superadmin_ips", tfm.superadmin_ips);
+                    sa_config.save(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(TFM_Util.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            return match_found;
+        }
+    }
+
     public static int wipeDropEntities(boolean wipe_tnt)
     {
         int removed = 0;
@@ -284,5 +344,24 @@ public class TFM_Util
         {
             return false;
         }
+    }
+    private static final Map<String, CreatureType> mobtypes = new HashMap<String, CreatureType>();
+
+    static
+    {
+        mobtypes.put("chicken", CreatureType.CHICKEN);
+        mobtypes.put("cow", CreatureType.COW);
+        mobtypes.put("creeper", CreatureType.CREEPER);
+        mobtypes.put("pig", CreatureType.PIG);
+        mobtypes.put("sheep", CreatureType.SHEEP);
+        mobtypes.put("skeleton", CreatureType.SKELETON);
+        mobtypes.put("spider", CreatureType.SPIDER);
+        mobtypes.put("zombie", CreatureType.ZOMBIE);
+        mobtypes.put("wolf", CreatureType.WOLF);
+    }
+
+    public static CreatureType getCreatureType(String mobname)
+    {
+        return TFM_Util.mobtypes.get(mobname.toLowerCase().trim());
     }
 }

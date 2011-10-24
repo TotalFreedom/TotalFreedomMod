@@ -56,7 +56,7 @@ public class Command_qjail extends TFM_Command
             //Send to jail "mgjail":
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tjail %s mgjail 1y", p.getName().replace(" ", "").trim()));
 
-            TFM_Util.tfm_broadcastMessage(p.getName() + " has been JAILED!", ChatColor.RED);
+            TFM_Util.bcastMsg(p.getName() + " has been JAILED!", ChatColor.RED);
         }
         else
         {

@@ -110,6 +110,8 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 sender.sendMessage(ChatColor.RED + "Command Error: " + ex.getMessage());
             }
+            
+            dispatcher = null;
         }
         catch (Throwable ex)
         {
@@ -136,6 +138,8 @@ public class TotalFreedomMod extends JavaPlugin
     public Boolean preprocessLogEnabled = true;
     public Boolean disableNight = true;
     public Boolean disableWeather = true;
+    public boolean landminesEnabled = false;
+    public boolean mp44Enabled = false;
 
     public void loadMainConfig()
     {
@@ -158,6 +162,8 @@ public class TotalFreedomMod extends JavaPlugin
         preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
         disableNight = config.getBoolean("disable_night", disableNight);
         disableWeather = config.getBoolean("disable_weather", disableWeather);
+        landminesEnabled = config.getBoolean("landmines_enabled", landminesEnabled);
+        mp44Enabled = config.getBoolean("mp44_enabled", mp44Enabled);
     }
     
     public List<String> superadmins = new ArrayList<String>();
@@ -224,6 +230,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, playerListener, Event.Priority.Normal, this);
         pm.registerEvent(Event.Type.PLAYER_KICK, playerListener, Event.Priority.Monitor, this);
         pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Monitor, this);
+        pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Monitor, this);
         
         pm.registerEvent(Event.Type.WEATHER_CHANGE, weatherListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.THUNDER_CHANGE, weatherListener, Event.Priority.High, this);

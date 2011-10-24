@@ -23,13 +23,13 @@ public class Command_fr extends TFM_Command
                 {
                     plugin.allPlayersFrozen = true;
                     sender.sendMessage("Players are now frozen.");
-                    TFM_Util.tfm_broadcastMessage(sender.getName() + " has temporarily frozen everyone on the server.", ChatColor.AQUA);
+                    TFM_Util.bcastMsg(sender.getName() + " has temporarily frozen everyone on the server.", ChatColor.AQUA);
                 }
                 else
                 {
                     plugin.allPlayersFrozen = false;
                     sender.sendMessage("Players are now free to move.");
-                    TFM_Util.tfm_broadcastMessage(sender.getName() + " has unfrozen everyone.", ChatColor.AQUA);
+                    TFM_Util.bcastMsg(sender.getName() + " has unfrozen everyone.", ChatColor.AQUA);
                 }
             }
             else

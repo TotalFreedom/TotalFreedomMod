@@ -15,7 +15,7 @@ public class Command_stop extends TFM_Command
     {
         if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
         {
-            TFM_Util.tfm_broadcastMessage("Server is going offline.", ChatColor.GRAY);
+            TFM_Util.bcastMsg("Server is going offline.", ChatColor.GRAY);
 
             for (Player p : Bukkit.getOnlinePlayers())
             {

@@ -107,6 +107,9 @@ commands:
   skylands:
     description: Goto the skylands.
     usage: /<command>
+#  stacker:
+#    description: Superadmin command - Stack people onto your head. For the lulz.
+#    usage: /<command> [end]
   status:
     description: Show misc. server info.
     usage: /<command>

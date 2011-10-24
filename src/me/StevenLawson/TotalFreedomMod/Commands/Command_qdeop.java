@@ -25,7 +25,7 @@ public class Command_qdeop extends TFM_Command
             {
                 matched_player = true;
 
-                TFM_Util.tfm_broadcastMessage(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                TFM_Util.bcastMsg(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                 p.setOp(false);
                 p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
             }

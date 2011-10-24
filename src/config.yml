@@ -31,6 +31,10 @@ disable_night: true
 # Disable weather:
 disable_weather: true
 
+# Enable misc. features:
+landmines_enabled: false
+mp44_enabled: false
+
 # Superadmins: Users that can always log in and use the most powerful commands:
 # When online-mode = false, only superadmin_ips will be used.
 # The superadmin lists have been moved to superadmin.yml

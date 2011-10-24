@@ -21,7 +21,7 @@ public class Command_say extends TFM_Command
         if (senderIsConsole || sender.isOp())
         {
             String message = TFM_Util.implodeStringList(" ", Arrays.asList(args));
-            TFM_Util.tfm_broadcastMessage(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
+            TFM_Util.bcastMsg(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
         }
         else
         {

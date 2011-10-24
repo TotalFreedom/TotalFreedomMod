@@ -48,7 +48,7 @@ public class Command_tfsmite extends TFM_Command
 
             for (Player p : targets)
             {
-                TFM_Util.tfm_broadcastMessage(p.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
+                TFM_Util.bcastMsg(p.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
 
                 //Deop
                 p.setOp(false);

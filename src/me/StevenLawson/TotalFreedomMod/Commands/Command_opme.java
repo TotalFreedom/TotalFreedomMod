@@ -15,12 +15,10 @@ public class Command_opme extends TFM_Command
         if (senderIsConsole)
         {
             sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-            return true;
         }
-        
-        if (TFM_Util.isUserSuperadmin(sender, plugin))
+        else if (TFM_Util.isUserSuperadmin(sender, plugin))
         {
-            TFM_Util.tfm_broadcastMessage(String.format("(%s: Opping %s)", sender.getName(), sender.getName()), ChatColor.GRAY);
+            TFM_Util.bcastMsg(String.format("(%s: Opping %s)", sender.getName(), sender.getName()), ChatColor.GRAY);
             sender.setOp(true);
             sender.sendMessage(TotalFreedomMod.YOU_ARE_OP);
         }

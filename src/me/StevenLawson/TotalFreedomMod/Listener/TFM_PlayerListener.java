@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
+import java.net.InetSocketAddress;
 import java.util.Iterator;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -159,24 +160,39 @@ public class TFM_PlayerListener extends PlayerListener
             }
         }
         
-        Iterator<TFM_LandmineData> landmines = plugin.landmines.iterator();
-        while (landmines.hasNext())
+        if (plugin.landminesEnabled && plugin.allowExplosions)
         {
-            TFM_LandmineData landmine = landmines.next();
-            
-            if (!landmine.player.equals(p))
+            Iterator<TFM_LandmineData> landmines = plugin.landmines.iterator();
+            while (landmines.hasNext())
             {
-                if (p.getWorld().equals(landmine.landmine_pos.getWorld()))
+                TFM_LandmineData landmine = landmines.next();
+                
+                Location landmine_pos = landmine.landmine_pos;
+                if (landmine_pos.getBlock().getType() != Material.TNT)
                 {
-                    if (p.getLocation().distance(landmine.landmine_pos) <= 2.0)
+                    landmines.remove();
+                    continue;
+                }
+
+                if (!landmine.player.equals(p))
+                {
+                    if (p.getWorld().equals(landmine_pos.getWorld()))
                     {
-                        landmine.landmine_pos.getBlock().setType(Material.AIR);
-                        TNTPrimed primed_tnt = landmine.landmine_pos.getWorld().spawn(landmine.landmine_pos, TNTPrimed.class);
-                        primed_tnt.setFuseTicks(100);
-                        primed_tnt.setPassenger(p);
-                        primed_tnt.setVelocity(new Vector(0.0, 10.0, 0.0));
-                        p.setGameMode(GameMode.SURVIVAL);
-                        landmines.remove();
+                        if (p.getLocation().distance(landmine_pos) <= landmine.radius)
+                        {
+                            landmine.landmine_pos.getBlock().setType(Material.AIR);
+                            
+                            TNTPrimed tnt1 = landmine_pos.getWorld().spawn(landmine_pos, TNTPrimed.class);
+                            tnt1.setFuseTicks(40);
+                            tnt1.setPassenger(p);
+                            tnt1.setVelocity(new Vector(0.0, 2.0, 0.0));
+                            
+                            TNTPrimed tnt2 = landmine_pos.getWorld().spawn(p.getLocation(), TNTPrimed.class);
+                            tnt2.setFuseTicks(1);
+                            
+                            p.setGameMode(GameMode.SURVIVAL);
+                            landmines.remove();
+                        }
                     }
                 }
             }
@@ -196,22 +212,22 @@ public class TFM_PlayerListener extends PlayerListener
             p.setOp(false);
             p.kickPlayer("No Spamming");
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
-            TFM_Util.tfm_broadcastMessage(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+            TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
             playerdata.resetMsgCount();
 
             event.setCancelled(true);
             return;
         }
-
-        String message = event.getMessage().toLowerCase();
-        if (Pattern.compile("\\sbe\\s.*admin").matcher(message).find()
-                || Pattern.compile("\\shave\\s.*admin").matcher(message).find())
-        {
-            log.info("Kicked " + p.getName() + " for being annoying.");
-            p.kickPlayer("No, bitch.");
-            event.setCancelled(true);
-            return;
-        }
+        
+//        String message = event.getMessage().toLowerCase();
+//        if (Pattern.compile("\\sbe\\s.*admin").matcher(message).find()
+//                || Pattern.compile("\\shave\\s.*admin").matcher(message).find())
+//        {
+//            log.info("Kicked " + p.getName() + " for being annoying.");
+//            p.kickPlayer("No, bitch.");
+//            event.setCancelled(true);
+//            return;
+//        }
     }
 
     @Override
@@ -243,10 +259,27 @@ public class TFM_PlayerListener extends PlayerListener
                 block_command = true;
             }
         }
-        else if (Pattern.compile("^/time").matcher(command).find())
+        else if (Pattern.compile("^/save-").matcher(command).find())
         {
-            player.sendMessage(ChatColor.GRAY + "Server-side time changing is disabled. Please use /ptime to set your own personal time.");
-            block_command = true;
+            if (!TFM_Util.isUserSuperadmin(player, plugin))
+            {
+                block_command = true;
+            }
+        }
+        
+        if (block_command)
+        {
+            player.kickPlayer("That command is prohibited.");
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", player.getName()));
+            TFM_Util.bcastMsg(player.getName() + " was automatically kicked for using evil commands.", ChatColor.RED);
+        }
+        else
+        {
+            if (Pattern.compile("^/time").matcher(command).find())
+            {
+                player.sendMessage(ChatColor.GRAY + "Server-side time changing is disabled. Please use /ptime to set your own personal time.");
+                block_command = true;
+            }
         }
 
         if (block_command)
@@ -285,5 +318,40 @@ public class TFM_PlayerListener extends PlayerListener
     {
         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer(), plugin);
         playerdata.disarmMP44();
+    }
+
+    @Override
+    public void onPlayerJoin(PlayerJoinEvent event)
+    {
+        try
+        {
+            if (!Bukkit.getOnlineMode())
+            {
+                Player p = event.getPlayer();
+                if (plugin.superadmins.contains(p.getName().toLowerCase()))
+                {
+                    String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+                    if (user_ip != null && !user_ip.isEmpty())
+                    {
+                        TFM_Util.checkPartialSuperadminIP(user_ip, plugin);
+                        
+                        if (!plugin.superadmin_ips.contains(user_ip))
+                        {
+                            TFM_Util.bcastMsg(p.getName() + " might be a fake! IP: " + user_ip, ChatColor.RED);
+                            p.setOp(false);
+                            p.setGameMode(GameMode.SURVIVAL);
+                            p.getInventory().clear();
+                        }
+                        else
+                        {
+                            TFM_Util.bcastMsg(p.getName() + " is a verified superadmin.", ChatColor.GREEN);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Throwable ex)
+        {
+        }
     }
 }

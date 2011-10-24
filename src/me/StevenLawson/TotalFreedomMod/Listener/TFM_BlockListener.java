@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -62,7 +63,9 @@ public class TFM_BlockListener extends BlockListener
                     p.setGameMode(GameMode.SURVIVAL);
                     p.getInventory().clear();
                     
-                    TFM_Util.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+                    TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+                    p.kickPlayer("Freecam (extended range) block breaking is not permitted on this server.");
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
                     
                     playerdata.resetFreecamDestroyCount();
 
@@ -74,12 +77,13 @@ public class TFM_BlockListener extends BlockListener
             playerdata.incrementBlockDestroyCount();
             if (playerdata.getBlockDestroyCount() > plugin.nukeMonitorCountBreak)
             {
-                TFM_Util.tfm_broadcastMessage(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
+                TFM_Util.bcastMsg(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
 
                 p.setOp(false);
                 p.setGameMode(GameMode.SURVIVAL);
                 p.getInventory().clear();
                 p.kickPlayer("You are breaking blocks too fast. Nukers are not permitted on this server.");
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
 
                 event.setCancelled(true);
                 return;
@@ -108,7 +112,9 @@ public class TFM_BlockListener extends BlockListener
                     p.setGameMode(GameMode.SURVIVAL);
                     p.getInventory().clear();
 
-                    TFM_Util.tfm_broadcastMessage(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
+                    TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
+                    p.kickPlayer("Freecam (extended range) block building is not permitted on this server.");
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
                     
                     playerdata.resetFreecamPlaceCount();
 
@@ -120,12 +126,13 @@ public class TFM_BlockListener extends BlockListener
             playerdata.incrementBlockPlaceCount();
             if (playerdata.getBlockPlaceCount() > plugin.nukeMonitorCountPlace)
             {
-                TFM_Util.tfm_broadcastMessage(p.getName() + " is placing blocks too fast!", ChatColor.RED);
+                TFM_Util.bcastMsg(p.getName() + " is placing blocks too fast!", ChatColor.RED);
 
                 p.setOp(false);
                 p.setGameMode(GameMode.SURVIVAL);
                 p.getInventory().clear();
                 p.kickPlayer("You are placing blocks too fast.");
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
 
                 event.setCancelled(true);
                 return;

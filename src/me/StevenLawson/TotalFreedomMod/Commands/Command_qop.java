@@ -25,7 +25,7 @@ public class Command_qop extends TFM_Command
             {
                 matched_player = true;
 
-                TFM_Util.tfm_broadcastMessage(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                TFM_Util.bcastMsg(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                 p.setOp(true);
                 p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
             }

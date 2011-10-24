@@ -47,33 +47,43 @@ public class Command_gadmin extends TFM_Command
                     else if (mode.equals("nameban"))
                     {
                         Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
-                        TFM_Util.tfm_broadcastMessage(String.format("Banning Name: %s.", p.getName()), ChatColor.RED);
+                        TFM_Util.bcastMsg(String.format("Banning Name: %s.", p.getName()), ChatColor.RED);
                         p.kickPlayer("Username banned by Administrator.");
                     }
                     else if (mode.equals("ipban"))
                     {
                         String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
-                        TFM_Util.tfm_broadcastMessage(String.format("Banning IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                        String[] ip_parts = user_ip.split("\\.");
+                        if (ip_parts.length == 4)
+                        {
+                            user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+                        }
+                        TFM_Util.bcastMsg(String.format("Banning IP: %s.", p.getName(), user_ip), ChatColor.RED);
                         Bukkit.banIP(user_ip);
                         p.kickPlayer("IP address banned by Administrator.");
                     }
                     else if (mode.equals("ban"))
                     {
                         String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
-                        TFM_Util.tfm_broadcastMessage(String.format("Banning Name: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                        String[] ip_parts = user_ip.split("\\.");
+                        if (ip_parts.length == 4)
+                        {
+                            user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+                        }
+                        TFM_Util.bcastMsg(String.format("Banning Name: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
                         Bukkit.banIP(user_ip);
                         Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
                         p.kickPlayer("IP and username banned by Administrator.");
                     }
                     else if (mode.equals("op"))
                     {
-                        TFM_Util.tfm_broadcastMessage(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                        TFM_Util.bcastMsg(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                         p.setOp(false);
                         p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
                     }
                     else if (mode.equals("deop"))
                     {
-                        TFM_Util.tfm_broadcastMessage(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                        TFM_Util.bcastMsg(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
                         p.setOp(false);
                         p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                     }
