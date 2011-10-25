@@ -54,7 +54,17 @@ public class TFM_BlockListener extends BlockListener
             Location player_pos = p.getLocation();
             Location block_pos = event.getBlock().getLocation();
 
-            if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            boolean out_of_range = false;
+            if (!player_pos.getWorld().equals(block_pos.getWorld()))
+            {
+                out_of_range = true;
+            }
+            else if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            {
+                out_of_range = true;
+            }
+
+            if (out_of_range)
             {
                 playerdata.incrementFreecamDestroyCount();
                 if (playerdata.getFreecamDestroyCount() > plugin.freecamTriggerCount)
@@ -62,11 +72,11 @@ public class TFM_BlockListener extends BlockListener
                     p.setOp(false);
                     p.setGameMode(GameMode.SURVIVAL);
                     p.getInventory().clear();
-                    
+
                     TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
                     p.kickPlayer("Freecam (extended range) block breaking is not permitted on this server.");
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
-                    
+
                     playerdata.resetFreecamDestroyCount();
 
                     event.setCancelled(true);
@@ -95,15 +105,25 @@ public class TFM_BlockListener extends BlockListener
     public void onBlockPlace(BlockPlaceEvent event)
     {
         Player p = event.getPlayer();
-        
+
         if (plugin.nukeMonitor)
         {
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
-        
+
             Location player_pos = p.getLocation();
             Location block_pos = event.getBlock().getLocation();
+            
+            boolean out_of_range = false;
+            if (!player_pos.getWorld().equals(block_pos.getWorld()))
+            {
+                out_of_range = true;
+            }
+            else if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            {
+                out_of_range = true;
+            }
 
-            if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            if (out_of_range)
             {
                 playerdata.incrementFreecamPlaceCount();
                 if (playerdata.getFreecamPlaceCount() > plugin.freecamTriggerCount)
@@ -115,14 +135,14 @@ public class TFM_BlockListener extends BlockListener
                     TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
                     p.kickPlayer("Freecam (extended range) block building is not permitted on this server.");
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
-                    
+
                     playerdata.resetFreecamPlaceCount();
 
                     event.setCancelled(true);
                     return;
                 }
             }
-            
+
             playerdata.incrementBlockPlaceCount();
             if (playerdata.getBlockPlaceCount() > plugin.nukeMonitorCountPlace)
             {
@@ -138,7 +158,7 @@ public class TFM_BlockListener extends BlockListener
                 return;
             }
         }
-        
+
         ItemStack is = new ItemStack(event.getBlockPlaced().getType(), 1, (short) 0, event.getBlockPlaced().getData());
         if (is.getType() == Material.LAVA || is.getType() == Material.STATIONARY_LAVA)
         {
