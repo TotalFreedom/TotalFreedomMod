@@ -344,7 +344,7 @@ public class TFM_PlayerListener extends PlayerListener
                         }
                         else
                         {
-                            TFM_Util.bcastMsg(p.getName() + " is a verified superadmin.", ChatColor.GREEN);
+                            //TFM_Util.bcastMsg(p.getName() + " is a verified superadmin.", ChatColor.GREEN);
                         }
                     }
                 }
