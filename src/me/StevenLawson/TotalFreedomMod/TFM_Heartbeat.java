@@ -31,15 +31,21 @@ public class TFM_Heartbeat implements Runnable
 
         if (plugin.disableNight)
         {
-            for (World world : Bukkit.getWorlds())
+            try
             {
-                if (world.getTime() > 12000L)
+                for (World world : Bukkit.getWorlds())
                 {
-                    TFM_Util.setWorldTime(world, 1000L);
+                    if (world.getTime() > 12000L)
+                    {
+                        TFM_Util.setWorldTime(world, 1000L);
+                    }
                 }
             }
+            catch (NullPointerException ex)
+            {
+            }
         }
-        
+
         if (plugin.disableWeather)
         {
             for (World world : Bukkit.getWorlds())

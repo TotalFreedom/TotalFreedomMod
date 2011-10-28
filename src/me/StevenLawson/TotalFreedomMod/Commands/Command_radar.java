@@ -31,7 +31,13 @@ public class Command_radar extends TFM_Command
         {
             if (!p.equals(sender_p))
             {
-                radar_data.add(new TFM_RadarData(p, sender_pos.distance(p.getLocation()), p.getLocation()));
+                try
+                {
+                    radar_data.add(new TFM_RadarData(p, sender_pos.distance(p.getLocation()), p.getLocation()));
+                }
+                catch (IllegalArgumentException ex)
+                {
+                }
             }
         }
         

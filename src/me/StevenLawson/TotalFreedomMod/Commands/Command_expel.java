@@ -50,7 +50,17 @@ public class Command_expel extends TFM_Command
                 if (!p.equals(sender_p))
                 {
                     Location target_pos = p.getLocation();
-                    if (target_pos.distance(sender_pos) < radius)
+                    
+                    boolean in_range = false;
+                    try
+                    {
+                        in_range = target_pos.distance(sender_pos) < radius;
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                    }
+                    
+                    if (in_range)
                     {
                         sender.sendMessage("Pushing " + p.getName());
                         Vector expel_direction = target_pos.subtract(sender_pos).toVector().normalize();
