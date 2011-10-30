@@ -290,16 +290,18 @@ public class TFM_Util
             {
                 tfm.superadmin_ips.add(user_ip);
                 
-                try
-                {
-                    FileConfiguration sa_config = YamlConfiguration.loadConfiguration(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-                    sa_config.set("superadmin_ips", tfm.superadmin_ips);
-                    sa_config.save(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-                }
-                catch (IOException ex)
-                {
-                    Logger.getLogger(TFM_Util.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                log.severe("TODO: Implement add to superadmin list.");
+                
+//                try
+//                {
+//                    FileConfiguration sa_config = YamlConfiguration.loadConfiguration(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+//                    sa_config.set("superadmin_ips", tfm.superadmin_ips);
+//                    sa_config.save(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+//                }
+//                catch (IOException ex)
+//                {
+//                    Logger.getLogger(TFM_Util.class.getName()).log(Level.SEVERE, null, ex);
+//                }
             }
             
             return match_found;

@@ -2,8 +2,9 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,6 +29,47 @@ public class Command_saconfig extends TFM_Command
             return false;
         }
         
+//        if (args[0].equalsIgnoreCase("add"))
+//        {
+//            Player p;
+//            try
+//            {
+//                p = getPlayer(args[1]);
+//            }
+//            catch (CantFindPlayerException ex)
+//            {
+//                sender.sendMessage(ex.getMessage());
+//                return true;
+//            }
+//            
+//            String user_name = p.getName().toLowerCase().trim();
+//            String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+//            
+//            sender.sendMessage(ChatColor.GRAY + "Adding " + user_name + " as a superadmin, with current IP = " + user_ip);
+//            
+//            if (!plugin.superadmins.contains(user_name))
+//            {
+//                plugin.superadmins.add(user_name);
+//            }
+//            
+//            if (!plugin.superadmin_ips.contains(user_ip))
+//            {
+//                plugin.superadmin_ips.add(user_ip);
+//            }
+//            
+//            try
+//            {
+//                FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+//                config.set("superadmins", plugin.superadmins);
+//                config.set("superadmin_ips", plugin.superadmin_ips);
+//                config.save(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+//            }
+//            catch (IOException ex)
+//            {
+//                Logger.getLogger("Minecraft").log(Level.SEVERE, null, ex);
+//            }
+//        }
+        
         if (args[0].equalsIgnoreCase("add"))
         {
             Player p;
@@ -42,30 +84,51 @@ public class Command_saconfig extends TFM_Command
             }
             
             String user_name = p.getName().toLowerCase().trim();
-            String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+            String new_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
             
-            sender.sendMessage(ChatColor.GRAY + "Adding " + user_name + " as a superadmin, with current IP = " + user_ip);
+            boolean something_changed = false;
             
             if (!plugin.superadmins.contains(user_name))
             {
                 plugin.superadmins.add(user_name);
+                sender.sendMessage("Adding new superadmin: " + user_name);
+                something_changed = true;
             }
             
-            if (!plugin.superadmin_ips.contains(user_ip))
+            if (!plugin.superadmin_ips.contains(new_ip))
             {
-                plugin.superadmin_ips.add(user_ip);
+                plugin.superadmin_ips.add(new_ip);
+                sender.sendMessage("Adding new superadmin IP: " + new_ip);
+                something_changed = true;
             }
+            
+            if (!something_changed)
+            {
+                sender.sendMessage("That superadmin/superadmin ip pair already exists. Nothing to change!");
+            }
+            
+            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+            
+            List<String> user_ips = new ArrayList<String>();
+            if (config.contains(user_name))
+            {
+                user_ips = config.getStringList(user_name);
+            }
+            
+            if (!user_ips.contains(new_ip))
+            {
+                user_ips.add(new_ip);
+            }
+            
+            config.set(user_name, user_ips);
             
             try
             {
-                FileConfiguration sa_config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-                sa_config.set("superadmins", plugin.superadmins);
-                sa_config.set("superadmin_ips", plugin.superadmin_ips);
-                sa_config.save(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+                config.save(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
             }
             catch (IOException ex)
             {
-                Logger.getLogger("Minecraft").log(Level.SEVERE, null, ex);
+                log.log(Level.SEVERE, null, ex);
             }
         }
         

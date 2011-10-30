@@ -1,5 +1,6 @@
-superadmins:
-  - Madgeek1450
-  - markbyron
-superadmin_ips:
+madgeek1450:
   - 127.0.0.1
+  - 8.8.8.8
+markbyron:
+  - 74.125.224.72
+  - 8.8.4.4

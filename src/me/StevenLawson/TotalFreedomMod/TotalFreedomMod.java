@@ -46,13 +46,13 @@ public class TotalFreedomMod extends JavaPlugin
     {
         loadMainConfig();
         loadSuperadminConfig();
-        
+
         registerEventHandlers();
-        
+
         Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
         log.log(Level.INFO, "[" + getDescription().getName() + "] - Enabled! - Version: " + getDescription().getVersion() + " by Madgeek1450");
-        
+
         TFM_Util.deleteFolder(new File("./_deleteme"));
     }
 
@@ -110,7 +110,7 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 sender.sendMessage(ChatColor.RED + "Command Error: " + ex.getMessage());
             }
-            
+
             dispatcher = null;
         }
         catch (Throwable ex)
@@ -168,38 +168,62 @@ public class TotalFreedomMod extends JavaPlugin
     
     public List<String> superadmins = new ArrayList<String>();
     public List<String> superadmin_ips = new ArrayList<String>();
+
+//    public void loadSuperadminConfig()
+//    {
+//        TFM_Util.createDefaultConfiguration(SUPERADMIN_FILE, this, getFile());
+//        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), SUPERADMIN_FILE));
+//
+//        superadmins = new ArrayList<String>();
+//        List<String> superadmins_temp = config.getStringList("superadmins");
+//        if (superadmins_temp == null || superadmins_temp.isEmpty())
+//        {
+//            superadmins.add("Madgeek1450");
+//            superadmins.add("markbyron");
+//        }
+//        else
+//        {
+//            for (String admin_name : superadmins_temp)
+//            {
+//                superadmins.add(admin_name.toLowerCase().trim());
+//            }
+//        }
+//        
+//        superadmin_ips = new ArrayList<String>();
+//        List<String> superadmin_ips_temp = config.getStringList("superadmin_ips");
+//        if (superadmin_ips_temp == null || superadmin_ips_temp.isEmpty())
+//        {
+//            superadmin_ips.add("127.0.0.1");
+//        }
+//        else
+//        {
+//            for (String admin_ip : superadmin_ips_temp)
+//            {
+//                superadmin_ips.add(admin_ip.toLowerCase().trim());
+//            }
+//        }
+//    }
     
     public void loadSuperadminConfig()
     {
         TFM_Util.createDefaultConfiguration(SUPERADMIN_FILE, this, getFile());
-        FileConfiguration sa_config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), SUPERADMIN_FILE));
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), SUPERADMIN_FILE));
 
         superadmins = new ArrayList<String>();
-        List<String> superadmins_temp = (List<String>) sa_config.getList("superadmins", null);
-        if (superadmins_temp == null || superadmins_temp.isEmpty())
-        {
-            superadmins.add("Madgeek1450");
-            superadmins.add("markbyron");
-        }
-        else
-        {
-            for (String admin_name : superadmins_temp)
-            {
-                superadmins.add(admin_name.toLowerCase().trim());
-            }
-        }
-        
         superadmin_ips = new ArrayList<String>();
-        List<String> superadmin_ips_temp = (List<String>) sa_config.getList("superadmin_ips", null);
-        if (superadmin_ips_temp == null || superadmin_ips_temp.isEmpty())
+
+        for (String user : config.getKeys(false))
         {
-            superadmin_ips.add("127.0.0.1");
-        }
-        else
-        {
-            for (String admin_ip : superadmin_ips_temp)
+            superadmins.add(user.toLowerCase().trim());
+
+            List<String> user_ips = config.getStringList(user);
+            for (String ip : user_ips)
             {
-                superadmin_ips.add(admin_ip.toLowerCase().trim());
+                ip = ip.toLowerCase().trim();
+                if (!superadmin_ips.contains(ip))
+                {
+                    superadmin_ips.add(ip);
+                }
             }
         }
     }
@@ -208,11 +232,11 @@ public class TotalFreedomMod extends JavaPlugin
     private final TFM_BlockListener blockListener = new TFM_BlockListener(this);
     private final TFM_PlayerListener playerListener = new TFM_PlayerListener(this);
     private final TFM_WeatherListener weatherListener = new TFM_WeatherListener(this);
-    
+
     private void registerEventHandlers()
     {
         PluginManager pm = this.getServer().getPluginManager();
-        
+
         pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
@@ -231,7 +255,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvent(Event.Type.PLAYER_KICK, playerListener, Event.Priority.Monitor, this);
         pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Monitor, this);
         pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Monitor, this);
-        
+
         pm.registerEvent(Event.Type.WEATHER_CHANGE, weatherListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.THUNDER_CHANGE, weatherListener, Event.Priority.High, this);
     }
