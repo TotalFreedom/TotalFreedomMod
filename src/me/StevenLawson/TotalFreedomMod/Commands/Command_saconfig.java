@@ -29,47 +29,6 @@ public class Command_saconfig extends TFM_Command
             return false;
         }
         
-//        if (args[0].equalsIgnoreCase("add"))
-//        {
-//            Player p;
-//            try
-//            {
-//                p = getPlayer(args[1]);
-//            }
-//            catch (CantFindPlayerException ex)
-//            {
-//                sender.sendMessage(ex.getMessage());
-//                return true;
-//            }
-//            
-//            String user_name = p.getName().toLowerCase().trim();
-//            String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
-//            
-//            sender.sendMessage(ChatColor.GRAY + "Adding " + user_name + " as a superadmin, with current IP = " + user_ip);
-//            
-//            if (!plugin.superadmins.contains(user_name))
-//            {
-//                plugin.superadmins.add(user_name);
-//            }
-//            
-//            if (!plugin.superadmin_ips.contains(user_ip))
-//            {
-//                plugin.superadmin_ips.add(user_ip);
-//            }
-//            
-//            try
-//            {
-//                FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-//                config.set("superadmins", plugin.superadmins);
-//                config.set("superadmin_ips", plugin.superadmin_ips);
-//                config.save(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-//            }
-//            catch (IOException ex)
-//            {
-//                Logger.getLogger("Minecraft").log(Level.SEVERE, null, ex);
-//            }
-//        }
-        
         if (args[0].equalsIgnoreCase("add"))
         {
             Player p;
@@ -121,6 +80,56 @@ public class Command_saconfig extends TFM_Command
             }
             
             config.set(user_name, user_ips);
+            
+            try
+            {
+                config.save(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+            }
+            catch (IOException ex)
+            {
+                log.log(Level.SEVERE, null, ex);
+            }
+        }
+        else if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del"))
+        {
+            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+            
+            String user_name = null;
+            try
+            {
+                Player p = getPlayer(args[1]);
+                user_name = p.getName().toLowerCase().trim();
+            }
+            catch (CantFindPlayerException ex)
+            {
+                for (String user : config.getKeys(false))
+                {
+                    if (user.equalsIgnoreCase(args[1]))
+                    {
+                        user_name = user;
+                        break;
+                    }
+                }
+            }
+            
+            if (user_name == null)
+            {
+                sender.sendMessage("Superadmin not found: " + user_name);
+                return true;
+            }
+            
+            plugin.superadmins.remove(user_name);
+            
+            if (config.contains(user_name))
+            {
+                List<String> user_ips = config.getStringList(user_name);
+                for (String ip : user_ips)
+                {
+                    plugin.superadmin_ips.remove(ip);
+                }
+            }
+            
+            config.set(user_name, null);
             
             try
             {

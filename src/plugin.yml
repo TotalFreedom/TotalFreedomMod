@@ -100,7 +100,7 @@ commands:
     usage: /<command>
   saconfig:
     description: Owner command - Manage superadmins.
-    usage: /<command> <add> <username>
+    usage: /<command> <add|delete> <username>
   say:
     description: Broadcasts the given message as the console, includes sender name.
     usage: /<command> <message>
