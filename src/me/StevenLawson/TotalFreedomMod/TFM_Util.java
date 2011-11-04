@@ -1,17 +1,26 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.URI;
+import java.util.Deque;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -258,7 +267,7 @@ public class TFM_Util
     public static boolean checkPartialSuperadminIP(String user_ip, TotalFreedomMod tfm)
     {
         user_ip = user_ip.trim();
-        
+
         if (tfm.superadmin_ips.contains(user_ip))
         {
             return true;
@@ -284,13 +293,13 @@ public class TFM_Util
                     }
                 }
             }
-            
+
             if (match_ip != null)
             {
                 tfm.superadmin_ips.add(user_ip);
-                
+
                 FileConfiguration config = YamlConfiguration.loadConfiguration(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-                
+
                 fileloop:
                 for (String user : config.getKeys(false))
                 {
@@ -307,7 +316,7 @@ public class TFM_Util
                         }
                     }
                 }
-                
+
                 try
                 {
                     config.save(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
@@ -317,7 +326,7 @@ public class TFM_Util
                     log.log(Level.SEVERE, null, ex);
                 }
             }
-            
+
             return match_ip != null;
         }
     }
@@ -379,5 +388,116 @@ public class TFM_Util
     public static CreatureType getCreatureType(String mobname)
     {
         return TFM_Util.mobtypes.get(mobname.toLowerCase().trim());
+    }
+
+    public static void zip(File directory, File zipfile, boolean verbose, CommandSender sender) throws IOException
+    {
+        URI base = directory.toURI();
+        Deque<File> queue = new LinkedList<File>();
+        queue.push(directory);
+        OutputStream out = new FileOutputStream(zipfile);
+        Closeable res = out;
+        try
+        {
+            ZipOutputStream zout = new ZipOutputStream(out);
+            res = zout;
+            while (!queue.isEmpty())
+            {
+                directory = queue.pop();
+                for (File kid : directory.listFiles())
+                {
+                    String name = base.relativize(kid.toURI()).getPath();
+                    if (kid.isDirectory())
+                    {
+                        queue.push(kid);
+                        name = name.endsWith("/") ? name : name + "/";
+                        zout.putNextEntry(new ZipEntry(name));
+                    }
+                    else
+                    {
+                        zout.putNextEntry(new ZipEntry(name));
+                        copy(kid, zout);
+                        zout.closeEntry();
+                    }
+                    
+                    if (verbose)
+                    {
+                        sender.sendMessage("Zipping: " + name);
+                    }
+                }
+            }
+        }
+        finally
+        {
+            res.close();
+        }
+    }
+
+    public static void unzip(File zipfile, File directory) throws IOException
+    {       
+        ZipFile zfile = new ZipFile(zipfile);
+        Enumeration<? extends ZipEntry> entries = zfile.entries();
+        while (entries.hasMoreElements())
+        {
+            ZipEntry entry = entries.nextElement();
+            File file = new File(directory, entry.getName());
+            if (entry.isDirectory())
+            {
+                file.mkdirs();
+            }
+            else
+            {
+                file.getParentFile().mkdirs();
+                InputStream in = zfile.getInputStream(entry);
+                try
+                {
+                    copy(in, file);
+                }
+                finally
+                {
+                    in.close();
+                }
+            }
+        }
+    }
+
+    private static void copy(InputStream in, OutputStream out) throws IOException
+    {
+        byte[] buffer = new byte[1024];
+        while (true)
+        {
+            int readCount = in.read(buffer);
+            if (readCount < 0)
+            {
+                break;
+            }
+            out.write(buffer, 0, readCount);
+        }
+    }
+
+    private static void copy(File file, OutputStream out) throws IOException
+    {
+        InputStream in = new FileInputStream(file);
+        try
+        {
+            copy(in, out);
+        }
+        finally
+        {
+            in.close();
+        }
+    }
+
+    private static void copy(InputStream in, File file) throws IOException
+    {
+        OutputStream out = new FileOutputStream(file);
+        try
+        {
+            copy(in, out);
+        }
+        finally
+        {
+            out.close();
+        }
     }
 }

@@ -143,3 +143,6 @@ commands:
   wildcard:
     description: Superadmin command - Run any command on all users, username placeholder = ?.
     usage: /<command> [fluff] ? [fluff] ?
+  ziptool:
+    description: Owner command - Zip and unzip files.
+    usage: /<command> <zip <directory>> | <unzip <file>>
