@@ -271,7 +271,7 @@ public class TFM_Util
                 return false;
             }
 
-            boolean match_found = false;
+            String match_ip = null;
             for (String test_ip : tfm.superadmin_ips)
             {
                 String[] test_octets = test_ip.split("\\.");
@@ -279,32 +279,46 @@ public class TFM_Util
                 {
                     if (user_octets[0].equals(test_octets[0]) && user_octets[1].equals(test_octets[1]) && user_octets[2].equals(test_octets[2]))
                     {
-                        log.info("New IP '" + user_ip + "' matches old IP '" + test_ip + "' via partial match, adding it to superadmin list.");
-                        match_found = true;
+                        match_ip = test_ip;
                         break;
                     }
                 }
             }
             
-            if (match_found)
+            if (match_ip != null)
             {
                 tfm.superadmin_ips.add(user_ip);
                 
-                log.severe("TODO: Implement add to superadmin list.");
+                FileConfiguration config = YamlConfiguration.loadConfiguration(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
                 
-//                try
-//                {
-//                    FileConfiguration sa_config = YamlConfiguration.loadConfiguration(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-//                    sa_config.set("superadmin_ips", tfm.superadmin_ips);
-//                    sa_config.save(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-//                }
-//                catch (IOException ex)
-//                {
-//                    Logger.getLogger(TFM_Util.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                fileloop:
+                for (String user : config.getKeys(false))
+                {
+                    List<String> user_ips = config.getStringList(user);
+                    for (String ip : user_ips)
+                    {
+                        ip = ip.toLowerCase().trim();
+                        if (ip.equals(match_ip))
+                        {
+                            log.info("New IP '" + user_ip + "' matches old IP '" + match_ip + "' via partial match, adding it to superadmin list.");
+                            user_ips.add(user_ip);
+                            config.set(user, user_ips);
+                            break fileloop;
+                        }
+                    }
+                }
+                
+                try
+                {
+                    config.save(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+                }
+                catch (IOException ex)
+                {
+                    log.log(Level.SEVERE, null, ex);
+                }
             }
             
-            return match_found;
+            return match_ip != null;
         }
     }
 

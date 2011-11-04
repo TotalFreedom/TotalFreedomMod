@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import java.net.InetSocketAddress;
 import java.util.Iterator;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
