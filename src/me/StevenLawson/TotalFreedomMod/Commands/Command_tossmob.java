@@ -27,7 +27,7 @@ public class Command_tossmob extends TFM_Command
             CreatureType creature = CreatureType.PIG;
             if (args.length >= 1)
             {
-                if (args[0].equalsIgnoreCase("off") || args[0].equalsIgnoreCase("end"))
+                if (TFM_Util.isStopCommand(args[0]))
                 {
                     playerData.disableMobThrower();
                     sender.sendMessage(ChatColor.GREEN + "MobThrower is disabled.");

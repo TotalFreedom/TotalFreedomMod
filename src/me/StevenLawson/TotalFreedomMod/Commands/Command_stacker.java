@@ -13,7 +13,7 @@ public class Command_stacker extends TFM_Command
 //        {
 //            if (args.length >= 1)
 //            {
-//                if (args[0].equalsIgnoreCase("end") || args[0].equalsIgnoreCase("stop"))
+//                if (TFM_Util.isStopCommand(args[0]))
 //                {
 //                    for (World world : Bukkit.getWorlds())
 //                    {

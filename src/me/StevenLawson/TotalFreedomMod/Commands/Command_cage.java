@@ -40,7 +40,7 @@ public class Command_cage extends TFM_Command
             Material cage_material_inner = Material.AIR;
             if (args.length >= 2)
             {
-                if (args[1].equalsIgnoreCase("end") || args[1].equalsIgnoreCase("off") || args[1].equalsIgnoreCase("stop"))
+                if (TFM_Util.isStopCommand(args[1]))
                 {
                     playerdata.setCaged(false);
                     playerdata.regenerateHistory();

@@ -39,7 +39,7 @@ public class Command_orbit extends TFM_Command
 
             if (args.length >= 2)
             {
-                if (args[1].equalsIgnoreCase("stop") || args[1].equalsIgnoreCase("end"))
+                if (TFM_Util.isStopCommand(args[1]))
                 {
                     sender.sendMessage(ChatColor.GRAY + "Stopped orbiting " + p.getName());
                     playerdata.stopOrbiting();

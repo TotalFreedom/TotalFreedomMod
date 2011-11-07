@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -499,5 +500,20 @@ public class TFM_Util
         {
             out.close();
         }
+    }
+    
+    private static final List<String> stop_commands = new ArrayList<String>();
+    static
+    {
+        stop_commands.add("stop");
+        stop_commands.add("off");
+        stop_commands.add("end");
+        stop_commands.add("halt");
+        stop_commands.add("die");
+    }
+    
+    public static boolean isStopCommand(String command)
+    {
+        return stop_commands.contains(command.toLowerCase()); 
     }
 }

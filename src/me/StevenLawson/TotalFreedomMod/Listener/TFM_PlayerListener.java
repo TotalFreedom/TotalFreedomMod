@@ -217,27 +217,34 @@ public class TFM_PlayerListener extends PlayerListener
             event.setCancelled(true);
             return;
         }
-        
-//        String message = event.getMessage().toLowerCase();
-//        if (Pattern.compile("\\sbe\\s.*admin").matcher(message).find()
-//                || Pattern.compile("\\shave\\s.*admin").matcher(message).find())
-//        {
-//            log.info("Kicked " + p.getName() + " for being annoying.");
-//            p.kickPlayer("No, bitch.");
-//            event.setCancelled(true);
-//            return;
-//        }
     }
 
     @Override
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
         String command = event.getMessage();
-        Player player = event.getPlayer();
+        Player p = event.getPlayer();
+        
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+        playerdata.incrementMsgCount();
+        
+        if (playerdata.getMsgCount() > 10)
+        {
+            p.setOp(false);
+            p.kickPlayer("No Spamming");
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
+            TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming commands.", ChatColor.RED);
+            playerdata.resetMsgCount();
+            
+            TFM_Util.wipeDropEntities(true);
+
+            event.setCancelled(true);
+            return;
+        }
 
         if (plugin.preprocessLogEnabled)
         {
-            log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", player.getName(), ChatColor.stripColor(player.getDisplayName()), command));
+            log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", p.getName(), ChatColor.stripColor(p.getDisplayName()), command));
         }
 
         command = command.toLowerCase().trim();
@@ -246,21 +253,21 @@ public class TFM_PlayerListener extends PlayerListener
 
         if (Pattern.compile("^/stop").matcher(command).find())
         {
-            if (!TFM_Util.isUserSuperadmin(player, plugin))
+            if (!TFM_Util.isUserSuperadmin(p, plugin))
             {
                 block_command = true;
             }
         }
         else if (Pattern.compile("^/reload").matcher(command).find())
         {
-            if (!TFM_Util.isUserSuperadmin(player, plugin))
+            if (!TFM_Util.isUserSuperadmin(p, plugin))
             {
                 block_command = true;
             }
         }
         else if (Pattern.compile("^/save-").matcher(command).find())
         {
-            if (!TFM_Util.isUserSuperadmin(player, plugin))
+            if (!TFM_Util.isUserSuperadmin(p, plugin))
             {
                 block_command = true;
             }
@@ -268,22 +275,22 @@ public class TFM_PlayerListener extends PlayerListener
         
         if (block_command)
         {
-            player.kickPlayer("That command is prohibited.");
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", player.getName()));
-            TFM_Util.bcastMsg(player.getName() + " was automatically kicked for using evil commands.", ChatColor.RED);
+            p.kickPlayer("That command is prohibited.");
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
+            TFM_Util.bcastMsg(p.getName() + " was automatically kicked for using evil commands.", ChatColor.RED);
         }
         else
         {
             if (Pattern.compile("^/time").matcher(command).find())
             {
-                player.sendMessage(ChatColor.GRAY + "Server-side time changing is disabled. Please use /ptime to set your own personal time.");
+                p.sendMessage(ChatColor.GRAY + "Server-side time changing is disabled. Please use /ptime to set your own personal time.");
                 block_command = true;
             }
         }
 
         if (block_command)
         {
-            player.sendMessage(ChatColor.RED + "That command is prohibited.");
+            p.sendMessage(ChatColor.RED + "That command is prohibited.");
             event.setCancelled(true);
             return;
         }
@@ -310,6 +317,11 @@ public class TFM_PlayerListener extends PlayerListener
     {
         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer(), plugin);
         playerdata.disarmMP44();
+        if (playerdata.isCaged())
+        {
+            playerdata.regenerateHistory();
+            playerdata.clearHistory();
+        }
     }
 
     @Override
@@ -317,6 +329,11 @@ public class TFM_PlayerListener extends PlayerListener
     {
         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer(), plugin);
         playerdata.disarmMP44();
+        if (playerdata.isCaged())
+        {
+            playerdata.regenerateHistory();
+            playerdata.clearHistory();
+        }
     }
 
     @Override
