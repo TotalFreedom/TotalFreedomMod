@@ -15,7 +15,7 @@ public class TFM_WeatherListener extends WeatherListener
     @Override
     public void onThunderChange(ThunderChangeEvent event)
     {
-        if (event.toThunderState() && plugin.disableWeather)
+        if (event.toThunderState() && TotalFreedomMod.disableWeather)
         {
             event.setCancelled(true);
             return;
@@ -25,7 +25,7 @@ public class TFM_WeatherListener extends WeatherListener
     @Override
     public void onWeatherChange(WeatherChangeEvent event)
     {
-        if (event.toWeatherState() && plugin.disableWeather)
+        if (event.toWeatherState() && TotalFreedomMod.disableWeather)
         {
             event.setCancelled(true);
             return;

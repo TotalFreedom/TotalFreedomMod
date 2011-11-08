@@ -22,7 +22,7 @@ public class Command_explosives extends TFM_Command
             {
                 try
                 {
-                    plugin.explosiveRadius = Math.max(1.0, Math.min(30.0, Double.parseDouble(args[1])));
+                    TotalFreedomMod.explosiveRadius = Math.max(1.0, Math.min(30.0, Double.parseDouble(args[1])));
                 }
                 catch (NumberFormatException nfex)
                 {
@@ -31,12 +31,12 @@ public class Command_explosives extends TFM_Command
 
             if (args[0].equalsIgnoreCase("on"))
             {
-                plugin.allowExplosions = true;
-                sender.sendMessage("Explosives are now enabled, radius set to " + plugin.explosiveRadius + " blocks.");
+                TotalFreedomMod.allowExplosions = true;
+                sender.sendMessage("Explosives are now enabled, radius set to " + TotalFreedomMod.explosiveRadius + " blocks.");
             }
             else
             {
-                plugin.allowExplosions = false;
+                TotalFreedomMod.allowExplosions = false;
                 sender.sendMessage("Explosives are now disabled.");
             }
         }

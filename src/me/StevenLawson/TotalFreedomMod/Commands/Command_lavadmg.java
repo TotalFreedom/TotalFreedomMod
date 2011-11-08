@@ -20,12 +20,12 @@ public class Command_lavadmg extends TFM_Command
 
             if (args[0].equalsIgnoreCase("on"))
             {
-                plugin.allowLavaDamage = true;
+                TotalFreedomMod.allowLavaDamage = true;
                 sender.sendMessage("Lava damage is now enabled.");
             }
             else
             {
-                plugin.allowLavaDamage = false;
+                TotalFreedomMod.allowLavaDamage = false;
                 sender.sendMessage("Lava damage is now disabled.");
             }
         }

@@ -1,7 +1,9 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -31,19 +33,21 @@ public class TFM_UserInfo
     private int mp44_schedule_id = -1;
     private boolean mp44_armed = false;
     private boolean mp44_firing = false;
+    
+    public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
 
     private TFM_UserInfo(Player player)
     {
         this.player = player;
     }
     
-    public static TFM_UserInfo getPlayerData(Player p, TotalFreedomMod tfm)
+    public static TFM_UserInfo getPlayerData(Player p)
     {
-        TFM_UserInfo playerdata = tfm.userinfo.get(p);
+        TFM_UserInfo playerdata = TFM_UserInfo.userinfo.get(p);
         if (playerdata == null)
         {
             playerdata = new TFM_UserInfo(p);
-            tfm.userinfo.put(p, playerdata);
+            TFM_UserInfo.userinfo.put(p, playerdata);
         }
         return playerdata;
     }

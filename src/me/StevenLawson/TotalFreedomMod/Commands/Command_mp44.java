@@ -18,7 +18,7 @@ public class Command_mp44 extends TFM_Command
         {
             sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
         }
-        else if (!plugin.mp44Enabled)
+        else if (!TotalFreedomMod.mp44Enabled)
         {
             sender.sendMessage(ChatColor.GREEN + "The mp44 is currently disabled.");
         }
@@ -29,7 +29,7 @@ public class Command_mp44 extends TFM_Command
                 return false;
             }
 
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(sender_p, plugin);
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(sender_p);
 
             if (args[0].equalsIgnoreCase("draw"))
             {

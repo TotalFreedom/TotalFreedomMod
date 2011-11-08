@@ -19,11 +19,11 @@ public class Command_landmine extends TFM_Command
         {
             sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
         }
-        else if (!plugin.landminesEnabled)
+        else if (!TotalFreedomMod.landminesEnabled)
         {
             sender.sendMessage(ChatColor.GREEN + "The landmine is currently disabled.");
         }
-        else if (!plugin.allowExplosions)
+        else if (!TotalFreedomMod.allowExplosions)
         {
             sender.sendMessage(ChatColor.GREEN + "Explosions are currently disabled.");
         }
@@ -43,7 +43,7 @@ public class Command_landmine extends TFM_Command
             
             Block landmine = sender_p.getLocation().getBlock().getRelative(BlockFace.DOWN);
             landmine.setType(Material.TNT);
-            plugin.landmines.add(new TFM_LandmineData(landmine.getLocation(), sender_p, radius));
+            TFM_LandmineData.landmines.add(new TFM_LandmineData(landmine.getLocation(), sender_p, radius));
             
             sender.sendMessage(ChatColor.GREEN + "Landmine planted. Radius: " + radius + " blocks.");
         }

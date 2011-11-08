@@ -24,6 +24,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -36,6 +37,28 @@ import org.bukkit.entity.*;
 public class TFM_Util
 {
     private static final Logger log = Logger.getLogger("Minecraft");
+    private static Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
+    private static final Map<String, CreatureType> mobtypes = new HashMap<String, CreatureType>();
+    private static final List<String> stop_commands = new ArrayList<String>();
+
+    static
+    {
+        mobtypes.put("chicken", CreatureType.CHICKEN);
+        mobtypes.put("cow", CreatureType.COW);
+        mobtypes.put("creeper", CreatureType.CREEPER);
+        mobtypes.put("pig", CreatureType.PIG);
+        mobtypes.put("sheep", CreatureType.SHEEP);
+        mobtypes.put("skeleton", CreatureType.SKELETON);
+        mobtypes.put("spider", CreatureType.SPIDER);
+        mobtypes.put("zombie", CreatureType.ZOMBIE);
+        mobtypes.put("wolf", CreatureType.WOLF);
+
+        stop_commands.add("stop");
+        stop_commands.add("off");
+        stop_commands.add("end");
+        stop_commands.add("halt");
+        stop_commands.add("die");
+    }
 
     private TFM_Util()
     {
@@ -371,20 +394,6 @@ public class TFM_Util
             return false;
         }
     }
-    private static final Map<String, CreatureType> mobtypes = new HashMap<String, CreatureType>();
-
-    static
-    {
-        mobtypes.put("chicken", CreatureType.CHICKEN);
-        mobtypes.put("cow", CreatureType.COW);
-        mobtypes.put("creeper", CreatureType.CREEPER);
-        mobtypes.put("pig", CreatureType.PIG);
-        mobtypes.put("sheep", CreatureType.SHEEP);
-        mobtypes.put("skeleton", CreatureType.SKELETON);
-        mobtypes.put("spider", CreatureType.SPIDER);
-        mobtypes.put("zombie", CreatureType.ZOMBIE);
-        mobtypes.put("wolf", CreatureType.WOLF);
-    }
 
     public static CreatureType getCreatureType(String mobname)
     {
@@ -420,7 +429,7 @@ public class TFM_Util
                         copy(kid, zout);
                         zout.closeEntry();
                     }
-                    
+
                     if (verbose)
                     {
                         sender.sendMessage("Zipping: " + name);
@@ -435,7 +444,7 @@ public class TFM_Util
     }
 
     public static void unzip(File zipfile, File directory) throws IOException
-    {       
+    {
         ZipFile zfile = new ZipFile(zipfile);
         Enumeration<? extends ZipEntry> entries = zfile.entries();
         while (entries.hasMoreElements())
@@ -501,19 +510,74 @@ public class TFM_Util
             out.close();
         }
     }
-    
-    private static final List<String> stop_commands = new ArrayList<String>();
-    static
-    {
-        stop_commands.add("stop");
-        stop_commands.add("off");
-        stop_commands.add("end");
-        stop_commands.add("halt");
-        stop_commands.add("die");
-    }
-    
+
     public static boolean isStopCommand(String command)
     {
-        return stop_commands.contains(command.toLowerCase()); 
+        return stop_commands.contains(command.toLowerCase());
+    }
+
+    enum EjectMethod
+    {
+        STRIKE_ONE, STRIKE_TWO, STRIKE_THREE;
+    }
+
+    public static void autoEject(Player p, String kickMessage)
+    {
+        EjectMethod method = EjectMethod.STRIKE_ONE;
+        String player_ip = null;
+        
+        try
+        {
+            player_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+            
+            Integer num_kicks = eject_tracker.get(player_ip);
+            if (num_kicks == null)
+            {
+                num_kicks = new Integer(0);
+            }
+
+            num_kicks = new Integer(num_kicks.intValue() + 1);
+
+            if (num_kicks <= 1)
+            {
+                method = EjectMethod.STRIKE_ONE;
+            }
+            else if (num_kicks == 2)
+            {
+                method = EjectMethod.STRIKE_TWO;
+            }
+            else if (num_kicks >= 3)
+            {
+                method = EjectMethod.STRIKE_THREE;
+            }
+        }
+        catch (Throwable ex)
+        {
+        }
+
+        p.setOp(false);
+        p.setGameMode(GameMode.SURVIVAL);
+        p.getInventory().clear();
+        p.kickPlayer(kickMessage);
+
+        switch (method)
+        {
+            case STRIKE_ONE:
+            {
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
+                break;
+            }
+            case STRIKE_TWO:
+            {
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 3m", p.getName()));
+                break;
+            }
+            case STRIKE_THREE:
+            {
+                Bukkit.banIP(player_ip);
+                Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
+                break;
+            }
+        }
     }
 }

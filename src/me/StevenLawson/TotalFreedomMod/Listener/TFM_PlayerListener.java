@@ -58,7 +58,7 @@ public class TFM_PlayerListener extends PlayerListener
         {
             if (material == Material.STICK)
             {
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player, plugin);
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player);
                 if (playerdata.mobThrowerEnabled())
                 {
                     Location player_pos = player.getLocation();
@@ -73,7 +73,7 @@ public class TFM_PlayerListener extends PlayerListener
             }
             else if (material == Material.SULPHUR)
             {
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player, plugin);
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player);
 
                 if (playerdata.isMP44Armed())
                 {
@@ -96,10 +96,10 @@ public class TFM_PlayerListener extends PlayerListener
     public void onPlayerMove(PlayerMoveEvent event)
     {
         Player p = event.getPlayer();
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 
         boolean do_freeze = false;
-        if (plugin.allPlayersFrozen)
+        if (TotalFreedomMod.allPlayersFrozen)
         {
             if (!TFM_Util.isUserSuperadmin(p, plugin))
             {
@@ -159,9 +159,9 @@ public class TFM_PlayerListener extends PlayerListener
             }
         }
         
-        if (plugin.landminesEnabled && plugin.allowExplosions)
+        if (TotalFreedomMod.landminesEnabled && TotalFreedomMod.allowExplosions)
         {
-            Iterator<TFM_LandmineData> landmines = plugin.landmines.iterator();
+            Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
             while (landmines.hasNext())
             {
                 TFM_LandmineData landmine = landmines.next();
@@ -203,15 +203,13 @@ public class TFM_PlayerListener extends PlayerListener
     {
         Player p = event.getPlayer();
 
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
         playerdata.incrementMsgCount();
 
         if (playerdata.getMsgCount() > 10)
         {
-            p.setOp(false);
-            p.kickPlayer("No Spamming");
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
             TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+            TFM_Util.autoEject(p, "No Spamming");
             playerdata.resetMsgCount();
 
             event.setCancelled(true);
@@ -225,15 +223,13 @@ public class TFM_PlayerListener extends PlayerListener
         String command = event.getMessage();
         Player p = event.getPlayer();
         
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
         playerdata.incrementMsgCount();
         
         if (playerdata.getMsgCount() > 10)
         {
-            p.setOp(false);
-            p.kickPlayer("No Spamming");
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
             TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming commands.", ChatColor.RED);
+            TFM_Util.autoEject(p, "No Spamming");
             playerdata.resetMsgCount();
             
             TFM_Util.wipeDropEntities(true);
@@ -242,7 +238,7 @@ public class TFM_PlayerListener extends PlayerListener
             return;
         }
 
-        if (plugin.preprocessLogEnabled)
+        if (TotalFreedomMod.preprocessLogEnabled)
         {
             log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", p.getName(), ChatColor.stripColor(p.getDisplayName()), command));
         }
@@ -275,9 +271,8 @@ public class TFM_PlayerListener extends PlayerListener
         
         if (block_command)
         {
-            p.kickPlayer("That command is prohibited.");
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
-            TFM_Util.bcastMsg(p.getName() + " was automatically kicked for using evil commands.", ChatColor.RED);
+            TFM_Util.autoEject(p, "That command is prohibited.");
+            TFM_Util.bcastMsg(p.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
         }
         else
         {
@@ -299,7 +294,7 @@ public class TFM_PlayerListener extends PlayerListener
     @Override
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
-        if (plugin.autoEntityWipe)
+        if (TotalFreedomMod.autoEntityWipe)
         {
             if (event.getPlayer().getWorld().getEntities().size() > 750)
             {
@@ -315,7 +310,7 @@ public class TFM_PlayerListener extends PlayerListener
     @Override
     public void onPlayerKick(PlayerKickEvent event)
     {
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer(), plugin);
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer());
         playerdata.disarmMP44();
         if (playerdata.isCaged())
         {
@@ -327,7 +322,7 @@ public class TFM_PlayerListener extends PlayerListener
     @Override
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer(), plugin);
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer());
         playerdata.disarmMP44();
         if (playerdata.isCaged())
         {

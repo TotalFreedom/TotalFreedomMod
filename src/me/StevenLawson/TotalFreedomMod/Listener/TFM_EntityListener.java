@@ -18,7 +18,7 @@ public class TFM_EntityListener extends EntityListener
     @Override
     public void onEntityExplode(EntityExplodeEvent event)
     {
-        if (!plugin.allowExplosions)
+        if (!TotalFreedomMod.allowExplosions)
         {
             event.setCancelled(true);
             return;
@@ -30,19 +30,19 @@ public class TFM_EntityListener extends EntityListener
     @Override
     public void onExplosionPrime(ExplosionPrimeEvent event)
     {
-        if (!plugin.allowExplosions)
+        if (!TotalFreedomMod.allowExplosions)
         {
             event.setCancelled(true);
             return;
         }
 
-        event.setRadius((float) plugin.explosiveRadius);
+        event.setRadius((float) TotalFreedomMod.explosiveRadius);
     }
 
     @Override
     public void onEntityCombust(EntityCombustEvent event)
     {
-        if (!plugin.allowFireSpread)
+        if (!TotalFreedomMod.allowFireSpread)
         {
             event.setCancelled(true);
             return;
@@ -57,7 +57,7 @@ public class TFM_EntityListener extends EntityListener
             Player p = (Player) event.getEntity();
             if (p != null)
             {
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
                 if (playerdata.getForcedDeath())
                 {
                     event.setCancelled(false);
@@ -70,7 +70,7 @@ public class TFM_EntityListener extends EntityListener
             }
         }
         
-        if (event.getCause() == DamageCause.LAVA && !plugin.allowLavaDamage)
+        if (event.getCause() == DamageCause.LAVA && !TotalFreedomMod.allowLavaDamage)
         {
             event.setCancelled(true);
             return;

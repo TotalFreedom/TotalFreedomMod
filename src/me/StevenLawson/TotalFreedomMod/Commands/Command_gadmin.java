@@ -93,7 +93,7 @@ public class Command_gadmin extends TFM_Command
                     }
                     else if (mode.equals("fr"))
                     {
-                        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+                        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
                         playerdata.setFrozen(!playerdata.isFrozen());
 
                         sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");

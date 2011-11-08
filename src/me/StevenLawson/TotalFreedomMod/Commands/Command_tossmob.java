@@ -22,7 +22,7 @@ public class Command_tossmob extends TFM_Command
         }
         else if (sender.isOp())
         {
-            TFM_UserInfo playerData = TFM_UserInfo.getPlayerData(sender_p, plugin);
+            TFM_UserInfo playerData = TFM_UserInfo.getPlayerData(sender_p);
 
             CreatureType creature = CreatureType.PIG;
             if (args.length >= 1)

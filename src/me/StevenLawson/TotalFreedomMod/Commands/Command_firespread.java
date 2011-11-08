@@ -20,12 +20,12 @@ public class Command_firespread extends TFM_Command
 
             if (args[0].equalsIgnoreCase("on"))
             {
-                plugin.allowFireSpread = true;
+                TotalFreedomMod.allowFireSpread = true;
                 sender.sendMessage("Fire spread is now enabled.");
             }
             else
             {
-                plugin.allowFireSpread = false;
+                TotalFreedomMod.allowFireSpread = false;
                 sender.sendMessage("Fire spread is now disabled.");
             }
         }

@@ -20,12 +20,12 @@ public class Command_waterplace extends TFM_Command
 
             if (args[0].equalsIgnoreCase("on"))
             {
-                plugin.allowWaterPlace = true;
+                TotalFreedomMod.allowWaterPlace = true;
                 sender.sendMessage("Water placement is now enabled.");
             }
             else
             {
-                plugin.allowWaterPlace = false;
+                TotalFreedomMod.allowWaterPlace = false;
                 sender.sendMessage("Water placement is now disabled.");
             }
         }

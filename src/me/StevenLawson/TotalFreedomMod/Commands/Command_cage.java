@@ -34,7 +34,7 @@ public class Command_cage extends TFM_Command
                 return true;
             }
 
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 
             Material cage_material_outer = Material.GLASS;
             Material cage_material_inner = Material.AIR;

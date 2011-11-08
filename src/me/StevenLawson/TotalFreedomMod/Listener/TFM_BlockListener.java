@@ -4,9 +4,7 @@ import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,7 +24,7 @@ public class TFM_BlockListener extends BlockListener
     @Override
     public void onBlockBurn(BlockBurnEvent event)
     {
-        if (!plugin.allowFireSpread)
+        if (!TotalFreedomMod.allowFireSpread)
         {
             event.setCancelled(true);
             return;
@@ -36,7 +34,7 @@ public class TFM_BlockListener extends BlockListener
     @Override
     public void onBlockIgnite(BlockIgniteEvent event)
     {
-        if (!plugin.allowFirePlace)
+        if (!TotalFreedomMod.allowFirePlace)
         {
             event.setCancelled(true);
             return;
@@ -46,10 +44,10 @@ public class TFM_BlockListener extends BlockListener
     @Override
     public void onBlockBreak(BlockBreakEvent event)
     {
-        if (plugin.nukeMonitor)
+        if (TotalFreedomMod.nukeMonitor)
         {
             Player p = event.getPlayer();
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 
             Location player_pos = p.getLocation();
             Location block_pos = event.getBlock().getLocation();
@@ -59,7 +57,7 @@ public class TFM_BlockListener extends BlockListener
             {
                 out_of_range = true;
             }
-            else if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            else if (player_pos.distance(block_pos) > TotalFreedomMod.nukeMonitorRange)
             {
                 out_of_range = true;
             }
@@ -67,34 +65,24 @@ public class TFM_BlockListener extends BlockListener
             if (out_of_range)
             {
                 playerdata.incrementFreecamDestroyCount();
-                if (playerdata.getFreecamDestroyCount() > plugin.freecamTriggerCount)
+                if (playerdata.getFreecamDestroyCount() > TotalFreedomMod.freecamTriggerCount)
                 {
-                    p.setOp(false);
-                    p.setGameMode(GameMode.SURVIVAL);
-                    p.getInventory().clear();
-
                     TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
-                    p.kickPlayer("Freecam (extended range) block breaking is not permitted on this server.");
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
-
+                    TFM_Util.autoEject(p, "Freecam (extended range) block breaking is not permitted on this server.");
+                    
                     playerdata.resetFreecamDestroyCount();
-
+                    
                     event.setCancelled(true);
                     return;
                 }
             }
 
             playerdata.incrementBlockDestroyCount();
-            if (playerdata.getBlockDestroyCount() > plugin.nukeMonitorCountBreak)
+            if (playerdata.getBlockDestroyCount() > TotalFreedomMod.nukeMonitorCountBreak)
             {
                 TFM_Util.bcastMsg(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
-
-                p.setOp(false);
-                p.setGameMode(GameMode.SURVIVAL);
-                p.getInventory().clear();
-                p.kickPlayer("You are breaking blocks too fast. Nukers are not permitted on this server.");
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
-
+                TFM_Util.autoEject(p, "You are breaking blocks too fast. Nukers are not permitted on this server.");
+                
                 event.setCancelled(true);
                 return;
             }
@@ -106,19 +94,19 @@ public class TFM_BlockListener extends BlockListener
     {
         Player p = event.getPlayer();
 
-        if (plugin.nukeMonitor)
+        if (TotalFreedomMod.nukeMonitor)
         {
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 
             Location player_pos = p.getLocation();
             Location block_pos = event.getBlock().getLocation();
-            
+
             boolean out_of_range = false;
             if (!player_pos.getWorld().equals(block_pos.getWorld()))
             {
                 out_of_range = true;
             }
-            else if (player_pos.distance(block_pos) > plugin.nukeMonitorRange)
+            else if (player_pos.distance(block_pos) > TotalFreedomMod.nukeMonitorRange)
             {
                 out_of_range = true;
             }
@@ -126,34 +114,24 @@ public class TFM_BlockListener extends BlockListener
             if (out_of_range)
             {
                 playerdata.incrementFreecamPlaceCount();
-                if (playerdata.getFreecamPlaceCount() > plugin.freecamTriggerCount)
+                if (playerdata.getFreecamPlaceCount() > TotalFreedomMod.freecamTriggerCount)
                 {
-                    p.setOp(false);
-                    p.setGameMode(GameMode.SURVIVAL);
-                    p.getInventory().clear();
-
                     TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
-                    p.kickPlayer("Freecam (extended range) block building is not permitted on this server.");
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
-
+                    TFM_Util.autoEject(p, "Freecam (extended range) block building is not permitted on this server.");
+                    
                     playerdata.resetFreecamPlaceCount();
-
+                    
                     event.setCancelled(true);
                     return;
                 }
             }
 
             playerdata.incrementBlockPlaceCount();
-            if (playerdata.getBlockPlaceCount() > plugin.nukeMonitorCountPlace)
+            if (playerdata.getBlockPlaceCount() > TotalFreedomMod.nukeMonitorCountPlace)
             {
                 TFM_Util.bcastMsg(p.getName() + " is placing blocks too fast!", ChatColor.RED);
-
-                p.setOp(false);
-                p.setGameMode(GameMode.SURVIVAL);
-                p.getInventory().clear();
-                p.kickPlayer("You are placing blocks too fast.");
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
-
+                TFM_Util.autoEject(p, "You are placing blocks too fast.");
+                
                 event.setCancelled(true);
                 return;
             }
@@ -162,7 +140,7 @@ public class TFM_BlockListener extends BlockListener
         ItemStack is = new ItemStack(event.getBlockPlaced().getType(), 1, (short) 0, event.getBlockPlaced().getData());
         if (is.getType() == Material.LAVA || is.getType() == Material.STATIONARY_LAVA)
         {
-            if (plugin.allowLavaPlace)
+            if (TotalFreedomMod.allowLavaPlace)
             {
                 log.info(String.format("%s placed lava @ %s",
                         p.getName(),
@@ -184,7 +162,7 @@ public class TFM_BlockListener extends BlockListener
         }
         else if (is.getType() == Material.WATER || is.getType() == Material.STATIONARY_WATER)
         {
-            if (plugin.allowWaterPlace)
+            if (TotalFreedomMod.allowWaterPlace)
             {
                 log.info(String.format("%s placed water @ %s",
                         p.getName(),
@@ -206,7 +184,7 @@ public class TFM_BlockListener extends BlockListener
         }
         else if (is.getType() == Material.FIRE)
         {
-            if (plugin.allowFirePlace)
+            if (TotalFreedomMod.allowFirePlace)
             {
                 log.info(String.format("%s placed fire @ %s",
                         p.getName(),
@@ -228,7 +206,7 @@ public class TFM_BlockListener extends BlockListener
         }
         else if (is.getType() == Material.TNT)
         {
-            if (plugin.allowExplosions)
+            if (TotalFreedomMod.allowExplosions)
             {
                 log.info(String.format("%s placed TNT @ %s",
                         p.getName(),

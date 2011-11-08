@@ -23,7 +23,7 @@ public class Command_nonuke extends TFM_Command
             {
                 try
                 {
-                    plugin.nukeMonitorRange = Math.max(1.0, Math.min(500.0, Double.parseDouble(args[1])));
+                    TotalFreedomMod.nukeMonitorRange = Math.max(1.0, Math.min(500.0, Double.parseDouble(args[1])));
                 }
                 catch (NumberFormatException nfex)
                 {
@@ -34,7 +34,7 @@ public class Command_nonuke extends TFM_Command
             {
                 try
                 {
-                    plugin.nukeMonitorCountBreak = Math.max(1, Math.min(500, Integer.parseInt(args[2])));
+                    TotalFreedomMod.nukeMonitorCountBreak = Math.max(1, Math.min(500, Integer.parseInt(args[2])));
                 }
                 catch (NumberFormatException nfex)
                 {
@@ -43,14 +43,14 @@ public class Command_nonuke extends TFM_Command
 
             if (args[0].equalsIgnoreCase("on"))
             {
-                plugin.nukeMonitor = true;
+                TotalFreedomMod.nukeMonitor = true;
                 sender.sendMessage(ChatColor.GRAY + "Nuke monitor is enabled.");
-                sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + plugin.nukeMonitorRange + " blocks.");
-                sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + plugin.nukeMonitorCountBreak + " blocks destroyed per 5 seconds.");
+                sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + TotalFreedomMod.nukeMonitorRange + " blocks.");
+                sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + TotalFreedomMod.nukeMonitorCountBreak + " blocks destroyed per 5 seconds.");
             }
             else
             {
-                plugin.nukeMonitor = false;
+                TotalFreedomMod.nukeMonitor = false;
                 sender.sendMessage("Nuke monitor is disabled.");
             }
         }

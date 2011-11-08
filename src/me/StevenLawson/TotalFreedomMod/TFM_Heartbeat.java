@@ -18,18 +18,18 @@ public class TFM_Heartbeat implements Runnable
     {
         for (Player p : Bukkit.getOnlinePlayers())
         {
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
             playerdata.resetMsgCount();
             playerdata.resetBlockDestroyCount();
             playerdata.resetBlockPlaceCount();
         }
 
-        if (plugin.autoEntityWipe)
+        if (TotalFreedomMod.autoEntityWipe)
         {
-            TFM_Util.wipeDropEntities(!plugin.allowExplosions);
+            TFM_Util.wipeDropEntities(!TotalFreedomMod.allowExplosions);
         }
 
-        if (plugin.disableNight)
+        if (TotalFreedomMod.disableNight)
         {
             try
             {
@@ -46,7 +46,7 @@ public class TFM_Heartbeat implements Runnable
             }
         }
 
-        if (plugin.disableWeather)
+        if (TotalFreedomMod.disableWeather)
         {
             for (World world : Bukkit.getWorlds())
             {

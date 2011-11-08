@@ -60,7 +60,7 @@ public class Command_tfsmite extends TFM_Command
                 p.getInventory().clear();
 
                 //Flag for insta-kill:
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
                 playerdata.setForcedDeath(true);
 
                 //Strike with lightning effect:

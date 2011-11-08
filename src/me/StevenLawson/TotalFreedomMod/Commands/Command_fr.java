@@ -17,17 +17,17 @@ public class Command_fr extends TFM_Command
         {
             if (args.length == 0)
             {
-                plugin.allPlayersFrozen = !plugin.allPlayersFrozen;
+                TotalFreedomMod.allPlayersFrozen = !TotalFreedomMod.allPlayersFrozen;
 
-                if (plugin.allPlayersFrozen)
+                if (TotalFreedomMod.allPlayersFrozen)
                 {
-                    plugin.allPlayersFrozen = true;
+                    TotalFreedomMod.allPlayersFrozen = true;
                     sender.sendMessage("Players are now frozen.");
                     TFM_Util.bcastMsg(sender.getName() + " has temporarily frozen everyone on the server.", ChatColor.AQUA);
                 }
                 else
                 {
-                    plugin.allPlayersFrozen = false;
+                    TotalFreedomMod.allPlayersFrozen = false;
                     sender.sendMessage("Players are now free to move.");
                     TFM_Util.bcastMsg(sender.getName() + " has unfrozen everyone.", ChatColor.AQUA);
                 }
@@ -45,7 +45,7 @@ public class Command_fr extends TFM_Command
                     return true;
                 }
 
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
                 playerdata.setFrozen(!playerdata.isFrozen());
 
                 sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");

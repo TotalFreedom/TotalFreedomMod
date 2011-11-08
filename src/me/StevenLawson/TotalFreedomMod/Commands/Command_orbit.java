@@ -33,7 +33,7 @@ public class Command_orbit extends TFM_Command
                 return true;
             }
 
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p, plugin);
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 
             double strength = 10.0;
 

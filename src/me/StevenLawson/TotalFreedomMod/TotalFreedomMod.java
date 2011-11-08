@@ -3,9 +3,7 @@ package me.StevenLawson.TotalFreedomMod;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
@@ -28,18 +26,15 @@ public class TotalFreedomMod extends JavaPlugin
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
-    private static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
-    private static final String COMMAND_PREFIX = "Command_";
-    
+    public static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
+    public static final String COMMAND_PREFIX = "Command_";
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     
-    public Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
-    public List<TFM_LandmineData> landmines = new ArrayList<TFM_LandmineData>();
-    public boolean allPlayersFrozen = false;
+    public static boolean allPlayersFrozen = false;
 
     @Override
     public void onEnable()
@@ -122,24 +117,24 @@ public class TotalFreedomMod extends JavaPlugin
         return true;
     }
     
-    public boolean allowFirePlace = false;
-    public Boolean allowFireSpread = false;
-    public Boolean allowLavaDamage = false;
-    public boolean allowLavaPlace = false;
-    public boolean allowWaterPlace = false;
-    public Boolean allowExplosions = false;
-    public double explosiveRadius = 4.0D;
-    public boolean autoEntityWipe = true;
-    public boolean nukeMonitor = true;
-    public int nukeMonitorCountBreak = 100;
-    public int nukeMonitorCountPlace = 25;
-    public double nukeMonitorRange = 10.0D;
-    public int freecamTriggerCount = 10;
-    public Boolean preprocessLogEnabled = true;
-    public Boolean disableNight = true;
-    public Boolean disableWeather = true;
-    public boolean landminesEnabled = false;
-    public boolean mp44Enabled = false;
+    public static boolean allowFirePlace = false;
+    public static Boolean allowFireSpread = false;
+    public static Boolean allowLavaDamage = false;
+    public static boolean allowLavaPlace = false;
+    public static boolean allowWaterPlace = false;
+    public static Boolean allowExplosions = false;
+    public static double explosiveRadius = 4.0D;
+    public static boolean autoEntityWipe = true;
+    public static boolean nukeMonitor = true;
+    public static int nukeMonitorCountBreak = 100;
+    public static int nukeMonitorCountPlace = 25;
+    public static double nukeMonitorRange = 10.0D;
+    public static int freecamTriggerCount = 10;
+    public static Boolean preprocessLogEnabled = true;
+    public static Boolean disableNight = true;
+    public static Boolean disableWeather = true;
+    public static boolean landminesEnabled = false;
+    public static boolean mp44Enabled = false;
 
     public void loadMainConfig()
     {
