@@ -161,8 +161,8 @@ public class TotalFreedomMod extends JavaPlugin
         mp44Enabled = config.getBoolean("mp44_enabled", mp44Enabled);
     }
     
-    public List<String> superadmins = new ArrayList<String>();
-    public List<String> superadmin_ips = new ArrayList<String>();
+    public static List<String> superadmins = new ArrayList<String>();
+    public static List<String> superadmin_ips = new ArrayList<String>();
     
     public void loadSuperadminConfig()
     {
