@@ -10,6 +10,9 @@ commands:
   cake:
     description: Superadmin command - For the people that are still alive.
     usage: /<command>
+  cmdlist:
+    description: Show all commands for all server plugins.
+    usage: /<command>
   creative:
     description: Quickly change your own gamemode to creative, or define someone's username to change theirs.
     usage: /<command> [partialname]
@@ -92,6 +95,9 @@ commands:
   radar:
     description: Shows nearby people sorted by distance.
     usage: /<command> [range]
+  rawsay:
+    description: Owner Command - Broadcasts the given message with no extra formatting.
+    usage: /<command> <message>
   rd:
     description: Remove drops, arrows, primed TNT, and expierence orbs in all worlds.
     usage: /<command>
@@ -131,9 +137,6 @@ commands:
   tossmob:
     description: Throw a mob in the direction you are facing when you left click with a stick.
     usage: /<command> [mobtype | off] [speed]
-  umd:
-    description: Superadmin command - Undisguse all players.
-    usage: /<command>
   waterplace:
     description: Superadmin command - Enable/disable water placement.
     usage: /<command> <on | off>

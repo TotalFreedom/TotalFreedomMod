@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_RadarData;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import me.desmin88.mobdisguise.api.MobDisguiseAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -65,10 +64,10 @@ public class Command_radar extends TFM_Command
         
         for (TFM_RadarData i : radar_data)
         {
-            sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d, Disguised: %s",
+            sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d",
                     i.player.getName(),
-                    Math.round(i.distance),
-                    MobDisguiseAPI.isDisguised(i.player) ? "Yes" : "No"));
+                    Math.round(i.distance)
+                    ));
             
             if (--countmax <= 0)
             {

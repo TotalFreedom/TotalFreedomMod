@@ -176,7 +176,7 @@ public class TotalFreedomMod extends JavaPlugin
         {
             superadmins.add(user.toLowerCase().trim());
 
-            List<String> user_ips = config.getStringList(user);
+            List<String> user_ips = config.getStringListFixed(user);
             for (String ip : user_ips)
             {
                 ip = ip.toLowerCase().trim();

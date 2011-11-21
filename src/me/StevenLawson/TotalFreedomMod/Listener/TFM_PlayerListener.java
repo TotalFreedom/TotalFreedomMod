@@ -339,14 +339,14 @@ public class TFM_PlayerListener extends PlayerListener
             if (!Bukkit.getOnlineMode())
             {
                 Player p = event.getPlayer();
-                if (plugin.superadmins.contains(p.getName().toLowerCase()))
+                if (TotalFreedomMod.superadmins.contains(p.getName().toLowerCase()))
                 {
                     String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
                     if (user_ip != null && !user_ip.isEmpty())
                     {
                         TFM_Util.checkPartialSuperadminIP(user_ip, plugin);
                         
-                        if (!plugin.superadmin_ips.contains(user_ip))
+                        if (!TotalFreedomMod.superadmin_ips.contains(user_ip))
                         {
                             TFM_Util.bcastMsg(p.getName() + " might be a fake! IP: " + user_ip, ChatColor.RED);
                             p.setOp(false);

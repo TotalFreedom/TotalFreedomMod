@@ -257,7 +257,7 @@ public class TFM_Util
 
             if (Bukkit.getOnlineMode())
             {
-                if (tfm.superadmins.contains(user.getName().toLowerCase()))
+                if (TotalFreedomMod.superadmins.contains(user.getName().toLowerCase()))
                 {
                     return true;
                 }
@@ -272,7 +272,7 @@ public class TFM_Util
                     String user_ip = ip_address_obj.getAddress().toString().replaceAll("/", "").trim();
                     if (user_ip != null && !user_ip.isEmpty())
                     {
-                        if (tfm.superadmin_ips.contains(user_ip))
+                        if (TotalFreedomMod.superadmin_ips.contains(user_ip))
                         {
                             return true;
                         }
@@ -292,7 +292,7 @@ public class TFM_Util
     {
         user_ip = user_ip.trim();
 
-        if (tfm.superadmin_ips.contains(user_ip))
+        if (TotalFreedomMod.superadmin_ips.contains(user_ip))
         {
             return true;
         }
@@ -305,7 +305,7 @@ public class TFM_Util
             }
 
             String match_ip = null;
-            for (String test_ip : tfm.superadmin_ips)
+            for (String test_ip : TotalFreedomMod.superadmin_ips)
             {
                 String[] test_octets = test_ip.split("\\.");
                 if (test_octets.length == 4)
@@ -320,14 +320,14 @@ public class TFM_Util
 
             if (match_ip != null)
             {
-                tfm.superadmin_ips.add(user_ip);
+                TotalFreedomMod.superadmin_ips.add(user_ip);
 
                 FileConfiguration config = YamlConfiguration.loadConfiguration(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
 
                 fileloop:
                 for (String user : config.getKeys(false))
                 {
-                    List<String> user_ips = config.getStringList(user);
+                    List<String> user_ips = config.getStringListFixed(user);
                     for (String ip : user_ips)
                     {
                         ip = ip.toLowerCase().trim();

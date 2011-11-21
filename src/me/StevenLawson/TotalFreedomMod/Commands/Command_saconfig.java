@@ -47,16 +47,16 @@ public class Command_saconfig extends TFM_Command
             
             boolean something_changed = false;
             
-            if (!plugin.superadmins.contains(user_name))
+            if (!TotalFreedomMod.superadmins.contains(user_name))
             {
-                plugin.superadmins.add(user_name);
+                TotalFreedomMod.superadmins.add(user_name);
                 sender.sendMessage("Adding new superadmin: " + user_name);
                 something_changed = true;
             }
             
-            if (!plugin.superadmin_ips.contains(new_ip))
+            if (!TotalFreedomMod.superadmin_ips.contains(new_ip))
             {
-                plugin.superadmin_ips.add(new_ip);
+                TotalFreedomMod.superadmin_ips.add(new_ip);
                 sender.sendMessage("Adding new superadmin IP: " + new_ip);
                 something_changed = true;
             }
@@ -71,7 +71,7 @@ public class Command_saconfig extends TFM_Command
             List<String> user_ips = new ArrayList<String>();
             if (config.contains(user_name))
             {
-                user_ips = config.getStringList(user_name);
+                user_ips = config.getStringListFixed(user_name);
             }
             
             if (!user_ips.contains(new_ip))
@@ -118,14 +118,14 @@ public class Command_saconfig extends TFM_Command
                 return true;
             }
             
-            plugin.superadmins.remove(user_name);
+            TotalFreedomMod.superadmins.remove(user_name);
             
             if (config.contains(user_name))
             {
-                List<String> user_ips = config.getStringList(user_name);
+                List<String> user_ips = config.getStringListFixed(user_name);
                 for (String ip : user_ips)
                 {
-                    plugin.superadmin_ips.remove(ip);
+                    TotalFreedomMod.superadmin_ips.remove(ip);
                 }
             }
             
