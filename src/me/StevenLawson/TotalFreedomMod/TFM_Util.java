@@ -580,4 +580,18 @@ public class TFM_Util
             }
         }
     }
+    
+    public static int getMobAmount(World world)
+    {
+        List<LivingEntity> mobs = world.getLivingEntities();
+        for (int j = 0; j < mobs.size(); j++)
+        {
+            if (!Creature.class.isInstance(mobs.get(j)))
+            {
+                mobs.remove(j);
+                j--;
+            }
+        }
+        return mobs.size();
+    }
 }

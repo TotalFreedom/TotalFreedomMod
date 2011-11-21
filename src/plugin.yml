@@ -4,6 +4,9 @@ version: 2.2
 description: Plugin for the Total Freedom server.
 author: StevenLawson / Madgeek1450
 commands:
+  addexp:
+    description: Add levels to your survival level.
+    usage: /<command> [level]
   cage:
     description: Superadmin command - Place a cage around someone.
     usage: /<command> <partialname> [off | outermaterial] [water | lava]

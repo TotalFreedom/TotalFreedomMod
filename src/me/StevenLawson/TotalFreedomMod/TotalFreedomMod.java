@@ -135,6 +135,8 @@ public class TotalFreedomMod extends JavaPlugin
     public static Boolean disableWeather = true;
     public static boolean landminesEnabled = false;
     public static boolean mp44Enabled = false;
+    public static boolean mobLimiterEnabled = true;
+    public static int mobLimiterMax = 50;
 
     public void loadMainConfig()
     {
@@ -159,6 +161,8 @@ public class TotalFreedomMod extends JavaPlugin
         disableWeather = config.getBoolean("disable_weather", disableWeather);
         landminesEnabled = config.getBoolean("landmines_enabled", landminesEnabled);
         mp44Enabled = config.getBoolean("mp44_enabled", mp44Enabled);
+        mobLimiterEnabled = config.getBoolean("mob_limiter_enabled", mobLimiterEnabled);
+        mobLimiterMax = config.getInt("mob_limiter_max", mobLimiterMax);
     }
     
     public static List<String> superadmins = new ArrayList<String>();
@@ -201,6 +205,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.EXPLOSION_PRIME, entityListener, Event.Priority.High, this);
+        pm.registerEvent(Event.Type.CREATURE_SPAWN, entityListener, Event.Priority.Normal, this);
 
         pm.registerEvent(Event.Type.BLOCK_IGNITE, blockListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);

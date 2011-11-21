@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.*;
@@ -23,7 +24,7 @@ public class TFM_EntityListener extends EntityListener
             event.setCancelled(true);
             return;
         }
-        
+
         event.setYield(0.0f);
     }
 
@@ -69,11 +70,26 @@ public class TFM_EntityListener extends EntityListener
                 }
             }
         }
-        
+
         if (event.getCause() == DamageCause.LAVA && !TotalFreedomMod.allowLavaDamage)
         {
             event.setCancelled(true);
             return;
+        }
+    }
+
+    @Override
+    public void onCreatureSpawn(CreatureSpawnEvent event)
+    {
+        if (TotalFreedomMod.mobLimiterEnabled)
+        {
+            if (TotalFreedomMod.mobLimiterMax > 0)
+            {
+                if (TFM_Util.getMobAmount(event.getEntity().getWorld()) > TotalFreedomMod.mobLimiterMax)
+                {
+                    event.setCancelled(true);
+                }
+            }
         }
     }
 }
