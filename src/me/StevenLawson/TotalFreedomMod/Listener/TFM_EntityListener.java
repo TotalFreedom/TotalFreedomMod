@@ -1,8 +1,16 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.EnderDragon;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Slime;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
@@ -23,7 +31,7 @@ public class TFM_EntityListener extends EntityListener
             event.setCancelled(true);
             return;
         }
-        
+
         event.setYield(0.0f);
     }
 
@@ -69,11 +77,46 @@ public class TFM_EntityListener extends EntityListener
                 }
             }
         }
-        
+
         if (event.getCause() == DamageCause.LAVA && !TotalFreedomMod.allowLavaDamage)
         {
             event.setCancelled(true);
             return;
+        }
+    }
+
+    @Override
+    public void onCreatureSpawn(CreatureSpawnEvent event)
+    {
+        if (TotalFreedomMod.mobLimiterEnabled)
+        {
+            if (event.getEntity() instanceof Ghast || event.getEntity() instanceof Slime || event.getEntity() instanceof EnderDragon)
+            {
+                event.setCancelled(true);
+                return;
+            }
+            
+            if (TotalFreedomMod.mobLimiterMax > 0)
+            {
+                int mobcount = 0;
+                
+                for (World world : Bukkit.getWorlds())
+                {
+                    for (Entity ent : world.getLivingEntities())
+                    {
+                        if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon)
+                        {
+                            mobcount++;
+                        }
+                    }
+                }
+                
+                if (mobcount > TotalFreedomMod.mobLimiterMax)
+                {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
         }
     }
 }

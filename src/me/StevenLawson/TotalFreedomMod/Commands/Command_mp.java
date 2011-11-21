@@ -20,9 +20,9 @@ public class Command_mp extends TFM_Command
             int removed = 0;
             for (World world : Bukkit.getWorlds())
             {
-                for (Entity ent : world.getEntities())
+                for (Entity ent : world.getLivingEntities())
                 {
-                    if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime)
+                    if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon)
                     {
                         ent.remove();
                         removed++;

@@ -35,6 +35,10 @@ disable_weather: true
 landmines_enabled: false
 mp44_enabled: false
 
+# Moblimiter:
+mob_limiter_enabled: true
+mob_limiter_max: 50
+
 # Superadmins: Users that can always log in and use the most powerful commands:
 # When online-mode = false, only superadmin_ips will be used.
 # The superadmin lists have been moved to superadmin.yml
