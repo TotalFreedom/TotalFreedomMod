@@ -71,7 +71,7 @@ public class Command_saconfig extends TFM_Command
             List<String> user_ips = new ArrayList<String>();
             if (config.contains(user_name))
             {
-                user_ips = config.getStringListFixed(user_name);
+                user_ips = (List<String>) config.getStringList(user_name);
             }
             
             if (!user_ips.contains(new_ip))
@@ -122,7 +122,7 @@ public class Command_saconfig extends TFM_Command
             
             if (config.contains(user_name))
             {
-                List<String> user_ips = config.getStringListFixed(user_name);
+                List<String> user_ips = (List<String>) config.getStringList(user_name);
                 for (String ip : user_ips)
                 {
                     TotalFreedomMod.superadmin_ips.remove(ip);

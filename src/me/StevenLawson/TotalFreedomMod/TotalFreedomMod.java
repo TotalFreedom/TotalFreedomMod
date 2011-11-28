@@ -3,7 +3,9 @@ package me.StevenLawson.TotalFreedomMod;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
@@ -35,6 +37,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     
     public static boolean allPlayersFrozen = false;
+    public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
 
     @Override
     public void onEnable()
@@ -137,6 +140,10 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean mp44Enabled = false;
     public static boolean mobLimiterEnabled = true;
     public static int mobLimiterMax = 50;
+    public static boolean mobLimiterDisableDragon = true;
+    public static boolean mobLimiterDisableGhast = true;
+    public static boolean mobLimiterDisableSlime = true;
+    public static boolean mobLimiterDisableGiant = true;
 
     public void loadMainConfig()
     {
@@ -163,6 +170,10 @@ public class TotalFreedomMod extends JavaPlugin
         mp44Enabled = config.getBoolean("mp44_enabled", mp44Enabled);
         mobLimiterEnabled = config.getBoolean("mob_limiter_enabled", mobLimiterEnabled);
         mobLimiterMax = config.getInt("mob_limiter_max", mobLimiterMax);
+        mobLimiterDisableDragon = config.getBoolean("mob_limiter_disable_dragon", mobLimiterDisableDragon);
+        mobLimiterDisableGhast = config.getBoolean("mob_limiter_disable_ghast", mobLimiterDisableGhast);
+        mobLimiterDisableSlime = config.getBoolean("mob_limiter_disable_slime", mobLimiterDisableSlime);
+        mobLimiterDisableGiant = config.getBoolean("mob_limiter_disable_giant", mobLimiterDisableGiant);
     }
     
     public static List<String> superadmins = new ArrayList<String>();
@@ -180,7 +191,7 @@ public class TotalFreedomMod extends JavaPlugin
         {
             superadmins.add(user.toLowerCase().trim());
 
-            List<String> user_ips = config.getStringListFixed(user);
+            List<String> user_ips = (List<String>) config.getStringList(user);
             for (String ip : user_ips)
             {
                 ip = ip.toLowerCase().trim();

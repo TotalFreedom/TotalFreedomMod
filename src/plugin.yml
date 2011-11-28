@@ -1,6 +1,6 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 2.2
+version: 2.3
 description: Plugin for the Total Freedom server.
 author: StevenLawson / Madgeek1450
 commands:
@@ -43,6 +43,9 @@ commands:
   fr:
     description: Superadmin command - Freeze all players (toggles on and off).
     usage: /<command>
+  fuckoff:
+    description: Lawl
+    usage: /<command>
   gadmin:
     description: Superadmin command - Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci
     usage: /<command> [list | [<kick | nameban | ipban | ban | op | deop | ci> <targethash>] ]
@@ -52,6 +55,9 @@ commands:
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> <partialname>
+  kicknoob:
+    description: Superadmin command - Kick all non-superadmins on server.
+    usage: /<command>
   landmine:
     description: Set a landmine trap.
     usage: /<command>
@@ -64,7 +70,9 @@ commands:
   list:
     description: Lists the real names of all online players.
     usage: /<command>
-    aliases: [listreal]
+  moblimiter:
+    description: Owner command - Controll mob rezzing parameters.
+    usage: /<command> <on|off|setmax <count>|dragon|giant|ghast|slime>
   mp:
     description: Purge all mobs in all worlds.
     usage: /<command>
@@ -110,12 +118,12 @@ commands:
   say:
     description: Broadcasts the given message as the console, includes sender name.
     usage: /<command> <message>
-  skylands:
-    description: Goto the skylands.
+  setspawnworld:
+    description: Superadmin Command - Set world spawnpoint.
     usage: /<command>
-#  stacker:
-#    description: Superadmin command - Stack people onto your head. For the lulz.
-#    usage: /<command> [end]
+  ender:
+    description: Goto the ender / "The End".
+    usage: /<command>
   status:
     description: Show misc. server info.
     usage: /<command>
@@ -134,12 +142,9 @@ commands:
   tfipbanlist:
     description: Shows all banned IPs. Superadmins may optionally use 'purge' to clear the list.
     usage: /<command> [purge]
-  tfsmite:
-    description: De-op, inventory clear, de-godmode, lightning, and kill your target. For naughty people only (or the entire server).
-    usage: /<command> <playername | all>
   tossmob:
     description: Throw a mob in the direction you are facing when you left click with a stick.
-    usage: /<command> [mobtype | off] [speed]
+    usage: /<command> <mobtype [speed] | off | list> 
   waterplace:
     description: Superadmin command - Enable/disable water placement.
     usage: /<command> <on | off>

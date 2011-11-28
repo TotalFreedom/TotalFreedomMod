@@ -18,7 +18,6 @@ public class TFM_UserInfo
     private int block_place_total = 0;
     private int freecam_destroy_count = 0;
     private int freecam_place_count = 0;
-    private boolean forced_death = false;
     private boolean user_caged = false;
     private Location user_cage_pos;
     private List<TFM_BlockData> user_cage_history = new ArrayList<TFM_BlockData>();
@@ -142,16 +141,6 @@ public class TFM_UserInfo
             this.location = location;
             this.material = material;
         }
-    }
-
-    public boolean getForcedDeath()
-    {
-        return this.forced_death;
-    }
-
-    public void setForcedDeath(boolean forced_death)
-    {
-        this.forced_death = forced_death;
     }
 
     public boolean isFrozen()

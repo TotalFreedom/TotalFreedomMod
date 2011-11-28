@@ -69,9 +69,9 @@ public class TFM_BlockListener extends BlockListener
                 {
                     TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
                     TFM_Util.autoEject(p, "Freecam (extended range) block breaking is not permitted on this server.");
-                    
+
                     playerdata.resetFreecamDestroyCount();
-                    
+
                     event.setCancelled(true);
                     return;
                 }
@@ -83,6 +83,8 @@ public class TFM_BlockListener extends BlockListener
                 TFM_Util.bcastMsg(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
                 TFM_Util.autoEject(p, "You are breaking blocks too fast. Nukers are not permitted on this server.");
                 
+                playerdata.resetBlockDestroyCount();
+
                 event.setCancelled(true);
                 return;
             }
@@ -118,9 +120,9 @@ public class TFM_BlockListener extends BlockListener
                 {
                     TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
                     TFM_Util.autoEject(p, "Freecam (extended range) block building is not permitted on this server.");
-                    
+
                     playerdata.resetFreecamPlaceCount();
-                    
+
                     event.setCancelled(true);
                     return;
                 }
@@ -132,98 +134,89 @@ public class TFM_BlockListener extends BlockListener
                 TFM_Util.bcastMsg(p.getName() + " is placing blocks too fast!", ChatColor.RED);
                 TFM_Util.autoEject(p, "You are placing blocks too fast.");
                 
+                playerdata.resetBlockPlaceCount();
+
                 event.setCancelled(true);
                 return;
             }
         }
 
         ItemStack is = new ItemStack(event.getBlockPlaced().getType(), 1, (short) 0, event.getBlockPlaced().getData());
-        if (is.getType() == Material.LAVA || is.getType() == Material.STATIONARY_LAVA)
+        switch (is.getType())
         {
-            if (TotalFreedomMod.allowLavaPlace)
+            case LAVA:
+            case STATIONARY_LAVA:
             {
-                log.info(String.format("%s placed lava @ %s",
-                        p.getName(),
-                        TFM_Util.formatLocation(event.getBlock().getLocation())));
-
-                p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                if (TotalFreedomMod.allowLavaPlace)
+                {
+                    log.info(String.format("%s placed lava @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    
+                    p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                }
+                else
+                {
+                    p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    p.sendMessage(ChatColor.GRAY + "Lava placement is currently disabled.");
+                    
+                    event.setCancelled(true);
+                    return;
+                }
+                break;
             }
-            else
+            case WATER:
+            case STATIONARY_WATER:
             {
-                int slot = p.getInventory().getHeldItemSlot();
-                ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
-                p.getInventory().setItem(slot, heldItem);
-
-                p.sendMessage(ChatColor.GOLD + "LAVA NO FUN, YOU EAT COOKIE INSTEAD, NO?");
-
-                event.setCancelled(true);
-                return;
+                if (TotalFreedomMod.allowWaterPlace)
+                {
+                    log.info(String.format("%s placed water @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    
+                    p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                }
+                else
+                {
+                    p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    p.sendMessage(ChatColor.GRAY + "Water placement is currently disabled.");
+                    
+                    event.setCancelled(true);
+                    return;
+                }
+                break;
             }
-        }
-        else if (is.getType() == Material.WATER || is.getType() == Material.STATIONARY_WATER)
-        {
-            if (TotalFreedomMod.allowWaterPlace)
+            case FIRE:
             {
-                log.info(String.format("%s placed water @ %s",
-                        p.getName(),
-                        TFM_Util.formatLocation(event.getBlock().getLocation())));
-
-                p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                if (TotalFreedomMod.allowFirePlace)
+                {
+                    log.info(String.format("%s placed fire @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    
+                    p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                }
+                else
+                {
+                    p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    p.sendMessage(ChatColor.GRAY + "Fire placement is currently disabled.");
+                    
+                    event.setCancelled(true);
+                    return;
+                }
+                break;
             }
-            else
+            case TNT:
             {
-                int slot = p.getInventory().getHeldItemSlot();
-                ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
-                p.getInventory().setItem(slot, heldItem);
-
-                p.sendMessage(ChatColor.GOLD + "Does this look like a waterpark to you?");
-
-                event.setCancelled(true);
-                return;
-            }
-        }
-        else if (is.getType() == Material.FIRE)
-        {
-            if (TotalFreedomMod.allowFirePlace)
-            {
-                log.info(String.format("%s placed fire @ %s",
-                        p.getName(),
-                        TFM_Util.formatLocation(event.getBlock().getLocation())));
-
-                p.getInventory().clear(p.getInventory().getHeldItemSlot());
-            }
-            else
-            {
-                int slot = p.getInventory().getHeldItemSlot();
-                ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
-                p.getInventory().setItem(slot, heldItem);
-
-                p.sendMessage(ChatColor.GOLD + "It's gettin (too) hot in here...");
-
-                event.setCancelled(true);
-                return;
-            }
-        }
-        else if (is.getType() == Material.TNT)
-        {
-            if (TotalFreedomMod.allowExplosions)
-            {
-                log.info(String.format("%s placed TNT @ %s",
-                        p.getName(),
-                        TFM_Util.formatLocation(event.getBlock().getLocation())));
-
-                p.getInventory().clear(p.getInventory().getHeldItemSlot());
-            }
-            else
-            {
-                int slot = p.getInventory().getHeldItemSlot();
-                ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
-                p.getInventory().setItem(slot, heldItem);
-
-                p.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
-
-                event.setCancelled(true);
-                return;
+                if (TotalFreedomMod.allowExplosions)
+                {
+                    log.info(String.format("%s placed TNT @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    
+                    p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                }
+                else
+                {
+                    p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    
+                    p.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
+                    event.setCancelled(true);
+                    return;
+                }
+                break;
             }
         }
     }

@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
@@ -15,7 +16,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -34,60 +34,74 @@ public class TFM_PlayerListener extends PlayerListener
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         Player player = event.getPlayer();
-        Action action = event.getAction();
-        Material material = event.getMaterial();
-
-        if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
+        
+        switch (event.getAction())
         {
-            if (material == Material.WATER_BUCKET)
+            case RIGHT_CLICK_AIR:
+            case RIGHT_CLICK_BLOCK:
             {
-                player.getInventory().setItemInHand(new ItemStack(Material.COOKIE, 1));
-                player.sendMessage(ChatColor.GOLD + "Does this look like a waterpark to you?");
-                event.setCancelled(true);
-                return;
-            }
-            else if (material == Material.LAVA_BUCKET)
-            {
-                player.getInventory().setItemInHand(new ItemStack(Material.COOKIE, 1));
-                player.sendMessage(ChatColor.GOLD + "LAVA NO FUN, YOU EAT COOKIE INSTEAD, NO?");
-                event.setCancelled(true);
-                return;
-            }
-        }
-        else if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK)
-        {
-            if (material == Material.STICK)
-            {
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player);
-                if (playerdata.mobThrowerEnabled())
+                switch (event.getMaterial())
                 {
-                    Location player_pos = player.getLocation();
-                    Vector direction = player_pos.getDirection().normalize();
-
-                    LivingEntity rezzed_mob = player.getWorld().spawnCreature(player_pos.add(direction.multiply(2.0)), playerdata.mobThrowerCreature());
-                    rezzed_mob.setVelocity(direction.multiply(playerdata.mobThrowerSpeed()));
-                    playerdata.enqueueMob(rezzed_mob);
-
-                    event.setCancelled(true);
+                    case WATER_BUCKET:
+                    {
+                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                        player.sendMessage(ChatColor.GRAY + "Water buckets are currently disabled.");
+                        event.setCancelled(true);
+                        return;
+                    }
+                    case LAVA_BUCKET:
+                    {
+                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                        player.sendMessage(ChatColor.GRAY + "Lava buckets are currently disabled.");
+                        event.setCancelled(true);
+                        return;
+                    }
                 }
+                break;
             }
-            else if (material == Material.SULPHUR)
+            case LEFT_CLICK_AIR:
+            case LEFT_CLICK_BLOCK:
             {
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player);
-
-                if (playerdata.isMP44Armed())
+                switch (event.getMaterial())
                 {
-                    if (playerdata.toggleMP44Firing())
+                    case STICK:
                     {
-                        playerdata.startArrowShooter(plugin);
-                    }
-                    else
-                    {
-                        playerdata.stopArrowShooter();
-                    }
+                        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player);
+                        if (playerdata.mobThrowerEnabled())
+                        {
+                            Location player_pos = player.getLocation();
+                            Vector direction = player_pos.getDirection().normalize();
 
-                    event.setCancelled(true);
+                            LivingEntity rezzed_mob = player.getWorld().spawnCreature(player_pos.add(direction.multiply(2.0)), playerdata.mobThrowerCreature());
+                            rezzed_mob.setVelocity(direction.multiply(playerdata.mobThrowerSpeed()));
+                            playerdata.enqueueMob(rezzed_mob);
+
+                            event.setCancelled(true);
+                            return;
+                        }
+                        break;
+                    }
+                    case SULPHUR:
+                    {
+                        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player);
+                        if (playerdata.isMP44Armed())
+                        {
+                            if (playerdata.toggleMP44Firing())
+                            {
+                                playerdata.startArrowShooter(plugin);
+                            }
+                            else
+                            {
+                                playerdata.stopArrowShooter();
+                            }
+
+                            event.setCancelled(true);
+                            return;
+                        }
+                        break;
+                    }
                 }
+                break;
             }
         }
     }
@@ -97,6 +111,37 @@ public class TFM_PlayerListener extends PlayerListener
     {
         Player p = event.getPlayer();
         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        
+        for (Entry<Player, Double> fuckoff : TotalFreedomMod.fuckoffEnabledFor.entrySet())
+        {
+            Player fuckoff_player = fuckoff.getKey();
+            
+            if (fuckoff_player.equals(p) || !fuckoff_player.isOnline())
+            {
+                continue;
+            }
+            
+            double fuckoff_range = fuckoff.getValue().doubleValue();
+            
+            Location mover_pos = p.getLocation();
+            Location fuckoff_pos = fuckoff_player.getLocation();
+            
+            double distance;
+            try
+            {
+                distance = mover_pos.distance(fuckoff_pos);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                continue;
+            }
+            
+            if (distance < fuckoff_range)
+            {
+                event.setTo(fuckoff_pos.clone().add(mover_pos.subtract(fuckoff_pos).toVector().normalize().multiply(fuckoff_range * 1.1)));
+                break;
+            }
+        }
 
         boolean do_freeze = false;
         if (TotalFreedomMod.allPlayersFrozen)
@@ -158,14 +203,14 @@ public class TFM_PlayerListener extends PlayerListener
                 p.setVelocity(new Vector(0, playerdata.orbitStrength(), 0));
             }
         }
-        
+
         if (TotalFreedomMod.landminesEnabled && TotalFreedomMod.allowExplosions)
         {
             Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
             while (landmines.hasNext())
             {
                 TFM_LandmineData landmine = landmines.next();
-                
+
                 Location landmine_pos = landmine.landmine_pos;
                 if (landmine_pos.getBlock().getType() != Material.TNT)
                 {
@@ -180,15 +225,15 @@ public class TFM_PlayerListener extends PlayerListener
                         if (p.getLocation().distance(landmine_pos) <= landmine.radius)
                         {
                             landmine.landmine_pos.getBlock().setType(Material.AIR);
-                            
+
                             TNTPrimed tnt1 = landmine_pos.getWorld().spawn(landmine_pos, TNTPrimed.class);
                             tnt1.setFuseTicks(40);
                             tnt1.setPassenger(p);
                             tnt1.setVelocity(new Vector(0.0, 2.0, 0.0));
-                            
+
                             TNTPrimed tnt2 = landmine_pos.getWorld().spawn(p.getLocation(), TNTPrimed.class);
                             tnt2.setFuseTicks(1);
-                            
+
                             p.setGameMode(GameMode.SURVIVAL);
                             landmines.remove();
                         }
@@ -209,7 +254,8 @@ public class TFM_PlayerListener extends PlayerListener
         if (playerdata.getMsgCount() > 10)
         {
             TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
-            TFM_Util.autoEject(p, "No Spamming");
+            TFM_Util.autoEject(p, "Kicked for spamming chat.");
+            
             playerdata.resetMsgCount();
 
             event.setCancelled(true);
@@ -222,16 +268,17 @@ public class TFM_PlayerListener extends PlayerListener
     {
         String command = event.getMessage();
         Player p = event.getPlayer();
-        
+
         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
         playerdata.incrementMsgCount();
-        
+
         if (playerdata.getMsgCount() > 10)
         {
             TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming commands.", ChatColor.RED);
-            TFM_Util.autoEject(p, "No Spamming");
-            playerdata.resetMsgCount();
+            TFM_Util.autoEject(p, "Kicked for spamming commands.");
             
+            playerdata.resetMsgCount();
+
             TFM_Util.wipeDropEntities(true);
 
             event.setCancelled(true);
@@ -247,6 +294,7 @@ public class TFM_PlayerListener extends PlayerListener
 
         boolean block_command = false;
 
+        //Commands that will auto-kick the user:
         if (Pattern.compile("^/stop").matcher(command).find())
         {
             if (!TFM_Util.isUserSuperadmin(p, plugin))
@@ -268,7 +316,7 @@ public class TFM_PlayerListener extends PlayerListener
                 block_command = true;
             }
         }
-        
+
         if (block_command)
         {
             TFM_Util.autoEject(p, "That command is prohibited.");
@@ -276,6 +324,7 @@ public class TFM_PlayerListener extends PlayerListener
         }
         else
         {
+            //Commands that will not auto-kick the user, but still deny:
             if (Pattern.compile("^/time").matcher(command).find())
             {
                 p.sendMessage(ChatColor.GRAY + "Server-side time changing is disabled. Please use /ptime to set your own personal time.");
@@ -310,7 +359,12 @@ public class TFM_PlayerListener extends PlayerListener
     @Override
     public void onPlayerKick(PlayerKickEvent event)
     {
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer());
+        Player p = event.getPlayer();
+        if (TotalFreedomMod.fuckoffEnabledFor.containsKey(p))
+        {
+            TotalFreedomMod.fuckoffEnabledFor.remove(p);
+        }
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
         playerdata.disarmMP44();
         if (playerdata.isCaged())
         {
@@ -322,7 +376,12 @@ public class TFM_PlayerListener extends PlayerListener
     @Override
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(event.getPlayer());
+        Player p = event.getPlayer();
+        if (TotalFreedomMod.fuckoffEnabledFor.containsKey(p))
+        {
+            TotalFreedomMod.fuckoffEnabledFor.remove(p);
+        }
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
         playerdata.disarmMP44();
         if (playerdata.isCaged())
         {
@@ -345,7 +404,7 @@ public class TFM_PlayerListener extends PlayerListener
                     if (user_ip != null && !user_ip.isEmpty())
                     {
                         TFM_Util.checkPartialSuperadminIP(user_ip, plugin);
-                        
+
                         if (!TotalFreedomMod.superadmin_ips.contains(user_ip))
                         {
                             TFM_Util.bcastMsg(p.getName() + " might be a fake! IP: " + user_ip, ChatColor.RED);

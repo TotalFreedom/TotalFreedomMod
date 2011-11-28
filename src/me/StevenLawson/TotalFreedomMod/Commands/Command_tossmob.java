@@ -1,5 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -34,9 +37,25 @@ public class Command_tossmob extends TFM_Command
                     return true;
                 }
                 
-                if ((creature = TFM_Util.getCreatureType(args[0])) == null)
+                if (args[0].equalsIgnoreCase("list"))
+                {
+                    StringBuilder output = new StringBuilder("Supported mobs: ");
+                    for (Entry<String, CreatureType> mob : TFM_Util.mobtypes.entrySet())
+                    {
+                        output.append(mob.getKey()).append(", ");
+                    }
+                    sender.sendMessage(ChatColor.GREEN + output.toString());
+                    return true;
+                }
+                
+                try
+                {
+                    creature = TFM_Util.getCreatureType(args[0]);
+                }
+                catch (Exception ex)
                 {
                     sender.sendMessage(ChatColor.RED + args[0] + " is not a supported mob type. Using a pig instead.");
+                    sender.sendMessage(ChatColor.RED + "By the way, you can type /tossmob list to see all possible mobs.");
                     creature = CreatureType.PIG;
                 }
             }

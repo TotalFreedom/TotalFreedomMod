@@ -38,21 +38,34 @@ public class TFM_Util
 {
     private static final Logger log = Logger.getLogger("Minecraft");
     private static Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
-    private static final Map<String, CreatureType> mobtypes = new HashMap<String, CreatureType>();
-    private static final List<String> stop_commands = new ArrayList<String>();
+    public static final Map<String, CreatureType> mobtypes = new HashMap<String, CreatureType>();
+    public static final List<String> stop_commands = new ArrayList<String>();
 
     static
     {
         mobtypes.put("chicken", CreatureType.CHICKEN);
         mobtypes.put("cow", CreatureType.COW);
         mobtypes.put("creeper", CreatureType.CREEPER);
+        mobtypes.put("ghast", CreatureType.GHAST);
+        mobtypes.put("giant", CreatureType.GIANT);
+        mobtypes.put("monster", CreatureType.MONSTER);
         mobtypes.put("pig", CreatureType.PIG);
+        mobtypes.put("pigzombie", CreatureType.PIG_ZOMBIE);
         mobtypes.put("sheep", CreatureType.SHEEP);
         mobtypes.put("skeleton", CreatureType.SKELETON);
+        mobtypes.put("slime", CreatureType.SLIME);
         mobtypes.put("spider", CreatureType.SPIDER);
+        mobtypes.put("squid", CreatureType.SQUID);
         mobtypes.put("zombie", CreatureType.ZOMBIE);
         mobtypes.put("wolf", CreatureType.WOLF);
-
+        mobtypes.put("cavespider", CreatureType.CAVE_SPIDER);
+        mobtypes.put("enderman", CreatureType.ENDERMAN);
+        mobtypes.put("silverfish", CreatureType.SILVERFISH);
+        mobtypes.put("enderdragon", CreatureType.ENDER_DRAGON);
+        mobtypes.put("villager", CreatureType.VILLAGER);
+        mobtypes.put("blaze", CreatureType.BLAZE);
+        mobtypes.put("mushroomcow", CreatureType.MUSHROOM_COW);
+        
         stop_commands.add("stop");
         stop_commands.add("off");
         stop_commands.add("end");
@@ -117,7 +130,7 @@ public class TFM_Util
             if (sender_p.getWorld().getName().equalsIgnoreCase(targetworld))
             {
                 sender.sendMessage(ChatColor.GRAY + "Going to main world.");
-                Bukkit.getServer().dispatchCommand(sender, "world 0");
+                sender_p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation()); 
                 return;
             }
 
@@ -126,10 +139,12 @@ public class TFM_Util
                 if (world.getName().equalsIgnoreCase(targetworld))
                 {
                     sender.sendMessage(ChatColor.GRAY + "Going to world: " + targetworld);
-                    Bukkit.getServer().dispatchCommand(sender, "mv tp " + targetworld);
+                    sender_p.teleport(world.getSpawnLocation());
                     return;
                 }
             }
+            
+            sender.sendMessage(ChatColor.GRAY + "World " + targetworld + " not found.");
         }
         else
         {
@@ -327,7 +342,7 @@ public class TFM_Util
                 fileloop:
                 for (String user : config.getKeys(false))
                 {
-                    List<String> user_ips = config.getStringListFixed(user);
+                    List<String> user_ips = (List<String>) config.getStringList(user);
                     for (String ip : user_ips)
                     {
                         ip = ip.toLowerCase().trim();
@@ -395,9 +410,16 @@ public class TFM_Util
         }
     }
 
-    public static CreatureType getCreatureType(String mobname)
+    public static CreatureType getCreatureType(String mobname) throws Exception
     {
-        return TFM_Util.mobtypes.get(mobname.toLowerCase().trim());
+        mobname = mobname.toLowerCase().trim();
+        
+        if (!TFM_Util.mobtypes.containsKey(mobname))
+        {
+            throw new Exception();
+        }
+        
+        return TFM_Util.mobtypes.get(mobname);
     }
 
     public static void zip(File directory, File zipfile, boolean verbose, CommandSender sender) throws IOException

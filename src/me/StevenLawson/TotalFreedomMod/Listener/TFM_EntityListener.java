@@ -1,16 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Ghast;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Slime;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
@@ -60,24 +53,6 @@ public class TFM_EntityListener extends EntityListener
     @Override
     public void onEntityDamage(EntityDamageEvent event)
     {
-        if (event.getEntity() instanceof Player)
-        {
-            Player p = (Player) event.getEntity();
-            if (p != null)
-            {
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
-                if (playerdata.getForcedDeath())
-                {
-                    event.setCancelled(false);
-                    p.setFoodLevel(0);
-                    p.setHealth(0);
-                    event.setDamage(100);
-                    playerdata.setForcedDeath(false);
-                    return;
-                }
-            }
-        }
-
         if (event.getCause() == DamageCause.LAVA && !TotalFreedomMod.allowLavaDamage)
         {
             event.setCancelled(true);
@@ -90,16 +65,45 @@ public class TFM_EntityListener extends EntityListener
     {
         if (TotalFreedomMod.mobLimiterEnabled)
         {
-            if (event.getEntity() instanceof Ghast || event.getEntity() instanceof Slime || event.getEntity() instanceof EnderDragon)
+            Entity spawned = event.getEntity();
+
+            if (spawned instanceof EnderDragon)
             {
-                event.setCancelled(true);
-                return;
+                if (TotalFreedomMod.mobLimiterDisableDragon)
+                {
+                    event.setCancelled(true);
+                    return;
+                }
             }
-            
+            else if (spawned instanceof Ghast)
+            {
+                if (TotalFreedomMod.mobLimiterDisableGhast)
+                {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+            else if (spawned instanceof Slime)
+            {
+                if (TotalFreedomMod.mobLimiterDisableSlime)
+                {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+            else if (spawned instanceof Giant)
+            {
+                if (TotalFreedomMod.mobLimiterDisableGiant)
+                {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+
             if (TotalFreedomMod.mobLimiterMax > 0)
             {
                 int mobcount = 0;
-                
+
                 for (World world : Bukkit.getWorlds())
                 {
                     for (Entity ent : world.getLivingEntities())
@@ -110,7 +114,7 @@ public class TFM_EntityListener extends EntityListener
                         }
                     }
                 }
-                
+
                 if (mobcount > TotalFreedomMod.mobLimiterMax)
                 {
                     event.setCancelled(true);

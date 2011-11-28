@@ -12,53 +12,52 @@ public class Command_nonuke extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+        if (!senderIsConsole || sender.getName().equalsIgnoreCase("remotebukkit"))
         {
-            if (args.length < 1)
-            {
-                return false;
-            }
+            sender.sendMessage(ChatColor.GRAY + "This command may only be used from the Telnet or BukkitHttpd console.");
+            return true;
+        }
 
-            if (args.length >= 2)
-            {
-                try
-                {
-                    TotalFreedomMod.nukeMonitorRange = Math.max(1.0, Math.min(500.0, Double.parseDouble(args[1])));
-                }
-                catch (NumberFormatException nfex)
-                {
-                }
-            }
+        if (args.length < 1)
+        {
+            return false;
+        }
 
-            if (args.length >= 3)
+        if (args.length >= 2)
+        {
+            try
             {
-                try
-                {
-                    TotalFreedomMod.nukeMonitorCountBreak = Math.max(1, Math.min(500, Integer.parseInt(args[2])));
-                }
-                catch (NumberFormatException nfex)
-                {
-                }
+                TotalFreedomMod.nukeMonitorRange = Math.max(1.0, Math.min(500.0, Double.parseDouble(args[1])));
             }
+            catch (NumberFormatException nfex)
+            {
+            }
+        }
 
-            if (args[0].equalsIgnoreCase("on"))
+        if (args.length >= 3)
+        {
+            try
             {
-                TotalFreedomMod.nukeMonitor = true;
-                sender.sendMessage(ChatColor.GRAY + "Nuke monitor is enabled.");
-                sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + TotalFreedomMod.nukeMonitorRange + " blocks.");
-                sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + TotalFreedomMod.nukeMonitorCountBreak + " blocks destroyed per 5 seconds.");
+                TotalFreedomMod.nukeMonitorCountBreak = Math.max(1, Math.min(500, Integer.parseInt(args[2])));
             }
-            else
+            catch (NumberFormatException nfex)
             {
-                TotalFreedomMod.nukeMonitor = false;
-                sender.sendMessage("Nuke monitor is disabled.");
             }
+        }
+
+        if (args[0].equalsIgnoreCase("on"))
+        {
+            TotalFreedomMod.nukeMonitor = true;
+            sender.sendMessage(ChatColor.GRAY + "Nuke monitor is enabled.");
+            sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + TotalFreedomMod.nukeMonitorRange + " blocks.");
+            sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + TotalFreedomMod.nukeMonitorCountBreak + " blocks destroyed per 5 seconds.");
         }
         else
         {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            TotalFreedomMod.nukeMonitor = false;
+            sender.sendMessage("Nuke monitor is disabled.");
         }
-
+        
         return true;
     }
 }
