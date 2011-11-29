@@ -19,6 +19,12 @@ public class Command_tossmob extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (!TotalFreedomMod.tossmobEnabled)
+        {
+            sender.sendMessage(ChatColor.RED + "Tossmob is currently disabled.");
+            return true;
+        }
+
         if (senderIsConsole)
         {
             sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
@@ -36,7 +42,7 @@ public class Command_tossmob extends TFM_Command
                     sender.sendMessage(ChatColor.GREEN + "MobThrower is disabled.");
                     return true;
                 }
-                
+
                 if (args[0].equalsIgnoreCase("list"))
                 {
                     StringBuilder output = new StringBuilder("Supported mobs: ");
@@ -47,7 +53,7 @@ public class Command_tossmob extends TFM_Command
                     sender.sendMessage(ChatColor.GREEN + output.toString());
                     return true;
                 }
-                
+
                 try
                 {
                     creature = TFM_Util.getCreatureType(args[0]);

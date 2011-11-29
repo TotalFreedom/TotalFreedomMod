@@ -144,6 +144,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean mobLimiterDisableGhast = true;
     public static boolean mobLimiterDisableSlime = true;
     public static boolean mobLimiterDisableGiant = true;
+    public static boolean tossmobEnabled = false;
 
     public void loadMainConfig()
     {
@@ -174,6 +175,7 @@ public class TotalFreedomMod extends JavaPlugin
         mobLimiterDisableGhast = config.getBoolean("mob_limiter_disable_ghast", mobLimiterDisableGhast);
         mobLimiterDisableSlime = config.getBoolean("mob_limiter_disable_slime", mobLimiterDisableSlime);
         mobLimiterDisableGiant = config.getBoolean("mob_limiter_disable_giant", mobLimiterDisableGiant);
+        tossmobEnabled = config.getBoolean("mp44_enabled", tossmobEnabled);
     }
     
     public static List<String> superadmins = new ArrayList<String>();

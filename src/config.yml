@@ -34,6 +34,7 @@ disable_weather: true
 # Enable misc. features:
 landmines_enabled: false
 mp44_enabled: false
+tossmob_enabled: false
 
 # Moblimiter:
 mob_limiter_enabled: true

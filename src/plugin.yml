@@ -25,6 +25,9 @@ commands:
   deopall:
     description: Superadmin command - Deop everyone on the server. Use 'purge' to clear ops.txt as well.
     usage: /<command> [purge]
+  enchant:
+    description: Enchant items.
+    usage: /<command> <list | addall | reset | add <name> | remove <name>>
   expel:
     description: Superadmin command - Push people away from you.
     usage: /<command> [radius] [strength]
@@ -121,6 +124,9 @@ commands:
   setspawnworld:
     description: Superadmin Command - Set world spawnpoint.
     usage: /<command>
+#  setexp:
+#    description: Sets how many expierence points you have (this is not the same as your "level").
+#    usage: /<command> <value>
   ender:
     description: Goto the ender / "The End".
     usage: /<command>
