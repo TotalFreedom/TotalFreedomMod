@@ -43,27 +43,30 @@ public class TFM_Util
 
     static
     {
+        mobtypes.put("blaze", EntityType.BLAZE);
+        mobtypes.put("cavespider", EntityType.CAVE_SPIDER);
         mobtypes.put("chicken", EntityType.CHICKEN);
         mobtypes.put("cow", EntityType.COW);
         mobtypes.put("creeper", EntityType.CREEPER);
+        mobtypes.put("enderdragon", EntityType.ENDER_DRAGON);
+        mobtypes.put("enderman", EntityType.ENDERMAN);
         mobtypes.put("ghast", EntityType.GHAST);
         mobtypes.put("giant", EntityType.GIANT);
+        mobtypes.put("irongolem", EntityType.IRON_GOLEM);
+        mobtypes.put("mushroomcow", EntityType.MUSHROOM_COW);
+        mobtypes.put("ocelot", EntityType.OCELOT);
         mobtypes.put("pig", EntityType.PIG);
         mobtypes.put("pigzombie", EntityType.PIG_ZOMBIE);
         mobtypes.put("sheep", EntityType.SHEEP);
+        mobtypes.put("silverfish", EntityType.SILVERFISH);
         mobtypes.put("skeleton", EntityType.SKELETON);
         mobtypes.put("slime", EntityType.SLIME);
+        mobtypes.put("snowman", EntityType.SNOWMAN);
         mobtypes.put("spider", EntityType.SPIDER);
         mobtypes.put("squid", EntityType.SQUID);
-        mobtypes.put("zombie", EntityType.ZOMBIE);
-        mobtypes.put("wolf", EntityType.WOLF);
-        mobtypes.put("cavespider", EntityType.CAVE_SPIDER);
-        mobtypes.put("enderman", EntityType.ENDERMAN);
-        mobtypes.put("silverfish", EntityType.SILVERFISH);
-        mobtypes.put("enderdragon", EntityType.ENDER_DRAGON);
         mobtypes.put("villager", EntityType.VILLAGER);
-        mobtypes.put("blaze", EntityType.BLAZE);
-        mobtypes.put("mushroomcow", EntityType.MUSHROOM_COW);
+        mobtypes.put("wolf", EntityType.WOLF);
+        mobtypes.put("zombie", EntityType.ZOMBIE);
         
         stop_commands.add("stop");
         stop_commands.add("off");

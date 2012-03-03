@@ -1,6 +1,6 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 2.3
+version: 2.4
 description: Plugin for the Total Freedom server.
 author: StevenLawson / Madgeek1450
 commands:
@@ -70,6 +70,9 @@ commands:
   lavaplace:
     description: Superadmin command - Enable/disable lava placement.
     usage: /<command> <on | off>
+  levelup:
+    description: Level up!
+    usage: /<command>
   list:
     description: Lists the real names of all online players.
     usage: /<command>
@@ -124,9 +127,6 @@ commands:
   setspawnworld:
     description: Superadmin Command - Set world spawnpoint.
     usage: /<command>
-#  setexp:
-#    description: Sets how many expierence points you have (this is not the same as your "level").
-#    usage: /<command> <value>
   ender:
     description: Goto the ender / "The End".
     usage: /<command>

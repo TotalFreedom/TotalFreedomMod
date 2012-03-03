@@ -297,7 +297,7 @@ public class TFM_UserInfo
         @Override
         public void run()
         {
-            Arrow shot_arrow = _player.shootArrow();
+            Arrow shot_arrow = _player.launchProjectile(Arrow.class);
             shot_arrow.setVelocity(shot_arrow.getVelocity().multiply(2.0));
         }
     }
