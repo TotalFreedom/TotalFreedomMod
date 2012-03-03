@@ -17,7 +17,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -213,7 +212,8 @@ public class TotalFreedomMod extends JavaPlugin
     private void registerEventHandlers()
     {
         PluginManager pm = this.getServer().getPluginManager();
-
+        
+        /*
         pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
@@ -236,5 +236,11 @@ public class TotalFreedomMod extends JavaPlugin
 
         pm.registerEvent(Event.Type.WEATHER_CHANGE, weatherListener, Event.Priority.High, this);
         pm.registerEvent(Event.Type.THUNDER_CHANGE, weatherListener, Event.Priority.High, this);
+        */
+        
+        pm.registerEvents(entityListener, this);
+        pm.registerEvents(blockListener, this);
+        pm.registerEvents(playerListener, this);
+        pm.registerEvents(weatherListener, this);
     }
 }

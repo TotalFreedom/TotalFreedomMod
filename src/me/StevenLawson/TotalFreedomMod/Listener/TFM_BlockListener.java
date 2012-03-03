@@ -8,10 +8,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.inventory.ItemStack;
 
-public class TFM_BlockListener extends BlockListener
+public class TFM_BlockListener implements Listener
 {
     private TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -21,7 +24,7 @@ public class TFM_BlockListener extends BlockListener
         this.plugin = instance;
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBurn(BlockBurnEvent event)
     {
         if (!TotalFreedomMod.allowFireSpread)
@@ -31,7 +34,7 @@ public class TFM_BlockListener extends BlockListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockIgnite(BlockIgniteEvent event)
     {
         if (!TotalFreedomMod.allowFirePlace)
@@ -41,7 +44,7 @@ public class TFM_BlockListener extends BlockListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockBreak(BlockBreakEvent event)
     {
         if (TotalFreedomMod.nukeMonitor)
@@ -91,7 +94,7 @@ public class TFM_BlockListener extends BlockListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event)
     {
         Player p = event.getPlayer();

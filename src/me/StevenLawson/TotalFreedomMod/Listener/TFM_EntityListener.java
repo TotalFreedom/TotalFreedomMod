@@ -1,13 +1,13 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-public class TFM_EntityListener extends EntityListener
+public class TFM_EntityListener implements Listener
 {
     private TotalFreedomMod plugin;
 
@@ -16,7 +16,7 @@ public class TFM_EntityListener extends EntityListener
         this.plugin = instance;
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGH)
     public void onEntityExplode(EntityExplodeEvent event)
     {
         if (!TotalFreedomMod.allowExplosions)
@@ -28,7 +28,7 @@ public class TFM_EntityListener extends EntityListener
         event.setYield(0.0f);
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGH)
     public void onExplosionPrime(ExplosionPrimeEvent event)
     {
         if (!TotalFreedomMod.allowExplosions)
@@ -40,7 +40,7 @@ public class TFM_EntityListener extends EntityListener
         event.setRadius((float) TotalFreedomMod.explosiveRadius);
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGH)
     public void onEntityCombust(EntityCombustEvent event)
     {
         if (!TotalFreedomMod.allowFireSpread)
@@ -50,17 +50,23 @@ public class TFM_EntityListener extends EntityListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDamage(EntityDamageEvent event)
     {
-        if (event.getCause() == DamageCause.LAVA && !TotalFreedomMod.allowLavaDamage)
+        switch (event.getCause())
         {
-            event.setCancelled(true);
-            return;
+            case LAVA:
+            {
+                if (!TotalFreedomMod.allowLavaDamage)
+                {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onCreatureSpawn(CreatureSpawnEvent event)
     {
         if (TotalFreedomMod.mobLimiterEnabled)
@@ -104,14 +110,11 @@ public class TFM_EntityListener extends EntityListener
             {
                 int mobcount = 0;
 
-                for (World world : Bukkit.getWorlds())
+                for (Entity ent : event.getLocation().getWorld().getLivingEntities())
                 {
-                    for (Entity ent : world.getLivingEntities())
+                    if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon)
                     {
-                        if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon)
-                        {
-                            mobcount++;
-                        }
+                        mobcount++;
                     }
                 }
 

@@ -22,6 +22,8 @@ public class Command_setexp extends TFM_Command
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;
         }
+        
+        /*
 
         if (args.length != 1)
         {
@@ -52,6 +54,11 @@ public class Command_setexp extends TFM_Command
         sender_p.setExperience(exp_amount);
         
         sender.sendMessage(ChatColor.AQUA + "Experience points set to: " + sender_p.getExperience());
+        */
+        
+        sender_p.setExp(1.0f);
+        
+        sender.sendMessage(ChatColor.AQUA + "Level up!");
 
         return true;
     }

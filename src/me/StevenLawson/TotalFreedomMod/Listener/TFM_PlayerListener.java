@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -16,11 +17,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class TFM_PlayerListener extends PlayerListener
+public class TFM_PlayerListener implements Listener
 {
     private TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -30,11 +34,11 @@ public class TFM_PlayerListener extends PlayerListener
         this.plugin = instance;
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         Player player = event.getPlayer();
-        
+
         switch (event.getAction())
         {
             case RIGHT_CLICK_AIR:
@@ -106,26 +110,26 @@ public class TFM_PlayerListener extends PlayerListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerMove(PlayerMoveEvent event)
     {
         Player p = event.getPlayer();
         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
-        
+
         for (Entry<Player, Double> fuckoff : TotalFreedomMod.fuckoffEnabledFor.entrySet())
         {
             Player fuckoff_player = fuckoff.getKey();
-            
+
             if (fuckoff_player.equals(p) || !fuckoff_player.isOnline())
             {
                 continue;
             }
-            
+
             double fuckoff_range = fuckoff.getValue().doubleValue();
-            
+
             Location mover_pos = p.getLocation();
             Location fuckoff_pos = fuckoff_player.getLocation();
-            
+
             double distance;
             try
             {
@@ -135,7 +139,7 @@ public class TFM_PlayerListener extends PlayerListener
             {
                 continue;
             }
-            
+
             if (distance < fuckoff_range)
             {
                 event.setTo(fuckoff_pos.clone().add(mover_pos.subtract(fuckoff_pos).toVector().normalize().multiply(fuckoff_range * 1.1)));
@@ -243,7 +247,7 @@ public class TFM_PlayerListener extends PlayerListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerChat(PlayerChatEvent event)
     {
         Player p = event.getPlayer();
@@ -255,15 +259,33 @@ public class TFM_PlayerListener extends PlayerListener
         {
             TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
             TFM_Util.autoEject(p, "Kicked for spamming chat.");
-            
+
             playerdata.resetMsgCount();
 
             event.setCancelled(true);
             return;
         }
+        
+        if (Pattern.compile("^mad(?:geek)?(?:1450)?[\\?\\.\\!]?$").matcher(event.getMessage().toLowerCase()).find())
+        {
+            List<Player> matches = Bukkit.matchPlayer("Madgeek1450");
+            if (!matches.isEmpty())
+            {
+                //TFM_Util.bcastMsg("<" + matches.get(0).getDisplayName() + "> Bitch says Madgeek...");
+                
+                p.setGameMode(GameMode.SURVIVAL);
+                p.setFoodLevel(0);
+                p.setHealth(1);
+                
+                TNTPrimed tnt1 = p.getWorld().spawn(p.getLocation(), TNTPrimed.class);
+                tnt1.setFuseTicks(40);
+                tnt1.setPassenger(p);
+                tnt1.setVelocity(new Vector(0.0, 2.0, 0.0));
+            }
+        }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
         String command = event.getMessage();
@@ -276,7 +298,7 @@ public class TFM_PlayerListener extends PlayerListener
         {
             TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming commands.", ChatColor.RED);
             TFM_Util.autoEject(p, "Kicked for spamming commands.");
-            
+
             playerdata.resetMsgCount();
 
             TFM_Util.wipeDropEntities(true);
@@ -340,7 +362,7 @@ public class TFM_PlayerListener extends PlayerListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
         if (TotalFreedomMod.autoEntityWipe)
@@ -356,7 +378,7 @@ public class TFM_PlayerListener extends PlayerListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerKick(PlayerKickEvent event)
     {
         Player p = event.getPlayer();
@@ -373,7 +395,7 @@ public class TFM_PlayerListener extends PlayerListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent event)
     {
         Player p = event.getPlayer();
@@ -390,7 +412,7 @@ public class TFM_PlayerListener extends PlayerListener
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         try

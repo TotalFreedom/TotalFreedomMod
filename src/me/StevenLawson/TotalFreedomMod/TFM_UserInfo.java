@@ -26,7 +26,7 @@ public class TFM_UserInfo
     private boolean is_orbiting = false;
     private double orbit_strength = 10.0;
     private boolean mob_thrower_enabled = false;
-    private CreatureType mob_thrower_creature = CreatureType.PIG;
+    private EntityType mob_thrower_creature = EntityType.PIG;
     private double mob_thrower_speed = 4.0;
     private List<LivingEntity> mob_thrower_queue = new ArrayList<LivingEntity>();
     private int mp44_schedule_id = -1;
@@ -228,7 +228,7 @@ public class TFM_UserInfo
         this.freecam_place_count = 0;
     }
 
-    public void enableMobThrower(CreatureType mob_thrower_creature, double mob_thrower_speed)
+    public void enableMobThrower(EntityType mob_thrower_creature, double mob_thrower_speed)
     {
         this.mob_thrower_enabled = true;
         this.mob_thrower_creature = mob_thrower_creature;
@@ -240,7 +240,7 @@ public class TFM_UserInfo
         this.mob_thrower_enabled = false;
     }
 
-    public CreatureType mobThrowerCreature()
+    public EntityType mobThrowerCreature()
     {
         return this.mob_thrower_creature;
     }

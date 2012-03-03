@@ -38,33 +38,32 @@ public class TFM_Util
 {
     private static final Logger log = Logger.getLogger("Minecraft");
     private static Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
-    public static final Map<String, CreatureType> mobtypes = new HashMap<String, CreatureType>();
+    public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     public static final List<String> stop_commands = new ArrayList<String>();
 
     static
     {
-        mobtypes.put("chicken", CreatureType.CHICKEN);
-        mobtypes.put("cow", CreatureType.COW);
-        mobtypes.put("creeper", CreatureType.CREEPER);
-        mobtypes.put("ghast", CreatureType.GHAST);
-        mobtypes.put("giant", CreatureType.GIANT);
-        mobtypes.put("monster", CreatureType.MONSTER);
-        mobtypes.put("pig", CreatureType.PIG);
-        mobtypes.put("pigzombie", CreatureType.PIG_ZOMBIE);
-        mobtypes.put("sheep", CreatureType.SHEEP);
-        mobtypes.put("skeleton", CreatureType.SKELETON);
-        mobtypes.put("slime", CreatureType.SLIME);
-        mobtypes.put("spider", CreatureType.SPIDER);
-        mobtypes.put("squid", CreatureType.SQUID);
-        mobtypes.put("zombie", CreatureType.ZOMBIE);
-        mobtypes.put("wolf", CreatureType.WOLF);
-        mobtypes.put("cavespider", CreatureType.CAVE_SPIDER);
-        mobtypes.put("enderman", CreatureType.ENDERMAN);
-        mobtypes.put("silverfish", CreatureType.SILVERFISH);
-        mobtypes.put("enderdragon", CreatureType.ENDER_DRAGON);
-        mobtypes.put("villager", CreatureType.VILLAGER);
-        mobtypes.put("blaze", CreatureType.BLAZE);
-        mobtypes.put("mushroomcow", CreatureType.MUSHROOM_COW);
+        mobtypes.put("chicken", EntityType.CHICKEN);
+        mobtypes.put("cow", EntityType.COW);
+        mobtypes.put("creeper", EntityType.CREEPER);
+        mobtypes.put("ghast", EntityType.GHAST);
+        mobtypes.put("giant", EntityType.GIANT);
+        mobtypes.put("pig", EntityType.PIG);
+        mobtypes.put("pigzombie", EntityType.PIG_ZOMBIE);
+        mobtypes.put("sheep", EntityType.SHEEP);
+        mobtypes.put("skeleton", EntityType.SKELETON);
+        mobtypes.put("slime", EntityType.SLIME);
+        mobtypes.put("spider", EntityType.SPIDER);
+        mobtypes.put("squid", EntityType.SQUID);
+        mobtypes.put("zombie", EntityType.ZOMBIE);
+        mobtypes.put("wolf", EntityType.WOLF);
+        mobtypes.put("cavespider", EntityType.CAVE_SPIDER);
+        mobtypes.put("enderman", EntityType.ENDERMAN);
+        mobtypes.put("silverfish", EntityType.SILVERFISH);
+        mobtypes.put("enderdragon", EntityType.ENDER_DRAGON);
+        mobtypes.put("villager", EntityType.VILLAGER);
+        mobtypes.put("blaze", EntityType.BLAZE);
+        mobtypes.put("mushroomcow", EntityType.MUSHROOM_COW);
         
         stop_commands.add("stop");
         stop_commands.add("off");
@@ -410,7 +409,7 @@ public class TFM_Util
         }
     }
 
-    public static CreatureType getCreatureType(String mobname) throws Exception
+    public static EntityType getEntityType(String mobname) throws Exception
     {
         mobname = mobname.toLowerCase().trim();
         
@@ -552,30 +551,34 @@ public class TFM_Util
         {
             player_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
             
-            Integer num_kicks = eject_tracker.get(player_ip);
+            Integer num_kicks = TFM_Util.eject_tracker.get(player_ip);
             if (num_kicks == null)
             {
                 num_kicks = new Integer(0);
             }
 
             num_kicks = new Integer(num_kicks.intValue() + 1);
+            
+            TFM_Util.eject_tracker.put(player_ip, num_kicks);
 
-            if (num_kicks <= 1)
+            if (num_kicks.intValue() <= 1)
             {
                 method = EjectMethod.STRIKE_ONE;
             }
-            else if (num_kicks == 2)
+            else if (num_kicks.intValue() == 2)
             {
                 method = EjectMethod.STRIKE_TWO;
             }
-            else if (num_kicks >= 3)
+            else if (num_kicks.intValue() >= 3)
             {
                 method = EjectMethod.STRIKE_THREE;
             }
         }
-        catch (Throwable ex)
+        catch (Exception ex)
         {
         }
+        
+        log.info("autoEject -> name: " + p.getName() + " - player_ip: " + player_ip + " - method: " + method.toString());
 
         p.setOp(false);
         p.setGameMode(GameMode.SURVIVAL);

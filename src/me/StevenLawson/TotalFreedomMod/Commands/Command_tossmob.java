@@ -1,8 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -10,7 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -33,7 +31,7 @@ public class Command_tossmob extends TFM_Command
         {
             TFM_UserInfo playerData = TFM_UserInfo.getPlayerData(sender_p);
 
-            CreatureType creature = CreatureType.PIG;
+            EntityType creature = EntityType.PIG;
             if (args.length >= 1)
             {
                 if (TFM_Util.isStopCommand(args[0]))
@@ -46,7 +44,7 @@ public class Command_tossmob extends TFM_Command
                 if (args[0].equalsIgnoreCase("list"))
                 {
                     StringBuilder output = new StringBuilder("Supported mobs: ");
-                    for (Entry<String, CreatureType> mob : TFM_Util.mobtypes.entrySet())
+                    for (Entry<String, EntityType> mob : TFM_Util.mobtypes.entrySet())
                     {
                         output.append(mob.getKey()).append(", ");
                     }
@@ -56,13 +54,13 @@ public class Command_tossmob extends TFM_Command
 
                 try
                 {
-                    creature = TFM_Util.getCreatureType(args[0]);
+                    creature = TFM_Util.getEntityType(args[0]);
                 }
                 catch (Exception ex)
                 {
                     sender.sendMessage(ChatColor.RED + args[0] + " is not a supported mob type. Using a pig instead.");
                     sender.sendMessage(ChatColor.RED + "By the way, you can type /tossmob list to see all possible mobs.");
-                    creature = CreatureType.PIG;
+                    creature = EntityType.PIG;
                 }
             }
 
