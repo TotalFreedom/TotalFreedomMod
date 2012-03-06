@@ -1,22 +1,24 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class TFM_Heartbeat implements Runnable
 {
-    private TotalFreedomMod plugin;
+    private final TotalFreedomMod plugin;
+    private final Server server;
 
     public TFM_Heartbeat(TotalFreedomMod instance)
     {
         this.plugin = instance;
+        this.server = plugin.getServer();
     }
 
     @Override
     public void run()
     {
-        for (Player p : Bukkit.getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
             playerdata.resetMsgCount();
@@ -33,7 +35,7 @@ public class TFM_Heartbeat implements Runnable
         {
             try
             {
-                for (World world : Bukkit.getWorlds())
+                for (World world : server.getWorlds())
                 {
                     if (world.getTime() > 12000L)
                     {
@@ -48,7 +50,7 @@ public class TFM_Heartbeat implements Runnable
 
         if (TotalFreedomMod.disableWeather)
         {
-            for (World world : Bukkit.getWorlds())
+            for (World world : server.getWorlds())
             {
                 if (world.getWeatherDuration() > 0)
                 {

@@ -12,6 +12,7 @@ import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class TotalFreedomMod extends JavaPlugin
 {
     private static final Logger log = Logger.getLogger("Minecraft");
+    private final Server server = Bukkit.getServer();
     
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final String CONFIG_FILE = "config.yml";
@@ -46,17 +48,22 @@ public class TotalFreedomMod extends JavaPlugin
 
         registerEventHandlers();
 
-        Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+        server.getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
         log.log(Level.INFO, "[" + getDescription().getName() + "] - Enabled! - Version: " + getDescription().getVersion() + " by Madgeek1450");
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
+
+        if (generateFlatlands)
+        {
+            TFM_Util.generateFlatlands(flatlandsGenerationParams);
+        }
     }
 
     @Override
     public void onDisable()
     {
-        Bukkit.getScheduler().cancelTasks(this);
+        server.getScheduler().cancelTasks(this);
         log.log(Level.INFO, "[" + getDescription().getName() + "] - Disabled.");
     }
 
@@ -144,6 +151,9 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean mobLimiterDisableSlime = true;
     public static boolean mobLimiterDisableGiant = true;
     public static boolean tossmobEnabled = false;
+    public static boolean generateFlatlands = true;
+    public static String flatlandsGenerationParams = "16,stone,32,dirt,1,grass";
+    public static boolean allowFliudSpread = false;
 
     public void loadMainConfig()
     {
@@ -174,7 +184,10 @@ public class TotalFreedomMod extends JavaPlugin
         mobLimiterDisableGhast = config.getBoolean("mob_limiter_disable_ghast", mobLimiterDisableGhast);
         mobLimiterDisableSlime = config.getBoolean("mob_limiter_disable_slime", mobLimiterDisableSlime);
         mobLimiterDisableGiant = config.getBoolean("mob_limiter_disable_giant", mobLimiterDisableGiant);
-        tossmobEnabled = config.getBoolean("mp44_enabled", tossmobEnabled);
+        tossmobEnabled = config.getBoolean("tossmob_enabled", tossmobEnabled);
+        generateFlatlands = config.getBoolean("generate_flatlands", generateFlatlands);
+        flatlandsGenerationParams = config.getString("flatlands_generation_params", flatlandsGenerationParams);
+        allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
     }
     
     public static List<String> superadmins = new ArrayList<String>();
@@ -211,33 +224,8 @@ public class TotalFreedomMod extends JavaPlugin
 
     private void registerEventHandlers()
     {
-        PluginManager pm = this.getServer().getPluginManager();
-        
-        /*
-        pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.ENTITY_COMBUST, entityListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.EXPLOSION_PRIME, entityListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.CREATURE_SPAWN, entityListener, Event.Priority.Normal, this);
+        PluginManager pm = server.getPluginManager();
 
-        pm.registerEvent(Event.Type.BLOCK_IGNITE, blockListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Event.Priority.Normal, this);
-
-        pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, playerListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, playerListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLAYER_KICK, playerListener, Event.Priority.Monitor, this);
-        pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Monitor, this);
-        pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Monitor, this);
-
-        pm.registerEvent(Event.Type.WEATHER_CHANGE, weatherListener, Event.Priority.High, this);
-        pm.registerEvent(Event.Type.THUNDER_CHANGE, weatherListener, Event.Priority.High, this);
-        */
-        
         pm.registerEvents(entityListener, this);
         pm.registerEvents(blockListener, this);
         pm.registerEvents(playerListener, this);

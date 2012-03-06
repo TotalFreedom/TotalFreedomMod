@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,7 +20,7 @@ public class Command_qdeop extends TFM_Command
         if (sender.isOp() || senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
         {
             boolean matched_player = false;
-            for (Player p : Bukkit.matchPlayer(args[0]))
+            for (Player p : server.matchPlayer(args[0]))
             {
                 matched_player = true;
 

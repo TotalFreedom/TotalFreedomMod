@@ -3,8 +3,8 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.List;
 import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 public class TFM_Command
 {
     protected TotalFreedomMod plugin;
+    protected Server server;
     protected static final Logger log = Logger.getLogger("Minecraft");
     
     public TFM_Command()
@@ -28,11 +29,12 @@ public class TFM_Command
     public void setPlugin(TotalFreedomMod plugin)
     {
         this.plugin = plugin;
+        this.server = plugin.getServer();
     }
     
     public Player getPlayer(String partialname) throws CantFindPlayerException
     {
-        List<Player> matches = Bukkit.matchPlayer(partialname);
+        List<Player> matches = server.matchPlayer(partialname);
         if (matches.isEmpty())
         {
             throw new CantFindPlayerException(partialname);

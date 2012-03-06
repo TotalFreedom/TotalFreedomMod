@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -18,7 +17,7 @@ public class Command_deopall extends TFM_Command
         {
             TFM_Util.bcastMsg(String.format("(%s: De-opping all players on server)", sender.getName()), ChatColor.YELLOW);
 
-            for (Player p : Bukkit.getOnlinePlayers())
+            for (Player p : server.getOnlinePlayers())
             {
                 p.setOp(false);
                 p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
@@ -30,7 +29,7 @@ public class Command_deopall extends TFM_Command
                 {
                     sender.sendMessage(ChatColor.GRAY + "Purging ops.txt.");
 
-                    for (OfflinePlayer p : Bukkit.getOperators())
+                    for (OfflinePlayer p : server.getOperators())
                     {
                         p.setOp(false);
                     }

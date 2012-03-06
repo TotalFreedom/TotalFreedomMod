@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -18,7 +17,7 @@ public class Command_mp extends TFM_Command
             sender.sendMessage(ChatColor.GRAY + "Purging all mobs...");
 
             int removed = 0;
-            for (World world : Bukkit.getWorlds())
+            for (World world : server.getWorlds())
             {
                 for (Entity ent : world.getLivingEntities())
                 {

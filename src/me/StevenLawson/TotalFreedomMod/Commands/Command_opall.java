@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -34,7 +33,7 @@ public class Command_opall extends TFM_Command
                 }
             }
 
-            for (Player p : Bukkit.getOnlinePlayers())
+            for (Player p : server.getOnlinePlayers())
             {
                 p.setOp(true);
                 p.sendMessage(TotalFreedomMod.YOU_ARE_OP);

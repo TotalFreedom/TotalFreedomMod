@@ -43,11 +43,14 @@ commands:
   flatlands:
     description: Goto the flatlands.
     usage: /<command>
+  fluidspread:
+    description: Superadmin command - Enable/disable fluid spread.
+    usage: /<command> <on | off>
   fr:
-    description: Superadmin command - Freeze all players (toggles on and off).
-    usage: /<command>
+    description: Superadmin command - Freeze players (toggles on and off).
+    usage: /<command> [target | reset]
   fuckoff:
-    description: Lawl
+    description: You'll never even see it coming.
     usage: /<command>
   gadmin:
     description: Superadmin command - Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci
@@ -70,9 +73,9 @@ commands:
   lavaplace:
     description: Superadmin command - Enable/disable lava placement.
     usage: /<command> <on | off>
-  levelup:
-    description: Level up!
-    usage: /<command>
+#  levelup:
+#    description: Level up!
+#    usage: /<command>
   list:
     description: Lists the real names of all online players.
     usage: /<command>
@@ -120,7 +123,7 @@ commands:
     usage: /<command>
   saconfig:
     description: Owner command - Manage superadmins.
-    usage: /<command> <add|delete> <username>
+    usage: /<command> <list | <add|delete> <username>>
   say:
     description: Broadcasts the given message as the console, includes sender name.
     usage: /<command> <message>
@@ -157,6 +160,9 @@ commands:
   wildcard:
     description: Superadmin command - Run any command on all users, username placeholder = ?.
     usage: /<command> [fluff] ? [fluff] ?
+#  wipeflatlands:
+#    description: Console Command - Wipe the flatlands map.
+#    usage: /<command>
   ziptool:
     description: Owner command - Zip and unzip files.
     usage: /<command> <zip <directory>> | <unzip <file>>

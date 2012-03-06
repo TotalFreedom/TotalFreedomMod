@@ -34,22 +34,37 @@ public class Command_fr extends TFM_Command
             }
             else
             {
-                Player p;
-                try
+                if (args[0].toLowerCase().equals("reset"))
                 {
-                    p = getPlayer(args[0]);
+                    TotalFreedomMod.allPlayersFrozen = false;
+                    
+                    for (Player p : server.getOnlinePlayers())
+                    {
+                        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+                        playerdata.setFrozen(false);
+                    }
+                    
+                    TFM_Util.bcastMsg("All global and player freezes have been lifted.", ChatColor.AQUA);
                 }
-                catch (CantFindPlayerException ex)
+                else
                 {
-                    sender.sendMessage(ex.getMessage());
-                    return true;
+                    Player p;
+                    try
+                    {
+                        p = getPlayer(args[0]);
+                    }
+                    catch (CantFindPlayerException ex)
+                    {
+                        sender.sendMessage(ex.getMessage());
+                        return true;
+                    }
+
+                    TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+                    playerdata.setFrozen(!playerdata.isFrozen());
+
+                    sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                    p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                 }
-
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
-                playerdata.setFrozen(!playerdata.isFrozen());
-
-                sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
-                p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
             }
         }
         else

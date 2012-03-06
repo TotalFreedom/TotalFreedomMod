@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -34,10 +33,16 @@ public class Command_gtfo extends TFM_Command
             }
 
             TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
-
+            
             //Undo WorldEdits:
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("/undo %d %s", 15, p.getName()));
-
+            if (senderIsConsole)
+            {
+            }
+            else
+            {
+                server.dispatchCommand(sender, String.format("/undo %d %s", 15, p.getName()));
+            }
+            
             //Deop
             p.setOp(false);
 
@@ -66,10 +71,10 @@ public class Command_gtfo extends TFM_Command
                 user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
             }
             TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
-            Bukkit.banIP(user_ip);
+            server.banIP(user_ip);
 
             //Ban Username:
-            Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
+            server.getOfflinePlayer(p.getName()).setBanned(true);
 
             //Kick Player:
             p.kickPlayer("GTFO");

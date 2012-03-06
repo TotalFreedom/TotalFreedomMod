@@ -271,7 +271,7 @@ public class TFM_UserInfo
     public void startArrowShooter(TotalFreedomMod plugin)
     {
         this.stopArrowShooter();
-        this.mp44_schedule_id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new ArrowShooter(this.player), 1L, 1L);
+        this.mp44_schedule_id = plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new ArrowShooter(this.player), 1L, 1L);
         mp44_firing = true;
     }
     

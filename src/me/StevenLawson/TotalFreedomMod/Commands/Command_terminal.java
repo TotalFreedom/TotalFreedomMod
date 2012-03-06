@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_RunSystemCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,7 +34,7 @@ public class Command_terminal extends TFM_Command
         }
 
         sender.sendMessage("Running system command: " + command);
-        Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, new TFM_RunSystemCommand(command, plugin));
+        server.getScheduler().scheduleAsyncDelayedTask(plugin, new TFM_RunSystemCommand(command, plugin));
 
         return true;
     }

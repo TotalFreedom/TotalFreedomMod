@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Server;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,11 +10,13 @@ import org.bukkit.event.entity.*;
 
 public class TFM_EntityListener implements Listener
 {
-    private TotalFreedomMod plugin;
+    private final TotalFreedomMod plugin;
+    private final Server server;
 
     public TFM_EntityListener(TotalFreedomMod instance)
     {
         this.plugin = instance;
+        this.server = plugin.getServer();
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -124,6 +127,15 @@ public class TFM_EntityListener implements Listener
                     return;
                 }
             }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onEntityDeath(EntityDeathEvent event)
+    {
+        if (TotalFreedomMod.autoEntityWipe)
+        {
+            event.setDroppedExp(0);
         }
     }
 }

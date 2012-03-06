@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -50,7 +49,7 @@ public class Command_gcmd extends TFM_Command
             try
             {
                 sender.sendMessage(ChatColor.GRAY + "Sending command as " + p.getName() + ": " + outcommand);
-                if (Bukkit.getServer().dispatchCommand(p, outcommand))
+                if (server.dispatchCommand(p, outcommand))
                 {
                     sender.sendMessage(ChatColor.GRAY + "Command sent.");
                 }

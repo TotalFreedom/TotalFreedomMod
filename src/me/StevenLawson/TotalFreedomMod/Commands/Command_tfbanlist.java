@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -19,7 +18,7 @@ public class Command_tfbanlist extends TFM_Command
             {
                 if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
-                    for (OfflinePlayer p : Bukkit.getBannedPlayers())
+                    for (OfflinePlayer p : server.getBannedPlayers())
                     {
                         p.setBanned(false);
                     }
@@ -38,7 +37,7 @@ public class Command_tfbanlist extends TFM_Command
         StringBuilder banned_players = new StringBuilder();
         banned_players.append("Banned Players: ");
         boolean first = true;
-        for (OfflinePlayer p : Bukkit.getBannedPlayers())
+        for (OfflinePlayer p : server.getBannedPlayers())
         {
             if (!first)
             {

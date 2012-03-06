@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -18,6 +19,15 @@ public class Command_saconfig extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (args.length == 1)
+        {
+            if (args[0].equals("list"))
+            {
+                sender.sendMessage(ChatColor.GOLD + "Superadmins: " + TFM_Util.implodeStringList(", ", TotalFreedomMod.superadmins));
+                return true;
+            }
+        }
+        
         if (!senderIsConsole || sender.getName().equalsIgnoreCase("remotebukkit"))
         {
             sender.sendMessage(ChatColor.GRAY + "This command may only be used from the Telnet or BukkitHttpd console.");

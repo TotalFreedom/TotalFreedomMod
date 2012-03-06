@@ -19,7 +19,7 @@ public class Command_kicknoob extends TFM_Command
         
         sender.sendMessage("Disconnecting all non-superadmins.");
         
-        for (Player p : plugin.getServer().getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
             if (!TFM_Util.isUserSuperadmin(p, plugin))
             {

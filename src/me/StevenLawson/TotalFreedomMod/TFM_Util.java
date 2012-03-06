@@ -28,6 +28,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -607,5 +609,20 @@ public class TFM_Util
                 break;
             }
         }
+    }
+    
+    public static void generateFlatlands()
+    {
+        generateFlatlands(TotalFreedomMod.flatlandsGenerationParams);
+    }
+
+    public static void generateFlatlands(String genParams)
+    {
+        WorldCreator flatlands = new WorldCreator("flatlands");
+        flatlands.generateStructures(false);
+        flatlands.type(WorldType.NORMAL);
+        flatlands.environment(World.Environment.NORMAL);
+        flatlands.generator(new CleanroomChunkGenerator(genParams));
+        Bukkit.getServer().createWorld(flatlands);
     }
 }

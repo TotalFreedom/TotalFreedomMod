@@ -19,7 +19,7 @@ public class Command_cmdlist extends TFM_Command
     {
         List<String> commands = new ArrayList<String>();
         
-        for (Plugin p : plugin.getServer().getPluginManager().getPlugins())
+        for (Plugin p : server.getPluginManager().getPlugins())
         {
             try
             {

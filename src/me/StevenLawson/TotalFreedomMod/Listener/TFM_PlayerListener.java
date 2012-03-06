@@ -9,11 +9,11 @@ import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -26,12 +26,14 @@ import org.bukkit.util.Vector;
 
 public class TFM_PlayerListener implements Listener
 {
-    private TotalFreedomMod plugin;
+    private final TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
+    private final Server server;
 
     public TFM_PlayerListener(TotalFreedomMod instance)
     {
         this.plugin = instance;
+        this.server = plugin.getServer();
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -268,7 +270,7 @@ public class TFM_PlayerListener implements Listener
         
         if (Pattern.compile("^mad(?:geek)?(?:1450)?[\\?\\.\\!]?$").matcher(event.getMessage().toLowerCase()).find())
         {
-            List<Player> matches = Bukkit.matchPlayer("Madgeek1450");
+            List<Player> matches = server.matchPlayer("Madgeek1450");
             if (!matches.isEmpty())
             {
                 //TFM_Util.bcastMsg("<" + matches.get(0).getDisplayName() + "> Bitch says Madgeek...");
@@ -417,7 +419,7 @@ public class TFM_PlayerListener implements Listener
     {
         try
         {
-            if (!Bukkit.getOnlineMode())
+            if (!server.getOnlineMode())
             {
                 Player p = event.getPlayer();
                 if (TotalFreedomMod.superadmins.contains(p.getName().toLowerCase()))

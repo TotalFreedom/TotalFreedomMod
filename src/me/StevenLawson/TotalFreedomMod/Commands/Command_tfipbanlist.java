@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,9 +20,9 @@ public class Command_tfipbanlist extends TFM_Command
             {
                 if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
                 {
-                    for (String ip : Bukkit.getIPBans())
+                    for (String ip : server.getIPBans())
                     {
-                        Bukkit.unbanIP(ip);
+                        server.unbanIP(ip);
                     }
 
                     sender.sendMessage(ChatColor.GRAY + "IP Ban list has been purged.");
@@ -37,7 +36,7 @@ public class Command_tfipbanlist extends TFM_Command
             }
         }
 
-        List<String> ip_bans = Arrays.asList(Bukkit.getIPBans().toArray(new String[0]));
+        List<String> ip_bans = Arrays.asList(server.getIPBans().toArray(new String[0]));
         Collections.sort(ip_bans);
 
         StringBuilder banned_ips = new StringBuilder();
