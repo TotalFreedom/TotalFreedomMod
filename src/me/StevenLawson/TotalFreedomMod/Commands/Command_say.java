@@ -17,10 +17,28 @@ public class Command_say extends TFM_Command
         {
             return false;
         }
+        
+        String message = TFM_Util.implodeStringList(" ", Arrays.asList(args));
+
+        if (senderIsConsole && sender.getName().equals("Rcon"))
+        {
+            if (message.equals("WARNING: Server is restarting, you will be kicked"))
+            {
+                TFM_Util.bcastMsg("Server is going offline.", ChatColor.GRAY);
+
+                for (Player p : server.getOnlinePlayers())
+                {
+                    p.kickPlayer("Server is going offline, come back in a few minutes.");
+                }
+
+                server.shutdown();
+
+                return true;
+            }
+        }
 
         if (senderIsConsole || sender.isOp())
         {
-            String message = TFM_Util.implodeStringList(" ", Arrays.asList(args));
             TFM_Util.bcastMsg(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
         }
         else

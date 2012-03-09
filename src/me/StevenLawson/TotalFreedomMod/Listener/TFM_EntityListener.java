@@ -28,7 +28,7 @@ public class TFM_EntityListener implements Listener
             return;
         }
 
-        event.setYield(0.0f);
+        event.setYield(0.0F);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -136,6 +136,19 @@ public class TFM_EntityListener implements Listener
         if (TotalFreedomMod.autoEntityWipe)
         {
             event.setDroppedExp(0);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onProjectileHit(ProjectileHitEvent event)
+    {
+        if (TotalFreedomMod.allowExplosions)
+        {
+            Projectile entity = event.getEntity();
+            if (event.getEntityType() == EntityType.ARROW && entity.getShooter() instanceof Player)
+            {
+                entity.getWorld().createExplosion(entity.getLocation(), 2F);
+            }
         }
     }
 }

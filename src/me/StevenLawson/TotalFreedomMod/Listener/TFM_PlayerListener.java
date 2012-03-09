@@ -1,19 +1,12 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Server;
+import me.StevenLawson.TotalFreedomMod.*;
+import org.bukkit.*;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -252,38 +245,44 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerChat(PlayerChatEvent event)
     {
-        Player p = event.getPlayer();
-
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
-        playerdata.incrementMsgCount();
-
-        if (playerdata.getMsgCount() > 10)
+        try
         {
-            TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
-            TFM_Util.autoEject(p, "Kicked for spamming chat.");
+            Player p = event.getPlayer();
 
-            playerdata.resetMsgCount();
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+            playerdata.incrementMsgCount();
 
-            event.setCancelled(true);
-            return;
-        }
-        
-        if (Pattern.compile("^mad(?:geek)?(?:1450)?[\\?\\.\\!]?$").matcher(event.getMessage().toLowerCase()).find())
-        {
-            List<Player> matches = server.matchPlayer("Madgeek1450");
-            if (!matches.isEmpty())
+            if (playerdata.getMsgCount() > 10)
             {
-                //TFM_Util.bcastMsg("<" + matches.get(0).getDisplayName() + "> Bitch says Madgeek...");
-                
-                p.setGameMode(GameMode.SURVIVAL);
-                p.setFoodLevel(0);
-                p.setHealth(1);
-                
-                TNTPrimed tnt1 = p.getWorld().spawn(p.getLocation(), TNTPrimed.class);
-                tnt1.setFuseTicks(40);
-                tnt1.setPassenger(p);
-                tnt1.setVelocity(new Vector(0.0, 2.0, 0.0));
+                TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+                TFM_Util.autoEject(p, "Kicked for spamming chat.");
+
+                playerdata.resetMsgCount();
+
+                event.setCancelled(true);
+                return;
             }
+
+//            if (Pattern.compile("^mad(?:geek)?(?:1450)?[\\?\\.\\!]?$").matcher(event.getMessage().toLowerCase()).find())
+//            {
+//                if (server.getPlayerExact("Madgeek1450") != null)
+//                {
+//                    p.setGameMode(GameMode.SURVIVAL);
+//                    p.setFoodLevel(0);
+//                    p.setHealth(1);
+//
+//                    TNTPrimed tnt1 = p.getWorld().spawn(p.getLocation(), TNTPrimed.class);
+//                    tnt1.setFuseTicks(40);
+//                    tnt1.setPassenger(p);
+//                    tnt1.setVelocity(new Vector(0.0, 2.0, 0.0));
+//                }
+//            }
+
+            event.setMessage(ChatColor.stripColor(event.getMessage()));
+        }
+        catch (Exception ex)
+        {
+            log.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -419,12 +418,14 @@ public class TFM_PlayerListener implements Listener
     {
         try
         {
+            TFM_UserList.getInstance(plugin).addUser(event.getPlayer());
+
             if (!server.getOnlineMode())
             {
                 Player p = event.getPlayer();
                 if (TotalFreedomMod.superadmins.contains(p.getName().toLowerCase()))
                 {
-                    String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+                    String user_ip = p.getAddress().getAddress().getHostAddress();
                     if (user_ip != null && !user_ip.isEmpty())
                     {
                         TFM_Util.checkPartialSuperadminIP(user_ip, plugin);

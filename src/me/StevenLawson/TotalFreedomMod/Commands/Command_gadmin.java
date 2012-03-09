@@ -51,7 +51,7 @@ public class Command_gadmin extends TFM_Command
                     }
                     else if (mode.equals("ipban"))
                     {
-                        String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+                        String user_ip = p.getAddress().getAddress().getHostAddress();
                         String[] ip_parts = user_ip.split("\\.");
                         if (ip_parts.length == 4)
                         {
@@ -63,7 +63,7 @@ public class Command_gadmin extends TFM_Command
                     }
                     else if (mode.equals("ban"))
                     {
-                        String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+                        String user_ip = p.getAddress().getAddress().getHostAddress();
                         String[] ip_parts = user_ip.split("\\.");
                         if (ip_parts.length == 4)
                         {

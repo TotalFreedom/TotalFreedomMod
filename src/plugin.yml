@@ -1,6 +1,6 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 2.4
+version: 2.5
 description: Plugin for the Total Freedom server.
 author: StevenLawson / Madgeek1450
 commands:
@@ -58,6 +58,9 @@ commands:
   gcmd:
     description: Superadmin command - Send a command as someone else.
     usage: /<command> <fromname> <outcommand>
+  glist:
+    description: Superadmin command - Ban/Unban any player, even those who are not logged in anymore.
+    usage: /<command> <ban | unban> <username>
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> <partialname>

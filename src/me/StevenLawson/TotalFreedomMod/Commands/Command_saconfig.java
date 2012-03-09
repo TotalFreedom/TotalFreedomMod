@@ -53,7 +53,7 @@ public class Command_saconfig extends TFM_Command
             }
             
             String user_name = p.getName().toLowerCase().trim();
-            String new_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+            String new_ip = p.getAddress().getAddress().getHostAddress();
             
             boolean something_changed = false;
             

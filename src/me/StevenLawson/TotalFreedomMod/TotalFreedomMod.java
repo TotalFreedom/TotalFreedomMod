@@ -1,15 +1,15 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.InputStream;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
-import me.StevenLawson.TotalFreedomMod.Listener.*;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -43,14 +43,18 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onEnable()
     {
+        setAppProperties();
+
         loadMainConfig();
         loadSuperadminConfig();
+
+        TFM_UserList.getInstance(this);
 
         registerEventHandlers();
 
         server.getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
-        log.log(Level.INFO, "[" + getDescription().getName() + "] - Enabled! - Version: " + getDescription().getVersion() + " by Madgeek1450");
+        log.log(Level.INFO, "[" + getDescription().getName() + "] - Enabled! - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450");
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
@@ -230,5 +234,30 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(blockListener, this);
         pm.registerEvents(playerListener, this);
         pm.registerEvents(weatherListener, this);
+    }
+
+    public static String pluginVersion = "";
+    public static String buildNumber = "";
+    public static String buildDate = "";
+
+    private void setAppProperties()
+    {
+        try
+        {
+            InputStream in;
+            Properties props = new Properties();
+
+            in = getClass().getResourceAsStream("/appinfo.properties");
+            props.load(in);
+            in.close();
+
+            pluginVersion = props.getProperty("program.VERSION");
+            buildNumber = props.getProperty("program.BUILDNUM");
+            buildDate = props.getProperty("program.BUILDDATE");
+        }
+        catch (Exception ex)
+        {
+            log.log(Level.SEVERE, null, ex);
+        }
     }
 }

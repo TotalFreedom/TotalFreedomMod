@@ -1,35 +1,16 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -225,7 +206,7 @@ public class TFM_Util
                     tfm.getDataFolder().mkdirs();
                     output = new FileOutputStream(actual);
                     byte[] buf = new byte[8192];
-                    int length = 0;
+                    int length;
                     while ((length = input.read(buf)) > 0)
                     {
                         output.write(buf, 0, length);
@@ -554,7 +535,7 @@ public class TFM_Util
         
         try
         {
-            player_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+            player_ip = p.getAddress().getAddress().getHostAddress();
             
             Integer num_kicks = TFM_Util.eject_tracker.get(player_ip);
             if (num_kicks == null)

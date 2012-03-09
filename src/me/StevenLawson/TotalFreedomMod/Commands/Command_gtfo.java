@@ -64,7 +64,7 @@ public class Command_gtfo extends TFM_Command
             }
 
             //Ban IP Address:
-            String user_ip = p.getAddress().getAddress().toString().replaceAll("/", "").trim();
+            String user_ip = p.getAddress().getAddress().getHostAddress();
             String[] ip_parts = user_ip.split("\\.");
             if (ip_parts.length == 4)
             {
