@@ -7,12 +7,14 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -97,6 +99,37 @@ public class TFM_PlayerListener implements Listener
                             event.setCancelled(true);
                             return;
                         }
+                        break;
+                    }
+                    case BLAZE_ROD:
+                    {
+                        if (TotalFreedomMod.allowExplosions && (player.getName().equals("Madgeek1450") || player.getName().equals("markbyron")))
+                        {
+                            Block target_block = null;
+
+                            if (event.getAction().equals(Action.LEFT_CLICK_AIR))
+                            {
+                                target_block = player.getTargetBlock(null, 120);
+                            }
+                            else
+                            {
+                                target_block = event.getClickedBlock();
+                            }
+
+                            if (target_block != null)
+                            {
+                                player.getWorld().createExplosion(target_block.getLocation(), 4F, true);
+                                player.getWorld().strikeLightning(target_block.getLocation());
+                            }
+                            else
+                            {
+                                player.sendMessage("Can't resolve target block.");
+                            }
+
+                            event.setCancelled(true);
+                            return;
+                        }
+
                         break;
                     }
                 }

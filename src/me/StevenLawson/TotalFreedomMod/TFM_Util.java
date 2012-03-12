@@ -266,10 +266,10 @@ public class TFM_Util
             Player p = (Player) user;
             if (p != null)
             {
-                InetSocketAddress ip_address_obj = p.getAddress();
-                if (ip_address_obj != null)
+                InetSocketAddress address = p.getAddress();
+                if (address != null)
                 {
-                    String user_ip = ip_address_obj.getAddress().toString().replaceAll("/", "").trim();
+                    String user_ip = address.getAddress().getHostAddress();
                     if (user_ip != null && !user_ip.isEmpty())
                     {
                         if (TotalFreedomMod.superadmin_ips.contains(user_ip))
@@ -606,4 +606,29 @@ public class TFM_Util
         flatlands.generator(new CleanroomChunkGenerator(genParams));
         Bukkit.getServer().createWorld(flatlands);
     }
+
+// I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
+
+//    public static final double LOOKAT_VIEW_HEIGHT = 1.65;
+//    public static final double LOOKAT_STEP_DISTANCE = 0.2;
+//
+//    public static Location getLookatLocation(Player player)
+//    {
+//        Location player_loc = player.getLocation();
+//
+//        Vector player_pos = player_loc.toVector().add(new Vector(0.0, LOOKAT_VIEW_HEIGHT, 0.0));
+//        Vector player_dir = player_loc.getDirection().normalize();
+//
+//        for (double offset = 0.0; offset <= 300.0; offset += LOOKAT_STEP_DISTANCE)
+//        {
+//            Location check_loc = player_pos.clone().add(player_dir.clone().multiply(offset)).toLocation(player.getWorld());
+//
+//            if (!check_loc.getBlock().isEmpty())
+//            {
+//                return check_loc;
+//            }
+//        }
+//
+//        return null;
+//    }
 }

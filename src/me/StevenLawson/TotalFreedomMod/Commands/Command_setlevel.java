@@ -4,10 +4,9 @@ import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 
-public class Command_addexp extends TFM_Command
+public class Command_setlevel extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -29,33 +28,30 @@ public class Command_addexp extends TFM_Command
             return false;
         }
         
-        int exp_amount;
+        int new_level;
 
         try
         {
-            exp_amount = Integer.parseInt(args[0]);
+            new_level = Integer.parseInt(args[0]);
             
-            if (exp_amount < 0)
+            if (new_level < 0)
             {
-                sender.sendMessage(ChatColor.AQUA + "Invalid exp amount (MUST BE POSITIVE).");
-                return true;
+                new_level = 0;
             }
-            else if (exp_amount > 2000)
+            else if (new_level > 50)
             {
-                sender.sendMessage(ChatColor.AQUA + "Invalid exp amount (MAX = 2000).");
-                return true;
+                new_level = 50;
             }
         }
         catch (NumberFormatException ex)
         {
-            sender.sendMessage(ChatColor.AQUA + "Invalid exp amount.");
+            sender.sendMessage(ChatColor.AQUA + "Invalid level.");
             return true;
         }
+
+        sender_p.setLevel(new_level);
         
-        ExperienceOrb exp_orb = sender_p.getWorld().spawn(sender_p.getLocation(), ExperienceOrb.class);
-        exp_orb.setExperience(exp_amount);
-        
-        sender.sendMessage(ChatColor.AQUA + String.valueOf(exp_amount) + " exp added.");
+        sender.sendMessage(ChatColor.AQUA + "You have been set to level " + Integer.toString(new_level));
         
         return true;
     }

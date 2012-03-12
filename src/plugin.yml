@@ -4,9 +4,6 @@ version: 2.5
 description: Plugin for the Total Freedom server.
 author: StevenLawson / Madgeek1450
 commands:
-  addexp:
-    description: Add levels to your survival level.
-    usage: /<command> [level]
   cage:
     description: Superadmin command - Place a cage around someone.
     usage: /<command> <partialname> [off | outermaterial] [water | lava]
@@ -60,7 +57,7 @@ commands:
     usage: /<command> <fromname> <outcommand>
   glist:
     description: Superadmin command - Ban/Unban any player, even those who are not logged in anymore.
-    usage: /<command> <ban | unban> <username>
+    usage: /<command> <purge | <ban | unban> <username>>
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> <partialname>
@@ -130,6 +127,9 @@ commands:
   say:
     description: Broadcasts the given message as the console, includes sender name.
     usage: /<command> <message>
+  setlevel:
+    description: Sets your expierence level.
+    usage: /<command> [level]
   setspawnworld:
     description: Superadmin Command - Set world spawnpoint.
     usage: /<command>

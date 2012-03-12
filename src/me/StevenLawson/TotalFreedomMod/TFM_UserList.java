@@ -111,6 +111,18 @@ public class TFM_UserList
         return _userlist.get(username.toLowerCase());
     }
 
+    public void purge()
+    {
+        _userlist.clear();
+
+        for (Player p : _plugin.getServer().getOnlinePlayers())
+        {
+            addUser(p);
+        }
+        
+        exportList();
+    }
+
     public class TFM_UserListEntry
     {
         private String _username;
