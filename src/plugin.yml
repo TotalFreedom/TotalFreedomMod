@@ -119,8 +119,8 @@ commands:
     description: Owner Command - Broadcasts the given message with no extra formatting.
     usage: /<command> <message>
   rd:
-    description: Remove drops, arrows, primed TNT, and expierence orbs in all worlds.
-    usage: /<command>
+    description: Remove all projectiles, dropped items, experience orbs, primed explosives, and minecarts. Minecarts are optional, based on if "carts" is included after the command.
+    usage: /<command> <carts>
   saconfig:
     description: Owner command - Manage superadmins.
     usage: /<command> <list | <add|delete> <username>>

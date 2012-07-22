@@ -28,7 +28,7 @@ public class TFM_Heartbeat implements Runnable
 
         if (TotalFreedomMod.autoEntityWipe)
         {
-            TFM_Util.wipeDropEntities(!TotalFreedomMod.allowExplosions);
+            TFM_Util.wipeEntities(!TotalFreedomMod.allowExplosions);
         }
 
         if (TotalFreedomMod.disableNight)

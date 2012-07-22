@@ -127,7 +127,8 @@ public class Command_saconfig extends TFM_Command
                 sender.sendMessage("Superadmin not found: " + user_name);
                 return true;
             }
-            
+
+            sender.sendMessage("Removing superadmin: " + user_name);
             TotalFreedomMod.superadmins.remove(user_name);
             
             if (config.contains(user_name))
@@ -135,6 +136,7 @@ public class Command_saconfig extends TFM_Command
                 List<String> user_ips = (List<String>) config.getStringList(user_name);
                 for (String ip : user_ips)
                 {
+                    sender.sendMessage("Removing superadmin IP: " + ip);
                     TotalFreedomMod.superadmin_ips.remove(ip);
                 }
             }

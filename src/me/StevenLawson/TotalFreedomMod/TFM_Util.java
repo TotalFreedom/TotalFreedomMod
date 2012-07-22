@@ -50,7 +50,7 @@ public class TFM_Util
         mobtypes.put("villager", EntityType.VILLAGER);
         mobtypes.put("wolf", EntityType.WOLF);
         mobtypes.put("zombie", EntityType.ZOMBIE);
-        
+
         stop_commands.add("stop");
         stop_commands.add("off");
         stop_commands.add("end");
@@ -115,7 +115,7 @@ public class TFM_Util
             if (sender_p.getWorld().getName().equalsIgnoreCase(targetworld))
             {
                 sender.sendMessage(ChatColor.GRAY + "Going to main world.");
-                sender_p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation()); 
+                sender_p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
                 return;
             }
 
@@ -128,7 +128,7 @@ public class TFM_Util
                     return;
                 }
             }
-            
+
             sender.sendMessage(ChatColor.GRAY + "World " + targetworld + " not found.");
         }
         else
@@ -355,14 +355,23 @@ public class TFM_Util
         }
     }
 
-    public static int wipeDropEntities(boolean wipe_tnt)
+    public static int wipeEntities(boolean wipe_explosives)
+    {
+        return wipeEntities(wipe_explosives, false);
+    }
+
+    public static int wipeEntities(boolean wipe_explosives, boolean wipe_carts)
     {
         int removed = 0;
         for (World world : Bukkit.getWorlds())
         {
             for (Entity ent : world.getEntities())
             {
-                if (ent instanceof Arrow || (ent instanceof TNTPrimed && wipe_tnt) || ent instanceof Item || ent instanceof ExperienceOrb)
+                if (ent instanceof Projectile
+                        || ent instanceof Item
+                        || ent instanceof ExperienceOrb
+                        || (ent instanceof Explosive && wipe_explosives)
+                        || (ent instanceof Minecart && wipe_carts))
                 {
                     ent.remove();
                     removed++;
@@ -398,12 +407,12 @@ public class TFM_Util
     public static EntityType getEntityType(String mobname) throws Exception
     {
         mobname = mobname.toLowerCase().trim();
-        
+
         if (!TFM_Util.mobtypes.containsKey(mobname))
         {
             throw new Exception();
         }
-        
+
         return TFM_Util.mobtypes.get(mobname);
     }
 
@@ -532,11 +541,11 @@ public class TFM_Util
     {
         EjectMethod method = EjectMethod.STRIKE_ONE;
         String player_ip = null;
-        
+
         try
         {
             player_ip = p.getAddress().getAddress().getHostAddress();
-            
+
             Integer num_kicks = TFM_Util.eject_tracker.get(player_ip);
             if (num_kicks == null)
             {
@@ -544,7 +553,7 @@ public class TFM_Util
             }
 
             num_kicks = new Integer(num_kicks.intValue() + 1);
-            
+
             TFM_Util.eject_tracker.put(player_ip, num_kicks);
 
             if (num_kicks.intValue() <= 1)
@@ -563,35 +572,42 @@ public class TFM_Util
         catch (Exception ex)
         {
         }
-        
+
         log.info("autoEject -> name: " + p.getName() + " - player_ip: " + player_ip + " - method: " + method.toString());
 
         p.setOp(false);
         p.setGameMode(GameMode.SURVIVAL);
         p.getInventory().clear();
-        p.kickPlayer(kickMessage);
 
         switch (method)
         {
             case STRIKE_ONE:
             {
+                p.kickPlayer(kickMessage);
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
                 break;
             }
             case STRIKE_TWO:
             {
+                p.kickPlayer(kickMessage);
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 3m", p.getName()));
                 break;
             }
             case STRIKE_THREE:
             {
                 Bukkit.banIP(player_ip);
-                Bukkit.getOfflinePlayer(p.getName()).setBanned(true);
+                String[] ip_address_parts = player_ip.split("\\.");
+                Bukkit.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*");
+
+                p.setBanned(true);
+
+                p.kickPlayer(kickMessage);
+
                 break;
             }
         }
     }
-    
+
     public static void generateFlatlands()
     {
         generateFlatlands(TotalFreedomMod.flatlandsGenerationParams);
@@ -606,9 +622,7 @@ public class TFM_Util
         flatlands.generator(new CleanroomChunkGenerator(genParams));
         Bukkit.getServer().createWorld(flatlands);
     }
-
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
-
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;
 //    public static final double LOOKAT_STEP_DISTANCE = 0.2;
 //

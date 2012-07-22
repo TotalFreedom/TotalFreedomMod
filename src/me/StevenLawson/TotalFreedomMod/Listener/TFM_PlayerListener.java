@@ -335,7 +335,7 @@ public class TFM_PlayerListener implements Listener
 
             playerdata.resetMsgCount();
 
-            TFM_Util.wipeDropEntities(true);
+            TFM_Util.wipeEntities(true);
 
             event.setCancelled(true);
             return;

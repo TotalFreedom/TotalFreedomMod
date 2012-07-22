@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.Arrays;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -14,8 +15,19 @@ public class Command_rd extends TFM_Command
     {
         if (senderIsConsole || sender.isOp())
         {
-            sender.sendMessage(ChatColor.GRAY + "Removing all dropped items, arrows, exp. orbs and TNT...");
-            sender.sendMessage(ChatColor.GRAY + String.valueOf(TFM_Util.wipeDropEntities(true)) + " dropped enties removed.");
+            if (args.length == 1)
+            {
+                if (Arrays.asList("minecart", "minecarts", "cart", "carts").contains(args[0].toLowerCase()))
+                {
+                    sender.sendMessage(ChatColor.GRAY + "Removing all projectiles, dropped items, exp. orbs, primed explosives, and minecarts.");
+                    sender.sendMessage(ChatColor.GRAY + String.valueOf(TFM_Util.wipeEntities(true, true)) + " enties removed.");
+                }
+            }
+            else
+            {
+                sender.sendMessage(ChatColor.GRAY + "Removing all projectiles, dropped items, exp. orbs and primed explosives.");
+                sender.sendMessage(ChatColor.GRAY + String.valueOf(TFM_Util.wipeEntities(true)) + " enties removed.");
+            }
         }
         else
         {
