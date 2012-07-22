@@ -251,9 +251,9 @@ public class TotalFreedomMod extends JavaPlugin
             props.load(in);
             in.close();
 
-            pluginVersion = props.getProperty("program.VERSION");
-            buildNumber = props.getProperty("program.BUILDNUM");
-            buildDate = props.getProperty("program.BUILDDATE");
+            TotalFreedomMod.pluginVersion = props.getProperty("program.VERSION");
+            TotalFreedomMod.buildNumber = props.getProperty("program.BUILDNUM");
+            TotalFreedomMod.buildDate = props.getProperty("program.BUILDDATE");
         }
         catch (Exception ex)
         {

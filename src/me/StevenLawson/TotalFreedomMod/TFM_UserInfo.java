@@ -266,7 +266,7 @@ public class TFM_UserInfo
             LivingEntity oldmob = mob_thrower_queue.remove(0);
             if (oldmob != null)
             {
-                oldmob.damage(20);
+                oldmob.damage(500);
             }
         }
     }

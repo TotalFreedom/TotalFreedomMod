@@ -73,7 +73,7 @@ public class TFM_PlayerListener implements Listener
                             Location player_pos = player.getLocation();
                             Vector direction = player_pos.getDirection().normalize();
 
-                            LivingEntity rezzed_mob = player.getWorld().spawnCreature(player_pos.add(direction.multiply(2.0)), playerdata.mobThrowerCreature());
+                            LivingEntity rezzed_mob = (LivingEntity)player.getWorld().spawnEntity(player_pos.add(direction.multiply(2.0)), playerdata.mobThrowerCreature());
                             rezzed_mob.setVelocity(direction.multiply(playerdata.mobThrowerSpeed()));
                             playerdata.enqueueMob(rezzed_mob);
 
