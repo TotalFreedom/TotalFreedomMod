@@ -20,7 +20,7 @@ public class Command_gadmin extends TFM_Command
 
         String mode = args[0].toLowerCase();
 
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
         {
             if (mode.equals("list"))
             {

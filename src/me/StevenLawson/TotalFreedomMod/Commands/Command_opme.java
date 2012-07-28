@@ -16,7 +16,7 @@ public class Command_opme extends TFM_Command
         {
             sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
         }
-        else if (TFM_Util.isUserSuperadmin(sender, plugin))
+        else if (TFM_Util.isUserSuperadmin(sender))
         {
             TFM_Util.bcastMsg(String.format("(%s: Opping %s)", sender.getName(), sender.getName()), ChatColor.GRAY);
             sender.setOp(true);

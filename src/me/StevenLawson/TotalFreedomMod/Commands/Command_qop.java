@@ -17,7 +17,7 @@ public class Command_qop extends TFM_Command
             return false;
         }
 
-        if (sender.isOp() || senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+        if (sender.isOp() || senderIsConsole || TFM_Util.isUserSuperadmin(sender))
         {
             boolean matched_player = false;
             for (Player p : server.matchPlayer(args[0]))

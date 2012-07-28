@@ -17,7 +17,7 @@ public class Command_expel extends TFM_Command
         {
             sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
         }
-        else if (TFM_Util.isUserSuperadmin(sender, plugin))
+        else if (TFM_Util.isUserSuperadmin(sender))
         {
             double radius = 50.0;
             double strength = 100.0;

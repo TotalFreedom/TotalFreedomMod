@@ -34,7 +34,7 @@ public class Command_survival extends TFM_Command
         }
         else
         {
-            if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+            if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
             {
                 try
                 {

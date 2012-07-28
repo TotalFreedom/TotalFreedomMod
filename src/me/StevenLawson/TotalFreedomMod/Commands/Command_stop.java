@@ -12,7 +12,7 @@ public class Command_stop extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
         {
             TFM_Util.bcastMsg("Server is going offline.", ChatColor.GRAY);
 

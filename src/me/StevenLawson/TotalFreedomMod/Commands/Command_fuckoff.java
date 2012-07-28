@@ -18,7 +18,7 @@ public class Command_fuckoff extends TFM_Command
             return true;
         }
 
-        if (!TFM_Util.isUserSuperadmin(sender, plugin))
+        if (!TFM_Util.isUserSuperadmin(sender))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

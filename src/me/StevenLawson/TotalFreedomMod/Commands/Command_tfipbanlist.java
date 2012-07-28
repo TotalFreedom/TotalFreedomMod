@@ -18,7 +18,7 @@ public class Command_tfipbanlist extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("purge"))
             {
-                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
                 {
                     for (String ip : server.getIPBans())
                     {

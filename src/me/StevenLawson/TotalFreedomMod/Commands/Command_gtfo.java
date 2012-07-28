@@ -19,7 +19,7 @@ public class Command_gtfo extends TFM_Command
             return false;
         }
 
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
         {
             Player p;
             try

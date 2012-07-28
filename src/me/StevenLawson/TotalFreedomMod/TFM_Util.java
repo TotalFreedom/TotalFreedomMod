@@ -246,7 +246,13 @@ public class TFM_Util
         }
     }
 
+    @Deprecated
     public static boolean isUserSuperadmin(CommandSender user, TotalFreedomMod tfm)
+    {
+        return isUserSuperadmin(user);
+    }
+
+    public static boolean isUserSuperadmin(CommandSender user)
     {
         try
         {

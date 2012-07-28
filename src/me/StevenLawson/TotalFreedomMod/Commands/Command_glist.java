@@ -21,7 +21,7 @@ public class Command_glist extends TFM_Command
             return false;
         }
 
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender, plugin))
+        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
         {
             if (args.length == 1)
             {

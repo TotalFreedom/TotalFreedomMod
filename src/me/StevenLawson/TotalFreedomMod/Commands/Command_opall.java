@@ -13,7 +13,7 @@ public class Command_opall extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (TFM_Util.isUserSuperadmin(sender, plugin) || senderIsConsole)
+        if (TFM_Util.isUserSuperadmin(sender) || senderIsConsole)
         {
             TFM_Util.bcastMsg(String.format("(%s: Opping all players on server)", sender.getName()), ChatColor.YELLOW);
 

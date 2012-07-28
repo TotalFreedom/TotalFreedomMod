@@ -21,7 +21,7 @@ public class Command_kicknoob extends TFM_Command
         
         for (Player p : server.getOnlinePlayers())
         {
-            if (!TFM_Util.isUserSuperadmin(p, plugin))
+            if (!TFM_Util.isUserSuperadmin(p))
             {
                 p.kickPlayer("Disconnected by admin.");
             }

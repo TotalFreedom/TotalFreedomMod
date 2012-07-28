@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -24,6 +25,7 @@ public class TFM_PlayerListener implements Listener
     private final TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
     private final Server server;
+    private static final Random randomGenerator = new Random();
 
     public TFM_PlayerListener(TotalFreedomMod instance)
     {
@@ -178,7 +180,7 @@ public class TFM_PlayerListener implements Listener
         boolean do_freeze = false;
         if (TotalFreedomMod.allPlayersFrozen)
         {
-            if (!TFM_Util.isUserSuperadmin(p, plugin))
+            if (!TFM_Util.isUserSuperadmin(p))
             {
                 do_freeze = true;
             }
@@ -235,6 +237,24 @@ public class TFM_PlayerListener implements Listener
                 p.setVelocity(new Vector(0, playerdata.orbitStrength(), 0));
             }
         }
+
+//        if (p.getItemInHand().getType() == Material.SPECKLED_MELON)
+//        {
+//            if (TFM_Util.isUserSuperadmin(p))
+//            {
+//                Location from_pos = event.getFrom().clone();
+//                Location to_pos = event.getTo().clone();
+//
+//                /*
+//                Block block_pos = user_pos.clone().add(user_pos.getDirection().multiply(-2.0)).getBlock();
+//
+//                if ((block_pos.isEmpty() || block_pos.isLiquid()))
+//                {
+//                    block_pos.setTypeIdAndData(Material.WOOL.getId(), DyeColor.values()[randomGenerator.nextInt(DyeColor.values().length)].getData(), false);
+//                }
+//                */
+//            }
+//        }
 
         if (TotalFreedomMod.landminesEnabled && TotalFreedomMod.allowExplosions)
         {
@@ -353,21 +373,21 @@ public class TFM_PlayerListener implements Listener
         //Commands that will auto-kick the user:
         if (Pattern.compile("^/stop").matcher(command).find())
         {
-            if (!TFM_Util.isUserSuperadmin(p, plugin))
+            if (!TFM_Util.isUserSuperadmin(p))
             {
                 block_command = true;
             }
         }
         else if (Pattern.compile("^/reload").matcher(command).find())
         {
-            if (!TFM_Util.isUserSuperadmin(p, plugin))
+            if (!TFM_Util.isUserSuperadmin(p))
             {
                 block_command = true;
             }
         }
         else if (Pattern.compile("^/save-").matcher(command).find())
         {
-            if (!TFM_Util.isUserSuperadmin(p, plugin))
+            if (!TFM_Util.isUserSuperadmin(p))
             {
                 block_command = true;
             }
@@ -384,6 +404,11 @@ public class TFM_PlayerListener implements Listener
             if (Pattern.compile("^/time").matcher(command).find())
             {
                 p.sendMessage(ChatColor.GRAY + "Server-side time changing is disabled. Please use /ptime to set your own personal time.");
+                block_command = true;
+            }
+            else if (Pattern.compile("^/md").matcher(command).find())
+            {
+                p.sendMessage(ChatColor.GRAY + "This server now uses DisguiseCraft instead of MobDisguise. Type /d to disguise and /u to undisguise.");
                 block_command = true;
             }
         }
