@@ -1,12 +1,16 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
+import net.minecraft.server.BanEntry;
+import net.minecraft.server.BanList;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.ServerConfigurationManagerAbstract;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -24,13 +28,11 @@ public class TFM_PlayerListener implements Listener
 {
     private final TotalFreedomMod plugin;
     private static final Logger log = Logger.getLogger("Minecraft");
-    private final Server server;
-    private static final Random randomGenerator = new Random();
+    private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
 
     public TFM_PlayerListener(TotalFreedomMod instance)
     {
         this.plugin = instance;
-        this.server = plugin.getServer();
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -296,7 +298,7 @@ public class TFM_PlayerListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerChat(PlayerChatEvent event)
+    public void onPlayerChat(AsyncPlayerChatEvent event)
     {
         try
         {
@@ -478,7 +480,7 @@ public class TFM_PlayerListener implements Listener
         {
             TFM_UserList.getInstance(plugin).addUser(event.getPlayer());
 
-            if (!server.getOnlineMode())
+            if (!plugin.getServer().getOnlineMode())
             {
                 Player p = event.getPlayer();
                 if (TotalFreedomMod.superadmins.contains(p.getName().toLowerCase()))
@@ -505,6 +507,178 @@ public class TFM_PlayerListener implements Listener
         }
         catch (Throwable ex)
         {
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerLogin(PlayerLoginEvent event)
+    {
+        //This should supercede all other onPlayerLogin authentication on the TFM server.
+        //When using the TFM CraftBukkit, CraftBukkit itself should not do any of its own authentication.
+
+        final Server server = plugin.getServer();
+
+        final ServerConfigurationManagerAbstract scm = MinecraftServer.getServer().getServerConfigurationManager();
+        final BanList banByIP = scm.getIPBans();
+        final BanList banByName = scm.getNameBans();
+
+        final Player p = event.getPlayer();
+
+        final String player_name = p.getName();
+        final String player_ip = event.getAddress().getHostAddress().trim().toLowerCase();
+
+        if (player_name.trim().length() <= 2)
+        {
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username is too short (must be at least 3 characters long).");
+            return;
+        }
+        else if (Pattern.compile("[^a-zA-Z0-9\\-\\.\\_]").matcher(player_name).find())
+        {
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username contains invalid characters.");
+            return;
+        }
+
+        //Not safe to use TFM_Util.isUserSuperadmin for player logging in because p.getAddress() will return a null until after player login.
+        boolean is_superadmin;
+        if (Bukkit.getOnlineMode())
+        {
+            is_superadmin = TotalFreedomMod.superadmins.contains(player_name.toLowerCase());
+        }
+        else
+        {
+            is_superadmin = TotalFreedomMod.superadmin_ips.contains(player_ip);
+        }
+
+        if (!is_superadmin)
+        {
+            BanEntry ban_entry = null;
+
+            if (banByName.isBanned(player_name.toLowerCase()))
+            {
+                ban_entry = (BanEntry) banByName.getEntries().get(player_name.toLowerCase());
+                
+                String kick_message = "You are banned from this server.";
+                if (ban_entry != null)
+                {
+                    kick_message = kick_message + "\nReason: " + ban_entry.getReason();
+                    if (ban_entry.getExpires() != null)
+                    {
+                        kick_message = kick_message + "\nYour ban will be removed on " + date_format.format(ban_entry.getExpires());
+                    }
+                }
+                
+                event.disallow(PlayerLoginEvent.Result.KICK_BANNED, kick_message);
+                return;
+            }
+
+            boolean is_ip_banned = false;
+
+            Iterator ip_bans = banByIP.getEntries().keySet().iterator();
+            while(ip_bans.hasNext())
+            {
+                String test_ip = (String) ip_bans.next();
+
+                if (!test_ip.matches("^\\d{1,3}\\.\\d{1,3}\\.(\\d{1,3}|\\*)\\.(\\d{1,3}|\\*)$"))
+                {
+                    continue;
+                }
+
+                if (player_ip.equals(test_ip))
+                {
+                    ban_entry = (BanEntry) banByIP.getEntries().get(test_ip);
+                    is_ip_banned = true;
+                    break;
+                }
+
+                String[] test_ip_parts = test_ip.split("\\.");
+                String[] player_ip_parts = player_ip.split("\\.");
+
+                boolean is_match = false;
+
+                for (int i = 0; i < test_ip_parts.length && i < player_ip_parts.length; i++)
+                {
+                    if (test_ip_parts[i].equals("*") && i >= 2)
+                    {
+                        is_match = true;
+                    }
+                    else if (test_ip_parts[i].equals(player_ip_parts[i]))
+                    {
+                        is_match = true;
+                    }
+                    else
+                    {
+                        is_match = false;
+                    }
+
+                    if (!is_match)
+                    {
+                        break;
+                    }
+                }
+
+                if (is_match)
+                {
+                    ban_entry = (BanEntry) banByIP.getEntries().get(test_ip);
+                    is_ip_banned = true;
+                    break;
+                }
+            }
+
+            if (is_ip_banned)
+            {
+                String kick_message = "Your IP address is banned from this server.";
+                if (ban_entry != null)
+                {
+                    kick_message = kick_message + "\nReason: " + ban_entry.getReason();
+                    if (ban_entry.getExpires() != null)
+                    {
+                        kick_message = kick_message + "\nYour ban will be removed on " + date_format.format(ban_entry.getExpires());
+                    }
+                }
+
+                event.disallow(PlayerLoginEvent.Result.KICK_BANNED, kick_message);
+                return;
+            }
+
+            if (server.getOnlinePlayers().length >= server.getMaxPlayers())
+            {
+                event.disallow(PlayerLoginEvent.Result.KICK_FULL, "Sorry, but this server is full.");
+                return;
+            }
+
+            for (Player test_player : server.getOnlinePlayers())
+            {
+                if (test_player.getName().equalsIgnoreCase(player_name))
+                {
+                    event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username is already logged into this server.");
+                    return;
+                }
+            }
+        }
+        else
+        {
+            for (Player test_player : server.getOnlinePlayers())
+            {
+                if (test_player.getName().equalsIgnoreCase(player_name))
+                {
+                    test_player.kickPlayer("An admin just logged in with the username you are using.");
+                }
+            }
+
+            boolean can_kick = true; //If the server is full of superadmins, however unlikely that might be, this will prevent an infinite loop.
+            while (server.getOnlinePlayers().length >= server.getMaxPlayers() && can_kick)
+            {
+                can_kick = false;
+                for (Player test_player : server.getOnlinePlayers())
+                {
+                    if (!TFM_Util.isUserSuperadmin(test_player))
+                    {
+                        can_kick = true;
+                        test_player.kickPlayer("You have been kicked to free up room for an admin.");
+                        break;
+                    }
+                }
+            }
         }
     }
 }
