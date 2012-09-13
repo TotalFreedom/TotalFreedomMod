@@ -7,7 +7,6 @@ import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,13 +17,11 @@ import org.bukkit.inventory.ItemStack;
 public class TFM_BlockListener implements Listener
 {
     private final TotalFreedomMod plugin;
-    private final Server server;
     private static final Logger log = Logger.getLogger("Minecraft");
 
     public TFM_BlockListener(TotalFreedomMod instance)
     {
         this.plugin = instance;
-        this.server = plugin.getServer();
     }
 
     @EventHandler(priority = EventPriority.HIGH)

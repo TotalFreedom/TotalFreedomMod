@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,12 +10,10 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 public class TFM_WeatherListener implements Listener
 {
     private final TotalFreedomMod plugin;
-    private final Server server;
 
     public TFM_WeatherListener(TotalFreedomMod instance)
     {
         this.plugin = instance;
-        this.server = plugin.getServer();
     }
     
     @EventHandler(priority = EventPriority.HIGH)
