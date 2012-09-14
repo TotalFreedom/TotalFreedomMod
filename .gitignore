@@ -1,3 +1,5 @@
 /nbproject/private/
 /dist/
 /build/
+appinfo.properties
+buildnumber.properties

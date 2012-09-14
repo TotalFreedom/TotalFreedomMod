@@ -1,8 +1,8 @@
 name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 2.6
+version: 2.7
 description: Plugin for the Total Freedom server.
-author: StevenLawson / Madgeek1450
+authors: [StevenLawson / Madgeek1450, JeromSar / DarthSalamon]
 commands:
   cage:
     description: Superadmin command - Place a cage around someone.
