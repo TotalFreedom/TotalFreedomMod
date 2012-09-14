@@ -83,6 +83,24 @@ public class TFM_Util
         }
     }
 
+    //JeromSar
+    public static void playerMsg(CommandSender sender, String message, ChatColor color)
+    {
+        sender.sendMessage(color + message);
+    }
+    
+    //JeromSar
+    public static void playerMsg(CommandSender sender, String message)
+    {
+        TFM_Util.playerMsg(sender, message, ChatColor.GRAY);
+    }
+
+    //JeromSar
+    public static void adminAction(String adminName, String action, boolean isRed)
+    {
+        bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
+    }
+
     public static String implodeStringList(String glue, List<String> pieces)
     {
         StringBuilder output = new StringBuilder();
@@ -175,8 +193,16 @@ public class TFM_Util
         world.setTime(time + 24000 + ticks);
     }
 
+    @Deprecated
     public static void createDefaultConfiguration(String name, TotalFreedomMod tfm, File plugin_file)
     {
+        TFM_Util.createDefaultConfiguration(name, plugin_file);
+    }
+
+    public static void createDefaultConfiguration(String name, File plugin_file)
+    {
+        TotalFreedomMod tfm = TotalFreedomMod.plugin;
+
         File actual = new File(tfm.getDataFolder(), name);
         if (!actual.exists())
         {
@@ -294,7 +320,13 @@ public class TFM_Util
         return false;
     }
 
+    @Deprecated
     public static boolean checkPartialSuperadminIP(String user_ip, TotalFreedomMod tfm)
+    {
+        return TFM_Util.checkPartialSuperadminIP(user_ip);
+    }
+
+    public static boolean checkPartialSuperadminIP(String user_ip)
     {
         user_ip = user_ip.trim();
 
@@ -328,7 +360,7 @@ public class TFM_Util
             {
                 TotalFreedomMod.superadmin_ips.add(user_ip);
 
-                FileConfiguration config = YamlConfiguration.loadConfiguration(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+                FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
 
                 fileloop:
                 for (String user : config.getKeys(false))
@@ -349,7 +381,7 @@ public class TFM_Util
 
                 try
                 {
-                    config.save(new File(tfm.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+                    config.save(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
                 }
                 catch (IOException ex)
                 {
@@ -628,6 +660,45 @@ public class TFM_Util
         flatlands.generator(new CleanroomChunkGenerator(genParams));
         Bukkit.getServer().createWorld(flatlands);
     }
+
+    //JeromSar
+    public static String getRank(CommandSender sender)
+    {
+        if (TotalFreedomMod.superadmins.contains(sender.getName().toLowerCase()))
+        {
+            if (!TFM_Util.isUserSuperadmin(sender))
+            {
+                return "an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "Impostor" + ChatColor.RESET + ChatColor.AQUA + "!";
+            }
+        }
+
+        if (sender.getName().equalsIgnoreCase("markbyron"))
+        {
+            return "the " + ChatColor.LIGHT_PURPLE + "Owner" + ChatColor.AQUA + ".";
+        }
+
+        if (sender.getName().equalsIgnoreCase("madgeek1450"))
+        {
+            return "the " + ChatColor.DARK_PURPLE + "Chief-Developer" + ChatColor.AQUA + ".";
+        }
+        if (sender.getName().equalsIgnoreCase("darthsalamon"))
+        {
+            return "a " + ChatColor.DARK_PURPLE + "Developer" + ChatColor.AQUA + "!";
+        }
+
+        if (TFM_Util.isUserSuperadmin(sender))
+        {
+            return "an " + ChatColor.RED + "Admin" + ChatColor.AQUA + ".";
+        }
+
+        if (sender.isOp())
+        {
+            return "an " + ChatColor.DARK_GREEN + "OP" + ChatColor.AQUA + ".";
+        }
+
+        return "a " + ChatColor.GREEN + "non-OP" + ChatColor.AQUA + ".";
+    }
+
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;
 //    public static final double LOOKAT_STEP_DISTANCE = 0.2;

@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,19 +16,30 @@ public class Command_qop extends TFM_Command
             return false;
         }
 
-        if (sender.isOp() || senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
         {
             boolean matched_player = false;
             for (Player p : server.matchPlayer(args[0]))
             {
                 matched_player = true;
 
-                TFM_Util.bcastMsg(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
-                p.setOp(true);
+                TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
+                p.setOp(false);
                 p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
             }
             if (!matched_player)
             {
+                for (Player p : server.getOnlinePlayers())
+                {
+                    if (args[0].toLowerCase().startsWith(p.getDisplayName().toLowerCase()))
+                    {
+                        TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
+                        p.setOp(false);
+                        p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+
+                        return true;
+                    }
+                }
                 sender.sendMessage("No targets matched.");
             }
         }

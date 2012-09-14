@@ -23,13 +23,13 @@ public class Command_fr extends TFM_Command
                 {
                     TotalFreedomMod.allPlayersFrozen = true;
                     sender.sendMessage("Players are now frozen.");
-                    TFM_Util.bcastMsg(sender.getName() + " has temporarily frozen everyone on the server.", ChatColor.AQUA);
+                    TFM_Util.adminAction(sender.getName(), "Freezing all players", false);
                 }
                 else
                 {
                     TotalFreedomMod.allPlayersFrozen = false;
                     sender.sendMessage("Players are now free to move.");
-                    TFM_Util.bcastMsg(sender.getName() + " has unfrozen everyone.", ChatColor.AQUA);
+                    TFM_Util.adminAction(sender.getName(), "Unfreezing all players", false);
                 }
             }
             else
@@ -44,7 +44,7 @@ public class Command_fr extends TFM_Command
                         playerdata.setFrozen(false);
                     }
                     
-                    TFM_Util.bcastMsg("All global and player freezes have been lifted.", ChatColor.AQUA);
+                    TFM_Util.adminAction(sender.getName(), "Lifting all global and player freezes", false);
                 }
                 else
                 {

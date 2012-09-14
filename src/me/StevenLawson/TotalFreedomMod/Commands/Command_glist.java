@@ -67,7 +67,7 @@ public class Command_glist extends TFM_Command
             String mode = args[0].toLowerCase();
             if (mode.equalsIgnoreCase("ban"))
             {
-                TFM_Util.bcastMsg(sender.getName() + " - Banning " + username + " and IPs: " + TFM_Util.implodeStringList(",", ip_addresses), ChatColor.RED);
+                TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + TFM_Util.implodeStringList(",", ip_addresses), true);
 
                 Player p = server.getPlayerExact(username);
                 if (p != null)
@@ -89,7 +89,7 @@ public class Command_glist extends TFM_Command
             }
             else if (mode.equalsIgnoreCase("unban"))
             {
-                TFM_Util.bcastMsg(sender.getName() + " - Unbanning " + username + " and IPs: " + TFM_Util.implodeStringList(",", ip_addresses), ChatColor.RED);
+                TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + TFM_Util.implodeStringList(",", ip_addresses), true);
 
                 server.getOfflinePlayer(username).setBanned(false);
 

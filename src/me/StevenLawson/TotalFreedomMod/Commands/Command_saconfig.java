@@ -26,6 +26,8 @@ public class Command_saconfig extends TFM_Command
                 sender.sendMessage(ChatColor.GOLD + "Superadmins: " + TFM_Util.implodeStringList(", ", TotalFreedomMod.superadmins));
                 return true;
             }
+            
+            return false;
         }
         
         if (!senderIsConsole || sender.getName().equalsIgnoreCase("remotebukkit"))
@@ -75,6 +77,10 @@ public class Command_saconfig extends TFM_Command
             {
                 sender.sendMessage("That superadmin/superadmin ip pair already exists. Nothing to change!");
             }
+            else
+            {
+                TFM_Util.adminAction(sender.getName(), "Adding " + user_name + " to the superadmin list.", true);
+            }
             
             FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
             
@@ -100,7 +106,7 @@ public class Command_saconfig extends TFM_Command
                 log.log(Level.SEVERE, null, ex);
             }
         }
-        else if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del"))
+        else if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del") || args[0].equalsIgnoreCase("remove"))
         {
             FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
             
@@ -128,6 +134,8 @@ public class Command_saconfig extends TFM_Command
                 return true;
             }
 
+            TFM_Util.adminAction(sender.getName(), "Removing " + user_name + " from the superadmin list.", true);
+
             sender.sendMessage("Removing superadmin: " + user_name);
             TotalFreedomMod.superadmins.remove(user_name);
             
@@ -151,6 +159,10 @@ public class Command_saconfig extends TFM_Command
             {
                 log.log(Level.SEVERE, null, ex);
             }
+        }
+        else
+        {
+            return false;
         }
         
         return true;

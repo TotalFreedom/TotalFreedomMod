@@ -37,7 +37,7 @@ public class Command_say extends TFM_Command
             }
         }
 
-        if (senderIsConsole || sender.isOp())
+        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
         {
             TFM_Util.bcastMsg(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
         }

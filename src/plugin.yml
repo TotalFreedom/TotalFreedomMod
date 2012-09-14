@@ -2,13 +2,16 @@ name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
 version: 2.7
 description: Plugin for the Total Freedom server.
-authors: [StevenLawson / Madgeek1450, JeromSar / DarthSalamon]
+author: StevenLawson / Madgeek1450
 commands:
   cage:
     description: Superadmin command - Place a cage around someone.
     usage: /<command> <partialname> [off | outermaterial] [water | lava]
   cake:
     description: Superadmin command - For the people that are still alive.
+    usage: /<command>
+  clearall:
+    description: Superadmin command - Removes all entities, nicks and disguises
     usage: /<command>
   cmdlist:
     description: Show all commands for all server plugins.
@@ -19,6 +22,9 @@ commands:
   csay:
     description: Telnet command - Send a chat message with chat formatting over telnet.
     usage: /<command> [partialname]
+  deop:
+    description: Superadmin command - Deop a player
+    usage: /<command> <playername>
   deopall:
     description: Superadmin command - Deop everyone on the server. Use 'purge' to clear ops.txt as well.
     usage: /<command> [purge]
@@ -94,9 +100,15 @@ commands:
   nonuke:
     description: Superadmin command - Attempt to detect "invisible griefers" and "nukers".
     usage: /<command> <on | off> [range] [blockrate]
+  op:
+    description: Makes a player operator
+    usage: /<command> <playername>
   opall:
     description: Superadmin command - Op everyone on the server, optionally change everyone's gamemode at the same time.
     usage: /<command> [-c | -s]
+  ops:
+    description: Superadmin command - Manage operators
+    usage: /<command> [list | purge]
   opme:
     description: Superadmin command - Automatically ops user.
     usage: /<command>
@@ -115,6 +127,9 @@ commands:
   radar:
     description: Shows nearby people sorted by distance.
     usage: /<command> [range]
+  rank:
+    description: Shows your rank.
+    usage: /<command>
   rawsay:
     description: Owner Command - Broadcasts the given message with no extra formatting.
     usage: /<command> <message>
@@ -139,6 +154,9 @@ commands:
   status:
     description: Show misc. server info.
     usage: /<command>
+  stfu:
+    description: Superadmin Command - Mutes a player with brute force.
+    usage: /<command> [list | purge | <player>]
   stop:
     description: Superadmin command - Kicks everyone and stops the server.
     usage: /<command>
@@ -156,7 +174,10 @@ commands:
     usage: /<command> [purge]
   tossmob:
     description: Throw a mob in the direction you are facing when you left click with a stick.
-    usage: /<command> <mobtype [speed] | off | list> 
+    usage: /<command> <mobtype [speed] | off | list>
+  uall:
+    description: Superadmin command - Undisguises all players
+    usage: /<command>
   waterplace:
     description: Superadmin command - Enable/disable water placement.
     usage: /<command> <on | off>

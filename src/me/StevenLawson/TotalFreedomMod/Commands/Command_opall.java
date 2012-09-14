@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,7 +14,7 @@ public class Command_opall extends TFM_Command
     {
         if (TFM_Util.isUserSuperadmin(sender) || senderIsConsole)
         {
-            TFM_Util.bcastMsg(String.format("(%s: Opping all players on server)", sender.getName()), ChatColor.YELLOW);
+            TFM_Util.adminAction(sender.getName(), "Opping all players on the server", false);
 
             boolean doSetGamemode = false;
             GameMode targetGamemode = GameMode.CREATIVE;

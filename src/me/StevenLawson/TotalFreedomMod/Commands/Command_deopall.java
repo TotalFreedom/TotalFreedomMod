@@ -2,8 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,26 +13,25 @@ public class Command_deopall extends TFM_Command
     {
         if (TFM_Util.isUserSuperadmin(sender) || senderIsConsole)
         {
-            TFM_Util.bcastMsg(String.format("(%s: De-opping all players on server)", sender.getName()), ChatColor.YELLOW);
+            TFM_Util.adminAction(sender.getName(), "De-opping all players on the server", true);
 
             for (Player p : server.getOnlinePlayers())
             {
                 p.setOp(false);
                 p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
             }
-
-            if (args.length >= 1)
-            {
-                if (args[0].equalsIgnoreCase("purge"))
-                {
-                    sender.sendMessage(ChatColor.GRAY + "Purging ops.txt.");
-
-                    for (OfflinePlayer p : server.getOperators())
-                    {
-                        p.setOp(false);
-                    }
-                }
-            }
+//            if (args.length >= 1)
+//            {
+//                if (args[0].equalsIgnoreCase("purge"))
+//                {
+//                    sender.sendMessage(ChatColor.GRAY + "Purging ops.txt.");
+//
+//                    for (OfflinePlayer p : server.getOperators())
+//                    {
+//                        p.setOp(false);
+//                    }
+//                }
+//            }
         }
         else
         {

@@ -540,7 +540,7 @@ public class TFM_PlayerListener implements Listener
 
         //Not safe to use TFM_Util.isUserSuperadmin for player logging in because p.getAddress() will return a null until after player login.
         boolean is_superadmin;
-        if (Bukkit.getOnlineMode())
+        if (server.getOnlineMode())
         {
             is_superadmin = TotalFreedomMod.superadmins.contains(player_name.toLowerCase());
         }

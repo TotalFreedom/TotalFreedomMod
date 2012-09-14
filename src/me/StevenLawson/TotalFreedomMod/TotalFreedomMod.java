@@ -40,9 +40,17 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean allPlayersFrozen = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
 
+    public static String pluginVersion = "";
+    public static String buildNumber = "";
+    public static String buildDate = "";
+
+    public static TotalFreedomMod plugin = null;
+
     @Override
     public void onEnable()
     {
+        TotalFreedomMod.plugin = this;
+
         setAppProperties();
 
         loadMainConfig();
@@ -54,7 +62,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         server.getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
-        log.log(Level.INFO, "[" + getDescription().getName() + "] - Enabled! - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450");
+        log.log(Level.INFO, "[" + getDescription().getName() + "] - Enabled! - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
@@ -220,25 +228,16 @@ public class TotalFreedomMod extends JavaPlugin
             }
         }
     }
-    
-    private final TFM_EntityListener entityListener = new TFM_EntityListener(this);
-    private final TFM_BlockListener blockListener = new TFM_BlockListener(this);
-    private final TFM_PlayerListener playerListener = new TFM_PlayerListener(this);
-    private final TFM_WeatherListener weatherListener = new TFM_WeatherListener(this);
 
     private void registerEventHandlers()
     {
         PluginManager pm = server.getPluginManager();
 
-        pm.registerEvents(entityListener, this);
-        pm.registerEvents(blockListener, this);
-        pm.registerEvents(playerListener, this);
-        pm.registerEvents(weatherListener, this);
+        pm.registerEvents(new TFM_EntityListener(this), this);
+        pm.registerEvents(new TFM_BlockListener(this), this);
+        pm.registerEvents(new TFM_PlayerListener(this), this);
+        pm.registerEvents(new TFM_WeatherListener(this), this);
     }
-
-    public static String pluginVersion = "";
-    public static String buildNumber = "";
-    public static String buildDate = "";
 
     private void setAppProperties()
     {

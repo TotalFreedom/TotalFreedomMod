@@ -24,17 +24,7 @@ public class Command_fuckoff extends TFM_Command
             return true;
         }
         
-        boolean permitted = false;
-        for (String name : Arrays.asList("madgeek1450", "markbyron"))
-        {
-            if (sender.getName().equalsIgnoreCase(name))
-            {
-                permitted = true;
-                break;
-            }
-        }
-        
-        if (!permitted)
+        if (!Arrays.asList("madgeek1450", "markbyron", "darthsalamon").contains(sender.getName().toLowerCase()))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

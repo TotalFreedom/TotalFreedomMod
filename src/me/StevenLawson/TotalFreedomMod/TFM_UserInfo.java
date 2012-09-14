@@ -16,6 +16,7 @@ public class TFM_UserInfo
 {
     private Player player;
     private boolean user_frozen = false;
+    private boolean is_muted = false;
     private int msg_count = 0;
     private int block_destroy_total = 0;
     private int block_place_total = 0;
@@ -282,7 +283,7 @@ public class TFM_UserInfo
     {
         if (this.mp44_schedule_id != -1)
         {
-            Bukkit.getScheduler().cancelTask(this.mp44_schedule_id);
+            Bukkit.getServer().getScheduler().cancelTask(this.mp44_schedule_id);
             this.mp44_schedule_id = -1;
         }
         mp44_firing = false;
@@ -326,5 +327,15 @@ public class TFM_UserInfo
     {
         this.mp44_firing = !this.mp44_firing;
         return this.mp44_firing;
+    }
+
+    public boolean isMuted()
+    {
+        return is_muted;
+    }
+
+    public void setMuted(boolean is_muted)
+    {
+        this.is_muted = is_muted;
     }
 }
