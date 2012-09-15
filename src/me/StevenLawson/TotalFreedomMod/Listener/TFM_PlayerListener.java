@@ -18,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -74,7 +75,7 @@ public class TFM_PlayerListener implements Listener
                             Location player_pos = player.getLocation();
                             Vector direction = player_pos.getDirection().normalize();
 
-                            LivingEntity rezzed_mob = (LivingEntity)player.getWorld().spawnEntity(player_pos.add(direction.multiply(2.0)), playerdata.mobThrowerCreature());
+                            LivingEntity rezzed_mob = (LivingEntity) player.getWorld().spawnEntity(player_pos.add(direction.multiply(2.0)), playerdata.mobThrowerCreature());
                             rezzed_mob.setVelocity(direction.multiply(playerdata.mobThrowerSpeed()));
                             playerdata.enqueueMob(rezzed_mob);
 
@@ -295,6 +296,12 @@ public class TFM_PlayerListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
+    public void onLeavesDecay(LeavesDecayEvent event)
+    {
+        event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerChat(AsyncPlayerChatEvent event)
     {
         try
@@ -315,20 +322,26 @@ public class TFM_PlayerListener implements Listener
                 return;
             }
 
-//            if (Pattern.compile("^mad(?:geek)?(?:1450)?[\\?\\.\\!]?$").matcher(event.getMessage().toLowerCase()).find())
-//            {
-//                if (server.getPlayerExact("Madgeek1450") != null)
-//                {
-//                    p.setGameMode(GameMode.SURVIVAL);
-//                    p.setFoodLevel(0);
-//                    p.setHealth(1);
-//
-//                    TNTPrimed tnt1 = p.getWorld().spawn(p.getLocation(), TNTPrimed.class);
-//                    tnt1.setFuseTicks(40);
-//                    tnt1.setPassenger(p);
-//                    tnt1.setVelocity(new Vector(0.0, 2.0, 0.0));
-//                }
-//            }
+            //JeromSar
+
+            // check for muted
+            if (playerdata.isMuted())
+            {
+                if (!TFM_Util.isUserSuperadmin(p))
+                {
+                    p.sendMessage(ChatColor.RED + "You're muted, STFU!");
+                    event.setCancelled(true);
+                    return;
+                }
+                else
+                {
+                    playerdata.setMuted(false);
+                    return;
+                }
+            }
+
+            // Truncate messages that are too long.
+            event.setMessage(event.getMessage().substring(0, 85));
 
             event.setMessage(ChatColor.stripColor(event.getMessage()));
         }
@@ -475,30 +488,25 @@ public class TFM_PlayerListener implements Listener
     {
         try
         {
-            TFM_UserList.getInstance(plugin).addUser(event.getPlayer());
+            Player p = event.getPlayer();
 
-            if (!plugin.getServer().getOnlineMode())
+            TFM_UserList.getInstance(plugin).addUser(p);
+
+            boolean superadmin_impostor = TFM_Util.isSuperadminImpostor(p);
+
+            if (superadmin_impostor || TFM_Util.isUserSuperadmin(p))
             {
-                Player p = event.getPlayer();
-                if (TotalFreedomMod.superadmins.contains(p.getName().toLowerCase()))
-                {
-                    String user_ip = p.getAddress().getAddress().getHostAddress();
-                    if (user_ip != null && !user_ip.isEmpty())
-                    {
-                        TFM_Util.checkPartialSuperadminIP(user_ip, plugin);
+                TFM_Util.bcastMsg(ChatColor.AQUA + p.getName() + " is " + TFM_Util.getRank(p));
 
-                        if (!TotalFreedomMod.superadmin_ips.contains(user_ip))
-                        {
-                            TFM_Util.bcastMsg(p.getName() + " might be a fake! IP: " + user_ip, ChatColor.RED);
-                            p.setOp(false);
-                            p.setGameMode(GameMode.SURVIVAL);
-                            p.getInventory().clear();
-                        }
-                        else
-                        {
-                            //TFM_Util.bcastMsg(p.getName() + " is a verified superadmin.", ChatColor.GREEN);
-                        }
-                    }
+                if (superadmin_impostor)
+                {
+                    p.getInventory().clear();
+                    p.setOp(false);
+                    p.setGameMode(GameMode.SURVIVAL);
+                }
+                else
+                {
+                    p.setOp(true);
                 }
             }
         }
@@ -543,7 +551,8 @@ public class TFM_PlayerListener implements Listener
         }
         else
         {
-            is_superadmin = TotalFreedomMod.superadmin_ips.contains(player_ip);
+            //is_superadmin = TotalFreedomMod.superadmin_ips.contains(player_ip);
+            is_superadmin = TFM_Util.checkPartialSuperadminIP(player_ip);
         }
 
         if (!is_superadmin)
@@ -553,7 +562,7 @@ public class TFM_PlayerListener implements Listener
             if (banByName.isBanned(player_name.toLowerCase()))
             {
                 ban_entry = (BanEntry) banByName.getEntries().get(player_name.toLowerCase());
-                
+
                 String kick_message = "You are banned from this server.";
                 if (ban_entry != null)
                 {
@@ -563,7 +572,7 @@ public class TFM_PlayerListener implements Listener
                         kick_message = kick_message + "\nYour ban will be removed on " + date_format.format(ban_entry.getExpires());
                     }
                 }
-                
+
                 event.disallow(PlayerLoginEvent.Result.KICK_BANNED, kick_message);
                 return;
             }
@@ -571,7 +580,7 @@ public class TFM_PlayerListener implements Listener
             boolean is_ip_banned = false;
 
             Iterator ip_bans = banByIP.getEntries().keySet().iterator();
-            while(ip_bans.hasNext())
+            while (ip_bans.hasNext())
             {
                 String test_ip = (String) ip_bans.next();
 

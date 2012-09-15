@@ -96,7 +96,7 @@ public class TFM_Util
     //JeromSar
     public static void adminAction(String adminName, String action, boolean isRed)
     {
-        bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
+        TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
     }
 
     public static String implodeStringList(String glue, List<String> pieces)
@@ -659,34 +659,48 @@ public class TFM_Util
         Bukkit.getServer().createWorld(flatlands);
     }
 
+    public static boolean isSuperadminImpostor(CommandSender user)
+    {
+        if (!(user instanceof Player))
+        {
+            return false;
+        }
+
+        Player p = (Player) user;
+
+        if (TotalFreedomMod.superadmins.contains(p.getName().toLowerCase()))
+        {
+            return !TFM_Util.isUserSuperadmin(p);
+        }
+
+        return false;
+    }
+
     //JeromSar
     public static String getRank(CommandSender sender)
     {
-        if (TotalFreedomMod.superadmins.contains(sender.getName().toLowerCase()))
+        if (TFM_Util.isSuperadminImpostor(sender))
         {
-            if (!TFM_Util.isUserSuperadmin(sender))
-            {
-                return "an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "Impostor" + ChatColor.RESET + ChatColor.AQUA + "!";
-            }
+            return "an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "impostor" + ChatColor.RESET + ChatColor.AQUA + "!";
         }
 
         if (sender.getName().equalsIgnoreCase("markbyron"))
         {
-            return "the " + ChatColor.LIGHT_PURPLE + "Owner" + ChatColor.AQUA + ".";
+            return "the " + ChatColor.LIGHT_PURPLE + "server owner" + ChatColor.AQUA + ".";
         }
 
         if (sender.getName().equalsIgnoreCase("madgeek1450"))
         {
-            return "the " + ChatColor.DARK_PURPLE + "Chief-Developer" + ChatColor.AQUA + ".";
+            return "the " + ChatColor.DARK_PURPLE + "chief-developer" + ChatColor.AQUA + ".";
         }
         if (sender.getName().equalsIgnoreCase("darthsalamon"))
         {
-            return "a " + ChatColor.DARK_PURPLE + "Developer" + ChatColor.AQUA + "!";
+            return "a " + ChatColor.DARK_PURPLE + "developer" + ChatColor.AQUA + "!";
         }
 
         if (TFM_Util.isUserSuperadmin(sender))
         {
-            return "an " + ChatColor.RED + "Admin" + ChatColor.AQUA + ".";
+            return "an " + ChatColor.RED + "admin" + ChatColor.AQUA + ".";
         }
 
         if (sender.isOp())
@@ -694,7 +708,7 @@ public class TFM_Util
             return "an " + ChatColor.DARK_GREEN + "OP" + ChatColor.AQUA + ".";
         }
 
-        return "a " + ChatColor.GREEN + "non-OP" + ChatColor.AQUA + ".";
+        return "a " + ChatColor.GREEN + "standard player" + ChatColor.AQUA + ".";
     }
 
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...

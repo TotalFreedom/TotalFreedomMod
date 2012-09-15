@@ -3,8 +3,6 @@ package me.StevenLawson.TotalFreedomMod;
 import java.io.File;
 import java.io.InputStream;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
@@ -51,6 +49,7 @@ public class TotalFreedomMod extends JavaPlugin
     public void onEnable()
     {
         TotalFreedomMod.plugin = this;
+
         TotalFreedomMod.pluginName = this.getDescription().getName();
 
         setAppProperties();
@@ -171,7 +170,7 @@ public class TotalFreedomMod extends JavaPlugin
 
     public void loadMainConfig()
     {
-        TFM_Util.createDefaultConfiguration(CONFIG_FILE, this, getFile());
+        TFM_Util.createDefaultConfiguration(CONFIG_FILE, getFile());
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), CONFIG_FILE));
 
         allowFirePlace = config.getBoolean("allow_fire_place", allowFirePlace);
@@ -209,7 +208,7 @@ public class TotalFreedomMod extends JavaPlugin
     
     public void loadSuperadminConfig()
     {
-        TFM_Util.createDefaultConfiguration(SUPERADMIN_FILE, this, getFile());
+        TFM_Util.createDefaultConfiguration(SUPERADMIN_FILE, getFile());
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), SUPERADMIN_FILE));
 
         superadmins = new ArrayList<String>();
