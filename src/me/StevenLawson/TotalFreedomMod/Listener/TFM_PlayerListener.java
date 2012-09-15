@@ -670,7 +670,7 @@ public class TFM_PlayerListener implements Listener
 
             if (TotalFreedomMod.adminOnlyMode)
             {
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is currently closed to non-superadmins.");
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is temporarily open to admins only.");
                 return;
             }
 

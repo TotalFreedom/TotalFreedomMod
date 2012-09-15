@@ -30,7 +30,7 @@ public class Command_adminmode extends TFM_Command
             TFM_Util.bcastMsg("Server is now closed to non-superadmins.", ChatColor.RED);
             for (Player p : server.getOnlinePlayers())
             {
-                if (TFM_Util.isUserSuperadmin(p))
+                if (!TFM_Util.isUserSuperadmin(p))
                 {
                     p.kickPlayer("Server is now closed to non-superadmins.");
                 }
