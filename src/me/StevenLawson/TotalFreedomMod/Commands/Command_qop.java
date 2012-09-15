@@ -24,7 +24,7 @@ public class Command_qop extends TFM_Command
                 matched_player = true;
 
                 TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
-                p.setOp(false);
+                p.setOp(true);
                 p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
             }
             if (!matched_player)
@@ -34,7 +34,7 @@ public class Command_qop extends TFM_Command
                     if (args[0].toLowerCase().startsWith(p.getDisplayName().toLowerCase()))
                     {
                         TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
-                        p.setOp(false);
+                        p.setOp(true);
                         p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
 
                         return true;

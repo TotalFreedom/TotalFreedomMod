@@ -4,6 +4,9 @@ version: 2.7
 description: Plugin for the Total Freedom server.
 authors: [StevenLawson / Madgeek1450, JeromSar / DarthSalamon]
 commands:
+  adminmode:
+    description: Console-only command - Close server to non-superadmins.
+    usage: /<command> [on | off]
   cage:
     description: Superadmin command - Place a cage around someone.
     usage: /<command> <partialname> [off | outermaterial] [water | lava]

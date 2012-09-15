@@ -50,3 +50,6 @@ mob_limiter_disable_giant: true
 generate_flatlands: true
 # Flatlands generation parameters, uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
 flatlands_generation_params: 16,stone,32,dirt,1,grass
+
+# Admin-Only Mode
+admin_only_mode: false

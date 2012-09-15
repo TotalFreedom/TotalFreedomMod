@@ -167,6 +167,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean generateFlatlands = true;
     public static String flatlandsGenerationParams = "16,stone,32,dirt,1,grass";
     public static boolean allowFliudSpread = false;
+    public static boolean adminOnlyMode = false;
 
     public void loadMainConfig()
     {
@@ -201,6 +202,7 @@ public class TotalFreedomMod extends JavaPlugin
         generateFlatlands = config.getBoolean("generate_flatlands", generateFlatlands);
         flatlandsGenerationParams = config.getString("flatlands_generation_params", flatlandsGenerationParams);
         allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
+        adminOnlyMode = config.getBoolean("admin_only_mode", adminOnlyMode);
     }
     
     public static List<String> superadmins = new ArrayList<String>();

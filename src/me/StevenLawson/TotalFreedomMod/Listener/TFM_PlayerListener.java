@@ -329,7 +329,7 @@ public class TFM_PlayerListener implements Listener
             {
                 if (!TFM_Util.isUserSuperadmin(p))
                 {
-                    p.sendMessage(ChatColor.RED + "You're muted, STFU!");
+                    p.sendMessage(ChatColor.RED + "You are currently muted.");
                     event.setCancelled(true);
                     return;
                 }
@@ -341,7 +341,11 @@ public class TFM_PlayerListener implements Listener
             }
 
             // Truncate messages that are too long.
-            event.setMessage(event.getMessage().substring(0, 85));
+            String message = event.getMessage();
+            if (message.length() > 85)
+            {
+                event.setMessage(message.substring(0, 85));
+            }
 
             event.setMessage(ChatColor.stripColor(event.getMessage()));
         }
@@ -488,7 +492,7 @@ public class TFM_PlayerListener implements Listener
     {
         try
         {
-            Player p = event.getPlayer();
+            final Player p = event.getPlayer();
 
             TFM_UserList.getInstance(plugin).addUser(p);
 
@@ -508,6 +512,18 @@ public class TFM_PlayerListener implements Listener
                 {
                     p.setOp(true);
                 }
+            }
+
+            if (TotalFreedomMod.adminOnlyMode)
+            {
+                plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        p.sendMessage(ChatColor.RED + "Server is currently closed to non-superadmins.");
+                    }
+                }, 60L);
             }
         }
         catch (Throwable ex)
@@ -649,6 +665,12 @@ public class TFM_PlayerListener implements Listener
             if (server.getOnlinePlayers().length >= server.getMaxPlayers())
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_FULL, "Sorry, but this server is full.");
+                return;
+            }
+
+            if (TotalFreedomMod.adminOnlyMode)
+            {
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is currently closed to non-superadmins.");
                 return;
             }
 
