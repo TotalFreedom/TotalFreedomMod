@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import java.util.logging.Logger;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -17,7 +17,6 @@ import org.bukkit.inventory.ItemStack;
 public class TFM_BlockListener implements Listener
 {
     private final TotalFreedomMod plugin;
-    private static final Logger log = Logger.getLogger("Minecraft");
 
     public TFM_BlockListener(TotalFreedomMod instance)
     {
@@ -152,7 +151,7 @@ public class TFM_BlockListener implements Listener
             {
                 if (TotalFreedomMod.allowLavaPlace)
                 {
-                    log.info(String.format("%s placed lava @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    TFM_Log.info(String.format("%s placed lava @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
                     
                     p.getInventory().clear(p.getInventory().getHeldItemSlot());
                 }
@@ -171,7 +170,7 @@ public class TFM_BlockListener implements Listener
             {
                 if (TotalFreedomMod.allowWaterPlace)
                 {
-                    log.info(String.format("%s placed water @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    TFM_Log.info(String.format("%s placed water @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
                     
                     p.getInventory().clear(p.getInventory().getHeldItemSlot());
                 }
@@ -189,7 +188,7 @@ public class TFM_BlockListener implements Listener
             {
                 if (TotalFreedomMod.allowFirePlace)
                 {
-                    log.info(String.format("%s placed fire @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    TFM_Log.info(String.format("%s placed fire @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
                     
                     p.getInventory().clear(p.getInventory().getHeldItemSlot());
                 }
@@ -207,7 +206,7 @@ public class TFM_BlockListener implements Listener
             {
                 if (TotalFreedomMod.allowExplosions)
                 {
-                    log.info(String.format("%s placed TNT @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    TFM_Log.info(String.format("%s placed TNT @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
                     
                     p.getInventory().clear(p.getInventory().getHeldItemSlot());
                 }

@@ -3,22 +3,16 @@ package me.StevenLawson.TotalFreedomMod;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.bukkit.Server;
 
 public class TFM_RunSystemCommand implements Runnable
 {
-    private static final Logger log = Logger.getLogger("Minecraft");
     private final String command;
     private final TotalFreedomMod plugin;
-    private final Server server;
 
     public TFM_RunSystemCommand(String command, TotalFreedomMod plugin)
     {
         this.command = command;
         this.plugin = plugin;
-        this.server = plugin.getServer();
     }
 
     @Override
@@ -40,7 +34,7 @@ public class TFM_RunSystemCommand implements Runnable
                     line = reader.readLine();
                     if (line != null)
                     {
-                        log.log(Level.INFO, line);
+                        TFM_Log.info(line);
                     }
                 }
                 while (line != null);
@@ -52,15 +46,15 @@ public class TFM_RunSystemCommand implements Runnable
         }
         catch (InterruptedException ex)
         {
-            log.log(Level.SEVERE, ex.getMessage());
+            TFM_Log.severe(ex.getMessage());
         }
         catch (IOException ex)
         {
-            log.log(Level.SEVERE, ex.getMessage());
+            TFM_Log.severe(ex.getMessage());
         }
         catch (Throwable ex)
         {
-            log.log(Level.SEVERE, null, ex);
+            TFM_Log.severe(ex);
         }
     }
 }

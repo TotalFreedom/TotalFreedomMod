@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -45,7 +45,7 @@ public class Command_ziptool extends TFM_Command
 			}
 			catch (IOException ex)
 			{
-				log.log(Level.SEVERE, null, ex);
+				TFM_Log.severe(ex);
 			}
             
             sender.sendMessage("Zip finished.");
@@ -68,7 +68,7 @@ public class Command_ziptool extends TFM_Command
 			}
 			catch (IOException ex)
 			{
-				log.log(Level.SEVERE, null, ex);
+				TFM_Log.severe(ex);
 			}
             
             sender.sendMessage("Unzip finished.");

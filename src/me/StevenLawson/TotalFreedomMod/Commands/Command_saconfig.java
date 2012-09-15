@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -103,7 +103,7 @@ public class Command_saconfig extends TFM_Command
             }
             catch (IOException ex)
             {
-                log.log(Level.SEVERE, null, ex);
+                TFM_Log.severe(ex);
             }
         }
         else if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del") || args[0].equalsIgnoreCase("remove"))
@@ -157,7 +157,7 @@ public class Command_saconfig extends TFM_Command
             }
             catch (IOException ex)
             {
-                log.log(Level.SEVERE, null, ex);
+                TFM_Log.severe(ex);
             }
         }
         else

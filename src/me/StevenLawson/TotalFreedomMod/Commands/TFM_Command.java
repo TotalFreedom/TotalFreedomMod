@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.List;
-import java.util.logging.Logger;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -13,7 +13,6 @@ public class TFM_Command
 {
     protected TotalFreedomMod plugin;
     protected Server server;
-    protected static final Logger log = Logger.getLogger("Minecraft");
     
     public TFM_Command()
     {
@@ -21,7 +20,7 @@ public class TFM_Command
     
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        log.severe("Command Error: Command not implemented: " + cmd.getName());
+        TFM_Log.severe("Command Error: Command not implemented: " + cmd.getName());
         sender.sendMessage(ChatColor.RED + "Command Error: Command not implemented: " + cmd.getName());
         return false;
     }

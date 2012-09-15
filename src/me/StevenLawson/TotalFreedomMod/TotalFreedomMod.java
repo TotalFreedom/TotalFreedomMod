@@ -10,6 +10,7 @@ import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -23,7 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class TotalFreedomMod extends JavaPlugin
 {
-    private static final Logger log = Logger.getLogger("Minecraft");
     private final Server server = Bukkit.getServer();
     
     public static final long HEARTBEAT_RATE = 5L; //Seconds
@@ -43,6 +43,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static String pluginVersion = "";
     public static String buildNumber = "";
     public static String buildDate = "";
+    public static String pluginName = "";
 
     public static TotalFreedomMod plugin = null;
 
@@ -50,6 +51,7 @@ public class TotalFreedomMod extends JavaPlugin
     public void onEnable()
     {
         TotalFreedomMod.plugin = this;
+        TotalFreedomMod.pluginName = this.getDescription().getName();
 
         setAppProperties();
 
@@ -62,7 +64,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         server.getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
-        log.log(Level.INFO, "[" + getDescription().getName() + "] - Enabled! - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
+        TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
@@ -76,7 +78,7 @@ public class TotalFreedomMod extends JavaPlugin
     public void onDisable()
     {
         server.getScheduler().cancelTasks(this);
-        log.log(Level.INFO, "[" + getDescription().getName() + "] - Disabled.");
+        TFM_Log.info("Plugin Disabled");
     }
 
     @Override
@@ -89,19 +91,19 @@ public class TotalFreedomMod extends JavaPlugin
             if (sender instanceof Player)
             {
                 sender_p = (Player) sender;
-                log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s",
+                TFM_Log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s",
                         sender_p.getName(),
                         ChatColor.stripColor(sender_p.getDisplayName()),
                         commandLabel,
-                        TFM_Util.implodeStringList(" ", Arrays.asList(args))));
+                        TFM_Util.implodeStringList(" ", Arrays.asList(args))), true);
             }
             else
             {
                 senderIsConsole = true;
-                log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s",
+                TFM_Log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s",
                         sender.getName(),
                         commandLabel,
-                        TFM_Util.implodeStringList(" ", Arrays.asList(args))));
+                        TFM_Util.implodeStringList(" ", Arrays.asList(args))), true);
             }
 
             TFM_Command dispatcher;
@@ -113,7 +115,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             catch (Throwable ex)
             {
-                log.log(Level.SEVERE, "[" + getDescription().getName() + "] Command not loaded: " + cmd.getName(), ex);
+                TFM_Log.severe("Command not loaded: " + cmd.getName() + "\n" + ExceptionUtils.getStackTrace(ex));
                 sender.sendMessage(ChatColor.RED + "Command Error: Command not loaded: " + cmd.getName());
                 return true;
             }
@@ -131,7 +133,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Throwable ex)
         {
-            log.log(Level.SEVERE, "[" + getDescription().getName() + "] Command Error: " + commandLabel, ex);
+            TFM_Log.severe("Command Error: " + commandLabel + "\n" + ExceptionUtils.getStackTrace(ex));
             sender.sendMessage(ChatColor.RED + "Unknown Command Error.");
         }
 
@@ -256,7 +258,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Exception ex)
         {
-            log.log(Level.SEVERE, null, ex);
+            TFM_Log.severe(ex);
         }
     }
 }

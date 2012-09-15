@@ -3,8 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
 import net.minecraft.server.BanEntry;
@@ -27,7 +25,6 @@ import org.bukkit.util.Vector;
 public class TFM_PlayerListener implements Listener
 {
     private final TotalFreedomMod plugin;
-    private static final Logger log = Logger.getLogger("Minecraft");
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
 
     public TFM_PlayerListener(TotalFreedomMod instance)
@@ -337,7 +334,7 @@ public class TFM_PlayerListener implements Listener
         }
         catch (Exception ex)
         {
-            log.log(Level.SEVERE, null, ex);
+            TFM_Log.severe(ex);
         }
     }
 
@@ -365,7 +362,7 @@ public class TFM_PlayerListener implements Listener
 
         if (TotalFreedomMod.preprocessLogEnabled)
         {
-            log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", p.getName(), ChatColor.stripColor(p.getDisplayName()), command));
+            TFM_Log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", p.getName(), ChatColor.stripColor(p.getDisplayName()), command), true);
         }
 
         command = command.toLowerCase().trim();

@@ -5,11 +5,10 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.*;
 import java.util.jar.JarFile;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -19,7 +18,6 @@ import org.bukkit.entity.*;
 
 public class TFM_Util
 {
-    private static final Logger log = Logger.getLogger("Minecraft");
     private static Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     public static final List<String> stop_commands = new ArrayList<String>();
@@ -65,7 +63,7 @@ public class TFM_Util
 
     public static void bcastMsg(String message, ChatColor color)
     {
-        log.info(message);
+        TFM_Log.info(message);
 
         for (Player p : Bukkit.getOnlinePlayers())
         {
@@ -75,7 +73,7 @@ public class TFM_Util
 
     public static void bcastMsg(String message)
     {
-        log.info(ChatColor.stripColor(message));
+        TFM_Log.info(message);
 
         for (Player p : Bukkit.getOnlinePlayers())
         {
@@ -206,7 +204,7 @@ public class TFM_Util
         File actual = new File(tfm.getDataFolder(), name);
         if (!actual.exists())
         {
-            log.info("[" + tfm.getDescription().getName() + "]: Installing default configuration file template: " + actual.getPath());
+            TFM_Log.info("Installing default configuration file template: " + actual.getPath());
             InputStream input = null;
             try
             {
@@ -214,14 +212,14 @@ public class TFM_Util
                 ZipEntry copy = file.getEntry(name);
                 if (copy == null)
                 {
-                    log.severe("[" + tfm.getDescription().getName() + "]: Unable to read default configuration: " + actual.getPath());
+                    TFM_Log.severe("Unable to read default configuration: " + actual.getPath());
                     return;
                 }
                 input = file.getInputStream(copy);
             }
             catch (IOException ioex)
             {
-                log.severe("[" + tfm.getDescription().getName() + "]: Unable to read default configuration: " + actual.getPath());
+                TFM_Log.severe("Unable to read default configuration: " + actual.getPath());
             }
             if (input != null)
             {
@@ -238,11 +236,11 @@ public class TFM_Util
                         output.write(buf, 0, length);
                     }
 
-                    log.info("[" + tfm.getDescription().getName() + "]: Default configuration file written: " + actual.getPath());
+                    TFM_Log.info("Default configuration file written: " + actual.getPath());
                 }
                 catch (IOException ioex)
                 {
-                    log.log(Level.SEVERE, "[" + tfm.getDescription().getName() + "]: Unable to write default configuration: " + actual.getPath(), ioex);
+                    TFM_Log.severe("Unable to write default configuration: " + actual.getPath() + "\n" + ExceptionUtils.getStackTrace(ioex));
                 }
                 finally
                 {
@@ -314,7 +312,7 @@ public class TFM_Util
         }
         catch (Exception ex)
         {
-            log.severe("Exception in TFM_Util.isUserSuperadmin: " + ex.getMessage());
+            TFM_Log.severe(ex);
         }
 
         return false;
@@ -371,7 +369,7 @@ public class TFM_Util
                         ip = ip.toLowerCase().trim();
                         if (ip.equals(match_ip))
                         {
-                            log.info("New IP '" + user_ip + "' matches old IP '" + match_ip + "' via partial match, adding it to superadmin list.");
+                            TFM_Log.info("New IP '" + user_ip + "' matches old IP '" + match_ip + "' via partial match, adding it to superadmin list.");
                             user_ips.add(user_ip);
                             config.set(user, user_ips);
                             break fileloop;
@@ -385,7 +383,7 @@ public class TFM_Util
                 }
                 catch (IOException ex)
                 {
-                    log.log(Level.SEVERE, null, ex);
+                    TFM_Log.severe(ex);
                 }
             }
 
@@ -611,7 +609,7 @@ public class TFM_Util
         {
         }
 
-        log.info("autoEject -> name: " + p.getName() + " - player_ip: " + player_ip + " - method: " + method.toString());
+        TFM_Log.info("autoEject -> name: " + p.getName() + " - player_ip: " + player_ip + " - method: " + method.toString());
 
         p.setOp(false);
         p.setGameMode(GameMode.SURVIVAL);

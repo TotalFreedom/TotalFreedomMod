@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -15,8 +13,6 @@ import org.bukkit.entity.Player;
 public class TFM_UserList
 {
     private static final String USERLIST_FILENAME = "userlist.yml";
-
-    private static final Logger log = Logger.getLogger("Minecraft");
 
     private static TFM_UserList instance = null;
 
@@ -65,7 +61,7 @@ public class TFM_UserList
         }
         catch (IOException ex)
         {
-            log.log(Level.SEVERE, null, ex);
+            TFM_Log.severe(ex);
         }
     }
 
