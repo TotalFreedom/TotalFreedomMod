@@ -301,11 +301,13 @@ public class TFM_PlayerListener implements Listener
     {
         try
         {
+            String m = event.getMessage();
             Player p = event.getPlayer();
 
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
             playerdata.incrementMsgCount();
-
+            
+            // check for spam
             if (playerdata.getMsgCount() > 10)
             {
                 TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
@@ -335,14 +337,28 @@ public class TFM_PlayerListener implements Listener
                 }
             }
 
-            // Truncate messages that are too long.
-            String message = event.getMessage();
-            if (message.length() > 85)
+            // truncate messages that are too long
+            if (m.length() > 95)
             {
-                event.setMessage(message.substring(0, 85));
+                event.setMessage(m.substring(0, 95));
+                TFM_Util.playerMsg(p, "Message was shortened, because it was too long to send.");
             }
-
+            
+            // check for caps
+    		int caps = 0;
+    		for (int i=0; i<m.length(); i++)
+    		{
+    			if (Character.isUpperCase(m.charAt(i)))
+    				caps++;
+    		}
+    		if(caps > 6)
+    		{
+    			event.setMessage(m.toLowerCase());
+    		}
+    		
+    		// strip color from messages
             event.setMessage(ChatColor.stripColor(event.getMessage()));
+            
         }
         catch (Exception ex)
         {
@@ -411,7 +427,7 @@ public class TFM_PlayerListener implements Listener
         }
         else
         {
-            //Commands that will not auto-kick the user, but still deny:
+            // commands that will not auto-kick the user, but still deny:
             if (Pattern.compile("^/time").matcher(command).find())
             {
                 p.sendMessage(ChatColor.GRAY + "Server-side time changing is disabled. Please use /ptime to set your own personal time.");
@@ -529,8 +545,8 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLogin(PlayerLoginEvent event)
     {
-        //This should supersede all other onPlayerLogin authentication on the TFM server.
-        //When using the TFM CraftBukkit, CraftBukkit itself should not do any of its own authentication.
+        // this should supersede all other onPlayerLogin authentication on the TFM server.
+        // when using the TFM CraftBukkit, CraftBukkit itself should not do any of its own authentication.
 
         final Server server = TotalFreedomMod.plugin.getServer();
 
@@ -554,7 +570,7 @@ public class TFM_PlayerListener implements Listener
             return;
         }
 
-        //Not safe to use TFM_Util.isUserSuperadmin for player logging in because p.getAddress() will return a null until after player login.
+        // not safe to use TFM_Util.isUserSuperadmin for player logging in because p.getAddress() will return a null until after player login.
         boolean is_superadmin;
         if (server.getOnlineMode())
         {
@@ -689,7 +705,7 @@ public class TFM_PlayerListener implements Listener
                 }
             }
 
-            boolean can_kick = true; //If the server is full of superadmins, however unlikely that might be, this will prevent an infinite loop.
+            boolean can_kick = true; // if the server is full of superadmins, however unlikely that might be, this will prevent an infinite loop.
             while (server.getOnlinePlayers().length >= server.getMaxPlayers() && can_kick)
             {
                 can_kick = false;

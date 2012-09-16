@@ -35,7 +35,7 @@ public class Command_qop extends TFM_Command
         
         if (!matched_player)
         {
-        	sender.sendMessage("No targets matched.");
+        	TFM_Util.playerMsg(sender, "No targets matched.");
         }
 
         return true;
