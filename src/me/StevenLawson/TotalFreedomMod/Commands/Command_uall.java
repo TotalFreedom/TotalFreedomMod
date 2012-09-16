@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,9 +23,9 @@ public class Command_uall extends TFM_Command
         TFM_Util.adminAction(sender.getName(), "Undisguising all players", true);
         try
         {
-            for (Player p : Bukkit.getOnlinePlayers())
+            for (Player p : server.getOnlinePlayers())
             {
-                Bukkit.dispatchCommand(p, "u");
+                server.dispatchCommand(p, "u");
             }
         }
         catch (Throwable e)

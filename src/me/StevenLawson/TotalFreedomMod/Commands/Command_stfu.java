@@ -32,7 +32,7 @@ public class Command_stfu extends TFM_Command
             TFM_Util.playerMsg(sender, "Muted players:");
             TFM_UserInfo info;
             int count = 0;
-            for (Player mp : Bukkit.getOnlinePlayers())
+            for (Player mp : server.getOnlinePlayers())
             {
                 info = TFM_UserInfo.getPlayerData(mp);
                 if (info.isMuted())
@@ -53,7 +53,7 @@ public class Command_stfu extends TFM_Command
             TFM_Util.bcastMsg(ChatColor.RED + sender.getName() + " - Unmuting all players.");
             TFM_UserInfo info;
             int count = 0;
-            for (Player mp : Bukkit.getOnlinePlayers())
+            for (Player mp : server.getOnlinePlayers())
             {
                 info = TFM_UserInfo.getPlayerData(mp);
                 if (info.isMuted())

@@ -26,7 +26,7 @@ public class Command_ops extends TFM_Command
             int offlineOPs = 0;
             int totalOPs = 0;
 
-            for (OfflinePlayer p : Bukkit.getOperators())
+            for (OfflinePlayer p : server.getOperators())
             {
                 if (p.isOnline())
                 {
@@ -53,7 +53,7 @@ public class Command_ops extends TFM_Command
 
             TFM_Util.adminAction(sender.getName(), "Removing all operators", true);
 
-            for (OfflinePlayer p : Bukkit.getOperators())
+            for (OfflinePlayer p : server.getOperators())
             {
                 p.setOp(false);
 

@@ -8,6 +8,9 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+import net.minecraft.server.BanEntry;
+import net.minecraft.server.BanList;
+import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -86,7 +89,7 @@ public class TFM_Util
     {
         sender.sendMessage(color + message);
     }
-    
+
     //JeromSar
     public static void playerMsg(CommandSender sender, String message)
     {
@@ -619,23 +622,52 @@ public class TFM_Util
         {
             case STRIKE_ONE:
             {
+                //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                calendar.add(Calendar.MINUTE, 1);
+                Date expires = calendar.getTime();
+
+                TFM_Util.banIP(player_ip, null, null, expires);
+                TFM_Util.banUsername(p.getName(), null, null, expires);
+
+                TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned for 1 minute.");
+
                 p.kickPlayer(kickMessage);
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
+
                 break;
             }
             case STRIKE_TWO:
             {
+                //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 3m", p.getName()));
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                calendar.add(Calendar.MINUTE, 3);
+                Date expires = calendar.getTime();
+
+                TFM_Util.banIP(player_ip, null, null, expires);
+                TFM_Util.banUsername(p.getName(), null, null, expires);
+
+                TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned for 3 minutes.");
+
                 p.kickPlayer(kickMessage);
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 3m", p.getName()));
+
                 break;
             }
             case STRIKE_THREE:
             {
-                Bukkit.banIP(player_ip);
+                //Bukkit.banIP(player_ip);
+                TFM_Util.banIP(player_ip, null, null, null);
                 String[] ip_address_parts = player_ip.split("\\.");
-                Bukkit.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*");
+                //Bukkit.banIP();
+                TFM_Util.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
 
-                p.setBanned(true);
+                //p.setBanned(true);
+                TFM_Util.banUsername(p.getName(), null, null, null);
+
+                TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned permanently.");
 
                 p.kickPlayer(kickMessage);
 
@@ -691,11 +723,11 @@ public class TFM_Util
 
         if (sender.getName().equalsIgnoreCase("madgeek1450"))
         {
-            return "the " + ChatColor.DARK_PURPLE + "chief-developer" + ChatColor.AQUA + ".";
+            return "the " + ChatColor.DARK_PURPLE + "server chief-developer" + ChatColor.AQUA + ".";
         }
         if (sender.getName().equalsIgnoreCase("darthsalamon"))
         {
-            return "a " + ChatColor.DARK_PURPLE + "developer" + ChatColor.AQUA + "!";
+            return "a " + ChatColor.DARK_PURPLE + "server developer" + ChatColor.AQUA + "!";
         }
 
         if (TFM_Util.isUserSuperadmin(sender))
@@ -711,6 +743,85 @@ public class TFM_Util
         return "a " + ChatColor.GREEN + "standard player" + ChatColor.AQUA + ".";
     }
 
+    public static void banUsername(String name, String reason, String source, Date expire_date)
+    {
+        name = name.toLowerCase().trim();
+
+        BanEntry ban_entry = new BanEntry(name);
+
+        if (expire_date != null)
+        {
+            ban_entry.setExpires(expire_date);
+        }
+        if (reason != null)
+        {
+            ban_entry.setReason(reason);
+        }
+        if (source != null)
+        {
+            ban_entry.setSource(source);
+        }
+
+        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
+
+        nameBans.add(ban_entry);
+    }
+
+    public static void unbanUsername(String name)
+    {
+        name = name.toLowerCase().trim();
+
+        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
+
+        nameBans.remove(name);
+    }
+
+    public static boolean isNameBanned(String name)
+    {
+        name = name.toLowerCase().trim();
+        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
+        nameBans.removeExpired();
+        return nameBans.getEntries().containsKey(name);
+    }
+
+    public static void banIP(String ip, String reason, String source, Date expire_date)
+    {
+        ip = ip.toLowerCase().trim();
+
+        BanEntry ban_entry = new BanEntry(ip);
+
+        if (expire_date != null)
+        {
+            ban_entry.setExpires(expire_date);
+        }
+        if (reason != null)
+        {
+            ban_entry.setReason(reason);
+        }
+        if (source != null)
+        {
+            ban_entry.setSource(source);
+        }
+
+        BanList ipBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
+
+        ipBans.add(ban_entry);
+    }
+
+    public static void unbanIP(String ip)
+    {
+        ip = ip.toLowerCase().trim();
+        BanList ipBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
+        ipBans.remove(ip);
+    }
+
+    public static boolean isIPBanned(String ip)
+    {
+        ip = ip.toLowerCase().trim();
+        BanList ipBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
+        ipBans.removeExpired();
+        return ipBans.getEntries().containsKey(ip);
+    }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;
 //    public static final double LOOKAT_STEP_DISTANCE = 0.2;
