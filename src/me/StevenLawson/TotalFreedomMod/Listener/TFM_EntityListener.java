@@ -9,7 +9,6 @@ import org.bukkit.event.entity.*;
 
 public class TFM_EntityListener implements Listener
 {
-
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityExplode(EntityExplodeEvent event)
     {
@@ -120,7 +119,7 @@ public class TFM_EntityListener implements Listener
             }
         }
     }
-    
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDeath(EntityDeathEvent event)
     {

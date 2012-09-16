@@ -27,7 +27,6 @@ public class TFM_PlayerListener implements Listener
 {
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
 
-
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
     {
@@ -301,12 +300,11 @@ public class TFM_PlayerListener implements Listener
     {
         try
         {
-            String m = event.getMessage();
-            Player p = event.getPlayer();
+            final Player p = event.getPlayer();
 
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
             playerdata.incrementMsgCount();
-            
+
             // check for spam
             if (playerdata.getMsgCount() > 10)
             {
@@ -337,28 +335,37 @@ public class TFM_PlayerListener implements Listener
                 }
             }
 
+            String message = event.getMessage().trim();
+
+            // strip color from messages
+            message = ChatColor.stripColor(message);
+
             // truncate messages that are too long
-            if (m.length() > 95)
+            if (message.length() > 95)
             {
-                event.setMessage(m.substring(0, 95));
+                message = message.substring(0, 95);
                 TFM_Util.playerMsg(p, "Message was shortened, because it was too long to send.");
             }
-            
+
             // check for caps
-    		int caps = 0;
-    		for (int i=0; i<m.length(); i++)
-    		{
-    			if (Character.isUpperCase(m.charAt(i)))
-    				caps++;
-    		}
-    		if(caps > 6)
-    		{
-    			event.setMessage(m.toLowerCase());
-    		}
-    		
-    		// strip color from messages
-            event.setMessage(ChatColor.stripColor(event.getMessage()));
-            
+            if (message.length() >= 6)
+            {
+                int caps = 0;
+                for (char c : message.toCharArray())
+                {
+                    if (Character.isUpperCase(c))
+                    {
+                        caps++;
+                    }
+                }
+                if (((float) caps / (float) message.length()) > 0.75) //Compute a ratio so that longer sentences can have more caps.
+                {
+                    message = message.toLowerCase();
+                }
+            }
+
+            // finally, set message
+            event.setMessage(message);
         }
         catch (Exception ex)
         {
@@ -607,7 +614,7 @@ public class TFM_PlayerListener implements Listener
             boolean is_ip_banned = false;
 
             @SuppressWarnings("rawtypes")
-			Iterator ip_bans = banByIP.getEntries().keySet().iterator();
+            Iterator ip_bans = banByIP.getEntries().keySet().iterator();
             while (ip_bans.hasNext())
             {
                 String test_ip = (String) ip_bans.next();

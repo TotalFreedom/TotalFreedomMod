@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class TFM_BlockListener implements Listener
 {
-
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBurn(BlockBurnEvent event)
     {
@@ -78,7 +77,7 @@ public class TFM_BlockListener implements Listener
             {
                 TFM_Util.bcastMsg(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
                 TFM_Util.autoEject(p, "You are breaking blocks too fast. Nukers are not permitted on this server.");
-                
+
                 playerdata.resetBlockDestroyCount();
 
                 event.setCancelled(true);
@@ -129,7 +128,7 @@ public class TFM_BlockListener implements Listener
             {
                 TFM_Util.bcastMsg(p.getName() + " is placing blocks too fast!", ChatColor.RED);
                 TFM_Util.autoEject(p, "You are placing blocks too fast.");
-                
+
                 playerdata.resetBlockPlaceCount();
 
                 event.setCancelled(true);
@@ -146,14 +145,14 @@ public class TFM_BlockListener implements Listener
                 if (TotalFreedomMod.allowLavaPlace)
                 {
                     TFM_Log.info(String.format("%s placed lava @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
-                    
+
                     p.getInventory().clear(p.getInventory().getHeldItemSlot());
                 }
                 else
                 {
                     p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                     p.sendMessage(ChatColor.GRAY + "Lava placement is currently disabled.");
-                    
+
                     event.setCancelled(true);
                     return;
                 }
@@ -165,14 +164,14 @@ public class TFM_BlockListener implements Listener
                 if (TotalFreedomMod.allowWaterPlace)
                 {
                     TFM_Log.info(String.format("%s placed water @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
-                    
+
                     p.getInventory().clear(p.getInventory().getHeldItemSlot());
                 }
                 else
                 {
                     p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                     p.sendMessage(ChatColor.GRAY + "Water placement is currently disabled.");
-                    
+
                     event.setCancelled(true);
                     return;
                 }
@@ -183,14 +182,14 @@ public class TFM_BlockListener implements Listener
                 if (TotalFreedomMod.allowFirePlace)
                 {
                     TFM_Log.info(String.format("%s placed fire @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
-                    
+
                     p.getInventory().clear(p.getInventory().getHeldItemSlot());
                 }
                 else
                 {
                     p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                     p.sendMessage(ChatColor.GRAY + "Fire placement is currently disabled.");
-                    
+
                     event.setCancelled(true);
                     return;
                 }
@@ -201,13 +200,13 @@ public class TFM_BlockListener implements Listener
                 if (TotalFreedomMod.allowExplosions)
                 {
                     TFM_Log.info(String.format("%s placed TNT @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
-                    
+
                     p.getInventory().clear(p.getInventory().getHeldItemSlot());
                 }
                 else
                 {
                     p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                    
+
                     p.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
                     event.setCancelled(true);
                     return;
@@ -216,7 +215,7 @@ public class TFM_BlockListener implements Listener
             }
         }
     }
-    
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockFromTo(BlockFromToEvent event)
     {
