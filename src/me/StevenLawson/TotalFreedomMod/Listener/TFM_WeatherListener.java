@@ -9,7 +9,6 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class TFM_WeatherListener implements Listener
 {
-	
     @EventHandler(priority = EventPriority.HIGH)
     public void onThunderChange(ThunderChangeEvent event)
     {

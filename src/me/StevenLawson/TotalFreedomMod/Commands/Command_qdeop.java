@@ -16,10 +16,19 @@ public class Command_qdeop extends TFM_Command
             return false;
         }
 
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+        if (!(senderIsConsole || sender.isOp()))
         {
-            boolean matched_player = false;
-            for (Player p : server.matchPlayer(args[0]))
+            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            return true;
+        }
+
+        boolean matched_player = false;
+
+        String target_name = args[0].toLowerCase();
+
+        for (Player p : server.getOnlinePlayers())
+        {
+            if (p.getName().toLowerCase().indexOf(target_name) > 0 || p.getDisplayName().toLowerCase().indexOf(target_name) > 0)
             {
                 matched_player = true;
 
@@ -27,25 +36,11 @@ public class Command_qdeop extends TFM_Command
                 p.setOp(false);
                 p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
             }
-            if (!matched_player)
-            {
-                for (Player p : server.getOnlinePlayers())
-                {
-                    if (args[0].toLowerCase().startsWith(p.getDisplayName().toLowerCase()))
-                    {
-                        TFM_Util.adminAction(sender.getName(), "De-opping " + p.getName(), false);
-                        p.setOp(false);
-                        p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
-
-                        return true;
-                    }
-                }
-                sender.sendMessage("No targets matched.");
-            }
         }
-        else
+
+        if (!matched_player)
         {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            TFM_Util.playerMsg(sender, "No targets matched.");
         }
 
         return true;

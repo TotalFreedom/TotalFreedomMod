@@ -33,7 +33,7 @@ public class Command_gtfo extends TFM_Command
             }
 
             TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
-            
+
             //Undo WorldEdits:
             if (senderIsConsole)
             {
@@ -42,7 +42,7 @@ public class Command_gtfo extends TFM_Command
             {
                 server.dispatchCommand(sender, String.format("/undo %d %s", 15, p.getName()));
             }
-            
+
             // deop
             p.setOp(false);
 
