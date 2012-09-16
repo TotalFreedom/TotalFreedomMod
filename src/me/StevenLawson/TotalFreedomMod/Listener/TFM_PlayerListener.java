@@ -331,7 +331,6 @@ public class TFM_PlayerListener implements Listener
                 else
                 {
                     playerdata.setMuted(false);
-                    return;
                 }
             }
 
