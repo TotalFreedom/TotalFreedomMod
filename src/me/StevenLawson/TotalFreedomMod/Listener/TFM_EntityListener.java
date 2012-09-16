@@ -9,12 +9,6 @@ import org.bukkit.event.entity.*;
 
 public class TFM_EntityListener implements Listener
 {
-    private final TotalFreedomMod plugin;
-
-    public TFM_EntityListener(TotalFreedomMod instance)
-    {
-        this.plugin = instance;
-    }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityExplode(EntityExplodeEvent event)

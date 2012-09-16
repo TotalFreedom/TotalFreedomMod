@@ -9,13 +9,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class TFM_WeatherListener implements Listener
 {
-    private final TotalFreedomMod plugin;
-
-    public TFM_WeatherListener(TotalFreedomMod instance)
-    {
-        this.plugin = instance;
-    }
-    
+	
     @EventHandler(priority = EventPriority.HIGH)
     public void onThunderChange(ThunderChangeEvent event)
     {

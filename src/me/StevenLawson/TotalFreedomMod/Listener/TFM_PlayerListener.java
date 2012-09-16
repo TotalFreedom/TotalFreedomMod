@@ -25,13 +25,8 @@ import org.bukkit.util.Vector;
 
 public class TFM_PlayerListener implements Listener
 {
-    private final TotalFreedomMod plugin;
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
 
-    public TFM_PlayerListener(TotalFreedomMod instance)
-    {
-        this.plugin = instance;
-    }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -91,7 +86,7 @@ public class TFM_PlayerListener implements Listener
                         {
                             if (playerdata.toggleMP44Firing())
                             {
-                                playerdata.startArrowShooter(plugin);
+                                playerdata.startArrowShooter(TotalFreedomMod.plugin);
                             }
                             else
                             {
@@ -494,7 +489,7 @@ public class TFM_PlayerListener implements Listener
         {
             final Player p = event.getPlayer();
 
-            TFM_UserList.getInstance(plugin).addUser(p);
+            TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(p);
 
             boolean superadmin_impostor = TFM_Util.isSuperadminImpostor(p);
 
@@ -516,7 +511,7 @@ public class TFM_PlayerListener implements Listener
 
             if (TotalFreedomMod.adminOnlyMode)
             {
-                plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
+                TotalFreedomMod.plugin.getServer().getScheduler().scheduleAsyncDelayedTask(TotalFreedomMod.plugin, new Runnable()
                 {
                     @Override
                     public void run()
@@ -534,10 +529,10 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLogin(PlayerLoginEvent event)
     {
-        //This should supercede all other onPlayerLogin authentication on the TFM server.
+        //This should supersede all other onPlayerLogin authentication on the TFM server.
         //When using the TFM CraftBukkit, CraftBukkit itself should not do any of its own authentication.
 
-        final Server server = plugin.getServer();
+        final Server server = TotalFreedomMod.plugin.getServer();
 
         final ServerConfigurationManagerAbstract scm = MinecraftServer.getServer().getServerConfigurationManager();
         final BanList banByIP = scm.getIPBans();
@@ -595,7 +590,8 @@ public class TFM_PlayerListener implements Listener
 
             boolean is_ip_banned = false;
 
-            Iterator ip_bans = banByIP.getEntries().keySet().iterator();
+            @SuppressWarnings("rawtypes")
+			Iterator ip_bans = banByIP.getEntries().keySet().iterator();
             while (ip_bans.hasNext())
             {
                 String test_ip = (String) ip_bans.next();

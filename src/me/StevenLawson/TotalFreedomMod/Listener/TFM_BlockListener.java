@@ -16,12 +16,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class TFM_BlockListener implements Listener
 {
-    private final TotalFreedomMod plugin;
-
-    public TFM_BlockListener(TotalFreedomMod instance)
-    {
-        this.plugin = instance;
-    }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBurn(BlockBurnEvent event)

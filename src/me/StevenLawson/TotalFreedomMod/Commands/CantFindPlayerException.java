@@ -4,7 +4,10 @@ import org.bukkit.ChatColor;
 
 public class CantFindPlayerException extends Exception
 {
-    public CantFindPlayerException()
+	// apparently, java needs this
+	private static final long serialVersionUID = 1L;
+
+	public CantFindPlayerException()
     {
         super(ChatColor.GRAY + "Can't find player.");
     }

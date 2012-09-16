@@ -236,10 +236,10 @@ public class TotalFreedomMod extends JavaPlugin
     {
         PluginManager pm = server.getPluginManager();
 
-        pm.registerEvents(new TFM_EntityListener(this), this);
-        pm.registerEvents(new TFM_BlockListener(this), this);
-        pm.registerEvents(new TFM_PlayerListener(this), this);
-        pm.registerEvents(new TFM_WeatherListener(this), this);
+        pm.registerEvents(new TFM_EntityListener(), plugin);
+        pm.registerEvents(new TFM_BlockListener(), plugin);
+        pm.registerEvents(new TFM_PlayerListener(), plugin);
+        pm.registerEvents(new TFM_WeatherListener(), plugin);
     }
 
     private void setAppProperties()

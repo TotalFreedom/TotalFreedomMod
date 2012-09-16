@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -15,12 +14,34 @@ public class Command_ops extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length > 1)
+    	if (!(senderIsConsole || sender.isOp()))
+    	{
+    		sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+    		return true;
+    	}
+    	
+        if (args.length < 1 || args.length > 1)
         {
             return false;
         }
+        
+        
+        if (args[0].equalsIgnoreCase("list"))
+        {
+        	String ops = "";
+        	String delim = "";
+            for (OfflinePlayer p : server.getOperators()) {
+            	ops += delim;
+            	ops += p.getName();
+                delim = ",";
+            }
+            
+            TFM_Util.playerMsg(sender, "Operators: " + ops);
 
-        if (args.length == 0 || args[0].equalsIgnoreCase("list"))
+        	return true;
+        }
+        
+        if (args[0].equalsIgnoreCase("count"))
         {
             int onlineOPs = 0;
             int offlineOPs = 0;
@@ -42,8 +63,11 @@ public class Command_ops extends TFM_Command
             sender.sendMessage(ChatColor.GRAY + "Online OPs: " + onlineOPs);
             sender.sendMessage(ChatColor.GRAY + "Offline OPs: " + offlineOPs);
             sender.sendMessage(ChatColor.GRAY + "Total OPs: " + totalOPs);
+            
+            return true;
         }
-        else if (args[0].equalsIgnoreCase("purge"))
+        
+        if (args[0].equalsIgnoreCase("purge"))
         {
             if (!(TFM_Util.isUserSuperadmin(sender) || senderIsConsole))
             {
@@ -62,6 +86,8 @@ public class Command_ops extends TFM_Command
                     p.getPlayer().sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                 }
             }
+            
+            return true;
         }
 
         return true;
