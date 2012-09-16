@@ -624,36 +624,28 @@ public class TFM_Util
         {
             case STRIKE_ONE:
             {
-                //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 1m", p.getName()));
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                calendar.add(Calendar.MINUTE, 1);
-                Date expires = calendar.getTime();
-
-                TFM_Util.banIP(player_ip, null, null, expires);
-                TFM_Util.banUsername(p.getName(), null, null, expires);
+                Calendar c = new GregorianCalendar();
+                c.add(Calendar.MINUTE, 1);
+                Date expires = c.getTime();
 
                 TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned for 1 minute.");
 
+                TFM_Util.banIP(player_ip, kickMessage, "AutoEject", expires);
+                TFM_Util.banUsername(p.getName(), kickMessage, "AutoEject", expires);
                 p.kickPlayer(kickMessage);
 
                 break;
             }
             case STRIKE_TWO:
             {
-                //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), String.format("tempban %s 3m", p.getName()));
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                calendar.add(Calendar.MINUTE, 3);
-                Date expires = calendar.getTime();
-
-                TFM_Util.banIP(player_ip, null, null, expires);
-                TFM_Util.banUsername(p.getName(), null, null, expires);
+                Calendar c = new GregorianCalendar();
+                c.add(Calendar.MINUTE, 3);
+                Date expires = c.getTime();
 
                 TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned for 3 minutes.");
 
+                TFM_Util.banIP(player_ip, kickMessage, "AutoEject", expires);
+                TFM_Util.banUsername(p.getName(), kickMessage, "AutoEject", expires);
                 p.kickPlayer(kickMessage);
 
                 break;
@@ -661,13 +653,13 @@ public class TFM_Util
             case STRIKE_THREE:
             {
                 //Bukkit.banIP(player_ip);
-                TFM_Util.banIP(player_ip, null, null, null);
+                TFM_Util.banIP(player_ip, kickMessage, "AutoEject", null);
                 String[] ip_address_parts = player_ip.split("\\.");
                 //Bukkit.banIP();
-                TFM_Util.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
+                TFM_Util.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", kickMessage, "AutoEject", null);
 
                 //p.setBanned(true);
-                TFM_Util.banUsername(p.getName(), null, null, null);
+                TFM_Util.banUsername(p.getName(), kickMessage, "AutoEject", null);
 
                 TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned permanently.");
 
