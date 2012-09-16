@@ -151,6 +151,9 @@ commands:
   setspawnworld:
     description: Superadmin Command - Set world spawnpoint.
     usage: /<command>
+  smite:
+    description: Superadmin Command - Someone being a little bitch? Smite them down...
+    usage: /<command> [playername]
   ender:
     description: Goto the ender / "The End".
     usage: /<command>
