@@ -29,8 +29,8 @@ commands:
     description: Superadmin command - Deop a player
     usage: /<command> <playername>
   deopall:
-    description: Superadmin command - Deop everyone on the server. Use 'purge' to clear ops.txt as well.
-    usage: /<command> [purge]
+    description: Superadmin command - Deop everyone on the server.
+    usage: /<command>
   enchant:
     description: Enchant items.
     usage: /<command> <list | addall | reset | add <name> | remove <name>>
@@ -54,7 +54,7 @@ commands:
     usage: /<command> <on | off>
   fr:
     description: Superadmin command - Freeze players (toggles on and off).
-    usage: /<command> [target | reset]
+    usage: /<command> [target | purge]
   fuckoff:
     description: You'll never even see it coming.
     usage: /<command>
@@ -111,7 +111,7 @@ commands:
     usage: /<command> [-c | -s]
   ops:
     description: Superadmin command - Manage operators
-    usage: /<command> [list | purge]
+    usage: /<command> [count | list | purge]
   opme:
     description: Superadmin command - Automatically ops user.
     usage: /<command>

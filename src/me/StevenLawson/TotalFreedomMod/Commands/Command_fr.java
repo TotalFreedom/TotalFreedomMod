@@ -34,7 +34,7 @@ public class Command_fr extends TFM_Command
             }
             else
             {
-                if (args[0].toLowerCase().equals("reset"))
+                if (args[0].toLowerCase().equals("purge"))
                 {
                     TotalFreedomMod.allPlayersFrozen = false;
                     
