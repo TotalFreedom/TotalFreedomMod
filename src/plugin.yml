@@ -163,12 +163,16 @@ commands:
   stfu:
     description: Superadmin Command - Mutes a player with brute force.
     usage: /<command> [list | purge | <player>]
+    aliases: [mute]
   stop:
     description: Superadmin command - Kicks everyone and stops the server.
     usage: /<command>
   survival:
     description: Quickly change your own gamemode to survival, or define someone's username to change theirs.
     usage: /<command> [partialname]
+  tempban:
+    description: Superadmin Command - Temporarily ban someone.
+    usage: /<command> [playername] [duration] [reason]
   terminal:
     description: Execute a system command.
     usage: /<command> <syscmd>
