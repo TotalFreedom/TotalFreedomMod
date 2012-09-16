@@ -16,36 +16,26 @@ public class Command_qop extends TFM_Command
             return false;
         }
 
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+        if (!(senderIsConsole || sender.isOp()))
         {
-            boolean matched_player = false;
-            for (Player p : server.matchPlayer(args[0]))
-            {
-                matched_player = true;
-
-                TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
-                p.setOp(true);
-                p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
-            }
-            if (!matched_player)
-            {
-                for (Player p : server.getOnlinePlayers())
-                {
-                    if (args[0].toLowerCase().startsWith(p.getDisplayName().toLowerCase()))
-                    {
-                        TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
-                        p.setOp(true);
-                        p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
-
-                        return true;
-                    }
-                }
-                sender.sendMessage("No targets matched.");
-            }
+        	sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+        	return true;
         }
-        else
+        
+        boolean matched_player = false;
+        
+        for (Player p : server.matchPlayer(args[0]))
         {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            matched_player = true;
+
+            TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
+            p.setOp(true);
+            p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+        }
+        
+        if (!matched_player)
+        {
+        	sender.sendMessage("No targets matched.");
         }
 
         return true;
