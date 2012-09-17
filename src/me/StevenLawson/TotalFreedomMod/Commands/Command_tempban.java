@@ -1,0 +1,69 @@
+package me.StevenLawson.TotalFreedomMod.Commands;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class Command_tempban extends TFM_Command
+{
+    private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
+
+    @Override
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
+        if (args.length < 1)
+        {
+            return false;
+        }
+
+        if (!(senderIsConsole || TFM_Util.isUserSuperadmin(sender)))
+        {
+            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            return true;
+        }
+
+        Player p;
+        try
+        {
+            p = getPlayer(args[0]);
+        }
+        catch (CantFindPlayerException ex)
+        {
+            sender.sendMessage(ex.getMessage());
+            return true;
+        }
+
+        StringBuilder bcast_msg = new StringBuilder("Temporarily banned " + p.getName());
+
+        Date ban_duration = TFM_Util.parseDateOffset("30m");
+        if (args.length >= 2)
+        {
+            Date parsed_offset = TFM_Util.parseDateOffset(args[1]);
+            if (parsed_offset != null)
+            {
+                ban_duration = parsed_offset;
+            }
+        }
+        bcast_msg.append(" until ").append(date_format.format(ban_duration));
+
+        String ban_reason = "Banned by " + sender.getName();
+        if (args.length >= 3)
+        {
+            ban_reason = StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ") + " (" + sender.getName() + ")";
+            bcast_msg.append(", Reason: \"").append(ban_reason).append("\"");
+        }
+
+        TFM_Util.adminAction(sender.getName(), bcast_msg.toString(), true);
+        TFM_Util.banUsername(p.getName(), ban_reason, sender.getName(), ban_duration);
+        TFM_Util.banIP(p.getAddress().getAddress().getHostAddress().trim(), ban_reason, sender.getName(), ban_duration);
+        p.kickPlayer(sender.getName() + " - " + bcast_msg.toString());
+
+        return true;
+    }
+}

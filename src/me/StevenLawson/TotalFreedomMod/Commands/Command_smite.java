@@ -16,14 +16,15 @@ public class Command_smite extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!TFM_Util.isUserSuperadmin(sender))
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-        }
-
         if (args.length != 1)
         {
             return false;
+        }
+
+        if (!TFM_Util.isUserSuperadmin(sender))
+        {
+            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            return true;
         }
 
         Player p;

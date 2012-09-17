@@ -444,11 +444,41 @@ public class TFM_PlayerListener implements Listener
                 p.sendMessage(ChatColor.GRAY + "This server now uses DisguiseCraft instead of MobDisguise. Type /d to disguise and /u to undisguise.");
                 block_command = true;
             }
+            else if (Pattern.compile("^/gamemode").matcher(command).find())
+            {
+                p.sendMessage(ChatColor.GRAY + "Use /creative and /survival to set your gamemode.");
+                block_command = true;
+            }
+            else if (Pattern.compile("^/ban").matcher(command).find())
+            {
+                if (!Pattern.compile("^/banlist").matcher(command).find())
+                {
+                    block_command = true;
+                }
+            }
+            else if (Pattern.compile("^/kick").matcher(command).find())
+            {
+                if (!TFM_Util.isUserSuperadmin(p))
+                {
+                    block_command = true;
+                }
+            }
+            else if (Pattern.compile("^/kill").matcher(command).find())
+            {
+                if (!TFM_Util.isUserSuperadmin(p))
+                {
+                    block_command = true;
+                }
+            }
+            else if (Pattern.compile("^/pardon").matcher(command).find())
+            {
+                block_command = true;
+            }
         }
 
         if (block_command)
         {
-            p.sendMessage(ChatColor.RED + "That command is prohibited.");
+            p.sendMessage(ChatColor.GRAY + "That command is blocked.");
             event.setCancelled(true);
             return;
         }
