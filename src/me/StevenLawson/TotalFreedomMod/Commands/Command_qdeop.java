@@ -28,7 +28,7 @@ public class Command_qdeop extends TFM_Command
 
         for (Player p : server.getOnlinePlayers())
         {
-            if (p.getName().toLowerCase().indexOf(target_name) > 0 || p.getDisplayName().toLowerCase().indexOf(target_name) > 0)
+            if (p.getName().toLowerCase().indexOf(target_name) != -1 || p.getDisplayName().toLowerCase().indexOf(target_name) != -1)
             {
                 matched_player = true;
 
