@@ -69,6 +69,84 @@ public class Command_whitelist extends TFM_Command
 			return true;
 		}
 		
+		// on
+		if(args[0].equalsIgnoreCase("on"))
+		{
+			TFM_Util.adminAction(sender.getName(), "Turning the whitelist on", false);
+			server.setWhitelist(true);
+			return true;
+		}
+		
+		// off
+		if(args[0].equalsIgnoreCase("off"))
+		{
+			TFM_Util.adminAction(sender.getName(), "Turning the whitelist off", false);
+			server.setWhitelist(false);
+			return true;
+		}
+		
+		// add
+		if(args[0].equalsIgnoreCase("add"))
+		{
+			if(args.length < 2)
+			{
+				return false;
+			}
+			
+			OfflinePlayer p;
+			try
+			{
+				p = getPlayer(args[0]);
+			}
+			catch(CantFindPlayerException ex)
+			{
+				if(!senderIsConsole)
+				{
+					sender.sendMessage(ex.getMessage());
+					sender.sendMessage(ChatColor.YELLOW + "You don't have permissions to whitelist offline players");
+					return true;
+				}
+				else
+				{
+					p = server.getOfflinePlayer(args[0]);
+				}
+			}
+			TFM_Util.adminAction(sender.getName(), "Adding " + p.getName() + " to the whitelist", false);
+			p.setWhitelisted(true);
+			return true;
+		}
+		
+		// remove
+		if(args[0].equalsIgnoreCase("remove"))
+		{
+			if(args.length < 2)
+			{
+				return false;
+			}
+			
+			OfflinePlayer p;
+			try
+			{
+				p = getPlayer(args[0]);
+			}
+			catch(CantFindPlayerException ex)
+			{
+				p = server.getOfflinePlayer(args[0]);
+			}
+			
+			if(p.isWhitelisted())
+			{
+				TFM_Util.adminAction(sender.getName(), "Removing " + p.getName() + "from the whitelist", false);
+				p.setWhitelisted(false);
+				return true;
+			}
+			else
+			{
+				TFM_Util.playerMsg(sender, "That player is not whitelisted");
+				return true;
+			}
+			
+		}
 		
 		// addall
 		if(args[0].equalsIgnoreCase("addall"))
@@ -85,9 +163,32 @@ public class Command_whitelist extends TFM_Command
 			}
 			
 			TFM_Util.playerMsg(sender, "Whitelisted " + counter + " players.");
+			return true;
 		}
-
 		
-		return true;
+		// all commands past this line are console/telnet only
+		if(!senderIsConsole)
+		{
+			sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+			return true;
+		}
+		
+		//purge
+		if(args[0].equalsIgnoreCase("purge"))
+		{
+			TFM_Util.adminAction(sender.getName(), "Removing all players from the whitelist", true);
+			int counter = 0;
+			for(OfflinePlayer p : server.getWhitelistedPlayers())
+			{
+				p.setWhitelisted(false);
+				counter++;
+			}
+			TFM_Util.playerMsg(sender, "Removed " + counter + " players from the whitelist");
+			
+			return true;
+		}
+		
+		// none of the commands were executed
+		return false;
     }
 }
