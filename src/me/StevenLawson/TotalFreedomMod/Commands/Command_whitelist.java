@@ -96,7 +96,7 @@ public class Command_whitelist extends TFM_Command
 			OfflinePlayer p;
 			try
 			{
-				p = getPlayer(args[0]);
+				p = getPlayer(args[1]);
 			}
 			catch(CantFindPlayerException ex)
 			{
@@ -127,7 +127,7 @@ public class Command_whitelist extends TFM_Command
 			OfflinePlayer p;
 			try
 			{
-				p = getPlayer(args[0]);
+				p = getPlayer(args[1]);
 			}
 			catch(CantFindPlayerException ex)
 			{
