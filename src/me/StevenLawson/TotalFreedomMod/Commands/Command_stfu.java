@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,7 +14,7 @@ public class Command_stfu extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length < 1 || args.length > 1)
+        if (args.length != 1)
         {
             return false;
         }
@@ -49,7 +48,7 @@ public class Command_stfu extends TFM_Command
 
         if (args[0].equalsIgnoreCase("purge"))
         {
-            TFM_Util.bcastMsg(ChatColor.RED + sender.getName() + " - Unmuting all players.");
+            TFM_Util.adminAction(sender.getName(), "Unmuting all players.", true);
             TFM_UserInfo info;
             int count = 0;
             for (Player mp : server.getOnlinePlayers())
@@ -64,7 +63,27 @@ public class Command_stfu extends TFM_Command
             TFM_Util.playerMsg(sender, "Unmuted " + count + " players.");
             return true;
         }
-
+        
+        if(args[0].equalsIgnoreCase("all"))
+        {
+        	TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
+        	
+        	TFM_UserInfo playerdata;
+        	int counter = 0;
+        	for(Player p : server.getOnlinePlayers())
+        	{
+        		if(!TFM_Util.isUserSuperadmin(p))
+        		{
+            		playerdata = TFM_UserInfo.getPlayerData(p);
+            		playerdata.setMuted(true);
+            		counter++;
+        		}
+        	}
+        	
+        	TFM_Util.playerMsg(sender, "Muted " + counter +  " players.");
+        	
+        }
+        
         Player p;
         try
         {

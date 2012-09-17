@@ -21,13 +21,13 @@ public class Command_adminmode extends TFM_Command
         if (args[0].equalsIgnoreCase("off"))
         {
             TotalFreedomMod.adminOnlyMode = false;
-            TFM_Util.bcastMsg("Server is now open to all players.", ChatColor.RED);
+            TFM_Util.adminAction(sender.getName(), "Opening the server to all players.", true);
             return true;
         }
         else if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.adminOnlyMode = true;
-            TFM_Util.bcastMsg("Server is now closed to non-superadmins.", ChatColor.RED);
+            TFM_Util.adminAction(sender.getName(), "Closing the server to non-superadmins.", true);
             for (Player p : server.getOnlinePlayers())
             {
                 if (!TFM_Util.isUserSuperadmin(p))

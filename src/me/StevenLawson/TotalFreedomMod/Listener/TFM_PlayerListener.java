@@ -231,25 +231,24 @@ public class TFM_PlayerListener implements Listener
                 p.setVelocity(new Vector(0, playerdata.orbitStrength(), 0));
             }
         }
+        /*
+        if (p.getItemInHand().getType() == Material.SPECKLED_MELON)
+        {
+            if (TFM_Util.isUserSuperadmin(p))
+            {
+                Location from_pos = event.getFrom().clone();
+                Location to_pos = event.getTo().clone();
 
-//        if (p.getItemInHand().getType() == Material.SPECKLED_MELON)
-//        {
-//            if (TFM_Util.isUserSuperadmin(p))
-//            {
-//                Location from_pos = event.getFrom().clone();
-//                Location to_pos = event.getTo().clone();
-//
-//                /*
-//                Block block_pos = user_pos.clone().add(user_pos.getDirection().multiply(-2.0)).getBlock();
-//
-//                if ((block_pos.isEmpty() || block_pos.isLiquid()))
-//                {
-//                    block_pos.setTypeIdAndData(Material.WOOL.getId(), DyeColor.values()[randomGenerator.nextInt(DyeColor.values().length)].getData(), false);
-//                }
-//                */
-//            }
-//        }
+                
+                Block block_pos = user_pos.clone().add(user_pos.getDirection().multiply(-2.0)).getBlock();
 
+                if ((block_pos.isEmpty() || block_pos.isLiquid()))
+                {
+                    block_pos.setTypeIdAndData(Material.WOOL.getId(), DyeColor.values()[randomGenerator.nextInt(DyeColor.values().length)].getData(), false);
+                }
+            }
+         }
+         */
         if (TotalFreedomMod.landminesEnabled && TotalFreedomMod.allowExplosions)
         {
             Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();

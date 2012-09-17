@@ -26,16 +26,10 @@ public class Command_ops extends TFM_Command
 
         if (args[0].equalsIgnoreCase("list"))
         {
-            String ops = "";
-            String delim = "";
-            for (OfflinePlayer p : server.getOperators())
-            {
-                ops += delim;
-                ops += p.getName();
-                delim = ",";
-            }
+            String ops = TFM_Util.arrayToString(server.getOperators());
 
-            TFM_Util.playerMsg(sender, "Operators: " + ops);
+            TFM_Util.playerMsg(sender, "Operators:");
+            TFM_Util.playerMsg(sender, ops);
 
             return true;
         }
@@ -68,7 +62,7 @@ public class Command_ops extends TFM_Command
 
         if (args[0].equalsIgnoreCase("purge"))
         {
-            if (!(TFM_Util.isUserSuperadmin(sender) || senderIsConsole))
+            if (!senderIsConsole)
             {
                 sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                 return true;

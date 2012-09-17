@@ -712,16 +712,20 @@ public class TFM_Util
 
         if (sender.getName().equalsIgnoreCase("markbyron"))
         {
-            return "the " + ChatColor.LIGHT_PURPLE + "server owner" + ChatColor.AQUA + ".";
+            return "the " + ChatColor.LIGHT_PURPLE + "owner" + ChatColor.AQUA + ".";
         }
 
         if (sender.getName().equalsIgnoreCase("madgeek1450"))
         {
-            return "the " + ChatColor.DARK_PURPLE + "server chief-developer" + ChatColor.AQUA + ".";
+            return "the " + ChatColor.DARK_PURPLE + "developer" + ChatColor.AQUA + ".";
         }
         if (sender.getName().equalsIgnoreCase("darthsalamon"))
         {
-            return "a " + ChatColor.DARK_PURPLE + "server developer" + ChatColor.AQUA + "!";
+            return "a " + ChatColor.DARK_PURPLE + "developer" + ChatColor.AQUA + "!";
+        }
+        if (sender.getName().equalsIgnoreCase("miwojedk"))
+        {
+            return "a " + ChatColor.DARK_RED+ "master-builder" + ChatColor.AQUA + "!";
         }
 
         if (TFM_Util.isUserSuperadmin(sender))
@@ -734,7 +738,7 @@ public class TFM_Util
             return "an " + ChatColor.DARK_GREEN + "OP" + ChatColor.AQUA + ".";
         }
 
-        return "a " + ChatColor.GREEN + "standard player" + ChatColor.AQUA + ".";
+        return "a " + ChatColor.GREEN + "non-OP" + ChatColor.AQUA + ".";
     }
 
     public static void banUsername(String name, String reason, String source, Date expire_date)
@@ -920,6 +924,21 @@ public class TFM_Util
         }
 
         return c.getTime();
+    }
+    
+    public static String arrayToString(Set<OfflinePlayer> set)
+    {
+    	String players = "";
+        String delim = "";
+    	
+    	for (OfflinePlayer p : set)
+        {
+            players += delim;
+            players += p.getName();
+            delim = ", ";
+        }
+    	
+    	return players;
     }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;
