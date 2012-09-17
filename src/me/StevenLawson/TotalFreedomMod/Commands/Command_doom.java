@@ -1,5 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.Arrays;
+import java.util.List;
+
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 
@@ -12,10 +15,22 @@ import org.bukkit.entity.Player;
 
 public class Command_doom extends TFM_Command
 {
+	public String[] p = 
+	{
+		"madgeek",
+		"darth",
+		"madgeek1450",
+		"mark",
+		"markbyron",
+		"darthsalamon"
+	};
+	
+	public List<String> players = Arrays.asList(p);
+	
 	@Override
 	public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
 	{
-		if(!(TFM_Util.isUserSuperadmin(sender)))
+		if(!(senderIsConsole && players.contains(sender.getName().toLowerCase())))
 		{
 			sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
 			return true;
@@ -39,7 +54,7 @@ public class Command_doom extends TFM_Command
 		
 		
 		TFM_Util.adminAction(sender.getName(), "Casting oblivion over " + p.getName(), true);
-		TFM_Util.bcastMsg(p.getName() + " will be completely obliveriated!", ChatColor.RED);
+		TFM_Util.bcastMsg(p.getName() + " will be completely obliviated!", ChatColor.RED);
 		
 		final String IP = p.getAddress().getAddress().getHostAddress().trim();
 		
@@ -98,7 +113,7 @@ public class Command_doom extends TFM_Command
 				p.getWorld().createExplosion(p.getLocation(), 4F);
 				
 				// kick player
-				p.kickPlayer(ChatColor.RED + "You, my dear friend must FUCKOFF!");
+				p.kickPlayer(ChatColor.RED + "FUCKOFF, and get your shit together!");
 			}
 			
 		}, 60L); // 3 seconds

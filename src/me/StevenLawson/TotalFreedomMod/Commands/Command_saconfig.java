@@ -36,6 +36,11 @@ public class Command_saconfig extends TFM_Command
             return true;
         }
         
+        if (sender.getName().equalsIgnoreCase("remotebukkit"))
+        {
+            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
+        }
+        
         if (args.length < 2)
         {
             return false;

@@ -32,7 +32,7 @@ commands:
     description: Superadmin command - Deop everyone on the server.
     usage: /<command>
   doom:
-    description: Owner command - For the worst of the worst, completely remove a player.
+    description: Owner command - For the bad Superadmins.
     usage: /<command> <playername>
   enchant:
     description: Enchant items.
@@ -165,7 +165,7 @@ commands:
     usage: /<command>
   stfu:
     description: Superadmin Command - Mutes a player with brute force.
-    usage: /<command> [list | purge | <player>]
+    usage: /<command> [<player> | list | purge | all]
     aliases: [mute]
   stop:
     description: Superadmin command - Kicks everyone and stops the server.
@@ -194,11 +194,14 @@ commands:
   waterplace:
     description: Superadmin command - Enable/disable water placement.
     usage: /<command> <on | off>
+  whitelist:
+    description: Superadmin command - Manage the whitelist.
+    usage: /<command> <on | off | list | count | add <player> | remove <player> | addall | purge>
   wildcard:
     description: Superadmin command - Run any command on all users, username placeholder = ?.
     usage: /<command> [fluff] ? [fluff] ?
 #  wipeflatlands:
-#    description: Console Command - Wipe the flatlands map.
+#    description: Owner command - Wipe the flatlands map.
 #    usage: /<command>
   ziptool:
     description: Owner command - Zip and unzip files.
