@@ -14,12 +14,14 @@ public class Command_rd extends TFM_Command
     {
         if (!(senderIsConsole || TFM_Util.isUserSuperadmin(sender)))
         {
-        	sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-        	return true;
+            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            return true;
         }
-        TFM_Util.adminAction(sender.getName(), "Removing all server entities", false);
+
+        //This terminology is wrong, this doesn't remove *all* entities, by far. - Madgeek
+        TFM_Util.adminAction(sender.getName(), "Removing all server entities.", false);
         sender.sendMessage(ChatColor.GRAY + String.valueOf(TFM_Util.wipeEntities(true, true)) + " enties removed.");
-        
+
         return true;
     }
 }

@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -26,10 +27,7 @@ public class Command_ops extends TFM_Command
 
         if (args[0].equalsIgnoreCase("list"))
         {
-            String ops = TFM_Util.arrayToString(server.getOperators());
-
-            TFM_Util.playerMsg(sender, "Operators:");
-            TFM_Util.playerMsg(sender, ops);
+            TFM_Util.playerMsg(sender, "Operators: " + StringUtils.join(server.getOperators(), ", "));
 
             return true;
         }

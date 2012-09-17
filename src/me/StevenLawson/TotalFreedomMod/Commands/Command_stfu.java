@@ -63,27 +63,27 @@ public class Command_stfu extends TFM_Command
             TFM_Util.playerMsg(sender, "Unmuted " + count + " players.");
             return true;
         }
-        
-        if(args[0].equalsIgnoreCase("all"))
+
+        if (args[0].equalsIgnoreCase("all"))
         {
-        	TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
-        	
-        	TFM_UserInfo playerdata;
-        	int counter = 0;
-        	for(Player p : server.getOnlinePlayers())
-        	{
-        		if(!TFM_Util.isUserSuperadmin(p))
-        		{
-            		playerdata = TFM_UserInfo.getPlayerData(p);
-            		playerdata.setMuted(true);
-            		counter++;
-        		}
-        	}
-        	
-        	TFM_Util.playerMsg(sender, "Muted " + counter +  " players.");
-        	
+            TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
+
+            TFM_UserInfo playerdata;
+            int counter = 0;
+            for (Player p : server.getOnlinePlayers())
+            {
+                if (!TFM_Util.isUserSuperadmin(p))
+                {
+                    playerdata = TFM_UserInfo.getPlayerData(p);
+                    playerdata.setMuted(true);
+                    counter++;
+                }
+            }
+
+            TFM_Util.playerMsg(sender, "Muted " + counter + " players.");
+            return true;
         }
-        
+
         Player p;
         try
         {
@@ -101,7 +101,6 @@ public class Command_stfu extends TFM_Command
             TFM_Util.adminAction(sender.getName(), "Unmuting " + p.getName(), true);
             playerdata.setMuted(false);
             TFM_Util.playerMsg(sender, "Unmuted " + p.getName());
-            return true;
         }
         else
         {

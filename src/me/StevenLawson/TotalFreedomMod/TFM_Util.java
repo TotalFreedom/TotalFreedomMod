@@ -13,6 +13,7 @@ import java.util.zip.ZipOutputStream;
 import net.minecraft.server.BanEntry;
 import net.minecraft.server.BanList;
 import net.minecraft.server.MinecraftServer;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -106,16 +107,17 @@ public class TFM_Util
 
     public static String implodeStringList(String glue, List<String> pieces)
     {
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < pieces.size(); i++)
-        {
-            if (i != 0)
-            {
-                output.append(glue);
-            }
-            output.append(pieces.get(i));
-        }
-        return output.toString();
+//        StringBuilder output = new StringBuilder();
+//        for (int i = 0; i < pieces.size(); i++)
+//        {
+//            if (i != 0)
+//            {
+//                output.append(glue);
+//            }
+//            output.append(pieces.get(i));
+//        }
+//        return output.toString();
+        return StringUtils.join(pieces, glue);
     }
 
     public static String formatLocation(Location in_loc)
@@ -396,6 +398,7 @@ public class TFM_Util
         }
     }
 
+    @Deprecated
     public static int wipeEntities(boolean wipe_explosives)
     {
         return wipeEntities(wipe_explosives, false);
@@ -725,7 +728,7 @@ public class TFM_Util
         }
         if (sender.getName().equalsIgnoreCase("miwojedk"))
         {
-            return "a " + ChatColor.DARK_RED+ "master-builder" + ChatColor.AQUA + "!";
+            return "a " + ChatColor.DARK_RED + "master-builder" + ChatColor.AQUA + "!";
         }
 
         if (TFM_Util.isUserSuperadmin(sender))
@@ -925,20 +928,21 @@ public class TFM_Util
 
         return c.getTime();
     }
-    
+
+    @Deprecated
     public static String arrayToString(Set<OfflinePlayer> set)
     {
-    	String players = "";
+        String players = "";
         String delim = "";
-    	
-    	for (OfflinePlayer p : set)
+
+        for (OfflinePlayer p : set)
         {
             players += delim;
             players += p.getName();
             delim = ", ";
         }
-    	
-    	return players;
+
+        return players;
     }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;
