@@ -91,6 +91,7 @@ commands:
   list:
     description: Lists the real names of all online players.
     usage: /<command>
+    aliases: [who]
   moblimiter:
     description: Owner command - Controll mob rezzing parameters.
     usage: /<command> <on|off|setmax <count>|dragon|giant|ghast|slime>
