@@ -27,6 +27,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
+    public static final String PERMBAN_FILE = "permban.yml";
     public static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
     public static final String COMMAND_PREFIX = "Command_";
     
@@ -54,9 +55,10 @@ public class TotalFreedomMod extends JavaPlugin
         TotalFreedomMod.pluginName = this.getDescription().getName();
 
         setAppProperties();
-
+        
         loadMainConfig();
         loadSuperadminConfig();
+        loadPermbanConfig();
 
         TFM_UserList.getInstance(this);
 
@@ -231,6 +233,40 @@ public class TotalFreedomMod extends JavaPlugin
                 }
             }
         }
+        
+        TFM_Log.info("Loaded " + superadmins.size() + " superadmins");
+        TFM_Log.info("Loaded " + superadmin_ips.size() + " superadmin IPs");
+    }
+    
+    public static List<String> permbanned_players = new ArrayList<String>();
+    public static List<String> permbanned_ips = new ArrayList<String>();
+    
+    public void loadPermbanConfig()
+    {
+    	TFM_Util.createDefaultConfiguration(PERMBAN_FILE, getFile());
+    	
+    	FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), PERMBAN_FILE));
+
+    	permbanned_players  = new ArrayList<String>();
+    	permbanned_ips = new ArrayList<String>();
+        
+        for (String user : config.getKeys(false))
+        {
+            permbanned_players.add(user.toLowerCase().trim());
+
+            List<String> user_ips = (List<String>) config.getStringList(user);
+            for (String ip : user_ips)
+            {
+                ip = ip.toLowerCase().trim();
+                if (!permbanned_ips.contains(ip))
+                {
+                    permbanned_ips.add(ip);
+                }
+            }
+        }
+        
+        TFM_Log.info("Loaded " + permbanned_players.size() + " permanently banned players");
+        TFM_Log.info("Loaded " + permbanned_ips.size() + " permanently banned IPs");
     }
 
     private void registerEventHandlers()

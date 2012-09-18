@@ -57,6 +57,27 @@ public class Command_halt extends TFM_Command
 			return true;
 		}
 		
+		if(args[0].equalsIgnoreCase("list"))
+		{
+			TFM_Util.playerMsg(sender, "Halted players:");
+            TFM_UserInfo info;
+            int count = 0;
+            for (Player hp : server.getOnlinePlayers())
+            {
+                info = TFM_UserInfo.getPlayerData(hp);
+                if (info.isHalted())
+                {
+                    TFM_Util.playerMsg(sender, "- " + hp.getName());
+                    count++;
+                }
+            }
+            if (count == 0)
+            {
+                TFM_Util.playerMsg(sender, "- none");
+            }
+            return true;
+		}
+		
 		Player p;
 		try
 		{
@@ -112,7 +133,6 @@ public class Command_halt extends TFM_Command
 		playerdata.setFrozen(false);
 		playerdata.setMuted(false);
 		playerdata.setHalted(false);
-		
 		TFM_Util.playerMsg(p, "You are no longer halted.");
 	}
 }

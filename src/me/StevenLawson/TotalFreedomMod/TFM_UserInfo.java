@@ -342,7 +342,7 @@ public class TFM_UserInfo
     
     public boolean isHalted()
     {
-    	return this.is_halted;
+    	return is_halted;
     }
     
     public void setHalted(boolean is_halted)
