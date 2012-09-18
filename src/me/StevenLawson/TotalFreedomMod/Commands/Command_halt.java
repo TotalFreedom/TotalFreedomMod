@@ -25,6 +25,38 @@ public class Command_halt extends TFM_Command
 			return false;
 		}
 		
+		if(args[0].equalsIgnoreCase("all"))
+		{
+			TFM_Util.adminAction(sender.getName(), "Halting all non-Superadmins", true);
+			int counter = 0;
+			for(Player p : server.getOnlinePlayers())
+			{
+				if(!TFM_Util.isUserSuperadmin(p))
+				{
+					halt(p, sender);
+					counter++;
+				}
+			}
+			TFM_Util.playerMsg(sender, "Halted " + counter + " players.");
+			return true;
+		}
+		
+		if(args[0].equalsIgnoreCase("purge"))
+		{
+			TFM_Util.adminAction(sender.getName(), "Unhalting all players", true);
+			int counter = 0;
+			for(Player p : server.getOnlinePlayers())
+			{
+				if(!TFM_UserInfo.getPlayerData(p).isHalted())
+				{
+					unhalt(p, sender);
+					counter++;
+				}
+			}
+			TFM_Util.playerMsg(sender, "Unhalted " + counter + " players.");
+			return true;
+		}
+		
 		Player p;
 		try
 		{
@@ -37,38 +69,50 @@ public class Command_halt extends TFM_Command
 			
 		}
 		
-		TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
-		
-		if(!playerdata.isHalted())
+		if(!TFM_UserInfo.getPlayerData(p).isHalted())
 		{
 			TFM_Util.adminAction(sender.getName(), "Halting " + p.getName(), true);
-			
-			p.setOp(false);
-			p.setGameMode(GameMode.SURVIVAL);
-			p.setFlying(false);
-			p.setDisplayName(p.getName());
-			p.closeInventory();
-			p.setTotalExperience(0);
-			
-			playerdata.stopOrbiting();
-			playerdata.setFrozen(true);
-			playerdata.setMuted(true);
-			
-			TFM_Util.playerMsg(p, "You have been halted, don't move!");
+			halt(p, sender);
 			return true;
 		}
 		else
 		{
 			TFM_Util.adminAction(sender.getName(), "Unhalting " + p.getName(), true);
 			
-			p.setOp(true);
-			p.setGameMode(GameMode.CREATIVE);
-			playerdata.setFrozen(false);
-			playerdata.setMuted(false);
-			
-			TFM_Util.playerMsg(p, "You are no longer halted.");
+			unhalt(p, sender);
 			return true;
 		}
+	}
+	
+	public void halt(Player p, CommandSender sender)
+	{
+		TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 		
+		p.setOp(false);
+		p.setGameMode(GameMode.SURVIVAL);
+		p.setFlying(false);
+		p.setDisplayName(p.getName());
+		p.closeInventory();
+		p.setTotalExperience(0);
+		
+		playerdata.stopOrbiting();
+		playerdata.setFrozen(true);
+		playerdata.setMuted(true);
+		playerdata.setHalted(true);
+		
+		TFM_Util.playerMsg(p, "You have been halted, don't move!");
+	}
+	
+	public void unhalt(Player p, CommandSender sender)
+	{
+		TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+		
+		p.setOp(true);
+		p.setGameMode(GameMode.CREATIVE);
+		playerdata.setFrozen(false);
+		playerdata.setMuted(false);
+		playerdata.setHalted(false);
+		
+		TFM_Util.playerMsg(p, "You are no longer halted.");
 	}
 }
