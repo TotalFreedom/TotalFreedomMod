@@ -26,6 +26,7 @@ public class Command_glist extends TFM_Command
             {
                 if (args[0].equalsIgnoreCase("purge"))
                 {
+                	TFM_Util.adminAction(sender.getName(), "Purging the banlist", true);
                     TFM_UserList.getInstance(plugin).purge();
                     return true;
                 }

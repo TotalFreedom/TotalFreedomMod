@@ -17,6 +17,7 @@ public class TFM_UserInfo
     private Player player;
     private boolean user_frozen = false;
     private boolean is_muted = false;
+    private boolean is_halted = false;
     private int msg_count = 0;
     private int block_destroy_total = 0;
     private int block_place_total = 0;
@@ -337,5 +338,15 @@ public class TFM_UserInfo
     public void setMuted(boolean is_muted)
     {
         this.is_muted = is_muted;
+    }
+    
+    public boolean isHalted()
+    {
+    	return this.is_halted;
+    }
+    
+    public void setHalted(boolean is_halted)
+    {
+    	this.is_halted = is_halted;
     }
 }
