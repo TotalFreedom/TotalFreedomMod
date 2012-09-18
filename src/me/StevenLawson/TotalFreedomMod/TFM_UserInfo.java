@@ -37,14 +37,13 @@ public class TFM_UserInfo
     private int mp44_schedule_id = -1;
     private boolean mp44_armed = false;
     private boolean mp44_firing = false;
-    
     public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
 
     private TFM_UserInfo(Player player)
     {
         this.player = player;
     }
-    
+
     public static TFM_UserInfo getPlayerData(Player p)
     {
         TFM_UserInfo playerdata = TFM_UserInfo.userinfo.get(p);
@@ -55,7 +54,7 @@ public class TFM_UserInfo
         }
         return playerdata;
     }
-    
+
     public boolean isOrbiting()
     {
         return this.is_orbiting;
@@ -66,7 +65,7 @@ public class TFM_UserInfo
         this.is_orbiting = true;
         this.orbit_strength = orbit_strength;
     }
-    
+
     public void stopOrbiting()
     {
         this.is_orbiting = false;
@@ -94,7 +93,7 @@ public class TFM_UserInfo
     {
         return this.user_caged;
     }
-    
+
     public enum CageLayer
     {
         INNER, OUTER
@@ -187,7 +186,7 @@ public class TFM_UserInfo
     {
         this.block_destroy_total = 0;
     }
-    
+
     public void incrementBlockPlaceCount()
     {
         this.block_place_total++;
@@ -239,7 +238,7 @@ public class TFM_UserInfo
         this.mob_thrower_creature = mob_thrower_creature;
         this.mob_thrower_speed = mob_thrower_speed;
     }
-    
+
     public void disableMobThrower()
     {
         this.mob_thrower_enabled = false;
@@ -254,12 +253,12 @@ public class TFM_UserInfo
     {
         return this.mob_thrower_speed;
     }
-    
+
     public boolean mobThrowerEnabled()
     {
         return this.mob_thrower_enabled;
     }
-    
+
     public void enqueueMob(LivingEntity mob)
     {
         mob_thrower_queue.add(mob);
@@ -272,14 +271,14 @@ public class TFM_UserInfo
             }
         }
     }
-    
+
     public void startArrowShooter(TotalFreedomMod plugin)
     {
         this.stopArrowShooter();
         this.mp44_schedule_id = plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new ArrowShooter(this.player), 1L, 1L);
         mp44_firing = true;
     }
-    
+
     public void stopArrowShooter()
     {
         if (this.mp44_schedule_id != -1)
@@ -289,11 +288,11 @@ public class TFM_UserInfo
         }
         mp44_firing = false;
     }
-    
+
     class ArrowShooter implements Runnable
     {
         private Player _player;
-        
+
         public ArrowShooter(Player player)
         {
             this._player = player;
@@ -306,24 +305,24 @@ public class TFM_UserInfo
             shot_arrow.setVelocity(shot_arrow.getVelocity().multiply(2.0));
         }
     }
-    
+
     public void armMP44()
     {
         mp44_armed = true;
         this.stopArrowShooter();
     }
-    
+
     public void disarmMP44()
     {
         mp44_armed = false;
         this.stopArrowShooter();
     }
-    
+
     public boolean isMP44Armed()
     {
         return this.mp44_armed;
     }
-    
+
     public boolean toggleMP44Firing()
     {
         this.mp44_firing = !this.mp44_firing;
@@ -339,14 +338,14 @@ public class TFM_UserInfo
     {
         this.is_muted = is_muted;
     }
-    
+
     public boolean isHalted()
     {
-    	return is_halted;
+        return is_halted;
     }
-    
+
     public void setHalted(boolean is_halted)
     {
-    	this.is_halted = is_halted;
+        this.is_halted = is_halted;
     }
 }

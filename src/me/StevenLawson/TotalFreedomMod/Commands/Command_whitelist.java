@@ -171,7 +171,7 @@ public class Command_whitelist extends TFM_Command
         if (args[0].equalsIgnoreCase("purge"))
         {
             @SuppressWarnings("rawtypes")
-			Set whitelisted = MinecraftServer.getServer().getServerConfigurationManager().getWhitelisted();
+            Set whitelisted = MinecraftServer.getServer().getServerConfigurationManager().getWhitelisted();
             TFM_Util.adminAction(sender.getName(), "Removing all players from the whitelist.", false);
             TFM_Util.playerMsg(sender, "Removed " + whitelisted.size() + " players from the whitelist.");
             whitelisted.clear();

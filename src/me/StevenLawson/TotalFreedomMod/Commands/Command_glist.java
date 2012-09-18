@@ -26,7 +26,7 @@ public class Command_glist extends TFM_Command
             {
                 if (args[0].equalsIgnoreCase("purge"))
                 {
-                	TFM_Util.adminAction(sender.getName(), "Purging the banlist", true);
+                    //Purge does not clear the banlist! This is not for clearing bans! This is for clearing the yaml file that stores the player/IP database!
                     TFM_UserList.getInstance(plugin).purge();
                     return true;
                 }

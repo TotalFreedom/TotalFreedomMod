@@ -23,20 +23,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class TotalFreedomMod extends JavaPlugin
 {
     private final Server server = Bukkit.getServer();
-    
+
     public static final long HEARTBEAT_RATE = 5L; //Seconds
+
     public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
     public static final String PERMBAN_FILE = "permban.yml";
+
     public static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
     public static final String COMMAND_PREFIX = "Command_";
-    
+
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
-    
+
     public static boolean allPlayersFrozen = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
 
@@ -55,7 +57,7 @@ public class TotalFreedomMod extends JavaPlugin
         TotalFreedomMod.pluginName = this.getDescription().getName();
 
         setAppProperties();
-        
+
         loadMainConfig();
         loadSuperadminConfig();
         loadPermbanConfig();
@@ -141,7 +143,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         return true;
     }
-    
+
     public static boolean allowFirePlace = false;
     public static Boolean allowFireSpread = false;
     public static Boolean allowLavaDamage = false;
@@ -207,10 +209,10 @@ public class TotalFreedomMod extends JavaPlugin
         allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
         adminOnlyMode = config.getBoolean("admin_only_mode", adminOnlyMode);
     }
-    
+
     public static List<String> superadmins = new ArrayList<String>();
     public static List<String> superadmin_ips = new ArrayList<String>();
-    
+
     public void loadSuperadminConfig()
     {
         TFM_Util.createDefaultConfiguration(SUPERADMIN_FILE, getFile());
@@ -233,23 +235,19 @@ public class TotalFreedomMod extends JavaPlugin
                 }
             }
         }
-        
-        TFM_Log.info("Loaded " + superadmins.size() + " superadmins");
-        TFM_Log.info("Loaded " + superadmin_ips.size() + " superadmin IPs");
     }
-    
+
     public static List<String> permbanned_players = new ArrayList<String>();
     public static List<String> permbanned_ips = new ArrayList<String>();
-    
+
     public void loadPermbanConfig()
     {
-    	TFM_Util.createDefaultConfiguration(PERMBAN_FILE, getFile());
-    	
-    	FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), PERMBAN_FILE));
+        TFM_Util.createDefaultConfiguration(PERMBAN_FILE, getFile());
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), PERMBAN_FILE));
 
-    	permbanned_players  = new ArrayList<String>();
-    	permbanned_ips = new ArrayList<String>();
-        
+        permbanned_players = new ArrayList<String>();
+        permbanned_ips = new ArrayList<String>();
+
         for (String user : config.getKeys(false))
         {
             permbanned_players.add(user.toLowerCase().trim());
@@ -264,9 +262,6 @@ public class TotalFreedomMod extends JavaPlugin
                 }
             }
         }
-        
-        TFM_Log.info("Loaded " + permbanned_players.size() + " permanently banned players");
-        TFM_Log.info("Loaded " + permbanned_ips.size() + " permanently banned IPs");
     }
 
     private void registerEventHandlers()

@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
 public class Command_rank extends TFM_Command
 {
     @Override
@@ -14,10 +13,10 @@ public class Command_rank extends TFM_Command
     {
         if (senderIsConsole && args.length < 1)
         {
-        	for(Player p : server.getOnlinePlayers())
-        	{
-            	sender.sendMessage(p.getName() + " is " + TFM_Util.getRank(p));
-        	}
+            for (Player p : server.getOnlinePlayers())
+            {
+                sender.sendMessage(p.getName() + " is " + TFM_Util.getRank(p));
+            }
             return true;
         }
 

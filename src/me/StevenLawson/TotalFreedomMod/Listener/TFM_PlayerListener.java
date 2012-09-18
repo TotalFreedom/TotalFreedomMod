@@ -691,6 +691,26 @@ public class TFM_PlayerListener implements Listener
                 return;
             }
 
+            for (String test_player : TotalFreedomMod.permbanned_players)
+            {
+                if (test_player.equalsIgnoreCase(player_name))
+                {
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your username is permanently banned from this server.");
+                    return;
+                }
+            }
+
+            for (String test_ip : TotalFreedomMod.permbanned_ips)
+            {
+                //TODO: Add support for wildcards in permbanned_ips list.
+                //TODO: Create generic wildcard IP matching method since we do this several times already in this project.
+                if (test_ip.equalsIgnoreCase(player_ip))
+                {
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your IP address is permanently banned from this server.");
+                    return;
+                }
+            }
+
             if (server.getOnlinePlayers().length >= server.getMaxPlayers())
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_FULL, "Sorry, but this server is full.");
@@ -720,25 +740,6 @@ public class TFM_PlayerListener implements Listener
                     return;
                 }
             }
-            
-            for(String test_player : TotalFreedomMod.permbanned_players)
-            {
-            	if(test_player.equalsIgnoreCase(player_name))
-            	{
-            		event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your username is permanently banned from this server.");
-            		return;
-            	}
-            }
-            
-            for(String test_ip : TotalFreedomMod.permbanned_ips)
-            {
-            	if(test_ip.equalsIgnoreCase(player_ip))
-            	{
-            		event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your IP-address is permanently banned from this server.");
-            		return;
-            	}
-            }
-            
         }
         else
         {
