@@ -198,12 +198,6 @@ public class TFM_Util
         world.setTime(time + 24000 + ticks);
     }
 
-    @Deprecated
-    public static void createDefaultConfiguration(String name, TotalFreedomMod tfm, File plugin_file)
-    {
-        TFM_Util.createDefaultConfiguration(name, plugin_file);
-    }
-
     public static void createDefaultConfiguration(String name, File plugin_file)
     {
         TotalFreedomMod tfm = TotalFreedomMod.plugin;
@@ -277,12 +271,6 @@ public class TFM_Util
         }
     }
 
-    @Deprecated
-    public static boolean isUserSuperadmin(CommandSender user, TotalFreedomMod tfm)
-    {
-        return isUserSuperadmin(user);
-    }
-
     public static boolean isUserSuperadmin(CommandSender user)
     {
         try
@@ -323,12 +311,6 @@ public class TFM_Util
         }
 
         return false;
-    }
-
-    @Deprecated
-    public static boolean checkPartialSuperadminIP(String user_ip, TotalFreedomMod tfm)
-    {
-        return TFM_Util.checkPartialSuperadminIP(user_ip);
     }
 
     public static boolean checkPartialSuperadminIP(String user_ip)
@@ -396,12 +378,6 @@ public class TFM_Util
 
             return match_ip != null;
         }
-    }
-
-    @Deprecated
-    public static int wipeEntities(boolean wipe_explosives)
-    {
-        return wipeEntities(wipe_explosives, false);
     }
 
     public static int wipeEntities(boolean wipe_explosives, boolean wipe_carts)
@@ -929,20 +905,14 @@ public class TFM_Util
         return c.getTime();
     }
 
-    @Deprecated
-    public static String arrayToString(Set<OfflinePlayer> set)
+    public static String playerListToNames(Set<OfflinePlayer> players)
     {
-        String players = "";
-        String delim = "";
-
-        for (OfflinePlayer p : set)
+        List<String> player_names = new ArrayList<String>();
+        for (OfflinePlayer p : players)
         {
-            players += delim;
-            players += p.getName();
-            delim = ", ";
+            player_names.add(p.getName());
         }
-
-        return players;
+        return StringUtils.join(player_names, ", ");
     }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;

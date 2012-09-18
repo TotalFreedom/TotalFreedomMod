@@ -4,7 +4,6 @@ import java.util.Set;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.server.MinecraftServer;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -30,7 +29,7 @@ public class Command_whitelist extends TFM_Command
         // list
         if (args[0].equalsIgnoreCase("list"))
         {
-            TFM_Util.playerMsg(sender, "Whitelisted players: " + StringUtils.join(server.getWhitelistedPlayers(), ", "));
+            TFM_Util.playerMsg(sender, "Whitelisted players: " + TFM_Util.playerListToNames(server.getWhitelistedPlayers()));
             return true;
         }
 
