@@ -47,7 +47,7 @@ public class Command_halt extends TFM_Command
 			int counter = 0;
 			for(Player p : server.getOnlinePlayers())
 			{
-				if(!TFM_UserInfo.getPlayerData(p).isHalted())
+				if(TFM_UserInfo.getPlayerData(p).isHalted())
 				{
 					unhalt(p, sender);
 					counter++;

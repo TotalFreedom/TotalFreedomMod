@@ -75,7 +75,7 @@ commands:
     usage: /<command> <partialname>
   halt:
     description: Superadmin command - Halts a player
-    usage: /<command> <partialname>
+    usage: /<command> <<partialname> | all | purge>
   kicknoob:
     description: Superadmin command - Kick all non-superadmins on server.
     usage: /<command>
