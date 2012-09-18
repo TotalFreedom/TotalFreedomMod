@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-//This command was coded initially by JeromSar
 
 public class Command_rank extends TFM_Command
 {
@@ -15,7 +14,10 @@ public class Command_rank extends TFM_Command
     {
         if (senderIsConsole && args.length < 1)
         {
-            TFM_Util.playerMsg(sender, "You cannot use this command without arguments in the console.");
+        	for(Player p : server.getOnlinePlayers())
+        	{
+            	sender.sendMessage(p.getName() + " is " + TFM_Util.getRank(p));
+        	}
             return true;
         }
 
