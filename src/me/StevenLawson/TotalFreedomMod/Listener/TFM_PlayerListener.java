@@ -215,7 +215,7 @@ public class TFM_PlayerListener implements Listener
 
             if (out_of_cage)
             {
-                playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER), playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
+                playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER), playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
                 playerdata.regenerateHistory();
                 playerdata.clearHistory();
                 TFM_Util.buildHistory(target_pos, 2, playerdata);

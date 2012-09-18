@@ -1,5 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.ArrayList;
+import java.util.List;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,77 +14,57 @@ public class Command_list extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        final boolean is_clanforge = sender.getName().equalsIgnoreCase("remotebukkit");
+
         StringBuilder onlineStats = new StringBuilder();
         StringBuilder onlineUsers = new StringBuilder();
 
-        if (senderIsConsole)
+        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().length);
+        onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(server.getMaxPlayers());
+        onlineStats.append(ChatColor.BLUE).append(" players online.");
+
+        List<String> player_names = new ArrayList<String>();
+        for (Player p : server.getOnlinePlayers())
         {
-            onlineStats.append(String.format("There are %d out of a maximum %d players online.", server.getOnlinePlayers().length, server.getMaxPlayers()));
+            String prefix = "";
 
-            onlineUsers.append("Connected players: ");
-            boolean first = true;
-            for (Player p : server.getOnlinePlayers())
+            if (!is_clanforge)
             {
-                if (first)
+                if (TFM_Util.isUserSuperadmin(p))
                 {
-                    first = false;
-                }
-                else
-                {
-                    onlineUsers.append(", ");
-                }
-
-                if (sender.getName().equalsIgnoreCase("remotebukkit"))
-                {
-                    onlineUsers.append(p.getName());
+                    if (p.isOp())
+                    {
+                        prefix = (ChatColor.GOLD + "[SA+OP]");
+                    }
+                    else
+                    {
+                        prefix = (ChatColor.GOLD + "[SA]");
+                    }
                 }
                 else
                 {
                     if (p.isOp())
                     {
-                        onlineUsers.append("[OP]").append(p.getName());
-                    }
-                    else
-                    {
-                        onlineUsers.append(p.getName());
+                        prefix = (ChatColor.RED + "[OP]");
                     }
                 }
             }
+
+            player_names.add(prefix + p.getName() + ChatColor.WHITE);
+        }
+
+        onlineUsers.append("Connected players: ").append(StringUtils.join(player_names, ", "));
+
+        if (senderIsConsole)
+        {
+            sender.sendMessage(ChatColor.stripColor(onlineStats.toString()));
+            sender.sendMessage(ChatColor.stripColor(onlineUsers.toString()));
         }
         else
         {
-            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().length);
-            onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(server.getMaxPlayers());
-            onlineStats.append(ChatColor.BLUE).append(" players online.");
-
-            onlineUsers.append("Connected players: ");
-            boolean first = true;
-            for (Player p : server.getOnlinePlayers())
-            {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    onlineUsers.append(", ");
-                }
-
-                if (p.isOp())
-                {
-                    onlineUsers.append(ChatColor.RED).append(p.getName());
-                }
-                else
-                {
-                    onlineUsers.append(p.getName());
-                }
-
-                onlineUsers.append(ChatColor.WHITE);
-            }
+            sender.sendMessage(onlineStats.toString());
+            sender.sendMessage(onlineUsers.toString());
         }
-
-        sender.sendMessage(onlineStats.toString());
-        sender.sendMessage(onlineUsers.toString());
 
         return true;
     }
