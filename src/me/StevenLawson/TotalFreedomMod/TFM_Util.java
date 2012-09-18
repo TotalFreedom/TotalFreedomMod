@@ -696,12 +696,14 @@ public class TFM_Util
 
         if (sender.getName().equalsIgnoreCase("madgeek1450"))
         {
-            return "the " + ChatColor.DARK_PURPLE + "developer" + ChatColor.AQUA + ".";
+            return "the " + ChatColor.DARK_PURPLE + "chief-developer" + ChatColor.AQUA + " and " + ChatColor.GOLD + "master-ass-kicker" + ChatColor.AQUA + ".";
         }
+
         if (sender.getName().equalsIgnoreCase("darthsalamon"))
         {
             return "a " + ChatColor.DARK_PURPLE + "developer" + ChatColor.AQUA + "!";
         }
+
         if (sender.getName().equalsIgnoreCase("miwojedk"))
         {
             return "a " + ChatColor.DARK_RED + "master-builder" + ChatColor.AQUA + "!";
