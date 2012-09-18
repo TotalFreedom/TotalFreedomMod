@@ -70,7 +70,7 @@ public class Command_whitelist extends TFM_Command
         // on
         if (args[0].equalsIgnoreCase("on"))
         {
-            TFM_Util.adminAction(sender.getName(), "Turning the whitelist on", false);
+            TFM_Util.adminAction(sender.getName(), "Turning the whitelist on.", true);
             server.setWhitelist(true);
             return true;
         }
@@ -78,7 +78,7 @@ public class Command_whitelist extends TFM_Command
         // off
         if (args[0].equalsIgnoreCase("off"))
         {
-            TFM_Util.adminAction(sender.getName(), "Turning the whitelist off", false);
+            TFM_Util.adminAction(sender.getName(), "Turning the whitelist off.", true);
             server.setWhitelist(false);
             return true;
         }
@@ -91,26 +91,19 @@ public class Command_whitelist extends TFM_Command
                 return false;
             }
 
+            String search_name = args[1].trim().toLowerCase();
+
             OfflinePlayer p;
             try
             {
-                p = getPlayer(args[1]);
+                p = getPlayer(search_name);
             }
             catch (CantFindPlayerException ex)
             {
-                if (!senderIsConsole)
-                {
-                    sender.sendMessage(ex.getMessage());
-                    sender.sendMessage(ChatColor.YELLOW + "You don't have permissions to whitelist offline players");
-                    return true;
-                }
-                else
-                {
-                    p = server.getOfflinePlayer(args[0]);
-                }
+                p = server.getOfflinePlayer(search_name);
             }
 
-            TFM_Util.adminAction(sender.getName(), "Adding " + p.getName() + " to the whitelist", false);
+            TFM_Util.adminAction(sender.getName(), "Adding " + p.getName() + " to the whitelist.", false);
             p.setWhitelisted(true);
             return true;
         }
@@ -123,19 +116,21 @@ public class Command_whitelist extends TFM_Command
                 return false;
             }
 
+            String search_name = args[1].trim().toLowerCase();
+
             OfflinePlayer p;
             try
             {
-                p = getPlayer(args[1]);
+                p = getPlayer(search_name);
             }
             catch (CantFindPlayerException ex)
             {
-                p = server.getOfflinePlayer(args[0]);
+                p = server.getOfflinePlayer(search_name);
             }
 
             if (p.isWhitelisted())
             {
-                TFM_Util.adminAction(sender.getName(), "Removing " + p.getName() + "from the whitelist", false);
+                TFM_Util.adminAction(sender.getName(), "Removing " + p.getName() + " from the whitelist.", false);
                 p.setWhitelisted(false);
                 return true;
             }
@@ -150,7 +145,7 @@ public class Command_whitelist extends TFM_Command
         // addall
         if (args[0].equalsIgnoreCase("addall"))
         {
-            TFM_Util.adminAction(sender.getName(), "Adding all online players to the whitelist", false);
+            TFM_Util.adminAction(sender.getName(), "Adding all online players to the whitelist.", false);
             int counter = 0;
             for (Player p : server.getOnlinePlayers())
             {
@@ -176,7 +171,7 @@ public class Command_whitelist extends TFM_Command
         if (args[0].equalsIgnoreCase("purge"))
         {
             Set whitelisted = MinecraftServer.getServer().getServerConfigurationManager().getWhitelisted();
-            TFM_Util.adminAction(sender.getName(), "Removing all players from the whitelist", true);
+            TFM_Util.adminAction(sender.getName(), "Removing all players from the whitelist.", false);
             TFM_Util.playerMsg(sender, "Removed " + whitelisted.size() + " players from the whitelist.");
             whitelisted.clear();
 

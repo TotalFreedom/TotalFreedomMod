@@ -705,7 +705,7 @@ public class TFM_PlayerListener implements Listener
 
             if (scm.hasWhitelist)
             {
-                if (!scm.getWhitelisted().contains(player_name))
+                if (!scm.getWhitelisted().contains(player_name.toLowerCase()))
                 {
                     event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "You are not whitelisted on this server.");
                     return;
