@@ -73,6 +73,9 @@ commands:
   gtfo:
     description: Superadmin command - Makes someone GTFO (deop and ip ban by username).
     usage: /<command> <partialname>
+  halt:
+    description: Superadmin command - Halts a player
+    usage: /<command> <partialname>
   kicknoob:
     description: Superadmin command - Kick all non-superadmins on server.
     usage: /<command>
