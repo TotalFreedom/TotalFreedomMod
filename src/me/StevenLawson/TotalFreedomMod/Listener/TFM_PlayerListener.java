@@ -409,7 +409,7 @@ public class TFM_PlayerListener implements Listener
 
         if (block_command)
         {
-            TFM_Util.autoEject(p, "That command is prohibited.");
+            TFM_Util.autoEject(p, "You used a prohibited command: " + command);
             TFM_Util.bcastMsg(p.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
         }
         else

@@ -110,6 +110,9 @@ commands:
   nonuke:
     description: Superadmin command - Attempt to detect "invisible griefers" and "nukers".
     usage: /<command> <on | off> [range] [blockrate]
+  onlinemode:
+    description: Console command - Switch server online-mode on and off.
+    usage: /<command> <on | off>
   op:
     description: Makes a player operator
     usage: /<command> <playername>
