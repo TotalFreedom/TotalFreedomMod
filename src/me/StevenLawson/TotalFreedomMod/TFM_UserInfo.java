@@ -37,6 +37,7 @@ public class TFM_UserInfo
     private int mp44_schedule_id = -1;
     private boolean mp44_armed = false;
     private boolean mp44_firing = false;
+    private int lockup_schedule_id = -1;
     public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
 
     private TFM_UserInfo(Player player)
@@ -347,5 +348,15 @@ public class TFM_UserInfo
     public void setHalted(boolean is_halted)
     {
         this.is_halted = is_halted;
+    }
+
+    public int getLockupScheduleID()
+    {
+        return lockup_schedule_id;
+    }
+
+    public void setLockupScheduleID(int lockup_schedule_id)
+    {
+        this.lockup_schedule_id = lockup_schedule_id;
     }
 }

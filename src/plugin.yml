@@ -95,6 +95,9 @@ commands:
     description: Lists the real names of all online players.
     usage: /<command>
     aliases: [who]
+  lockup:
+    description: Console command - Block target's minecraft input. This is evil, and I never should have wrote it.
+    usage: /<command> <partialname> <on | off>
   moblimiter:
     description: Owner command - Controll mob rezzing parameters.
     usage: /<command> <on|off|setmax <count>|dragon|giant|ghast|slime>
@@ -131,6 +134,9 @@ commands:
   permban:
     description: Manage permanently banned players and IPs
     usage: /<command> <list | reload>
+#  potion:
+#    description: Manipulate potion effects.
+#    usage: /<command> <list>
   prelog:
     description: Superadmin command - Enable/disable the command prelogger. When this is on, logs will be filled with many duplicate messages.
     usage: /<command> <on | off>
