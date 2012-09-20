@@ -12,6 +12,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -75,6 +76,17 @@ public class TotalFreedomMod extends JavaPlugin
         if (generateFlatlands)
         {
             TFM_Util.generateFlatlands(flatlandsGenerationParams);
+        }
+
+        if (disableWeather)
+        {
+            for (World world : server.getWorlds())
+            {
+                world.setThundering(false);
+                world.setStorm(false);
+                world.setThunderDuration(0);
+                world.setThunderDuration(0);
+            }
         }
     }
 

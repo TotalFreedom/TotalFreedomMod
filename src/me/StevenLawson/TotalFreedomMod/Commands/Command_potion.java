@@ -66,7 +66,7 @@ public class Command_potion extends TFM_Command
                     return true;
                 }
 
-                for (PotionEffect potion_effect : sender_p.getActivePotionEffects())
+                for (PotionEffect potion_effect : target.getActivePotionEffects())
                 {
                     target.removePotionEffect(potion_effect.getType());
                 }
