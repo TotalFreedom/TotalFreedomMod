@@ -21,51 +21,67 @@ public class Command_lockup extends TFM_Command
             return true;
         }
 
-        if (args.length != 2)
+        if (args.length == 1)
         {
-            return false;
-        }
-
-        final Player p;
-        try
-        {
-            p = getPlayer(args[0]);
-        }
-        catch (CantFindPlayerException ex)
-        {
-            sender.sendMessage(ex.getMessage());
-            return true;
-        }
-
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
-
-        if (args[1].equalsIgnoreCase("on"))
-        {
-            cancelLockup(playerdata);
-
-            playerdata.setLockupScheduleID(server.getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable()
+            if (args[0].equalsIgnoreCase("all"))
             {
-                private Random random = new Random();
-
-                @Override
-                public void run()
+                for (Player p : server.getOnlinePlayers())
                 {
-                    p.openWorkbench(null, true);
-
-                    Location l = p.getLocation().clone();
-                    l.setPitch(random.nextFloat() * 360.0f);
-                    l.setYaw(random.nextFloat() * 360.0f);
-                    p.teleport(l);
+                    startLockup(p);
                 }
-            }, 0L, 5L));
-
-            sender.sendMessage(ChatColor.GRAY + "Locking up " + p.getName());
+                sender.sendMessage(ChatColor.GRAY + "Locking up all players.");
+            }
+            else if (args[0].equalsIgnoreCase("purge"))
+            {
+                for (Player p : server.getOnlinePlayers())
+                {
+                    cancelLockup(p);
+                }
+                sender.sendMessage(ChatColor.GRAY + "Not locking up all players.");
+            }
+            else
+            {
+                return false;
+            }
         }
-        else if (args[1].equalsIgnoreCase("off"))
+        else if (args.length == 2)
         {
-            cancelLockup(playerdata);
+            if (args[1].equalsIgnoreCase("on"))
+            {
+                final Player p;
+                try
+                {
+                    p = getPlayer(args[0]);
+                }
+                catch (CantFindPlayerException ex)
+                {
+                    sender.sendMessage(ex.getMessage());
+                    return true;
+                }
 
-            sender.sendMessage(ChatColor.GRAY + "Not locking up " + p.getName() + " anymore.");
+                startLockup(p);
+                sender.sendMessage(ChatColor.GRAY + "Locking up " + p.getName());
+            }
+            else if (args[1].equalsIgnoreCase("off"))
+            {
+                final Player p;
+                try
+                {
+                    p = getPlayer(args[0]);
+                }
+                catch (CantFindPlayerException ex)
+                {
+                    sender.sendMessage(ex.getMessage());
+                    return true;
+                }
+
+                cancelLockup(p);
+                sender.sendMessage(ChatColor.GRAY + "Not locking up " + p.getName() + " anymore.");
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
@@ -84,5 +100,33 @@ public class Command_lockup extends TFM_Command
             scheduler.cancelTask(lockupScheduleID);
             playerdata.setLockupScheduleID(-1);
         }
+    }
+
+    private void cancelLockup(final Player p)
+    {
+        cancelLockup(TFM_UserInfo.getPlayerData(p));
+    }
+
+    private void startLockup(final Player p)
+    {
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+
+        cancelLockup(playerdata);
+
+        playerdata.setLockupScheduleID(server.getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable()
+        {
+            private Random random = new Random();
+
+            @Override
+            public void run()
+            {
+                p.openWorkbench(null, true);
+
+                Location l = p.getLocation().clone();
+                l.setPitch(random.nextFloat() * 360.0f);
+                l.setYaw(random.nextFloat() * 360.0f);
+                p.teleport(l);
+            }
+        }, 0L, 5L));
     }
 }

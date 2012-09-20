@@ -455,6 +455,10 @@ public class TFM_PlayerListener implements Listener
             {
                 block_command = true;
             }
+            else if (Pattern.compile("^/toggledownfall").matcher(command).find())
+            {
+                block_command = true;
+            }
         }
 
         if (block_command)

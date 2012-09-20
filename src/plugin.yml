@@ -88,16 +88,13 @@ commands:
   lavaplace:
     description: Superadmin command - Enable/disable lava placement.
     usage: /<command> <on | off>
-#  levelup:
-#    description: Level up!
-#    usage: /<command>
   list:
     description: Lists the real names of all online players.
     usage: /<command>
     aliases: [who]
   lockup:
     description: Console command - Block target's minecraft input. This is evil, and I never should have wrote it.
-    usage: /<command> <partialname> <on | off>
+    usage: /<command> <all | purge | <<partialname> on | off>>
   moblimiter:
     description: Owner command - Controll mob rezzing parameters.
     usage: /<command> <on|off|setmax <count>|dragon|giant|ghast|slime>
@@ -134,9 +131,9 @@ commands:
   permban:
     description: Manage permanently banned players and IPs
     usage: /<command> <list | reload>
-#  potion:
-#    description: Manipulate potion effects.
-#    usage: /<command> <list>
+  potion:
+    description: Manipulate potion effects. Duration is measured in server ticks (~20 ticks per second).
+    usage: /<command> <list | clear [target_name] | add <type> <duration> <amplifier> [target_name]>
   prelog:
     description: Superadmin command - Enable/disable the command prelogger. When this is on, logs will be filled with many duplicate messages.
     usage: /<command> <on | off>
@@ -216,7 +213,7 @@ commands:
   wildcard:
     description: Superadmin command - Run any command on all users, username placeholder = ?.
     usage: /<command> [fluff] ? [fluff] ?
-#  wipeflatlands:
+#  wipeflatlands: - Currently broken.
 #    description: Owner command - Wipe the flatlands map.
 #    usage: /<command>
   ziptool:
