@@ -28,22 +28,30 @@ public class TFM_UserList
 
     private void primeList()
     {
-        _userlist.clear();
-
-        FileConfiguration saved_userlist = YamlConfiguration.loadConfiguration(new File(_plugin.getDataFolder(), USERLIST_FILENAME));
-
-        for (String username : saved_userlist.getKeys(false))
+        try
         {
-            TFM_UserListEntry entry = new TFM_UserListEntry(username, saved_userlist.getStringList(username));
-            _userlist.put(username, entry);
-        }
+            _userlist.clear();
 
-        for (Player p : _plugin.getServer().getOnlinePlayers())
+            FileConfiguration saved_userlist = YamlConfiguration.loadConfiguration(new File(_plugin.getDataFolder(), USERLIST_FILENAME));
+
+            for (String username : saved_userlist.getKeys(false))
+            {
+                TFM_UserListEntry entry = new TFM_UserListEntry(username, saved_userlist.getStringList(username));
+                _userlist.put(username, entry);
+            }
+
+            for (Player p : _plugin.getServer().getOnlinePlayers())
+            {
+                addUser(p);
+            }
+
+            exportList();
+        }
+        catch (Exception ex)
         {
-            addUser(p);
+            TFM_Log.severe("Error loading Userlist, resetting list: " + ex.getMessage());
+            purge();
         }
-
-        exportList();
     }
 
     private void exportList()

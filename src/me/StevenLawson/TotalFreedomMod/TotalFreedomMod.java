@@ -188,38 +188,45 @@ public class TotalFreedomMod extends JavaPlugin
 
     public void loadMainConfig()
     {
-        TFM_Util.createDefaultConfiguration(CONFIG_FILE, getFile());
-        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), CONFIG_FILE));
+        try
+        {
+            TFM_Util.createDefaultConfiguration(CONFIG_FILE, getFile());
+            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), CONFIG_FILE));
 
-        allowFirePlace = config.getBoolean("allow_fire_place", allowFirePlace);
-        allowFireSpread = config.getBoolean("allow_fire_spread", allowFireSpread);
-        allowLavaDamage = config.getBoolean("allow_lava_damage", allowLavaDamage);
-        allowLavaPlace = config.getBoolean("allow_lava_place", allowLavaPlace);
-        allowWaterPlace = config.getBoolean("allow_water_place", allowWaterPlace);
-        allowExplosions = config.getBoolean("allow_explosions", allowExplosions);
-        explosiveRadius = config.getDouble("explosiveRadius", explosiveRadius);
-        autoEntityWipe = config.getBoolean("auto_wipe", autoEntityWipe);
-        nukeMonitor = config.getBoolean("nuke_monitor", nukeMonitor);
-        nukeMonitorCountBreak = config.getInt("nuke_monitor_count_break", nukeMonitorCountBreak);
-        nukeMonitorCountPlace = config.getInt("nuke_monitor_count_place", nukeMonitorCountPlace);
-        nukeMonitorRange = config.getDouble("nuke_monitor_range", nukeMonitorRange);
-        freecamTriggerCount = config.getInt("freecam_trigger_count", freecamTriggerCount);
-        preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
-        disableNight = config.getBoolean("disable_night", disableNight);
-        disableWeather = config.getBoolean("disable_weather", disableWeather);
-        landminesEnabled = config.getBoolean("landmines_enabled", landminesEnabled);
-        mp44Enabled = config.getBoolean("mp44_enabled", mp44Enabled);
-        mobLimiterEnabled = config.getBoolean("mob_limiter_enabled", mobLimiterEnabled);
-        mobLimiterMax = config.getInt("mob_limiter_max", mobLimiterMax);
-        mobLimiterDisableDragon = config.getBoolean("mob_limiter_disable_dragon", mobLimiterDisableDragon);
-        mobLimiterDisableGhast = config.getBoolean("mob_limiter_disable_ghast", mobLimiterDisableGhast);
-        mobLimiterDisableSlime = config.getBoolean("mob_limiter_disable_slime", mobLimiterDisableSlime);
-        mobLimiterDisableGiant = config.getBoolean("mob_limiter_disable_giant", mobLimiterDisableGiant);
-        tossmobEnabled = config.getBoolean("tossmob_enabled", tossmobEnabled);
-        generateFlatlands = config.getBoolean("generate_flatlands", generateFlatlands);
-        flatlandsGenerationParams = config.getString("flatlands_generation_params", flatlandsGenerationParams);
-        allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
-        adminOnlyMode = config.getBoolean("admin_only_mode", adminOnlyMode);
+            allowFirePlace = config.getBoolean("allow_fire_place", allowFirePlace);
+            allowFireSpread = config.getBoolean("allow_fire_spread", allowFireSpread);
+            allowLavaDamage = config.getBoolean("allow_lava_damage", allowLavaDamage);
+            allowLavaPlace = config.getBoolean("allow_lava_place", allowLavaPlace);
+            allowWaterPlace = config.getBoolean("allow_water_place", allowWaterPlace);
+            allowExplosions = config.getBoolean("allow_explosions", allowExplosions);
+            explosiveRadius = config.getDouble("explosiveRadius", explosiveRadius);
+            autoEntityWipe = config.getBoolean("auto_wipe", autoEntityWipe);
+            nukeMonitor = config.getBoolean("nuke_monitor", nukeMonitor);
+            nukeMonitorCountBreak = config.getInt("nuke_monitor_count_break", nukeMonitorCountBreak);
+            nukeMonitorCountPlace = config.getInt("nuke_monitor_count_place", nukeMonitorCountPlace);
+            nukeMonitorRange = config.getDouble("nuke_monitor_range", nukeMonitorRange);
+            freecamTriggerCount = config.getInt("freecam_trigger_count", freecamTriggerCount);
+            preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
+            disableNight = config.getBoolean("disable_night", disableNight);
+            disableWeather = config.getBoolean("disable_weather", disableWeather);
+            landminesEnabled = config.getBoolean("landmines_enabled", landminesEnabled);
+            mp44Enabled = config.getBoolean("mp44_enabled", mp44Enabled);
+            mobLimiterEnabled = config.getBoolean("mob_limiter_enabled", mobLimiterEnabled);
+            mobLimiterMax = config.getInt("mob_limiter_max", mobLimiterMax);
+            mobLimiterDisableDragon = config.getBoolean("mob_limiter_disable_dragon", mobLimiterDisableDragon);
+            mobLimiterDisableGhast = config.getBoolean("mob_limiter_disable_ghast", mobLimiterDisableGhast);
+            mobLimiterDisableSlime = config.getBoolean("mob_limiter_disable_slime", mobLimiterDisableSlime);
+            mobLimiterDisableGiant = config.getBoolean("mob_limiter_disable_giant", mobLimiterDisableGiant);
+            tossmobEnabled = config.getBoolean("tossmob_enabled", tossmobEnabled);
+            generateFlatlands = config.getBoolean("generate_flatlands", generateFlatlands);
+            flatlandsGenerationParams = config.getString("flatlands_generation_params", flatlandsGenerationParams);
+            allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
+            adminOnlyMode = config.getBoolean("admin_only_mode", adminOnlyMode);
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe("Error loading main config: " + ex.getMessage());
+        }
     }
 
     public static List<String> superadmins = new ArrayList<String>();
@@ -227,52 +234,65 @@ public class TotalFreedomMod extends JavaPlugin
 
     public void loadSuperadminConfig()
     {
-        TFM_Util.createDefaultConfiguration(SUPERADMIN_FILE, getFile());
-        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), SUPERADMIN_FILE));
-
-        superadmins = new ArrayList<String>();
-        superadmin_ips = new ArrayList<String>();
-
-        for (String user : config.getKeys(false))
+        try
         {
-            superadmins.add(user.toLowerCase().trim());
+            TFM_Util.createDefaultConfiguration(SUPERADMIN_FILE, getFile());
+            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), SUPERADMIN_FILE));
 
-            List<String> user_ips = (List<String>) config.getStringList(user);
-            for (String ip : user_ips)
+            superadmins = new ArrayList<String>();
+            superadmin_ips = new ArrayList<String>();
+
+            for (String user : config.getKeys(false))
             {
-                ip = ip.toLowerCase().trim();
-                if (!superadmin_ips.contains(ip))
+                superadmins.add(user.toLowerCase().trim());
+
+                List<String> user_ips = (List<String>) config.getStringList(user);
+                for (String ip : user_ips)
                 {
-                    superadmin_ips.add(ip);
+                    ip = ip.toLowerCase().trim();
+                    if (!superadmin_ips.contains(ip))
+                    {
+                        superadmin_ips.add(ip);
+                    }
                 }
             }
         }
+        catch (Exception ex)
+        {
+            TFM_Log.severe("Error loading superadmin list: " + ex.getMessage());
+        }
     }
-
     public static List<String> permbanned_players = new ArrayList<String>();
     public static List<String> permbanned_ips = new ArrayList<String>();
 
     public void loadPermbanConfig()
     {
-        TFM_Util.createDefaultConfiguration(PERMBAN_FILE, getFile());
-        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), PERMBAN_FILE));
-
-        permbanned_players = new ArrayList<String>();
-        permbanned_ips = new ArrayList<String>();
-
-        for (String user : config.getKeys(false))
+        try
         {
-            permbanned_players.add(user.toLowerCase().trim());
+            TFM_Util.createDefaultConfiguration(PERMBAN_FILE, getFile());
+            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), PERMBAN_FILE));
 
-            List<String> user_ips = (List<String>) config.getStringList(user);
-            for (String ip : user_ips)
+            permbanned_players = new ArrayList<String>();
+            permbanned_ips = new ArrayList<String>();
+
+            for (String user : config.getKeys(false))
             {
-                ip = ip.toLowerCase().trim();
-                if (!permbanned_ips.contains(ip))
+                permbanned_players.add(user.toLowerCase().trim());
+
+                List<String> user_ips = (List<String>) config.getStringList(user);
+                for (String ip : user_ips)
                 {
-                    permbanned_ips.add(ip);
+                    ip = ip.toLowerCase().trim();
+                    if (!permbanned_ips.contains(ip))
+                    {
+                        permbanned_ips.add(ip);
+                    }
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe("Error loading permban list: " + ex.getMessage());
         }
     }
 
