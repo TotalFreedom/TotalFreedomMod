@@ -17,12 +17,6 @@ public class Command_potion extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole)
-        {
-            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-            return true;
-        }
-
         if (!sender.isOp())
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
@@ -60,9 +54,17 @@ public class Command_potion extends TFM_Command
                     }
                 }
 
-                if (!target.equals(sender_p) && !TFM_Util.isUserSuperadmin(sender))
+                if (!target.equals(sender_p))
                 {
-                    sender.sendMessage("Only superadmins can clear potion effects from other players.");
+                    if (!TFM_Util.isUserSuperadmin(sender))
+                    {
+                        sender.sendMessage("Only superadmins can clear potion effects from other players.");
+                        return true;
+                    }
+                }
+                else if (senderIsConsole)
+                {
+                    sender.sendMessage("You must specify a target player when using this command from the console.");
                     return true;
                 }
 
@@ -97,9 +99,17 @@ public class Command_potion extends TFM_Command
                     }
                 }
 
-                if (!target.equals(sender_p) && !TFM_Util.isUserSuperadmin(sender))
+                if (!target.equals(sender_p))
                 {
-                    sender.sendMessage("Only superadmins can apply potion effects to other players.");
+                    if (!TFM_Util.isUserSuperadmin(sender))
+                    {
+                        sender.sendMessage("Only superadmins can apply potion effects to other players.");
+                        return true;
+                    }
+                }
+                else if (senderIsConsole)
+                {
+                    sender.sendMessage("You must specify a target player when using this command from the console.");
                     return true;
                 }
 

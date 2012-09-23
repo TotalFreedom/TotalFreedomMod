@@ -69,22 +69,17 @@ public class TFM_Util
 
     public static void bcastMsg(String message, ChatColor color)
     {
-        TFM_Log.info(message);
+        TFM_Log.info(message, true);
 
         for (Player p : Bukkit.getOnlinePlayers())
         {
-            p.sendMessage(color + message);
+            p.sendMessage((color == null ? "" : color) + message);
         }
     }
 
     public static void bcastMsg(String message)
     {
-        TFM_Log.info(message);
-
-        for (Player p : Bukkit.getOnlinePlayers())
-        {
-            p.sendMessage(message);
-        }
+        TFM_Util.bcastMsg(message, null);
     }
 
     //JeromSar
