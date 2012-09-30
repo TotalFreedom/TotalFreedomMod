@@ -1,7 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import java.util.Arrays;
-import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -12,18 +10,10 @@ import org.bukkit.entity.Player;
 
 public class Command_doom extends TFM_Command
 {
-    public final static List<String> ALLOWED_USERS = Arrays.asList(
-            "madgeek",
-            "darth",
-            "madgeek1450",
-            "mark",
-            "markbyron",
-            "darthsalamon");
-
     @Override
     public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!(senderIsConsole && ALLOWED_USERS.contains(sender.getName().toLowerCase())))
+        if (!(senderIsConsole && TotalFreedomMod.superUsers.contains(sender.getName().toLowerCase())))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,7 +16,7 @@ public class Command_lockup extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!senderIsConsole)
+    	if (!(senderIsConsole && TotalFreedomMod.superUsers.contains(sender.getName().toLowerCase())))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;
@@ -25,19 +26,22 @@ public class Command_lockup extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("all"))
             {
+            	TFM_Util.adminAction(sender.getName(), "Locking up all players", true);
+            	
                 for (Player p : server.getOnlinePlayers())
                 {
                     startLockup(p);
                 }
-                sender.sendMessage(ChatColor.GRAY + "Locking up all players.");
+                TFM_Util.playerMsg(sender, "Locked up all players.");
             }
             else if (args[0].equalsIgnoreCase("purge"))
             {
+            	TFM_Util.adminAction(sender.getName(), "Unlocking all players", true);
                 for (Player p : server.getOnlinePlayers())
                 {
                     cancelLockup(p);
                 }
-                sender.sendMessage(ChatColor.GRAY + "Not locking up all players.");
+                TFM_Util.playerMsg(sender, "Unlocked all players.");
             }
             else
             {
@@ -59,8 +63,9 @@ public class Command_lockup extends TFM_Command
                     return true;
                 }
 
+                TFM_Util.adminAction(sender.getName(), "Locking up " + p.getName(), true);
                 startLockup(p);
-                sender.sendMessage(ChatColor.GRAY + "Locking up " + p.getName());
+                TFM_Util.playerMsg(sender, "Locked up " + p.getName() + ".");
             }
             else if (args[1].equalsIgnoreCase("off"))
             {
@@ -75,8 +80,9 @@ public class Command_lockup extends TFM_Command
                     return true;
                 }
 
+                TFM_Util.adminAction(sender.getName(), "Unlocking " + p.getName(), true);
                 cancelLockup(p);
-                sender.sendMessage(ChatColor.GRAY + "Not locking up " + p.getName() + " anymore.");
+                TFM_Util.playerMsg(sender, "Unlocked " + p.getName() + ".");
             }
             else
             {
