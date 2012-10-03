@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import java.util.Arrays;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
@@ -24,7 +23,7 @@ public class Command_fuckoff extends TFM_Command
             return true;
         }
         
-        if (!Arrays.asList("madgeek1450", "markbyron", "darthsalamon").contains(sender.getName().toLowerCase()))
+        if (!TotalFreedomMod.superAwesomeAdmins.contains(sender.getName().toLowerCase()))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

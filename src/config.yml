@@ -54,8 +54,8 @@ flatlands_generation_params: 16,stone,32,dirt,1,grass
 # Admin-Only Mode
 admin_only_mode: false
 
-# SuperUsers; telnet users who have the permissions for certain high-profile commands (/doom, /lockup, ect)
-superuser_names:
+# SuperAwesomeAdmins - Because normal superadmin just isn't awesome enough. These users can do even more awesomey admin shit.
+super_awesome_admins:
   - markbyron
   - mark
   - madgeek1450

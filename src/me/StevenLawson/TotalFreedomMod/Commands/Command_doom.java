@@ -13,7 +13,7 @@ public class Command_doom extends TFM_Command
     @Override
     public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!(senderIsConsole && TotalFreedomMod.superUsers.contains(sender.getName().toLowerCase())))
+        if (!(senderIsConsole && TotalFreedomMod.superAwesomeAdmins.contains(sender.getName().toLowerCase())))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

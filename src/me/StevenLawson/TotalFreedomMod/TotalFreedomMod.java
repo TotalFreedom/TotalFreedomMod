@@ -3,15 +3,12 @@ package me.StevenLawson.TotalFreedomMod;
 import java.io.File;
 import java.io.InputStream;
 import java.util.*;
-
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
-
 import org.apache.commons.lang.exception.ExceptionUtils;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -188,24 +185,12 @@ public class TotalFreedomMod extends JavaPlugin
     public static String flatlandsGenerationParams = "16,stone,32,dirt,1,grass";
     public static boolean allowFliudSpread = false;
     public static boolean adminOnlyMode = false;
-    public static String[] tempArray =
-    {
-        "markbyron",
-    	"mark",
-        "madgeek1450",
-        "madgeek",
-        "darthsalamon",
-        "darth"
-    };
-    
-    public static List<String> superUsers = Arrays.asList(tempArray);
+    public static List<String> superAwesomeAdmins = Arrays.asList("markbyron", "mark", "madgeek1450", "madgeek", "darthsalamon", "darth");
 
     public void loadMainConfig()
     {
         try
         {
-        	tempArray = null;
-        	
             TFM_Util.createDefaultConfiguration(CONFIG_FILE, getFile());
             FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), CONFIG_FILE));
 
@@ -238,7 +223,7 @@ public class TotalFreedomMod extends JavaPlugin
             flatlandsGenerationParams = config.getString("flatlands_generation_params", flatlandsGenerationParams);
             allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
             adminOnlyMode = config.getBoolean("admin_only_mode", adminOnlyMode);
-            superUsers = config.getStringList("superuser_names");
+            superAwesomeAdmins = config.getStringList("super_awesome_admins");
         }
         catch (Exception ex)
         {
