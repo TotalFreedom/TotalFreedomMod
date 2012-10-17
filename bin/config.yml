@@ -1,0 +1,64 @@
+# Total Freedom Mod v2.7 Configuration
+# by Madgeek1450
+
+# Block placement prevention:
+allow_fire_place: false
+allow_fire_spread: false
+allow_lava_damage: false
+allow_lava_place: false
+allow_water_place: false
+allow_fluid_spread: false
+
+# Explosion management:
+allow_explosions: false
+explosiveRadius: 4.0
+
+#Automatically wipe dropped objects:
+auto_wipe: true
+
+# Nuking prevention:
+nuke_monitor: true
+nuke_monitor_count_break: 100
+nuke_monitor_count_place: 25
+nuke_monitor_range: 10.0
+freecam_trigger_count: 10
+
+# Show all attempted commands in the log, will result in duplicate log messages:
+preprocess_log: true
+
+# Disable nighttime:
+disable_night: true
+
+# Disable weather:
+disable_weather: true
+
+# Enable misc. features:
+landmines_enabled: false
+mp44_enabled: false
+tossmob_enabled: false
+
+# Moblimiter:
+mob_limiter_enabled: true
+# Max per world:
+mob_limiter_max: 50
+mob_limiter_disable_dragon: true
+mob_limiter_disable_ghast: true
+mob_limiter_disable_slime: true
+mob_limiter_disable_giant: true
+
+# Flatlands
+generate_flatlands: true
+# Flatlands generation parameters, uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
+flatlands_generation_params: 16,stone,32,dirt,1,grass
+
+# Admin-Only Mode
+admin_only_mode: false
+
+# SuperAwesomeAdmins - Because normal superadmin just isn't awesome enough. These users can do even more awesomey admin shit.
+super_awesome_admins:
+  - markbyron
+  - mark
+  - madgeek1450
+  - madgeek
+  - darthsalamon
+  - darth
