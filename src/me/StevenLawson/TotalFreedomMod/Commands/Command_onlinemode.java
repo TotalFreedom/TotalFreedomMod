@@ -56,7 +56,7 @@ public class Command_onlinemode extends TFM_Command
                     }
                 }
 
-                TFM_Util.adminAction(sender.getName(), "Turning player validation " + ((online_mode ? "on" : "off")), true);
+                TFM_Util.adminAction(sender.getName(), "Turning player validation " + (online_mode ? "on" : "off") + ".", true);
 
                 server.reload();
             }
