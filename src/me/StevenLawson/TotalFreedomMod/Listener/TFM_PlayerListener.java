@@ -320,11 +320,11 @@ public class TFM_PlayerListener implements Listener
             // strip color from messages
             message = ChatColor.stripColor(message);
 
-            // truncate messages that are too long
-            if (message.length() > 95)
+            // truncate messages that are too long - 100 characters is vanilla client max
+            if (message.length() > 100)
             {
-                message = message.substring(0, 95);
-                TFM_Util.playerMsg(p, "Message was shortened, because it was too long to send.");
+                message = message.substring(0, 100);
+                TFM_Util.playerMsg(p, "Message was shortened because it was too long to send.");
             }
 
             // check for caps
