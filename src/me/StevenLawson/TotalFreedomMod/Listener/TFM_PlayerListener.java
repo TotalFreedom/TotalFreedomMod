@@ -298,14 +298,12 @@ public class TFM_PlayerListener implements Listener
                 return;
             }
 
-            //JeromSar
-
             // check for muted
             if (playerdata.isMuted())
             {
                 if (!TFM_Util.isUserSuperadmin(p))
                 {
-                    p.sendMessage(ChatColor.RED + "You are currently muted.");
+                    p.sendMessage(ChatColor.RED + "You are muted, STFU!");
                     event.setCancelled(true);
                     return;
                 }
@@ -539,6 +537,7 @@ public class TFM_PlayerListener implements Listener
                     p.getInventory().clear();
                     p.setOp(false);
                     p.setGameMode(GameMode.SURVIVAL);
+                    TFM_Util.bcastMsg("Warning: " + p.getName() + " has been flagged as an impostor!", ChatColor.RED);
                 }
                 else
                 {
