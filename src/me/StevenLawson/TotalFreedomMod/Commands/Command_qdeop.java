@@ -11,7 +11,7 @@ public class Command_qdeop extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length != 1)
+        if (args.length < 1)
         {
             return false;
         }
@@ -20,6 +20,12 @@ public class Command_qdeop extends TFM_Command
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;
+        }
+
+        boolean silent = false;
+        if (args.length == 2)
+        {
+            silent = args[1].equalsIgnoreCase("-s");
         }
 
         boolean matched_player = false;
@@ -32,7 +38,10 @@ public class Command_qdeop extends TFM_Command
             {
                 matched_player = true;
 
-                TFM_Util.adminAction(sender.getName(), "De-opping " + p.getName(), false);
+                if (!silent)
+                {
+                    TFM_Util.adminAction(sender.getName(), "De-opping " + p.getName(), false);
+                }
                 p.setOp(false);
                 p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
             }

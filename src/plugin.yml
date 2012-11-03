@@ -13,6 +13,9 @@ commands:
   cake:
     description: Superadmin command - For the people that are still alive.
     usage: /<command>
+  cartsit:
+    description: Sit in nearest minecart. If target is in a minecart already, they will disembark.
+    usage: /<command> [partialname]
   clearall:
     description: Superadmin command - Removes all entities, nicks and disguises
     usage: /<command>
