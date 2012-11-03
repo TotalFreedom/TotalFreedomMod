@@ -30,6 +30,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
     public static final String PERMBAN_FILE = "permban.yml";
+    public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
 
     public static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
     public static final String COMMAND_PREFIX = "Command_";
@@ -87,6 +88,12 @@ public class TotalFreedomMod extends JavaPlugin
                 world.setThunderDuration(0);
                 world.setThunderDuration(0);
             }
+        }
+
+        if (TotalFreedomMod.protectedAreasEnabled)
+        {
+            TFM_ProtectedArea.loadProtectedAreas();
+            TFM_ProtectedArea.autoAddSpawnpoints();
         }
     }
 
@@ -186,6 +193,9 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean allowFliudSpread = false;
     public static boolean adminOnlyMode = false;
     public static List<String> superAwesomeAdmins = Arrays.asList("markbyron", "mark", "madgeek1450", "madgeek", "darthsalamon", "darth");
+    public static boolean protectedAreasEnabled = true;
+    public static boolean autoProtectSpawnpoints = true;
+    public static double autoProtectRadius = 25.0D;
 
     public void loadMainConfig()
     {
@@ -224,6 +234,9 @@ public class TotalFreedomMod extends JavaPlugin
             allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
             adminOnlyMode = config.getBoolean("admin_only_mode", adminOnlyMode);
             superAwesomeAdmins = config.getStringList("super_awesome_admins");
+            protectedAreasEnabled = config.getBoolean("protected_areas_enabled", protectedAreasEnabled);
+            autoProtectSpawnpoints = config.getBoolean("auto_protect_spawnpoints", autoProtectSpawnpoints);
+            autoProtectRadius = config.getDouble("auto_protect_radius", autoProtectRadius);
         }
         catch (Exception ex)
         {

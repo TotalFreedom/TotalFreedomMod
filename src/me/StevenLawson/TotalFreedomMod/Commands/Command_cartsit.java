@@ -49,15 +49,18 @@ public class Command_cartsit extends TFM_Command
             Minecart nearest_cart = null;
             for (Minecart cart : target_player.getWorld().getEntitiesByClass(Minecart.class))
             {
-                if (nearest_cart == null)
+                if (cart.isEmpty())
                 {
-                    nearest_cart = cart;
-                }
-                else
-                {
-                    if (cart.getLocation().distance(target_player.getLocation()) < nearest_cart.getLocation().distance(target_player.getLocation()))
+                    if (nearest_cart == null)
                     {
                         nearest_cart = cart;
+                    }
+                    else
+                    {
+                        if (cart.getLocation().distanceSquared(target_player.getLocation()) < nearest_cart.getLocation().distanceSquared(target_player.getLocation()))
+                        {
+                            nearest_cart = cart;
+                        }
                     }
                 }
             }
@@ -68,7 +71,7 @@ public class Command_cartsit extends TFM_Command
             }
             else
             {
-                sender.sendMessage("There are no minecarts in the target world.");
+                sender.sendMessage("There are no empty minecarts in the target world.");
             }
         }
 

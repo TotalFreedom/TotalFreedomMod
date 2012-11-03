@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -39,20 +40,21 @@ public class TFM_BlockListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockBreak(BlockBreakEvent event)
     {
+        Player p = event.getPlayer();
+        Location block_pos = event.getBlock().getLocation();
+
         if (TotalFreedomMod.nukeMonitor)
         {
-            Player p = event.getPlayer();
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 
             Location player_pos = p.getLocation();
-            Location block_pos = event.getBlock().getLocation();
 
             boolean out_of_range = false;
             if (!player_pos.getWorld().equals(block_pos.getWorld()))
             {
                 out_of_range = true;
             }
-            else if (player_pos.distance(block_pos) > TotalFreedomMod.nukeMonitorRange)
+            else if (player_pos.distanceSquared(block_pos) > (TotalFreedomMod.nukeMonitorRange * TotalFreedomMod.nukeMonitorRange))
             {
                 out_of_range = true;
             }
@@ -84,26 +86,38 @@ public class TFM_BlockListener implements Listener
                 return;
             }
         }
+
+        if (TotalFreedomMod.protectedAreasEnabled)
+        {
+            if (!TFM_Util.isUserSuperadmin(p))
+            {
+                if (TFM_ProtectedArea.isInProtectedArea(block_pos))
+                {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event)
     {
         Player p = event.getPlayer();
+        Location block_pos = event.getBlock().getLocation();
 
         if (TotalFreedomMod.nukeMonitor)
         {
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 
             Location player_pos = p.getLocation();
-            Location block_pos = event.getBlock().getLocation();
 
             boolean out_of_range = false;
             if (!player_pos.getWorld().equals(block_pos.getWorld()))
             {
                 out_of_range = true;
             }
-            else if (player_pos.distance(block_pos) > TotalFreedomMod.nukeMonitorRange)
+            else if (player_pos.distanceSquared(block_pos) > (TotalFreedomMod.nukeMonitorRange * TotalFreedomMod.nukeMonitorRange))
             {
                 out_of_range = true;
             }
@@ -133,6 +147,18 @@ public class TFM_BlockListener implements Listener
 
                 event.setCancelled(true);
                 return;
+            }
+        }
+
+        if (TotalFreedomMod.protectedAreasEnabled)
+        {
+            if (!TFM_Util.isUserSuperadmin(p))
+            {
+                if (TFM_ProtectedArea.isInProtectedArea(block_pos))
+                {
+                    event.setCancelled(true);
+                    return;
+                }
             }
         }
 

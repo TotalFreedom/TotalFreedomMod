@@ -140,6 +140,9 @@ commands:
   prelog:
     description: Superadmin command - Enable/disable the command prelogger. When this is on, logs will be filled with many duplicate messages.
     usage: /<command> <on | off>
+  protectarea:
+    description: Superadmin command - Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
+    usage: /<command> <list | clear | remove <label> | add <label> <radius>>
   qdeop:
     description: Quick De-Op - deop someone based on a partial name.
     usage: /<command> <partialname>

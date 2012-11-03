@@ -54,6 +54,11 @@ flatlands_generation_params: 16,stone,32,dirt,1,grass
 # Admin-Only Mode
 admin_only_mode: false
 
+# Protected Areas - Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
+protected_areas_enabled: true
+auto_protect_spawnpoints: true
+auto_protect_radius: 25.0
+
 # SuperAwesomeAdmins - Because normal superadmin just isn't awesome enough. These users can do even more awesomey admin shit.
 super_awesome_admins:
   - markbyron

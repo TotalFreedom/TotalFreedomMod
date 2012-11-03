@@ -154,17 +154,17 @@ public class TFM_PlayerListener implements Listener
             Location mover_pos = p.getLocation();
             Location fuckoff_pos = fuckoff_player.getLocation();
 
-            double distance;
+            double distanceSquared;
             try
             {
-                distance = mover_pos.distance(fuckoff_pos);
+                distanceSquared = mover_pos.distanceSquared(fuckoff_pos);
             }
             catch (IllegalArgumentException ex)
             {
                 continue;
             }
 
-            if (distance < fuckoff_range)
+            if (distanceSquared < (fuckoff_range * fuckoff_range))
             {
                 event.setTo(fuckoff_pos.clone().add(mover_pos.subtract(fuckoff_pos).toVector().normalize().multiply(fuckoff_range * 1.1)));
                 break;
@@ -210,7 +210,7 @@ public class TFM_PlayerListener implements Listener
             }
             else
             {
-                out_of_cage = target_pos.distance(playerdata.getCagePos()) > 2.5;
+                out_of_cage = target_pos.distanceSquared(playerdata.getCagePos()) > (2.5 * 2.5);
             }
 
             if (out_of_cage)
@@ -249,7 +249,7 @@ public class TFM_PlayerListener implements Listener
                 {
                     if (p.getWorld().equals(landmine_pos.getWorld()))
                     {
-                        if (p.getLocation().distance(landmine_pos) <= landmine.radius)
+                        if (p.getLocation().distanceSquared(landmine_pos) <= (landmine.radius * landmine.radius))
                         {
                             landmine.landmine_pos.getBlock().setType(Material.AIR);
 

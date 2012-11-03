@@ -54,7 +54,7 @@ public class Command_expel extends TFM_Command
                     boolean in_range = false;
                     try
                     {
-                        in_range = target_pos.distance(sender_pos) < radius;
+                        in_range = target_pos.distanceSquared(sender_pos) < (radius * radius);
                     }
                     catch (IllegalArgumentException ex)
                     {
