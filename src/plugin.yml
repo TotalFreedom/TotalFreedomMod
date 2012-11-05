@@ -9,7 +9,7 @@ commands:
     usage: /<command> [on | off]
   cage:
     description: Superadmin command - Place a cage around someone.
-    usage: /<command> <partialname> [off | outermaterial] [water | lava]
+    usage: /<command> <partialname> <off | [[outermaterial] [innermaterial]]>
   cake:
     description: Superadmin command - For the people that are still alive.
     usage: /<command>
@@ -195,9 +195,9 @@ commands:
   tempban:
     description: Superadmin Command - Temporarily ban someone.
     usage: /<command> [playername] [duration] [reason]
-  terminal:
-    description: Execute a system command.
-    usage: /<command> <syscmd>
+#  terminal:
+#    description: Execute a system command.
+#    usage: /<command> <syscmd>
   tfbanlist:
     description: Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.
     usage: /<command> [purge]
@@ -219,9 +219,9 @@ commands:
   wildcard:
     description: Superadmin command - Run any command on all users, username placeholder = ?.
     usage: /<command> [fluff] ? [fluff] ?
-#  wipeflatlands: - Currently broken.
-#    description: Owner command - Wipe the flatlands map.
-#    usage: /<command>
-  ziptool:
-    description: Owner command - Zip and unzip files.
-    usage: /<command> <zip <directory>> | <unzip <file>>
+  wipeflatlands:
+    description: Owner command - Wipe the flatlands map. Requires manual restart after command is used.
+    usage: /<command>
+#  ziptool:
+#    description: Owner command - Zip and unzip files.
+#    usage: /<command> <zip <directory>> | <unzip <file>>

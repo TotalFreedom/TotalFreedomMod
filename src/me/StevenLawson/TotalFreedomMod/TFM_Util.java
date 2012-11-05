@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.*;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -910,6 +912,113 @@ public class TFM_Util
             player_names.add(p.getName());
         }
         return StringUtils.join(player_names, ", ");
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Boolean> getSavedFlags()
+    {
+        Map<String, Boolean> saved_flags = null;
+
+        File input_file = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILE);
+        if (input_file.exists())
+        {
+            try
+            {
+                FileInputStream fis = new FileInputStream(input_file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                saved_flags = (HashMap<String, Boolean>) ois.readObject();
+                ois.close();
+                fis.close();
+            }
+            catch (Exception ex)
+            {
+                TFM_Log.severe(ex);
+            }
+        }
+
+        return saved_flags;
+    }
+
+    public static boolean getSavedFlag(String flag) throws Exception
+    {
+        Boolean flag_value = null;
+
+        Map<String, Boolean> saved_flags = TFM_Util.getSavedFlags();
+
+        if (saved_flags != null)
+        {
+            if (saved_flags.containsKey(flag))
+            {
+                flag_value = saved_flags.get(flag);
+            }
+        }
+
+        if (flag_value != null)
+        {
+            return flag_value.booleanValue();
+        }
+        else
+        {
+            throw new Exception();
+        }
+    }
+
+    public static void setSavedFlag(String flag, boolean value)
+    {
+        Map<String, Boolean> saved_flags = TFM_Util.getSavedFlags();
+
+        if (saved_flags == null)
+        {
+            saved_flags = new HashMap<String, Boolean>();
+        }
+
+        saved_flags.put(flag, value);
+
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILE));
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(saved_flags);
+            oos.close();
+            fos.close();
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+    }
+
+    public static void wipeFlatlandsIfFlagged()
+    {
+        boolean do_wipe_flatlands = false;
+        try
+        {
+            do_wipe_flatlands = TFM_Util.getSavedFlag("do_wipe_flatlands");
+        }
+        catch (Exception ex)
+        {
+        }
+
+        if (do_wipe_flatlands)
+        {
+            if (Bukkit.getServer().getWorld("flatlands") == null)
+            {
+                TFM_Log.info("Wiping flaglands.");
+
+                TFM_Util.setSavedFlag("do_wipe_flatlands", false);
+
+                File flatlands_folder = new File("./flatlands");
+
+                if (flatlands_folder.exists())
+                {
+                    TFM_Util.deleteFolder(flatlands_folder);
+                }
+            }
+            else
+            {
+                TFM_Log.severe("Can't wipe flatlands, it is already loaded.");
+            }
+        }
     }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;

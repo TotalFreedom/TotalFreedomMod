@@ -31,6 +31,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String SUPERADMIN_FILE = "superadmin.yml";
     public static final String PERMBAN_FILE = "permban.yml";
     public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
+    public static final String SAVED_FLAGS_FILE = "savedflags.dat";
 
     public static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
     public static final String COMMAND_PREFIX = "Command_";
@@ -76,6 +77,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         if (generateFlatlands)
         {
+            TFM_Util.wipeFlatlandsIfFlagged();
             TFM_Util.generateFlatlands(flatlandsGenerationParams);
         }
 
