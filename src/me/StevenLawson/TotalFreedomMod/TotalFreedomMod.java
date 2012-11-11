@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod;
 import java.io.File;
 import java.io.InputStream;
 import java.util.*;
+import java.util.Map.Entry;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
@@ -198,6 +199,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean protectedAreasEnabled = true;
     public static boolean autoProtectSpawnpoints = true;
     public static double autoProtectRadius = 25.0D;
+    public static Map<String, String> customUserTitles = new HashMap<String, String>();
 
     public void loadMainConfig()
     {
@@ -239,6 +241,17 @@ public class TotalFreedomMod extends JavaPlugin
             protectedAreasEnabled = config.getBoolean("protected_areas_enabled", protectedAreasEnabled);
             autoProtectSpawnpoints = config.getBoolean("auto_protect_spawnpoints", autoProtectSpawnpoints);
             autoProtectRadius = config.getDouble("auto_protect_radius", autoProtectRadius);
+
+            if (config.isConfigurationSection("user_titles"))
+            {
+                Map<String, Object> raw_titles = config.getConfigurationSection("user_titles").getValues(false);
+                Iterator<Entry<String, Object>> it = raw_titles.entrySet().iterator();
+                while (it.hasNext())
+                {
+                    Entry<String, Object> pair = it.next();
+                    customUserTitles.put(pair.getKey(), (String) pair.getValue());
+                }
+            }
         }
         catch (Exception ex)
         {

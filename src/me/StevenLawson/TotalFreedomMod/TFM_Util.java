@@ -5,8 +5,6 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.*;
 import java.util.jar.JarFile;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -686,24 +684,29 @@ public class TFM_Util
             return "an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "impostor" + ChatColor.RESET + ChatColor.AQUA + "!";
         }
 
-        if (sender.getName().equalsIgnoreCase("markbyron"))
-        {
-            return "the " + ChatColor.LIGHT_PURPLE + "owner" + ChatColor.AQUA + ".";
-        }
+//        if (sender.getName().equalsIgnoreCase("markbyron"))
+//        {
+//            return "the " + ChatColor.LIGHT_PURPLE + "owner" + ChatColor.AQUA + ".";
+//        }
+//
+//        if (sender.getName().equalsIgnoreCase("madgeek1450"))
+//        {
+//            return "the " + ChatColor.DARK_PURPLE + "chief-developer" + ChatColor.AQUA + " and " + ChatColor.GOLD + "master-ass-kicker" + ChatColor.AQUA + ".";
+//        }
+//
+//        if (sender.getName().equalsIgnoreCase("darthsalamon"))
+//        {
+//            return "a " + ChatColor.DARK_PURPLE + "developer" + ChatColor.AQUA + "!";
+//        }
+//
+//        if (sender.getName().equalsIgnoreCase("miwojedk"))
+//        {
+//            return "a " + ChatColor.DARK_RED + "master-builder" + ChatColor.AQUA + "!";
+//        }
 
-        if (sender.getName().equalsIgnoreCase("madgeek1450"))
+        if (TotalFreedomMod.customUserTitles.containsKey(sender.getName().toLowerCase()))
         {
-            return "the " + ChatColor.DARK_PURPLE + "chief-developer" + ChatColor.AQUA + " and " + ChatColor.GOLD + "master-ass-kicker" + ChatColor.AQUA + ".";
-        }
-
-        if (sender.getName().equalsIgnoreCase("darthsalamon"))
-        {
-            return "a " + ChatColor.DARK_PURPLE + "developer" + ChatColor.AQUA + "!";
-        }
-
-        if (sender.getName().equalsIgnoreCase("miwojedk"))
-        {
-            return "a " + ChatColor.DARK_RED + "master-builder" + ChatColor.AQUA + "!";
+            return ChatColor.translateAlternateColorCodes('&', TotalFreedomMod.customUserTitles.get(sender.getName().toLowerCase()));
         }
 
         if (TFM_Util.isUserSuperadmin(sender))
