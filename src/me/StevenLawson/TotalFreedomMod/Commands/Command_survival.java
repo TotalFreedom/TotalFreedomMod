@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -34,7 +34,7 @@ public class Command_survival extends TFM_Command
         }
         else
         {
-            if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+            if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
             {
                 try
                 {

@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -12,7 +13,7 @@ public class Command_stop extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+        if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
         {
             TFM_Util.bcastMsg("Server is going offline.", ChatColor.GRAY);
 

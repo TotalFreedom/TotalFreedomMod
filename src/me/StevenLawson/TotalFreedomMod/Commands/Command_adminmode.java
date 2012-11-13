@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -30,7 +31,7 @@ public class Command_adminmode extends TFM_Command
             TFM_Util.adminAction(sender.getName(), "Closing the server to non-superadmins.", true);
             for (Player p : server.getOnlinePlayers())
             {
-                if (!TFM_Util.isUserSuperadmin(p))
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
                     p.kickPlayer("Server is now closed to non-superadmins.");
                 }

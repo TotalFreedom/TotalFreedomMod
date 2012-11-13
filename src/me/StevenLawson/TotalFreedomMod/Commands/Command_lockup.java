@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.Random;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -15,7 +16,7 @@ public class Command_lockup extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!(senderIsConsole && TotalFreedomMod.superAwesomeAdmins.contains(sender.getName().toLowerCase())))
+        if (!(senderIsConsole && TFM_SuperadminList.isSuperAwesomeAdmin(sender)))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

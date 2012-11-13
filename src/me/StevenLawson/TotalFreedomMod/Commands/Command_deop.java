@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.OfflinePlayer;
@@ -14,7 +15,7 @@ public class Command_deop extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!(TFM_Util.isUserSuperadmin(sender) || senderIsConsole))
+        if (!(TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

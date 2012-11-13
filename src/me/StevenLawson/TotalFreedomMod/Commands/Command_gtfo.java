@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -19,7 +20,7 @@ public class Command_gtfo extends TFM_Command
             return false;
         }
 
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+        if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
         {
             Player p;
             try

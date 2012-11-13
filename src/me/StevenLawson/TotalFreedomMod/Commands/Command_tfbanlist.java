@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import net.minecraft.server.BanList;
 import net.minecraft.server.MinecraftServer;
 import org.bukkit.ChatColor;
@@ -19,7 +19,7 @@ public class Command_tfbanlist extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("purge"))
             {
-                if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+                if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
                 {
                     try
                     {

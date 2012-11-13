@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -20,7 +21,7 @@ public class Command_gadmin extends TFM_Command
 
         String mode = args[0].toLowerCase();
 
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+        if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
         {
             if (mode.equals("list"))
             {

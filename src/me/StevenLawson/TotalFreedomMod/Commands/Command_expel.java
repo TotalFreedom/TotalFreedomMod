@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -17,7 +17,7 @@ public class Command_expel extends TFM_Command
         {
             sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
         }
-        else if (TFM_Util.isUserSuperadmin(sender))
+        else if (TFM_SuperadminList.isUserSuperadmin(sender))
         {
             double radius = 50.0;
             double strength = 100.0;

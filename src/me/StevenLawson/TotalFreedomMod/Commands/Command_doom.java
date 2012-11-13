@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -13,7 +14,7 @@ public class Command_doom extends TFM_Command
     @Override
     public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!(senderIsConsole && TotalFreedomMod.superAwesomeAdmins.contains(sender.getName().toLowerCase())))
+        if (!(senderIsConsole && TFM_SuperadminList.isSuperAwesomeAdmin(sender)))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;
@@ -41,9 +42,10 @@ public class Command_doom extends TFM_Command
         final String IP = p.getAddress().getAddress().getHostAddress().trim();
 
         // remove from superadmin
-        if (TFM_Util.isUserSuperadmin(p))
+        if (TFM_SuperadminList.isUserSuperadmin(p))
         {
-            server.dispatchCommand(sender, "saconfig delete " + p.getName());
+            TFM_Util.adminAction(sender.getName(), "Removing " + p.getName() + " from the superadmin list.", true);
+            TFM_SuperadminList.removeSuperadmin(p);
         }
 
         // remove from whitelist

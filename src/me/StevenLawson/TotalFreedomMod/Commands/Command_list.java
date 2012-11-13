@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -30,7 +30,7 @@ public class Command_list extends TFM_Command
 
             if (!is_clanforge)
             {
-                if (TFM_Util.isUserSuperadmin(p))
+                if (TFM_SuperadminList.isUserSuperadmin(p))
                 {
                     if (p.isOp())
                     {

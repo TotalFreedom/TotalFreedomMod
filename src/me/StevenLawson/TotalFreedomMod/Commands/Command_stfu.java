@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -19,7 +20,7 @@ public class Command_stfu extends TFM_Command
             return false;
         }
 
-        if (!(senderIsConsole || TFM_Util.isUserSuperadmin(sender)))
+        if (!(senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender)))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;
@@ -72,7 +73,7 @@ public class Command_stfu extends TFM_Command
             int counter = 0;
             for (Player p : server.getOnlinePlayers())
             {
-                if (!TFM_Util.isUserSuperadmin(p))
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
                     playerdata = TFM_UserInfo.getPlayerData(p);
                     playerdata.setMuted(true);

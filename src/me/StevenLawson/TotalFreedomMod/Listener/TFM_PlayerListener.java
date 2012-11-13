@@ -174,7 +174,7 @@ public class TFM_PlayerListener implements Listener
         boolean do_freeze = false;
         if (TotalFreedomMod.allPlayersFrozen)
         {
-            if (!TFM_Util.isUserSuperadmin(p))
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
                 do_freeze = true;
             }
@@ -301,7 +301,7 @@ public class TFM_PlayerListener implements Listener
             // check for muted
             if (playerdata.isMuted())
             {
-                if (!TFM_Util.isUserSuperadmin(p))
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
                     p.sendMessage(ChatColor.RED + "You are muted, STFU!");
                     event.setCancelled(true);
@@ -385,21 +385,21 @@ public class TFM_PlayerListener implements Listener
         //Commands that will auto-kick the user:
         if (Pattern.compile("^/stop").matcher(command).find())
         {
-            if (!TFM_Util.isUserSuperadmin(p))
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
                 block_command = true;
             }
         }
         else if (Pattern.compile("^/reload").matcher(command).find())
         {
-            if (!TFM_Util.isUserSuperadmin(p))
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
                 block_command = true;
             }
         }
         else if (Pattern.compile("^/save-").matcher(command).find())
         {
-            if (!TFM_Util.isUserSuperadmin(p))
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
                 block_command = true;
             }
@@ -437,14 +437,14 @@ public class TFM_PlayerListener implements Listener
             }
             else if (Pattern.compile("^/kick").matcher(command).find())
             {
-                if (!TFM_Util.isUserSuperadmin(p))
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
                     block_command = true;
                 }
             }
             else if (Pattern.compile("^/kill").matcher(command).find())
             {
-                if (!TFM_Util.isUserSuperadmin(p))
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
                     block_command = true;
                 }
@@ -526,9 +526,9 @@ public class TFM_PlayerListener implements Listener
 
             TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(p);
 
-            boolean superadmin_impostor = TFM_Util.isSuperadminImpostor(p);
+            boolean superadmin_impostor = TFM_SuperadminList.isSuperadminImpostor(p);
 
-            if (superadmin_impostor || TFM_Util.isUserSuperadmin(p))
+            if (superadmin_impostor || TFM_SuperadminList.isUserSuperadmin(p))
             {
                 TFM_Util.bcastMsg(ChatColor.AQUA + p.getName() + " is " + TFM_Util.getRank(p));
 
@@ -542,6 +542,8 @@ public class TFM_PlayerListener implements Listener
                 else
                 {
                     p.setOp(true);
+
+                    TFM_SuperadminList.updateLastLogin(p);
                 }
             }
 
@@ -594,12 +596,11 @@ public class TFM_PlayerListener implements Listener
         boolean is_superadmin;
         if (server.getOnlineMode())
         {
-            is_superadmin = TotalFreedomMod.superadmins.contains(player_name.toLowerCase());
+            is_superadmin = TFM_SuperadminList.getSuperadminNames().contains(player_name.toLowerCase());
         }
         else
         {
-            //is_superadmin = TotalFreedomMod.superadmin_ips.contains(player_ip);
-            is_superadmin = TFM_Util.checkPartialSuperadminIP(player_ip);
+            is_superadmin = TFM_SuperadminList.checkPartialSuperadminIP(player_ip);
         }
 
         if (!is_superadmin)
@@ -760,7 +761,7 @@ public class TFM_PlayerListener implements Listener
                 can_kick = false;
                 for (Player test_player : server.getOnlinePlayers())
                 {
-                    if (!TFM_Util.isUserSuperadmin(test_player))
+                    if (!TFM_SuperadminList.isUserSuperadmin(test_player))
                     {
                         can_kick = true;
                         test_player.kickPlayer("You have been kicked to free up room for an admin.");

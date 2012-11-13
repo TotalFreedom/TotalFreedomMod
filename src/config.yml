@@ -58,20 +58,3 @@ admin_only_mode: false
 protected_areas_enabled: true
 auto_protect_spawnpoints: true
 auto_protect_radius: 25.0
-
-# SuperAwesomeAdmins - Because normal superadmin just isn't awesome enough. These users can do even more awesomey admin shit.
-super_awesome_admins:
-  - console
-  - markbyron
-  - mark
-  - madgeek1450
-  - madgeek
-  - darthsalamon
-  - darth
-
-# Login Title Message Customization - Format: '&b<user_name> is <title_message>', where &b is a color code.
-user_titles:
-  markbyron: the &downer&b.
-  madgeek1450: the &5chief-developer&b and &6master-ass-kicker&b.
-  darthsalamon: a &5developer&b!
-  miwojedk: a &4master-builder&b.

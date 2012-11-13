@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -21,7 +22,7 @@ public class Command_kicknoob extends TFM_Command
         
         for (Player p : server.getOnlinePlayers())
         {
-            if (!TFM_Util.isUserSuperadmin(p))
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
                 p.kickPlayer("Disconnected by admin.");
             }

@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
@@ -17,13 +18,13 @@ public class Command_fuckoff extends TFM_Command
             return true;
         }
 
-        if (!TFM_Util.isUserSuperadmin(sender))
+        if (!TFM_SuperadminList.isUserSuperadmin(sender))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;
         }
         
-        if (!TotalFreedomMod.superAwesomeAdmins.contains(sender.getName().toLowerCase()))
+        if (!TFM_SuperadminList.isSuperAwesomeAdmin(sender_p))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

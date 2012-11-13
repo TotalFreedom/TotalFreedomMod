@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.Arrays;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -37,7 +38,7 @@ public class Command_say extends TFM_Command
             }
         }
 
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+        if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
         {
             TFM_Util.bcastMsg(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
         }

@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserList.TFM_UserListEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -20,7 +21,7 @@ public class Command_glist extends TFM_Command
             return false;
         }
 
-        if (senderIsConsole || TFM_Util.isUserSuperadmin(sender))
+        if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
         {
             if (args.length == 1)
             {

@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.Set;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.server.MinecraftServer;
@@ -61,7 +62,7 @@ public class Command_whitelist extends TFM_Command
         }
 
         // all commands past this line are superadmin-only
-        if (!(senderIsConsole || TFM_Util.isUserSuperadmin(sender)))
+        if (!(senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender)))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod;
 import java.io.File;
 import java.io.InputStream;
 import java.util.*;
-import java.util.Map.Entry;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
@@ -52,11 +51,13 @@ public class TotalFreedomMod extends JavaPlugin
     public static String pluginName = "";
 
     public static TotalFreedomMod plugin = null;
+    public static File plugin_file = null;
 
     @Override
     public void onEnable()
     {
         TotalFreedomMod.plugin = this;
+        TotalFreedomMod.plugin_file = getFile();
 
         TotalFreedomMod.pluginName = this.getDescription().getName();
 
@@ -195,11 +196,9 @@ public class TotalFreedomMod extends JavaPlugin
     public static String flatlandsGenerationParams = "16,stone,32,dirt,1,grass";
     public static boolean allowFliudSpread = false;
     public static boolean adminOnlyMode = false;
-    public static List<String> superAwesomeAdmins = Arrays.asList("markbyron", "mark", "madgeek1450", "madgeek", "darthsalamon", "darth");
     public static boolean protectedAreasEnabled = true;
     public static boolean autoProtectSpawnpoints = true;
     public static double autoProtectRadius = 25.0D;
-    public static Map<String, String> customUserTitles = new HashMap<String, String>();
 
     public void loadMainConfig()
     {
@@ -237,21 +236,9 @@ public class TotalFreedomMod extends JavaPlugin
             flatlandsGenerationParams = config.getString("flatlands_generation_params", flatlandsGenerationParams);
             allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
             adminOnlyMode = config.getBoolean("admin_only_mode", adminOnlyMode);
-            superAwesomeAdmins = config.getStringList("super_awesome_admins");
             protectedAreasEnabled = config.getBoolean("protected_areas_enabled", protectedAreasEnabled);
             autoProtectSpawnpoints = config.getBoolean("auto_protect_spawnpoints", autoProtectSpawnpoints);
             autoProtectRadius = config.getDouble("auto_protect_radius", autoProtectRadius);
-
-            if (config.isConfigurationSection("user_titles"))
-            {
-                Map<String, Object> raw_titles = config.getConfigurationSection("user_titles").getValues(false);
-                Iterator<Entry<String, Object>> it = raw_titles.entrySet().iterator();
-                while (it.hasNext())
-                {
-                    Entry<String, Object> pair = it.next();
-                    customUserTitles.put(pair.getKey(), (String) pair.getValue());
-                }
-            }
         }
         catch (Exception ex)
         {
@@ -259,33 +246,19 @@ public class TotalFreedomMod extends JavaPlugin
         }
     }
 
+    @Deprecated
     public static List<String> superadmins = new ArrayList<String>();
+    @Deprecated
     public static List<String> superadmin_ips = new ArrayList<String>();
 
     public void loadSuperadminConfig()
     {
         try
         {
-            TFM_Util.createDefaultConfiguration(SUPERADMIN_FILE, getFile());
-            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), SUPERADMIN_FILE));
+            TFM_SuperadminList.loadSuperadminList();
 
-            superadmins = new ArrayList<String>();
-            superadmin_ips = new ArrayList<String>();
-
-            for (String user : config.getKeys(false))
-            {
-                superadmins.add(user.toLowerCase().trim());
-
-                List<String> user_ips = (List<String>) config.getStringList(user);
-                for (String ip : user_ips)
-                {
-                    ip = ip.toLowerCase().trim();
-                    if (!superadmin_ips.contains(ip))
-                    {
-                        superadmin_ips.add(ip);
-                    }
-                }
-            }
+            superadmins = TFM_SuperadminList.getSuperadminNames();
+            superadmin_ips = TFM_SuperadminList.getSuperadminIPs();
         }
         catch (Exception ex)
         {

@@ -1,8 +1,9 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.io.*;
-import java.net.InetSocketAddress;
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
@@ -18,8 +19,6 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 
 public class TFM_Util
@@ -102,16 +101,6 @@ public class TFM_Util
 
     public static String implodeStringList(String glue, List<String> pieces)
     {
-//        StringBuilder output = new StringBuilder();
-//        for (int i = 0; i < pieces.size(); i++)
-//        {
-//            if (i != 0)
-//            {
-//                output.append(glue);
-//            }
-//            output.append(pieces.get(i));
-//        }
-//        return output.toString();
         return StringUtils.join(pieces, glue);
     }
 
@@ -266,113 +255,16 @@ public class TFM_Util
         }
     }
 
+    @Deprecated
     public static boolean isUserSuperadmin(CommandSender user)
     {
-        try
-        {
-            if (!(user instanceof Player))
-            {
-                return true;
-            }
-
-            if (Bukkit.getOnlineMode())
-            {
-                if (TotalFreedomMod.superadmins.contains(user.getName().toLowerCase()))
-                {
-                    return true;
-                }
-            }
-
-            Player p = (Player) user;
-            if (p != null)
-            {
-                InetSocketAddress address = p.getAddress();
-                if (address != null)
-                {
-                    String user_ip = address.getAddress().getHostAddress();
-                    if (user_ip != null && !user_ip.isEmpty())
-                    {
-                        if (TotalFreedomMod.superadmin_ips.contains(user_ip))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            TFM_Log.severe(ex);
-        }
-
-        return false;
+        return TFM_SuperadminList.isUserSuperadmin(user);
     }
 
+    @Deprecated
     public static boolean checkPartialSuperadminIP(String user_ip)
     {
-        user_ip = user_ip.trim();
-
-        if (TotalFreedomMod.superadmin_ips.contains(user_ip))
-        {
-            return true;
-        }
-        else
-        {
-            String[] user_octets = user_ip.split("\\.");
-            if (user_octets.length != 4)
-            {
-                return false;
-            }
-
-            String match_ip = null;
-            for (String test_ip : TotalFreedomMod.superadmin_ips)
-            {
-                String[] test_octets = test_ip.split("\\.");
-                if (test_octets.length == 4)
-                {
-                    if (user_octets[0].equals(test_octets[0]) && user_octets[1].equals(test_octets[1]) && user_octets[2].equals(test_octets[2]))
-                    {
-                        match_ip = test_ip;
-                        break;
-                    }
-                }
-            }
-
-            if (match_ip != null)
-            {
-                TotalFreedomMod.superadmin_ips.add(user_ip);
-
-                FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-
-                fileloop:
-                for (String user : config.getKeys(false))
-                {
-                    List<String> user_ips = (List<String>) config.getStringList(user);
-                    for (String ip : user_ips)
-                    {
-                        ip = ip.toLowerCase().trim();
-                        if (ip.equals(match_ip))
-                        {
-                            TFM_Log.info("New IP '" + user_ip + "' matches old IP '" + match_ip + "' via partial match, adding it to superadmin list.");
-                            user_ips.add(user_ip);
-                            config.set(user, user_ips);
-                            break fileloop;
-                        }
-                    }
-                }
-
-                try
-                {
-                    config.save(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-                }
-                catch (IOException ex)
-                {
-                    TFM_Log.severe(ex);
-                }
-            }
-
-            return match_ip != null;
-        }
+        return TFM_SuperadminList.checkPartialSuperadminIP(user_ip);
     }
 
     public static int wipeEntities(boolean wipe_explosives, boolean wipe_carts)
@@ -659,21 +551,10 @@ public class TFM_Util
         Bukkit.getServer().createWorld(flatlands);
     }
 
+    @Deprecated
     public static boolean isSuperadminImpostor(CommandSender user)
     {
-        if (!(user instanceof Player))
-        {
-            return false;
-        }
-
-        Player p = (Player) user;
-
-        if (TotalFreedomMod.superadmins.contains(p.getName().toLowerCase()))
-        {
-            return !TFM_Util.isUserSuperadmin(p);
-        }
-
-        return false;
+        return TFM_SuperadminList.isSuperadminImpostor(user);
     }
 
     //JeromSar
@@ -684,33 +565,20 @@ public class TFM_Util
             return "an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "impostor" + ChatColor.RESET + ChatColor.AQUA + "!";
         }
 
-//        if (sender.getName().equalsIgnoreCase("markbyron"))
-//        {
-//            return "the " + ChatColor.LIGHT_PURPLE + "owner" + ChatColor.AQUA + ".";
-//        }
-//
-//        if (sender.getName().equalsIgnoreCase("madgeek1450"))
-//        {
-//            return "the " + ChatColor.DARK_PURPLE + "chief-developer" + ChatColor.AQUA + " and " + ChatColor.GOLD + "master-ass-kicker" + ChatColor.AQUA + ".";
-//        }
-//
-//        if (sender.getName().equalsIgnoreCase("darthsalamon"))
-//        {
-//            return "a " + ChatColor.DARK_PURPLE + "developer" + ChatColor.AQUA + "!";
-//        }
-//
-//        if (sender.getName().equalsIgnoreCase("miwojedk"))
-//        {
-//            return "a " + ChatColor.DARK_RED + "master-builder" + ChatColor.AQUA + "!";
-//        }
+        TFM_Superadmin admin_entry = TFM_SuperadminList.getAdminEntry(sender.getName());
 
-        if (TotalFreedomMod.customUserTitles.containsKey(sender.getName().toLowerCase()))
+        if (admin_entry != null)
         {
-            return ChatColor.translateAlternateColorCodes('&', TotalFreedomMod.customUserTitles.get(sender.getName().toLowerCase()));
-        }
+            String custom_login_message = admin_entry.getCustomLoginMessage();
 
-        if (TFM_Util.isUserSuperadmin(sender))
-        {
+            if (custom_login_message != null)
+            {
+                if (!custom_login_message.isEmpty())
+                {
+                    return ChatColor.translateAlternateColorCodes('&', custom_login_message);
+                }
+            }
+
             return "an " + ChatColor.RED + "admin" + ChatColor.AQUA + ".";
         }
 
@@ -1021,6 +889,25 @@ public class TFM_Util
             {
                 TFM_Log.severe("Can't wipe flatlands, it is already loaded.");
             }
+        }
+    }
+    
+    public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
+
+    public static String dateToString(Date date)
+    {
+        return new SimpleDateFormat(DATE_STORAGE_FORMAT, Locale.ENGLISH).format(date);
+    }
+
+    public static Date stringToDate(String date_str)
+    {
+        try
+        {
+            return new SimpleDateFormat(DATE_STORAGE_FORMAT, Locale.ENGLISH).parse(date_str);
+        }
+        catch (ParseException ex)
+        {
+            return new Date(0L);
         }
     }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...

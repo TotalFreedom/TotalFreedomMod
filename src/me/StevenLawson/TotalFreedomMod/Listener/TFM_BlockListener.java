@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -89,7 +90,7 @@ public class TFM_BlockListener implements Listener
 
         if (TotalFreedomMod.protectedAreasEnabled)
         {
-            if (!TFM_Util.isUserSuperadmin(p))
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
                 if (TFM_ProtectedArea.isInProtectedArea(block_pos))
                 {
@@ -152,7 +153,7 @@ public class TFM_BlockListener implements Listener
 
         if (TotalFreedomMod.protectedAreasEnabled)
         {
-            if (!TFM_Util.isUserSuperadmin(p))
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
                 if (TFM_ProtectedArea.isInProtectedArea(block_pos))
                 {
@@ -257,14 +258,14 @@ public class TFM_BlockListener implements Listener
     {
         Player player = event.getPlayer();
 
-        if (!TFM_Util.isUserSuperadmin(player))
+        if (!TFM_SuperadminList.isUserSuperadmin(player))
         {
             TFM_Util.playerMsg(player, "You do not have permission to set Command Block commands.");
             event.setCancelled(true);
             return;
         }
 
-        if (!TotalFreedomMod.superAwesomeAdmins.contains(player.getName().toLowerCase()))
+        if (!TFM_SuperadminList.isSuperAwesomeAdmin(player))
         {
             TFM_Util.playerMsg(player, "You do not have permission to set Command Block commands.");
             event.setCancelled(true);

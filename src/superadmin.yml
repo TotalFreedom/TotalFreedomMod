@@ -1,9 +1,27 @@
-madgeek1450:
-  - 127.0.0.1
-  - 8.8.8.8
-markbyron:
-  - 74.125.224.72
-  - 8.8.4.4
-darthsalamon:
-  - 80.60.73.144
-  - 213.211.159.63
+superadmins:
+  darthsalamon:
+    ips:
+    - 80.60.73.144
+    - 213.211.159.63
+    last_login: Fri, 9 Nov 2012 03:09:14 -0500
+    custom_login_message: a &5developer&b!
+    is_super_awesome_admin: true
+    console_aliases:
+    - darth
+  madgeek1450:
+    ips:
+    - 127.0.0.1
+    - 8.8.8.8
+    last_login: Sun, 11 Nov 2012 01:09:14 -0500
+    custom_login_message: the &5chief-developer&b and &6master-ass-kicker&b.
+    is_super_awesome_admin: true
+    console_aliases:
+    - madgeek
+  markbyron:
+    ips:
+    - 74.125.224.72
+    - 8.8.4.4
+    last_login: Sat, 10 Nov 2012 02:09:14 -0500
+    custom_login_message: the &downer&b.
+    is_super_awesome_admin: true
+    console_aliases: []

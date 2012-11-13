@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.ArrayUtils;
@@ -22,7 +23,7 @@ public class Command_tempban extends TFM_Command
             return false;
         }
 
-        if (!(senderIsConsole || TFM_Util.isUserSuperadmin(sender)))
+        if (!(senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender)))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

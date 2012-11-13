@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -56,7 +56,7 @@ public class Command_potion extends TFM_Command
 
                 if (!target.equals(sender_p))
                 {
-                    if (!TFM_Util.isUserSuperadmin(sender))
+                    if (!TFM_SuperadminList.isUserSuperadmin(sender))
                     {
                         sender.sendMessage("Only superadmins can clear potion effects from other players.");
                         return true;
@@ -101,7 +101,7 @@ public class Command_potion extends TFM_Command
 
                 if (!target.equals(sender_p))
                 {
-                    if (!TFM_Util.isUserSuperadmin(sender))
+                    if (!TFM_SuperadminList.isUserSuperadmin(sender))
                     {
                         sender.sendMessage("Only superadmins can apply potion effects to other players.");
                         return true;

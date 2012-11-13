@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -44,7 +45,7 @@ public class Command_op extends TFM_Command
         // if the player is not online
         if (p == null)
         {
-            if (TFM_Util.isUserSuperadmin(sender) || senderIsConsole)
+            if (TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole)
             {
                 p = server.getOfflinePlayer(args[0]);
             }
