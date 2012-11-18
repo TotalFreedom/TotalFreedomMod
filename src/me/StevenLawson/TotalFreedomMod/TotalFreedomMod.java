@@ -255,6 +255,7 @@ public class TotalFreedomMod extends JavaPlugin
     {
         try
         {
+            TFM_SuperadminList.backupSavedList();
             TFM_SuperadminList.loadSuperadminList();
 
             superadmins = TFM_SuperadminList.getSuperadminNames();

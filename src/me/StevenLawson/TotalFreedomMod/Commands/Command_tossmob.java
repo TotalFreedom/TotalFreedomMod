@@ -1,9 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import java.util.Map.Entry;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -43,12 +43,7 @@ public class Command_tossmob extends TFM_Command
 
                 if (args[0].equalsIgnoreCase("list"))
                 {
-                    StringBuilder output = new StringBuilder("Supported mobs: ");
-                    for (Entry<String, EntityType> mob : TFM_Util.mobtypes.entrySet())
-                    {
-                        output.append(mob.getKey()).append(", ");
-                    }
-                    sender.sendMessage(ChatColor.GREEN + output.toString());
+                    sender.sendMessage(ChatColor.GREEN + "Supported mobs: " + StringUtils.join(TFM_Util.mobtypes.keySet(), ", "));
                     return true;
                 }
 

@@ -67,7 +67,7 @@ public class Command_lockup extends TFM_Command
                 startLockup(p);
                 TFM_Util.playerMsg(sender, "Locked up " + p.getName() + ".");
             }
-            else if (args[1].equalsIgnoreCase("off"))
+            else if (TFM_Util.isStopCommand(args[1]))
             {
                 final Player p;
                 try

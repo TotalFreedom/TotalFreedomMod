@@ -64,6 +64,12 @@ public class TFM_EntityListener implements Listener
     {
         if (TotalFreedomMod.mobLimiterEnabled)
         {
+            if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.EGG))
+            {
+                event.setCancelled(true);
+                return;
+            }
+
             Entity spawned = event.getEntity();
 
             if (spawned instanceof EnderDragon)
@@ -97,6 +103,11 @@ public class TFM_EntityListener implements Listener
                     event.setCancelled(true);
                     return;
                 }
+            }
+            else if (spawned instanceof Bat)
+            {
+                event.setCancelled(true);
+                return;
             }
 
             if (TotalFreedomMod.mobLimiterMax > 0)

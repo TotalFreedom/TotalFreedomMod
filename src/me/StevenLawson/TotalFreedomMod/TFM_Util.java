@@ -23,42 +23,29 @@ import org.bukkit.entity.*;
 
 public class TFM_Util
 {
-    private static Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
+    private static final Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
-    public static final List<String> stop_commands = new ArrayList<String>();
+    public static final List<String> stop_commands = Arrays.asList("stop", "off", "end", "halt", "die");
+    public static final List<String> restricted_senders = Arrays.asList("rcon, remotebukkit");
 
     static
     {
-        mobtypes.put("blaze", EntityType.BLAZE);
-        mobtypes.put("cavespider", EntityType.CAVE_SPIDER);
-        mobtypes.put("chicken", EntityType.CHICKEN);
-        mobtypes.put("cow", EntityType.COW);
-        mobtypes.put("creeper", EntityType.CREEPER);
-        mobtypes.put("enderdragon", EntityType.ENDER_DRAGON);
-        mobtypes.put("enderman", EntityType.ENDERMAN);
-        mobtypes.put("ghast", EntityType.GHAST);
-        mobtypes.put("giant", EntityType.GIANT);
-        mobtypes.put("irongolem", EntityType.IRON_GOLEM);
-        mobtypes.put("mushroomcow", EntityType.MUSHROOM_COW);
-        mobtypes.put("ocelot", EntityType.OCELOT);
-        mobtypes.put("pig", EntityType.PIG);
-        mobtypes.put("pigzombie", EntityType.PIG_ZOMBIE);
-        mobtypes.put("sheep", EntityType.SHEEP);
-        mobtypes.put("silverfish", EntityType.SILVERFISH);
-        mobtypes.put("skeleton", EntityType.SKELETON);
-        mobtypes.put("slime", EntityType.SLIME);
-        mobtypes.put("snowman", EntityType.SNOWMAN);
-        mobtypes.put("spider", EntityType.SPIDER);
-        mobtypes.put("squid", EntityType.SQUID);
-        mobtypes.put("villager", EntityType.VILLAGER);
-        mobtypes.put("wolf", EntityType.WOLF);
-        mobtypes.put("zombie", EntityType.ZOMBIE);
-
-        stop_commands.add("stop");
-        stop_commands.add("off");
-        stop_commands.add("end");
-        stop_commands.add("halt");
-        stop_commands.add("die");
+        for (EntityType entity_type : EntityType.values())
+        {
+            try
+            {
+                if (entity_type.getName() != null)
+                {
+                    if (Creature.class.isAssignableFrom(entity_type.getEntityClass()))
+                    {
+                        mobtypes.put(entity_type.getName().toLowerCase(), entity_type);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
     }
 
     private TFM_Util()
@@ -909,6 +896,11 @@ public class TFM_Util
         {
             return new Date(0L);
         }
+    }
+
+    public static boolean isFromClanforge(String sender_name)
+    {
+        return restricted_senders.contains(sender_name.toLowerCase());
     }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;

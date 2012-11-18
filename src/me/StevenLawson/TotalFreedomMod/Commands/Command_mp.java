@@ -21,7 +21,7 @@ public class Command_mp extends TFM_Command
             {
                 for (Entity ent : world.getLivingEntities())
                 {
-                    if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon)
+                    if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon || ent instanceof Ambient)
                     {
                         ent.remove();
                         removed++;

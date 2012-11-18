@@ -15,11 +15,6 @@ public class Command_csay extends TFM_Command
         {
             String sender_name = sender.getName();
 
-            if (sender_name.equalsIgnoreCase("remotebukkit"))
-            {
-                sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            }
-
             sender_name = sender_name.split("-")[0];
 
             StringBuilder outmessage_bldr = new StringBuilder();

@@ -12,7 +12,7 @@ public class Command_kicknoob extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!senderIsConsole || sender.getName().equalsIgnoreCase("remotebukkit"))
+        if (!senderIsConsole || TFM_Util.isFromClanforge(sender.getName()))
         {
             sender.sendMessage(ChatColor.GRAY + "This command may only be used from the Telnet or BukkitHttpd console.");
             return true;

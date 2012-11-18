@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,6 +15,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.util.FileUtil;
 
 public class TFM_SuperadminList
 {
@@ -41,29 +41,43 @@ public class TFM_SuperadminList
 
     public static void loadSuperadminList()
     {
-        convertV1List();
-
-        superadminList.clear();
-
-        TFM_Util.createDefaultConfiguration(TotalFreedomMod.SUPERADMIN_FILE, TotalFreedomMod.plugin_file);
-        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-
-        if (config.isConfigurationSection("superadmins"))
+        try
         {
-            ConfigurationSection section = config.getConfigurationSection("superadmins");
+//            convertV1List();
 
-            for (String admin_name : section.getKeys(false))
+            superadminList.clear();
+
+            TFM_Util.createDefaultConfiguration(TotalFreedomMod.SUPERADMIN_FILE, TotalFreedomMod.plugin_file);
+            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+
+            if (config.isConfigurationSection("superadmins"))
             {
-                TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, section.getConfigurationSection(admin_name));
-                superadminList.put(admin_name.toLowerCase(), superadmin);
-            }
-        }
-        else
-        {
-            TFM_Log.warning("Missing superadmins section in superadmin.yml.");
-        }
+                ConfigurationSection section = config.getConfigurationSection("superadmins");
 
-        updateIndexLists();
+                for (String admin_name : section.getKeys(false))
+                {
+                    TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, section.getConfigurationSection(admin_name));
+                    superadminList.put(admin_name.toLowerCase(), superadmin);
+                }
+            }
+            else
+            {
+                TFM_Log.warning("Missing superadmins section in superadmin.yml.");
+            }
+
+            updateIndexLists();
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+    }
+
+    public static void backupSavedList()
+    {
+        File a = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE);
+        File b = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE + ".bak");
+        FileUtil.copy(a, b);
     }
 
     public static void updateIndexLists()
@@ -98,51 +112,57 @@ public class TFM_SuperadminList
         }
     }
 
-    public static void convertV1List()
-    {
-        superadminList.clear();
-
-        TFM_Util.createDefaultConfiguration(TotalFreedomMod.SUPERADMIN_FILE, TotalFreedomMod.plugin_file);
-        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-
-        if (!config.isConfigurationSection("superadmins"))
-        {
-            for (String admin_name : config.getKeys(false))
-            {
-                TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, config.getStringList(admin_name), new Date(), "", false, new ArrayList<String>());
-                superadminList.put(admin_name.toLowerCase(), superadmin);
-            }
-
-            saveSuperadminList();
-        }
-    }
-
+//    public static void convertV1List()
+//    {
+//        try
+//        {
+//            superadminList.clear();
+//
+//            TFM_Util.createDefaultConfiguration(TotalFreedomMod.SUPERADMIN_FILE, TotalFreedomMod.plugin_file);
+//            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+//
+//            if (!config.isConfigurationSection("superadmins"))
+//            {
+//                for (String admin_name : config.getKeys(false))
+//                {
+//                    TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, config.getStringList(admin_name), new Date(), "", false, new ArrayList<String>());
+//                    superadminList.put(admin_name.toLowerCase(), superadmin);
+//                }
+//
+//                saveSuperadminList();
+//            }
+//        }
+//        catch (Exception ex)
+//        {
+//            TFM_Log.severe(ex);
+//        }
+//    }
     public static void saveSuperadminList()
     {
-        updateIndexLists();
-
-        YamlConfiguration config = new YamlConfiguration();
-
-        Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
-        while (it.hasNext())
-        {
-            Entry<String, TFM_Superadmin> pair = it.next();
-
-            String admin_name = pair.getKey().toLowerCase();
-            TFM_Superadmin superadmin = pair.getValue();
-
-            config.set("superadmins." + admin_name + ".ips", superadmin.getIps());
-            config.set("superadmins." + admin_name + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
-            config.set("superadmins." + admin_name + ".custom_login_message", superadmin.getCustomLoginMessage());
-            config.set("superadmins." + admin_name + ".is_super_awesome_admin", superadmin.isSuperAwesomeAdmin());
-            config.set("superadmins." + admin_name + ".console_aliases", superadmin.getConsoleAliases());
-        }
-
         try
         {
+            updateIndexLists();
+
+            YamlConfiguration config = new YamlConfiguration();
+
+            Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
+            while (it.hasNext())
+            {
+                Entry<String, TFM_Superadmin> pair = it.next();
+
+                String admin_name = pair.getKey().toLowerCase();
+                TFM_Superadmin superadmin = pair.getValue();
+
+                config.set("superadmins." + admin_name + ".ips", superadmin.getIps());
+                config.set("superadmins." + admin_name + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
+                config.set("superadmins." + admin_name + ".custom_login_message", superadmin.getCustomLoginMessage());
+                config.set("superadmins." + admin_name + ".is_super_awesome_admin", superadmin.isSuperAwesomeAdmin());
+                config.set("superadmins." + admin_name + ".console_aliases", superadmin.getConsoleAliases());
+            }
+
             config.save(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
         }
-        catch (IOException ex)
+        catch (Exception ex)
         {
             TFM_Log.severe(ex);
         }
@@ -246,48 +266,55 @@ public class TFM_SuperadminList
 
     public static boolean checkPartialSuperadminIP(String user_ip)
     {
-        user_ip = user_ip.trim();
-
-        if (superadminIPs.contains(user_ip))
+        try
         {
-            return true;
-        }
-        else
-        {
-            String[] user_octets = user_ip.split("\\.");
-            if (user_octets.length != 4)
+            user_ip = user_ip.trim();
+
+            if (superadminIPs.contains(user_ip))
             {
-                return false;
-            }
-
-            String match_ip = null;
-            for (String test_ip : getSuperadminIPs())
-            {
-                String[] test_octets = test_ip.split("\\.");
-                if (test_octets.length == 4)
-                {
-                    if (user_octets[0].equals(test_octets[0]) && user_octets[1].equals(test_octets[1]) && user_octets[2].equals(test_octets[2]))
-                    {
-                        match_ip = test_ip;
-                        break;
-                    }
-                }
-            }
-
-            if (match_ip != null)
-            {
-                TFM_Superadmin admin_entry = getAdminEntryByIP(match_ip);
-
-                if (admin_entry != null)
-                {
-                    List<String> ips = admin_entry.getIps();
-                    ips.add(user_ip);
-                    admin_entry.setIps(ips);
-                    saveSuperadminList();
-                }
-
                 return true;
             }
+            else
+            {
+                String[] user_octets = user_ip.split("\\.");
+                if (user_octets.length != 4)
+                {
+                    return false;
+                }
+
+                String match_ip = null;
+                for (String test_ip : getSuperadminIPs())
+                {
+                    String[] test_octets = test_ip.split("\\.");
+                    if (test_octets.length == 4)
+                    {
+                        if (user_octets[0].equals(test_octets[0]) && user_octets[1].equals(test_octets[1]) && user_octets[2].equals(test_octets[2]))
+                        {
+                            match_ip = test_ip;
+                            break;
+                        }
+                    }
+                }
+
+                if (match_ip != null)
+                {
+                    TFM_Superadmin admin_entry = getAdminEntryByIP(match_ip);
+
+                    if (admin_entry != null)
+                    {
+                        List<String> ips = admin_entry.getIps();
+                        ips.add(user_ip);
+                        admin_entry.setIps(ips);
+                        saveSuperadminList();
+                    }
+
+                    return true;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
         }
 
         return false;
