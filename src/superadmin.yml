@@ -5,7 +5,7 @@ superadmins:
     - 213.211.159.63
     last_login: Fri, 9 Nov 2012 03:09:14 -0500
     custom_login_message: a &5developer&b!
-    is_super_awesome_admin: true
+    is_senior_admin: true
     console_aliases:
     - darth
   madgeek1450:
@@ -14,7 +14,7 @@ superadmins:
     - 8.8.8.8
     last_login: Sun, 11 Nov 2012 01:09:14 -0500
     custom_login_message: the &5chief-developer&b and &6master-ass-kicker&b.
-    is_super_awesome_admin: true
+    is_senior_admin: true
     console_aliases:
     - madgeek
   markbyron:
@@ -23,5 +23,5 @@ superadmins:
     - 8.8.4.4
     last_login: Sat, 10 Nov 2012 02:09:14 -0500
     custom_login_message: the &downer&b.
-    is_super_awesome_admin: true
+    is_senior_admin: true
     console_aliases: []

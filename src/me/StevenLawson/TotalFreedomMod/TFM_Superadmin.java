@@ -9,19 +9,21 @@ public class TFM_Superadmin
 {
     private final String name;
     private final String custom_login_message;
-    private final boolean is_super_awesome_admin;
+    private final boolean is_senior_admin;
     private final List<String> console_aliases;
     private List<String> ips;
     private Date last_login;
+    private boolean is_activated;
 
-    public TFM_Superadmin(String name, List<String> ips, Date last_login, String custom_login_message, boolean is_super_awesome_admin, List<String> console_aliases)
+    public TFM_Superadmin(String name, List<String> ips, Date last_login, String custom_login_message, boolean is_senior_admin, List<String> console_aliases, boolean is_activated)
     {
         this.name = name.toLowerCase();
         this.ips = ips;
         this.last_login = last_login;
         this.custom_login_message = custom_login_message;
-        this.is_super_awesome_admin = is_super_awesome_admin;
+        this.is_senior_admin = is_senior_admin;
         this.console_aliases = console_aliases;
+        this.is_activated = is_activated;
     }
 
     public TFM_Superadmin(String name, ConfigurationSection section)
@@ -30,8 +32,9 @@ public class TFM_Superadmin
         this.ips = section.getStringList("ips");
         this.last_login = TFM_Util.stringToDate(section.getString("last_login", TFM_Util.dateToString(new Date(0L))));
         this.custom_login_message = section.getString("custom_login_message", "");
-        this.is_super_awesome_admin = section.getBoolean("is_super_awesome_admin", false);
+        this.is_senior_admin = section.getBoolean("is_senior_admin", false);
         this.console_aliases = section.getStringList("console_aliases");
+        this.is_activated = section.getBoolean("is_activated", true);
     }
 
     @Override
@@ -45,8 +48,9 @@ public class TFM_Superadmin
             output.append("- IPs: ").append(StringUtils.join(this.ips, ", ")).append("\n");
             output.append("- Last Login: ").append(TFM_Util.dateToString(this.last_login)).append("\n");
             output.append("- Custom Login Message: ").append(this.custom_login_message).append("\n");
-            output.append("- Is Super Awesome Admin: ").append(this.is_super_awesome_admin).append("\n");
-            output.append("- Console Aliases: ").append(StringUtils.join(this.console_aliases, ", "));
+            output.append("- Is Senior Admin: ").append(this.is_senior_admin).append("\n");
+            output.append("- Console Aliases: ").append(StringUtils.join(this.console_aliases, ", ")).append("\n");
+            output.append("- Is Activated: ").append(this.is_activated);
         }
         catch (Exception ex)
         {
@@ -76,9 +80,9 @@ public class TFM_Superadmin
         return custom_login_message;
     }
 
-    public boolean isSuperAwesomeAdmin()
+    public boolean isSeniorAdmin()
     {
-        return is_super_awesome_admin;
+        return is_senior_admin;
     }
 
     public List<String> getConsoleAliases()
@@ -94,5 +98,15 @@ public class TFM_Superadmin
     public void setLastLogin(Date last_login)
     {
         this.last_login = last_login;
+    }
+
+    public boolean isActivated()
+    {
+        return is_activated;
+    }
+
+    public void setActivated(boolean is_activated)
+    {
+        this.is_activated = is_activated;
     }
 }

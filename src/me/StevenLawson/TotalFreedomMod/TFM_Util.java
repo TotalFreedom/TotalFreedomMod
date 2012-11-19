@@ -547,7 +547,7 @@ public class TFM_Util
     //JeromSar
     public static String getRank(CommandSender sender)
     {
-        if (TFM_Util.isSuperadminImpostor(sender))
+        if (TFM_SuperadminList.isSuperadminImpostor(sender))
         {
             return "an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "impostor" + ChatColor.RESET + ChatColor.AQUA + "!";
         }
@@ -556,17 +556,27 @@ public class TFM_Util
 
         if (admin_entry != null)
         {
-            String custom_login_message = admin_entry.getCustomLoginMessage();
-
-            if (custom_login_message != null)
+            if (admin_entry.isActivated())
             {
-                if (!custom_login_message.isEmpty())
+                String custom_login_message = admin_entry.getCustomLoginMessage();
+
+                if (custom_login_message != null)
                 {
-                    return ChatColor.translateAlternateColorCodes('&', custom_login_message);
+                    if (!custom_login_message.isEmpty())
+                    {
+                        return ChatColor.translateAlternateColorCodes('&', custom_login_message);
+                    }
+                }
+
+                if (admin_entry.isSeniorAdmin())
+                {
+                    return "a " + ChatColor.GOLD + "senior admin" + ChatColor.AQUA + ".";
+                }
+                else
+                {
+                    return "an " + ChatColor.RED + "admin" + ChatColor.AQUA + ".";
                 }
             }
-
-            return "an " + ChatColor.RED + "admin" + ChatColor.AQUA + ".";
         }
 
         if (sender.isOp())

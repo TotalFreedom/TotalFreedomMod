@@ -22,7 +22,7 @@ public class TFM_SuperadminList
     private static Map<String, TFM_Superadmin> superadminList = new HashMap<String, TFM_Superadmin>();
     private static List<String> superadminNames = new ArrayList<String>();
     private static List<String> superadminIPs = new ArrayList<String>();
-    private static List<String> superAwesomeAdminsConsole = new ArrayList<String>();
+    private static List<String> seniorAdminNames = new ArrayList<String>();
 
     private TFM_SuperadminList()
     {
@@ -43,8 +43,6 @@ public class TFM_SuperadminList
     {
         try
         {
-//            convertV1List();
-
             superadminList.clear();
 
             TFM_Util.createDefaultConfiguration(TotalFreedomMod.SUPERADMIN_FILE, TotalFreedomMod.plugin_file);
@@ -93,50 +91,28 @@ public class TFM_SuperadminList
             String admin_name = pair.getKey().toLowerCase();
             TFM_Superadmin superadmin = pair.getValue();
 
-            superadminNames.add(admin_name);
-
-            for (String ip : superadmin.getIps())
+            if (superadmin.isActivated())
             {
-                superadminIPs.add(ip);
-            }
+                superadminNames.add(admin_name);
 
-            if (superadmin.isSuperAwesomeAdmin())
-            {
-                superAwesomeAdminsConsole.add(admin_name);
-
-                for (String console_alias : superadmin.getConsoleAliases())
+                for (String ip : superadmin.getIps())
                 {
-                    superAwesomeAdminsConsole.add(console_alias.toLowerCase());
+                    superadminIPs.add(ip);
+                }
+
+                if (superadmin.isSeniorAdmin())
+                {
+                    seniorAdminNames.add(admin_name);
+
+                    for (String console_alias : superadmin.getConsoleAliases())
+                    {
+                        seniorAdminNames.add(console_alias.toLowerCase());
+                    }
                 }
             }
         }
     }
 
-//    public static void convertV1List()
-//    {
-//        try
-//        {
-//            superadminList.clear();
-//
-//            TFM_Util.createDefaultConfiguration(TotalFreedomMod.SUPERADMIN_FILE, TotalFreedomMod.plugin_file);
-//            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-//
-//            if (!config.isConfigurationSection("superadmins"))
-//            {
-//                for (String admin_name : config.getKeys(false))
-//                {
-//                    TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, config.getStringList(admin_name), new Date(), "", false, new ArrayList<String>());
-//                    superadminList.put(admin_name.toLowerCase(), superadmin);
-//                }
-//
-//                saveSuperadminList();
-//            }
-//        }
-//        catch (Exception ex)
-//        {
-//            TFM_Log.severe(ex);
-//        }
-//    }
     public static void saveSuperadminList()
     {
         try
@@ -156,8 +132,9 @@ public class TFM_SuperadminList
                 config.set("superadmins." + admin_name + ".ips", superadmin.getIps());
                 config.set("superadmins." + admin_name + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
                 config.set("superadmins." + admin_name + ".custom_login_message", superadmin.getCustomLoginMessage());
-                config.set("superadmins." + admin_name + ".is_super_awesome_admin", superadmin.isSuperAwesomeAdmin());
+                config.set("superadmins." + admin_name + ".is_senior_admin", superadmin.isSeniorAdmin());
                 config.set("superadmins." + admin_name + ".console_aliases", superadmin.getConsoleAliases());
+                config.set("superadmins." + admin_name + ".is_activated", superadmin.isActivated());
             }
 
             config.save(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
@@ -212,19 +189,19 @@ public class TFM_SuperadminList
         }
     }
 
-    public static boolean isSuperAwesomeAdmin(CommandSender user)
+    public static boolean isSeniorAdmin(CommandSender user)
     {
         String user_name = user.getName().toLowerCase();
 
         if (!(user instanceof Player))
         {
-            return superAwesomeAdminsConsole.contains(user_name);
+            return seniorAdminNames.contains(user_name);
         }
 
         TFM_Superadmin admin_entry = getAdminEntry((Player) user);
         if (admin_entry != null)
         {
-            return admin_entry.isSuperAwesomeAdmin();
+            return admin_entry.isSeniorAdmin();
         }
 
         return false;
@@ -339,13 +316,23 @@ public class TFM_SuperadminList
 
     public static void addSuperadmin(String admin_name, List<String> ips)
     {
-        Date last_login = new Date();
-        String custom_login_message = "";
-        boolean is_super_awesome_admin = false;
-        List<String> console_aliases = new ArrayList<String>();
+        admin_name = admin_name.toLowerCase();
 
-        TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, ips, last_login, custom_login_message, is_super_awesome_admin, console_aliases);
-        superadminList.put(admin_name.toLowerCase(), superadmin);
+        if (superadminList.containsKey(admin_name))
+        {
+            TFM_Superadmin superadmin = superadminList.get(admin_name);
+            superadmin.setActivated(true);
+        }
+        else
+        {
+            Date last_login = new Date();
+            String custom_login_message = "";
+            boolean is_senior_admin = false;
+            List<String> console_aliases = new ArrayList<String>();
+
+            TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, ips, last_login, custom_login_message, is_senior_admin, console_aliases, true);
+            superadminList.put(admin_name.toLowerCase(), superadmin);
+        }
 
         saveSuperadminList();
     }
@@ -369,10 +356,10 @@ public class TFM_SuperadminList
 
         if (superadminList.containsKey(admin_name))
         {
-            superadminList.remove(admin_name);
+            TFM_Superadmin superadmin = superadminList.get(admin_name);
+            superadmin.setActivated(false);
+            saveSuperadminList();
         }
-
-        saveSuperadminList();
     }
 
     public static void removeSuperadmin(Player p)

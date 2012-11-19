@@ -14,7 +14,7 @@ public class Command_doom extends TFM_Command
     @Override
     public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!(senderIsConsole && TFM_SuperadminList.isSuperAwesomeAdmin(sender)))
+        if (!(senderIsConsole && TFM_SuperadminList.isSeniorAdmin(sender)))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

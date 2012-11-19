@@ -265,7 +265,7 @@ public class TFM_BlockListener implements Listener
             return;
         }
 
-        if (!TFM_SuperadminList.isSuperAwesomeAdmin(player))
+        if (!TFM_SuperadminList.isSeniorAdmin(player))
         {
             TFM_Util.playerMsg(player, "You do not have permission to set Command Block commands.");
             event.setCancelled(true);

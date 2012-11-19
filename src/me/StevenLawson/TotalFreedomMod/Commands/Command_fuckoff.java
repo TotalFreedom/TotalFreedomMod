@@ -24,7 +24,7 @@ public class Command_fuckoff extends TFM_Command
             return true;
         }
         
-        if (!TFM_SuperadminList.isSuperAwesomeAdmin(sender_p))
+        if (!TFM_SuperadminList.isSeniorAdmin(sender_p))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;
