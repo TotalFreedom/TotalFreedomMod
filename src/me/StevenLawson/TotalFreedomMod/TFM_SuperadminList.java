@@ -328,6 +328,7 @@ public class TFM_SuperadminList
         {
             TFM_Superadmin superadmin = superadminList.get(admin_name);
             superadmin.setActivated(true);
+            superadmin.getIps().addAll(ips);
         }
         else
         {
