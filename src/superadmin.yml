@@ -1,3 +1,4 @@
+clean_threshold_hours: 168
 superadmins:
   darthsalamon:
     ips:
@@ -8,6 +9,7 @@ superadmins:
     is_senior_admin: true
     console_aliases:
     - darth
+    is_activated: true
   madgeek1450:
     ips:
     - 127.0.0.1
@@ -17,6 +19,7 @@ superadmins:
     is_senior_admin: true
     console_aliases:
     - madgeek
+    is_activated: false
   markbyron:
     ips:
     - 74.125.224.72
@@ -25,3 +28,4 @@ superadmins:
     custom_login_message: the &downer&b.
     is_senior_admin: true
     console_aliases: []
+    is_activated: true

@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -23,6 +24,7 @@ public class TFM_SuperadminList
     private static List<String> superadminNames = new ArrayList<String>();
     private static List<String> superadminIPs = new ArrayList<String>();
     private static List<String> seniorAdminNames = new ArrayList<String>();
+    private static int clean_threshold_hours = 24 * 7; // 1 Week
 
     private TFM_SuperadminList()
     {
@@ -47,6 +49,8 @@ public class TFM_SuperadminList
 
             TFM_Util.createDefaultConfiguration(TotalFreedomMod.SUPERADMIN_FILE, TotalFreedomMod.plugin_file);
             FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+
+            clean_threshold_hours = config.getInt("clean_threshold_hours", clean_threshold_hours);
 
             if (config.isConfigurationSection("superadmins"))
             {
@@ -120,6 +124,8 @@ public class TFM_SuperadminList
             updateIndexLists();
 
             YamlConfiguration config = new YamlConfiguration();
+
+            config.set("clean_threshold_hours", clean_threshold_hours);
 
             Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
             while (it.hasNext())
@@ -365,5 +371,39 @@ public class TFM_SuperadminList
     public static void removeSuperadmin(Player p)
     {
         removeSuperadmin(p.getName());
+    }
+
+    public static void cleanSuperadminList(boolean verbose)
+    {
+        try
+        {
+            Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
+            while (it.hasNext())
+            {
+                Entry<String, TFM_Superadmin> pair = it.next();
+                TFM_Superadmin superadmin = pair.getValue();
+                if (superadmin.isActivated() && !superadmin.isSeniorAdmin())
+                {
+                    Date last_login = superadmin.getLastLogin();
+
+                    long hours_since_login = TimeUnit.HOURS.convert(new Date().getTime() - last_login.getTime(), TimeUnit.MILLISECONDS);
+
+                    if (hours_since_login > clean_threshold_hours)
+                    {
+                        if (verbose)
+                        {
+                            TFM_Util.adminAction("TotalFreedomSystem", "Deactivating superadmin \"" + superadmin.getName() + "\", inactive for " + hours_since_login + " hours.", true);
+                        }
+
+                        superadmin.setActivated(false);
+                    }
+                }
+            }
+            saveSuperadminList();
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
     }
 }

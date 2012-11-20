@@ -163,7 +163,7 @@ commands:
     usage: /<command> <carts>
   saconfig:
     description: Owner command - Manage superadmins.
-    usage: /<command> <list | <add|delete> <username>>
+    usage: /<command> <list | clean | <add|delete> <username>>
   say:
     description: Broadcasts the given message as the console, includes sender name.
     usage: /<command> <message>
