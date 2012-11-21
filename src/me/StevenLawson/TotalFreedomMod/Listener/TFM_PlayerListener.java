@@ -478,7 +478,11 @@ public class TFM_PlayerListener implements Listener
             {
                 block_command = true;
             }
-            else if (TFM_SuperadminList.isUserSuperadmin(p) && Pattern.compile("^/socialspy").matcher(command).find())
+            else if (!TFM_SuperadminList.isUserSuperadmin(p) && Pattern.compile("^/socialspy").matcher(command).find())
+            {
+                block_command = true;
+            }
+            else if (!TFM_SuperadminList.isUserSuperadmin(p) && Pattern.compile("^/packet").matcher(command).find())
             {
                 block_command = true;
             }

@@ -35,11 +35,11 @@ public class Command_list extends TFM_Command
                 {
                     if(TFM_SuperadminList.isSeniorAdmin(p))
                     {
-                        prefix = (ChatColor.GOLD + "[SenAdmin]");
+                        prefix = (ChatColor.LIGHT_PURPLE + "[SenAdmin]");
                     }
                     else
                     {
-                        prefix = (ChatColor.RED + "[SupAdmin]");
+                        prefix = (ChatColor.GOLD + "[SupAdmin]");
                     }
                 }
                 else
