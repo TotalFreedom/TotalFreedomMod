@@ -325,20 +325,32 @@ public class TFM_PlayerListener implements Listener
                 TFM_Util.playerMsg(p, "Message was shortened because it was too long to send.");
             }
 
-            // check for caps
+
+            // check for caps and exclamation marks
             if (message.length() >= 6)
             {
                 int caps = 0;
+                int excl = 0;
                 for (char c : message.toCharArray())
                 {
                     if (Character.isUpperCase(c))
                     {
                         caps++;
                     }
+                    
+                    if(c == '!')
+                    {
+                    	excl++;
+                    }
                 }
-                if (((float) caps / (float) message.length()) > 0.75) //Compute a ratio so that longer sentences can have more caps.
+                if (caps > 6 || caps > 3 && ((float) caps / (float) message.length()) > 0.55)
                 {
                     message = message.toLowerCase();
+                }
+
+                if(excl++ > 3)
+                {
+                    message = message.replaceAll("!", "") + '!';
                 }
             }
 
