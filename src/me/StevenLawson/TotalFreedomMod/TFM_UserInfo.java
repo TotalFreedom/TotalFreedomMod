@@ -2,8 +2,10 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,7 +16,12 @@ import org.bukkit.entity.Player;
 
 public class TFM_UserInfo
 {
-    private Player player;
+    public final static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
+
+    private final Player player;
+    private final String ip_address;
+    private final String player_name;
+
     private boolean user_frozen = false;
     private boolean is_muted = false;
     private boolean is_halted = false;
@@ -38,21 +45,51 @@ public class TFM_UserInfo
     private boolean mp44_armed = false;
     private boolean mp44_firing = false;
     private int lockup_schedule_id = -1;
-    public static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
 
-    private TFM_UserInfo(Player player)
+    public TFM_UserInfo(Player player)
     {
         this.player = player;
+        this.ip_address = player.getAddress().getAddress().getHostAddress();
+        this.player_name = player.getName();
     }
 
     public static TFM_UserInfo getPlayerData(Player p)
     {
         TFM_UserInfo playerdata = TFM_UserInfo.userinfo.get(p);
+
+        if (playerdata == null)
+        {
+            Iterator<Entry<Player, TFM_UserInfo>> it = userinfo.entrySet().iterator();
+            while (it.hasNext())
+            {
+                Entry<Player, TFM_UserInfo> pair = it.next();
+                TFM_UserInfo playerdata_test = pair.getValue();
+
+                if (playerdata_test.player_name.equalsIgnoreCase(p.getName()))
+                {
+                    if (Bukkit.getOnlineMode())
+                    {
+                        playerdata = playerdata_test;
+                        break;
+                    }
+                    else
+                    {
+                        if (playerdata_test.ip_address.equalsIgnoreCase(p.getAddress().getAddress().getHostAddress()))
+                        {
+                            playerdata = playerdata_test;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         if (playerdata == null)
         {
             playerdata = new TFM_UserInfo(p);
             TFM_UserInfo.userinfo.put(p, playerdata);
         }
+
         return playerdata;
     }
 
