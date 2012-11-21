@@ -93,6 +93,16 @@ public class TFM_UserInfo
         return playerdata;
     }
 
+    public String getIpAddress()
+    {
+        return ip_address;
+    }
+
+    public String getPlayerName()
+    {
+        return player_name;
+    }
+
     public boolean isOrbiting()
     {
         return this.is_orbiting;

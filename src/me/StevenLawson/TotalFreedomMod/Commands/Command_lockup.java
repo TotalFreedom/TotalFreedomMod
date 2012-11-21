@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.Random;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -115,7 +116,7 @@ public class Command_lockup extends TFM_Command
 
     private void startLockup(final Player p)
     {
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        final TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 
         cancelLockup(playerdata);
 
@@ -126,12 +127,19 @@ public class Command_lockup extends TFM_Command
             @Override
             public void run()
             {
-                p.openWorkbench(null, true);
+                if (p.isOnline())
+                {
+                    p.openWorkbench(null, true);
 
-                Location l = p.getLocation().clone();
-                l.setPitch(random.nextFloat() * 360.0f);
-                l.setYaw(random.nextFloat() * 360.0f);
-                p.teleport(l);
+                    Location l = p.getLocation().clone();
+                    l.setPitch(random.nextFloat() * 360.0f);
+                    l.setYaw(random.nextFloat() * 360.0f);
+                    p.teleport(l);
+                }
+                else
+                {
+                    cancelLockup(playerdata);
+                }
             }
         }, 0L, 5L));
     }
