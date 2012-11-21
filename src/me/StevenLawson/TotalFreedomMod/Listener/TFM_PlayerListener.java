@@ -99,7 +99,10 @@ public class TFM_PlayerListener implements Listener
                     }
                     case BLAZE_ROD:
                     {
-                        if (TotalFreedomMod.allowExplosions && (player.getName().equals("Madgeek1450") || player.getName().equals("markbyron")))
+                        if (TotalFreedomMod.allowExplosions && (
+                            player.getName().equals("Madgeek1450")
+                            || player.getName().equals("markbyron")
+                            || player.getName().equals("DarthSalamon")))
                         {
                             Block target_block = null;
 
