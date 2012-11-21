@@ -26,6 +26,8 @@ import org.bukkit.util.Vector;
 public class TFM_PlayerListener implements Listener
 {
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
+    
+    private static final String[] MutedCommands = {"^/msg", "^/m","^/reply", "^/r", "^/tell", "^/me"};
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -472,6 +474,14 @@ public class TFM_PlayerListener implements Listener
             {
                 block_command = true;
             }
+            else if (Pattern.compile("^/clear").matcher(command).find())
+            {
+                block_command = true;
+            }
+            else if (TFM_SuperadminList.isUserSuperadmin(p) && Pattern.compile("^/socialspy").matcher(command).find())
+            {
+                block_command = true;
+            }
         }
 
         if (block_command)
@@ -479,6 +489,20 @@ public class TFM_PlayerListener implements Listener
             p.sendMessage(ChatColor.GRAY + "That command is blocked.");
             event.setCancelled(true);
             return;
+        }
+
+        // block muted commands
+        if(playerdata.isMuted())
+        {
+            for(String mc : MutedCommands)
+            {
+                if (Pattern.compile(mc).matcher(command).find())
+                {
+                     p.sendMessage(ChatColor.RED + "You are muted, STFU!");
+                     event.setCancelled(true);
+                     return;
+                }
+            }
         }
     }
 
