@@ -86,6 +86,7 @@ public class TFM_SuperadminList
     {
         superadminNames.clear();
         superadminIPs.clear();
+        seniorAdminNames.clear();
 
         Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
         while (it.hasNext())
@@ -115,6 +116,10 @@ public class TFM_SuperadminList
                 }
             }
         }
+
+        superadminNames = TFM_Util.removeDuplicates(superadminNames);
+        superadminIPs = TFM_Util.removeDuplicates(superadminIPs);
+        seniorAdminNames = TFM_Util.removeDuplicates(seniorAdminNames);
     }
 
     public static void saveSuperadminList()
@@ -135,11 +140,11 @@ public class TFM_SuperadminList
                 String admin_name = pair.getKey().toLowerCase();
                 TFM_Superadmin superadmin = pair.getValue();
 
-                config.set("superadmins." + admin_name + ".ips", superadmin.getIps());
+                config.set("superadmins." + admin_name + ".ips", TFM_Util.removeDuplicates(superadmin.getIps()));
                 config.set("superadmins." + admin_name + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
                 config.set("superadmins." + admin_name + ".custom_login_message", superadmin.getCustomLoginMessage());
                 config.set("superadmins." + admin_name + ".is_senior_admin", superadmin.isSeniorAdmin());
-                config.set("superadmins." + admin_name + ".console_aliases", superadmin.getConsoleAliases());
+                config.set("superadmins." + admin_name + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
                 config.set("superadmins." + admin_name + ".is_activated", superadmin.isActivated());
             }
 

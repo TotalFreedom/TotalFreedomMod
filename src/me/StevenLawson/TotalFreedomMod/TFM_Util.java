@@ -912,6 +912,15 @@ public class TFM_Util
     {
         return restricted_senders.contains(sender_name.toLowerCase());
     }
+
+    public static List<String> removeDuplicates(List<String> list)
+    {
+        HashSet<String> hash = new HashSet<String>();
+        hash.addAll(list);
+        list.clear();
+        list.addAll(hash);
+        return list;
+    }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;
 //    public static final double LOOKAT_STEP_DISTANCE = 0.2;
