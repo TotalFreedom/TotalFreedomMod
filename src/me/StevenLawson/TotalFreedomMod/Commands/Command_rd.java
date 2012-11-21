@@ -19,7 +19,8 @@ public class Command_rd extends TFM_Command
             return true;
         }
 
-        //This terminology is wrong, this doesn't remove *all* entities, by far. - Madgeek
+        // This terminology is wrong, this doesn't remove *all* entities, by far. - Madgeek
+        // Back when I was just a player, I didn't even know what "entity" meant... :P - Darth
         TFM_Util.adminAction(sender.getName(), "Removing all server entities.", false);
         sender.sendMessage(ChatColor.GRAY + String.valueOf(TFM_Util.wipeEntities(true, true)) + " enties removed.");
 

@@ -68,19 +68,16 @@ public class TFM_Util
         TFM_Util.bcastMsg(message, null);
     }
 
-    //JeromSar
     public static void playerMsg(CommandSender sender, String message, ChatColor color)
     {
         sender.sendMessage(color + message);
     }
 
-    //JeromSar
     public static void playerMsg(CommandSender sender, String message)
     {
         TFM_Util.playerMsg(sender, message, ChatColor.GRAY);
     }
 
-    //JeromSar
     public static void adminAction(String adminName, String action, boolean isRed)
     {
         TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
@@ -544,7 +541,6 @@ public class TFM_Util
         return TFM_SuperadminList.isSuperadminImpostor(user);
     }
 
-    //JeromSar
     public static String getRank(CommandSender sender)
     {
         if (TFM_SuperadminList.isSuperadminImpostor(sender))
@@ -574,7 +570,7 @@ public class TFM_Util
                 }
                 else
                 {
-                    return "an " + ChatColor.RED + "admin" + ChatColor.AQUA + ".";
+                    return "a  " + ChatColor.RED + "super admin" + ChatColor.AQUA + ".";
                 }
             }
         }

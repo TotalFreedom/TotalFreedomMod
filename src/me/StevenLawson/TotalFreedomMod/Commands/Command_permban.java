@@ -55,10 +55,7 @@ public class Command_permban extends TFM_Command
         else
         {
             TFM_Util.playerMsg(sender, TotalFreedomMod.permbanned_players.size() + " permanently banned players:");
-            for (String player_name : TotalFreedomMod.permbanned_players)
-            {
-                TFM_Util.playerMsg(sender, "- " + player_name);
-            }
+            TFM_Util.playerMsg(sender, ChatColor.GRAY + TFM_Util.implodeStringList(", ", TotalFreedomMod.permbanned_players));
         }
 
         if (TotalFreedomMod.permbanned_ips.isEmpty())
@@ -68,10 +65,7 @@ public class Command_permban extends TFM_Command
         else
         {
             TFM_Util.playerMsg(sender, TotalFreedomMod.permbanned_ips.size() + " permanently banned IPs:");
-            for (String ip_address : TotalFreedomMod.permbanned_ips)
-            {
-                TFM_Util.playerMsg(sender, "- " + ip_address);
-            }
+            TFM_Util.playerMsg(sender, ChatColor.GRAY + TFM_Util.implodeStringList(", ", TotalFreedomMod.permbanned_ips));
         }
     }
 }

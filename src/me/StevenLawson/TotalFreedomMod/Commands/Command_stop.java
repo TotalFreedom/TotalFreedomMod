@@ -15,7 +15,7 @@ public class Command_stop extends TFM_Command
     {
         if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
         {
-            TFM_Util.bcastMsg("Server is going offline.", ChatColor.GRAY);
+            TFM_Util.bcastMsg("Server is going offline!", ChatColor.LIGHT_PURPLE);
 
             for (Player p : server.getOnlinePlayers())
             {

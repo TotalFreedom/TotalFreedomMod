@@ -4,7 +4,6 @@ import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -42,7 +41,7 @@ public class Command_orbit extends TFM_Command
             {
                 if (TFM_Util.isStopCommand(args[1]))
                 {
-                    sender.sendMessage(ChatColor.GRAY + "Stopped orbiting " + p.getName());
+                    TFM_Util.adminAction(sender.getName(), "Stopping " + p.getName() + "'s Orbit", true);
                     playerdata.stopOrbiting();
                     return true;
                 }
@@ -61,7 +60,7 @@ public class Command_orbit extends TFM_Command
 
             p.setVelocity(new Vector(0, strength, 0));
 
-            sender.sendMessage(ChatColor.GRAY + "Orbiting " + p.getName());
+            TFM_Util.adminAction(sender.getName(), "Orbiting " + p.getName(), true);
         }
         else
         {

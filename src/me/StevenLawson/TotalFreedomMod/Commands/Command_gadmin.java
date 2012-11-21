@@ -34,7 +34,6 @@ public class Command_gadmin extends TFM_Command
                 if (mode.equals("list"))
                 {
                     sender.sendMessage(ChatColor.GRAY + String.format("[ %s ] : [ %s ] - %s",
-                            p.getName(),
                             ChatColor.stripColor(p.getDisplayName()),
                             hash));
                 }
@@ -42,13 +41,14 @@ public class Command_gadmin extends TFM_Command
                 {
                     if (mode.equals("kick"))
                     {
+                        TFM_Util.adminAction(sender.getName(), "Kicking " + p.getName(), true);
                         p.kickPlayer("Kicked by Administrator");
                     }
                     else if (mode.equals("nameban"))
                     {
                         //server.getOfflinePlayer(p.getName()).setBanned(true);
                         TFM_Util.banUsername(p.getName(), null, null, null);
-                        TFM_Util.bcastMsg(String.format("Banning Name: %s.", p.getName()), ChatColor.RED);
+                        TFM_Util.adminAction(sender.getName(), "Banning name: " + p.getName(), true);
                         p.kickPlayer("Username banned by Administrator.");
                     }
                     else if (mode.equals("ipban"))
@@ -59,7 +59,7 @@ public class Command_gadmin extends TFM_Command
                         {
                             user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                         }
-                        TFM_Util.bcastMsg(String.format("Banning IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                        TFM_Util.adminAction(sender.getName(), "Banning name: " + p.getName(), true);
                         //server.banIP(user_ip);
                         TFM_Util.banIP(user_ip, null, null, null);
                         p.kickPlayer("IP address banned by Administrator.");
@@ -72,8 +72,7 @@ public class Command_gadmin extends TFM_Command
                         {
                             user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                         }
-                        TFM_Util.bcastMsg(String.format("Banning Name: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
-                        //server.banIP(user_ip);
+                        TFM_Util.adminAction(sender.getName(), "Banning " + p.getName() + ", IP " + user_ip, true);
                         //server.getOfflinePlayer(p.getName()).setBanned(true);
                         TFM_Util.banIP(user_ip, null, null, null);
                         TFM_Util.banUsername(p.getName(), null, null, null);
@@ -81,13 +80,13 @@ public class Command_gadmin extends TFM_Command
                     }
                     else if (mode.equals("op"))
                     {
-                        TFM_Util.bcastMsg(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                        TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
                         p.setOp(false);
                         p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
                     }
                     else if (mode.equals("deop"))
                     {
-                        TFM_Util.bcastMsg(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                        TFM_Util.adminAction(sender.getName(), "De-opping " + p.getName(), false);
                         p.setOp(false);
                         p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                     }
@@ -100,7 +99,7 @@ public class Command_gadmin extends TFM_Command
                         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
                         playerdata.setFrozen(!playerdata.isFrozen());
 
-                        sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                        TFM_Util.adminAction(sender.getName(), "Freezing " + p.getName(), false);
                         p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                     }
 

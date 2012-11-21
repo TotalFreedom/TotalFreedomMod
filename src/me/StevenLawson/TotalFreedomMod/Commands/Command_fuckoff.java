@@ -17,13 +17,7 @@ public class Command_fuckoff extends TFM_Command
             return true;
         }
 
-        if (!TFM_SuperadminList.isUserSuperadmin(sender))
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
-        }
-        
-        if (!TFM_SuperadminList.isSeniorAdmin(sender_p))
+        if (!(TFM_SuperadminList.isUserSuperadmin(sender) || !TFM_SuperadminList.isSeniorAdmin(sender_p)))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;
