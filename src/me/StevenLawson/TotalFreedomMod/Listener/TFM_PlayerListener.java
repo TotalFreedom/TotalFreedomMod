@@ -1,7 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
@@ -9,7 +11,12 @@ import net.minecraft.server.BanEntry;
 import net.minecraft.server.BanList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerConfigurationManagerAbstract;
-import org.bukkit.*;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -26,6 +33,7 @@ import org.bukkit.util.Vector;
 public class TFM_PlayerListener implements Listener
 {
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
+    private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply", ","));
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -99,7 +107,7 @@ public class TFM_PlayerListener implements Listener
                     }
                     case BLAZE_ROD:
                     {
-                        if (TotalFreedomMod.allowExplosions && (player.getName().equals("Madgeek1450") || player.getName().equals("markbyron")))
+                        if (TotalFreedomMod.allowExplosions && TFM_SuperadminList.isSeniorAdmin(player))
                         {
                             Block target_block = null;
 
@@ -449,6 +457,13 @@ public class TFM_PlayerListener implements Listener
                     block_command = true;
                 }
             }
+            else if (Pattern.compile("^/e?socialspy").matcher(command).find())
+            {
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
+                {
+                    block_command = true;
+                }
+            }
             else if (Pattern.compile("^/pardon").matcher(command).find())
             {
                 block_command = true;
@@ -464,6 +479,26 @@ public class TFM_PlayerListener implements Listener
             p.sendMessage(ChatColor.GRAY + "That command is blocked.");
             event.setCancelled(true);
             return;
+        }
+
+        if (playerdata.isMuted())
+        {
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
+            {
+                for (String test_command : BLOCKED_MUTED_CMDS)
+                {
+                    if (Pattern.compile("^/" + test_command.toLowerCase() + " ").matcher(command.toLowerCase()).find())
+                    {
+                        p.sendMessage(ChatColor.RED + "That command is blocked while you are muted.");
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                playerdata.setMuted(false);
+            }
         }
     }
 

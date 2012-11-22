@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 //This command was coded initially by JeromSar
-
 public class Command_stfu extends TFM_Command
 {
     @Override
@@ -44,10 +43,8 @@ public class Command_stfu extends TFM_Command
             {
                 TFM_Util.playerMsg(sender, "- none");
             }
-            return true;
         }
-
-        if (args[0].equalsIgnoreCase("purge"))
+        else if (args[0].equalsIgnoreCase("purge"))
         {
             TFM_Util.adminAction(sender.getName(), "Unmuting all players.", true);
             TFM_UserInfo info;
@@ -62,10 +59,8 @@ public class Command_stfu extends TFM_Command
                 }
             }
             TFM_Util.playerMsg(sender, "Unmuted " + count + " players.");
-            return true;
         }
-
-        if (args[0].equalsIgnoreCase("all"))
+        else if (args[0].equalsIgnoreCase("all"))
         {
             TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
 
@@ -82,32 +77,40 @@ public class Command_stfu extends TFM_Command
             }
 
             TFM_Util.playerMsg(sender, "Muted " + counter + " players.");
-            return true;
-        }
-
-        Player p;
-        try
-        {
-            p = getPlayer(args[0]);
-        }
-        catch (CantFindPlayerException ex)
-        {
-            sender.sendMessage(ex.getMessage());
-            return true;
-        }
-
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
-        if (playerdata.isMuted())
-        {
-            TFM_Util.adminAction(sender.getName(), "Unmuting " + p.getName(), true);
-            playerdata.setMuted(false);
-            TFM_Util.playerMsg(sender, "Unmuted " + p.getName());
         }
         else
         {
-            TFM_Util.adminAction(sender.getName(), "Muting " + p.getName(), true);
-            playerdata.setMuted(true);
-            TFM_Util.playerMsg(sender, "Muted " + p.getName());
+            Player p;
+            try
+            {
+                p = getPlayer(args[0]);
+            }
+            catch (CantFindPlayerException ex)
+            {
+                sender.sendMessage(ex.getMessage());
+                return true;
+            }
+
+            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+            if (playerdata.isMuted())
+            {
+                TFM_Util.adminAction(sender.getName(), "Unmuting " + p.getName(), true);
+                playerdata.setMuted(false);
+                TFM_Util.playerMsg(sender, "Unmuted " + p.getName());
+            }
+            else
+            {
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
+                {
+                    TFM_Util.adminAction(sender.getName(), "Muting " + p.getName(), true);
+                    playerdata.setMuted(true);
+                    TFM_Util.playerMsg(sender, "Muted " + p.getName());
+                }
+                else
+                {
+                    TFM_Util.playerMsg(sender, p.getName() + " is a superadmin, and can't be muted.");
+                }
+            }
         }
 
         return true;

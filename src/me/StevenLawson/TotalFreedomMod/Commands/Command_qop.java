@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
@@ -16,7 +17,7 @@ public class Command_qop extends TFM_Command
             return false;
         }
 
-        if (!(senderIsConsole || sender.isOp()))
+        if (!(senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender)))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

@@ -19,7 +19,7 @@ superadmins:
     is_senior_admin: true
     console_aliases:
     - madgeek
-    is_activated: false
+    is_activated: true
   markbyron:
     ips:
     - 74.125.224.72
