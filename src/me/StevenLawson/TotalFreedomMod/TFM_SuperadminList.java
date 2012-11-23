@@ -264,23 +264,13 @@ public class TFM_SuperadminList
             }
             else
             {
-                String[] user_octets = user_ip.split("\\.");
-                if (user_octets.length != 4)
-                {
-                    return false;
-                }
-
                 String match_ip = null;
                 for (String test_ip : getSuperadminIPs())
                 {
-                    String[] test_octets = test_ip.split("\\.");
-                    if (test_octets.length == 4)
+                    if (TFM_Util.fuzzyIpMatch(user_ip, test_ip, 3))
                     {
-                        if (user_octets[0].equals(test_octets[0]) && user_octets[1].equals(test_octets[1]) && user_octets[2].equals(test_octets[2]))
-                        {
-                            match_ip = test_ip;
-                            break;
-                        }
+                        match_ip = test_ip;
+                        break;
                     }
                 }
 
@@ -327,27 +317,34 @@ public class TFM_SuperadminList
 
     public static void addSuperadmin(String admin_name, List<String> ips)
     {
-        admin_name = admin_name.toLowerCase();
-
-        if (superadminList.containsKey(admin_name))
+        try
         {
-            TFM_Superadmin superadmin = superadminList.get(admin_name);
-            superadmin.setActivated(true);
-            superadmin.getIps().addAll(ips);
-            superadmin.setLastLogin(new Date());
+            admin_name = admin_name.toLowerCase();
+
+            if (superadminList.containsKey(admin_name))
+            {
+                TFM_Superadmin superadmin = superadminList.get(admin_name);
+                superadmin.setActivated(true);
+                superadmin.getIps().addAll(ips);
+                superadmin.setLastLogin(new Date());
+            }
+            else
+            {
+                Date last_login = new Date();
+                String custom_login_message = "";
+                boolean is_senior_admin = false;
+                List<String> console_aliases = new ArrayList<String>();
+
+                TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, ips, last_login, custom_login_message, is_senior_admin, console_aliases, true);
+                superadminList.put(admin_name.toLowerCase(), superadmin);
+            }
+
+            saveSuperadminList();
         }
-        else
+        catch (Exception ex)
         {
-            Date last_login = new Date();
-            String custom_login_message = "";
-            boolean is_senior_admin = false;
-            List<String> console_aliases = new ArrayList<String>();
-
-            TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, ips, last_login, custom_login_message, is_senior_admin, console_aliases, true);
-            superadminList.put(admin_name.toLowerCase(), superadmin);
+            TFM_Log.severe(ex);
         }
-
-        saveSuperadminList();
     }
 
     public static void addSuperadmin(Player p)
@@ -365,13 +362,20 @@ public class TFM_SuperadminList
 
     public static void removeSuperadmin(String admin_name)
     {
-        admin_name = admin_name.toLowerCase();
-
-        if (superadminList.containsKey(admin_name))
+        try
         {
-            TFM_Superadmin superadmin = superadminList.get(admin_name);
-            superadmin.setActivated(false);
-            saveSuperadminList();
+            admin_name = admin_name.toLowerCase();
+
+            if (superadminList.containsKey(admin_name))
+            {
+                TFM_Superadmin superadmin = superadminList.get(admin_name);
+                superadmin.setActivated(false);
+                saveSuperadminList();
+            }
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
         }
     }
 

@@ -680,33 +680,7 @@ public class TFM_PlayerListener implements Listener
                     break;
                 }
 
-                String[] test_ip_parts = test_ip.split("\\.");
-                String[] player_ip_parts = player_ip.split("\\.");
-
-                boolean is_match = false;
-
-                for (int i = 0; i < test_ip_parts.length && i < player_ip_parts.length; i++)
-                {
-                    if (test_ip_parts[i].equals("*") && i >= 2)
-                    {
-                        is_match = true;
-                    }
-                    else if (test_ip_parts[i].equals(player_ip_parts[i]))
-                    {
-                        is_match = true;
-                    }
-                    else
-                    {
-                        is_match = false;
-                    }
-
-                    if (!is_match)
-                    {
-                        break;
-                    }
-                }
-
-                if (is_match)
+                if (TFM_Util.fuzzyIpMatch(test_ip, player_ip, 4))
                 {
                     ban_entry = (BanEntry) banByIP.getEntries().get(test_ip);
                     is_ip_banned = true;
@@ -741,9 +715,7 @@ public class TFM_PlayerListener implements Listener
 
             for (String test_ip : TotalFreedomMod.permbanned_ips)
             {
-                //TODO: Add support for wildcards in permbanned_ips list.
-                //TODO: Create generic wildcard IP matching method since we do this several times already in this project.
-                if (test_ip.equalsIgnoreCase(player_ip))
+                if (TFM_Util.fuzzyIpMatch(test_ip, player_ip, 4))
                 {
                     event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your IP address is permanently banned from this server.");
                     return;
