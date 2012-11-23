@@ -1,35 +1,16 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.SENIOR, source = SOURCE_TYPE_ALLOWED.ONLY_IN_GAME, ignore_permissions = false)
 public class Command_fuckoff extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole)
-        {
-            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-            return true;
-        }
-
-        if (!TFM_SuperadminList.isUserSuperadmin(sender))
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
-        }
-        
-        if (!TFM_SuperadminList.isSeniorAdmin(sender_p))
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
-        }
-
         if (args.length < 1)
         {
             return false;

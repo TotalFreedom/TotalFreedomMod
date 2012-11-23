@@ -149,7 +149,14 @@ public class TotalFreedomMod extends JavaPlugin
 
             try
             {
-                return dispatcher.run(sender, sender_p, cmd, commandLabel, args, senderIsConsole);
+                if (dispatcher.senderHasPermission(dispatcher.getClass(), sender))
+                {
+                    return dispatcher.run(sender, sender_p, cmd, commandLabel, args, senderIsConsole);
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
             }
             catch (Throwable ex)
             {
