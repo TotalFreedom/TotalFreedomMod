@@ -34,6 +34,9 @@ commands:
   deopall:
     description: Superadmin command - Deop everyone on the server.
     usage: /<command>
+  dispfill:
+    description: Fill nearby dispensers with a set of items of your choice.
+    usage: /<command> <radius> <comma,separated,items>
   doom:
     description: Owner command - For the bad Superadmins.
     usage: /<command> <playername>
