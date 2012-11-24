@@ -3,23 +3,17 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_halt extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!(TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole))
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
-        }
-
         if (args.length != 1)
         {
             return false;
@@ -107,7 +101,7 @@ public class Command_halt extends TFM_Command
         }
     }
 
-    private void setHalted(Player p, boolean is_halted)
+    private static void setHalted(Player p, boolean is_halted)
     {
         TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
 

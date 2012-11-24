@@ -10,16 +10,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.OP, source = SOURCE_TYPE_ALLOWED.ONLY_IN_GAME, ignore_permissions = false)
 public class Command_landmine extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole)
-        {
-            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-        }
-        else if (!TotalFreedomMod.landminesEnabled)
+        if (!TotalFreedomMod.landminesEnabled)
         {
             sender.sendMessage(ChatColor.GREEN + "The landmine is currently disabled.");
         }
@@ -40,16 +37,12 @@ public class Command_landmine extends TFM_Command
                 {
                 }
             }
-            
+
             Block landmine = sender_p.getLocation().getBlock().getRelative(BlockFace.DOWN);
             landmine.setType(Material.TNT);
             TFM_LandmineData.landmines.add(new TFM_LandmineData(landmine.getLocation(), sender_p, radius));
-            
+
             sender.sendMessage(ChatColor.GREEN + "Landmine planted. Radius: " + radius + " blocks.");
-        }
-        else
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
         }
 
         return true;

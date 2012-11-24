@@ -86,6 +86,7 @@ public class TFM_Util
         TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
     }
 
+    @Deprecated
     public static String implodeStringList(String glue, List<String> pieces)
     {
         return StringUtils.join(pieces, glue);

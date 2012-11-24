@@ -2,15 +2,14 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_tempban extends TFM_Command
 {
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
@@ -21,12 +20,6 @@ public class Command_tempban extends TFM_Command
         if (args.length < 1)
         {
             return false;
-        }
-
-        if (!(senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender)))
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
         }
 
         Player p;

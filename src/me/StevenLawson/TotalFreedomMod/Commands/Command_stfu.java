@@ -3,12 +3,11 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-//This command was coded initially by JeromSar
+@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_stfu extends TFM_Command
 {
     @Override
@@ -17,12 +16,6 @@ public class Command_stfu extends TFM_Command
         if (args.length != 1)
         {
             return false;
-        }
-
-        if (!(senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender)))
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
         }
 
         if (args[0].equalsIgnoreCase("list"))

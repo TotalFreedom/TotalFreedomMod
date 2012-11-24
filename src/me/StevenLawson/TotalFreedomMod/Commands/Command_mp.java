@@ -1,40 +1,33 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
+@CommandPermissions(level = ADMIN_LEVEL.OP, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_mp extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole || sender.isOp())
-        {
-            sender.sendMessage(ChatColor.GRAY + "Purging all mobs...");
+        sender.sendMessage(ChatColor.GRAY + "Purging all mobs...");
 
-            int removed = 0;
-            for (World world : server.getWorlds())
+        int removed = 0;
+        for (World world : server.getWorlds())
+        {
+            for (Entity ent : world.getLivingEntities())
             {
-                for (Entity ent : world.getLivingEntities())
+                if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon || ent instanceof Ambient)
                 {
-                    if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon || ent instanceof Ambient)
-                    {
-                        ent.remove();
-                        removed++;
-                    }
+                    ent.remove();
+                    removed++;
                 }
             }
+        }
 
-            sender.sendMessage(ChatColor.GRAY + String.valueOf(removed) + " mobs removed.");
-        }
-        else
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-        }
+        sender.sendMessage(ChatColor.GRAY + String.valueOf(removed) + " mobs removed.");
 
         return true;
     }

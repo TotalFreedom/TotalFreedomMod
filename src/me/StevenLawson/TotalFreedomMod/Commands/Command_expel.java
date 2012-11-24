@@ -1,77 +1,65 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.ONLY_IN_GAME, ignore_permissions = false)
 public class Command_expel extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole)
+        double radius = 50.0;
+        double strength = 100.0;
+
+        if (args.length >= 1)
         {
-            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-        }
-        else if (TFM_SuperadminList.isUserSuperadmin(sender))
-        {
-            double radius = 50.0;
-            double strength = 100.0;
-
-            if (args.length >= 1)
+            try
             {
-                try
-                {
-                    radius = Math.max(1.0, Math.min(200.0, Double.parseDouble(args[0])));
-                }
-                catch (NumberFormatException nfex)
-                {
-                }
+                radius = Math.max(1.0, Math.min(200.0, Double.parseDouble(args[0])));
             }
-
-            if (args.length >= 2)
+            catch (NumberFormatException nfex)
             {
-                try
-                {
-                    strength = Math.max(0.0, Math.min(200.0, Double.parseDouble(args[1])));
-                }
-                catch (NumberFormatException nfex)
-                {
-                }
-            }
-
-            Location sender_pos = sender_p.getLocation();
-            for (Player p : sender_pos.getWorld().getPlayers())
-            {
-                if (!p.equals(sender_p))
-                {
-                    Location target_pos = p.getLocation();
-                    
-                    boolean in_range = false;
-                    try
-                    {
-                        in_range = target_pos.distanceSquared(sender_pos) < (radius * radius);
-                    }
-                    catch (IllegalArgumentException ex)
-                    {
-                    }
-                    
-                    if (in_range)
-                    {
-                        sender.sendMessage("Pushing " + p.getName());
-                        Vector expel_direction = target_pos.subtract(sender_pos).toVector().normalize();
-                        p.setVelocity(expel_direction.multiply(strength));
-                    }
-                }
             }
         }
-        else
+
+        if (args.length >= 2)
         {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            try
+            {
+                strength = Math.max(0.0, Math.min(200.0, Double.parseDouble(args[1])));
+            }
+            catch (NumberFormatException nfex)
+            {
+            }
+        }
+
+        Location sender_pos = sender_p.getLocation();
+        for (Player p : sender_pos.getWorld().getPlayers())
+        {
+            if (!p.equals(sender_p))
+            {
+                Location target_pos = p.getLocation();
+
+                boolean in_range = false;
+                try
+                {
+                    in_range = target_pos.distanceSquared(sender_pos) < (radius * radius);
+                }
+                catch (IllegalArgumentException ex)
+                {
+                }
+
+                if (in_range)
+                {
+                    sender.sendMessage("Pushing " + p.getName());
+                    Vector expel_direction = target_pos.subtract(sender_pos).toVector().normalize();
+                    p.setVelocity(expel_direction.multiply(strength));
+                }
+            }
         }
 
         return true;

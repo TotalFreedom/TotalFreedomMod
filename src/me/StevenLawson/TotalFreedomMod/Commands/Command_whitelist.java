@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.OP, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_whitelist extends TFM_Command
 {
     @Override
@@ -19,12 +20,6 @@ public class Command_whitelist extends TFM_Command
         if (args.length < 1)
         {
             return false;
-        }
-
-        if (!sender.isOp())
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
         }
 
         // list
