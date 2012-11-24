@@ -26,7 +26,7 @@ public class TFM_Util
     private static final Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     public static final List<String> stop_commands = Arrays.asList("stop", "off", "end", "halt", "die");
-    public static final List<String> restricted_senders = Arrays.asList("rcon, remotebukkit");
+    public static final List<String> restricted_senders = Arrays.asList("rcon", "remotebukkit");
 
     static
     {
