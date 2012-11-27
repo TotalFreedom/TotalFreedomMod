@@ -208,7 +208,7 @@ public class TFM_PlayerListener implements Listener
         {
             Location target_pos = p.getLocation().add(0, 1, 0);
 
-            boolean out_of_cage = false;
+            boolean out_of_cage;
             if (!target_pos.getWorld().equals(playerdata.getCagePos().getWorld()))
             {
                 out_of_cage = true;
@@ -287,9 +287,21 @@ public class TFM_PlayerListener implements Listener
         try
         {
             final Player p = event.getPlayer();
+            String message = event.getMessage().trim();
 
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
             playerdata.incrementMsgCount();
+
+            // check for message repeat
+            if(playerdata.getLastMessage().equalsIgnoreCase(message))
+            {
+                TFM_Util.playerMsg(p, "Please do not repeat messages.");
+                event.setCancelled(true);
+                playerdata.setLastMessage(message);
+                return;
+            }
+
+            playerdata.setLastMessage(message);
 
             // check for spam
             if (playerdata.getMsgCount() > 10)
@@ -317,8 +329,6 @@ public class TFM_PlayerListener implements Listener
                     playerdata.setMuted(false);
                 }
             }
-
-            String message = event.getMessage().trim();
 
             // strip color from messages
             message = ChatColor.stripColor(message);
