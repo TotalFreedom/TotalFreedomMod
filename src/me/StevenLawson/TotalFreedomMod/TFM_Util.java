@@ -26,7 +26,7 @@ public class TFM_Util
     private static final Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     public static final List<String> stop_commands = Arrays.asList("stop", "off", "end", "halt", "die");
-    public static final List<String> restricted_senders = Arrays.asList("rcon, remotebukkit");
+    public static final List<String> restricted_senders = Arrays.asList("rcon", "remotebukkit");
 
     static
     {
@@ -83,6 +83,7 @@ public class TFM_Util
         TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
     }
 
+    @Deprecated
     public static String implodeStringList(String glue, List<String> pieces)
     {
         return StringUtils.join(pieces, glue);
@@ -884,7 +885,6 @@ public class TFM_Util
             }
         }
     }
-    
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
 
     public static String dateToString(Date date)
@@ -909,13 +909,55 @@ public class TFM_Util
         return restricted_senders.contains(sender_name.toLowerCase());
     }
 
-    public static List<String> removeDuplicates(List<String> list)
+    public static List<String> removeDuplicates(List<String> old_list)
     {
-        HashSet<String> hash = new HashSet<String>();
-        hash.addAll(list);
-        list.clear();
-        list.addAll(hash);
-        return list;
+        List<String> new_list = new ArrayList<String>();
+        for (String entry : old_list)
+        {
+            if (!new_list.contains(entry))
+            {
+                new_list.add(entry);
+            }
+        }
+        return new_list;
+    }
+
+    public static boolean fuzzyIpMatch(String a, String b, int required_octets)
+    {
+        boolean is_match = true;
+
+        String[] a_parts = StringUtils.split(a, '.');
+        String[] b_parts = StringUtils.split(b, '.');
+
+        if (a_parts.length != 4 || b_parts.length != 4)
+        {
+            return false;
+        }
+
+        if (required_octets > 4)
+        {
+            required_octets = 4;
+        }
+        else if (required_octets < 1)
+        {
+            required_octets = 1;
+        }
+
+        for (int i = 0; i < required_octets && i < 4; i++)
+        {
+            if (a_parts[i].equals("*") || b_parts[i].equals("*"))
+            {
+                continue;
+            }
+
+            if (!a_parts[i].equals(b_parts[i]))
+            {
+                is_match = false;
+                break;
+            }
+        }
+
+        return is_match;
     }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;

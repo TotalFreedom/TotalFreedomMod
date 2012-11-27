@@ -1,12 +1,12 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.OP, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_survival extends TFM_Command
 {
     @Override
@@ -19,12 +19,6 @@ public class Command_survival extends TFM_Command
                 sender.sendMessage("When used from the console, you must define a target user to change gamemode on.");
                 return true;
             }
-        }
-
-        if (!sender.isOp())
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
         }
 
         Player p;

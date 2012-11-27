@@ -1,14 +1,13 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import java.util.Arrays;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_say extends TFM_Command
 {
     @Override
@@ -18,12 +17,12 @@ public class Command_say extends TFM_Command
         {
             return false;
         }
-        
-        String message = TFM_Util.implodeStringList(" ", Arrays.asList(args));
 
-        if (senderIsConsole && sender.getName().equals("Rcon"))
+        String message = StringUtils.join(args, " ");
+
+        if (senderIsConsole && TFM_Util.isFromClanforge(sender.getName()))
         {
-            if (message.equals("WARNING: Server is restarting, you will be kicked"))
+            if (message.equalsIgnoreCase("WARNING: Server is restarting, you will be kicked"))
             {
                 TFM_Util.bcastMsg("Server is going offline.", ChatColor.GRAY);
 
@@ -38,14 +37,7 @@ public class Command_say extends TFM_Command
             }
         }
 
-        if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
-        {
-            TFM_Util.bcastMsg(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
-        }
-        else
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-        }
+        TFM_Util.bcastMsg(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
 
         return true;
     }

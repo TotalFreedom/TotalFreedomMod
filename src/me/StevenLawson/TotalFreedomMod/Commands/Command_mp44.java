@@ -9,47 +9,39 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+@CommandPermissions(level = ADMIN_LEVEL.OP, source = SOURCE_TYPE_ALLOWED.ONLY_IN_GAME, ignore_permissions = false)
 public class Command_mp44 extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole)
-        {
-            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-        }
-        else if (!TotalFreedomMod.mp44Enabled)
+        if (!TotalFreedomMod.mp44Enabled)
         {
             sender.sendMessage(ChatColor.GREEN + "The mp44 is currently disabled.");
+            return true;
         }
-        else if (sender.isOp())
+
+        if (args.length == 0)
         {
-            if (args.length == 0)
-            {
-                return false;
-            }
+            return false;
+        }
 
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(sender_p);
+        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(sender_p);
 
-            if (args[0].equalsIgnoreCase("draw"))
-            {
-                playerdata.armMP44();
-                
-                sender.sendMessage(ChatColor.GREEN + "mp44 is ARMED! Left click with gunpowder to start firing, left click again to quit.");
-                sender.sendMessage(ChatColor.GREEN + "Type /mp44 sling to disable.  -by Madgeek1450");
-                
-                sender_p.setItemInHand(new ItemStack(Material.SULPHUR, 1));
-            }
-            else
-            {
-                playerdata.disarmMP44();
-                
-                sender.sendMessage(ChatColor.GREEN + "mp44 Disarmed.");
-            }
+        if (args[0].equalsIgnoreCase("draw"))
+        {
+            playerdata.armMP44();
+
+            sender.sendMessage(ChatColor.GREEN + "mp44 is ARMED! Left click with gunpowder to start firing, left click again to quit.");
+            sender.sendMessage(ChatColor.GREEN + "Type /mp44 sling to disable.  -by Madgeek1450");
+
+            sender_p.setItemInHand(new ItemStack(Material.SULPHUR, 1));
         }
         else
         {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            playerdata.disarmMP44();
+
+            sender.sendMessage(ChatColor.GREEN + "mp44 Disarmed.");
         }
 
         return true;

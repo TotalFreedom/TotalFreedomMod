@@ -8,6 +8,7 @@ import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -122,7 +123,7 @@ public class TotalFreedomMod extends JavaPlugin
                         sender_p.getName(),
                         ChatColor.stripColor(sender_p.getDisplayName()),
                         commandLabel,
-                        TFM_Util.implodeStringList(" ", Arrays.asList(args))), true);
+                        StringUtils.join(args, " ")), true);
             }
             else
             {
@@ -130,7 +131,7 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_Log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s",
                         sender.getName(),
                         commandLabel,
-                        TFM_Util.implodeStringList(" ", Arrays.asList(args))), true);
+                        StringUtils.join(args, " ")), true);
             }
 
             TFM_Command dispatcher;
@@ -149,7 +150,14 @@ public class TotalFreedomMod extends JavaPlugin
 
             try
             {
-                return dispatcher.run(sender, sender_p, cmd, commandLabel, args, senderIsConsole);
+                if (dispatcher.senderHasPermission(dispatcher.getClass(), sender))
+                {
+                    return dispatcher.run(sender, sender_p, cmd, commandLabel, args, senderIsConsole);
+                }
+                else
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                }
             }
             catch (Throwable ex)
             {

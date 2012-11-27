@@ -2,24 +2,18 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PropertyManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.SENIOR, source = SOURCE_TYPE_ALLOWED.ONLY_CONSOLE, block_web_console = true, ignore_permissions = false)
 public class Command_onlinemode extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!senderIsConsole)
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
-        }
-
         if (args.length < 1)
         {
             sender.sendMessage("Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.");

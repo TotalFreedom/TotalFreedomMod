@@ -6,32 +6,27 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_waterplace extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
-        {
-            if (args.length != 1)
-            {
-                return false;
-            }
 
-            if (args[0].equalsIgnoreCase("on"))
-            {
-                TotalFreedomMod.allowWaterPlace = true;
-                sender.sendMessage("Water placement is now enabled.");
-            }
-            else
-            {
-                TotalFreedomMod.allowWaterPlace = false;
-                sender.sendMessage("Water placement is now disabled.");
-            }
+        if (args.length != 1)
+        {
+            return false;
+        }
+
+        if (args[0].equalsIgnoreCase("on"))
+        {
+            TotalFreedomMod.allowWaterPlace = true;
+            sender.sendMessage("Water placement is now enabled.");
         }
         else
         {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            TotalFreedomMod.allowWaterPlace = false;
+            sender.sendMessage("Water placement is now disabled.");
         }
 
         return true;

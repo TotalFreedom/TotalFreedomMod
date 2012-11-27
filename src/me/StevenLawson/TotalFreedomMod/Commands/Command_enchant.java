@@ -1,29 +1,17 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+@CommandPermissions(level = ADMIN_LEVEL.OP, source = SOURCE_TYPE_ALLOWED.ONLY_IN_GAME, ignore_permissions = false)
 public class Command_enchant extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole)
-        {
-            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-            return true;
-        }
-
-        if (!sender.isOp())
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
-        }
-
         if (args.length < 1)
         {
             return false;
@@ -78,7 +66,7 @@ public class Command_enchant extends TFM_Command
             {
                 itemInHand.removeEnchantment(ench);
             }
-            
+
             sender.sendMessage("Removed all enchantments.");
         }
         else
@@ -109,18 +97,18 @@ public class Command_enchant extends TFM_Command
                 if (ench.canEnchantItem(itemInHand))
                 {
                     itemInHand.addEnchantment(ench, ench.getMaxLevel());
-                    
+
                     sender.sendMessage("Added enchantment: " + ench.getName());
                 }
                 else
                 {
                     sender.sendMessage("Can't use this enchantment on held item.");
-                }   
+                }
             }
             else if (args[0].equalsIgnoreCase("remove"))
             {
                 itemInHand.removeEnchantment(ench);
-                
+
                 sender.sendMessage("Removed enchantment: " + ench.getName());
             }
         }

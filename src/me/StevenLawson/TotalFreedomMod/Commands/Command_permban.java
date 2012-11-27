@@ -7,17 +7,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.SENIOR, source = SOURCE_TYPE_ALLOWED.ONLY_CONSOLE, block_web_console = true, ignore_permissions = false)
 public class Command_permban extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!sender.isOp())
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
-        }
-
         if (args.length != 1)
         {
             return false;
@@ -26,24 +21,19 @@ public class Command_permban extends TFM_Command
         if (args[0].equalsIgnoreCase("list"))
         {
             dumplist(sender);
-            return true;
         }
-
-        if (!senderIsConsole)
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("reload"))
+        else if (args[0].equalsIgnoreCase("reload"))
         {
             TFM_Util.playerMsg(sender, "Reloading permban list...", ChatColor.RED);
             plugin.loadPermbanConfig();
             dumplist(sender);
-            return true;
+        }
+        else
+        {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private void dumplist(CommandSender sender)

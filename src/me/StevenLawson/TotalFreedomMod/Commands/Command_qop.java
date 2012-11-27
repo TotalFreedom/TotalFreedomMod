@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_qop extends TFM_Command
 {
     @Override
@@ -14,12 +15,6 @@ public class Command_qop extends TFM_Command
         if (args.length < 1)
         {
             return false;
-        }
-
-        if (!(senderIsConsole || sender.isOp()))
-        {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-            return true;
         }
 
         boolean silent = false;

@@ -1,71 +1,63 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
 public class Command_gcmd extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
+        if (args.length < 2)
         {
-            if (args.length < 2)
-            {
-                return false;
-            }
+            return false;
+        }
 
-            Player p;
-            try
-            {
-                p = getPlayer(args[0]);
-            }
-            catch (CantFindPlayerException ex)
-            {
-                sender.sendMessage(ex.getMessage());
-                return true;
-            }
+        Player p;
+        try
+        {
+            p = getPlayer(args[0]);
+        }
+        catch (CantFindPlayerException ex)
+        {
+            sender.sendMessage(ex.getMessage());
+            return true;
+        }
 
-            String outcommand = "";
-            try
+        String outcommand = "";
+        try
+        {
+            StringBuilder outcommand_bldr = new StringBuilder();
+            for (int i = 1; i < args.length; i++)
             {
-                StringBuilder outcommand_bldr = new StringBuilder();
-                for (int i = 1; i < args.length; i++)
-                {
-                    outcommand_bldr.append(args[i]).append(" ");
-                }
-                outcommand = outcommand_bldr.toString().trim();
+                outcommand_bldr.append(args[i]).append(" ");
             }
-            catch (Throwable ex)
-            {
-                sender.sendMessage(ChatColor.GRAY + "Error building command: " + ex.getMessage());
-                return true;
-            }
+            outcommand = outcommand_bldr.toString().trim();
+        }
+        catch (Throwable ex)
+        {
+            sender.sendMessage(ChatColor.GRAY + "Error building command: " + ex.getMessage());
+            return true;
+        }
 
-            try
+        try
+        {
+            sender.sendMessage(ChatColor.GRAY + "Sending command as " + p.getName() + ": " + outcommand);
+            if (server.dispatchCommand(p, outcommand))
             {
-                sender.sendMessage(ChatColor.GRAY + "Sending command as " + p.getName() + ": " + outcommand);
-                if (server.dispatchCommand(p, outcommand))
-                {
-                    sender.sendMessage(ChatColor.GRAY + "Command sent.");
-                }
-                else
-                {
-                    sender.sendMessage(ChatColor.GRAY + "Unknown error sending command.");
-                }
+                sender.sendMessage(ChatColor.GRAY + "Command sent.");
             }
-            catch (Throwable ex)
+            else
             {
-                sender.sendMessage(ChatColor.GRAY + "Error sending command: " + ex.getMessage());
+                sender.sendMessage(ChatColor.GRAY + "Unknown error sending command.");
             }
         }
-        else
+        catch (Throwable ex)
         {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            sender.sendMessage(ChatColor.GRAY + "Error sending command: " + ex.getMessage());
         }
 
         return true;
