@@ -3,6 +3,7 @@
 /dist/
 /build/
 buildnumber.properties
+appinfo.properties
 
 # eclipse excludes (JeromSar)
 .project

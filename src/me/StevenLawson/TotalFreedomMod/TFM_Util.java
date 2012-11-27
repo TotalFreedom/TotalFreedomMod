@@ -566,11 +566,11 @@ public class TFM_Util
 
                 if (admin_entry.isSeniorAdmin())
                 {
-                    return "a " + ChatColor.GOLD + "senior admin" + ChatColor.AQUA + ".";
+                    return "a " + ChatColor.GOLD + "Senior Admin" + ChatColor.AQUA + ".";
                 }
                 else
                 {
-                    return "a  " + ChatColor.RED + "super admin" + ChatColor.AQUA + ".";
+                    return "a " + ChatColor.RED + "Super Admin" + ChatColor.AQUA + ".";
                 }
             }
         }
