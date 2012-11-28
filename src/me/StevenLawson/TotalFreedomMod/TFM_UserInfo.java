@@ -46,6 +46,7 @@ public class TFM_UserInfo
     private boolean mp44_firing = false;
     private int lockup_schedule_id = -1;
     private String last_message = "";
+    private boolean in_adminchat = false;
 
     public TFM_UserInfo(Player player)
     {
@@ -416,5 +417,15 @@ public class TFM_UserInfo
     public String getLastMessage()
     {
         return this.last_message;
+    }
+
+    public void setAdminChat(boolean in_adminchat)
+    {
+        this.in_adminchat = in_adminchat;
+    }
+
+    public boolean inAdminChat()
+    {
+        return this.in_adminchat;
     }
 }

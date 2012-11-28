@@ -119,6 +119,9 @@ commands:
   nonuke:
     description: Superadmin command - Attempt to detect "invisible griefers" and "nukers".
     usage: /<command> <on | off> [range] [blockrate]
+  o:
+    description: Superadmin command - Talk privately with other admins
+    usage: /<command> [message]
   onlinemode:
     description: Console command - Switch server online-mode on and off.
     usage: /<command> <on | off>
@@ -130,7 +133,7 @@ commands:
     usage: /<command> [-c | -s]
   ops:
     description: Superadmin command - Manage operators
-    usage: /<command> [count | list | purge]
+    usage: /<command> <count | list | purge>
   opme:
     description: Superadmin command - Automatically ops user.
     usage: /<command>

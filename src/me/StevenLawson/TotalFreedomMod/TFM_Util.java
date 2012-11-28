@@ -998,4 +998,20 @@ public class TFM_Util
         fos.getChannel().transferFrom(rbc, 0, 1 << 24);
         fos.close();
     }
+    public static void AdminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
+    {
+        // complicated magic
+        String name = sender.getName()+
+                    (senderIsConsole ? ChatColor.DARK_PURPLE+" (Console)" :
+                    (TFM_SuperadminList.isSeniorAdmin(sender) ? ChatColor.LIGHT_PURPLE+ " (SrA)" : ChatColor.GOLD+" (SA)"));
+        
+        TFM_Log.info("[ADMIN] " + name + ": " + message);
+        for(Player p : Bukkit.getOnlinePlayers())
+        {
+            if(TFM_SuperadminList.isUserSuperadmin(p))
+            {
+                p.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
+            }
+        }
+    }
 }
