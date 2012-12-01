@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -45,7 +46,7 @@ public class Command_permban extends TFM_Command
         else
         {
             TFM_Util.playerMsg(sender, TotalFreedomMod.permbanned_players.size() + " permanently banned players:");
-            TFM_Util.playerMsg(sender, ChatColor.GRAY + TFM_Util.implodeStringList(", ", TotalFreedomMod.permbanned_players));
+            TFM_Util.playerMsg(sender, ChatColor.GRAY + StringUtils.join(TotalFreedomMod.permbanned_players, ", "));
         }
 
         if (TotalFreedomMod.permbanned_ips.isEmpty())
@@ -55,7 +56,7 @@ public class Command_permban extends TFM_Command
         else
         {
             TFM_Util.playerMsg(sender, TotalFreedomMod.permbanned_ips.size() + " permanently banned IPs:");
-            TFM_Util.playerMsg(sender, ChatColor.GRAY + TFM_Util.implodeStringList(", ", TotalFreedomMod.permbanned_ips));
+            TFM_Util.playerMsg(sender, ChatColor.GRAY + StringUtils.join(TotalFreedomMod.permbanned_ips, ", "));
         }
     }
 }

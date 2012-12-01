@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -60,7 +59,7 @@ public class Command_orbit extends TFM_Command
         playerdata.startOrbiting(strength);
 
         p.setVelocity(new Vector(0, strength, 0));
-        TFM_Util.adminAction(sender.getName(), "Orbiting " + p.getName(), true);
+        TFM_Util.adminAction(sender.getName(), "Orbiting " + p.getName() + ".", false);
 
         return true;
     }
