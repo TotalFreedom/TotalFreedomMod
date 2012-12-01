@@ -16,7 +16,11 @@ public class Command_list extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        final boolean is_clanforge = TFM_Util.isFromClanforge(sender.getName());
+        if (TFM_Util.isFromClanforge(sender.getName()))
+        {
+            sender.sendMessage("There are " + server.getOnlinePlayers().length + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(server.getOnlinePlayers(), ", ").toString());
+            return true;
+        }
 
         StringBuilder onlineStats = new StringBuilder();
         StringBuilder onlineUsers = new StringBuilder();
@@ -30,25 +34,22 @@ public class Command_list extends TFM_Command
         {
             String prefix = "";
 
-            if (!is_clanforge)
+            if (TFM_SuperadminList.isUserSuperadmin(p))
             {
-                if (TFM_SuperadminList.isUserSuperadmin(p))
+                if (TFM_SuperadminList.isSeniorAdmin(p))
                 {
-                    if (TFM_SuperadminList.isSeniorAdmin(p))
-                    {
-                        prefix = (ChatColor.LIGHT_PURPLE + "[SrA]");
-                    }
-                    else
-                    {
-                        prefix = (ChatColor.GOLD + "[SA]");
-                    }
+                    prefix = (ChatColor.LIGHT_PURPLE + "[SrA]");
                 }
                 else
                 {
-                    if (p.isOp())
-                    {
-                        prefix = (ChatColor.RED + "[OP]");
-                    }
+                    prefix = (ChatColor.GOLD + "[SA]");
+                }
+            }
+            else
+            {
+                if (p.isOp())
+                {
+                    prefix = (ChatColor.RED + "[OP]");
                 }
             }
 
