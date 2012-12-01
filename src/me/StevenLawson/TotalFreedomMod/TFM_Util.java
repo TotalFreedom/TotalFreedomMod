@@ -930,8 +930,8 @@ public class TFM_Util
     {
         boolean is_match = true;
 
-        String[] a_parts = StringUtils.split(a, '.');
-        String[] b_parts = StringUtils.split(b, '.');
+        String[] a_parts = a.split("\\.");
+        String[] b_parts = b.split("\\.");
 
         if (a_parts.length != 4 || b_parts.length != 4)
         {
