@@ -252,7 +252,7 @@ public class TFM_Util
         return TFM_SuperadminList.checkPartialSuperadminIP(user_ip);
     }
 
-    public static int wipeEntities(boolean wipe_explosives, boolean wipe_carts)
+    public static int wipeEntities(boolean wipe_explosives, boolean wipe_vehicles)
     {
         int removed = 0;
         for (World world : Bukkit.getWorlds())
@@ -263,7 +263,7 @@ public class TFM_Util
                         || ent instanceof Item
                         || ent instanceof ExperienceOrb
                         || (ent instanceof Explosive && wipe_explosives)
-                        || (ent instanceof Minecart && wipe_carts))
+                        || (ent instanceof Vehicle && wipe_vehicles))
                 {
                     ent.remove();
                     removed++;
@@ -958,6 +958,34 @@ public class TFM_Util
         }
 
         return is_match;
+    }
+
+    public static int replaceBlocks(Location center_location, Material from_material, Material to_material, int radius)
+    {
+        int affected = 0;
+
+        Block center_block = center_location.getBlock();
+        for (int x_offset = -radius; x_offset <= radius; x_offset++)
+        {
+            for (int y_offset = -radius; y_offset <= radius; y_offset++)
+            {
+                for (int z_offset = -radius; z_offset <= radius; z_offset++)
+                {
+                    Block test_block = center_block.getRelative(x_offset, y_offset, z_offset);
+
+                    if (test_block.getType().equals(from_material))
+                    {
+                        if (test_block.getLocation().distanceSquared(center_location) < (radius * radius))
+                        {
+                            test_block.setType(to_material);
+                            affected++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return affected;
     }
 // I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
 //    public static final double LOOKAT_VIEW_HEIGHT = 1.65;

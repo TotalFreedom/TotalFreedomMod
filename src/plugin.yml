@@ -162,7 +162,7 @@ commands:
     description: Owner Command - Broadcasts the given message with no extra formatting.
     usage: /<command> <message>
   rd:
-    description: Superadmin command - Remove all projectiles, dropped items, experience orbs, primed explosives, and minecarts. Minecarts are optional, based on if "carts" is included after the command.
+    description: Superadmin command - Remove various server entities that may cause lag, such as dropped items, minecarts, and boats.
     usage: /<command> <carts>
   ro:
     description: Superadmin Command - Remove all blocks of a certain type in the radius of certain players.
