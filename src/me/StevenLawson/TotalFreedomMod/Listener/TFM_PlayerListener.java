@@ -101,6 +101,7 @@ public class TFM_PlayerListener implements Listener
                             }
 
                             event.setCancelled(true);
+                            return;
                         }
                         break;
                     }
@@ -130,6 +131,7 @@ public class TFM_PlayerListener implements Listener
                             }
 
                             event.setCancelled(true);
+                            return;
                         }
 
                         break;
@@ -293,17 +295,6 @@ public class TFM_PlayerListener implements Listener
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
             playerdata.incrementMsgCount();
 
-            // check for message repeat
-            if(playerdata.getLastMessage().equalsIgnoreCase(message))
-            {
-                TFM_Util.playerMsg(p, "Please do not repeat messages.");
-                event.setCancelled(true);
-                playerdata.setLastMessage(message);
-                return;
-            }
-
-            playerdata.setLastMessage(message);
-
             // check for spam
             if (playerdata.getMsgCount() > 10)
             {
@@ -315,6 +306,15 @@ public class TFM_PlayerListener implements Listener
                 event.setCancelled(true);
                 return;
             }
+
+            // check for message repeat
+            if (playerdata.getLastMessage().equalsIgnoreCase(message))
+            {
+                TFM_Util.playerMsg(p, "Please do not repeat messages.");
+                event.setCancelled(true);
+                return;
+            }
+            playerdata.setLastMessage(message);
 
             // check for muted
             if (playerdata.isMuted())
@@ -341,32 +341,20 @@ public class TFM_PlayerListener implements Listener
                 TFM_Util.playerMsg(p, "Message was shortened because it was too long to send.");
             }
 
-
-            // check for caps and exclamation marks
+            // check for caps - Quit messing with this :-/
             if (message.length() >= 6)
             {
                 int caps = 0;
-                int excl = 0;
                 for (char c : message.toCharArray())
                 {
                     if (Character.isUpperCase(c))
                     {
                         caps++;
                     }
-                    
-                    if(c == '!')
-                    {
-                    	excl++;
-                    }
                 }
-                if (caps > 6 || caps > 3 && ((float) caps / (float) message.length()) > 0.55)
+                if (((float) caps / (float) message.length()) > 0.65) //Compute a ratio so that longer sentences can have more caps.
                 {
                     message = message.toLowerCase();
-                }
-
-                if(excl++ > 3)
-                {
-                    message = message.replaceAll("!", "") + '!';
                 }
             }
 
@@ -496,14 +484,6 @@ public class TFM_PlayerListener implements Listener
             {
                 block_command = true;
             }
-            else if (!TFM_SuperadminList.isUserSuperadmin(p) && Pattern.compile("^/socialspy").matcher(command).find())
-            {
-                block_command = true;
-            }
-            else if (!TFM_SuperadminList.isUserSuperadmin(p) && Pattern.compile("^/packet").matcher(command).find())
-            {
-                block_command = true;
-            }
         }
 
         if (block_command)
@@ -513,7 +493,8 @@ public class TFM_PlayerListener implements Listener
             return;
         }
 
-        // block muted commands
+        // block commands while player is muted
+        if (playerdata.isMuted())
         {
             if (!TFM_SuperadminList.isUserSuperadmin(p))
             {

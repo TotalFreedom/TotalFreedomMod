@@ -108,9 +108,9 @@ public class TFM_Command
         List<Player> matches = server.matchPlayer(partialname);
         if (matches.isEmpty())
         {
-            for(Player p : server.getOnlinePlayers())
+            for (Player p : server.getOnlinePlayers())
             {
-                if(p.getDisplayName().toLowerCase().indexOf(partialname) != -1)
+                if (p.getDisplayName().toLowerCase().indexOf(partialname) != -1)
                 {
                     return p;
                 }
