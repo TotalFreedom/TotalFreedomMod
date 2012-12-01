@@ -40,14 +40,13 @@ public class Command_gadmin extends TFM_Command
             {
                 if (mode.equals("kick"))
                 {
-                    TFM_Util.adminAction(sender.getName(), "Kicking " + p.getName(), true);
+                    TFM_Util.adminAction(sender.getName(), String.format("Kicking: %s.", p.getName()), false);
                     p.kickPlayer("Kicked by Administrator");
-
                 }
                 else if (mode.equals("nameban"))
                 {
                     TFM_Util.banUsername(p.getName(), null, null, null);
-                    TFM_Util.bcastMsg(String.format("Banning Name: %s.", p.getName()), ChatColor.RED);
+                    TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s.", p.getName()), true);
                     p.kickPlayer("Username banned by Administrator.");
                 }
                 else if (mode.equals("ipban"))
@@ -58,7 +57,7 @@ public class Command_gadmin extends TFM_Command
                     {
                         user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
-                    TFM_Util.bcastMsg(String.format("Banning IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                    TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", p.getName(), user_ip), true);
                     TFM_Util.banIP(user_ip, null, null, null);
                     p.kickPlayer("IP address banned by Administrator.");
                 }
@@ -70,20 +69,20 @@ public class Command_gadmin extends TFM_Command
                     {
                         user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
-                    TFM_Util.bcastMsg(String.format("Banning Name: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
+                    TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", p.getName(), user_ip), true);
                     TFM_Util.banIP(user_ip, null, null, null);
                     TFM_Util.banUsername(p.getName(), null, null, null);
                     p.kickPlayer("IP and username banned by Administrator.");
                 }
                 else if (mode.equals("op"))
                 {
-                    TFM_Util.bcastMsg(String.format("(%s: Opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                    TFM_Util.adminAction(sender.getName(), String.format("Opping %s.", p.getName()), false);
                     p.setOp(false);
                     p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
                 }
                 else if (mode.equals("deop"))
                 {
-                    TFM_Util.bcastMsg(String.format("(%s: De-opping %s)", sender.getName(), p.getName()), ChatColor.GRAY);
+                    TFM_Util.adminAction(sender.getName(), String.format("Deopping %s.", p.getName()), false);
                     p.setOp(false);
                     p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                 }
