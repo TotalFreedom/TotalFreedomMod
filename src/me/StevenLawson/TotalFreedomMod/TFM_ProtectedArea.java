@@ -15,6 +15,8 @@ import org.bukkit.World;
 
 public class TFM_ProtectedArea implements Serializable
 {
+    private static final long serialVersionUID = -3270338811000937254L;
+
     public static final double MAX_RADIUS = 50.0D;
     private static Map<String, TFM_ProtectedArea> protectedAreas = new HashMap<String, TFM_ProtectedArea>();
     private final SerializableLocation center_location;

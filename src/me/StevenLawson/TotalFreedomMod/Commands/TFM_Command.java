@@ -108,6 +108,13 @@ public class TFM_Command
         List<Player> matches = server.matchPlayer(partialname);
         if (matches.isEmpty())
         {
+            for(Player p : server.getOnlinePlayers())
+            {
+                if(p.getDisplayName().toLowerCase().indexOf(partialname) != -1)
+                {
+                    return p;
+                }
+            }
             throw new CantFindPlayerException(partialname);
         }
         else

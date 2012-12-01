@@ -40,6 +40,7 @@ public class Command_cage extends TFM_Command
         {
             if (TFM_Util.isStopCommand(args[1]))
             {
+                TFM_Util.adminAction(sender.getName(), "Uncaging " + p.getName(), true);
                 playerdata.setCaged(false);
                 playerdata.regenerateHistory();
                 playerdata.clearHistory();
@@ -50,6 +51,15 @@ public class Command_cage extends TFM_Command
             {
                 cage_material_outer = Material.matchMaterial(args[1]);
                 if (cage_material_outer == null)
+                {
+                    TFM_Util.adminAction(sender.getName(), "Uncaging " + p.getName(), true);
+                    playerdata.setCaged(false);
+                    playerdata.regenerateHistory();
+                    playerdata.clearHistory();
+                    sender.sendMessage(ChatColor.GREEN + p.getName() + " uncaged.");
+                    return true;
+                }
+                else
                 {
                     cage_material_outer = Material.GLASS;
                 }
@@ -75,11 +85,8 @@ public class Command_cage extends TFM_Command
         TFM_Util.buildHistory(target_pos, 2, playerdata);
         TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
         TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
-
         p.setGameMode(GameMode.SURVIVAL);
-
-        TFM_Util.bcastMsg(sender.getName() + " caged " + p.getName() + "!", ChatColor.YELLOW);
-
+        TFM_Util.adminAction(sender.getName(), "Caging " + p.getName(), true);
         return true;
     }
 }

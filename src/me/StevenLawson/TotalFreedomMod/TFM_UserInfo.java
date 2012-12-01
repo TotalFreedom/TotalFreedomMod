@@ -45,6 +45,7 @@ public class TFM_UserInfo
     private boolean mp44_armed = false;
     private boolean mp44_firing = false;
     private int lockup_schedule_id = -1;
+    private String last_message = "";
 
     public TFM_UserInfo(Player player)
     {
@@ -405,5 +406,15 @@ public class TFM_UserInfo
     public void setLockupScheduleID(int lockup_schedule_id)
     {
         this.lockup_schedule_id = lockup_schedule_id;
+    }
+
+    public void setLastMessage(String last_message)
+    {
+        this.last_message = last_message;
+    }
+
+    public String getLastMessage()
+    {
+        return this.last_message;
     }
 }

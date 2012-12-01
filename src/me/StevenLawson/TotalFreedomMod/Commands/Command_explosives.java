@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,6 +25,8 @@ public class Command_explosives extends TFM_Command
             }
             catch (NumberFormatException nfex)
             {
+                TFM_Util.playerMsg(sender, nfex.getMessage());
+                return true;
             }
         }
 

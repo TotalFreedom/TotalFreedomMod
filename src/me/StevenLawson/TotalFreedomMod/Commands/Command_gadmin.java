@@ -40,7 +40,9 @@ public class Command_gadmin extends TFM_Command
             {
                 if (mode.equals("kick"))
                 {
+                    TFM_Util.adminAction(sender.getName(), "Kicking " + p.getName(), true);
                     p.kickPlayer("Kicked by Administrator");
+
                 }
                 else if (mode.equals("nameban"))
                 {

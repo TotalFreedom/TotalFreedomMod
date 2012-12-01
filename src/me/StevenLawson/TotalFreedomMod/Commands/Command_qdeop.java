@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
@@ -16,7 +17,6 @@ public class Command_qdeop extends TFM_Command
         {
             return false;
         }
-
         boolean silent = false;
         if (args.length == 2)
         {

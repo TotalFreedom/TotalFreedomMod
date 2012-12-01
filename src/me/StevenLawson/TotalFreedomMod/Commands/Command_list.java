@@ -34,9 +34,9 @@ public class Command_list extends TFM_Command
             {
                 if (TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                    if (p.isOp())
+                    if(TFM_SuperadminList.isSeniorAdmin(p))
                     {
-                        prefix = (ChatColor.GOLD + "[SA+OP]");
+                        prefix = (ChatColor.LIGHT_PURPLE + "[SrA]");
                     }
                     else
                     {

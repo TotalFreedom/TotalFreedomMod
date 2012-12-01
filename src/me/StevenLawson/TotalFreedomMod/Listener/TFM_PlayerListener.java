@@ -101,7 +101,6 @@ public class TFM_PlayerListener implements Listener
                             }
 
                             event.setCancelled(true);
-                            return;
                         }
                         break;
                     }
@@ -109,7 +108,7 @@ public class TFM_PlayerListener implements Listener
                     {
                         if (TotalFreedomMod.allowExplosions && TFM_SuperadminList.isSeniorAdmin(player))
                         {
-                            Block target_block = null;
+                            Block target_block;
 
                             if (event.getAction().equals(Action.LEFT_CLICK_AIR))
                             {
@@ -131,7 +130,6 @@ public class TFM_PlayerListener implements Listener
                             }
 
                             event.setCancelled(true);
-                            return;
                         }
 
                         break;
@@ -211,7 +209,7 @@ public class TFM_PlayerListener implements Listener
         {
             Location target_pos = p.getLocation().add(0, 1, 0);
 
-            boolean out_of_cage = false;
+            boolean out_of_cage;
             if (!target_pos.getWorld().equals(playerdata.getCagePos().getWorld()))
             {
                 out_of_cage = true;
@@ -290,9 +288,21 @@ public class TFM_PlayerListener implements Listener
         try
         {
             final Player p = event.getPlayer();
+            String message = event.getMessage().trim();
 
             TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
             playerdata.incrementMsgCount();
+
+            // check for message repeat
+            if(playerdata.getLastMessage().equalsIgnoreCase(message))
+            {
+                TFM_Util.playerMsg(p, "Please do not repeat messages.");
+                event.setCancelled(true);
+                playerdata.setLastMessage(message);
+                return;
+            }
+
+            playerdata.setLastMessage(message);
 
             // check for spam
             if (playerdata.getMsgCount() > 10)
@@ -321,8 +331,6 @@ public class TFM_PlayerListener implements Listener
                 }
             }
 
-            String message = event.getMessage().trim();
-
             // strip color from messages
             message = ChatColor.stripColor(message);
 
@@ -333,20 +341,32 @@ public class TFM_PlayerListener implements Listener
                 TFM_Util.playerMsg(p, "Message was shortened because it was too long to send.");
             }
 
-            // check for caps
+
+            // check for caps and exclamation marks
             if (message.length() >= 6)
             {
                 int caps = 0;
+                int excl = 0;
                 for (char c : message.toCharArray())
                 {
                     if (Character.isUpperCase(c))
                     {
                         caps++;
                     }
+                    
+                    if(c == '!')
+                    {
+                    	excl++;
+                    }
                 }
-                if (((float) caps / (float) message.length()) > 0.75) //Compute a ratio so that longer sentences can have more caps.
+                if (caps > 6 || caps > 3 && ((float) caps / (float) message.length()) > 0.55)
                 {
                     message = message.toLowerCase();
+                }
+
+                if(excl++ > 3)
+                {
+                    message = message.replaceAll("!", "") + '!';
                 }
             }
 
@@ -472,6 +492,18 @@ public class TFM_PlayerListener implements Listener
             {
                 block_command = true;
             }
+            else if (Pattern.compile("^/clear").matcher(command).find())
+            {
+                block_command = true;
+            }
+            else if (!TFM_SuperadminList.isUserSuperadmin(p) && Pattern.compile("^/socialspy").matcher(command).find())
+            {
+                block_command = true;
+            }
+            else if (!TFM_SuperadminList.isUserSuperadmin(p) && Pattern.compile("^/packet").matcher(command).find())
+            {
+                block_command = true;
+            }
         }
 
         if (block_command)
@@ -481,7 +513,7 @@ public class TFM_PlayerListener implements Listener
             return;
         }
 
-        if (playerdata.isMuted())
+        // block muted commands
         {
             if (!TFM_SuperadminList.isUserSuperadmin(p))
             {

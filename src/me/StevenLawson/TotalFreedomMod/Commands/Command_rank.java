@@ -28,7 +28,7 @@ public class Command_rank extends TFM_Command
 
         if (args.length == 0)
         {
-            TFM_Util.playerMsg(sender, sender.getName() + " is " + TFM_Util.getRank(sender), ChatColor.AQUA);
+            TFM_Util.bcastMsg(sender.getName() + " is " + TFM_Util.getRank(sender), ChatColor.AQUA);
             return true;
         }
 
