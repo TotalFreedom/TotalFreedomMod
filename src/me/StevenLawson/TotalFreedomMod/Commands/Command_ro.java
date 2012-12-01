@@ -64,21 +64,23 @@ public class Command_ro extends TFM_Command
             }
         }
 
+        int affected = 0;
+
         if (target_player == null)
         {
-            TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of all players.", senderIsConsole);
+            TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of all players. Brace for lag...", senderIsConsole);
             for (Player p : server.getOnlinePlayers())
             {
-                TFM_Util.replaceBlocks(p.getLocation(), from_material, Material.AIR, radius);
+                affected += TFM_Util.replaceBlocks(p.getLocation(), from_material, Material.AIR, radius);
             }
         }
         else
         {
             TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of " + target_player.getName() + ".", senderIsConsole);
-            TFM_Util.replaceBlocks(target_player.getLocation(), from_material, Material.AIR, radius);
+            affected += TFM_Util.replaceBlocks(target_player.getLocation(), from_material, Material.AIR, radius);
         }
 
-        TFM_Util.adminAction(sender.getName(), "Remove complete.", senderIsConsole);
+        TFM_Util.adminAction(sender.getName(), "Remove complete. " + affected + " blocks removed.", senderIsConsole);
 
         return true;
     }
