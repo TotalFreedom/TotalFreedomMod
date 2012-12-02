@@ -38,7 +38,7 @@ commands:
     description: Fill nearby dispensers with a set of items of your choice.
     usage: /<command> <radius> <comma,separated,items>
   doom:
-    description: Owner command - For the bad Superadmins.
+    description: Senior Command - For the bad Superadmins.
     usage: /<command> <playername>
   enchant:
     description: Enchant items.
@@ -98,11 +98,14 @@ commands:
     description: Lists the real names of all online players.
     usage: /<command>
     aliases: [who]
+  listsync:
+    description: Senior Command - Download the superadmin and permban lists from the main TotalFreedom server.
+    usave: /<command>
   lockup:
     description: Console command - Block target's minecraft input. This is evil, and I never should have wrote it.
     usage: /<command> <all | purge | <<partialname> on | off>>
   moblimiter:
-    description: Owner command - Controll mob rezzing parameters.
+    description: Senior Command - Control mob rezzing parameters.
     usage: /<command> <on|off|setmax <count>|dragon|giant|ghast|slime>
   mp:
     description: Purge all mobs in all worlds.
@@ -159,7 +162,7 @@ commands:
     description: Shows your rank.
     usage: /<command>
   rawsay:
-    description: Owner Command - Broadcasts the given message with no extra formatting.
+    description: Senior Command - Broadcasts the given message with no extra formatting.
     usage: /<command> <message>
   rd:
     description: Superadmin command - Remove various server entities that may cause lag, such as dropped items, minecarts, and boats.
@@ -168,7 +171,7 @@ commands:
     description: Superadmin Command - Remove all blocks of a certain type in the radius of certain players.
     usage: /<command> <block> [radius (default=50)] [player]
   saconfig:
-    description: Owner command - Manage superadmins.
+    description: Senior Command - Manage superadmins.
     usage: /<command> <list | clean | <add|delete> <username>>
   say:
     description: Broadcasts the given message as the console, includes sender name.
@@ -226,8 +229,8 @@ commands:
     description: Superadmin command - Run any command on all users, username placeholder = ?.
     usage: /<command> [fluff] ? [fluff] ?
   wipeflatlands:
-    description: Owner command - Wipe the flatlands map. Requires manual restart after command is used.
+    description: Senior Command - Wipe the flatlands map. Requires manual restart after command is used.
     usage: /<command>
 #  ziptool:
-#    description: Owner command - Zip and unzip files.
+#    description: Senior Command - Zip and unzip files.
 #    usage: /<command> <zip <directory>> | <unzip <file>>

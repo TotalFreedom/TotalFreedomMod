@@ -20,7 +20,7 @@ public class Command_say extends TFM_Command
 
         String message = StringUtils.join(args, " ");
 
-        if (senderIsConsole && TFM_Util.isFromClanforge(sender.getName()))
+        if (senderIsConsole && TFM_Util.isFromHostConsole(sender.getName()))
         {
             if (message.equalsIgnoreCase("WARNING: Server is restarting, you will be kicked"))
             {

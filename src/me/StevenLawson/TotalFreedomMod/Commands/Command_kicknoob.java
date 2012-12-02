@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = ADMIN_LEVEL.SENIOR, source = SOURCE_TYPE_ALLOWED.BOTH, block_web_console = true, ignore_permissions = false)
+@CommandPermissions(level = ADMIN_LEVEL.SENIOR, source = SOURCE_TYPE_ALLOWED.BOTH, block_host_console = true, ignore_permissions = false)
 public class Command_kicknoob extends TFM_Command
 {
     @Override

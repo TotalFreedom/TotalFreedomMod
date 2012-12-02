@@ -24,7 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class TotalFreedomMod extends JavaPlugin
 {
-    private final Server server = Bukkit.getServer();
+    public static final Server server = Bukkit.getServer();
 
     public static final long HEARTBEAT_RATE = 5L; //Seconds
 
@@ -72,12 +72,6 @@ public class TotalFreedomMod extends JavaPlugin
 
         registerEventHandlers();
 
-        server.getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
-
-        TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
-
-        TFM_Util.deleteFolder(new File("./_deleteme"));
-
         if (generateFlatlands)
         {
             TFM_Util.wipeFlatlandsIfFlagged();
@@ -100,6 +94,12 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_ProtectedArea.loadProtectedAreas();
             TFM_ProtectedArea.autoAddSpawnpoints();
         }
+
+        TFM_Util.deleteFolder(new File("./_deleteme"));
+
+        server.getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+
+        TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
     }
 
     @Override
@@ -207,13 +207,14 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean protectedAreasEnabled = true;
     public static boolean autoProtectSpawnpoints = true;
     public static double autoProtectRadius = 25.0D;
+    public static List<String> host_sender_names = Arrays.asList("rcon", "remotebukkit");
 
-    public void loadMainConfig()
+    public static void loadMainConfig()
     {
         try
         {
-            TFM_Util.createDefaultConfiguration(CONFIG_FILE, getFile());
-            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), CONFIG_FILE));
+            TFM_Util.createDefaultConfiguration(CONFIG_FILE, plugin_file);
+            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), CONFIG_FILE));
 
             allowFirePlace = config.getBoolean("allow_fire_place", allowFirePlace);
             allowFireSpread = config.getBoolean("allow_fire_spread", allowFireSpread);
@@ -247,6 +248,7 @@ public class TotalFreedomMod extends JavaPlugin
             protectedAreasEnabled = config.getBoolean("protected_areas_enabled", protectedAreasEnabled);
             autoProtectSpawnpoints = config.getBoolean("auto_protect_spawnpoints", autoProtectSpawnpoints);
             autoProtectRadius = config.getDouble("auto_protect_radius", autoProtectRadius);
+            host_sender_names = config.getStringList("host_sender_names");
         }
         catch (Exception ex)
         {
@@ -259,7 +261,7 @@ public class TotalFreedomMod extends JavaPlugin
     @Deprecated
     public static List<String> superadmin_ips = new ArrayList<String>();
 
-    public void loadSuperadminConfig()
+    public static void loadSuperadminConfig()
     {
         try
         {
@@ -278,12 +280,12 @@ public class TotalFreedomMod extends JavaPlugin
     public static List<String> permbanned_players = new ArrayList<String>();
     public static List<String> permbanned_ips = new ArrayList<String>();
 
-    public void loadPermbanConfig()
+    public static void loadPermbanConfig()
     {
         try
         {
-            TFM_Util.createDefaultConfiguration(PERMBAN_FILE, getFile());
-            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), PERMBAN_FILE));
+            TFM_Util.createDefaultConfiguration(PERMBAN_FILE, plugin_file);
+            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), PERMBAN_FILE));
 
             permbanned_players = new ArrayList<String>();
             permbanned_ips = new ArrayList<String>();
@@ -292,7 +294,7 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 permbanned_players.add(user.toLowerCase().trim());
 
-                List<String> user_ips = (List<String>) config.getStringList(user);
+                List<String> user_ips = config.getStringList(user);
                 for (String ip : user_ips)
                 {
                     ip = ip.toLowerCase().trim();
@@ -309,7 +311,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
     }
 
-    private void registerEventHandlers()
+    private static void registerEventHandlers()
     {
         PluginManager pm = server.getPluginManager();
 
@@ -319,14 +321,14 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_WeatherListener(), plugin);
     }
 
-    private void setAppProperties()
+    private static void setAppProperties()
     {
         try
         {
             InputStream in;
             Properties props = new Properties();
 
-            in = getClass().getResourceAsStream("/appinfo.properties");
+            in = plugin.getClass().getResourceAsStream("/appinfo.properties");
             props.load(in);
             in.close();
 

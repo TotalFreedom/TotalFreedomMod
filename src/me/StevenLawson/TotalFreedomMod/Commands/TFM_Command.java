@@ -53,9 +53,9 @@ public class TFM_Command
 
                 ADMIN_LEVEL level = permissions.level();
                 SOURCE_TYPE_ALLOWED source = permissions.source();
-                boolean block_web_console = permissions.block_web_console();
+                boolean block_web_console = permissions.block_host_console();
 
-                //TFM_Log.info("Level: " + level + ", Source: " + source + ", BWC: " + block_web_console);
+                //TFM_Log.info("Level: " + level + ", Source: " + source + ", BWC: " + block_host_console);
 
                 Player sender_p = null;
                 if (sender instanceof Player)
@@ -73,7 +73,7 @@ public class TFM_Command
                     {
                         return false;
                     }
-                    else if (block_web_console && TFM_Util.isFromClanforge(sender.getName()))
+                    else if (block_web_console && TFM_Util.isFromHostConsole(sender.getName()))
                     {
                         return false;
                     }

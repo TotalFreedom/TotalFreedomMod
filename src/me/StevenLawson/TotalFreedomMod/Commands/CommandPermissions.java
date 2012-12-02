@@ -10,7 +10,7 @@ public @interface CommandPermissions
 
     SOURCE_TYPE_ALLOWED source();
 
-    boolean block_web_console() default false;
+    boolean block_host_console() default false;
 
     boolean ignore_permissions() default true;
 }

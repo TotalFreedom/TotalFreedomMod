@@ -2,6 +2,9 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.io.*;
 import java.net.URI;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,7 +29,6 @@ public class TFM_Util
     private static final Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     public static final List<String> stop_commands = Arrays.asList("stop", "off", "end", "halt", "die");
-    public static final List<String> restricted_senders = Arrays.asList("rcon", "remotebukkit");
 
     static
     {
@@ -904,9 +906,9 @@ public class TFM_Util
         }
     }
 
-    public static boolean isFromClanforge(String sender_name)
+    public static boolean isFromHostConsole(String sender_name)
     {
-        return restricted_senders.contains(sender_name.toLowerCase());
+        return TotalFreedomMod.host_sender_names.contains(sender_name.toLowerCase());
     }
 
     public static List<String> removeDuplicates(List<String> old_list)
@@ -987,27 +989,13 @@ public class TFM_Util
 
         return affected;
     }
-// I wrote all this before i discovered getTargetBlock >.> - might come in handy some day...
-//    public static final double LOOKAT_VIEW_HEIGHT = 1.65;
-//    public static final double LOOKAT_STEP_DISTANCE = 0.2;
-//
-//    public static Location getLookatLocation(Player player)
-//    {
-//        Location player_loc = player.getLocation();
-//
-//        Vector player_pos = player_loc.toVector().add(new Vector(0.0, LOOKAT_VIEW_HEIGHT, 0.0));
-//        Vector player_dir = player_loc.getDirection().normalize();
-//
-//        for (double offset = 0.0; offset <= 300.0; offset += LOOKAT_STEP_DISTANCE)
-//        {
-//            Location check_loc = player_pos.clone().add(player_dir.clone().multiply(offset)).toLocation(player.getWorld());
-//
-//            if (!check_loc.getBlock().isEmpty())
-//            {
-//                return check_loc;
-//            }
-//        }
-//
-//        return null;
-//    }
+
+    public static void downloadFile(String url, File output_file) throws Exception
+    {
+        URL website = new URL(url);
+        ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+        FileOutputStream fos = new FileOutputStream(output_file);
+        fos.getChannel().transferFrom(rbc, 0, 1 << 24);
+        fos.close();
+    }
 }

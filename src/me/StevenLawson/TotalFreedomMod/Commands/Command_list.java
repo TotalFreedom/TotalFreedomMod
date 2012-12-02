@@ -16,7 +16,7 @@ public class Command_list extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (TFM_Util.isFromClanforge(sender.getName()))
+        if (TFM_Util.isFromHostConsole(sender.getName()))
         {
             List<String> player_names = new ArrayList<String>();
             for (Player p : server.getOnlinePlayers())
