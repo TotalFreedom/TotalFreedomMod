@@ -120,8 +120,9 @@ commands:
     description: Superadmin command - Attempt to detect "invisible griefers" and "nukers".
     usage: /<command> <on | off> [range] [blockrate]
   o:
-    description: Superadmin command - Talk privately with other admins
+    description: Superadmin command - AdminChat - Talk privately with other admins. Using <command> itself will toggle AdminChat on and off for all messages.
     usage: /<command> [message]
+    aliases: [adminchat]
   onlinemode:
     description: Console command - Switch server online-mode on and off.
     usage: /<command> <on | off>

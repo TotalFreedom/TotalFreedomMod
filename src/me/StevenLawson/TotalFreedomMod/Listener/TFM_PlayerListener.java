@@ -359,16 +359,15 @@ public class TFM_PlayerListener implements Listener
             }
 
             // check for adminchat
-            if(playerdata.inAdminChat())
+            if (playerdata.inAdminChat())
             {
-                TFM_Util.AdminChatMessage(p, message, false);
+                TFM_Util.adminChatMessage(p, message, false);
                 event.setCancelled(true);
+                return;
             }
-            else
-            {
-                // finally, set message
-                event.setMessage(message);
-            }
+
+            // finally, set message
+            event.setMessage(message);
         }
         catch (Exception ex)
         {
