@@ -18,7 +18,12 @@ public class Command_list extends TFM_Command
     {
         if (TFM_Util.isFromClanforge(sender.getName()))
         {
-            sender.sendMessage("There are " + server.getOnlinePlayers().length + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(server.getOnlinePlayers(), ", ").toString());
+            List<String> player_names = new ArrayList<String>();
+            for (Player p : server.getOnlinePlayers())
+            {
+                player_names.add(p.getName());
+            }
+            sender.sendMessage("There are " + player_names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(player_names, ", "));
             return true;
         }
 
