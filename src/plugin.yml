@@ -22,6 +22,9 @@ commands:
   cmdlist:
     description: Show all commands for all server plugins.
     usage: /<command>
+  cookie:
+    description: Superadmin command - cookies :)
+    usage: /<command>
   creative:
     description: Quickly change your own gamemode to creative, or define someone's username to change theirs.
     usage: /<command> [partialname]
