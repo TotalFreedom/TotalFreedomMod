@@ -41,7 +41,6 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
-    public static final String COOKIE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cookies.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
 
     public static boolean allPlayersFrozen = false;

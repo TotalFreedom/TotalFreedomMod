@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,7 +18,7 @@ public class Command_cookie extends TFM_Command
         StringBuilder output = new StringBuilder();
         Random randomGenerator = new Random();
 
-        for (String word : TotalFreedomMod.COOKIE_LYRICS.split(" "))
+        for (String word : TotalFreedomMod.CAKE_LYRICS.replaceAll("cake", "cookies").split(" "))
         {
             String color_code = Integer.toHexString(1 + randomGenerator.nextInt(14));
             output.append("§").append(color_code).append(word).append(" ");
