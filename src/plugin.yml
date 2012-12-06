@@ -7,6 +7,10 @@ commands:
   adminmode:
     description: Console-only command - Close server to non-superadmins.
     usage: /<command> [on | off]
+  blockcommand:
+    description: Superadmin command - Block all commands for a specific player
+    usage: /<command> <partialname>
+    aliases: [blockcommands]
   cage:
     description: Superadmin command - Place a cage around someone.
     usage: /<command> <partialname> <off | [[outermaterial] [innermaterial]]>
@@ -124,7 +128,7 @@ commands:
     usage: /<command> <on | off> [range] [blockrate]
   o:
     description: Superadmin command - AdminChat - Talk privately with other admins. Using <command> itself will toggle AdminChat on and off for all messages.
-    usage: /<command> [message]
+    usage: /<command> [message...]
     aliases: [adminchat]
   onlinemode:
     description: Console command - Switch server online-mode on and off.

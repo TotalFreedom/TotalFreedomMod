@@ -397,6 +397,12 @@ public class TFM_PlayerListener implements Listener
             return;
         }
 
+        if(playerdata.areCommandsBlocked())
+        {
+            TFM_Util.playerMsg(p, "Your commands have been blocked by an admin", ChatColor.RED);
+            event.setCancelled(true);
+        }
+
         if (TotalFreedomMod.preprocessLogEnabled)
         {
             TFM_Log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", p.getName(), ChatColor.stripColor(p.getDisplayName()), command), true);
