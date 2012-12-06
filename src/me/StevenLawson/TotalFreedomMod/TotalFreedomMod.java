@@ -1,8 +1,10 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.logging.Level;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
@@ -98,6 +100,15 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
         server.getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+
+        // metrics @ http://mcstats.org/plugin/TotalFreedomMod
+        try {
+            Metrics metrics = new Metrics(plugin);
+            metrics.start();
+        } catch (IOException e) {
+            // Failed to submit the stats :-(
+            TFM_Log.warning("Failed to submit metrics data");
+        }
 
         TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
     }
