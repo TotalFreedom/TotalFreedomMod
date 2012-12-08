@@ -31,6 +31,9 @@ commands:
   csay:
     description: Telnet command - Send a chat message with chat formatting over telnet.
     usage: /<command> <message...>
+  deafen:
+    description: Senior Command - Make some noise.
+    usage: /<command>
   deop:
     description: Superadmin command - Deop a player
     usage: /<command> <playername>
