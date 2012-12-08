@@ -17,11 +17,9 @@ import org.bukkit.entity.Player;
 public class TFM_UserInfo
 {
     public final static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
-
     private final Player player;
     private final String ip_address;
     private final String player_name;
-
     private boolean user_frozen = false;
     private boolean is_muted = false;
     private boolean is_halted = false;
@@ -47,7 +45,7 @@ public class TFM_UserInfo
     private int lockup_schedule_id = -1;
     private String last_message = "";
     private boolean in_adminchat = false;
-    private boolean commands_blocked = false;
+    private boolean all_commands_blocked = false;
 
     public TFM_UserInfo(Player player)
     {
@@ -430,13 +428,13 @@ public class TFM_UserInfo
         return this.in_adminchat;
     }
 
-    public boolean areCommandsBlocked()
+    public boolean allCommandsBlocked()
     {
-        return this.commands_blocked;
+        return this.all_commands_blocked;
     }
 
     public void setCommandsBlocked(boolean commands_blocked)
     {
-        this.commands_blocked = commands_blocked;
+        this.all_commands_blocked = commands_blocked;
     }
 }
