@@ -47,6 +47,7 @@ public class TFM_UserInfo
     private int lockup_schedule_id = -1;
     private String last_message = "";
     private boolean in_adminchat = false;
+    private boolean commands_blocked = false;
 
     public TFM_UserInfo(Player player)
     {
@@ -427,5 +428,15 @@ public class TFM_UserInfo
     public boolean inAdminChat()
     {
         return this.in_adminchat;
+    }
+
+    public boolean areCommandsBlocked()
+    {
+        return this.commands_blocked;
+    }
+
+    public void setCommandsBlocked(boolean commands_blocked)
+    {
+        this.commands_blocked = commands_blocked;
     }
 }
