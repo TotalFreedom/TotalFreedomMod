@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -45,7 +46,7 @@ public class Command_gadmin extends TFM_Command
                 }
                 else if (mode.equals("nameban"))
                 {
-                    TFM_Util.banUsername(p.getName(), null, null, null);
+                    TFM_ServerInterface.banUsername(p.getName(), null, null, null);
                     TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s.", p.getName()), true);
                     p.kickPlayer("Username banned by Administrator.");
                 }
@@ -58,7 +59,7 @@ public class Command_gadmin extends TFM_Command
                         user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
                     TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", p.getName(), user_ip), true);
-                    TFM_Util.banIP(user_ip, null, null, null);
+                    TFM_ServerInterface.banIP(user_ip, null, null, null);
                     p.kickPlayer("IP address banned by Administrator.");
                 }
                 else if (mode.equals("ban"))
@@ -70,8 +71,8 @@ public class Command_gadmin extends TFM_Command
                         user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
                     TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", p.getName(), user_ip), true);
-                    TFM_Util.banIP(user_ip, null, null, null);
-                    TFM_Util.banUsername(p.getName(), null, null, null);
+                    TFM_ServerInterface.banIP(user_ip, null, null, null);
+                    TFM_ServerInterface.banUsername(p.getName(), null, null, null);
                     p.kickPlayer("IP and username banned by Administrator.");
                 }
                 else if (mode.equals("op"))

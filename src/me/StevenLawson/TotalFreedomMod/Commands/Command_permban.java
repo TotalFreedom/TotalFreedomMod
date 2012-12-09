@@ -26,7 +26,7 @@ public class Command_permban extends TFM_Command
         else if (args[0].equalsIgnoreCase("reload"))
         {
             TFM_Util.playerMsg(sender, "Reloading permban list...", ChatColor.RED);
-            plugin.loadPermbanConfig();
+            TotalFreedomMod.loadPermbanConfig();
             dumplist(sender);
         }
         else

@@ -99,7 +99,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
-        server.getScheduler().scheduleAsyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+        server.getScheduler().runTaskTimerAsynchronously(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try

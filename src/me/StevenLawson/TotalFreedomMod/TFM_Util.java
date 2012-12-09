@@ -14,9 +14,6 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-import net.minecraft.server.BanEntry;
-import net.minecraft.server.BanList;
-import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
@@ -28,7 +25,7 @@ public class TFM_Util
 {
     private static final Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
-    public static final List<String> stop_commands = Arrays.asList("stop", "off", "end", "halt", "die");
+    public static final List<String> STOP_COMMANDS = Arrays.asList("stop", "off", "end", "halt", "die");
 
     static
     {
@@ -423,7 +420,7 @@ public class TFM_Util
 
     public static boolean isStopCommand(String command)
     {
-        return stop_commands.contains(command.toLowerCase());
+        return STOP_COMMANDS.contains(command.toLowerCase());
     }
 
     enum EjectMethod
@@ -586,84 +583,40 @@ public class TFM_Util
         return "a " + ChatColor.GREEN + "non-OP" + ChatColor.AQUA + ".";
     }
 
+    @Deprecated
     public static void banUsername(String name, String reason, String source, Date expire_date)
     {
-        name = name.toLowerCase().trim();
-
-        BanEntry ban_entry = new BanEntry(name);
-
-        if (expire_date != null)
-        {
-            ban_entry.setExpires(expire_date);
-        }
-        if (reason != null)
-        {
-            ban_entry.setReason(reason);
-        }
-        if (source != null)
-        {
-            ban_entry.setSource(source);
-        }
-
-        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
-
-        nameBans.add(ban_entry);
+        TFM_ServerInterface.banUsername(name, reason, source, expire_date);
     }
 
+    @Deprecated
     public static void unbanUsername(String name)
     {
-        name = name.toLowerCase().trim();
-
-        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
-
-        nameBans.remove(name);
+        TFM_ServerInterface.unbanUsername(name);
     }
 
+    @Deprecated
     public static boolean isNameBanned(String name)
     {
-        name = name.toLowerCase().trim();
-        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
-        nameBans.removeExpired();
-        return nameBans.getEntries().containsKey(name);
+        return TFM_ServerInterface.isNameBanned(name);
     }
 
+    @Deprecated
     public static void banIP(String ip, String reason, String source, Date expire_date)
     {
-        ip = ip.toLowerCase().trim();
-
-        BanEntry ban_entry = new BanEntry(ip);
-
-        if (expire_date != null)
-        {
-            ban_entry.setExpires(expire_date);
-        }
-        if (reason != null)
-        {
-            ban_entry.setReason(reason);
-        }
-        if (source != null)
-        {
-            ban_entry.setSource(source);
-        }
-
-        BanList ipBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
-
-        ipBans.add(ban_entry);
+        TFM_ServerInterface.banIP(ip, reason, source, expire_date);
     }
 
+    @Deprecated
     public static void unbanIP(String ip)
     {
-        ip = ip.toLowerCase().trim();
-        BanList ipBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
-        ipBans.remove(ip);
+        TFM_ServerInterface.unbanIP(ip);
     }
 
+    @Deprecated
     public static boolean isIPBanned(String ip)
     {
-        ip = ip.toLowerCase().trim();
-        BanList ipBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
-        ipBans.removeExpired();
-        return ipBans.getEntries().containsKey(ip);
+        return TFM_ServerInterface.isIPBanned(ip);
     }
 
     public static Date parseDateOffset(String time)

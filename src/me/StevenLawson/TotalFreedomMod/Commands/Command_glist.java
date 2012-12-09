@@ -2,6 +2,8 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserList.TFM_UserListEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -26,7 +28,14 @@ public class Command_glist extends TFM_Command
             if (args[0].equalsIgnoreCase("purge"))
             {
                 //Purge does not clear the banlist! This is not for clearing bans! This is for clearing the yaml file that stores the player/IP database!
-                TFM_UserList.getInstance(plugin).purge();
+                if (TFM_SuperadminList.isSeniorAdmin(sender))
+                {
+                    TFM_UserList.getInstance(plugin).purge();
+                }
+                else
+                {
+                    TFM_Util.playerMsg(sender, "Only Senior Admins may purge the userlist.");
+                }
                 return true;
             }
             else
@@ -34,79 +43,78 @@ public class Command_glist extends TFM_Command
                 return false;
             }
         }
-        else if (args.length != 2)
+        else if (args.length == 2)
         {
-            return false;
-        }
+            String username;
+            List<String> ip_addresses = new ArrayList<String>();
 
-        String username;
-        List<String> ip_addresses = new ArrayList<String>();
-
-        try
-        {
-            Player p = getPlayer(args[1]);
-
-            username = p.getName();
-            ip_addresses.add(p.getAddress().getAddress().getHostAddress());
-        }
-        catch (CantFindPlayerException ex)
-        {
-            TFM_UserListEntry entry = TFM_UserList.getInstance(plugin).getEntry(args[1]);
-
-            if (entry == null)
+            try
             {
-                sender.sendMessage("Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
-                return true;
+                Player p = getPlayer(args[1]);
+
+                username = p.getName();
+                ip_addresses.add(p.getAddress().getAddress().getHostAddress());
+            }
+            catch (CantFindPlayerException ex)
+            {
+                TFM_UserListEntry entry = TFM_UserList.getInstance(plugin).getEntry(args[1]);
+
+                if (entry == null)
+                {
+                    TFM_Util.playerMsg(sender, "Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
+                    return true;
+                }
+
+                username = entry.getUsername();
+                ip_addresses = entry.getIpAddresses();
             }
 
-            username = entry.getUsername();
-            ip_addresses = entry.getIpAddresses();
-        }
-
-        String mode = args[0].toLowerCase();
-        if (mode.equalsIgnoreCase("ban"))
-        {
-            TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
-
-            Player p = server.getPlayerExact(username);
-            if (p != null)
+            String mode = args[0].toLowerCase();
+            if (mode.equalsIgnoreCase("ban"))
             {
-                //p.setBanned(true);
-                TFM_Util.banUsername(p.getName(), null, null, null);
-                p.kickPlayer("IP and username banned by Administrator.");
+                TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
+
+                Player p = server.getPlayerExact(username);
+                if (p != null)
+                {
+                    TFM_ServerInterface.banUsername(p.getName(), null, null, null);
+                    p.kickPlayer("IP and username banned by Administrator.");
+                }
+                else
+                {
+                    TFM_ServerInterface.banUsername(username, null, null, null);
+                }
+
+                for (String ip_address : ip_addresses)
+                {
+                    TFM_ServerInterface.banIP(ip_address, null, null, null);
+                    String[] ip_address_parts = ip_address.split("\\.");
+                    TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
+                }
+            }
+            else if (mode.equalsIgnoreCase("unban") || mode.equalsIgnoreCase("pardon"))
+            {
+                TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
+
+                TFM_ServerInterface.unbanUsername(username);
+
+                for (String ip_address : ip_addresses)
+                {
+                    TFM_ServerInterface.unbanIP(ip_address);
+                    String[] ip_address_parts = ip_address.split("\\.");
+                    TFM_ServerInterface.unbanIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*");
+                }
             }
             else
             {
-                //server.getOfflinePlayer(username).setBanned(true);
-                TFM_Util.banUsername(username, null, null, null);
+                return false;
             }
 
-            for (String ip_address : ip_addresses)
-            {
-                //server.banIP(ip_address);
-                TFM_Util.banIP(ip_address, null, null, null);
-                String[] ip_address_parts = ip_address.split("\\.");
-                //server.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*");
-                TFM_Util.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
-            }
+            return true;
         }
-        else if (mode.equalsIgnoreCase("unban"))
+        else
         {
-            TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
-
-            //server.getOfflinePlayer(username).setBanned(false);
-            TFM_Util.unbanUsername(username);
-
-            for (String ip_address : ip_addresses)
-            {
-                //server.unbanIP(ip_address);
-                TFM_Util.unbanIP(ip_address);
-                String[] ip_address_parts = ip_address.split("\\.");
-                //server.unbanIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*");
-                TFM_Util.unbanIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*");
-            }
+            return false;
         }
-
-        return true;
     }
 }

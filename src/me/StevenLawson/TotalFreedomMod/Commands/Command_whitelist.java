@@ -1,10 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import java.util.Set;
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import net.minecraft.server.MinecraftServer;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -166,11 +165,8 @@ public class Command_whitelist extends TFM_Command
         //purge
         if (args[0].equalsIgnoreCase("purge"))
         {
-            @SuppressWarnings("rawtypes")
-            Set whitelisted = MinecraftServer.getServer().getServerConfigurationManager().getWhitelisted();
             TFM_Util.adminAction(sender.getName(), "Removing all players from the whitelist.", false);
-            TFM_Util.playerMsg(sender, "Removed " + whitelisted.size() + " players from the whitelist.");
-            whitelisted.clear();
+            TFM_Util.playerMsg(sender, "Removed " + TFM_ServerInterface.purgeWhitelist() + " players from the whitelist.");
 
             return true;
         }

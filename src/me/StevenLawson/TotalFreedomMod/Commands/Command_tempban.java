@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -54,8 +55,8 @@ public class Command_tempban extends TFM_Command
         }
 
         TFM_Util.adminAction(sender.getName(), bcast_msg.toString(), true);
-        TFM_Util.banUsername(p.getName(), ban_reason, sender.getName(), ban_duration);
-        TFM_Util.banIP(p.getAddress().getAddress().getHostAddress().trim(), ban_reason, sender.getName(), ban_duration);
+        TFM_ServerInterface.banUsername(p.getName(), ban_reason, sender.getName(), ban_duration);
+        TFM_ServerInterface.banIP(p.getAddress().getAddress().getHostAddress().trim(), ban_reason, sender.getName(), ban_duration);
         p.kickPlayer(sender.getName() + " - " + bcast_msg.toString());
 
         return true;

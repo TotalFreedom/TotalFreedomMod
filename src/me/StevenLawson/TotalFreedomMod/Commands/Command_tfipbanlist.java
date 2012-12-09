@@ -4,9 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import net.minecraft.server.BanList;
-import net.minecraft.server.MinecraftServer;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,10 +25,7 @@ public class Command_tfipbanlist extends TFM_Command
                 {
                     try
                     {
-                        BanList IPBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
-                        IPBans.getEntries().clear();
-                        IPBans.save();
-
+                        TFM_ServerInterface.wipeIpBans();
                         sender.sendMessage(ChatColor.GRAY + "IP ban list has been purged.");
                     }
                     catch (Exception ex)

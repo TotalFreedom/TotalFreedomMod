@@ -1,9 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.PropertyManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,9 +37,7 @@ public class Command_onlinemode extends TFM_Command
 
             try
             {
-                PropertyManager prop_man = MinecraftServer.getServer().getPropertyManager();
-                prop_man.a("online-mode", online_mode);
-                prop_man.savePropertiesFile();
+                TFM_ServerInterface.setOnlineMode(online_mode);
 
                 if (online_mode)
                 {

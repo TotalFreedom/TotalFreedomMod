@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
@@ -49,10 +50,10 @@ public class Command_doom extends TFM_Command
         p.setOp(false);
 
         // ban IP
-        TFM_Util.banIP(IP, null, null, null);
+        TFM_ServerInterface.banIP(IP, null, null, null);
 
         // ban name
-        TFM_Util.banUsername(p.getName(), null, null, null);
+        TFM_ServerInterface.banUsername(p.getName(), null, null, null);
 
         // set gamemode to survival
         p.setGameMode(GameMode.SURVIVAL);
@@ -67,7 +68,7 @@ public class Command_doom extends TFM_Command
         // generate explosion
         p.getWorld().createExplosion(p.getLocation(), 4F);
 
-        server.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
+        server.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable()
         {
             @Override
             public void run()
@@ -80,7 +81,7 @@ public class Command_doom extends TFM_Command
             }
         }, 40L); // 2 seconds
 
-        server.getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
+        server.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable()
         {
             @Override
             public void run()

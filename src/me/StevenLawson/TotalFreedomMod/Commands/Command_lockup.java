@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 
 @CommandPermissions(level = ADMIN_LEVEL.SENIOR, source = SOURCE_TYPE_ALLOWED.ONLY_CONSOLE, block_host_console = true, ignore_permissions = false)
 public class Command_lockup extends TFM_Command
@@ -92,12 +92,11 @@ public class Command_lockup extends TFM_Command
 
     private void cancelLockup(TFM_UserInfo playerdata)
     {
-        BukkitScheduler scheduler = server.getScheduler();
-        int lockupScheduleID = playerdata.getLockupScheduleID();
-        if (lockupScheduleID != -1)
+        BukkitTask lockupScheduleID = playerdata.getLockupScheduleID();
+        if (lockupScheduleID != null)
         {
-            scheduler.cancelTask(lockupScheduleID);
-            playerdata.setLockupScheduleID(-1);
+            lockupScheduleID.cancel();
+            playerdata.setLockupScheduleID(null);
         }
     }
 
@@ -112,7 +111,7 @@ public class Command_lockup extends TFM_Command
 
         cancelLockup(playerdata);
 
-        playerdata.setLockupScheduleID(server.getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable()
+        playerdata.setLockupScheduleID(server.getScheduler().runTaskTimerAsynchronously(plugin, new Runnable()
         {
             private Random random = new Random();
 

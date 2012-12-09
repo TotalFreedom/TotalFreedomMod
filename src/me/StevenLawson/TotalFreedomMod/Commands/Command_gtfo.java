@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -69,12 +70,10 @@ public class Command_gtfo extends TFM_Command
             user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
         }
         TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
-        //server.banIP(user_ip);
-        TFM_Util.banIP(user_ip, null, null, null);
+        TFM_ServerInterface.banIP(user_ip, null, null, null);
 
         // ban username:
-        // server.getOfflinePlayer(p.getName()).setBanned(true);
-        TFM_Util.banUsername(p.getName(), null, null, null);
+        TFM_ServerInterface.banUsername(p.getName(), null, null, null);
 
         // kick Player:
         p.kickPlayer("GTFO");

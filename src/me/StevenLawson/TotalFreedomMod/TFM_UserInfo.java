@@ -13,6 +13,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 public class TFM_UserInfo
 {
@@ -39,10 +40,10 @@ public class TFM_UserInfo
     private EntityType mob_thrower_creature = EntityType.PIG;
     private double mob_thrower_speed = 4.0;
     private List<LivingEntity> mob_thrower_queue = new ArrayList<LivingEntity>();
-    private int mp44_schedule_id = -1;
+    private BukkitTask mp44_schedule_id = null;
     private boolean mp44_armed = false;
     private boolean mp44_firing = false;
-    private int lockup_schedule_id = -1;
+    private BukkitTask lockup_schedule_id = null;
     private String last_message = "";
     private boolean in_adminchat = false;
     private boolean all_commands_blocked = false;
@@ -324,16 +325,16 @@ public class TFM_UserInfo
     public void startArrowShooter(TotalFreedomMod plugin)
     {
         this.stopArrowShooter();
-        this.mp44_schedule_id = plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new ArrowShooter(this.player), 1L, 1L);
+        this.mp44_schedule_id = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new ArrowShooter(this.player), 1L, 1L);
         mp44_firing = true;
     }
 
     public void stopArrowShooter()
     {
-        if (this.mp44_schedule_id != -1)
+        if (this.mp44_schedule_id != null)
         {
-            Bukkit.getServer().getScheduler().cancelTask(this.mp44_schedule_id);
-            this.mp44_schedule_id = -1;
+            this.mp44_schedule_id.cancel();
+            this.mp44_schedule_id = null;
         }
         mp44_firing = false;
     }
@@ -398,12 +399,12 @@ public class TFM_UserInfo
         this.is_halted = is_halted;
     }
 
-    public int getLockupScheduleID()
+    public BukkitTask getLockupScheduleID()
     {
         return lockup_schedule_id;
     }
 
-    public void setLockupScheduleID(int lockup_schedule_id)
+    public void setLockupScheduleID(BukkitTask lockup_schedule_id)
     {
         this.lockup_schedule_id = lockup_schedule_id;
     }

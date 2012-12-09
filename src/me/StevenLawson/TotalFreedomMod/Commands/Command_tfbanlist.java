@@ -1,9 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import net.minecraft.server.BanList;
-import net.minecraft.server.MinecraftServer;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -24,10 +23,7 @@ public class Command_tfbanlist extends TFM_Command
                 {
                     try
                     {
-                        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
-                        nameBans.getEntries().clear();
-                        nameBans.save();
-
+                        TFM_ServerInterface.wipeNameBans();
                         sender.sendMessage(ChatColor.GRAY + "Ban list has been purged.");
                     }
                     catch (Exception ex)
