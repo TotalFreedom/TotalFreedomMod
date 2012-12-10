@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -127,7 +128,64 @@ public class TFM_PlayerListener implements Listener
                             event.setCancelled(true);
                             return;
                         }
+                        break;
+                    }
+                    case CARROT:
+                    {
+                        if (TotalFreedomMod.allowExplosions && TFM_SuperadminList.isSeniorAdmin(player))
+                        {
+                            Location player_location = player.getLocation().clone();
 
+                            Vector player_pos = player_location.toVector().add(new Vector(0.0, 1.65, 0.0));
+                            Vector player_dir = player_location.getDirection().normalize();
+
+                            double distance = 150.0;
+                            Block target_block = player.getTargetBlock(null, Math.round((float) distance));
+                            if (target_block != null)
+                            {
+                                distance = player_location.distance(target_block.getLocation());
+                            }
+
+                            final List<Block> affected = new ArrayList<Block>();
+
+                            Block last_block = null;
+                            for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))
+                            {
+                                Block test_block = player_pos.clone().add(player_dir.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
+
+                                if (!test_block.equals(last_block))
+                                {
+                                    if (test_block.isEmpty())
+                                    {
+                                        affected.add(test_block);
+                                        test_block.setType(Material.TNT);
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                last_block = test_block;
+                            }
+
+                            Bukkit.getScheduler().runTaskLaterAsynchronously(TotalFreedomMod.plugin, new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    for (Block tnt_block : affected)
+                                    {
+                                        TNTPrimed tnt_primed = tnt_block.getWorld().spawn(tnt_block.getLocation(), TNTPrimed.class);
+                                        tnt_primed.setFuseTicks(5);
+                                        tnt_block.setType(Material.AIR);
+                                    }
+                                }
+                            }, 30L);
+
+                            event.setCancelled(true);
+                            return;
+                        }
                         break;
                     }
                 }
