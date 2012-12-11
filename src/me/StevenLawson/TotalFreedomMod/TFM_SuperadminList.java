@@ -202,6 +202,19 @@ public class TFM_SuperadminList
 
     public static boolean isSeniorAdmin(CommandSender user)
     {
+        return isSeniorAdmin(user, false);
+    }
+
+    public static boolean isSeniorAdmin(CommandSender user, boolean verify_is_superadmin)
+    {
+        if (verify_is_superadmin)
+        {
+            if (!isUserSuperadmin(user))
+            {
+                return false;
+            }
+        }
+
         String user_name = user.getName().toLowerCase();
 
         if (!(user instanceof Player))

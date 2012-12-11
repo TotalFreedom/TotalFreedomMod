@@ -102,89 +102,95 @@ public class TFM_PlayerListener implements Listener
                     }
                     case BLAZE_ROD:
                     {
-                        if (TotalFreedomMod.allowExplosions && TFM_SuperadminList.isSeniorAdmin(player))
+                        if (TotalFreedomMod.allowExplosions)
                         {
-                            Block target_block;
+                            if (TFM_SuperadminList.isSeniorAdmin(player, true))
+                            {
+                                Block target_block;
 
-                            if (event.getAction().equals(Action.LEFT_CLICK_AIR))
-                            {
-                                target_block = player.getTargetBlock(null, 120);
-                            }
-                            else
-                            {
-                                target_block = event.getClickedBlock();
-                            }
+                                if (event.getAction().equals(Action.LEFT_CLICK_AIR))
+                                {
+                                    target_block = player.getTargetBlock(null, 120);
+                                }
+                                else
+                                {
+                                    target_block = event.getClickedBlock();
+                                }
 
-                            if (target_block != null)
-                            {
-                                player.getWorld().createExplosion(target_block.getLocation(), 4F, true);
-                                player.getWorld().strikeLightning(target_block.getLocation());
-                            }
-                            else
-                            {
-                                player.sendMessage("Can't resolve target block.");
-                            }
+                                if (target_block != null)
+                                {
+                                    player.getWorld().createExplosion(target_block.getLocation(), 4F, true);
+                                    player.getWorld().strikeLightning(target_block.getLocation());
+                                }
+                                else
+                                {
+                                    player.sendMessage("Can't resolve target block.");
+                                }
 
-                            event.setCancelled(true);
-                            return;
+                                event.setCancelled(true);
+                                return;
+                            }
                         }
                         break;
                     }
                     case CARROT:
                     {
-                        if (TotalFreedomMod.allowExplosions && TFM_SuperadminList.isSeniorAdmin(player))
+                        if (TotalFreedomMod.allowExplosions)
                         {
-                            Location player_location = player.getLocation().clone();
-
-                            Vector player_pos = player_location.toVector().add(new Vector(0.0, 1.65, 0.0));
-                            Vector player_dir = player_location.getDirection().normalize();
-
-                            double distance = 150.0;
-                            Block target_block = player.getTargetBlock(null, Math.round((float) distance));
-                            if (target_block != null)
+                            if (TFM_SuperadminList.isSeniorAdmin(player, true))
                             {
-                                distance = player_location.distance(target_block.getLocation());
-                            }
+                                Location player_location = player.getLocation().clone();
 
-                            final List<Block> affected = new ArrayList<Block>();
+                                Vector player_pos = player_location.toVector().add(new Vector(0.0, 1.65, 0.0));
+                                Vector player_dir = player_location.getDirection().normalize();
 
-                            Block last_block = null;
-                            for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))
-                            {
-                                Block test_block = player_pos.clone().add(player_dir.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
-
-                                if (!test_block.equals(last_block))
+                                double distance = 150.0;
+                                Block target_block = player.getTargetBlock(null, Math.round((float) distance));
+                                if (target_block != null)
                                 {
-                                    if (test_block.isEmpty())
-                                    {
-                                        affected.add(test_block);
-                                        test_block.setType(Material.TNT);
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
+                                    distance = player_location.distance(target_block.getLocation());
                                 }
 
-                                last_block = test_block;
-                            }
+                                final List<Block> affected = new ArrayList<Block>();
 
-                            Bukkit.getScheduler().runTaskLaterAsynchronously(TotalFreedomMod.plugin, new Runnable()
-                            {
-                                @Override
-                                public void run()
+                                Block last_block = null;
+                                for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))
                                 {
-                                    for (Block tnt_block : affected)
-                                    {
-                                        TNTPrimed tnt_primed = tnt_block.getWorld().spawn(tnt_block.getLocation(), TNTPrimed.class);
-                                        tnt_primed.setFuseTicks(5);
-                                        tnt_block.setType(Material.AIR);
-                                    }
-                                }
-                            }, 30L);
+                                    Block test_block = player_pos.clone().add(player_dir.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
 
-                            event.setCancelled(true);
-                            return;
+                                    if (!test_block.equals(last_block))
+                                    {
+                                        if (test_block.isEmpty())
+                                        {
+                                            affected.add(test_block);
+                                            test_block.setType(Material.TNT);
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+
+                                    last_block = test_block;
+                                }
+
+                                Bukkit.getScheduler().runTaskLaterAsynchronously(TotalFreedomMod.plugin, new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        for (Block tnt_block : affected)
+                                        {
+                                            TNTPrimed tnt_primed = tnt_block.getWorld().spawn(tnt_block.getLocation(), TNTPrimed.class);
+                                            tnt_primed.setFuseTicks(5);
+                                            tnt_block.setType(Material.AIR);
+                                        }
+                                    }
+                                }, 30L);
+
+                                event.setCancelled(true);
+                                return;
+                            }
                         }
                         break;
                     }
@@ -291,6 +297,7 @@ public class TFM_PlayerListener implements Listener
                 p.setVelocity(new Vector(0, playerdata.orbitStrength(), 0));
             }
         }
+
         if (TotalFreedomMod.landminesEnabled && TotalFreedomMod.allowExplosions)
         {
             Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
