@@ -154,7 +154,7 @@ public class TFM_ServerInterface
         }
         else
         {
-            is_superadmin = TFM_SuperadminList.checkPartialSuperadminIP(player_ip);
+            is_superadmin = TFM_SuperadminList.checkPartialSuperadminIP(player_ip, player_name.toLowerCase());
         }
 
         if (!is_superadmin)

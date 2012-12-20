@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -53,9 +54,7 @@ public class TFM_Command
 
                 ADMIN_LEVEL level = permissions.level();
                 SOURCE_TYPE_ALLOWED source = permissions.source();
-                boolean block_web_console = permissions.block_host_console();
-
-                //TFM_Log.info("Level: " + level + ", Source: " + source + ", BWC: " + block_host_console);
+                boolean block_host_console = permissions.block_host_console();
 
                 Player sender_p = null;
                 if (sender instanceof Player)
@@ -73,7 +72,7 @@ public class TFM_Command
                     {
                         return false;
                     }
-                    else if (block_web_console && TFM_Util.isFromHostConsole(sender.getName()))
+                    else if (block_host_console && TFM_Util.isFromHostConsole(sender.getName()))
                     {
                         return false;
                     }
@@ -84,9 +83,25 @@ public class TFM_Command
                     {
                         return false;
                     }
-                    else if (level == ADMIN_LEVEL.SENIOR && !is_senior)
+                    else if (level == ADMIN_LEVEL.SENIOR)
                     {
-                        return false;
+                        if (is_senior)
+                        {
+                            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(sender_p);
+                            Boolean superadminIdVerified = playerdata.isSuperadminIdVerified();
+
+                            if (superadminIdVerified != null)
+                            {
+                                if (!superadminIdVerified.booleanValue())
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                     else if (level == ADMIN_LEVEL.SUPER && !is_super)
                     {

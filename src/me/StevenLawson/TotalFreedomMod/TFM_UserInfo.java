@@ -47,6 +47,7 @@ public class TFM_UserInfo
     private String last_message = "";
     private boolean in_adminchat = false;
     private boolean all_commands_blocked = false;
+    private Boolean superadmin_id_verified = null;
 
     public TFM_UserInfo(Player player)
     {
@@ -437,5 +438,19 @@ public class TFM_UserInfo
     public void setCommandsBlocked(boolean commands_blocked)
     {
         this.all_commands_blocked = commands_blocked;
+    }
+
+    //If someone logs in to telnet or minecraft, and they are an admin, make sure that they are using a username that is associated with their IP.
+    //After the check for this is done in TFM_PlayerListener, never change it elsewhere.
+    public Boolean isSuperadminIdVerified()
+    {
+        return superadmin_id_verified;
+    }
+
+    //If someone logs in to telnet or minecraft, and they are an admin, make sure that they are using a username that is associated with their IP.
+    //After the check for this is done in TFM_PlayerListener, never change it elsewhere.
+    public void setSuperadminIdVerified(Boolean superadmin_id_verified)
+    {
+        this.superadmin_id_verified = superadmin_id_verified;
     }
 }

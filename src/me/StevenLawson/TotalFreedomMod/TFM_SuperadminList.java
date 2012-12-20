@@ -265,7 +265,7 @@ public class TFM_SuperadminList
         return false;
     }
 
-    public static boolean checkPartialSuperadminIP(String user_ip)
+    public static boolean checkPartialSuperadminIP(String user_ip, String user_name)
     {
         try
         {
@@ -293,10 +293,13 @@ public class TFM_SuperadminList
 
                     if (admin_entry != null)
                     {
-                        List<String> ips = admin_entry.getIps();
-                        ips.add(user_ip);
-                        admin_entry.setIps(ips);
-                        saveSuperadminList();
+                        if (admin_entry.getName().equalsIgnoreCase(user_name))
+                        {
+                            List<String> ips = admin_entry.getIps();
+                            ips.add(user_ip);
+                            admin_entry.setIps(ips);
+                            saveSuperadminList();
+                        }
                     }
 
                     return true;
@@ -428,6 +431,24 @@ public class TFM_SuperadminList
         catch (Exception ex)
         {
             TFM_Log.severe(ex);
+        }
+    }
+
+    public static boolean verifyIdentity(String admin_name, String ip) throws Exception
+    {
+        if (Bukkit.getOnlineMode())
+        {
+            return true;
+        }
+
+        TFM_Superadmin admin_entry = getAdminEntry(admin_name);
+        if (admin_entry != null)
+        {
+            return admin_entry.getIps().contains(ip);
+        }
+        else
+        {
+            throw new Exception();
         }
     }
 }

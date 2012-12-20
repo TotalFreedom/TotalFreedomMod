@@ -245,12 +245,6 @@ public class TFM_Util
         return TFM_SuperadminList.isUserSuperadmin(user);
     }
 
-    @Deprecated
-    public static boolean checkPartialSuperadminIP(String user_ip)
-    {
-        return TFM_SuperadminList.checkPartialSuperadminIP(user_ip);
-    }
-
     public static int wipeEntities(boolean wipe_explosives, boolean wipe_vehicles)
     {
         int removed = 0;

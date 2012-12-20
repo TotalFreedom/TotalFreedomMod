@@ -641,6 +641,8 @@ public class TFM_PlayerListener implements Listener
         try
         {
             final Player p = event.getPlayer();
+            final TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+            playerdata.setSuperadminIdVerified(null);
 
             TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(p);
 
@@ -659,9 +661,20 @@ public class TFM_PlayerListener implements Listener
                 }
                 else
                 {
-                    p.setOp(true);
+                    if (TFM_SuperadminList.verifyIdentity(p.getName(), p.getAddress().getAddress().getHostAddress()))
+                    {
+                        playerdata.setSuperadminIdVerified(Boolean.TRUE);
 
-                    TFM_SuperadminList.updateLastLogin(p);
+                        TFM_SuperadminList.updateLastLogin(p);
+                    }
+                    else
+                    {
+                        playerdata.setSuperadminIdVerified(Boolean.FALSE);
+
+                        TFM_Util.bcastMsg("Warning: " + p.getName() + " is an admin, but is using a username not registered to one of their IPs.", ChatColor.RED);
+                    }
+
+                    p.setOp(true);
                 }
             }
 
