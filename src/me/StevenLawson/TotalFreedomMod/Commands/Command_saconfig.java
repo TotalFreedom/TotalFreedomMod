@@ -75,7 +75,7 @@ public class Command_saconfig extends TFM_Command
                 }
                 else
                 {
-                    sender.sendMessage(ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', superadmin.toString())));
+                    sender.sendMessage(ChatColor.GRAY + ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', superadmin.toString())));
                 }
 
                 return true;

@@ -163,8 +163,7 @@ public class TFM_BlockListener implements Listener
             }
         }
 
-        ItemStack is = new ItemStack(event.getBlockPlaced().getType(), 1, (short) 0, event.getBlockPlaced().getData());
-        switch (is.getType())
+        switch (event.getBlockPlaced().getType())
         {
             case LAVA:
             case STATIONARY_LAVA:
@@ -251,25 +250,24 @@ public class TFM_BlockListener implements Listener
             event.setCancelled(true);
         }
     }
-
-    //This event is not in the standard Bukkit / CraftBukkit server, only my custom version. Remove it if you want to compile this plugin yourself.
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onCommandBlockChangeEvent(CommandBlockChangeEvent event)
-    {
-        Player player = event.getPlayer();
-
-        if (!TFM_SuperadminList.isUserSuperadmin(player))
-        {
-            TFM_Util.playerMsg(player, "You do not have permission to set Command Block commands.");
-            event.setCancelled(true);
-            return;
-        }
-
-        if (!TFM_SuperadminList.isSeniorAdmin(player))
-        {
-            TFM_Util.playerMsg(player, "You do not have permission to set Command Block commands.");
-            event.setCancelled(true);
-            return;
-        }
-    }
+    
+//    @EventHandler(priority = EventPriority.NORMAL)
+//    public void onCommandBlockChangeEvent(CommandBlockChangeEvent event)
+//    {
+//        Player player = event.getPlayer();
+//
+//        if (!TFM_SuperadminList.isUserSuperadmin(player))
+//        {
+//            TFM_Util.playerMsg(player, "You do not have permission to set Command Block commands.");
+//            event.setCancelled(true);
+//            return;
+//        }
+//
+//        if (!TFM_SuperadminList.isSeniorAdmin(player))
+//        {
+//            TFM_Util.playerMsg(player, "You do not have permission to set Command Block commands.");
+//            event.setCancelled(true);
+//            return;
+//        }
+//    }
 }

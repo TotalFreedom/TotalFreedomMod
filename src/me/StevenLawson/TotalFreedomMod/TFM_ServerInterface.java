@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
-import net.minecraft.server.v1_4_5.BanEntry;
-import net.minecraft.server.v1_4_5.BanList;
-import net.minecraft.server.v1_4_5.MinecraftServer;
-import net.minecraft.server.v1_4_5.PropertyManager;
-import net.minecraft.server.v1_4_5.ServerConfigurationManagerAbstract;
+import net.minecraft.server.v1_4_6.BanEntry;
+import net.minecraft.server.v1_4_6.BanList;
+import net.minecraft.server.v1_4_6.MinecraftServer;
+import net.minecraft.server.v1_4_6.PlayerList;
+import net.minecraft.server.v1_4_6.PropertyManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -28,14 +28,14 @@ public class TFM_ServerInterface
 
     public static void wipeNameBans()
     {
-        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
+        BanList nameBans = MinecraftServer.getServer().getPlayerList().getNameBans();
         nameBans.getEntries().clear();
         nameBans.save();
     }
 
     public static void wipeIpBans()
     {
-        BanList IPBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
+        BanList IPBans = MinecraftServer.getServer().getPlayerList().getIPBans();
         IPBans.getEntries().clear();
         IPBans.save();
     }
@@ -43,7 +43,7 @@ public class TFM_ServerInterface
     public static void unbanUsername(String name)
     {
         name = name.toLowerCase().trim();
-        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
+        BanList nameBans = MinecraftServer.getServer().getPlayerList().getNameBans();
         nameBans.remove(name);
     }
 
@@ -63,14 +63,14 @@ public class TFM_ServerInterface
         {
             ban_entry.setSource(source);
         }
-        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
+        BanList nameBans = MinecraftServer.getServer().getPlayerList().getNameBans();
         nameBans.add(ban_entry);
     }
 
     public static boolean isNameBanned(String name)
     {
         name = name.toLowerCase().trim();
-        BanList nameBans = MinecraftServer.getServer().getServerConfigurationManager().getNameBans();
+        BanList nameBans = MinecraftServer.getServer().getPlayerList().getNameBans();
         nameBans.removeExpired();
         return nameBans.getEntries().containsKey(name);
     }
@@ -91,21 +91,21 @@ public class TFM_ServerInterface
         {
             ban_entry.setSource(source);
         }
-        BanList ipBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
+        BanList ipBans = MinecraftServer.getServer().getPlayerList().getIPBans();
         ipBans.add(ban_entry);
     }
 
     public static void unbanIP(String ip)
     {
         ip = ip.toLowerCase().trim();
-        BanList ipBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
+        BanList ipBans = MinecraftServer.getServer().getPlayerList().getIPBans();
         ipBans.remove(ip);
     }
 
     public static boolean isIPBanned(String ip)
     {
         ip = ip.toLowerCase().trim();
-        BanList ipBans = MinecraftServer.getServer().getServerConfigurationManager().getIPBans();
+        BanList ipBans = MinecraftServer.getServer().getPlayerList().getIPBans();
         ipBans.removeExpired();
         return ipBans.getEntries().containsKey(ip);
     }
@@ -113,7 +113,7 @@ public class TFM_ServerInterface
     @SuppressWarnings("rawtypes")
     public static int purgeWhitelist()
     {
-        Set whitelisted = MinecraftServer.getServer().getServerConfigurationManager().getWhitelisted();
+        Set whitelisted = MinecraftServer.getServer().getPlayerList().getWhitelisted();
         int size = whitelisted.size();
         whitelisted.clear();
         return size;
@@ -126,9 +126,9 @@ public class TFM_ServerInterface
 
         final Server server = TotalFreedomMod.plugin.getServer();
 
-        final ServerConfigurationManagerAbstract scm = MinecraftServer.getServer().getServerConfigurationManager();
-        final BanList banByIP = scm.getIPBans();
-        final BanList banByName = scm.getNameBans();
+        final PlayerList player_list = MinecraftServer.getServer().getPlayerList();
+        final BanList banByIP = player_list.getIPBans();
+        final BanList banByName = player_list.getNameBans();
 
         final Player p = event.getPlayer();
 
@@ -253,9 +253,9 @@ public class TFM_ServerInterface
                 return;
             }
 
-            if (scm.hasWhitelist)
+            if (player_list.hasWhitelist)
             {
-                if (!scm.getWhitelisted().contains(player_name.toLowerCase()))
+                if (!player_list.getWhitelisted().contains(player_name.toLowerCase()))
                 {
                     event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "You are not whitelisted on this server.");
                     return;
