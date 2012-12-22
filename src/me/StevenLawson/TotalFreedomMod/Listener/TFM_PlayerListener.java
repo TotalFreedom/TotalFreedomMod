@@ -468,6 +468,8 @@ public class TFM_PlayerListener implements Listener
             TFM_Log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", p.getName(), ChatColor.stripColor(p.getDisplayName()), command), true);
         }
 
+        playerdata.setLastCommand(command);
+
         command = command.toLowerCase().trim();
 
         boolean block_command = false;

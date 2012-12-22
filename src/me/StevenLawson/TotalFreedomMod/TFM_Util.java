@@ -937,13 +937,23 @@ public class TFM_Util
         return affected;
     }
 
-    public static void downloadFile(String url, File output_file) throws Exception
+    public static void downloadFile(String url, File output_file) throws java.lang.Exception
+    {
+        downloadFile(url, output_file, false);
+    }
+
+    public static void downloadFile(String url, File output_file, boolean verbose) throws java.lang.Exception
     {
         URL website = new URL(url);
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
         FileOutputStream fos = new FileOutputStream(output_file);
         fos.getChannel().transferFrom(rbc, 0, 1 << 24);
         fos.close();
+
+        if (verbose)
+        {
+            TFM_Log.info("Downloaded " + url + " to " + output_file.toString() + ".");
+        }
     }
 
     public static void adminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
