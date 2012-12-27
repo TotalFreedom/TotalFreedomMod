@@ -48,6 +48,7 @@ public class TFM_UserInfo
     private boolean in_adminchat = false;
     private boolean all_commands_blocked = false;
     private Boolean superadmin_id_verified = null;
+    private String last_command = "";
 
     public TFM_UserInfo(Player player)
     {
@@ -452,5 +453,15 @@ public class TFM_UserInfo
     public void setSuperadminIdVerified(Boolean superadmin_id_verified)
     {
         this.superadmin_id_verified = superadmin_id_verified;
+    }
+
+    public String getLastCommand()
+    {
+        return last_command;
+    }
+
+    public void setLastCommand(String last_command)
+    {
+        this.last_command = last_command;
     }
 }
