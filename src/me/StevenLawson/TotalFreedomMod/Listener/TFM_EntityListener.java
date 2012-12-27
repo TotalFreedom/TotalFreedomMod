@@ -39,7 +39,6 @@ public class TFM_EntityListener implements Listener
         if (!TotalFreedomMod.allowFireSpread)
         {
             event.setCancelled(true);
-            return;
         }
     }
 
@@ -53,7 +52,6 @@ public class TFM_EntityListener implements Listener
                 if (!TotalFreedomMod.allowLavaDamage)
                 {
                     event.setCancelled(true);
-                    return;
                 }
             }
         }
@@ -125,7 +123,6 @@ public class TFM_EntityListener implements Listener
                 if (mobcount > TotalFreedomMod.mobLimiterMax)
                 {
                     event.setCancelled(true);
-                    return;
                 }
             }
         }

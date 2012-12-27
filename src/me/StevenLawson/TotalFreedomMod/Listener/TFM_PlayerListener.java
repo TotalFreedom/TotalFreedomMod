@@ -56,6 +56,10 @@ public class TFM_PlayerListener implements Listener
                         event.setCancelled(true);
                         return;
                     }
+                    case POTION:
+                    {
+
+                    }
                 }
                 break;
             }

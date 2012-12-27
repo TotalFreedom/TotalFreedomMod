@@ -92,6 +92,9 @@ commands:
   halt:
     description: Superadmin command - Halts a player
     usage: /<command> <<partialname> | all | purge | list>
+  health:
+    description: Superadmin command - View ticks-per-second
+    usage: /<command>
   kicknoob:
     description: Superadmin command - Kick all non-superadmins on server.
     usage: /<command>

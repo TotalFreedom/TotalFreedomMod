@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = ADMIN_LEVEL.SENIOR, source = SOURCE_TYPE_ALLOWED.ONLY_CONSOLE, block_host_console = true, ignore_permissions = false)
+@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, block_host_console = true, ignore_permissions = false)
 public class Command_permban extends TFM_Command
 {
     @Override
@@ -25,6 +25,11 @@ public class Command_permban extends TFM_Command
         }
         else if (args[0].equalsIgnoreCase("reload"))
         {
+            if (!senderIsConsole)
+            {
+                sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                return true;
+            }
             TFM_Util.playerMsg(sender, "Reloading permban list...", ChatColor.RED);
             TotalFreedomMod.loadPermbanConfig();
             dumplist(sender);
@@ -46,7 +51,7 @@ public class Command_permban extends TFM_Command
         else
         {
             TFM_Util.playerMsg(sender, TotalFreedomMod.permbanned_players.size() + " permanently banned players:");
-            TFM_Util.playerMsg(sender, ChatColor.GRAY + StringUtils.join(TotalFreedomMod.permbanned_players, ", "));
+            TFM_Util.playerMsg(sender, StringUtils.join(TotalFreedomMod.permbanned_players, ", "));
         }
 
         if (TotalFreedomMod.permbanned_ips.isEmpty())
@@ -56,7 +61,7 @@ public class Command_permban extends TFM_Command
         else
         {
             TFM_Util.playerMsg(sender, TotalFreedomMod.permbanned_ips.size() + " permanently banned IPs:");
-            TFM_Util.playerMsg(sender, ChatColor.GRAY + StringUtils.join(TotalFreedomMod.permbanned_ips, ", "));
+            TFM_Util.playerMsg(sender, StringUtils.join(TotalFreedomMod.permbanned_ips, ", "));
         }
     }
 }
