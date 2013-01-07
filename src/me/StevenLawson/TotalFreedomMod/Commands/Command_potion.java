@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -30,6 +31,21 @@ public class Command_potion extends TFM_Command
                     }
                 }
                 playerMsg("Potion effect types: " + StringUtils.join(potionEffectTypeNames, ", "), ChatColor.AQUA);
+            }
+            else if (args[0].equalsIgnoreCase("clearall"))
+            {
+                if (!(TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole))
+                {
+                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                    return true;
+                }
+                for (Player target : server.getOnlinePlayers())
+                {
+                    for (PotionEffect potion_effect : target.getActivePotionEffects())
+                    {
+                        target.removePotionEffect(potion_effect.getType());
+                    }
+                }
             }
             else if (args[0].equalsIgnoreCase("clear"))
             {
