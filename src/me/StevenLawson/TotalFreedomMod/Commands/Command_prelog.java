@@ -19,12 +19,12 @@ public class Command_prelog extends TFM_Command
         if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.preprocessLogEnabled = true;
-            sender.sendMessage("Command preprocess logging is now enabled. This will be spammy in the log.");
+            playerMsg("Command preprocess logging is now enabled. This will be spammy in the log.");
         }
         else
         {
             TotalFreedomMod.preprocessLogEnabled = false;
-            sender.sendMessage("Command preprocess logging is now disabled.");
+            playerMsg("Command preprocess logging is now disabled.");
         }
 
         return true;

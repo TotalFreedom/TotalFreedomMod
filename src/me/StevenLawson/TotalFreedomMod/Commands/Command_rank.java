@@ -16,7 +16,7 @@ public class Command_rank extends TFM_Command
         {
             for (Player p : server.getOnlinePlayers())
             {
-                sender.sendMessage(p.getName() + " is " + TFM_Util.getRank(p));
+                playerMsg(p.getName() + " is " + TFM_Util.getRank(p));
             }
             return true;
         }
@@ -28,7 +28,7 @@ public class Command_rank extends TFM_Command
 
         if (args.length == 0)
         {
-            TFM_Util.playerMsg(sender, sender.getName() + " is " + TFM_Util.getRank(sender), ChatColor.AQUA);
+            playerMsg(sender.getName() + " is " + TFM_Util.getRank(sender), ChatColor.AQUA);
             return true;
         }
 
@@ -43,7 +43,7 @@ public class Command_rank extends TFM_Command
             return true;
         }
 
-        TFM_Util.playerMsg(sender, p.getName() + " is " + TFM_Util.getRank(p), ChatColor.AQUA);
+        playerMsg(p.getName() + " is " + TFM_Util.getRank(p), ChatColor.AQUA);
 
         return true;
     }

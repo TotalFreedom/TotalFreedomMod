@@ -31,7 +31,7 @@ public class Command_ro extends TFM_Command
 
             if (from_material == null)
             {
-                TFM_Util.playerMsg(sender, "Invalid block: " + args[0], ChatColor.RED);
+                playerMsg("Invalid block: " + args[0], ChatColor.RED);
                 return true;
             }
         }
@@ -45,7 +45,7 @@ public class Command_ro extends TFM_Command
             }
             catch (NumberFormatException ex)
             {
-                TFM_Util.playerMsg(sender, "Invalid radius: " + args[1], ChatColor.RED);
+                playerMsg("Invalid radius: " + args[1], ChatColor.RED);
                 return true;
             }
         }
@@ -59,7 +59,7 @@ public class Command_ro extends TFM_Command
             }
             catch (CantFindPlayerException ex)
             {
-                TFM_Util.playerMsg(sender, ex.getMessage(), ChatColor.RED);
+                playerMsg(ex.getMessage(), ChatColor.RED);
                 return true;
             }
         }

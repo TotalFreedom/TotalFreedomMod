@@ -30,7 +30,7 @@ public class Command_health extends TFM_Command
                 {
                     TFM_TickMeter meter = new TFM_TickMeter(plugin);
                     meter.startTicking();
-                    Thread.sleep(1000); // ticks per second
+                    Thread.sleep(1000); // per second
                     meter.stopTicking();
 
                     Runtime runtime = Runtime.getRuntime();
@@ -38,15 +38,15 @@ public class Command_health extends TFM_Command
 
                     float usedMem = runtime.totalMemory() - runtime.freeMemory();
 
-                    TFM_Util.playerMsg(sender, "Reserved Memory: " + runtime.totalMemory() / mb + "mb");
-                    TFM_Util.playerMsg(sender, "Used Memory: " + new DecimalFormat("#").format(usedMem / mb)  + "mb (" + new DecimalFormat("#").format(usedMem/runtime.totalMemory()*100) + "%)");
-                    TFM_Util.playerMsg(sender, "Max Memory: " + runtime.maxMemory() / mb + "mb");
-                    TFM_Util.playerMsg(sender, "Ticks per second: " + (meter.getTicks() == 20 ? ChatColor.GREEN : ChatColor.RED) + meter.getTicks());
+                    playerMsg("Reserved Memory: " + runtime.totalMemory() / mb + "mb");
+                    playerMsg("Used Memory: " + new DecimalFormat("#").format(usedMem / mb)  + "mb (" + new DecimalFormat("#").format(usedMem/runtime.totalMemory()*100) + "%)");
+                    playerMsg("Max Memory: " + runtime.maxMemory() / mb + "mb");
+                    playerMsg("Ticks per second: " + (meter.getTicks() == 20 ? ChatColor.GREEN : ChatColor.RED) + meter.getTicks());
                 }
                 catch (Exception iex)
                 {
-                 TFM_Log.warning("Exception in TFM_TickMeter: Thread was interupted in sleeping process.");
-                TFM_Log.warning(ExceptionUtils.getStackTrace(iex));
+                   TFM_Log.warning("Exception in TFM_TickMeter: Thread was interupted in sleeping process.");
+                   TFM_Log.warning(ExceptionUtils.getStackTrace(iex));
                 }
             }
         };

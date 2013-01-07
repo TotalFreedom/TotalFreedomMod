@@ -29,7 +29,7 @@ public class Command_potion extends TFM_Command
                         potionEffectTypeNames.add(potion_effect_type.getName());
                     }
                 }
-                sender.sendMessage(ChatColor.AQUA + "Potion effect types: " + StringUtils.join(potionEffectTypeNames, ", "));
+                playerMsg("Potion effect types: " + StringUtils.join(potionEffectTypeNames, ", "), ChatColor.AQUA);
             }
             else if (args[0].equalsIgnoreCase("clear"))
             {
@@ -43,7 +43,7 @@ public class Command_potion extends TFM_Command
                     }
                     catch (CantFindPlayerException ex)
                     {
-                        sender.sendMessage(ex.getMessage());
+                        playerMsg(ex.getMessage(), ChatColor.RED);
                         return true;
                     }
                 }
@@ -52,13 +52,13 @@ public class Command_potion extends TFM_Command
                 {
                     if (!TFM_SuperadminList.isUserSuperadmin(sender))
                     {
-                        sender.sendMessage("Only superadmins can clear potion effects from other players.");
+                        playerMsg("Only superadmins can clear potion effects from other players.");
                         return true;
                     }
                 }
                 else if (senderIsConsole)
                 {
-                    sender.sendMessage("You must specify a target player when using this command from the console.");
+                    playerMsg("You must specify a target player when using this command from the console.");
                     return true;
                 }
 
@@ -67,7 +67,7 @@ public class Command_potion extends TFM_Command
                     target.removePotionEffect(potion_effect.getType());
                 }
 
-                sender.sendMessage(ChatColor.AQUA + "Cleared all active potion effects " + (!target.equals(sender_p) ? "from player " + target.getName() + "." : "from yourself."));
+                playerMsg("Cleared all active potion effects " + (!target.equals(sender_p) ? "from player " + target.getName() + "." : "from yourself."), ChatColor.AQUA);
             }
             else
             {
@@ -88,7 +88,7 @@ public class Command_potion extends TFM_Command
                     }
                     catch (CantFindPlayerException ex)
                     {
-                        sender.sendMessage(ex.getMessage());
+                        playerMsg(ex.getMessage(), ChatColor.RED);
                         return true;
                     }
                 }
@@ -121,7 +121,7 @@ public class Command_potion extends TFM_Command
                 }
                 catch (NumberFormatException ex)
                 {
-                    sender.sendMessage(ChatColor.AQUA + "Invalid potion duration.");
+                    playerMsg("Invalid potion duration.", ChatColor.RED);
                     return true;
                 }
 
@@ -132,17 +132,17 @@ public class Command_potion extends TFM_Command
                 }
                 catch (NumberFormatException ex)
                 {
-                    sender.sendMessage(ChatColor.AQUA + "Invalid potion amplifier.");
+                    playerMsg("Invalid potion amplifier.", ChatColor.RED);
                     return true;
                 }
 
                 PotionEffect new_effect = potion_effect_type.createEffect(duration, amplifier);
                 target.addPotionEffect(new_effect, true);
-                sender.sendMessage(ChatColor.AQUA
-                        + "Added potion effect: " + new_effect.getType().getName()
+                playerMsg(
+                        "Added potion effect: " + new_effect.getType().getName()
                         + ", Duration: " + new_effect.getDuration()
                         + ", Amplifier: " + new_effect.getAmplifier()
-                        + (!target.equals(sender_p) ? " to player " + target.getName() + "." : " to yourself."));
+                        + (!target.equals(sender_p) ? " to player " + target.getName() + "." : " to yourself."), ChatColor.AQUA);
 
                 return true;
             }

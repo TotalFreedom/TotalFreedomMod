@@ -27,7 +27,7 @@ public class Command_orbit extends TFM_Command
         }
         catch (CantFindPlayerException ex)
         {
-            sender.sendMessage(ex.getMessage());
+            playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
 
@@ -39,7 +39,7 @@ public class Command_orbit extends TFM_Command
         {
             if (TFM_Util.isStopCommand(args[1]))
             {
-                sender.sendMessage(ChatColor.GRAY + "Stopped orbiting " + p.getName());
+                playerMsg("Stopped orbiting " + p.getName());
                 playerdata.stopOrbiting();
                 return true;
             }
@@ -50,7 +50,7 @@ public class Command_orbit extends TFM_Command
             }
             catch (NumberFormatException ex)
             {
-                sender.sendMessage(ex.getMessage());
+                playerMsg(ex.getMessage(), ChatColor.RED);
                 return true;
             }
         }

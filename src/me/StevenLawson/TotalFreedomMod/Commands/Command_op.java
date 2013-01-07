@@ -21,7 +21,7 @@ public class Command_op extends TFM_Command
 
         if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("everyone"))
         {
-            TFM_Util.playerMsg(sender, "Correct usage: /opall");
+            playerMsg("Correct usage: /opall");
             return true;
         }
 
@@ -43,8 +43,8 @@ public class Command_op extends TFM_Command
             }
             else
             {
-                TFM_Util.playerMsg(sender, "That player is not online.");
-                TFM_Util.playerMsg(sender, "You don't have permissions to OP offline players.", ChatColor.YELLOW);
+                playerMsg("That player is not online.");
+                playerMsg("You don't have permissions to OP offline players.", ChatColor.YELLOW);
                 return true;
             }
         }

@@ -19,12 +19,12 @@ public class Command_fluidspread extends TFM_Command
         if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.allowFliudSpread = true;
-            sender.sendMessage("Lava and water spread is now enabled.");
+            playerMsg("Lava and water spread is now enabled.");
         }
         else
         {
             TotalFreedomMod.allowFliudSpread = false;
-            sender.sendMessage("Lava and water spread is now disabled.");
+            playerMsg("Lava and water spread is now disabled.");
         }
 
         return true;

@@ -55,7 +55,7 @@ public class Command_expel extends TFM_Command
                 if (in_range)
                 {
                     p.setVelocity(target_pos.clone().subtract(sender_pos).toVector().normalize().multiply(strength));
-                    sender.sendMessage("Pushing " + p.getName() + ".");
+                    playerMsg("Pushing " + p.getName() + ".");
                 }
             }
         }

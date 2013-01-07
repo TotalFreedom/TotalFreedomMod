@@ -27,7 +27,7 @@ public class Command_mp extends TFM_Command
             }
         }
 
-        sender.sendMessage(ChatColor.GRAY + String.valueOf(removed) + " mobs removed.");
+        playerMsg(removed + " mobs removed.");
 
         return true;
     }

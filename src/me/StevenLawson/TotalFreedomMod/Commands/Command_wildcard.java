@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,7 +14,7 @@ public class Command_wildcard extends TFM_Command
     {
         if (args[0].equals("wildcard"))
         {
-            sender.sendMessage("What the hell are you trying to do, you stupid idiot...");
+            playerMsg("What the hell are you trying to do, you stupid idiot...", ChatColor.RED);
             return true;
         }
 
@@ -22,7 +23,7 @@ public class Command_wildcard extends TFM_Command
         for (Player p : server.getOnlinePlayers())
         {
             String out_command = base_command.replaceAll("\\x3f", p.getName());
-            sender.sendMessage("Running Command: " + out_command);
+            playerMsg("Running Command: " + out_command);
             server.dispatchCommand(sender, out_command);
         }
 

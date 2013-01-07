@@ -30,7 +30,7 @@ public class Command_permban extends TFM_Command
                 sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                 return true;
             }
-            TFM_Util.playerMsg(sender, "Reloading permban list...", ChatColor.RED);
+            playerMsg("Reloading permban list...", ChatColor.RED);
             TotalFreedomMod.loadPermbanConfig();
             dumplist(sender);
         }
@@ -46,22 +46,22 @@ public class Command_permban extends TFM_Command
     {
         if (TotalFreedomMod.permbanned_players.isEmpty())
         {
-            TFM_Util.playerMsg(sender, "No permanently banned player names.");
+            playerMsg(sender, "No permanently banned player names.");
         }
         else
         {
-            TFM_Util.playerMsg(sender, TotalFreedomMod.permbanned_players.size() + " permanently banned players:");
-            TFM_Util.playerMsg(sender, StringUtils.join(TotalFreedomMod.permbanned_players, ", "));
+            playerMsg(sender, TotalFreedomMod.permbanned_players.size() + " permanently banned players:");
+            playerMsg(sender, StringUtils.join(TotalFreedomMod.permbanned_players, ", "));
         }
 
         if (TotalFreedomMod.permbanned_ips.isEmpty())
         {
-            TFM_Util.playerMsg(sender, "No permanently banned IPs.");
+            playerMsg(sender, "No permanently banned IPs.");
         }
         else
         {
-            TFM_Util.playerMsg(sender, TotalFreedomMod.permbanned_ips.size() + " permanently banned IPs:");
-            TFM_Util.playerMsg(sender, StringUtils.join(TotalFreedomMod.permbanned_ips, ", "));
+            playerMsg(sender, TotalFreedomMod.permbanned_ips.size() + " permanently banned IPs:");
+            playerMsg(sender, StringUtils.join(TotalFreedomMod.permbanned_ips, ", "));
         }
     }
 }

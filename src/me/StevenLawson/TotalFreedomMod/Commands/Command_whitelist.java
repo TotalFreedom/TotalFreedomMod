@@ -24,7 +24,7 @@ public class Command_whitelist extends TFM_Command
         // list
         if (args[0].equalsIgnoreCase("list"))
         {
-            TFM_Util.playerMsg(sender, "Whitelisted players: " + TFM_Util.playerListToNames(server.getWhitelistedPlayers()));
+            playerMsg("Whitelisted players: " + TFM_Util.playerListToNames(server.getWhitelistedPlayers()));
             return true;
         }
 
@@ -48,9 +48,9 @@ public class Command_whitelist extends TFM_Command
                 totalWPs++;
             }
 
-            sender.sendMessage(ChatColor.GRAY + "Online whitelisted players: " + onlineWPs);
-            sender.sendMessage(ChatColor.GRAY + "Offline whitelisted players: " + offlineWPs);
-            sender.sendMessage(ChatColor.GRAY + "Total whitelisted players: " + totalWPs);
+            playerMsg("Online whitelisted players: " + onlineWPs);
+            playerMsg("Offline whitelisted players: " + offlineWPs);
+            playerMsg("Total whitelisted players: " + totalWPs);
 
             return true;
         }
@@ -131,7 +131,7 @@ public class Command_whitelist extends TFM_Command
             }
             else
             {
-                TFM_Util.playerMsg(sender, "That player is not whitelisted");
+                playerMsg("That player is not whitelisted");
                 return true;
             }
 
@@ -151,7 +151,7 @@ public class Command_whitelist extends TFM_Command
                 }
             }
 
-            TFM_Util.playerMsg(sender, "Whitelisted " + counter + " players.");
+            playerMsg("Whitelisted " + counter + " players.");
             return true;
         }
 
@@ -166,7 +166,7 @@ public class Command_whitelist extends TFM_Command
         if (args[0].equalsIgnoreCase("purge"))
         {
             TFM_Util.adminAction(sender.getName(), "Removing all players from the whitelist.", false);
-            TFM_Util.playerMsg(sender, "Removed " + TFM_ServerInterface.purgeWhitelist() + " players from the whitelist.");
+            playerMsg("Removed " + TFM_ServerInterface.purgeWhitelist() + " players from the whitelist.");
 
             return true;
         }

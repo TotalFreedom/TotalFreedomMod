@@ -25,7 +25,7 @@ public class Command_lockup extends TFM_Command
                 {
                     startLockup(p);
                 }
-                TFM_Util.playerMsg(sender, "Locked up all players.");
+                playerMsg("Locked up all players.");
             }
             else if (args[0].equalsIgnoreCase("purge"))
             {
@@ -34,7 +34,8 @@ public class Command_lockup extends TFM_Command
                 {
                     cancelLockup(p);
                 }
-                TFM_Util.playerMsg(sender, "Unlocked all players.");
+
+                playerMsg("Unlocked all players.");
             }
             else
             {
@@ -58,7 +59,7 @@ public class Command_lockup extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Locking up " + p.getName(), true);
                 startLockup(p);
-                TFM_Util.playerMsg(sender, "Locked up " + p.getName() + ".");
+                playerMsg("Locked up " + p.getName() + ".");
             }
             else if (TFM_Util.isStopCommand(args[1]))
             {
@@ -75,7 +76,7 @@ public class Command_lockup extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Unlocking " + p.getName(), true);
                 cancelLockup(p);
-                TFM_Util.playerMsg(sender, "Unlocked " + p.getName() + ".");
+                playerMsg("Unlocked " + p.getName() + ".");
             }
             else
             {

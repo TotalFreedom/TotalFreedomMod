@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,8 +16,8 @@ public class Command_onlinemode extends TFM_Command
     {
         if (args.length < 1)
         {
-            sender.sendMessage("Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.");
-            sender.sendMessage("Use \"/onlinemode on\" and \"/onlinemode off\" to change online mode.");
+            playerMsg("Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.", ChatColor.WHITE);
+            playerMsg("Use \"/onlinemode on\" and \"/onlinemode off\" to change online mode.", ChatColor.WHITE);
         }
         else
         {

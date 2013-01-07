@@ -16,6 +16,7 @@ public class TFM_Command
 {
     protected TotalFreedomMod plugin;
     protected Server server;
+    private CommandSender commandsender;
 
     public TFM_Command()
     {
@@ -32,6 +33,31 @@ public class TFM_Command
     {
         this.plugin = plugin;
         this.server = plugin.getServer();
+    }
+
+    public void setCommandsender(CommandSender commandsender)
+    {
+        this.commandsender = commandsender;
+    }
+
+    public void playerMsg(CommandSender sender, String message, ChatColor color) // complete function
+    {
+        sender.sendMessage(color + message);
+    }
+
+    public void playerMsg(String message, ChatColor color)
+    {
+        playerMsg(commandsender, message, color);
+    }
+
+    public void playerMsg(CommandSender sender, String message)
+    {
+        playerMsg(sender, message, ChatColor.GRAY);
+    }
+
+    public void playerMsg(String message)
+    {
+        playerMsg(commandsender, message);
     }
 
     public boolean senderHasPermission(Class<?> cmd_class, CommandSender sender)
@@ -125,7 +151,7 @@ public class TFM_Command
         {
             for (Player p : server.getOnlinePlayers())
             {
-                if (p.getDisplayName().toLowerCase().indexOf(partialname) != -1)
+                if (p.getDisplayName().toLowerCase().contains(partialname.toLowerCase()))
                 {
                     return p;
                 }

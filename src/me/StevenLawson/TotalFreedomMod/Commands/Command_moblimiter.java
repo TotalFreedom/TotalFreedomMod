@@ -63,14 +63,14 @@ public class Command_moblimiter extends TFM_Command
         {
             sender.sendMessage("Moblimiter enabled. Maximum mobcount set to: " + TotalFreedomMod.mobLimiterMax + ".");
 
-            sender.sendMessage("Dragon: " + (TotalFreedomMod.mobLimiterDisableDragon ? "disabled" : "enabled") + ".");
-            sender.sendMessage("Giant: " + (TotalFreedomMod.mobLimiterDisableGiant ? "disabled" : "enabled") + ".");
-            sender.sendMessage("Slime: " + (TotalFreedomMod.mobLimiterDisableSlime ? "disabled" : "enabled") + ".");
-            sender.sendMessage("Ghast: " + (TotalFreedomMod.mobLimiterDisableGhast ? "disabled" : "enabled") + ".");
+            playerMsg("Dragon: " + (TotalFreedomMod.mobLimiterDisableDragon ? "disabled" : "enabled") + ".");
+            playerMsg("Giant: " + (TotalFreedomMod.mobLimiterDisableGiant ? "disabled" : "enabled") + ".");
+            playerMsg("Slime: " + (TotalFreedomMod.mobLimiterDisableSlime ? "disabled" : "enabled") + ".");
+            playerMsg("Ghast: " + (TotalFreedomMod.mobLimiterDisableGhast ? "disabled" : "enabled") + ".");
         }
         else
         {
-            sender.sendMessage("Moblimiter is disabled. No mob restrictions are in effect.");
+            playerMsg("Moblimiter is disabled. No mob restrictions are in effect.");
         }
 
         return true;

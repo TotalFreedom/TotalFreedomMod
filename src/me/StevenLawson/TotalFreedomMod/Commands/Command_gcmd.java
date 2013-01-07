@@ -45,19 +45,19 @@ public class Command_gcmd extends TFM_Command
 
         try
         {
-            sender.sendMessage(ChatColor.GRAY + "Sending command as " + p.getName() + ": " + outcommand);
+            playerMsg("Sending command as " + p.getName() + ": " + outcommand);
             if (server.dispatchCommand(p, outcommand))
             {
-                sender.sendMessage(ChatColor.GRAY + "Command sent.");
+                playerMsg("Command sent.");
             }
             else
             {
-                sender.sendMessage(ChatColor.GRAY + "Unknown error sending command.");
+                playerMsg("Unknown error sending command.");
             }
         }
         catch (Throwable ex)
         {
-            sender.sendMessage(ChatColor.GRAY + "Error sending command: " + ex.getMessage());
+            playerMsg("Error sending command: " + ex.getMessage());
         }
 
         return true;

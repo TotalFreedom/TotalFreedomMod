@@ -19,12 +19,12 @@ public class Command_firespread extends TFM_Command
         if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.allowFireSpread = true;
-            sender.sendMessage("Fire spread is now enabled.");
+            playerMsg("Fire spread is now enabled.");
         }
         else
         {
             TotalFreedomMod.allowFireSpread = false;
-            sender.sendMessage("Fire spread is now disabled.");
+            playerMsg("Fire spread is now disabled.");
         }
 
         return true;

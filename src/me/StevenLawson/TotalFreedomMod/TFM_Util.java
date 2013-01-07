@@ -67,11 +67,13 @@ public class TFM_Util
         TFM_Util.bcastMsg(message, null);
     }
 
+    @Deprecated
     public static void playerMsg(CommandSender sender, String message, ChatColor color)
     {
         sender.sendMessage(color + message);
     }
 
+    @Deprecated
     public static void playerMsg(CommandSender sender, String message)
     {
         TFM_Util.playerMsg(sender, message, ChatColor.GRAY);

@@ -6,6 +6,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,7 +31,7 @@ public class Command_tempban extends TFM_Command
         }
         catch (CantFindPlayerException ex)
         {
-            sender.sendMessage(ex.getMessage());
+            playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
 

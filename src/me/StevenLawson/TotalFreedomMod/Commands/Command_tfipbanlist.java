@@ -37,7 +37,7 @@ public class Command_tfipbanlist extends TFM_Command
                 }
                 else
                 {
-                    sender.sendMessage(ChatColor.YELLOW + "You do not have permission to purge the IP ban list, you may only view it.");
+                    playerMsg("You do not have permission to purge the IP ban list, you may only view it.");
                 }
             }
         }
@@ -61,7 +61,7 @@ public class Command_tfipbanlist extends TFM_Command
             }
         }
 
-        sender.sendMessage(ChatColor.GRAY + banned_ips.toString());
+        playerMsg(banned_ips.toString());
 
         return true;
     }

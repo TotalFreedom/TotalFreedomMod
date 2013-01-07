@@ -45,7 +45,7 @@ public class Command_fuckoff extends TFM_Command
             TotalFreedomMod.fuckoffEnabledFor.put(sender_p, new Double(fuckoff_range));
         }
 
-        sender.sendMessage("Fuckoff " + (fuckoff_enabled ? ("enabled. Range: " + fuckoff_range + ".") : "disabled."));
+        playerMsg("Fuckoff " + (fuckoff_enabled ? ("enabled. Range: " + fuckoff_range + ".") : "disabled."));
 
         return true;
     }

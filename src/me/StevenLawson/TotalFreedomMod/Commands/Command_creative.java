@@ -42,13 +42,13 @@ public class Command_creative extends TFM_Command
             }
             else
             {
-                sender.sendMessage("Only superadmins can change other user's gamemode.");
+                playerMsg("Only superadmins can change other user's gamemode.");
                 return true;
             }
         }
 
-        sender.sendMessage("Setting " + p.getName() + " to game mode 'Creative'.");
-        p.sendMessage(sender.getName() + " set your game mode to 'Creative'.");
+        playerMsg("Setting " + p.getName() + " to game mode 'Creative'.");
+        playerMsg(p, sender.getName() + " set your game mode to 'Creative'.");
         p.setGameMode(GameMode.CREATIVE);
 
         return true;

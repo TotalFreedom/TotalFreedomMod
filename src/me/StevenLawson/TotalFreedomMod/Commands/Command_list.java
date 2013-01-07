@@ -23,7 +23,7 @@ public class Command_list extends TFM_Command
             {
                 player_names.add(p.getName());
             }
-            sender.sendMessage("There are " + player_names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(player_names, ", "));
+            playerMsg("There are " + player_names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(player_names, ", "), ChatColor.WHITE);
             return true;
         }
 
@@ -48,6 +48,11 @@ public class Command_list extends TFM_Command
                 else
                 {
                     prefix = (ChatColor.GOLD + "[SA]");
+                }
+
+                if (p.getName().equalsIgnoreCase("madgeek1450") || p.getName().equalsIgnoreCase("darthsalamon"))
+                {
+                    prefix = (ChatColor.DARK_PURPLE+ "[Dev]");
                 }
             }
             else

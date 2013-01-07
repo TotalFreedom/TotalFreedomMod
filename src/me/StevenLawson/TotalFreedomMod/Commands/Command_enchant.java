@@ -21,7 +21,7 @@ public class Command_enchant extends TFM_Command
 
         if (itemInHand == null)
         {
-            sender.sendMessage("You are holding an invalid item.");
+            playerMsg("You are holding an invalid item.");
             return true;
         }
 
@@ -41,11 +41,11 @@ public class Command_enchant extends TFM_Command
 
             if (has_enchantments)
             {
-                sender.sendMessage(possible_ench.toString());
+                playerMsg(possible_ench.toString());
             }
             else
             {
-                sender.sendMessage("The held item has no enchantments.");
+                playerMsg("The held item has no enchantments.");
             }
         }
         else if (args[0].equalsIgnoreCase("addall"))
@@ -58,7 +58,7 @@ public class Command_enchant extends TFM_Command
                 }
             }
 
-            sender.sendMessage("Added all possible enchantments for this item.");
+            playerMsg("Added all possible enchantments for this item.");
         }
         else if (args[0].equalsIgnoreCase("reset"))
         {
@@ -67,7 +67,7 @@ public class Command_enchant extends TFM_Command
                 itemInHand.removeEnchantment(ench);
             }
 
-            sender.sendMessage("Removed all enchantments.");
+            playerMsg("Removed all enchantments.");
         }
         else
         {
@@ -88,7 +88,7 @@ public class Command_enchant extends TFM_Command
 
             if (ench == null)
             {
-                sender.sendMessage(args[1] + " is an invalid enchantment for the held item. Type \"/enchant list\" for valid enchantments for this item.");
+                playerMsg(args[1] + " is an invalid enchantment for the held item. Type \"/enchant list\" for valid enchantments for this item.");
                 return true;
             }
 
@@ -98,18 +98,18 @@ public class Command_enchant extends TFM_Command
                 {
                     itemInHand.addEnchantment(ench, ench.getMaxLevel());
 
-                    sender.sendMessage("Added enchantment: " + ench.getName());
+                    playerMsg("Added enchantment: " + ench.getName());
                 }
                 else
                 {
-                    sender.sendMessage("Can't use this enchantment on held item.");
+                    playerMsg("Can't use this enchantment on held item.");
                 }
             }
             else if (args[0].equalsIgnoreCase("remove"))
             {
                 itemInHand.removeEnchantment(ench);
 
-                sender.sendMessage("Removed enchantment: " + ench.getName());
+                playerMsg("Removed enchantment: " + ench.getName());
             }
         }
 

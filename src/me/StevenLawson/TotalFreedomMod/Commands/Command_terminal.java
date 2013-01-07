@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_RunSystemCommand;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,11 +23,11 @@ public class Command_terminal extends TFM_Command
         }
         catch (Throwable ex)
         {
-            sender.sendMessage(ChatColor.GRAY + "Error building command: " + ex.getMessage());
+            playerMsg("Error building command: " + ex.getMessage());
             return true;
         }
 
-        sender.sendMessage("Running system command: " + command);
+        playerMsg("Running system command: " + command);
         server.getScheduler().runTaskAsynchronously(plugin, new TFM_RunSystemCommand(command, plugin));
 
         return true;

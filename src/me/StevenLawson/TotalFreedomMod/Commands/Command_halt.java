@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -31,7 +32,7 @@ public class Command_halt extends TFM_Command
                     counter++;
                 }
             }
-            TFM_Util.playerMsg(sender, "Halted " + counter + " players.");
+            playerMsg("Halted " + counter + " players.");
             return true;
         }
 
@@ -47,7 +48,7 @@ public class Command_halt extends TFM_Command
                     counter++;
                 }
             }
-            TFM_Util.playerMsg(sender, "Unhalted " + counter + " players.");
+            playerMsg("Unhalted " + counter + " players.");
             return true;
         }
 
@@ -62,15 +63,15 @@ public class Command_halt extends TFM_Command
                 {
                     if (count == 0)
                     {
-                        TFM_Util.playerMsg(sender, "Halted players:");
+                        playerMsg(sender, "Halted players:");
                     }
-                    TFM_Util.playerMsg(sender, "- " + hp.getName());
+                    playerMsg("- " + hp.getName());
                     count++;
                 }
             }
             if (count == 0)
             {
-                TFM_Util.playerMsg(sender, "There are currently no halted players.");
+                playerMsg("There are currently no halted players.");
             }
             return true;
         }
@@ -119,7 +120,7 @@ public class Command_halt extends TFM_Command
             playerdata.setMuted(true);
             playerdata.setHalted(true);
 
-            TFM_Util.playerMsg(p, "You have been halted, don't move!");
+            p.sendMessage(ChatColor.GRAY + "You have been halted, don't move!");
         }
         else
         {
@@ -128,7 +129,7 @@ public class Command_halt extends TFM_Command
             playerdata.setFrozen(false);
             playerdata.setMuted(false);
             playerdata.setHalted(false);
-            TFM_Util.playerMsg(p, "You are no longer halted.");
+            p.sendMessage(ChatColor.GRAY + "You are no longer halted.");
         }
     }
 }

@@ -18,7 +18,7 @@ public class Command_setspawnworld extends TFM_Command
         Location pos = sender_p.getLocation();
         sender_p.getWorld().setSpawnLocation(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
 
-        sender.sendMessage(ChatColor.GRAY + "Spawn location for this world set to: " + TFM_Util.formatLocation(sender_p.getWorld().getSpawnLocation()));
+        playerMsg("Spawn location for this world set to: " + TFM_Util.formatLocation(sender_p.getWorld().getSpawnLocation()));
 
         if (TotalFreedomMod.protectedAreasEnabled && TotalFreedomMod.autoProtectSpawnpoints)
         {

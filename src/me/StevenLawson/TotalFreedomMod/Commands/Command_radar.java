@@ -36,13 +36,13 @@ public class Command_radar extends TFM_Command
         
         if (radar_data.isEmpty())
         {
-            sender.sendMessage(ChatColor.YELLOW + "You are the only player in this world. (Forever alone...)");
+            playerMsg("You are the only player in this world. (" + ChatColor.GREEN + "Forever alone..." + ChatColor.YELLOW + ")", ChatColor.YELLOW); //lol
             return true;
         }
 
         Collections.sort(radar_data, new TFM_RadarData());
 
-        sender.sendMessage(ChatColor.YELLOW + "People nearby in " + sender_pos.getWorld().getName() + ":");
+        playerMsg("People nearby in " + sender_pos.getWorld().getName() + ":", ChatColor.YELLOW);
 
         int countmax = 5;
         if (args.length == 1)
@@ -58,10 +58,10 @@ public class Command_radar extends TFM_Command
         
         for (TFM_RadarData i : radar_data)
         {
-            sender.sendMessage(ChatColor.YELLOW + String.format("%s - %d",
+            playerMsg(String.format("%s - %d",
                     i.player.getName(),
                     Math.round(i.distance)
-                    ));
+                    ), ChatColor.YELLOW);
             
             if (--countmax <= 0)
             {

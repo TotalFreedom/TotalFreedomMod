@@ -19,12 +19,12 @@ public class Command_lavadmg extends TFM_Command
         if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.allowLavaDamage = true;
-            sender.sendMessage("Lava damage is now enabled.");
+            playerMsg("Lava damage is now enabled.");
         }
         else
         {
             TotalFreedomMod.allowLavaDamage = false;
-            sender.sendMessage("Lava damage is now disabled.");
+            playerMsg("Lava damage is now disabled.");
         }
 
         return true;

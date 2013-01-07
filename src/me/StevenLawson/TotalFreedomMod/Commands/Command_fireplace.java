@@ -19,12 +19,12 @@ public class Command_fireplace extends TFM_Command
         if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.allowFirePlace = true;
-            sender.sendMessage("Fire placement is now enabled.");
+            playerMsg("Fire placement is now enabled.");
         }
         else
         {
             TotalFreedomMod.allowFirePlace = false;
-            sender.sendMessage("Fire placement is now disabled.");
+            playerMsg("Fire placement is now disabled.");
         }
 
         return true;

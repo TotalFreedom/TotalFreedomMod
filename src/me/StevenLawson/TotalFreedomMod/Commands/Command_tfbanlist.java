@@ -35,7 +35,7 @@ public class Command_tfbanlist extends TFM_Command
                 }
                 else
                 {
-                    sender.sendMessage(ChatColor.YELLOW + "You do not have permission to purge the ban list, you may only view it.");
+                    playerMsg("You do not have permission to purge the ban list, you may only view it.");
                 }
             }
         }
@@ -53,7 +53,7 @@ public class Command_tfbanlist extends TFM_Command
             banned_players.append(p.getName().trim());
         }
 
-        sender.sendMessage(ChatColor.GRAY + banned_players.toString());
+        playerMsg(banned_players.toString());
 
         return true;
     }

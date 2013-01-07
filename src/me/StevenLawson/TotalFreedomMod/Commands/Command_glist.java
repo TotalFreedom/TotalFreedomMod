@@ -34,7 +34,7 @@ public class Command_glist extends TFM_Command
                 }
                 else
                 {
-                    TFM_Util.playerMsg(sender, "Only Senior Admins may purge the userlist.");
+                    playerMsg("Only Senior Admins may purge the userlist.");
                 }
                 return true;
             }

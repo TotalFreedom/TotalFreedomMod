@@ -21,14 +21,14 @@ public class Command_fr extends TFM_Command
             if (TotalFreedomMod.allPlayersFrozen)
             {
                 TotalFreedomMod.allPlayersFrozen = true;
-                sender.sendMessage("Players are now frozen.");
                 TFM_Util.adminAction(sender.getName(), "Freezing all players", false);
+                playerMsg("Players are now frozen.");
             }
             else
             {
                 TotalFreedomMod.allPlayersFrozen = false;
-                sender.sendMessage("Players are now free to move.");
                 TFM_Util.adminAction(sender.getName(), "Unfreezing all players", false);
+                playerMsg("Players are now free to move.");
             }
         }
         else
@@ -54,15 +54,15 @@ public class Command_fr extends TFM_Command
                 }
                 catch (CantFindPlayerException ex)
                 {
-                    sender.sendMessage(ex.getMessage());
+                    playerMsg(ex.getMessage(), ChatColor.RED);
                     return true;
                 }
 
                 TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
                 playerdata.setFrozen(!playerdata.isFrozen());
 
-                sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
-                p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                playerMsg(p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                playerMsg(p, "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".", ChatColor.AQUA);
             }
         }
 

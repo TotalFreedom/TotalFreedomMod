@@ -27,7 +27,7 @@ public class Command_gtfo extends TFM_Command
         }
         catch (CantFindPlayerException ex)
         {
-            sender.sendMessage(ex.getMessage());
+            playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
 

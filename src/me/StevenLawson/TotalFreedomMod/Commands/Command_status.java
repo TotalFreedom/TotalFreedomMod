@@ -40,16 +40,16 @@ public class Command_status extends TFM_Command
     @Override
     public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        TFM_Util.playerMsg(sender, String.format("Total Freedom Mod v%s.%s, built %s.", TotalFreedomMod.pluginVersion, TotalFreedomMod.buildNumber, TotalFreedomMod.buildDate), ChatColor.GOLD);
-        TFM_Util.playerMsg(sender, "TotalFreedomMod was created by Madgeek1450 and DarthSalamon.", ChatColor.GOLD);
+        playerMsg(String.format("Total Freedom Mod v%s.%s, built %s.", TotalFreedomMod.pluginVersion, TotalFreedomMod.buildNumber, TotalFreedomMod.buildDate), ChatColor.GOLD);
+        playerMsg("TotalFreedomMod was created by Madgeek1450 and DarthSalamon.", ChatColor.GOLD);
 
-        TFM_Util.playerMsg(sender, "Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.", ChatColor.YELLOW);
+        playerMsg("Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.", ChatColor.YELLOW);
 
-        TFM_Util.playerMsg(sender, "Loaded worlds:", ChatColor.BLUE);
+        playerMsg("Loaded worlds:", ChatColor.BLUE);
         int i = 0;
         for (World world : server.getWorlds())
         {
-            TFM_Util.playerMsg(sender, String.format("World %d: %s - %d players.", i++, world.getName(), world.getPlayers().size()), ChatColor.BLUE);
+            playerMsg(String.format("World %d: %s - %d players.", i++, world.getName(), world.getPlayers().size()), ChatColor.BLUE);
         }
 
         server.getScheduler().runTaskAsynchronously(plugin, new Runnable()
@@ -96,7 +96,7 @@ public class Command_status extends TFM_Command
                         status_output.add(String.format("%s is %s", service_name, (service_online ? ChatColor.GREEN + "ONLINE" + ChatColor.GRAY : ChatColor.RED + "OFFLINE" + ChatColor.GRAY)));
                     }
 
-                    TFM_Util.playerMsg(sender, String.format("Mojang Service Status: %s.", StringUtils.join(status_output, ", ")), ChatColor.GRAY);
+                    playerMsg(String.format("Mojang Service Status: %s.", StringUtils.join(status_output, ", ")), ChatColor.GRAY);
                 }
                 catch (Exception ex)
                 {

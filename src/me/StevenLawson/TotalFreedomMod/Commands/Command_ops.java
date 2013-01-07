@@ -44,9 +44,9 @@ public class Command_ops extends TFM_Command
                 totalOPs++;
             }
 
-            sender.sendMessage(ChatColor.GRAY + "Online OPs: " + onlineOPs);
-            sender.sendMessage(ChatColor.GRAY + "Offline OPs: " + offlineOPs);
-            sender.sendMessage(ChatColor.GRAY + "Total OPs: " + totalOPs);
+            playerMsg("Online OPs: " + onlineOPs);
+            playerMsg("Offline OPs: " + offlineOPs);
+            playerMsg("Total OPs: " + totalOPs);
 
             return true;
         }
@@ -55,7 +55,7 @@ public class Command_ops extends TFM_Command
         {
             if (!senderIsConsole)
             {
-                sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                 return true;
             }
 

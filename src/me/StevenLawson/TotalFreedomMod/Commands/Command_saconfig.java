@@ -20,13 +20,13 @@ public class Command_saconfig extends TFM_Command
         {
             if (args[0].equals("list"))
             {
-                sender.sendMessage(ChatColor.GOLD + "Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminNames(), ", "));
+                playerMsg("Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminNames(), ", "), ChatColor.GOLD);
             }
             else
             {
                 if (!senderIsConsole)
                 {
-                    sender.sendMessage(ChatColor.GRAY + "This command may only be used from the console.");
+                    playerMsg("This command may only be used from the console.");
                     return true;
                 }
 
@@ -34,7 +34,7 @@ public class Command_saconfig extends TFM_Command
                 {
                     TFM_Util.adminAction(sender.getName(), "Cleaning superadmin list.", true);
                     TFM_SuperadminList.cleanSuperadminList(true);
-                    sender.sendMessage(ChatColor.GOLD + "Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminNames(), ", "));
+                    playerMsg("Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminNames(), ", "), ChatColor.YELLOW);
                 }
                 else
                 {
@@ -52,7 +52,7 @@ public class Command_saconfig extends TFM_Command
             {
                 if (!TFM_SuperadminList.isUserSuperadmin(sender))
                 {
-                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -71,11 +71,11 @@ public class Command_saconfig extends TFM_Command
 
                 if (superadmin == null)
                 {
-                    sender.sendMessage("Superadmin not found: " + args[1]);
+                    playerMsg("Superadmin not found: " + args[1]);
                 }
                 else
                 {
-                    sender.sendMessage(ChatColor.GRAY + ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', superadmin.toString())));
+                    playerMsg(ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', superadmin.toString())));
                 }
 
                 return true;
@@ -83,7 +83,7 @@ public class Command_saconfig extends TFM_Command
 
             if (!senderIsConsole)
             {
-                sender.sendMessage(ChatColor.GRAY + "This command may only be used from the console.");
+                playerMsg("This command may only be used from the console.");
                 return true;
             }
 
@@ -105,7 +105,7 @@ public class Command_saconfig extends TFM_Command
                     }
                     else
                     {
-                        sender.sendMessage(ex.getMessage());
+                        playerMsg(ex.getMessage(), ChatColor.RED);
                         return true;
                     }
                 }
@@ -125,7 +125,7 @@ public class Command_saconfig extends TFM_Command
             {
                 if (!TFM_SuperadminList.isSeniorAdmin(sender))
                 {
-                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -141,7 +141,7 @@ public class Command_saconfig extends TFM_Command
 
                 if (!TFM_SuperadminList.getSuperadminNames().contains(target_name.toLowerCase()))
                 {
-                    sender.sendMessage("Superadmin not found: " + target_name);
+                    playerMsg("Superadmin not found: " + target_name);
                     return true;
                 }
 

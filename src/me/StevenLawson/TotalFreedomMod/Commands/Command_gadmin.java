@@ -24,7 +24,7 @@ public class Command_gadmin extends TFM_Command
 
         if (mode.equals("list"))
         {
-            sender.sendMessage(ChatColor.GRAY + "[ Real Name ] : [ Display Name ] - Hash:");
+            playerMsg("[ Real Name ] : [ Display Name ] - Hash:");
         }
 
         for (Player p : server.getOnlinePlayers())
@@ -96,7 +96,7 @@ public class Command_gadmin extends TFM_Command
                     TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
                     playerdata.setFrozen(!playerdata.isFrozen());
 
-                    sender.sendMessage(ChatColor.AQUA + p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                    playerMsg(p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                     p.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                 }
 
@@ -106,7 +106,7 @@ public class Command_gadmin extends TFM_Command
 
         if (!mode.equals("list"))
         {
-            sender.sendMessage(ChatColor.RED + "Invalid hash.");
+            playerMsg("Invalid hash.", ChatColor.RED);
         }
 
         return true;

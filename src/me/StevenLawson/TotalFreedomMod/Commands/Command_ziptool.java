@@ -25,13 +25,13 @@ public class Command_ziptool extends TFM_Command
 
             if (!directory.isDirectory())
             {
-                sender.sendMessage(directory.getPath() + " is not a directory.");
+                playerMsg(directory.getPath() + " is not a directory.");
                 return true;
             }
 
             File output = new File(directory.getParent() + "/" + directory.getName() + ".zip");
 
-            sender.sendMessage("Zipping '" + directory.getPath() + "' to '" + output.getPath() + "'.");
+            playerMsg("Zipping '" + directory.getPath() + "' to '" + output.getPath() + "'.");
 
             try
             {
@@ -42,7 +42,7 @@ public class Command_ziptool extends TFM_Command
                 TFM_Log.severe(ex);
             }
 
-            sender.sendMessage("Zip finished.");
+            playerMsg("Zip finished.");
         }
         else if (args[0].equalsIgnoreCase("unzip"))
         {
@@ -50,11 +50,11 @@ public class Command_ziptool extends TFM_Command
 
             if (!output.exists() || !output.isFile())
             {
-                sender.sendMessage(output.getPath() + " is not a file.");
+                playerMsg(output.getPath() + " is not a file.");
                 return true;
             }
 
-            sender.sendMessage("Unzipping '" + output.getPath() + "'.");
+            playerMsg("Unzipping '" + output.getPath() + "'.");
 
             try
             {
@@ -65,7 +65,7 @@ public class Command_ziptool extends TFM_Command
                 TFM_Log.severe(ex);
             }
 
-            sender.sendMessage("Unzip finished.");
+            playerMsg("Unzip finished.");
         }
         else
         {

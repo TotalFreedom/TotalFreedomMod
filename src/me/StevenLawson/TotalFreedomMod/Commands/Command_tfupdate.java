@@ -27,7 +27,7 @@ public class Command_tfupdate extends TFM_Command
     {
         if (!sender.getName().equalsIgnoreCase("madgeek1450"))
         {
-            sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+            playerMsg(TotalFreedomMod.MSG_NO_PERMS);
             return true;
         }
 

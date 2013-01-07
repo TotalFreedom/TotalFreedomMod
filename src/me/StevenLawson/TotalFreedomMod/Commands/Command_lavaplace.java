@@ -19,12 +19,12 @@ public class Command_lavaplace extends TFM_Command
         if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.allowLavaPlace = true;
-            sender.sendMessage("Lava placement is now enabled.");
+            playerMsg("Lava placement is now enabled.");
         }
         else
         {
             TotalFreedomMod.allowLavaPlace = false;
-            sender.sendMessage("Lava placement is now disabled.");
+            playerMsg("Lava placement is now disabled.");
         }
 
         return true;

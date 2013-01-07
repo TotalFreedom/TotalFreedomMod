@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
@@ -7,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
-public class Command_blockcommand extends TFM_Command
+public class Command_blockcmd extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -17,6 +18,23 @@ public class Command_blockcommand extends TFM_Command
             return false;
         }
 
+        if (args[0].equalsIgnoreCase("purge"))
+        {
+            TFM_Util.adminAction(sender.getName(), "Unblocking commands for all players", true);
+            int counter = 0;
+            for (Player p : server.getOnlinePlayers())
+            {
+                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+                if (playerdata.allCommandsBlocked())
+                {
+                    counter += 1;
+                    playerdata.setCommandsBlocked(false);
+                }
+                playerMsg("Unblocked commands for " + counter + " players.");
+            }
+            return true;
+        }
+
         Player p;
         try
         {
@@ -24,7 +42,13 @@ public class Command_blockcommand extends TFM_Command
         }
         catch (CantFindPlayerException ex)
         {
-            sender.sendMessage(ex.getMessage());
+            playerMsg(ex.getMessage());
+            return true;
+        }
+
+        if (TFM_SuperadminList.isUserSuperadmin(p))
+        {
+            playerMsg(p.getName() + " is a Superadmin, and cannot have their commands blocked.");
             return true;
         }
 
@@ -33,7 +57,7 @@ public class Command_blockcommand extends TFM_Command
         playerdata.setCommandsBlocked(!playerdata.allCommandsBlocked());
 
         TFM_Util.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all commands for " + p.getName(), true);
-        TFM_Util.playerMsg(sender, (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
+        playerMsg((playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
 
         return true;
     }

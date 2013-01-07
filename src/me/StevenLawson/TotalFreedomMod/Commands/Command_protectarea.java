@@ -15,7 +15,7 @@ public class Command_protectarea extends TFM_Command
     {
         if (!TotalFreedomMod.protectedAreasEnabled)
         {
-            sender.sendMessage("Protected areas are currently disabled in the TotalFreedomMod configuration.");
+            playerMsg("Protected areas are currently disabled in the TotalFreedomMod configuration.");
             return true;
         }
 
@@ -23,13 +23,13 @@ public class Command_protectarea extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("list"))
             {
-                sender.sendMessage("Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
+                playerMsg("Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
             }
             else if (args[0].equalsIgnoreCase("clear"))
             {
                 TFM_ProtectedArea.clearProtectedAreas();
 
-                sender.sendMessage("Protected Areas Cleared.");
+                playerMsg("Protected Areas Cleared.");
             }
             else
             {
@@ -44,7 +44,7 @@ public class Command_protectarea extends TFM_Command
             {
                 TFM_ProtectedArea.removeProtectedArea(args[1]);
 
-                sender.sendMessage("Area removed. Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
+                playerMsg("Area removed. Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
             }
             else
             {
@@ -59,7 +59,7 @@ public class Command_protectarea extends TFM_Command
             {
                 if (senderIsConsole)
                 {
-                    sender.sendMessage("You must be in-game to set a protected area.");
+                    playerMsg("You must be in-game to set a protected area.");
                     return true;
                 }
 
@@ -70,19 +70,19 @@ public class Command_protectarea extends TFM_Command
                 }
                 catch (NumberFormatException nfex)
                 {
-                    sender.sendMessage("Invalid radius.");
+                    playerMsg("Invalid radius.");
                     return true;
                 }
 
                 if (radius > TFM_ProtectedArea.MAX_RADIUS || radius < 0.0D)
                 {
-                    sender.sendMessage("Invalid radius. Radius must be a positive value less than " + TFM_ProtectedArea.MAX_RADIUS + ".");
+                    playerMsg("Invalid radius. Radius must be a positive value less than " + TFM_ProtectedArea.MAX_RADIUS + ".");
                     return true;
                 }
 
                 TFM_ProtectedArea.addProtectedArea(args[1], sender_p.getLocation(), radius);
 
-                sender.sendMessage("Area added. Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
+                playerMsg("Area added. Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
             }
             else
             {

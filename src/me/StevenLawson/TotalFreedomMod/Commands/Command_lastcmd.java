@@ -25,7 +25,7 @@ public class Command_lastcmd extends TFM_Command
         }
         catch (CantFindPlayerException ex)
         {
-            sender.sendMessage(ex.getMessage());
+            playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
 
@@ -38,7 +38,7 @@ public class Command_lastcmd extends TFM_Command
             {
                 last_command = "(none)";
             }
-            TFM_Util.playerMsg(sender, p.getName() + " - Last Command: " + last_command, ChatColor.GRAY);
+            playerMsg(p.getName() + " - Last Command: " + last_command, ChatColor.GRAY);
         }
 
         return true;

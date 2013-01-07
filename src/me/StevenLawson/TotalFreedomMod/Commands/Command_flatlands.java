@@ -19,7 +19,7 @@ public class Command_flatlands extends TFM_Command
         }
         else
         {
-            sender.sendMessage(ChatColor.GRAY + "Flatlands is currently disabled.");
+            playerMsg("Flatlands is currently disabled.");
         }
         return true;
     }

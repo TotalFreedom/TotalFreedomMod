@@ -7,10 +7,10 @@ commands:
   adminmode:
     description: Console-only command - Close server to non-superadmins.
     usage: /<command> [on | off]
-  blockcommand:
+  blockcmd:
     description: Superadmin command - Block all commands for a specific player
-    usage: /<command> <partialname>
-    aliases: [blockcommands]
+    usage: /<command> <purge | <partialname>>
+    aliases: [blockcommands, blockcommand]
   cage:
     description: Superadmin command - Place a cage around someone.
     usage: /<command> <partialname> <off | [[outermaterial] [innermaterial]]>

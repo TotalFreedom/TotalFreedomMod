@@ -42,14 +42,14 @@ public class Command_nonuke extends TFM_Command
         if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.nukeMonitor = true;
-            sender.sendMessage(ChatColor.GRAY + "Nuke monitor is enabled.");
-            sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + TotalFreedomMod.nukeMonitorRange + " blocks.");
-            sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + TotalFreedomMod.nukeMonitorCountBreak + " blocks destroyed per 5 seconds.");
+            playerMsg( "Nuke monitor is enabled.");
+            playerMsg("Anti-freecam range is set to " + TotalFreedomMod.nukeMonitorRange + " blocks.");
+            playerMsg("Block throttle rate is set to " + TotalFreedomMod.nukeMonitorCountBreak + " blocks destroyed per 5 seconds.");
         }
         else
         {
             TotalFreedomMod.nukeMonitor = false;
-            sender.sendMessage("Nuke monitor is disabled.");
+            playerMsg("Nuke monitor is disabled.");
         }
 
         return true;

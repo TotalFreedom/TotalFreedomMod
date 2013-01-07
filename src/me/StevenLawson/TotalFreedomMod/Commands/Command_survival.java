@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -16,7 +17,7 @@ public class Command_survival extends TFM_Command
         {
             if (args.length == 0)
             {
-                sender.sendMessage("When used from the console, you must define a target user to change gamemode on.");
+                playerMsg("When used from the console, you must define a target user to change gamemode on.");
                 return true;
             }
         }
@@ -36,18 +37,18 @@ public class Command_survival extends TFM_Command
                 }
                 catch (CantFindPlayerException ex)
                 {
-                    sender.sendMessage(ex.getMessage());
+                    playerMsg(ex.getMessage(), ChatColor.RED);
                     return true;
                 }
             }
             else
             {
-                sender.sendMessage("Only superadmins can change other user's gamemode.");
+                playerMsg("Only superadmins can change other user's gamemode.");
                 return true;
             }
         }
 
-        sender.sendMessage("Setting " + p.getName() + " to game mode 'Survival'.");
+        playerMsg("Setting " + p.getName() + " to game mode 'Survival'.");
         p.sendMessage(sender.getName() + " set your game mode to 'Survival'.");
         p.setGameMode(GameMode.SURVIVAL);
 

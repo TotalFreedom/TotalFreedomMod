@@ -33,12 +33,12 @@ public class Command_explosives extends TFM_Command
         if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.allowExplosions = true;
-            sender.sendMessage("Explosives are now enabled, radius set to " + TotalFreedomMod.explosiveRadius + " blocks.");
+            playerMsg("Explosives are now enabled, radius set to " + TotalFreedomMod.explosiveRadius + " blocks.");
         }
         else
         {
             TotalFreedomMod.allowExplosions = false;
-            sender.sendMessage("Explosives are now disabled.");
+            playerMsg("Explosives are now disabled.");
         }
 
         return true;
