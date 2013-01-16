@@ -46,6 +46,8 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
 
     public static boolean allPlayersFrozen = false;
+    public static int freezePurgeEventId = 0;
+    public static int mutePurgeEventId = 0;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
 
     public static String pluginVersion = "";

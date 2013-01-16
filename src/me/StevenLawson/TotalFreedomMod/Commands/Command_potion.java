@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -39,6 +40,7 @@ public class Command_potion extends TFM_Command
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
                 }
+                TFM_Util.adminAction(sender.getName(), "Cleared all potion effects from all players", true);
                 for (Player target : server.getOnlinePlayers())
                 {
                     for (PotionEffect potion_effect : target.getActivePotionEffects())

@@ -1,8 +1,10 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -51,6 +53,11 @@ public class Command_stfu extends TFM_Command
                     count++;
                 }
             }
+            if (TotalFreedomMod.mutePurgeEventId != 0)
+            {
+                server.getScheduler().cancelTask(TotalFreedomMod.mutePurgeEventId);
+                TotalFreedomMod.mutePurgeEventId = 0;
+            }
             playerMsg("Unmuted " + count + " players.");
         }
         else if (args[0].equalsIgnoreCase("all"))
@@ -69,6 +76,26 @@ public class Command_stfu extends TFM_Command
                 }
             }
 
+            TotalFreedomMod.mutePurgeEventId = server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    if (TotalFreedomMod.mutePurgeEventId == 0)
+                    {
+                        TFM_Log.warning("Mute autopurge task was improperly cancelled!");
+                        return;
+                    }
+
+                    TFM_Util.adminAction("MuteTimer", "Unfreezing all players", false);
+                    for (Player p : server.getOnlinePlayers())
+                    {
+                        TFM_UserInfo.getPlayerData(p).setMuted(false);
+                    }
+                    
+                    TotalFreedomMod.mutePurgeEventId = 0;
+                }
+            }, 6000L); // five minutes in ticks: 20*60*5
             playerMsg("Muted " + counter + " players.");
         }
         else

@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -20,14 +21,36 @@ public class Command_fr extends TFM_Command
 
             if (TotalFreedomMod.allPlayersFrozen)
             {
-                TotalFreedomMod.allPlayersFrozen = true;
                 TFM_Util.adminAction(sender.getName(), "Freezing all players", false);
+                TotalFreedomMod.allPlayersFrozen = true;
+                TotalFreedomMod.freezePurgeEventId = server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (TotalFreedomMod.freezePurgeEventId == 0)
+                        {
+                            TFM_Log.warning("Freeze autopurge task was improperly cancelled!");
+                            return;
+                        }
+
+                        TFM_Util.adminAction("FreezeTimer", "Unfreezing all players", false);
+
+                        TotalFreedomMod.allPlayersFrozen = false;
+                        TotalFreedomMod.freezePurgeEventId = 0;
+                    }
+                }, 6000L); // five minutes in ticks: 20*60*5
                 playerMsg("Players are now frozen.");
             }
             else
             {
-                TotalFreedomMod.allPlayersFrozen = false;
                 TFM_Util.adminAction(sender.getName(), "Unfreezing all players", false);
+                TotalFreedomMod.allPlayersFrozen = false;
+                if (TotalFreedomMod.freezePurgeEventId != 0)
+                {
+                    server.getScheduler().cancelTask(TotalFreedomMod.freezePurgeEventId);
+                    TotalFreedomMod.freezePurgeEventId = 0;
+                }
                 playerMsg("Players are now free to move.");
             }
         }

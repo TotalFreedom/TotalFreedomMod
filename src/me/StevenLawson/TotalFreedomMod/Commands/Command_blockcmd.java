@@ -30,8 +30,8 @@ public class Command_blockcmd extends TFM_Command
                     counter += 1;
                     playerdata.setCommandsBlocked(false);
                 }
-                playerMsg("Unblocked commands for " + counter + " players.");
             }
+            playerMsg("Unblocked commands for " + counter + " players.");
             return true;
         }
 
