@@ -1,6 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.Random;
+import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
+import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;

@@ -1,5 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
+import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
@@ -87,7 +89,7 @@ public class Command_stfu extends TFM_Command
                         return;
                     }
 
-                    TFM_Util.adminAction("MuteTimer", "Unfreezing all players", false);
+                    TFM_Util.adminAction("MuteTimer", "Unmuting all players", false);
                     for (Player p : server.getOnlinePlayers())
                     {
                         TFM_UserInfo.getPlayerData(p).setMuted(false);

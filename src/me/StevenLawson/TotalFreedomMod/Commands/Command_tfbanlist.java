@@ -1,8 +1,11 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
+import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -23,6 +26,7 @@ public class Command_tfbanlist extends TFM_Command
                 {
                     try
                     {
+                        TFM_Util.adminAction(sender.getName(), "Purging the ban list", true);
                         TFM_ServerInterface.wipeNameBans();
                         sender.sendMessage(ChatColor.GRAY + "Ban list has been purged.");
                     }
