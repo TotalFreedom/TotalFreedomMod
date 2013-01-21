@@ -3,7 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -95,7 +95,7 @@ public class Command_gadmin extends TFM_Command
                 }
                 else if (mode.equals("fr"))
                 {
-                    TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
                     playerdata.setFrozen(!playerdata.isFrozen());
 
                     playerMsg(p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");

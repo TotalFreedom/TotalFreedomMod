@@ -26,6 +26,9 @@ commands:
   cmdlist:
     description: Show all commands for all server plugins.
     usage: /<command>
+  cmdspy:
+    description: Superadmin command - Spy on commands
+    usage: /<command>
   cookie:
     description: Superadmin command - cookies :)
     usage: /<command>

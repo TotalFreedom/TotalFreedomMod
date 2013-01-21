@@ -3,7 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -44,7 +44,7 @@ public class Command_halt extends TFM_Command
             int counter = 0;
             for (Player p : server.getOnlinePlayers())
             {
-                if (TFM_UserInfo.getPlayerData(p).isHalted())
+                if (TFM_PlayerData.getPlayerData(p).isHalted())
                 {
                     setHalted(p, false);
                     counter++;
@@ -56,11 +56,11 @@ public class Command_halt extends TFM_Command
 
         if (args[0].equalsIgnoreCase("list"))
         {
-            TFM_UserInfo info;
+            TFM_PlayerData info;
             int count = 0;
             for (Player hp : server.getOnlinePlayers())
             {
-                info = TFM_UserInfo.getPlayerData(hp);
+                info = TFM_PlayerData.getPlayerData(hp);
                 if (info.isHalted())
                 {
                     if (count == 0)
@@ -90,7 +90,7 @@ public class Command_halt extends TFM_Command
 
         }
 
-        if (!TFM_UserInfo.getPlayerData(p).isHalted())
+        if (!TFM_PlayerData.getPlayerData(p).isHalted())
         {
             TFM_Util.adminAction(sender.getName(), "Halting " + p.getName(), true);
             setHalted(p, true);
@@ -106,7 +106,7 @@ public class Command_halt extends TFM_Command
 
     private static void setHalted(Player p, boolean is_halted)
     {
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         if (is_halted)
         {

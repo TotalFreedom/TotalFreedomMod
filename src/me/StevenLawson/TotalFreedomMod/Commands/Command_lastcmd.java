@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -31,7 +31,7 @@ public class Command_lastcmd extends TFM_Command
             return true;
         }
 
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         if (playerdata != null)
         {

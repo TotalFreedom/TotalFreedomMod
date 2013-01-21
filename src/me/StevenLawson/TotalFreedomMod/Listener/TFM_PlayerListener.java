@@ -28,7 +28,7 @@ import org.bukkit.util.Vector;
 
 public class TFM_PlayerListener implements Listener
 {
-    private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply", ","));
+    private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -70,7 +70,7 @@ public class TFM_PlayerListener implements Listener
                 {
                     case STICK:
                     {
-                        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player);
+                        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
                         if (playerdata.mobThrowerEnabled())
                         {
                             Location player_pos = player.getLocation();
@@ -87,7 +87,7 @@ public class TFM_PlayerListener implements Listener
                     }
                     case SULPHUR:
                     {
-                        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(player);
+                        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
                         if (playerdata.isMP44Armed())
                         {
                             if (playerdata.toggleMP44Firing())
@@ -132,7 +132,6 @@ public class TFM_PlayerListener implements Listener
                                 }
 
                                 event.setCancelled(true);
-                                return;
                             }
                         }
                         break;
@@ -193,7 +192,6 @@ public class TFM_PlayerListener implements Listener
                                 }, 30L);
 
                                 event.setCancelled(true);
-                                return;
                             }
                         }
                         break;
@@ -208,7 +206,7 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerMove(PlayerMoveEvent event)
     {
         Player p = event.getPlayer();
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         for (Entry<Player, Double> fuckoff : TotalFreedomMod.fuckoffEnabledFor.entrySet())
         {
@@ -285,12 +283,12 @@ public class TFM_PlayerListener implements Listener
 
             if (out_of_cage)
             {
-                playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER), playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
+                playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER), playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
                 playerdata.regenerateHistory();
                 playerdata.clearHistory();
                 TFM_Util.buildHistory(target_pos, 2, playerdata);
-                TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
-                TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
+                TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
+                TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
             }
         }
 
@@ -355,7 +353,7 @@ public class TFM_PlayerListener implements Listener
             final Player p = event.getPlayer();
             String message = event.getMessage().trim();
 
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
             playerdata.incrementMsgCount();
 
             // check for spam
@@ -444,7 +442,7 @@ public class TFM_PlayerListener implements Listener
         String command = event.getMessage();
         Player p = event.getPlayer();
 
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
         playerdata.incrementMsgCount();
 
         if (playerdata.getMsgCount() > 10)
@@ -588,6 +586,18 @@ public class TFM_PlayerListener implements Listener
             {
                 playerdata.setMuted(false);
             }
+            return;
+        }
+        
+        if (!TFM_SuperadminList.isUserSuperadmin(p))
+        {
+            for (Player pl : Bukkit.getOnlinePlayers())
+            {
+                if (TFM_SuperadminList.isUserSuperadmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
+                {
+                    TFM_Util.playerMsg(pl, p.getName() + ": " + command);
+                }
+            }
         }
     }
 
@@ -615,7 +625,7 @@ public class TFM_PlayerListener implements Listener
         {
             TotalFreedomMod.fuckoffEnabledFor.remove(p);
         }
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
         playerdata.disarmMP44();
         if (playerdata.isCaged())
         {
@@ -632,7 +642,7 @@ public class TFM_PlayerListener implements Listener
         {
             TotalFreedomMod.fuckoffEnabledFor.remove(p);
         }
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
         playerdata.disarmMP44();
         if (playerdata.isCaged())
         {
@@ -647,7 +657,7 @@ public class TFM_PlayerListener implements Listener
         try
         {
             final Player p = event.getPlayer();
-            final TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+            final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
             playerdata.setSuperadminIdVerified(null);
 
             TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(p);

@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -33,7 +33,7 @@ public class Command_cage extends TFM_Command
             return true;
         }
 
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         Material cage_material_outer = Material.GLASS;
         Material cage_material_inner = Material.AIR;
@@ -76,8 +76,8 @@ public class Command_cage extends TFM_Command
         playerdata.regenerateHistory();
         playerdata.clearHistory();
         TFM_Util.buildHistory(target_pos, 2, playerdata);
-        TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.OUTER));
-        TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_UserInfo.CageLayer.INNER));
+        TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
+        TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
 
         p.setGameMode(GameMode.SURVIVAL);
 

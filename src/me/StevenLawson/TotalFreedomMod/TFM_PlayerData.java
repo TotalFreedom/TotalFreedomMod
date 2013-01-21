@@ -15,9 +15,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-public class TFM_UserInfo
+public class TFM_PlayerData
 {
-    public final static Map<Player, TFM_UserInfo> userinfo = new HashMap<Player, TFM_UserInfo>();
+    public final static Map<Player, TFM_PlayerData> userinfo = new HashMap<Player, TFM_PlayerData>();
     private final Player player;
     private final String ip_address;
     private final String player_name;
@@ -49,25 +49,26 @@ public class TFM_UserInfo
     private boolean all_commands_blocked = false;
     private Boolean superadmin_id_verified = null;
     private String last_command = "";
+    private boolean cmdspy_enabled = false;
 
-    public TFM_UserInfo(Player player)
+    public TFM_PlayerData(Player player)
     {
         this.player = player;
         this.ip_address = player.getAddress().getAddress().getHostAddress();
         this.player_name = player.getName();
     }
 
-    public static TFM_UserInfo getPlayerData(Player p)
+    public static TFM_PlayerData getPlayerData(Player p)
     {
-        TFM_UserInfo playerdata = TFM_UserInfo.userinfo.get(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.userinfo.get(p);
 
         if (playerdata == null)
         {
-            Iterator<Entry<Player, TFM_UserInfo>> it = userinfo.entrySet().iterator();
+            Iterator<Entry<Player, TFM_PlayerData>> it = userinfo.entrySet().iterator();
             while (it.hasNext())
             {
-                Entry<Player, TFM_UserInfo> pair = it.next();
-                TFM_UserInfo playerdata_test = pair.getValue();
+                Entry<Player, TFM_PlayerData> pair = it.next();
+                TFM_PlayerData playerdata_test = pair.getValue();
 
                 if (playerdata_test.player_name.equalsIgnoreCase(p.getName()))
                 {
@@ -90,8 +91,8 @@ public class TFM_UserInfo
 
         if (playerdata == null)
         {
-            playerdata = new TFM_UserInfo(p);
-            TFM_UserInfo.userinfo.put(p, playerdata);
+            playerdata = new TFM_PlayerData(p);
+            TFM_PlayerData.userinfo.put(p, playerdata);
         }
 
         return playerdata;
@@ -109,7 +110,7 @@ public class TFM_UserInfo
 
     public boolean isOrbiting()
     {
-        return this.is_orbiting;
+        return is_orbiting;
     }
 
     public void startOrbiting(double orbit_strength)
@@ -120,12 +121,12 @@ public class TFM_UserInfo
 
     public void stopOrbiting()
     {
-        this.is_orbiting = false;
+        is_orbiting = false;
     }
 
     public double orbitStrength()
     {
-        return this.orbit_strength;
+        return orbit_strength;
     }
 
     public void setCaged(boolean state)
@@ -143,7 +144,7 @@ public class TFM_UserInfo
 
     public boolean isCaged()
     {
-        return this.user_caged;
+        return user_caged;
     }
 
     public enum CageLayer
@@ -166,7 +167,7 @@ public class TFM_UserInfo
 
     public Location getCagePos()
     {
-        return this.user_cage_pos;
+        return user_cage_pos;
     }
 
     public void clearHistory()
@@ -221,7 +222,7 @@ public class TFM_UserInfo
 
     public int getMsgCount()
     {
-        return this.msg_count;
+        return msg_count;
     }
 
     public void incrementBlockDestroyCount()
@@ -231,7 +232,7 @@ public class TFM_UserInfo
 
     public int getBlockDestroyCount()
     {
-        return this.block_destroy_total;
+        return block_destroy_total;
     }
 
     public void resetBlockDestroyCount()
@@ -246,7 +247,7 @@ public class TFM_UserInfo
 
     public int getBlockPlaceCount()
     {
-        return this.block_place_total;
+        return block_place_total;
     }
 
     public void resetBlockPlaceCount()
@@ -261,7 +262,7 @@ public class TFM_UserInfo
 
     public int getFreecamDestroyCount()
     {
-        return this.freecam_destroy_count;
+        return freecam_destroy_count;
     }
 
     public void resetFreecamDestroyCount()
@@ -276,7 +277,7 @@ public class TFM_UserInfo
 
     public int getFreecamPlaceCount()
     {
-        return this.freecam_place_count;
+        return freecam_place_count;
     }
 
     public void resetFreecamPlaceCount()
@@ -298,17 +299,17 @@ public class TFM_UserInfo
 
     public EntityType mobThrowerCreature()
     {
-        return this.mob_thrower_creature;
+        return mob_thrower_creature;
     }
 
     public double mobThrowerSpeed()
     {
-        return this.mob_thrower_speed;
+        return mob_thrower_speed;
     }
 
     public boolean mobThrowerEnabled()
     {
-        return this.mob_thrower_enabled;
+        return mob_thrower_enabled;
     }
 
     public void enqueueMob(LivingEntity mob)
@@ -372,13 +373,13 @@ public class TFM_UserInfo
 
     public boolean isMP44Armed()
     {
-        return this.mp44_armed;
+        return mp44_armed;
     }
 
     public boolean toggleMP44Firing()
     {
         this.mp44_firing = !this.mp44_firing;
-        return this.mp44_firing;
+        return mp44_firing;
     }
 
     public boolean isMuted()
@@ -418,7 +419,7 @@ public class TFM_UserInfo
 
     public String getLastMessage()
     {
-        return this.last_message;
+        return last_message;
     }
 
     public void setAdminChat(boolean in_adminchat)
@@ -428,12 +429,12 @@ public class TFM_UserInfo
 
     public boolean inAdminChat()
     {
-        return this.in_adminchat;
+        return in_adminchat;
     }
 
     public boolean allCommandsBlocked()
     {
-        return this.all_commands_blocked;
+        return all_commands_blocked;
     }
 
     public void setCommandsBlocked(boolean commands_blocked)
@@ -464,4 +465,15 @@ public class TFM_UserInfo
     {
         this.last_command = last_command;
     }
+
+    public void setCommandSpy(boolean cmdspy_enabled)
+    {
+        this.cmdspy_enabled = cmdspy_enabled;
+    }
+
+    public boolean cmdspyEnabled()
+    {
+        return cmdspy_enabled;
+    }
+
 }

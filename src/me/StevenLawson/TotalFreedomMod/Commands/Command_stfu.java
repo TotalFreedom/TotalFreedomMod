@@ -4,7 +4,7 @@ import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
@@ -25,11 +25,11 @@ public class Command_stfu extends TFM_Command
         if (args[0].equalsIgnoreCase("list"))
         {
             playerMsg("Muted players:");
-            TFM_UserInfo info;
+            TFM_PlayerData info;
             int count = 0;
             for (Player mp : server.getOnlinePlayers())
             {
-                info = TFM_UserInfo.getPlayerData(mp);
+                info = TFM_PlayerData.getPlayerData(mp);
                 if (info.isMuted())
                 {
                     playerMsg("- " + mp.getName());
@@ -44,11 +44,11 @@ public class Command_stfu extends TFM_Command
         else if (args[0].equalsIgnoreCase("purge"))
         {
             TFM_Util.adminAction(sender.getName(), "Unmuting all players.", true);
-            TFM_UserInfo info;
+            TFM_PlayerData info;
             int count = 0;
             for (Player mp : server.getOnlinePlayers())
             {
-                info = TFM_UserInfo.getPlayerData(mp);
+                info = TFM_PlayerData.getPlayerData(mp);
                 if (info.isMuted())
                 {
                     info.setMuted(false);
@@ -66,13 +66,13 @@ public class Command_stfu extends TFM_Command
         {
             TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
 
-            TFM_UserInfo playerdata;
+            TFM_PlayerData playerdata;
             int counter = 0;
             for (Player p : server.getOnlinePlayers())
             {
                 if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                    playerdata = TFM_UserInfo.getPlayerData(p);
+                    playerdata = TFM_PlayerData.getPlayerData(p);
                     playerdata.setMuted(true);
                     counter++;
                 }
@@ -92,7 +92,7 @@ public class Command_stfu extends TFM_Command
                     TFM_Util.adminAction("MuteTimer", "Unmuting all players", false);
                     for (Player p : server.getOnlinePlayers())
                     {
-                        TFM_UserInfo.getPlayerData(p).setMuted(false);
+                        TFM_PlayerData.getPlayerData(p).setMuted(false);
                     }
                     
                     TotalFreedomMod.mutePurgeEventId = 0;
@@ -113,7 +113,7 @@ public class Command_stfu extends TFM_Command
                 return true;
             }
 
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
             if (playerdata.isMuted())
             {
                 TFM_Util.adminAction(sender.getName(), "Unmuting " + p.getName(), true);

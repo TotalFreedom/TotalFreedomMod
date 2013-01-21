@@ -3,7 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,7 +26,7 @@ public class Command_blockcmd extends TFM_Command
             int counter = 0;
             for (Player p : server.getOnlinePlayers())
             {
-                TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
                 if (playerdata.allCommandsBlocked())
                 {
                     counter += 1;
@@ -54,7 +54,7 @@ public class Command_blockcmd extends TFM_Command
             return true;
         }
 
-        TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         playerdata.setCommandsBlocked(!playerdata.allCommandsBlocked());
 

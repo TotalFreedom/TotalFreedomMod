@@ -3,7 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -93,7 +93,7 @@ public class Command_lockup extends TFM_Command
         return true;
     }
 
-    private void cancelLockup(TFM_UserInfo playerdata)
+    private void cancelLockup(TFM_PlayerData playerdata)
     {
         BukkitTask lockupScheduleID = playerdata.getLockupScheduleID();
         if (lockupScheduleID != null)
@@ -105,12 +105,12 @@ public class Command_lockup extends TFM_Command
 
     private void cancelLockup(final Player p)
     {
-        cancelLockup(TFM_UserInfo.getPlayerData(p));
+        cancelLockup(TFM_PlayerData.getPlayerData(p));
     }
 
     private void startLockup(final Player p)
     {
-        final TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         cancelLockup(playerdata);
 

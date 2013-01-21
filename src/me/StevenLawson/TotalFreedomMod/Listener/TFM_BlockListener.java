@@ -3,7 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -46,7 +46,7 @@ public class TFM_BlockListener implements Listener
 
         if (TotalFreedomMod.nukeMonitor)
         {
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
             Location player_pos = p.getLocation();
 
@@ -109,7 +109,7 @@ public class TFM_BlockListener implements Listener
 
         if (TotalFreedomMod.nukeMonitor)
         {
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
             Location player_pos = p.getLocation();
 

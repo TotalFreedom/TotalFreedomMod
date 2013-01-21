@@ -20,7 +20,7 @@ public class TFM_Heartbeat implements Runnable
     {
         for (Player p : server.getOnlinePlayers())
         {
-            TFM_UserInfo playerdata = TFM_UserInfo.getPlayerData(p);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
             playerdata.resetMsgCount();
             playerdata.resetBlockDestroyCount();
             playerdata.resetBlockPlaceCount();

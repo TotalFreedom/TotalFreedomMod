@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
@@ -67,13 +68,13 @@ public class TFM_Util
         TFM_Util.bcastMsg(message, null);
     }
 
-    @Deprecated
+    // Still in use by listeners
     public static void playerMsg(CommandSender sender, String message, ChatColor color)
     {
         sender.sendMessage(color + message);
     }
 
-    @Deprecated
+    // Still in use by listeners
     public static void playerMsg(CommandSender sender, String message)
     {
         TFM_Util.playerMsg(sender, message, ChatColor.GRAY);
@@ -130,7 +131,7 @@ public class TFM_Util
         }
     }
 
-    public static void buildHistory(Location location, int length, TFM_UserInfo playerdata)
+    public static void buildHistory(Location location, int length, TFM_PlayerData playerdata)
     {
         Block center_block = location.getBlock();
         for (int x_offset = -length; x_offset <= length; x_offset++)

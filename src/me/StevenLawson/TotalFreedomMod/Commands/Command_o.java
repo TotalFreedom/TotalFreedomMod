@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
@@ -23,7 +23,7 @@ public class Command_o extends TFM_Command
                 return true;
             }
 
-            TFM_UserInfo userinfo = TFM_UserInfo.getPlayerData(sender_p);
+            TFM_PlayerData userinfo = TFM_PlayerData.getPlayerData(sender_p);
             userinfo.setAdminChat(!userinfo.inAdminChat());
             playerMsg("Toggled Admin Chat " + (userinfo.inAdminChat() ? "on" : "off") + ".");
         }

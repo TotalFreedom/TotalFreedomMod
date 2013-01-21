@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
 import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
-import me.StevenLawson.TotalFreedomMod.TFM_UserInfo;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +26,7 @@ public class Command_tossmob extends TFM_Command
             return true;
         }
 
-        TFM_UserInfo playerData = TFM_UserInfo.getPlayerData(sender_p);
+        TFM_PlayerData playerData = TFM_PlayerData.getPlayerData(sender_p);
 
         EntityType creature = EntityType.PIG;
         if (args.length >= 1)
