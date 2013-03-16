@@ -32,7 +32,7 @@ import org.bukkit.generator.ChunkGenerator;
 
 public class CleanroomChunkGenerator extends ChunkGenerator
 {
-    private Logger log = Logger.getLogger("Minecraft");
+    private Logger log = Logger.getLogger("Minecraft-Server");
     private short[] layer;
     private byte[] layerDataValues;
 
