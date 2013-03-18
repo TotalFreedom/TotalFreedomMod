@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-@CommandPermissions(level = ADMIN_LEVEL.OP, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH, ignore_permissions = false)
 public class Command_potion extends TFM_Command
 {
     @Override

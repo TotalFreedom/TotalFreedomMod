@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = ADMIN_LEVEL.ALL, source = SOURCE_TYPE_ALLOWED.ONLY_IN_GAME, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME, ignore_permissions = false)
 public class Command_radar extends TFM_Command
 {
     @Override

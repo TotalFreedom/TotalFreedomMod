@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-public enum ADMIN_LEVEL
+public enum AdminLevel
 {
     ALL, OP, SUPER, SENIOR
 }

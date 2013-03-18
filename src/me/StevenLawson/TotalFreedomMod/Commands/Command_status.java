@@ -22,7 +22,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-@CommandPermissions(level = ADMIN_LEVEL.ALL, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = true)
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH, ignore_permissions = true)
 public class Command_status extends TFM_Command
 {
     public static final Map<String, String> SERVICE_MAP = new HashMap<String, String>();

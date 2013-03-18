@@ -52,8 +52,8 @@ public class TFM_Command
                     is_senior = TFM_SuperadminList.isSeniorAdmin(sender);
                 }
 
-                ADMIN_LEVEL level = permissions.level();
-                SOURCE_TYPE_ALLOWED source = permissions.source();
+                AdminLevel level = permissions.level();
+                SourceType source = permissions.source();
                 boolean block_host_console = permissions.block_host_console();
 
                 Player sender_p = null;
@@ -64,11 +64,11 @@ public class TFM_Command
 
                 if (sender_p == null)
                 {
-                    if (source == SOURCE_TYPE_ALLOWED.ONLY_IN_GAME)
+                    if (source == SourceType.ONLY_IN_GAME)
                     {
                         return false;
                     }
-                    else if (level == ADMIN_LEVEL.SENIOR && !is_senior)
+                    else if (level == AdminLevel.SENIOR && !is_senior)
                     {
                         return false;
                     }
@@ -79,11 +79,11 @@ public class TFM_Command
                 }
                 else
                 {
-                    if (source == SOURCE_TYPE_ALLOWED.ONLY_CONSOLE)
+                    if (source == SourceType.ONLY_CONSOLE)
                     {
                         return false;
                     }
-                    else if (level == ADMIN_LEVEL.SENIOR)
+                    else if (level == AdminLevel.SENIOR)
                     {
                         if (is_senior)
                         {
@@ -103,11 +103,11 @@ public class TFM_Command
                             return false;
                         }
                     }
-                    else if (level == ADMIN_LEVEL.SUPER && !is_super)
+                    else if (level == AdminLevel.SUPER && !is_super)
                     {
                         return false;
                     }
-                    else if (level == ADMIN_LEVEL.OP && !sender_p.isOp())
+                    else if (level == AdminLevel.OP && !sender_p.isOp())
                     {
                         return false;
                     }

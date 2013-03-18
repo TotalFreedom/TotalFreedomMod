@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = ADMIN_LEVEL.SUPER, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, ignore_permissions = false)
 public class Command_fireplace extends TFM_Command
 {
     @Override

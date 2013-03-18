@@ -12,7 +12,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-@CommandPermissions(level = ADMIN_LEVEL.OP, source = SOURCE_TYPE_ALLOWED.ONLY_IN_GAME, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME, ignore_permissions = false)
 public class Command_tossmob extends TFM_Command
 {
     @Override
