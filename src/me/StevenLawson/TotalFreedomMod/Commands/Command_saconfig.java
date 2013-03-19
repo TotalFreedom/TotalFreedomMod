@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
@@ -145,9 +146,41 @@ public class Command_saconfig extends TFM_Command
                     return true;
                 }
 
-                TFM_Util.adminAction(sender.getName(), "Removing " + target_name + " from the superadmin list.", true);
-
+                TFM_Util.adminAction(sender.getName(), "Removing " + target_name + " from the superadmin list", true);
                 TFM_SuperadminList.removeSuperadmin(target_name);
+
+                // Twitterbot
+                TFM_TwitterHandler twitterbot = TFM_TwitterHandler.getInstance(plugin);
+                String reply = twitterbot.delTwitter(target_name);
+                if ("ok".equals(reply))
+                {
+                    TFM_Util.adminAction(sender.getName(), "Removing " + target_name + " from TwitterBot", true);
+                }
+                else if ("disabled".equals(reply))
+                {
+                    TFM_Util.playerMsg(sender, "Warning: Could not check if player has a twitter handle!");
+                    TFM_Util.playerMsg(sender, "TwitterBot has been temporarily disabled,, please wait until it get re-enabled", ChatColor.RED);
+                }
+                else if ("failed".equals(reply))
+                {
+                    TFM_Util.playerMsg(sender, "Warning: Could not check if player has a twitter handle!");
+                    TFM_Util.playerMsg(sender, "There was a problem querying the database, please let a developer know.", ChatColor.RED);
+                }
+                else if ("false".equals(reply))
+                {
+                    TFM_Util.playerMsg(sender, "Warning: Could not check if player has a twitter handle!");
+                    TFM_Util.playerMsg(sender, "There was a problem with the database, please let a developer know.", ChatColor.RED);
+                }
+                else if ("cannotauth".equals(reply))
+                {
+                    TFM_Util.playerMsg(sender, "Warning: Could not check if player has a twitter handle!");
+                    TFM_Util.playerMsg(sender, "The database password is incorrect, please let a developer know.", ChatColor.RED);
+                }
+                else if ("notfound".equals(reply))
+                {
+                    TFM_Util.playerMsg(sender, target_name + " did not have a twitter handle registered to their name.", ChatColor.GREEN);
+                }
+
             }
             else
             {
