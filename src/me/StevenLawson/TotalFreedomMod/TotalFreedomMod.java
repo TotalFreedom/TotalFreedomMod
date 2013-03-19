@@ -221,6 +221,9 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean autoProtectSpawnpoints = true;
     public static double autoProtectRadius = 25.0D;
     public static List<String> host_sender_names = Arrays.asList("rcon", "remotebukkit");
+    public static boolean twitterbotEnabled = false;
+    public static String twitterbotUrl = "http://tftwitter.darthcraft.net/";
+    public static String twitterbotSecret = "";
 
     public static void loadMainConfig()
     {
@@ -262,6 +265,9 @@ public class TotalFreedomMod extends JavaPlugin
             autoProtectSpawnpoints = config.getBoolean("auto_protect_spawnpoints", autoProtectSpawnpoints);
             autoProtectRadius = config.getDouble("auto_protect_radius", autoProtectRadius);
             host_sender_names = config.getStringList("host_sender_names");
+            twitterbotEnabled = config.getBoolean("twitterbot_enabled");
+            twitterbotUrl = config.getString("twitterbot_url");
+            twitterbotSecret = config.getString("twitterbot_secret");
         }
         catch (Exception ex)
         {
