@@ -1,9 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -250,7 +250,6 @@ public class TFM_BlockListener implements Listener
             event.setCancelled(true);
         }
     }
-    
 //    @EventHandler(priority = EventPriority.NORMAL)
 //    public void onCommandBlockChangeEvent(CommandBlockChangeEvent event)
 //    {

@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME)
 public class Command_radar extends TFM_Command
 {
     @Override
@@ -33,7 +33,7 @@ public class Command_radar extends TFM_Command
                 }
             }
         }
-        
+
         if (radar_data.isEmpty())
         {
             playerMsg("You are the only player in this world. (" + ChatColor.GREEN + "Forever alone..." + ChatColor.YELLOW + ")", ChatColor.YELLOW); //lol
@@ -55,14 +55,13 @@ public class Command_radar extends TFM_Command
             {
             }
         }
-        
+
         for (TFM_RadarData i : radar_data)
         {
             playerMsg(String.format("%s - %d",
                     i.player.getName(),
-                    Math.round(i.distance)
-                    ), ChatColor.YELLOW);
-            
+                    Math.round(i.distance)), ChatColor.YELLOW);
+
             if (--countmax <= 0)
             {
                 break;

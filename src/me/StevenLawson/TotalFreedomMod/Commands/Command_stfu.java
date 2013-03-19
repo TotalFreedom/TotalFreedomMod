@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 public class Command_stfu extends TFM_Command
 {
     @Override
@@ -92,7 +92,7 @@ public class Command_stfu extends TFM_Command
                     {
                         TFM_PlayerData.getPlayerData(p).setMuted(false);
                     }
-                    
+
                     TotalFreedomMod.mutePurgeEventId = 0;
                 }
             }, 6000L); // five minutes in ticks: 20*60*5

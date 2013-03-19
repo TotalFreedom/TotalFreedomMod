@@ -10,7 +10,6 @@ import org.bukkit.World;
 
 // From: http://forums.bukkit.org/threads/location-serialized.105851/
 // By: gcflames5
-
 public final class SerializableLocation implements Serializable
 {
     private static final long serialVersionUID = 7498864812883577904L;

@@ -8,8 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
 public class Command_twitter extends TFM_Command
 {
     @Override
@@ -30,11 +29,12 @@ public class Command_twitter extends TFM_Command
 
         if ("set".equals(args[0]))
         {
-            if (args.length != 2) {
+            if (args.length != 2)
+            {
                 return false;
             }
 
-            if(args[1].startsWith("@"))
+            if (args[1].startsWith("@"))
             {
                 TFM_Util.playerMsg(sender, "Please do not prefix your twitter username with '@'");
                 return true;
@@ -81,8 +81,9 @@ public class Command_twitter extends TFM_Command
             TFM_Util.playerMsg(sender, "-- Twitter Information --", ChatColor.BLUE);
             TFM_Util.playerMsg(sender, "Using this feature, you can re-super yourself using twitter.");
             TFM_Util.playerMsg(sender, "You can set your twitter handle using " + ChatColor.AQUA + "/twitter set [twittername]");
-            TFM_Util.playerMsg (sender, "Then, you can verify yourself by tweeting " + ChatColor.AQUA + "@TFUpdates #superme");
-            if ("notfound".equals(reply)) {
+            TFM_Util.playerMsg(sender, "Then, you can verify yourself by tweeting " + ChatColor.AQUA + "@TFUpdates #superme");
+            if ("notfound".equals(reply))
+            {
                 TFM_Util.playerMsg(sender, "You currently have " + ChatColor.RED + "no" + ChatColor.BLUE + " Twitter handle set.", ChatColor.BLUE);
             }
             else if ("disabled".equals(reply))

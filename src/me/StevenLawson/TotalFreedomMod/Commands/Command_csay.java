@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_CONSOLE, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_CONSOLE)
 public class Command_csay extends TFM_Command
 {
     @Override

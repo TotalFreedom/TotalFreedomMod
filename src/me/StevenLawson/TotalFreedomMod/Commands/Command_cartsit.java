@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH, ignore_permissions = true)
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
 public class Command_cartsit extends TFM_Command
 {
     @Override

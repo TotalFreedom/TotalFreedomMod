@@ -475,5 +475,4 @@ public class TFM_PlayerData
     {
         return cmdspy_enabled;
     }
-
 }

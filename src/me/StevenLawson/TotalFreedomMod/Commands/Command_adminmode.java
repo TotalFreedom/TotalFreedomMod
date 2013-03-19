@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_CONSOLE, block_host_console = true, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_CONSOLE, block_host_console = true)
 public class Command_adminmode extends TFM_Command
 {
     @Override

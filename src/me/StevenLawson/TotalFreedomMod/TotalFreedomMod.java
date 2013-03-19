@@ -298,7 +298,7 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.severe("Error loading superadmin list: " + ex.getMessage());
         }
     }
-
+    
     public static List<String> permbanned_players = new ArrayList<String>();
     public static List<String> permbanned_ips = new ArrayList<String>();
 

@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod;
 
 public class TFM_TickMeter
 {
-
     int ticks;
     int taskId;
     final TotalFreedomMod plugin;
@@ -36,5 +35,4 @@ public class TFM_TickMeter
     {
         return ticks;
     }
-
 }

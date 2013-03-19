@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
 public class Command_opme extends TFM_Command
 {
     @Override
@@ -15,7 +15,7 @@ public class Command_opme extends TFM_Command
         TFM_Util.adminAction(sender.getName(), "Opping " + sender.getName(), false);
         sender.setOp(true);
         sender.sendMessage(TotalFreedomMod.YOU_ARE_OP);
-        
+
         return true;
     }
 }

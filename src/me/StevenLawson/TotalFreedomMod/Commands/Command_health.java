@@ -9,8 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 public class Command_health extends TFM_Command
 {
     @Override
@@ -36,14 +35,14 @@ public class Command_health extends TFM_Command
                     float usedMem = runtime.totalMemory() - runtime.freeMemory();
 
                     playerMsg("Reserved Memory: " + runtime.totalMemory() / mb + "mb");
-                    playerMsg("Used Memory: " + new DecimalFormat("#").format(usedMem / mb)  + "mb (" + new DecimalFormat("#").format(usedMem/runtime.totalMemory()*100) + "%)");
+                    playerMsg("Used Memory: " + new DecimalFormat("#").format(usedMem / mb) + "mb (" + new DecimalFormat("#").format(usedMem / runtime.totalMemory() * 100) + "%)");
                     playerMsg("Max Memory: " + runtime.maxMemory() / mb + "mb");
                     playerMsg("Ticks per second: " + (meter.getTicks() == 20 ? ChatColor.GREEN : ChatColor.RED) + meter.getTicks());
                 }
                 catch (Exception iex)
                 {
-                   TFM_Log.warning("Exception in TFM_TickMeter: Thread was interupted in sleeping process.");
-                   TFM_Log.warning(ExceptionUtils.getStackTrace(iex));
+                    TFM_Log.warning("Exception in TFM_TickMeter: Thread was interupted in sleeping process.");
+                    TFM_Log.warning(ExceptionUtils.getStackTrace(iex));
                 }
             }
         };

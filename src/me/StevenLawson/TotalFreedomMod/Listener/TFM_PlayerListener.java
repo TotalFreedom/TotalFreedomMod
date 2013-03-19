@@ -58,7 +58,6 @@ public class TFM_PlayerListener implements Listener
                     }
                     case POTION:
                     {
-
                     }
                 }
                 break;
@@ -588,7 +587,7 @@ public class TFM_PlayerListener implements Listener
             }
             return;
         }
-        
+
         if (!TFM_SuperadminList.isUserSuperadmin(p))
         {
             for (Player pl : Bukkit.getOnlinePlayers())

@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
 public class Command_setlevel extends TFM_Command
 {
     @Override

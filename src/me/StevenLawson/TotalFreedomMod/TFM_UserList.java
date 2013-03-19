@@ -90,7 +90,7 @@ public class TFM_UserList
     public void addUser(String username, String ip_address)
     {
         username = username.toLowerCase();
-        
+
         TFM_UserListEntry entry = _userlist.get(username);
         if (entry == null)
         {
@@ -123,7 +123,7 @@ public class TFM_UserList
         {
             addUser(p);
         }
-        
+
         exportList();
     }
 
@@ -132,15 +132,15 @@ public class TFM_UserList
         private String _username;
         private List<String> _ip_addresses = new ArrayList<String>();
 
-        public TFM_UserListEntry(String username, List<String>ip_addresses)
+        public TFM_UserListEntry(String username, List<String> ip_addresses)
         {
-           _username = username;
-           _ip_addresses = ip_addresses;
+            _username = username;
+            _ip_addresses = ip_addresses;
         }
 
         public TFM_UserListEntry(String username)
         {
-           _username = username;
+            _username = username;
         }
 
         public List<String> getIpAddresses()

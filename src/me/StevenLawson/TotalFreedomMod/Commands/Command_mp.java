@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
-@CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
 public class Command_mp extends TFM_Command
 {
     @Override

@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true)
 public class Command_nonuke extends TFM_Command
 {
     @Override
@@ -41,7 +41,7 @@ public class Command_nonuke extends TFM_Command
         if (args[0].equalsIgnoreCase("on"))
         {
             TotalFreedomMod.nukeMonitor = true;
-            playerMsg( "Nuke monitor is enabled.");
+            playerMsg("Nuke monitor is enabled.");
             playerMsg("Anti-freecam range is set to " + TotalFreedomMod.nukeMonitorRange + " blocks.");
             playerMsg("Block throttle rate is set to " + TotalFreedomMod.nukeMonitorCountBreak + " blocks destroyed per 5 seconds.");
         }

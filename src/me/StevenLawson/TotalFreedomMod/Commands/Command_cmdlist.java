@@ -12,14 +12,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-@CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH, ignore_permissions = true)
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
 public class Command_cmdlist extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         List<String> commands = new ArrayList<String>();
-        
+
         for (Plugin p : server.getPluginManager().getPlugins())
         {
             try
@@ -40,9 +40,9 @@ public class Command_cmdlist extends TFM_Command
             {
             }
         }
-        
+
         Collections.sort(commands);
-        
+
         sender.sendMessage(StringUtils.join(commands, ","));
 
         return true;

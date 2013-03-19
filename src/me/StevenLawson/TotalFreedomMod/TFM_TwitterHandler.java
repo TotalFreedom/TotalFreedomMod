@@ -6,9 +6,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
-
-public class TFM_TwitterHandler {
-
+public class TFM_TwitterHandler
+{
     private TotalFreedomMod plugin;
 
     private TFM_TwitterHandler(TotalFreedomMod plugin)
@@ -30,19 +29,23 @@ public class TFM_TwitterHandler {
         return request("action=settwitter&player=" + player + "&twitter=" + twitter);
     }
 
-    public String delTwitter(String player) {
+    public String delTwitter(String player)
+    {
         return request("action=deltwitter&player=" + player);
     }
 
-    public String isEnabled() {
+    public String isEnabled()
+    {
         return request("action=getstatus");
     }
 
-    public String setEnabled(String status) {
+    public String setEnabled(String status)
+    {
         return request("action=setstatus&status=" + status);
     }
 
-    private String request(String queryString) {
+    private String request(String queryString)
+    {
         String line = "failed";
         try
         {
@@ -60,8 +63,8 @@ public class TFM_TwitterHandler {
         return line;
     }
 
-    public static TFM_TwitterHandler getInstance(TotalFreedomMod plugin) {
+    public static TFM_TwitterHandler getInstance(TotalFreedomMod plugin)
+    {
         return new TFM_TwitterHandler(plugin);
     }
-
 }

@@ -65,81 +65,74 @@ public class TFM_Command
         CommandPermissions permissions = cmd_class.getAnnotation(CommandPermissions.class);
         if (permissions != null)
         {
-            if (permissions.ignore_permissions())
+            boolean is_super = TFM_SuperadminList.isUserSuperadmin(sender);
+            boolean is_senior = false;
+            if (is_super)
             {
-                return true;
+                is_senior = TFM_SuperadminList.isSeniorAdmin(sender);
+            }
+
+            AdminLevel level = permissions.level();
+            SourceType source = permissions.source();
+            boolean block_host_console = permissions.block_host_console();
+
+            Player sender_p = null;
+            if (sender instanceof Player)
+            {
+                sender_p = (Player) sender;
+            }
+
+            if (sender_p == null)
+            {
+                if (source == SourceType.ONLY_IN_GAME)
+                {
+                    return false;
+                }
+                else if (level == AdminLevel.SENIOR && !is_senior)
+                {
+                    return false;
+                }
+                else if (block_host_console && TFM_Util.isFromHostConsole(sender.getName()))
+                {
+                    return false;
+                }
             }
             else
             {
-                boolean is_super = TFM_SuperadminList.isUserSuperadmin(sender);
-                boolean is_senior = false;
-                if (is_super)
+                if (source == SourceType.ONLY_CONSOLE)
                 {
-                    is_senior = TFM_SuperadminList.isSeniorAdmin(sender);
+                    return false;
                 }
-
-                AdminLevel level = permissions.level();
-                SourceType source = permissions.source();
-                boolean block_host_console = permissions.block_host_console();
-
-                Player sender_p = null;
-                if (sender instanceof Player)
+                else if (level == AdminLevel.SENIOR)
                 {
-                    sender_p = (Player) sender;
-                }
+                    if (is_senior)
+                    {
+                        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender_p);
+                        Boolean superadminIdVerified = playerdata.isSuperadminIdVerified();
 
-                if (sender_p == null)
-                {
-                    if (source == SourceType.ONLY_IN_GAME)
-                    {
-                        return false;
-                    }
-                    else if (level == AdminLevel.SENIOR && !is_senior)
-                    {
-                        return false;
-                    }
-                    else if (block_host_console && TFM_Util.isFromHostConsole(sender.getName()))
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (source == SourceType.ONLY_CONSOLE)
-                    {
-                        return false;
-                    }
-                    else if (level == AdminLevel.SENIOR)
-                    {
-                        if (is_senior)
+                        if (superadminIdVerified != null)
                         {
-                            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender_p);
-                            Boolean superadminIdVerified = playerdata.isSuperadminIdVerified();
-
-                            if (superadminIdVerified != null)
+                            if (!superadminIdVerified.booleanValue())
                             {
-                                if (!superadminIdVerified.booleanValue())
-                                {
-                                    return false;
-                                }
+                                return false;
                             }
                         }
-                        else
-                        {
-                            return false;
-                        }
                     }
-                    else if (level == AdminLevel.SUPER && !is_super)
-                    {
-                        return false;
-                    }
-                    else if (level == AdminLevel.OP && !sender_p.isOp())
+                    else
                     {
                         return false;
                     }
                 }
-                return true;
+                else if (level == AdminLevel.SUPER && !is_super)
+                {
+                    return false;
+                }
+                else if (level == AdminLevel.OP && !sender_p.isOp())
+                {
+                    return false;
+                }
             }
+            return true;
         }
         return true;
     }
