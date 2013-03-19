@@ -1,12 +1,10 @@
-# netbeans excludes - StevenLawson & JeromSar
+# Netbeans excludes - StevenLawson & JeromSar
 /nbproject/private/
 /dist/
 /build/
-buildnumber.properties
-appinfo.properties
 manifest.mf
 
-# eclipse excludes - JeromSar (old)
+# Eclipse excludes - JeromSar (old)
 .project
 .classpath
 /bin/
