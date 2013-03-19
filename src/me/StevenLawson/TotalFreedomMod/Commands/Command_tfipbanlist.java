@@ -3,8 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
-import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
@@ -13,7 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = ADMIN_LEVEL.OP, source = SOURCE_TYPE_ALLOWED.BOTH, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH, ignore_permissions = false)
 public class Command_tfipbanlist extends TFM_Command
 {
     @Override

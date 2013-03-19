@@ -3,8 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.ADMIN_LEVEL;
-import me.StevenLawson.TotalFreedomMod.Commands.CommandPermissions.SOURCE_TYPE_ALLOWED;
 import me.StevenLawson.TotalFreedomMod.TFM_RadarData;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -12,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = ADMIN_LEVEL.ALL, source = SOURCE_TYPE_ALLOWED.ONLY_IN_GAME, ignore_permissions = false)
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME, ignore_permissions = false)
 public class Command_radar extends TFM_Command
 {
     @Override

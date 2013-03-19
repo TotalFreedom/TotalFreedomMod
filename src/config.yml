@@ -64,3 +64,8 @@ auto_protect_radius: 25.0
 host_sender_names:
   - rcon
   - remotebukkit
+
+# TwitterBot - Used to allow superadmins to verify themselves using twitter
+twitterbot_enabled: false
+twitterbot_url: 'http://tftwitter.darthcraft.net/'
+twitterbot_secret: ''

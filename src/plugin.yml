@@ -238,10 +238,13 @@ commands:
     usage: /<command> [purge]
   tfupdate:
     description: Madgeek command - Update server files.
-    usave: /<command>
+    usage: /<command>
   tossmob:
-    description: Throw a mob in the direction you are facing when you left click with a stick.
+    description: SuperAdmin command - Throw a mob in the direction you are facing when you left click with a stick.
     usage: /<command> <mobtype [speed] | off | list>
+  twitter:
+    description: Manage your twitter
+    usage: /<command> <set [twitter] | info | enable | disable>
   uall:
     description: Superadmin command - Undisguises all players
     usage: /<command>
