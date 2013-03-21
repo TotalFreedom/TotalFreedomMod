@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 public class TFM_LandmineData
 {
     public static List<TFM_LandmineData> landmines = new ArrayList<TFM_LandmineData>();
-
     public Location landmine_pos;
     public Player player;
     public double radius;

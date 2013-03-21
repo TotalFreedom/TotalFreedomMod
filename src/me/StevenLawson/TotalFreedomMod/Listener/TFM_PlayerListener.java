@@ -176,7 +176,7 @@ public class TFM_PlayerListener implements Listener
                                     last_block = test_block;
                                 }
 
-                                Bukkit.getScheduler().runTaskLaterAsynchronously(TotalFreedomMod.plugin, new Runnable()
+                                Bukkit.getScheduler().scheduleSyncDelayedTask(TotalFreedomMod.plugin, new Runnable()
                                 {
                                     @Override
                                     public void run()
@@ -695,7 +695,7 @@ public class TFM_PlayerListener implements Listener
 
             if (TotalFreedomMod.adminOnlyMode)
             {
-                TotalFreedomMod.plugin.getServer().getScheduler().runTaskLaterAsynchronously(TotalFreedomMod.plugin, new Runnable()
+                TotalFreedomMod.plugin.getServer().getScheduler().scheduleSyncDelayedTask(TotalFreedomMod.plugin, new Runnable()
                 {
                     @Override
                     public void run()
