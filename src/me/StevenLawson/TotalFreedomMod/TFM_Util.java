@@ -18,7 +18,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
@@ -972,5 +971,17 @@ public class TFM_Util
                 p.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
             }
         }
+    }
+
+    public static String inputStreamToString(InputStream is, boolean preserveNewlines) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null)
+        {
+            sb.append(line).append(preserveNewlines ? System.lineSeparator() : "");
+        }
+        return sb.toString();
     }
 }
