@@ -78,7 +78,7 @@ public class Command_glist extends TFM_Command
                 if (p != null)
                 {
                     TFM_ServerInterface.banUsername(p.getName(), null, null, null);
-                    p.kickPlayer("IP and username banned by Administrator.");
+                    p.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
                 }
                 else
                 {
