@@ -76,7 +76,7 @@ public class Command_gtfo extends TFM_Command
         TFM_ServerInterface.banUsername(p.getName(), null, null, null);
 
         // kick Player:
-        p.kickPlayer("GTFO");
+        p.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://totalfreedom.boards.net");
 
         return true;
     }
