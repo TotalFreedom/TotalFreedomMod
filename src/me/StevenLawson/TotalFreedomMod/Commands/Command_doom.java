@@ -68,7 +68,7 @@ public class Command_doom extends TFM_Command
         // generate explosion
         p.getWorld().createExplosion(p.getLocation(), 4F);
 
-        server.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable()
+        server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
         {
             @Override
             public void run()
@@ -81,7 +81,7 @@ public class Command_doom extends TFM_Command
             }
         }, 40L); // 2 seconds
 
-        server.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable()
+        server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
         {
             @Override
             public void run()

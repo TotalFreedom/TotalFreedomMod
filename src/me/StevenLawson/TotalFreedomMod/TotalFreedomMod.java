@@ -101,7 +101,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
-        server.getScheduler().runTaskTimerAsynchronously(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+        server.getScheduler().scheduleSyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try
@@ -298,7 +298,7 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.severe("Error loading superadmin list: " + ex.getMessage());
         }
     }
-    
+
     public static List<String> permbanned_players = new ArrayList<String>();
     public static List<String> permbanned_ips = new ArrayList<String>();
 
