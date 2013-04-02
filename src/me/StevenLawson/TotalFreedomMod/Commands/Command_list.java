@@ -13,6 +13,11 @@ import org.bukkit.entity.Player;
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
 public class Command_list extends TFM_Command
 {
+    private static enum ListFilter
+    {
+        SHOW_ALL, SHOW_ADMINS
+    }
+
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -27,6 +32,15 @@ public class Command_list extends TFM_Command
             return true;
         }
 
+        ListFilter listFilter = ListFilter.SHOW_ALL;
+        if (args.length >= 1)
+        {
+            if (args[0].equalsIgnoreCase("-a"))
+            {
+                listFilter = ListFilter.SHOW_ADMINS;
+            }
+        }
+
         StringBuilder onlineStats = new StringBuilder();
         StringBuilder onlineUsers = new StringBuilder();
 
@@ -37,9 +51,16 @@ public class Command_list extends TFM_Command
         List<String> player_names = new ArrayList<String>();
         for (Player p : server.getOnlinePlayers())
         {
+            boolean userSuperadmin = TFM_SuperadminList.isUserSuperadmin(p);
+
+            if (listFilter == ListFilter.SHOW_ADMINS && !userSuperadmin)
+            {
+                continue;
+            }
+
             String prefix = "";
 
-            if (TFM_SuperadminList.isUserSuperadmin(p))
+            if (userSuperadmin)
             {
                 if (TFM_SuperadminList.isSeniorAdmin(p))
                 {
@@ -66,7 +87,7 @@ public class Command_list extends TFM_Command
             player_names.add(prefix + p.getName() + ChatColor.WHITE);
         }
 
-        onlineUsers.append("Connected players: ").append(StringUtils.join(player_names, ", "));
+        onlineUsers.append("Connected ").append(listFilter == ListFilter.SHOW_ADMINS ? "admins" : "players").append(": ").append(StringUtils.join(player_names, ", "));
 
         if (senderIsConsole)
         {
