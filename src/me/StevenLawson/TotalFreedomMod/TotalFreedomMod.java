@@ -154,8 +154,7 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
                 dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, cmd.getName().toLowerCase())).newInstance();
-                dispatcher.setPlugin(this);
-                dispatcher.setCommandsender(sender);
+                dispatcher.setup(this, sender, dispatcher.getClass());
             }
             catch (Throwable ex)
             {
@@ -166,7 +165,7 @@ public class TotalFreedomMod extends JavaPlugin
 
             try
             {
-                if (dispatcher.senderHasPermission(dispatcher.getClass(), sender))
+                if (dispatcher.senderHasPermission())
                 {
                     return dispatcher.run(sender, sender_p, cmd, commandLabel, args, senderIsConsole);
                 }

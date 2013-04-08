@@ -12,64 +12,61 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class TFM_Command
+public abstract class TFM_Command
 {
     protected TotalFreedomMod plugin;
     protected Server server;
-    private CommandSender commandsender;
+    private CommandSender commandSender;
+    private Class<?> commandClass;
 
     public TFM_Command()
     {
     }
 
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
-    {
-        TFM_Log.severe("Command Error: Command not implemented: " + cmd.getName());
-        sender.sendMessage(ChatColor.RED + "Command Error: Command not implemented: " + cmd.getName());
-        return false;
-    }
+    abstract public boolean run(final CommandSender sender, final Player sender_p, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole);
 
-    public void setPlugin(TotalFreedomMod plugin)
+    public void setup(final TotalFreedomMod plugin, final CommandSender commandSender, final Class<?> commandClass)
     {
         this.plugin = plugin;
-        this.server = plugin.getServer();
+        this.server = this.plugin.getServer();
+        this.commandSender = commandSender;
+        this.commandClass = commandClass;
     }
 
-    public void setCommandsender(CommandSender commandsender)
+    public void playerMsg(final CommandSender sender, final String message, final ChatColor color)
     {
-        this.commandsender = commandsender;
-    }
-
-    public void playerMsg(CommandSender sender, String message, ChatColor color) // complete function
-    {
+        if (sender == null)
+        {
+            return;
+        }
         sender.sendMessage(color + message);
     }
 
-    public void playerMsg(String message, ChatColor color)
+    public void playerMsg(final String message, final ChatColor color)
     {
-        playerMsg(commandsender, message, color);
+        playerMsg(commandSender, message, color);
     }
 
-    public void playerMsg(CommandSender sender, String message)
+    public void playerMsg(final CommandSender sender, final String message)
     {
         playerMsg(sender, message, ChatColor.GRAY);
     }
 
-    public void playerMsg(String message)
+    public void playerMsg(final String message)
     {
-        playerMsg(commandsender, message);
+        playerMsg(commandSender, message);
     }
 
-    public boolean senderHasPermission(Class<?> cmd_class, CommandSender sender)
+    public boolean senderHasPermission()
     {
-        CommandPermissions permissions = cmd_class.getAnnotation(CommandPermissions.class);
+        CommandPermissions permissions = commandClass.getAnnotation(CommandPermissions.class);
         if (permissions != null)
         {
-            boolean is_super = TFM_SuperadminList.isUserSuperadmin(sender);
+            boolean is_super = TFM_SuperadminList.isUserSuperadmin(this.commandSender);
             boolean is_senior = false;
             if (is_super)
             {
-                is_senior = TFM_SuperadminList.isSeniorAdmin(sender);
+                is_senior = TFM_SuperadminList.isSeniorAdmin(this.commandSender);
             }
 
             AdminLevel level = permissions.level();
@@ -77,9 +74,9 @@ public class TFM_Command
             boolean block_host_console = permissions.block_host_console();
 
             Player sender_p = null;
-            if (sender instanceof Player)
+            if (this.commandSender instanceof Player)
             {
-                sender_p = (Player) sender;
+                sender_p = (Player) this.commandSender;
             }
 
             if (sender_p == null)
@@ -92,7 +89,7 @@ public class TFM_Command
                 {
                     return false;
                 }
-                else if (block_host_console && TFM_Util.isFromHostConsole(sender.getName()))
+                else if (block_host_console && TFM_Util.isFromHostConsole(this.commandSender.getName()))
                 {
                     return false;
                 }
@@ -134,10 +131,14 @@ public class TFM_Command
             }
             return true;
         }
+        else
+        {
+            TFM_Log.warning(commandClass.getName() + " is missing permissions annotation.");
+        }
         return true;
     }
 
-    public Player getPlayer(String partialname) throws CantFindPlayerException
+    public Player getPlayer(final String partialname) throws CantFindPlayerException
     {
         List<Player> matches = server.matchPlayer(partialname);
         if (matches.isEmpty())
