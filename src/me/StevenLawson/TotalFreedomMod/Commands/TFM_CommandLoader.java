@@ -10,8 +10,9 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
@@ -29,7 +30,7 @@ public class TFM_CommandLoader
 
     public void scan()
     {
-        CommandMap commandMap = TFM_ServerInterface.getCommandMap();
+        CommandMap commandMap = TFM_Util.getField(Bukkit.getServer().getPluginManager(), "commandMap");
         if (commandMap == null)
         {
             TFM_Log.severe("Error loading command map.");
