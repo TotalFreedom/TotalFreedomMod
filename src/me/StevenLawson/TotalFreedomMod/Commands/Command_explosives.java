@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Enable/disable explosives and set effect radius.", usage = "/<command> <on | off> [radius]")
 public class Command_explosives extends TFM_Command
 {
     @Override

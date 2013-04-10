@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true)
+@CommandParameters(description = "Update server files.", usage = "/<command>")
 public class Command_tfupdate extends TFM_Command
 {
     public static final String[] FILES =

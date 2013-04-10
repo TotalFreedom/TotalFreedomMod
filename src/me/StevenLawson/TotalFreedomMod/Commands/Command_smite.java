@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> [playername]")
 public class Command_smite extends TFM_Command
 {
     @Override

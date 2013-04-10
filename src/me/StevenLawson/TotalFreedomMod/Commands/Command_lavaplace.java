@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Enable/disable lava placement.", usage = "/<command> <on | off>")
 public class Command_lavaplace extends TFM_Command
 {
     @Override

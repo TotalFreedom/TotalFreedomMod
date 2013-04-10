@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Shows nearby people sorted by distance.", usage = "/<command> [range]")
 public class Command_radar extends TFM_Command
 {
     @Override

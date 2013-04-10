@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Kicks everyone and stops the server.", usage = "/<command>")
 public class Command_stop extends TFM_Command
 {
     @Override

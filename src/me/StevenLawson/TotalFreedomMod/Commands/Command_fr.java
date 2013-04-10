@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Freeze players (toggles on and off).", usage = "/<command> [target | purge]")
 public class Command_fr extends TFM_Command
 {
     @Override

@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Set a landmine trap.", usage = "/<command>")
 public class Command_landmine extends TFM_Command
 {
     @Override

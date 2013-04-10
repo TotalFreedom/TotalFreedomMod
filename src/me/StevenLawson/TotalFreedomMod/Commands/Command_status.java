@@ -22,6 +22,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
+@CommandParameters(description = "Show misc. server info.", usage = "/<command>")
 public class Command_status extends TFM_Command
 {
     public static final Map<String, String> SERVICE_MAP = new HashMap<String, String>();

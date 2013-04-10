@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Halts a player", usage = "/<command> <<partialname> | all | purge | list>")
 public class Command_halt extends TFM_Command
 {
     @Override

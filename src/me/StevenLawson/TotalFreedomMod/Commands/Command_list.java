@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command>", aliases = "who")
 public class Command_list extends TFM_Command
 {
     private static enum ListFilter

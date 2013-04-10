@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
+@CommandParameters(description = "Makes a player operator", usage = "/<command> <playername>")
 public class Command_op extends TFM_Command
 {
     @Override

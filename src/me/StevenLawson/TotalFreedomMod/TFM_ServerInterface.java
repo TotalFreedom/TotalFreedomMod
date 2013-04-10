@@ -10,8 +10,10 @@ import net.minecraft.server.v1_5_R2.BanList;
 import net.minecraft.server.v1_5_R2.MinecraftServer;
 import net.minecraft.server.v1_5_R2.PlayerList;
 import net.minecraft.server.v1_5_R2.PropertyManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerLoginEvent;
 
@@ -117,6 +119,12 @@ public class TFM_ServerInterface
         int size = whitelisted.size();
         whitelisted.clear();
         return size;
+    }
+
+    public static CommandMap getCommandMap()
+    {
+        CommandMap commandMap = TFM_Util.getField(Bukkit.getServer().getPluginManager(), "commandMap");
+        return commandMap;
     }
 
     public static void handlePlayerLogin(PlayerLoginEvent event)

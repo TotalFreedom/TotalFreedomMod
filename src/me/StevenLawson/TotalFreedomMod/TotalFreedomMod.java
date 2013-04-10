@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
+import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
@@ -102,6 +103,8 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
         server.getScheduler().scheduleSyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+
+        TFM_CommandLoader.getInstance().scan();
 
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try

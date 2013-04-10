@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Removes all entities, nicks and disguises.", usage = "/<command>")
 public class Command_clearall extends TFM_Command
 {
     @Override

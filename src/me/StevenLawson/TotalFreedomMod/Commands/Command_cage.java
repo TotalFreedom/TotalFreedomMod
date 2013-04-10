@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <partialname> <off | [[outermaterial] [innermaterial]]>")
 public class Command_cage extends TFM_Command
 {
     @Override
