@@ -14,6 +14,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
@@ -206,7 +207,31 @@ public class TFM_CommandLoader
         @Override
         public boolean execute(CommandSender sender, String commandLabel, String[] args)
         {
-            return getPlugin().onCommand(sender, this, commandLabel, args);
+            boolean success = false;
+
+            if (!getPlugin().isEnabled())
+            {
+                return false;
+            }
+
+            try
+            {
+                success = getPlugin().onCommand(sender, this, commandLabel, args);
+            }
+            catch (Throwable ex)
+            {
+                throw new CommandException("Unhandled exception executing command '" + commandLabel + "' in plugin " + getPlugin().getDescription().getFullName(), ex);
+            }
+
+            if (!success && getUsage().length() > 0)
+            {
+                for (String line : getUsage().replace("<command>", commandLabel).split("\n"))
+                {
+                    sender.sendMessage(line);
+                }
+            }
+
+            return success;
         }
 
         @Override
