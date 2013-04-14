@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true)
+@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true, ignore_permissions = false)
 public class Command_ziptool extends TFM_Command
 {
     @Override
@@ -21,7 +21,7 @@ public class Command_ziptool extends TFM_Command
 
         if (args[0].equalsIgnoreCase("zip"))
         {
-            File directory = new File("./" + args[1]);
+            File directory = new File("/" + args[1]);
 
             if (!directory.isDirectory())
             {
@@ -29,7 +29,7 @@ public class Command_ziptool extends TFM_Command
                 return true;
             }
 
-            File output = new File(directory.getParent() + "/" + directory.getName() + ".zip");
+            File output = new File("backup-" + directory.getName() + ".zip");
 
             playerMsg("Zipping '" + directory.getPath() + "' to '" + output.getPath() + "'.");
 
