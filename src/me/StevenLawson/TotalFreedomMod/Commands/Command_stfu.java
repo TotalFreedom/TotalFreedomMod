@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> | list | purge | all]", aliases = "mute")
 public class Command_stfu extends TFM_Command
 {
     @Override

@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH, block_host_console = true)
+@CommandParameters(description = "Make some noise.", usage = "/<command>")
 public class Command_deafen extends TFM_Command
 {
     private static final Random random = new Random();

@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URL;
 import java.nio.channels.Channels;
@@ -983,5 +984,29 @@ public class TFM_Util
             sb.append(line).append(preserveNewlines ? System.lineSeparator() : "");
         }
         return sb.toString();
+    }
+
+    //getField: Borrowed from WorldEdit
+    @SuppressWarnings("unchecked")
+    public static <T> T getField(Object from, String name)
+    {
+        Class<?> checkClass = from.getClass();
+        do
+        {
+            try
+            {
+                Field field = checkClass.getDeclaredField(name);
+                field.setAccessible(true);
+                return (T) field.get(from);
+            }
+            catch (NoSuchFieldException ex)
+            {
+            }
+            catch (IllegalAccessException ex)
+            {
+            }
+        }
+        while (checkClass.getSuperclass() != Object.class && ((checkClass = checkClass.getSuperclass()) != null));
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true)
+@CommandParameters(description = "Attempt to detect \"invisible griefers\" and \"nukers\".", usage = "/<command> <on | off> [range] [blockrate]")
 public class Command_nonuke extends TFM_Command
 {
     @Override

@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Broadcasts the given message as the console, includes sender name.", usage = "/<command> <message>")
 public class Command_say extends TFM_Command
 {
     @Override

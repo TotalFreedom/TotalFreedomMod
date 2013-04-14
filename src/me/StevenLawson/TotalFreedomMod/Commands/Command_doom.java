@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE)
+@CommandParameters(description = "For the bad Superadmins.", usage = "/<command> <playername>")
 public class Command_doom extends TFM_Command
 {
     @Override

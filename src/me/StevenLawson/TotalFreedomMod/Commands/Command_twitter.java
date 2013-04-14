@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Manage your twitter.", usage = "/<command> <set [twitter] | info | enable | disable>")
 public class Command_twitter extends TFM_Command
 {
     @Override

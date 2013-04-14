@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
+@CommandParameters(description = "Goto the flatlands.", usage = "/<command>")
 public class Command_flatlands extends TFM_Command
 {
     @Override

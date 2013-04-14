@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
+@CommandParameters(description = "Manage operators", usage = "/<command> <count | list | purge>")
 public class Command_ops extends TFM_Command
 {
     @Override

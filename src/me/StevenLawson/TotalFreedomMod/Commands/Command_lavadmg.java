@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Enable/disable lava damage.", usage = "/<command> <on | off>")
 public class Command_lavadmg extends TFM_Command
 {
     @Override

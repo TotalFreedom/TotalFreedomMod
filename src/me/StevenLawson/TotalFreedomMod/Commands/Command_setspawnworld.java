@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Set world spawnpoint.", usage = "/<command>")
 public class Command_setspawnworld extends TFM_Command
 {
     @Override

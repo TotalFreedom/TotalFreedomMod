@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Enable/disable fire spread.", usage = "/<command> <on | off>")
 public class Command_firespread extends TFM_Command
 {
     @Override

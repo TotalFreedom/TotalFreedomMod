@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
+@CommandParameters(description = "Goto the ender / \"The End\".", usage = "/<command>")
 public class Command_ender extends TFM_Command
 {
     @Override

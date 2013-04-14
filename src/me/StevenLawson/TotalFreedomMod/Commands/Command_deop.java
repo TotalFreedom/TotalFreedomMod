@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Deop a player.", usage = "/<command> <playername>")
 public class Command_deop extends TFM_Command
 {
     @Override
