@@ -6,7 +6,10 @@ authors: [StevenLawson / Madgeek1450, JeromSar / DarthSalamon]
 commands:
   adminmode:
     description: Console-only command - Close server to non-superadmins.
-    usage: /<command> [on | off]
+    usage: /<command> [on | off]    
+  backup:
+    description: Senior Command - Zips up the Plugins Directory.
+    usage: /<command>
   blockcmd:
     description: Superadmin command - Block all commands for a specific player
     usage: /<command> <purge | <partialname>>
@@ -263,6 +266,6 @@ commands:
   wipeflatlands:
     description: Senior Command - Wipe the flatlands map. Requires manual restart after command is used.
     usage: /<command>
-#  ziptool:
-#    description: Senior Command - Zip and unzip files.
-#    usage: /<command> <zip <directory>> | <unzip <file>>
+  ziptool:
+    description: Senior Command - Zip and unzip files.
+    usage: /<command> <zip <directory>> | <unzip <file>>
