@@ -961,8 +961,7 @@ public class TFM_Util
 
     public static void adminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
     {
-        String name = sender.getName() + (senderIsConsole ? ChatColor.DARK_PURPLE + " (Console)" : (TFM_SuperadminList.isSeniorAdmin(sender) ? ChatColor.LIGHT_PURPLE + " (SrA)" : ChatColor.GOLD + " (SA)"));
-
+        String name = sender.getName() + " " + getPrefix(sender, senderIsConsole);
         TFM_Log.info("[ADMIN] " + name + ": " + message);
 
         for (Player p : Bukkit.getOnlinePlayers())
@@ -973,6 +972,27 @@ public class TFM_Util
             }
         }
     }
+    
+    public static String getPrefix(CommandSender sender, boolean senderIsConsole)
+    {
+        String prefix;
+        if (senderIsConsole) {
+           prefix = ChatColor.BLUE + "(Console)";
+        } else {
+            if (TFM_SuperadminList.isSeniorAdmin(sender))
+            {
+                prefix = ChatColor.LIGHT_PURPLE + "(SrA)";
+            } else
+            {
+                prefix = ChatColor.GOLD + "(SA)";
+            }
+            if (sender.getName().equals("Madgeek1450") || sender.getName().equals("DarthSalamon"))
+            {
+                prefix = ChatColor.DARK_PURPLE + "(Dev)";
+            }
+        }
+        return prefix + ChatColor.WHITE;
+    }
 
     public static String inputStreamToString(InputStream is, boolean preserveNewlines) throws IOException
     {
@@ -981,7 +1001,7 @@ public class TFM_Util
         String line;
         while ((line = br.readLine()) != null)
         {
-            sb.append(line).append(preserveNewlines ? System.lineSeparator() : "");
+            sb.append(line).append(preserveNewlines ? System.getProperty("line.separator") : "");
         }
         return sb.toString();
     }
