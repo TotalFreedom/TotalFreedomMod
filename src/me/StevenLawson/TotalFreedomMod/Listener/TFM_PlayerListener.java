@@ -23,6 +23,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -714,5 +715,17 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         TFM_ServerInterface.handlePlayerLogin(event);
+    }
+    
+    @EventHandler()
+    public void onServerPing(ServerListPingEvent event)
+    {
+        // Colorize :)
+        event.setMotd(ChatColor.translateAlternateColorCodes('&', event.getMotd()));
+        
+        if (TFM_ServerInterface.isIPBanned(event.getAddress().getHostAddress()))
+        {
+            event.setMotd(ChatColor.RED + "You are banned!");
+        }
     }
 }

@@ -117,7 +117,8 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
 
-        TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
+        TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "."
+                + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
     }
 
     @Override
@@ -156,7 +157,8 @@ public class TotalFreedomMod extends JavaPlugin
             try
             {
                 ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
-                dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, cmd.getName().toLowerCase())).newInstance();
+                dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX,
+                        cmd.getName().toLowerCase())).newInstance();
                 dispatcher.setup(this, sender, dispatcher.getClass());
             }
             catch (Throwable ex)

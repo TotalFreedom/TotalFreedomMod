@@ -968,7 +968,8 @@ public class TFM_Util
         {
             if (TFM_SuperadminList.isUserSuperadmin(p))
             {
-                p.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
+                p.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED
+                        + name + ": " + ChatColor.AQUA + message);
             }
         }
     }
@@ -986,7 +987,8 @@ public class TFM_Util
             {
                 prefix = ChatColor.GOLD + "(SA)";
             }
-            if (sender.getName().equals("Madgeek1450") || sender.getName().equals("DarthSalamon"))
+            if (sender.getName().equalsIgnoreCase("Madgeek1450")
+                    || sender.getName().equalsIgnoreCase("DarthSalamon"))
             {
                 prefix = ChatColor.DARK_PURPLE + "(Dev)";
             }
