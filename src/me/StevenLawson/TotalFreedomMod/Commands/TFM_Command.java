@@ -62,11 +62,11 @@ public abstract class TFM_Command
         CommandPermissions permissions = commandClass.getAnnotation(CommandPermissions.class);
         if (permissions != null)
         {
-            boolean is_super = TFM_SuperadminList.isUserSuperadmin(this.commandSender);
+            boolean is_super = TFM_SuperadminList.isUserSuperadmin(commandSender);
             boolean is_senior = false;
             if (is_super)
             {
-                is_senior = TFM_SuperadminList.isSeniorAdmin(this.commandSender);
+                is_senior = TFM_SuperadminList.isSeniorAdmin(commandSender);
             }
 
             AdminLevel level = permissions.level();
