@@ -34,6 +34,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
     public static final String PERMBAN_FILE = "permban.yml";
+    public static final String BACKUP_FILE = "autobackup.php";
     public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILE = "savedflags.dat";
 
