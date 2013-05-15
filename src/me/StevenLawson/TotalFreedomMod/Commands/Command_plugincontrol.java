@@ -8,7 +8,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH)
-@CommandParameters(description = "Enable / disable plugins.", usage = "/<command> < <enable | disable> <pluginname> | list >")
+@CommandParameters(description = "Enable / disable plugins.", usage = "/<command> < <enable | disable> <pluginname> | list >", aliases = "plc")
 public class Command_plugincontrol extends TFM_Command
 {
     private enum CommandMode
