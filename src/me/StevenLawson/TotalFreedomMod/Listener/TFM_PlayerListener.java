@@ -727,5 +727,9 @@ public class TFM_PlayerListener implements Listener
         {
             event.setMotd(ChatColor.RED + "You are banned!");
         }
+        if (TotalFreedomMod.adminOnlyMode(event.getAddress().getHostAddress()))
+        {
+            event.setMotd(ChatColor.RED + "Server in AdminMode!");
+        }
     }
 }
