@@ -1,5 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
+
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,6 +24,8 @@ public class Command_spurgeall extends TFM_Command
         server.dispatchCommand(sender, "blockcmd");
         server.dispatchCommand(sender, "halt purge");
         server.dispatchCommand(sender, "lockup purge");
+        
+        TFM_Util.bcastMsg("[Purge] Purged!", ChatColor.LIGHT_PURPLE);
         //If I'm missing any, lemme know. Or just add it yourself.
 
         return true;
