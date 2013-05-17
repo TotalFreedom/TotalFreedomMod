@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
