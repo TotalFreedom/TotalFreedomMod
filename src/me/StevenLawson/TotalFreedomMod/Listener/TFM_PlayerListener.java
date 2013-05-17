@@ -55,7 +55,6 @@ public class TFM_PlayerListener implements Listener
                         player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                         player.sendMessage(ChatColor.GRAY + "Lava buckets are currently disabled.");
                         event.setCancelled(true);
-                        return;
                     }
                     case POTION:
                     {
@@ -81,7 +80,6 @@ public class TFM_PlayerListener implements Listener
                             playerdata.enqueueMob(rezzed_mob);
 
                             event.setCancelled(true);
-                            return;
                         }
                         break;
                     }
