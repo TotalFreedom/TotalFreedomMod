@@ -78,6 +78,9 @@ public class Command_glist extends TFM_Command
                 Player p = server.getPlayerExact(username);
                 if (p != null)
                 {
+                    //rollback, kick, undo, and ban.
+                    server.dispatchCommand(sender, "rollback " + p.getName());
+                    server.dispatchCommand(sender, "undo " + "15 " p.getName());
                     TFM_ServerInterface.banUsername(p.getName(), null, null, null);
                     p.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
                 }
