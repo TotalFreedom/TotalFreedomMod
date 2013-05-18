@@ -22,7 +22,11 @@ public class Command_noob extends TFM_Command
             playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
-    	
+    	//Rollback
+        server.dispatchCommand(sender, "rollback " + p.getName());
+        //Undo
+        server.dispatchCommand(sender, "undo " + "15 " p.getName());
+        
         server.dispatchCommand(sender, "tempban " + p.getName() + " 5m" + " You have broke a rule(s), please read totalfreedom.me, you'll be unbanned in 5 minutes.");
 
         return true;
