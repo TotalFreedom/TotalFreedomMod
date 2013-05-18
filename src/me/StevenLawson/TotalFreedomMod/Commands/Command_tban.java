@@ -29,6 +29,11 @@ public class Command_tban extends TFM_Command {
             playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
+        
+        //Rollback
+        server.dispatchCommand(sender, "rollback " + p.getName());
+        //Undo
+        server.dispatchCommand(sender, "undo " + "15 " p.getName());
 
         TFM_Util.adminAction(sender.getName(), "NOPE: " + p.getName(), true);
         TFM_ServerInterface.banUsername(p.getName(), ChatColor.RED + "You have been temporarily banned for 5 minutes",
