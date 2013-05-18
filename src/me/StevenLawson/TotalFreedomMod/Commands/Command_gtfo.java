@@ -43,7 +43,7 @@ public class Command_gtfo extends TFM_Command
         
         //rollback
         
-        server.dispatchCommand(sender, "rollback " + p.getName() + " all");
+        server.dispatchCommand(sender, "rollback " + p.getName());
         
 
         // deop

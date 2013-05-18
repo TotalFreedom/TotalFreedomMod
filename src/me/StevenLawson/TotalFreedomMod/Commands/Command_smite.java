@@ -39,7 +39,11 @@ public class Command_smite extends TFM_Command
 
         //Set gamemode to survival:
         p.setGameMode(GameMode.SURVIVAL);
-
+        
+        //Undo
+        server.dispatchCommand(sender, "undo " "15 " + p.getName());
+        //Rollback
+        server.dispatchCommand(sender, "rollback " + p.getName());
         //Clear inventory:
         p.getInventory().clear();
 
