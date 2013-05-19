@@ -19,6 +19,7 @@ public class Command_faq extends TFM_Command
 		playerMsg("Imgettinggriefedandtheresnoadmin!", ChatColor.GOLD);
 		playerMsg("Forums?", ChatColor.GOLD);
 		playerMsg("Website?", ChatColor.GOLD);
+		//playerMsg("can i touch robolawrence?", ChatColor.GOLD);
 		playerMsg("To get the answer of a question, do /faq questionname", ChatColor.AQUA);
 		playerMsg("Don't use spaces! Always use this for example: /faq WhatdoIdoifsomeonegriefsme?", ChatColor.AQUA);
 		
@@ -42,6 +43,12 @@ public class Command_faq extends TFM_Command
 		{
 			playerMsg("It is important that players know our website, totalfreedom.me (Yes, me domain, deal with it!)", ChatColor.GOLD);
 		}
+		/*
+		else if (args[0].equalsIgnoreCase("can i touch robolawrence?"))
+		{
+		        playerMsg("Yes you can! He loves it!", ChatColor.GOLD);
+		}
+		*/
 		
 		//Note to darth: You can always add some more questions.
 			
