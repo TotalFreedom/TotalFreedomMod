@@ -22,7 +22,7 @@ public class TFM_RollbackManager
         {
             e = new ArrayList<TFM_RollbackEntry>();
         }
-        e.add(new TFM_RollbackEntry(block));
+        e.add(0, new TFM_RollbackEntry(block));
         entries.put(player.getName(), e);
     }
 
