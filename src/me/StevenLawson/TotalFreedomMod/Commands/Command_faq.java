@@ -24,23 +24,23 @@ public class Command_faq extends TFM_Command
 		
 		if (args[0].equalsIgnoreCase("Owner?"))
 		{
-			playerMsg("The owner is MarkByron.", ChatColor.GOLD);
+			playerMsg("<xXWilee999Xx> The owner is MarkByron.", ChatColor.GOLD);
 		}
 		else if (args[0].equalsIgnoreCase("WhatdoIdoifsomeonegriefsme?"))
 		{
-			playerMsg("Simple, you say 'Admin! I'm getting griefed!'", ChatColor.GOLD);
+			playerMsg("<xXWilee999Xx> Simple, you say 'Admin! I'm getting griefed!'", ChatColor.GOLD);
 		}
 		else if (args[0].equalsIgnoreCase("Imgettinggriefedandtheresnoadmin!"))
 		{
-			playerMsg("To be honest, there is nothing you can do. BUT! You can actually make a griefer report on the forums! /faq Forums? for how to register on the forums.", ChatColor.GOLD);
+			playerMsg("<xXWilee999Xx> To be honest, there is nothing you can do. BUT! You can actually make a griefer report on the forums! /faq Forums? for how to register on the forums.", ChatColor.GOLD);
 		}
 		else if (args[0].equalsIgnoreCase("Forums?"))
 		{
-			playerMsg("To get on our forums, you gotta go to totalfreedom.boards.net, register (It's simple so I'm not gonna instruct you on registering) then you have access to our forums! We recommend you explore!", ChatColor.GOLD);
+			playerMsg("<xXWilee999Xx> To get on our forums, you gotta go to totalfreedom.boards.net, register (It's simple so I'm not gonna instruct you on registering) then you have access to our forums! We recommend you explore!", ChatColor.GOLD);
 		}
 		else if (args[0].equalsIgnoreCase("Website?"))
 		{
-			playerMsg("It is important that players know our website, totalfreedom.me (Yes, me domain, deal with it!)", ChatColor.GOLD);
+			playerMsg("<xXWilee999Xx> It is important that players know our website, totalfreedom.me (Yes, me domain, deal with it!)", ChatColor.GOLD);
 		}
 		
 		//Note to darth: You can always add some more questions.
