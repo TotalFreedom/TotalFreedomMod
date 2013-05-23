@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> [playername]")
+@CommandParameters(description = "Superadmin Command - Someone being a little bitch? Smite them down...", usage = "/<command> [playername]")
 public class Command_smite extends TFM_Command
 {
     @Override
@@ -40,10 +40,6 @@ public class Command_smite extends TFM_Command
         //Set gamemode to survival:
         p.setGameMode(GameMode.SURVIVAL);
         
-        //Undo
-        server.dispatchCommand(sender, "undo " + "15 " + p.getName());
-        //Rollback
-        server.dispatchCommand(sender, "rollback " + p.getName());
         //Clear inventory:
         p.getInventory().clear();
 
