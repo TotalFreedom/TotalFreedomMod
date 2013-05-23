@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class Command_faq extends TFM_Command
 {
 
-  @Override
+        @Override
 	public boolean run(CommandSender sender, Player sender_p, Command cmd,String commandLabel, String[] args, boolean senderIsConsole)
 	{
 		playerMsg("Welcome to the FAQ Question list!", ChatColor.AQUA);
