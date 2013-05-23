@@ -18,6 +18,11 @@ public class Command_wildcard extends TFM_Command
             playerMsg("What the hell are you trying to do, you stupid idiot...", ChatColor.RED);
             return true;
         }
+        if (args[0].equals("gcmd"))
+        {
+            playerMsg("No... Just no... Please... We just don't need that here...", ChatColor.RED);
+            return true;
+        }
 
         String base_command = StringUtils.join(args, " ");
 
