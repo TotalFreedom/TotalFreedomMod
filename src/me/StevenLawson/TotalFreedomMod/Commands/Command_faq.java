@@ -19,6 +19,7 @@ public class Command_faq extends TFM_Command
 		playerMsg("Imgettinggriefedandtheresnoadmin!", ChatColor.GOLD);
 		playerMsg("Forums?", ChatColor.GOLD);
 		playerMsg("Website?", ChatColor.GOLD);
+		playerMsg("HELPanadminisgonnaresetthemapandruinmybuilds!", ChatColor.GOLD);
 		playerMsg("To get the answer of a question, do /faq questionname", ChatColor.AQUA);
 		playerMsg("Don't use spaces! Always use this for example: /faq WhatdoIdoifsomeonegriefsme?", ChatColor.AQUA);
 		
@@ -41,6 +42,10 @@ public class Command_faq extends TFM_Command
 		else if (args[0].equalsIgnoreCase("Website?"))
 		{
 			playerMsg("<xXWilee999Xx> It is important that players know our website, totalfreedom.me (Yes, me domain, deal with it!)", ChatColor.GOLD);
+		}
+		else if (args[0].equalsIgnoreCase("HELPanadminisgonnaresetthemapandruinmybuilds!"))
+		{
+			playerMsg("<xXWilee999Xx> Because I'm lazy and I'm not gonna explain it to you, just go to totalfreedom.me, and find there you'll find your tutorial on how to save. Scroll down to the Server Help part of the website and you'll see the tutorial. ", ChatColor.GOLD);
 		}
 		
 		//Note to darth: You can always add some more questions.

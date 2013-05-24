@@ -55,7 +55,6 @@ public class TFM_PlayerListener implements Listener
                         player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                         player.sendMessage(ChatColor.GRAY + "Lava buckets are currently disabled.");
                         event.setCancelled(true);
-                        return;
                     }
                     case POTION:
                     {
@@ -81,7 +80,6 @@ public class TFM_PlayerListener implements Listener
                             playerdata.enqueueMob(rezzed_mob);
 
                             event.setCancelled(true);
-                            return;
                         }
                         break;
                     }
@@ -491,14 +489,13 @@ public class TFM_PlayerListener implements Listener
                 block_command = true;
             }
         }
-        else if (Pattern.compile("^/nuke").matcher(command).find())
+        else if (Pattern.compile("^/rl").matcher(command).find())
         {
             if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
                 block_command = true;
             }
         }
-        
         else if (Pattern.compile("^/save-").matcher(command).find())
         {
             if (!TFM_SuperadminList.isUserSuperadmin(p))
@@ -734,6 +731,10 @@ public class TFM_PlayerListener implements Listener
         if (TFM_ServerInterface.isIPBanned(event.getAddress().getHostAddress()))
         {
             event.setMotd(ChatColor.RED + "You are banned!");
+        }
+        if (TotalFreedomMod.adminOnlyMode)
+        {
+            event.setMotd(ChatColor.RED + "Server in AdminMode!");
         }
     }
 }
