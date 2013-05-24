@@ -62,6 +62,10 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onEnable()
     {
+    	plugin = this;
+
+    	PluginManager pm = server.getPluginManager();
+    	
         TotalFreedomMod.plugin = this;
         TotalFreedomMod.plugin_file = getFile();
 
