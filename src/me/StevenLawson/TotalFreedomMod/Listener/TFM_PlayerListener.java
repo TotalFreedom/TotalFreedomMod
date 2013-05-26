@@ -503,6 +503,13 @@ public class TFM_PlayerListener implements Listener
                 block_command = true;
             }
         }
+         else if (Pattern.compile("^/clearhistory").matcher(command).find())
+        {
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
+            {
+                block_command = true;
+            }
+        }
 
         if (block_command)
         {
