@@ -987,10 +987,13 @@ public class TFM_Util
             {
                 prefix = ChatColor.GOLD + "(SA)";
             }
-            if (sender.getName().equalsIgnoreCase("Madgeek1450")
-                    || sender.getName().equalsIgnoreCase("DarthSalamon"))
+            if (sender.getName().equalsIgnoreCase("Madgeek1450") || sender.getName().equalsIgnoreCase("DarthSalamon") || sender.getName().equalsIgnoreCase("AcidicCyanide"))
             {
                 prefix = ChatColor.DARK_PURPLE + "(Dev)";
+            }
+            if (sender.getName().equalsIgnoreCase("markbyron"))
+            {
+            	prefix = ChatColor.GOLD + "(Owner)";
             }
         }
         return prefix + ChatColor.WHITE;
