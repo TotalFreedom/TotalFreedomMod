@@ -538,7 +538,10 @@ public class TFM_PlayerListener implements Listener
             {
                 if (!Pattern.compile("^/banlist").matcher(command).find())
                 {
-                    block_command = true;
+                    if (!TFM_SuperadminList.isUserSuperadmin(p))
+                	{
+                		block_command = true;
+                	}
                 }
             }
             else if (Pattern.compile("^/kick").matcher(command).find())
@@ -564,11 +567,35 @@ public class TFM_PlayerListener implements Listener
             }
             else if (Pattern.compile("^/pardon").matcher(command).find())
             {
-                block_command = true;
+            	if (!TFM_SuperadminList.isUserSuperadmin(p))
+            	{
+            		block_command = true;
+            	}
             }
             else if (Pattern.compile("^/toggledownfall").matcher(command).find())
             {
                 block_command = true;
+            }
+            else if (Pattern.compile("^/tphere").matcher(command).find())
+            {
+            	if (!TFM_SuperadminList.isUserSuperadmin(p))
+            	{
+            		block_command = true;
+            	}
+            }
+            else if (Pattern.compile("^/tpohere").matcher(command).find())
+            {
+            	if (!TFM_SuperadminList.isUserSuperadmin(p))
+            	{
+            		block_command = true;
+            	}
+            }
+            else if (Pattern.compile("^/tpo").matcher(command).find())
+            {
+            	if (!TFM_SuperadminList.isUserSuperadmin(p))
+            	{
+            		block_command = true;
+            	}
             }
         }
 
