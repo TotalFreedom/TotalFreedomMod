@@ -489,6 +489,13 @@ public class TFM_PlayerListener implements Listener
                 block_command = true;
             }
         }
+        else if (Pattern.compile("^/nuke").matcher(command).find())
+        {
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
+            {
+                block_command = true;
+            }
+        }
         else if (Pattern.compile("^/rl").matcher(command).find())
         {
             if (!TFM_SuperadminList.isUserSuperadmin(p))
@@ -503,7 +510,7 @@ public class TFM_PlayerListener implements Listener
                 block_command = true;
             }
         }
-         else if (Pattern.compile("^/clearhistory").matcher(command).find())
+        else if (Pattern.compile("^/clearhistory").matcher(command).find())
         {
             if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
