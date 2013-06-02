@@ -18,6 +18,21 @@ public class Command_wildcard extends TFM_Command
             playerMsg("What the hell are you trying to do, you stupid idiot...", ChatColor.RED);
             return true;
         }
+        if (args[0].equals("gtfo"))
+        {
+            playerMsg("Nice try", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("doom"))
+        {
+            playerMsg("Look, we all hate people, but this is not the way to deal with it, doom is evil enough!", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("saconfig"))
+        {
+            playerMsg("WOA, WTF are you trying to do???", ChatColor.RED);
+            return true;
+        }
 
         String base_command = StringUtils.join(args, " ");
 
