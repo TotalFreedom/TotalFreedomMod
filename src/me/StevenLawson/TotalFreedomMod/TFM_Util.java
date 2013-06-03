@@ -27,6 +27,7 @@ public class TFM_Util
     private static final Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     public static final List<String> STOP_COMMANDS = Arrays.asList("stop", "off", "end", "halt", "die");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1540", "DarthSalamon", "AcidicCyanide", "wild1145", "HeXeRei452");
 
     static
     {
@@ -979,7 +980,9 @@ public class TFM_Util
         String prefix;
         if (senderIsConsole) {
            prefix = ChatColor.BLUE + "(Console)";
-        } else {
+        }
+        else
+        {
             if (TFM_SuperadminList.isSeniorAdmin(sender))
             {
                 prefix = ChatColor.LIGHT_PURPLE + "(SrA)";
@@ -987,8 +990,7 @@ public class TFM_Util
             {
                 prefix = ChatColor.GOLD + "(SA)";
             }
-            if (sender.getName().equalsIgnoreCase("Madgeek1450")
-                    || sender.getName().equalsIgnoreCase("DarthSalamon"))
+            if (DEVELOPERS.contains(sender.getName()))
             {
                 prefix = ChatColor.DARK_PURPLE + "(Dev)";
             }
