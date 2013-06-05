@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, block_host_console = true)
 @CommandParameters(description = "Issues a rollback on a player", usage = "/<command> <[partialname] | purge [partialname] | purgeall>", aliases = "rb")
-public class Command_rollback extends TFM_Command {
-
+public class Command_rollback extends TFM_Command
+{
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -76,12 +76,14 @@ public class Command_rollback extends TFM_Command {
 
         if (!TFM_RollbackManager.canRollback(p.getName()))
         {
-            playerMsg("Player has no rollback data set.", ChatColor.RED);
+            playerMsg("Player has no rollback data set. But if this player has done any worldedits, they will be undone.", ChatColor.RED);
+            server.dispatchCommand(sender, "undo 15 " + p.getName());
             return true;
         }
 
         TFM_Util.adminAction(sender.getName(), "Rolling back player: " + p.getName(), false);
-        playerMsg("Rolled back " + TFM_RollbackManager.rollback(p) + " blocks");
+        playerMsg("Rolled back " + TFM_RollbackManager.rollback(p) + " block(s) and undone the player's worldedits (if the player used worldedit).");
+        server.dispatchCommand(sender, "undo 15 " + p.getName());
         return true;
     }
 
