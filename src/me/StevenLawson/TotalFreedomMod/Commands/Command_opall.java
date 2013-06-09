@@ -25,11 +25,6 @@ public class Command_opall extends TFM_Command
                 doSetGamemode = true;
                 targetGamemode = GameMode.CREATIVE;
             }
-            else if (args[0].equals("-s"))
-            {
-                doSetGamemode = true;
-                targetGamemode = GameMode.SURVIVAL;
-            }
         }
 
         for (Player p : server.getOnlinePlayers())
