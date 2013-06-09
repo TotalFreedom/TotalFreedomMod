@@ -40,11 +40,11 @@ public class Command_survival extends TFM_Command
             {
                 if(!TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                player.setGameMode(GameMode.CREATIVE);
+                player.setGameMode(GameMode.SURVIVAL);
                 }
             }
             
-            Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - Setting all non-admins gamemode to creative.");
+            Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - Setting all non-admins gamemode to survival.");
                return true;
         }
         }
