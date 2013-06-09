@@ -1,6 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -24,6 +26,29 @@ public class Command_survival extends TFM_Command
         }
 
         Player p;
+        p = sender_p;
+        if (args.length != 0){
+        if (args[0].equalsIgnoreCase("-a"))
+        {
+           if (!TFM_SuperadminList.isUserSuperadmin(sender))
+           {
+               sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+               return true;
+           }
+           
+            for (Player player : server.getOnlinePlayers())
+            {
+                if(!TFM_SuperadminList.isUserSuperadmin(p))
+                {
+                player.setGameMode(GameMode.CREATIVE);
+                }
+            }
+            
+            Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - Setting all non-admins gamemode to creative.");
+               return true;
+        }
+        }
+        
         if (args.length == 0)
         {
             p = sender_p;
