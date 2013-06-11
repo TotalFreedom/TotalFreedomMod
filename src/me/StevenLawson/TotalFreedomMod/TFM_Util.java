@@ -68,6 +68,30 @@ public class TFM_Util
     {
         TFM_Util.bcastMsg(message, null);
     }
+    
+    //Same as bcastMsg, but only admins can see it.
+    public static void adminbcastMsg(String message, ChatColor color)
+    {
+        TFM_Log.info(message, true);
+    
+        for (Player p : Bukkit.getOnlinePlayers())
+        {
+     if (TFM_SuperadminList.isUserSuperadmin(p))
+     {
+     p.sendMessage((color == null ? "" : color) + message);
+     }
+    
+     if (!TFM_SuperadminList.isUserSuperadmin(p))
+     {
+    
+     }
+        }
+    }
+    
+    public static void adminbcastMsg(String message)
+    {
+        TFM_Util.adminbcastMsg(message, null);
+    }
 
     // Still in use by listeners
     public static void playerMsg(CommandSender sender, String message, ChatColor color)
