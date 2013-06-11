@@ -80,6 +80,7 @@ public class TFM_Util
     		{
     			p.sendMessage((color == null ? "" : color) + message);
     		}
+    		
     		if (!TFM_SuperadminList.isUserSuperadmin(p))
     		{
     			
@@ -89,7 +90,7 @@ public class TFM_Util
     
     public static void adminbcastMsg(String message)
     {
-        TFM_Util.adminbcastMsg(message, null);
+      TFM_Util.adminbcastMsg(message, null);
     }
 
     // Still in use by listeners
