@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, block_host_console = true)
-@CommandParameters(description = "Issues a rollback on a player", usage = "/<command> <[partialname] | purge [partialname] | purgeall>", aliases = "rb")
-public class Command_rollback extends TFM_Command {
-    
+@CommandParameters(description = "Issues a rollback on a player", usage = "/<command> <[partialname] | purge [partialname] | purgeall>", aliases = "darrb")
+public class Command_rollback extends TFM_Command
+{//There was no all-man here :P I fixed it and renamed the alias to /darrb so disaster could make his /rb -wilee
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
