@@ -181,7 +181,7 @@ public class TFM_Util
             InputStream input = null;
             try
             {
-                JarFile file = new JarFile(plugin_file);
+            	JarFile file = new JarFile(plugin_file);
                 ZipEntry copy = file.getEntry(name);
                 if (copy == null)
                 {
