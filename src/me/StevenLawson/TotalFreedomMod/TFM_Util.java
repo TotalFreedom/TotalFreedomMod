@@ -76,15 +76,15 @@ public class TFM_Util
     
         for (Player p : Bukkit.getOnlinePlayers())
         {
-     if (TFM_SuperadminList.isUserSuperadmin(p))
-     {
-     p.sendMessage((color == null ? "" : color) + message);
-     }
+            if (TFM_SuperadminList.isUserSuperadmin(p))
+            {
+                p.sendMessage((color == null ? "" : color) + message);
+            }
     
-     if (!TFM_SuperadminList.isUserSuperadmin(p))
-     {
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
+            {
     
-     }
+            }
         }
     }
     
