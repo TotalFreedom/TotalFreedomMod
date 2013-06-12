@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, block_host_console = true)
 @CommandParameters(description = "Issues a rollback on a player", usage = "/<command> <[partialname] | purge [partialname] | purgeall>", aliases = "rb")
 public class Command_rollback extends TFM_Command {
-
+    
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
