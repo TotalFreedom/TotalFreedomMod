@@ -200,6 +200,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static Boolean allowLavaDamage = false;
     public static boolean allowLavaPlace = false;
     public static boolean allowWaterPlace = false;
+    public static boolean allowPotions = false;
     public static Boolean allowExplosions = false;
     public static double explosiveRadius = 4.0D;
     public static boolean autoEntityWipe = true;
@@ -244,6 +245,7 @@ public class TotalFreedomMod extends JavaPlugin
             allowLavaDamage = config.getBoolean("allow_lava_damage", allowLavaDamage);
             allowLavaPlace = config.getBoolean("allow_lava_place", allowLavaPlace);
             allowWaterPlace = config.getBoolean("allow_water_place", allowWaterPlace);
+            allowPotions = config.getBoolean("allow_water_place", allowPotions);
             allowExplosions = config.getBoolean("allow_explosions", allowExplosions);
             explosiveRadius = config.getDouble("explosiveRadius", explosiveRadius);
             autoEntityWipe = config.getBoolean("auto_wipe", autoEntityWipe);
