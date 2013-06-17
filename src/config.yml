@@ -1,4 +1,4 @@
-# TotalFreedomMod v2.18 Configuration
+# TotalFreedomMod v2.17 Configuration
 # by Madgeek1450 and DarthSalamon
 
 # Block placement prevention:
@@ -7,6 +7,7 @@ allow_fire_spread: false
 allow_lava_damage: false
 allow_lava_place: false
 allow_water_place: false
+allow_potions: false
 allow_fluid_spread: false
 
 # Explosion management:
