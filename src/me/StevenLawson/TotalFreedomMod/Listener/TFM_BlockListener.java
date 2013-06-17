@@ -11,16 +11,22 @@ import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
+import static org.bukkit.Material.FIRE;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.PotionSplashEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionType;
 
 public class TFM_BlockListener implements Listener
 {
+    private Object player;
+    
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBurn(BlockBurnEvent event)
     {
@@ -237,6 +243,70 @@ public class TFM_BlockListener implements Listener
             }
         }
     }
+    
+    @EventHandler
+    public void onPlayerDrinkPotion(PlayerItemConsumeEvent event)
+	{
+            Player p = event.getPlayer();
+            
+            if (TotalFreedomMod.allowPotions)
+            {
+                TFM_Log.info(String.format("%s used a potion @ %s", p.getName()));
+
+                p.getInventory().clear(p.getInventory().getHeldItemSlot());
+            }
+            else
+            {
+                if (event.getItem().getType() == Material.POTION){
+                    if (event.getItem().getDurability() != 0){
+
+                    Potion potion = Potion.fromItemStack(event.getItem());
+                        if (potion.getType() == PotionType.INVISIBILITY)
+                        {
+                            if (TFM_SuperadminList.isUserSuperadmin(p))
+                            {
+                                
+                            }
+                            else
+                            {
+                                p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                                p.sendMessage(ChatColor.GRAY + "Invisibility potions are currently disabled.");
+				event.setCancelled(true);
+                            }
+                       }
+                     }
+                }
+            }
+        }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+	public void hitSplashPotion(PotionSplashEvent event)
+        {
+		if (Potion.fromItemStack(event.getEntity().getItem()) == null)
+                {
+			return;
+		}
+
+		if (Potion.fromItemStack(event.getEntity().getItem()).getType() == PotionType.INVISIBILITY)
+                {
+                    if (event.getEntity().getShooter() instanceof Player)
+                    {
+                        Player p = (Player) event.getEntity().getShooter();
+			if (TFM_SuperadminList.isUserSuperadmin(p))
+                        {
+				
+	                }
+                        else
+                        {
+                            event.getEntity().getLocation().getWorld().dropItem(event.getEntity().getLocation(), event.getPotion().getItem());
+                            event.setCancelled(true);
+                            p.sendMessage(ChatColor.GRAY + "Invisibility potions are currently disabled.");
+                            p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                            
+			}
+		    }
+		}
+	}
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockFromTo(BlockFromToEvent event)
