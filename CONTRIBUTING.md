@@ -27,7 +27,7 @@ to this repository.
 * Make sure your changes build (*and work!*).
 
 ## Tips on getting your pull request accepted
-* Make sure your changes work and compile without difficulty
+* Make sure your changes work and compile without difficulty.
 * Make sure your change adds something useful, do not add commands to micromanage
   the server. (ie: Shorthands for a collection of commands)
 * Features must be in line the general idea of "Total Freedom".
@@ -46,6 +46,8 @@ to this repository.
 * Please avoid having to add files in the main namespace where possible.
 * Make sure all changes work before you commit these, this avoids having multiple
   unnecessary commits.
+* Please refrain from using an excessive amount of commits. As few as possible is generally the best.
+* Please do not spread your addition over several pull-requests.
 
 ## Submitting Changes
 
