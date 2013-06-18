@@ -37,7 +37,7 @@ public class TFM_RollbackManager
         {
             e = new ArrayList<TFM_RollbackEntry>();
         }
-        e.add(entry);
+        e.add(0, entry);
         entries.put(player.getName(), e);
     }
 
