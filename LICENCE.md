@@ -1,6 +1,6 @@
 # Legal
 
-TotalFreedomMod by Madgeek1450 and DarthSalamon is an effort to create an opensource plugin to effectively run a "Total Freedom" like all-Op server. It consists of over 45 custom coded commands and a large variety of distinguishable features not included in any other plugin. The plugin has since its beginning grown immensely. Together with the main server "TotalFreedom" (http://totalfreedom.me) TotalFreedomMod has a long-standing reputation of effectiveness whilst maintaining a clear feel of openness towards the administrators and the players themselves.
+TotalFreedomMod by Madgeek1450 and DarthSalamon is an effort to create an opensource plugin to effectively run a "Total Freedom" like all-Op server. It consists of over 85 custom coded commands and a large variety of distinguishable features not included in any other plugin. The plugin has since its beginning grown immensely. Together with the main server "TotalFreedom" (http://totalfreedom.me) TotalFreedomMod has a long-standing reputation of effectiveness whilst maintaining a clear feel of openness towards the administrators and the players themselves.
 
 ## License
 
