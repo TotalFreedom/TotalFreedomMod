@@ -12,10 +12,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.minecart.ExplosiveMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class TFM_BlockListener implements Listener
@@ -161,7 +163,7 @@ public class TFM_BlockListener implements Listener
                 }
             }
         }
-
+        
         switch (event.getBlockPlaced().getType())
         {
             case LAVA:
@@ -236,6 +238,16 @@ public class TFM_BlockListener implements Listener
             }
         }
     }
+    
+    @EventHandler(priority = EventPriority.HIGH)
+    public void ExplosionPrimeEvent(ExplosionPrimeEvent event)
+    {
+        
+        if (event.getEntity() instanceof ExplosiveMinecart)
+        {
+                event.setCancelled(true);
+        }
+     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockFromTo(BlockFromToEvent event)
