@@ -201,6 +201,8 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean allowLavaPlace = false;
     public static boolean allowWaterPlace = false;
     public static Boolean allowExplosions = false;
+    public static boolean allowFliudSpread = false;
+    public static boolean allowTntMinecarts = false;
     public static double explosiveRadius = 4.0D;
     public static boolean autoEntityWipe = true;
     public static boolean nukeMonitor = true;
@@ -222,7 +224,6 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean tossmobEnabled = false;
     public static boolean generateFlatlands = true;
     public static String flatlandsGenerationParams = "16,stone,32,dirt,1,grass";
-    public static boolean allowFliudSpread = false;
     public static boolean adminOnlyMode = false;
     public static boolean protectedAreasEnabled = true;
     public static boolean autoProtectSpawnpoints = true;
@@ -245,6 +246,7 @@ public class TotalFreedomMod extends JavaPlugin
             allowLavaPlace = config.getBoolean("allow_lava_place", allowLavaPlace);
             allowWaterPlace = config.getBoolean("allow_water_place", allowWaterPlace);
             allowExplosions = config.getBoolean("allow_explosions", allowExplosions);
+            allowTntMinecarts = config.getBoolean("allow_tnt_minecarts", allowTntMinecarts);
             explosiveRadius = config.getDouble("explosiveRadius", explosiveRadius);
             autoEntityWipe = config.getBoolean("auto_wipe", autoEntityWipe);
             nukeMonitor = config.getBoolean("nuke_monitor", nukeMonitor);

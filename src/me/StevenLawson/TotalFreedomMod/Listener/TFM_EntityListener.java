@@ -36,7 +36,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityCombust(EntityCombustEvent event)
     {
-        if (!TotalFreedomMod.allowFireSpread)
+        if (!TotalFreedomMod.allowExplosions)
         {
             event.setCancelled(true);
         }

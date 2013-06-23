@@ -45,20 +45,34 @@ public class TFM_PlayerListener implements Listener
                 {
                     case WATER_BUCKET:
                     {
-                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                        player.sendMessage(ChatColor.GRAY + "Water buckets are currently disabled.");
-                        event.setCancelled(true);
-                        return;
+                        if (!TotalFreedomMod.allowWaterPlace)
+                        {
+                            player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                            player.sendMessage(ChatColor.GRAY + "Water buckets are currently disabled.");
+                            event.setCancelled(true);
+                            return;
+                        }
                     }
                     case LAVA_BUCKET:
                     {
-                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                        player.sendMessage(ChatColor.GRAY + "Lava buckets are currently disabled.");
-                        event.setCancelled(true);
+                        if (!TotalFreedomMod.allowLavaPlace)
+                        {
+                            player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                            player.sendMessage(ChatColor.GRAY + "Lava buckets are currently disabled.");
+                            event.setCancelled(true);
+                            return;
+                        }
                     }
-                    case POTION:
+                    case EXPLOSIVE_MINECART:
                     {
+                        if (!TotalFreedomMod.allowTntMinecarts)
+                        {
+                            player.getInventory().clear(player.getInventory().getHeldItemSlot());
+                            player.sendMessage(ChatColor.GRAY + "TNT minecarts are currently disabled.");
+                            event.setCancelled(true);
+                        }
                     }
+                
                 }
                 break;
             }
@@ -98,7 +112,6 @@ public class TFM_PlayerListener implements Listener
                             }
 
                             event.setCancelled(true);
-                            return;
                         }
                         break;
                     }
