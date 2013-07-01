@@ -30,6 +30,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final Server server = Bukkit.getServer();
 
     public static final long HEARTBEAT_RATE = 5L; //Seconds
+    public static final long SERVICE_CHECKER_RATE = 30L;
 
     public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
@@ -102,9 +103,15 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
+        // Heartbeat
         server.getScheduler().scheduleSyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
+        // Service uptime checker
+        server.getScheduler().scheduleSyncRepeatingTask(this, TFM_ServiceChecker.checker, SERVICE_CHECKER_RATE * 20L, 5 * 20L);
+
         TFM_CommandLoader.getInstance().scan();
+
+
 
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try
