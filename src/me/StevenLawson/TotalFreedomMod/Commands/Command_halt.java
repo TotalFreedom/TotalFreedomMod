@@ -1,10 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,7 +27,7 @@ public class Command_halt extends TFM_Command
             {
                 if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                    setHalted(p, true);
+                    TFM_PlayerData.getPlayerData(p).setHalted(true);
                     counter++;
                 }
             }
@@ -43,9 +41,10 @@ public class Command_halt extends TFM_Command
             int counter = 0;
             for (Player p : server.getOnlinePlayers())
             {
+                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
                 if (TFM_PlayerData.getPlayerData(p).isHalted())
                 {
-                    setHalted(p, false);
+                    playerdata.setHalted(false);
                     counter++;
                 }
             }
@@ -89,48 +88,20 @@ public class Command_halt extends TFM_Command
 
         }
 
-        if (!TFM_PlayerData.getPlayerData(p).isHalted())
+
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
+        if (!playerdata.isHalted())
         {
             TFM_Util.adminAction(sender.getName(), "Halting " + p.getName(), true);
-            setHalted(p, true);
+            playerdata.setHalted(true);
             return true;
         }
         else
         {
             TFM_Util.adminAction(sender.getName(), "Unhalting " + p.getName(), true);
-            setHalted(p, false);
+            playerdata.setHalted(false);
             return true;
         }
     }
 
-    private static void setHalted(Player p, boolean is_halted)
-    {
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
-
-        if (is_halted)
-        {
-            p.setOp(false);
-            p.setGameMode(GameMode.SURVIVAL);
-            p.setFlying(false);
-            p.setDisplayName(p.getName());
-            p.closeInventory();
-            p.setTotalExperience(0);
-
-            playerdata.stopOrbiting();
-            playerdata.setFrozen(true);
-            playerdata.setMuted(true);
-            playerdata.setHalted(true);
-
-            p.sendMessage(ChatColor.GRAY + "You have been halted, don't move!");
-        }
-        else
-        {
-            p.setOp(true);
-            p.setGameMode(GameMode.CREATIVE);
-            playerdata.setFrozen(false);
-            playerdata.setMuted(false);
-            playerdata.setHalted(false);
-            p.sendMessage(ChatColor.GRAY + "You are no longer halted.");
-        }
-    }
 }
