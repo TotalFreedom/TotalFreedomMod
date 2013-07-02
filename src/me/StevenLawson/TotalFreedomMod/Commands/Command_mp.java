@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
-@CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command>")
 public class Command_mp extends TFM_Command
 {
