@@ -56,7 +56,7 @@ public class Command_smite extends TFM_Command
         }
 
         //Kill:
-        p.setHealth(0);
+        p.setHealth(0.0);
 
         return true;
     }
