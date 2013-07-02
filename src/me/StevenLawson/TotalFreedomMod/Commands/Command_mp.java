@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Superadmin Command - Purge all mobs in all worlds.", usage = "/<command>")
+@CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command>")
 public class Command_mp extends TFM_Command
 {
     @Override
