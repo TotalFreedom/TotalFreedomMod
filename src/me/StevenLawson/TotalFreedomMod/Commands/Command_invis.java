@@ -10,10 +10,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
-
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Shows (optionally smites) invisisible players", usage = "/<command> (smite)")
-public class Command_invis extends TFM_Command {
+public class Command_invis extends TFM_Command
+{
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -35,7 +35,8 @@ public class Command_invis extends TFM_Command {
 
         for (Player p : server.getOnlinePlayers())
         {
-            if (p.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+            if (p.hasPotionEffect(PotionEffectType.INVISIBILITY))
+            {
                 players.add(p.getName());
                 if (smite && !TFM_SuperadminList.isUserSuperadmin(p))
                 {
@@ -45,7 +46,8 @@ public class Command_invis extends TFM_Command {
             }
         }
 
-        if (players.isEmpty()) {
+        if (players.isEmpty())
+        {
             TFM_Util.playerMsg(sender, "There are no invisible players");
             return true;
         }

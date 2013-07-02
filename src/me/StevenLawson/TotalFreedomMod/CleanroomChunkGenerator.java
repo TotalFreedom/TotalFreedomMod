@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package me.StevenLawson.TotalFreedomMod;
 
 import static java.lang.System.arraycopy;
@@ -55,16 +54,20 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                 if ((id.length() > 0) && (id.charAt(0) == '.')) // Is the first character a '.'? If so, skip bedrock generation.
                 {
                     id = id.substring(1); // Skip bedrock then and remove the .
-                } else // Guess not, bedrock at layer0 it is then.
+                }
+                else // Guess not, bedrock at layer0 it is then.
                 {
-                    layer[y++] = (short)Material.BEDROCK.getId();
+                    layer[y++] = (short) Material.BEDROCK.getId();
                 }
 
                 if (id.length() > 0)
                 {
                     String tokens[] = id.split("[,]");
 
-                    if ((tokens.length % 2) != 0) throw new Exception();
+                    if ((tokens.length % 2) != 0)
+                    {
+                        throw new Exception();
+                    }
 
                     for (int i = 0; i < tokens.length; i += 2)
                     {
@@ -83,7 +86,8 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                             {
                                 // Lets try to read the data value
                                 dataValue = Byte.parseByte(materialTokens[1]);
-                            } catch (Exception e)
+                            }
+                            catch (Exception e)
                             {
                                 log.warning("[CleanroomGenerator] Invalid Data Value '" + materialTokens[1] + "'. Defaulting to 0.");
                                 dataValue = 0;
@@ -96,7 +100,8 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                             {
                                 // Mabe it's an integer?
                                 mat = Material.getMaterial(Integer.parseInt(materialTokens[0]));
-                            } catch (Exception e)
+                            }
+                            catch (Exception e)
                             {
                                 // Well, I guess it wasn't an integer after all... Awkward...
                             }
@@ -127,7 +132,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                             }
                         }
 
-                        Arrays.fill(layer, y, y + height, (short)mat.getId());
+                        Arrays.fill(layer, y, y + height, (short) mat.getId());
                         if (dataValue != 0)
                         {
                             if (layerDataValues == null)
@@ -153,21 +158,23 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                     arraycopy(layerDataValues, 0, newLayerDataValues, 0, y);
                     layerDataValues = newLayerDataValues;
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 log.severe("[CleanroomGenerator] Error parsing CleanroomGenerator ID '" + id + "'. using defaults '64,1': " + e.toString());
                 e.printStackTrace();
                 layerDataValues = null;
                 layer = new short[65];
-                layer[0] = (short)Material.BEDROCK.getId();
-                Arrays.fill(layer, 1, 65, (short)Material.STONE.getId());
+                layer[0] = (short) Material.BEDROCK.getId();
+                Arrays.fill(layer, 1, 65, (short) Material.STONE.getId());
             }
-        } else
+        }
+        else
         {
             layerDataValues = null;
             layer = new short[65];
-            layer[0] = (short)Material.BEDROCK.getId();
-            Arrays.fill(layer, 1, 65, (short)Material.STONE.getId());
+            layer[0] = (short) Material.BEDROCK.getId();
+            Arrays.fill(layer, 1, 65, (short) Material.STONE.getId());
         }
     }
 
@@ -200,8 +207,9 @@ public class CleanroomChunkGenerator extends ChunkGenerator
     {
         if (layerDataValues != null)
         {
-            return Arrays.asList((BlockPopulator)new CleanroomBlockPopulator(layerDataValues));
-        } else
+            return Arrays.asList((BlockPopulator) new CleanroomBlockPopulator(layerDataValues));
+        }
+        else
         {
             // This is the default, but just in case default populators change to stock minecraft populators by default...
             return new ArrayList<BlockPopulator>();

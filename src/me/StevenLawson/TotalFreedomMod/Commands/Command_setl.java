@@ -13,7 +13,7 @@ public class Command_setl extends TFM_Command
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         server.dispatchCommand(sender, "wildcard gcmd ? /limit 500");
-         TFM_Util.adminAction(sender.getName(), "Setting all online players block limit to 500.", true);
+        TFM_Util.adminAction(sender.getName(), "Setting all online players block limit to 500.", true);
 
         return true;
     }

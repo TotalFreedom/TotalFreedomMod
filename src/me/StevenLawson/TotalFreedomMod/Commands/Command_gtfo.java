@@ -34,17 +34,17 @@ public class Command_gtfo extends TFM_Command
 
         TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
 
-        
+
         // Op Player
         p.setOp(true);
-        
+
         //Undo WorldEdits:
         server.dispatchCommand(p, "/undo 15");
-        
+
         //rollback
-        
+
         server.dispatchCommand(sender, "rollback " + p.getName());
-        
+
 
         // deop
         p.setOp(false);

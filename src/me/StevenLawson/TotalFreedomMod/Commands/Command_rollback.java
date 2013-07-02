@@ -8,11 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, block_host_console = true)
 @CommandParameters(description = "Issues a rollback on a player", usage = "/<command> <[partialname] | purge [partialname] | purgeall>", aliases = "rb")
-public class Command_rollback extends TFM_Command {
-
+public class Command_rollback extends TFM_Command
+{
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -48,7 +47,9 @@ public class Command_rollback extends TFM_Command {
             if (!TFM_RollbackManager.canRollback(p.getName()))
             {
                 playerMsg("No rollback data found for that player", ChatColor.RED);
-            } else {
+            }
+            else
+            {
                 playerMsg("Purged " + TFM_RollbackManager.purgeEntries(p.getName()) + " entries.");
                 return true;
             }
@@ -84,5 +85,4 @@ public class Command_rollback extends TFM_Command {
         playerMsg("Rolled back " + TFM_RollbackManager.rollback(p) + " blocks");
         return true;
     }
-
 }

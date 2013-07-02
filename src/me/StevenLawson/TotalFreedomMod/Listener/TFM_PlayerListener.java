@@ -72,7 +72,7 @@ public class TFM_PlayerListener implements Listener
                             event.setCancelled(true);
                         }
                     }
-                
+
                 }
                 break;
             }
@@ -748,13 +748,13 @@ public class TFM_PlayerListener implements Listener
     {
         TFM_ServerInterface.handlePlayerLogin(event);
     }
-    
+
     @EventHandler()
     public void onServerPing(ServerListPingEvent event)
     {
         // Colorize :)
         event.setMotd(ChatColor.translateAlternateColorCodes('&', event.getMotd()));
-        
+
         if (TFM_ServerInterface.isIPBanned(event.getAddress().getHostAddress()))
         {
             event.setMotd(ChatColor.RED + "You are banned!");

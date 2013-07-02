@@ -974,19 +974,21 @@ public class TFM_Util
             }
         }
     }
-    
+
     public static String getPrefix(CommandSender sender, boolean senderIsConsole)
     {
         String prefix;
-        if (senderIsConsole) {
-           prefix = ChatColor.BLUE + "(Console)";
+        if (senderIsConsole)
+        {
+            prefix = ChatColor.BLUE + "(Console)";
         }
         else
         {
             if (TFM_SuperadminList.isSeniorAdmin(sender))
             {
                 prefix = ChatColor.LIGHT_PURPLE + "(SrA)";
-            } else
+            }
+            else
             {
                 prefix = ChatColor.GOLD + "(SA)";
             }

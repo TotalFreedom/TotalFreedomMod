@@ -260,7 +260,6 @@ public class TFM_BlockListener implements Listener
     {
         TFM_RollbackManager.blockUpdate(event.getPlayer(), event.getBlock());
     }
-
 //    @EventHandler(priority = EventPriority.NORMAL)
 //    public void onCommandBlockChangeEvent(CommandBlockChangeEvent event)
 //    {

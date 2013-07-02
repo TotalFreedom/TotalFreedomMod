@@ -13,7 +13,7 @@ public class TFM_RollbackManager
 
     public static void blockUpdate(OfflinePlayer player, Block block)
     {
-        List <TFM_RollbackEntry> e;
+        List<TFM_RollbackEntry> e;
         if (entries.containsKey(player.getName()))
         {
             e = entries.get(player.getName());
@@ -28,7 +28,7 @@ public class TFM_RollbackManager
 
     public static void blockUpdate(OfflinePlayer player, TFM_RollbackEntry entry)
     {
-        List <TFM_RollbackEntry> e;
+        List<TFM_RollbackEntry> e;
         if (entries.containsKey(player.getName()))
         {
             e = entries.get(player.getName());
@@ -83,4 +83,4 @@ public class TFM_RollbackManager
         entries.remove(player);
         return counter;
     }
- }
+}

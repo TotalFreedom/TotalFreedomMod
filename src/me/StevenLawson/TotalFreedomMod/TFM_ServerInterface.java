@@ -276,20 +276,20 @@ public class TFM_ServerInterface
             }
         }
         else // if user is superadmin
-        {    
+        {
             // force-allow superadmins to log in
             event.allow();
-            
+
             if (isIPBanned(player_ip))
             {
                 unbanIP(player_ip);
             }
-            
+
             if (isNameBanned(player_name))
             {
                 unbanUsername(player_name);
             }
-            
+
             for (Player test_player : server.getOnlinePlayers())
             {
                 if (test_player.getName().equalsIgnoreCase(player_name))
@@ -297,7 +297,7 @@ public class TFM_ServerInterface
                     test_player.kickPlayer("An admin just logged in with the username you are using.");
                 }
             }
-            
+
             if (server.getOnlinePlayers().length >= server.getMaxPlayers())
             {
                 for (Player op : server.getOnlinePlayers())
@@ -308,7 +308,7 @@ public class TFM_ServerInterface
                         return;
                     }
                 }
-                
+
                 // if the server is full of superadmins, however unlikely that might be, this will prevent an infinite loop.
                 if (server.getOnlinePlayers().length >= server.getMaxPlayers())
                 {

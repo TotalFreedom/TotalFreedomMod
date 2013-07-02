@@ -33,11 +33,11 @@ public class Command_creative extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("-a"))
             {
-               if (!TFM_SuperadminList.isUserSuperadmin(sender))
-               {
-                   sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-                   return true;
-               }
+                if (!TFM_SuperadminList.isUserSuperadmin(sender))
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                    return true;
+                }
 
                 for (Player player : server.getOnlinePlayers())
                 {
@@ -63,7 +63,7 @@ public class Command_creative extends TFM_Command
                 sender.sendMessage(ex.getMessage());
                 return true;
             }
-            
+
         }
 
         playerMsg("Setting " + p.getName() + " to game mode 'Creative'.");

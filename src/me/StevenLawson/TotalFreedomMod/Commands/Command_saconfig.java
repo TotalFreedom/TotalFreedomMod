@@ -149,12 +149,12 @@ public class Command_saconfig extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Removing " + target_name + " from the superadmin list", true);
                 TFM_SuperadminList.removeSuperadmin(target_name);
-                
+
                 if (!TotalFreedomMod.twitterbotEnabled)
                 {
                     return true;
                 }
-                
+
                 // Twitterbot
                 TFM_TwitterHandler twitterbot = TFM_TwitterHandler.getInstance(plugin);
                 String reply = twitterbot.delTwitter(target_name);

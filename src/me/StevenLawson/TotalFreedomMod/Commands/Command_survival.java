@@ -27,7 +27,7 @@ public class Command_survival extends TFM_Command
         }
 
         Player p;
-        
+
         if (args.length == 0)
         {
             p = sender_p;
@@ -36,11 +36,11 @@ public class Command_survival extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("-a"))
             {
-               if (!TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole)
-               {
-                   sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-                   return true;
-               }
+                if (!TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole)
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                    return true;
+                }
 
                 for (Player player : server.getOnlinePlayers())
                 {

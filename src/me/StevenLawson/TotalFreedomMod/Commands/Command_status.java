@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Show misc. server info.", usage = "/<command>")
 public class Command_status extends TFM_Command
 {
-
     @Override
     public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {

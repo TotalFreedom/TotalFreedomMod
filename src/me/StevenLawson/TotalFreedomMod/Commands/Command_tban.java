@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Temporarily bans a player for five minutes.", usage = "/<command> <partialname>", aliases = "nope")
-public class Command_tban extends TFM_Command {
-
+public class Command_tban extends TFM_Command
+{
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -37,5 +37,4 @@ public class Command_tban extends TFM_Command {
 
         return true;
     }
-
 }

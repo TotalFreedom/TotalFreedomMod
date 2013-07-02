@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.Random;
@@ -26,6 +25,7 @@ import org.bukkit.generator.BlockPopulator;
 public class CleanroomBlockPopulator extends BlockPopulator
 {
     byte[] layerDataValues;
+
     protected CleanroomBlockPopulator(byte[] layerDataValues)
     {
         this.layerDataValues = layerDataValues;
@@ -38,10 +38,13 @@ public class CleanroomBlockPopulator extends BlockPopulator
             int x = chunk.getX() << 4;
             int z = chunk.getZ() << 4;
 
-            for (int y = 0; y < layerDataValues.length ; y++)
+            for (int y = 0; y < layerDataValues.length; y++)
             {
                 byte dataValue = layerDataValues[y];
-                if (dataValue == 0) continue;
+                if (dataValue == 0)
+                {
+                    continue;
+                }
                 for (int xx = 0; xx < 16; xx++)
                 {
                     for (int zz = 0; zz < 16; zz++)

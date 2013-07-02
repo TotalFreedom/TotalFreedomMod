@@ -19,7 +19,7 @@ public class Command_purgeall extends TFM_Command
         server.dispatchCommand(sender, "mp");
         server.dispatchCommand(sender, "blockcmd purge");
         server.dispatchCommand(sender, "halt purge");
-        
+
         //If I'm missing any, lemme know. Or just add it yourself.
 
         return true;

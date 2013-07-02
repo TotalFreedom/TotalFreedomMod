@@ -4,10 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-
 public class TFM_RollbackEntry
 {
-
     private Location location;
     private Material material;
     private byte data;
