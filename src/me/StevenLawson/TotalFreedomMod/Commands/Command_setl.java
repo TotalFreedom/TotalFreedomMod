@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_WorldEditBridge;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,34 +13,12 @@ public class Command_setl extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        //server.dispatchCommand(sender, "wildcard gcmd ? /limit 500"); - Madgeek: No, no, hell no.
-
         TFM_Util.adminAction(sender.getName(), "Setting everyone's Worldedit block modification limit to 500.", true);
-
+        TFM_WorldEditBridge web = TFM_WorldEditBridge.getInstance();
         for (final Player p : server.getOnlinePlayers())
         {
-            final boolean isOp = p.isOp();
-
-            if (!isOp)
-            {
-                p.setOp(true);
-            }
-
-            server.dispatchCommand(p, "/limit 500");
-
-            if (!isOp)
-            {
-                server.getScheduler().runTaskLater(plugin, new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        p.setOp(false);
-                    }
-                }, 20L);
-            }
+            web.setLimit(p, 500);
         }
-
         return true;
     }
 }

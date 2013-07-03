@@ -40,7 +40,7 @@ public class Command_invis extends TFM_Command
                 players.add(p.getName());
                 if (smite && !TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                    server.dispatchCommand(sender, "smite " + p.getName());
+                    Command_smite.smite(p);
                     smites++;
                 }
             }
