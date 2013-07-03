@@ -530,7 +530,7 @@ public class TFM_PlayerListener implements Listener
                 block_command = true;
             }
         }
-        else if (Pattern.compile("^//butcher").matcher(command).find())
+        else if (Pattern.compile("^//?butcher").matcher(command).find())
         {
             if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
