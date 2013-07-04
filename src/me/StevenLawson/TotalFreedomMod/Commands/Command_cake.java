@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Achievement;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -31,6 +32,10 @@ public class Command_cake extends TFM_Command
         {
             ItemStack heldItem = new ItemStack(Material.CAKE, 1);
             p.getInventory().setItem(p.getInventory().firstEmpty(), heldItem);
+            p.awardAchievement(Achievement.MINE_WOOD);
+            p.awardAchievement(Achievement.BUILD_WORKBENCH);
+            p.awardAchievement(Achievement.BUILD_HOE);
+            p.awardAchievement(Achievement.BAKE_CAKE);
         }
 
         TFM_Util.bcastMsg(output.toString());

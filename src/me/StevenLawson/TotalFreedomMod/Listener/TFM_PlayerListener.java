@@ -676,20 +676,29 @@ public class TFM_PlayerListener implements Listener
         TFM_ServerInterface.handlePlayerLogin(event);
     }
 
-    @EventHandler()
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onServerPing(ServerListPingEvent event)
     {
-        // Colorize :)
-        event.setMotd(ChatColor.translateAlternateColorCodes('&', event.getMotd()));
+        //event.setMotd(ChatColor.translateAlternateColorCodes('&', event.getMotd()));
+
+        event.setMotd(TFM_Util.randomChatColor() + "Total" + TFM_Util.randomChatColor() + "Freedom " + ChatColor.DARK_GRAY
+                + "-" + TFM_Util.randomChatColor() + " Bukkit v" + TFM_ServerInterface.getVersion());
 
         if (TFM_ServerInterface.isIPBanned(event.getAddress().getHostAddress()))
         {
-            event.setMotd(ChatColor.RED + "You are banned!");
+            event.setMotd(ChatColor.RED + "You are banned.");
         }
-        
-        if (TotalFreedomMod.adminOnlyMode)
+        else if (TotalFreedomMod.adminOnlyMode)
         {
-            event.setMotd(ChatColor.RED + "Server in AdminMode!");
+            event.setMotd(ChatColor.RED + "Server is closed.");
+        }
+        else if (Bukkit.hasWhitelist())
+        {
+            event.setMotd(ChatColor.RED + "Whitelist enabled.");
+        }
+        else if (Bukkit.getOnlinePlayers().length >= Bukkit.getMaxPlayers())
+        {
+            event.setMotd(ChatColor.RED + "Server is full.");
         }
     }
 }
