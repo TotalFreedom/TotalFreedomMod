@@ -317,4 +317,9 @@ public class TFM_ServerInterface
             }
         }
     }
+
+    public static String getVersion()
+    {
+        return MinecraftServer.getServer().getVersion();
+    }
 }

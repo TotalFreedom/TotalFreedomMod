@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
-import net.minecraft.server.v1_6_R1.MinecraftServer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -763,7 +762,7 @@ public class TFM_PlayerListener implements Listener
         //event.setMotd(ChatColor.translateAlternateColorCodes('&', event.getMotd()));
 
         event.setMotd(TFM_Util.randomChatColor() + "Total" + TFM_Util.randomChatColor() + "Freedom " + ChatColor.DARK_GRAY
-                + "-" + TFM_Util.randomChatColor() + " Bukkit v" + String.valueOf(MinecraftServer.getServer().getVersion()));
+                + "-" + TFM_Util.randomChatColor() + " Bukkit v" + TFM_ServerInterface.getVersion());
 
         if (TFM_ServerInterface.isIPBanned(event.getAddress().getHostAddress()))
         {
