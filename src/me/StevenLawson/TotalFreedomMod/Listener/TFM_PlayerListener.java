@@ -6,7 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
-import me.StevenLawson.TotalFreedomMod.*;
+import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
+import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_UserList;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,7 +30,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.LeavesDecayEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.RemoteServerCommandEvent;
+import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -367,7 +385,7 @@ public class TFM_PlayerListener implements Listener
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
             playerdata.incrementMsgCount();
 
-            // check for spam
+            // Check for spam
             if (playerdata.getMsgCount() > 10)
             {
                 TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
@@ -379,7 +397,7 @@ public class TFM_PlayerListener implements Listener
                 return;
             }
 
-            // check for message repeat
+            // Check for message repeat
             if (playerdata.getLastMessage().equalsIgnoreCase(message))
             {
                 TFM_Util.playerMsg(p, "Please do not repeat messages.");
@@ -388,7 +406,7 @@ public class TFM_PlayerListener implements Listener
             }
             playerdata.setLastMessage(message);
 
-            // check for muted
+            // Check for muted
             if (playerdata.isMuted())
             {
                 if (!TFM_SuperadminList.isUserSuperadmin(p))
@@ -403,17 +421,17 @@ public class TFM_PlayerListener implements Listener
                 }
             }
 
-            // strip color from messages
+            // Strip color from messages
             message = ChatColor.stripColor(message);
 
-            // truncate messages that are too long - 100 characters is vanilla client max
+            // Truncate messages that are too long - 100 characters is vanilla client max
             if (message.length() > 100)
             {
                 message = message.substring(0, 100);
                 TFM_Util.playerMsg(p, "Message was shortened because it was too long to send.");
             }
 
-            // check for caps - Quit messing with this :-/
+            // Check for caps
             if (message.length() >= 6)
             {
                 int caps = 0;
@@ -430,7 +448,7 @@ public class TFM_PlayerListener implements Listener
                 }
             }
 
-            // check for adminchat
+            // Check for adminchat
             if (playerdata.inAdminChat())
             {
                 TFM_Util.adminChatMessage(p, message, false);
@@ -438,7 +456,7 @@ public class TFM_PlayerListener implements Listener
                 return;
             }
 
-            // finally, set message
+            // Finally, set message
             event.setMessage(message);
         }
         catch (Exception ex)
@@ -455,6 +473,7 @@ public class TFM_PlayerListener implements Listener
 
         TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
         playerdata.incrementMsgCount();
+        playerdata.setLastCommand(command);
 
         if (playerdata.getMsgCount() > 10)
         {
@@ -476,144 +495,14 @@ public class TFM_PlayerListener implements Listener
             return;
         }
 
-        if (TotalFreedomMod.preprocessLogEnabled)
-        {
-            TFM_Log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", p.getName(), ChatColor.stripColor(p.getDisplayName()), command), true);
-        }
-
-        playerdata.setLastCommand(command);
-
-        command = command.toLowerCase().trim();
-
-        boolean block_command = false;
-
-        //Commands that will auto-kick the user:
-        if (Pattern.compile("^/stop").matcher(command).find())
-        {
-            if (!TFM_SuperadminList.isUserSuperadmin(p))
-            {
-                block_command = true;
-            }
-        }
-        else if (Pattern.compile("^/reload").matcher(command).find())
-        {
-            if (!TFM_SuperadminList.isUserSuperadmin(p))
-            {
-                block_command = true;
-            }
-        }
-        else if (Pattern.compile("^/nuke").matcher(command).find())
-        {
-            if (!TFM_SuperadminList.isUserSuperadmin(p))
-            {
-                block_command = true;
-            }
-        }
-        else if (Pattern.compile("^/rl").matcher(command).find())
-        {
-            if (!TFM_SuperadminList.isUserSuperadmin(p))
-            {
-                block_command = true;
-            }
-        }
-        else if (Pattern.compile("^/save-").matcher(command).find())
-        {
-            if (!TFM_SuperadminList.isUserSuperadmin(p))
-            {
-                block_command = true;
-            }
-        }
-        else if (Pattern.compile("^/clearhistory").matcher(command).find())
-        {
-            if (!TFM_SuperadminList.isUserSuperadmin(p))
-            {
-                block_command = true;
-            }
-        }
-        else if (Pattern.compile("^//?butcher").matcher(command).find())
-        {
-            if (!TFM_SuperadminList.isUserSuperadmin(p))
-            {
-                block_command = true;
-            }
-        }
-
-        if (block_command)
-        {
-            TFM_Util.autoEject(p, "You used a prohibited command: " + command);
-            TFM_Util.bcastMsg(p.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
-        }
-        else
-        {
-            // commands that will not auto-kick the user, but still deny:
-            if (Pattern.compile("^/time").matcher(command).find())
-            {
-                p.sendMessage(ChatColor.GRAY + "Server-side time changing is disabled. Please use /ptime to set your own personal time.");
-                block_command = true;
-            }
-            else if (Pattern.compile("^/md").matcher(command).find())
-            {
-                p.sendMessage(ChatColor.GRAY + "This server now uses DisguiseCraft instead of MobDisguise. Type /d to disguise and /u to undisguise.");
-                block_command = true;
-            }
-            else if (Pattern.compile("^/gamemode").matcher(command).find())
-            {
-                p.sendMessage(ChatColor.GRAY + "Use /creative and /survival to set your gamemode.");
-                block_command = true;
-            }
-            else if (Pattern.compile("^/ban").matcher(command).find())
-            {
-                if (!Pattern.compile("^/banlist").matcher(command).find())
-                {
-                    block_command = true;
-                }
-            }
-            else if (Pattern.compile("^/kick").matcher(command).find())
-            {
-                if (!TFM_SuperadminList.isUserSuperadmin(p))
-                {
-                    block_command = true;
-                }
-            }
-            else if (Pattern.compile("^/kill").matcher(command).find())
-            {
-                if (!TFM_SuperadminList.isUserSuperadmin(p))
-                {
-                    block_command = true;
-                }
-            }
-            else if (Pattern.compile("^/socialspy").matcher(command).find())
-            {
-                if (!TFM_SuperadminList.isUserSuperadmin(p))
-                {
-                    block_command = true;
-                }
-            }
-            else if (Pattern.compile("^/pardon").matcher(command).find())
-            {
-                block_command = true;
-            }
-            else if (Pattern.compile("^/toggledownfall").matcher(command).find())
-            {
-                block_command = true;
-            }
-        }
-
-        if (block_command)
-        {
-            p.sendMessage(ChatColor.GRAY + "That command is blocked.");
-            event.setCancelled(true);
-            return;
-        }
-
-        // block commands while player is muted
+        // Block commands if player is muted
         if (playerdata.isMuted())
         {
             if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
                 for (String test_command : BLOCKED_MUTED_CMDS)
                 {
-                    if (Pattern.compile("^/" + test_command.toLowerCase() + " ").matcher(command.toLowerCase()).find())
+                    if (Pattern.compile("^/" + test_command.toLowerCase() + " ").matcher(command).find())
                     {
                         p.sendMessage(ChatColor.RED + "That command is blocked while you are muted.");
                         event.setCancelled(true);
@@ -625,7 +514,20 @@ public class TFM_PlayerListener implements Listener
             {
                 playerdata.setMuted(false);
             }
-            return;
+        }
+
+        if (TotalFreedomMod.preprocessLogEnabled)
+        {
+            TFM_Log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", p.getName(), ChatColor.stripColor(p.getDisplayName()), command), true);
+        }
+
+        command = command.toLowerCase().trim();
+
+        // Blocked commands
+        if (TFM_CommandBlocker.isCommandBlocked(command, event.getPlayer()))
+        {
+            // CommandBlocker handles messages and broadcasts
+            event.setCancelled(true);
         }
 
         if (!TFM_SuperadminList.isUserSuperadmin(p))
@@ -637,6 +539,24 @@ public class TFM_PlayerListener implements Listener
                     TFM_Util.playerMsg(pl, p.getName() + ": " + command);
                 }
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onRemoteServerCommand(RemoteServerCommandEvent event)
+    {
+        if (TFM_CommandBlocker.isCommandBlocked("/" + event.getCommand(), event.getSender()))
+        {
+            event.setCommand("");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onServerCommand(ServerCommandEvent event)
+    {
+        if (TFM_CommandBlocker.isCommandBlocked("/" + event.getCommand(), event.getSender()))
+        {
+            event.setCommand("");
         }
     }
 
@@ -766,6 +686,7 @@ public class TFM_PlayerListener implements Listener
         {
             event.setMotd(ChatColor.RED + "You are banned!");
         }
+        
         if (TotalFreedomMod.adminOnlyMode)
         {
             event.setMotd(ChatColor.RED + "Server in AdminMode!");

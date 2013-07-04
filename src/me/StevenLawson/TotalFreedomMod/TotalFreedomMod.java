@@ -211,6 +211,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean allowFliudSpread = false;
     public static boolean allowTntMinecarts = false;
     public static double explosiveRadius = 4.0D;
+    public static List<String> blockedCommands = new ArrayList<String>();
     public static boolean autoEntityWipe = true;
     public static boolean nukeMonitor = true;
     public static int nukeMonitorCountBreak = 100;
@@ -255,6 +256,7 @@ public class TotalFreedomMod extends JavaPlugin
             allowExplosions = config.getBoolean("allow_explosions", allowExplosions);
             allowTntMinecarts = config.getBoolean("allow_tnt_minecarts", allowTntMinecarts);
             explosiveRadius = config.getDouble("explosiveRadius", explosiveRadius);
+            blockedCommands = config.getStringList("blocked_commands");
             autoEntityWipe = config.getBoolean("auto_wipe", autoEntityWipe);
             nukeMonitor = config.getBoolean("nuke_monitor", nukeMonitor);
             nukeMonitorCountBreak = config.getInt("nuke_monitor_count_break", nukeMonitorCountBreak);
@@ -281,9 +283,9 @@ public class TotalFreedomMod extends JavaPlugin
             autoProtectSpawnpoints = config.getBoolean("auto_protect_spawnpoints", autoProtectSpawnpoints);
             autoProtectRadius = config.getDouble("auto_protect_radius", autoProtectRadius);
             host_sender_names = config.getStringList("host_sender_names");
-            twitterbotEnabled = config.getBoolean("twitterbot_enabled");
-            twitterbotUrl = config.getString("twitterbot_url");
-            twitterbotSecret = config.getString("twitterbot_secret");
+            twitterbotEnabled = config.getBoolean("twitterbot_enabled", twitterbotEnabled);
+            twitterbotUrl = config.getString("twitterbot_url", twitterbotUrl);
+            twitterbotSecret = config.getString("twitterbot_secret", twitterbotSecret);
         }
         catch (Exception ex)
         {
