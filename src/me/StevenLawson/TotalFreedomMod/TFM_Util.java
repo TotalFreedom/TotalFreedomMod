@@ -1035,4 +1035,23 @@ public class TFM_Util
         while (checkClass.getSuperclass() != Object.class && ((checkClass = checkClass.getSuperclass()) != null));
         return null;
     }
+
+    public static final List<ChatColor> COLOR_POOL = Arrays.asList(
+            ChatColor.DARK_BLUE,
+            ChatColor.DARK_GREEN,
+            ChatColor.DARK_AQUA,
+            ChatColor.DARK_RED,
+            ChatColor.DARK_PURPLE,
+            ChatColor.GOLD,
+            ChatColor.BLUE,
+            ChatColor.GREEN,
+            ChatColor.AQUA,
+            ChatColor.RED,
+            ChatColor.LIGHT_PURPLE,
+            ChatColor.YELLOW);
+    private static final Random RANDOM = new Random();
+    public static ChatColor randomChatColor()
+    {
+        return COLOR_POOL.get(RANDOM.nextInt(COLOR_POOL.size()));
+    }
 }
