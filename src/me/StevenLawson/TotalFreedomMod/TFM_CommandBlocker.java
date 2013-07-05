@@ -1,18 +1,20 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.RemoteServerCommandEvent;
-
 
 public class TFM_CommandBlocker
 {
 
-    public static boolean isCommandBlocked(String command, CommandSender sender)
+    public static boolean isCommandBlocked(String usedcommand, CommandSender sender)
     {
+
         String name = sender.getName();
-        command = command.toLowerCase().trim();
+        usedcommand = usedcommand.toLowerCase().trim();
         
         for (String blocked_command : TotalFreedomMod.blockedCommands)
         {
@@ -22,11 +24,38 @@ public class TFM_CommandBlocker
                 continue;
             }
 
-            if (!(command + " ").startsWith(parts[2] + " "))
+            if (!(usedcommand + " ").startsWith(parts[2] + " "))
             {
-                continue;
+
+                CommandMap commandMap = TFM_CommandLoader.commandMap;
+                if (commandMap == null)
+                {
+                    continue;
+                }
+
+                Command command = commandMap.getCommand(parts[2].replaceAll("/", ""));
+                if (command == null)
+                {
+                    continue;
+                }
+
+                boolean block = false;
+                for (String alias : command.getAliases())
+                {
+                    if (usedcommand.replaceAll("/", "").startsWith(alias))
+                    {
+                        block = true;
+                        break;
+                    }
+                }
+
+                if (!block)
+                {
+                    continue;
+                }
             }
-            
+
+
             if (SenderRank.hasPermissions(sender, parts[0]))
             {
                 continue;
@@ -47,8 +76,6 @@ public class TFM_CommandBlocker
                 }
             }
 
-            TFM_Log.info("Player Rank: " + SenderRank.getSenderRank(sender).rank);
-
             // Action
             if ("b".equals(parts[1]))
             {
@@ -58,7 +85,7 @@ public class TFM_CommandBlocker
             {
                 if (SenderRank.getSenderRank(sender).rank < 2) // Only auto-eject Ops and non-ops
                 {
-                    TFM_Util.autoEject((Player) sender, "You used a prohibited command: " + command);
+                    TFM_Util.autoEject((Player) sender, "You used a prohibited command: " + usedcommand);
                     TFM_Util.bcastMsg(name + " was automatically kicked for using harmful commands.", ChatColor.RED);
                 }
                 return true;

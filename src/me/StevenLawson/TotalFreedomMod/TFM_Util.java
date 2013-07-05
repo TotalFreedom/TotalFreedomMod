@@ -1049,6 +1049,7 @@ public class TFM_Util
             ChatColor.RED,
             ChatColor.LIGHT_PURPLE,
             ChatColor.YELLOW);
+
     private static final Random RANDOM = new Random();
     public static ChatColor randomChatColor()
     {
