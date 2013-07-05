@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "See who has a block and optionall smite", usage = "/<command> <item> [smite]", aliases="wh")
+@CommandParameters(description = "See who has a block and optional smite", usage = "/<command> <item> [smite]", aliases="wh")
 public class Command_whohas extends TFM_Command
 {
     @Override
