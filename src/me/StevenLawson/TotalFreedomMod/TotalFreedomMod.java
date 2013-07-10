@@ -107,7 +107,7 @@ public class TotalFreedomMod extends JavaPlugin
         server.getScheduler().scheduleSyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
         // Service uptime checker
-        server.getScheduler().scheduleSyncRepeatingTask(this, TFM_ServiceChecker.checker, SERVICE_CHECKER_RATE * 20L, 5 * 20L);
+        server.getScheduler().scheduleSyncRepeatingTask(this, TFM_ServiceChecker.checker, SERVICE_CHECKER_RATE * 20L, 1 * 20L);
 
         TFM_CommandLoader.getInstance().scan();
 

@@ -77,7 +77,7 @@ public class TFM_ServiceChecker
                     // Well, lets bypass that! >:D
                     HttpURLConnection connection = (HttpURLConnection) new URL(check_url).openConnection();
                     connection.setRequestMethod("GET");
-                    connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                    connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.2 Safari/537.36");
                     connection.setRequestProperty("Host", "xpaw.ru");
                     connection.setRequestProperty("Accept", "*/*");
                     connection.setUseCaches(false);
@@ -108,7 +108,6 @@ public class TFM_ServiceChecker
                 }
                 catch (Exception ex)
                 {
-                    TFM_Log.severe(ex);
                 }
             }
         });
