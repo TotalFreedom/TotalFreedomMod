@@ -415,7 +415,6 @@ public class TFM_PlayerData
             stopOrbiting();
             setFrozen(true);
             setMuted(true);
-            setHalted(true);
 
             player.sendMessage(ChatColor.GRAY + "You have been halted, don't move!");
         }
@@ -425,7 +424,6 @@ public class TFM_PlayerData
             player.setGameMode(GameMode.CREATIVE);
             setFrozen(false);
             setMuted(false);
-            setHalted(false);
 
             player.sendMessage(ChatColor.GRAY + "You are no longer halted.");
         }

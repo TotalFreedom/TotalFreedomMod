@@ -188,7 +188,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
             catch (Throwable ex)
             {
-                sender.sendMessage(ChatColor.RED + "Command Error: " + ex.getMessage());
+                TFM_Log.severe("Command Error: " + commandLabel + "\n" + ExceptionUtils.getStackTrace(ex));
             }
 
             dispatcher = null;

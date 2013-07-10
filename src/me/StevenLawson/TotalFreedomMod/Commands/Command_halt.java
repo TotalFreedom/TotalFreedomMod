@@ -85,7 +85,6 @@ public class Command_halt extends TFM_Command
         {
             sender.sendMessage(ex.getMessage());
             return true;
-
         }
 
 
