@@ -171,8 +171,7 @@ public class TFM_ServerInterface
                     kick_message = kick_message + "\nReason: " + ban_entry.getReason();
                     if (ban_entry.getExpires() != null)
                     {
-                        kick_message = kick_message + "\nYour ban will be removed on "
-                                + date_format.format(ban_entry.getExpires());
+                        kick_message = kick_message + "\nYour ban will be removed on " + date_format.format(ban_entry.getExpires());
                     }
                 }
 
@@ -216,8 +215,7 @@ public class TFM_ServerInterface
                     kick_message = kick_message + "\nReason: " + ban_entry.getReason();
                     if (ban_entry.getExpires() != null)
                     {
-                        kick_message = kick_message + "\nYour ban will be removed on "
-                                + date_format.format(ban_entry.getExpires());
+                        kick_message = kick_message + "\nYour ban will be removed on " + date_format.format(ban_entry.getExpires());
                     }
                 }
 
@@ -229,8 +227,7 @@ public class TFM_ServerInterface
             {
                 if (test_player.equalsIgnoreCase(player_name))
                 {
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED
-                            + "Your username is permanently banned from this server.");
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your username is permanently banned from this server.");
                     return;
                 }
             }
@@ -239,8 +236,7 @@ public class TFM_ServerInterface
             {
                 if (TFM_Util.fuzzyIpMatch(test_ip, player_ip, 4))
                 {
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED
-                            + "Your IP address is permanently banned from this server.");
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your IP address is permanently banned from this server.");
                     return;
                 }
             }

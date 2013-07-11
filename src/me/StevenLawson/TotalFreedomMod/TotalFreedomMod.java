@@ -28,35 +28,35 @@ import org.mcstats.Metrics;
 public class TotalFreedomMod extends JavaPlugin
 {
     public static final Server server = Bukkit.getServer();
-
+    //
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final long SERVICE_CHECKER_RATE = 30L;
-
+    //
     public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
     public static final String PERMBAN_FILE = "permban.yml";
     public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILE = "savedflags.dat";
-
+    //
     public static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
     public static final String COMMAND_PREFIX = "Command_";
-
+    //
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
-
+    //
     public static boolean allPlayersFrozen = false;
     public static int freezePurgeEventId = 0;
     public static int mutePurgeEventId = 0;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
-
+    //
     public static String pluginVersion = "";
     public static String buildNumber = "";
     public static String buildDate = "";
     public static String pluginName = "";
-
+    //
     public static TotalFreedomMod plugin = null;
     public static File plugin_file = null;
 
@@ -106,12 +106,7 @@ public class TotalFreedomMod extends JavaPlugin
         // Heartbeat
         server.getScheduler().scheduleSyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
-        // Service uptime checker
-        server.getScheduler().scheduleSyncRepeatingTask(this, TFM_ServiceChecker.checker, SERVICE_CHECKER_RATE * 20L, 1 * 20L);
-
         TFM_CommandLoader.getInstance().scan();
-
-
 
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try
@@ -124,8 +119,7 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
 
-        TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "."
-                + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
+        TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
     }
 
     @Override
@@ -201,7 +195,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         return true;
     }
-
+    //
     public static boolean allowFirePlace = false;
     public static Boolean allowFireSpread = false;
     public static Boolean allowLavaDamage = false;
@@ -292,7 +286,7 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.severe("Error loading main config: " + ex.getMessage());
         }
     }
-
+    //
     @Deprecated
     public static List<String> superadmins = new ArrayList<String>();
     @Deprecated
@@ -313,7 +307,7 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.severe("Error loading superadmin list: " + ex.getMessage());
         }
     }
-
+    //
     public static List<String> permbanned_players = new ArrayList<String>();
     public static List<String> permbanned_ips = new ArrayList<String>();
 

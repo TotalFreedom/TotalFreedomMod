@@ -427,7 +427,7 @@ public class TFM_PlayerData
 
             player.sendMessage(ChatColor.GRAY + "You are no longer halted.");
         }
-        
+
     }
 
     public BukkitTask getLockupScheduleID()

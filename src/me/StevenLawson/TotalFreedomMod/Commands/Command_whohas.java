@@ -10,9 +10,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "See who has a block and optionally smite", usage = "/<command> <item> [smite]", aliases="wh")
+@CommandParameters(description = "See who has a block and optionally smite", usage = "/<command> <item> [smite]", aliases = "wh")
 public class Command_whohas extends TFM_Command
 {
     @Override
@@ -33,7 +32,7 @@ public class Command_whohas extends TFM_Command
         }
 
         Material material = Material.matchMaterial(args[0]);
-        
+
         if (material == null)
         {
             try
@@ -67,11 +66,11 @@ public class Command_whohas extends TFM_Command
 
         if (players.isEmpty())
         {
-             playerMsg("There are no players with that item");
+            playerMsg("There are no players with that item");
         }
         else
         {
-            playerMsg("Players with item " + material.name() + ": "+ StringUtils.join(players, ", "));
+            playerMsg("Players with item " + material.name() + ": " + StringUtils.join(players, ", "));
         }
 
         return true;
