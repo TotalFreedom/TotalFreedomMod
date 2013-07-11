@@ -1,7 +1,4 @@
-# Legal Overview #
-TotalFreedomMod, by StevenLawson (Madgeek1450) and Jerom van der Sar (DarthSalamon), is an effort to create an open source plugin to effectively run a "Total Freedom" like all-OP Minecraft server. It consists of over 85 custom coded commands and a large variety of distinguishable features not included in any other plugin. The plugin has since its beginning grown immensely. Together, with the main [TotalFreedom](http://totalfreedom.me) server, TotalFreedomMod has a long-standing reputation of effectiveness whilst maintaining a clear feeling of openness towards the administrators and the players themselves.
-
-## License ##
+# TotalFreedomMod License #
 TotalFreedomMod is primarily derived from the Bukkit and CraftBukkit library and server, respectively. Therefore, we have chosen for it to inherit the GNU GPLv3 License as used by those programs. This license is available at http://www.gnu.org/licenses/gpl-3.0.txt
 
 We do, however, ask that you comply by several restrictions. These restrictions are in place to make sure that credit is given to the original authors, who remain the maintainers of the plugin and its source code.
