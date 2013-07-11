@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -13,8 +12,6 @@ import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
@@ -304,8 +301,6 @@ public class TFM_Util
 
         return TFM_Util.mobtypes.get(mobname);
     }
-
-   
 
     private static void copy(InputStream in, OutputStream out) throws IOException
     {

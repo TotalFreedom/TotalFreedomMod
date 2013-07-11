@@ -158,8 +158,7 @@ public class TotalFreedomMod extends JavaPlugin
             try
             {
                 ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
-                dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX,
-                        cmd.getName().toLowerCase())).newInstance();
+                dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, cmd.getName().toLowerCase())).newInstance();
                 dispatcher.setup(this, sender, dispatcher.getClass());
             }
             catch (Throwable ex)
@@ -232,8 +231,9 @@ public class TotalFreedomMod extends JavaPlugin
     public static double autoProtectRadius = 25.0D;
     public static List<String> host_sender_names = Arrays.asList("rcon", "remotebukkit");
     public static boolean twitterbotEnabled = false;
-    public static String twitterbotUrl = "http://tftwitter.darthcraft.net/";
+    public static String twitterbotUrl = "";
     public static String twitterbotSecret = "";
+    public static boolean petProtectEnabled = true;
 
     public static void loadMainConfig()
     {
@@ -280,6 +280,7 @@ public class TotalFreedomMod extends JavaPlugin
             twitterbotEnabled = config.getBoolean("twitterbot_enabled", twitterbotEnabled);
             twitterbotUrl = config.getString("twitterbot_url", twitterbotUrl);
             twitterbotSecret = config.getString("twitterbot_secret", twitterbotSecret);
+            petProtectEnabled = config.getBoolean("pet_protect_enabled", petProtectEnabled);
         }
         catch (Exception ex)
         {

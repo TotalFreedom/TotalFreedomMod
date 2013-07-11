@@ -90,7 +90,6 @@ public class TFM_PlayerListener implements Listener
                             event.setCancelled(true);
                         }
                     }
-
                 }
                 break;
             }
