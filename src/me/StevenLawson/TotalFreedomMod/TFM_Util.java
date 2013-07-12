@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -13,8 +12,6 @@ import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
@@ -303,77 +300,6 @@ public class TFM_Util
         }
 
         return TFM_Util.mobtypes.get(mobname);
-    }
-
-    public static void zip(File directory, File zipfile, boolean verbose, CommandSender sender) throws IOException
-    {
-        URI base = directory.toURI();
-        Deque<File> queue = new LinkedList<File>();
-        queue.push(directory);
-        OutputStream out = new FileOutputStream(zipfile);
-        Closeable res = out;
-        try
-        {
-            ZipOutputStream zout = new ZipOutputStream(out);
-            res = zout;
-            while (!queue.isEmpty())
-            {
-                directory = queue.pop();
-                for (File kid : directory.listFiles())
-                {
-                    String name = base.relativize(kid.toURI()).getPath();
-                    if (kid.isDirectory())
-                    {
-                        queue.push(kid);
-                        name = name.endsWith("/") ? name : name + "/";
-                        zout.putNextEntry(new ZipEntry(name));
-                    }
-                    else
-                    {
-                        zout.putNextEntry(new ZipEntry(name));
-                        copy(kid, zout);
-                        zout.closeEntry();
-                    }
-
-                    if (verbose)
-                    {
-                        sender.sendMessage("Zipping: " + name);
-                    }
-                }
-            }
-        }
-        finally
-        {
-            res.close();
-        }
-    }
-
-    public static void unzip(File zipfile, File directory) throws IOException
-    {
-        ZipFile zfile = new ZipFile(zipfile);
-        Enumeration<? extends ZipEntry> entries = zfile.entries();
-        while (entries.hasMoreElements())
-        {
-            ZipEntry entry = entries.nextElement();
-            File file = new File(directory, entry.getName());
-            if (entry.isDirectory())
-            {
-                file.mkdirs();
-            }
-            else
-            {
-                file.getParentFile().mkdirs();
-                InputStream in = zfile.getInputStream(entry);
-                try
-                {
-                    copy(in, file);
-                }
-                finally
-                {
-                    in.close();
-                }
-            }
-        }
     }
 
     private static void copy(InputStream in, OutputStream out) throws IOException
@@ -969,8 +895,7 @@ public class TFM_Util
         {
             if (TFM_SuperadminList.isUserSuperadmin(p))
             {
-                p.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED
-                        + name + ": " + ChatColor.AQUA + message);
+                p.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
             }
         }
     }
@@ -1035,7 +960,6 @@ public class TFM_Util
         while (checkClass.getSuperclass() != Object.class && ((checkClass = checkClass.getSuperclass()) != null));
         return null;
     }
-
     public static final List<ChatColor> COLOR_POOL = Arrays.asList(
             ChatColor.DARK_BLUE,
             ChatColor.DARK_GREEN,
@@ -1049,8 +973,8 @@ public class TFM_Util
             ChatColor.RED,
             ChatColor.LIGHT_PURPLE,
             ChatColor.YELLOW);
-
     private static final Random RANDOM = new Random();
+
     public static ChatColor randomChatColor()
     {
         return COLOR_POOL.get(RANDOM.nextInt(COLOR_POOL.size()));

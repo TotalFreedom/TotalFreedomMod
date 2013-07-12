@@ -9,13 +9,12 @@ import org.bukkit.entity.Player;
 
 public class TFM_CommandBlocker
 {
-
     public static boolean isCommandBlocked(String usedcommand, CommandSender sender)
     {
 
         String name = sender.getName();
         usedcommand = usedcommand.toLowerCase().trim();
-        
+
         for (String blocked_command : TotalFreedomMod.blockedCommands)
         {
             String[] parts = blocked_command.split(":");
@@ -109,7 +108,6 @@ public class TFM_CommandBlocker
         TELNET("t", 3),
         SENIOR("c", 4),
         NOBODY("n", 5);
-
         private String letter = "n";
         private int rank = 5;
 
@@ -162,10 +160,5 @@ public class TFM_CommandBlocker
             }
             return SenderRank.NOBODY;
         }
-
     }
-
-
-
-
 }

@@ -50,26 +50,24 @@ explosiveRadius: 4.0
 #
 blocked_commands:
   # Disabled commands
-  - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
-  - 'n:b:/md:This server now uses DisguiseCraft instead of MobDisguise. Type /d to disguise and /u to undisguise.'
-  - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
-  - 'n:b:/ban:_'
-  - 'n:b:/pardon:_'
-  - 'n:b:/toggledownfall:_'
+  - n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.
+  - n:b:/md:This server now uses DisguiseCraft instead of MobDisguise. Type /d to disguise and /u to undisguise.
+  - n:b:/gamemode:Use /creative and /survival to set your gamemode.
+  - n:b:/ban:_
+  - n:b:/pardon:_
+  - n:b:/toggledownfall:_
 
   # Superadmin commands
-  - 's:b:/kick:_'
-  - 's:b:/socialspy:_'
-  - 's:b:/kill:_'
-  - 's:a:/stop'
-  - 's:a:/reload'
-  - 's:a:/nuke'
-  - 's:a:/save-all'
-  - 's:a:/save-on'
-  - 's:a:/save-off'
-  - 's:a:/clearhistory'
-  - 's:a:/butcher'
-  - 's:a://butcher'
+  - s:b:/kick:_
+  - s:b:/socialspy:_
+  - s:b:/kill:_
+  - s:b:/clearhistory:_
+  - s:a:/stop
+  - s:a:/reload
+  - s:a:/nuke
+  - s:a:/save-all
+  - s:a:/save-on
+  - s:a:/save-off
 
 # Automatically wipe dropped objects:
 auto_wipe: true
@@ -125,5 +123,8 @@ host_sender_names:
 
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot_enabled: false
-twitterbot_url: 'http://tftwitter.darthcraft.net/'
-twitterbot_secret: ''
+twitterbot_url:
+twitterbot_secret:
+
+# Pet Protect - Prevent tamed pets from being killed.
+pet_protect_enabled: true

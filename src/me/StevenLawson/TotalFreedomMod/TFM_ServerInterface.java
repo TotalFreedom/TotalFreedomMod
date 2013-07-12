@@ -121,6 +121,8 @@ public class TFM_ServerInterface
 
     public static void handlePlayerLogin(PlayerLoginEvent event)
     {
+        // this should supersede all other onPlayerLogin authentication on the TFM server.
+        // when using the TFM CraftBukkit, CraftBukkit itself should not do any of its own authentication.
 
         final Server server = TotalFreedomMod.plugin.getServer();
 
@@ -135,8 +137,7 @@ public class TFM_ServerInterface
 
         if (player_name.trim().length() <= 2)
         {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
-                    "Your username is too short (must be at least 3 characters long).");
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username is too short (must be at least 3 characters long).");
             return;
         }
         else if (Pattern.compile("[^a-zA-Z0-9\\-\\.\\_]").matcher(player_name).find())
@@ -145,8 +146,7 @@ public class TFM_ServerInterface
             return;
         }
 
-        // not safe to use TFM_Util.isUserSuperadmin for player logging in because p.getAddress()
-        // will return a null until after player login.
+        // not safe to use TFM_Util.isUserSuperadmin for player logging in because p.getAddress() will return a null until after player login.
         boolean is_superadmin;
         if (server.getOnlineMode())
         {
@@ -171,8 +171,7 @@ public class TFM_ServerInterface
                     kick_message = kick_message + "\nReason: " + ban_entry.getReason();
                     if (ban_entry.getExpires() != null)
                     {
-                        kick_message = kick_message + "\nYour ban will be removed on "
-                                + date_format.format(ban_entry.getExpires());
+                        kick_message = kick_message + "\nYour ban will be removed on " + date_format.format(ban_entry.getExpires());
                     }
                 }
 
@@ -216,8 +215,7 @@ public class TFM_ServerInterface
                     kick_message = kick_message + "\nReason: " + ban_entry.getReason();
                     if (ban_entry.getExpires() != null)
                     {
-                        kick_message = kick_message + "\nYour ban will be removed on "
-                                + date_format.format(ban_entry.getExpires());
+                        kick_message = kick_message + "\nYour ban will be removed on " + date_format.format(ban_entry.getExpires());
                     }
                 }
 
@@ -229,8 +227,7 @@ public class TFM_ServerInterface
             {
                 if (test_player.equalsIgnoreCase(player_name))
                 {
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED
-                            + "Your username is permanently banned from this server.");
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your username is permanently banned from this server.");
                     return;
                 }
             }
@@ -239,8 +236,7 @@ public class TFM_ServerInterface
             {
                 if (TFM_Util.fuzzyIpMatch(test_ip, player_ip, 4))
                 {
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED
-                            + "Your IP address is permanently banned from this server.");
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your IP address is permanently banned from this server.");
                     return;
                 }
             }
@@ -275,21 +271,8 @@ public class TFM_ServerInterface
                 }
             }
         }
-        else // if user is superadmin
+        else
         {
-            // force-allow superadmins to log in
-            event.allow();
-
-            if (isIPBanned(player_ip))
-            {
-                unbanIP(player_ip);
-            }
-
-            if (isNameBanned(player_name))
-            {
-                unbanUsername(player_name);
-            }
-
             for (Player test_player : server.getOnlinePlayers())
             {
                 if (test_player.getName().equalsIgnoreCase(player_name))
@@ -298,21 +281,18 @@ public class TFM_ServerInterface
                 }
             }
 
-            if (server.getOnlinePlayers().length >= server.getMaxPlayers())
+            boolean can_kick = true; // if the server is full of superadmins, however unlikely that might be, this will prevent an infinite loop.
+            while (server.getOnlinePlayers().length >= server.getMaxPlayers() && can_kick)
             {
-                for (Player op : server.getOnlinePlayers())
+                can_kick = false;
+                for (Player test_player : server.getOnlinePlayers())
                 {
-                    if (!TFM_SuperadminList.isUserSuperadmin(op))
+                    if (!TFM_SuperadminList.isUserSuperadmin(test_player))
                     {
-                        op.kickPlayer("You have been kicked to free up space for an admin");
-                        return;
+                        can_kick = true;
+                        test_player.kickPlayer("You have been kicked to free up room for an admin.");
+                        break;
                     }
-                }
-
-                // if the server is full of superadmins, however unlikely that might be, this will prevent an infinite loop.
-                if (server.getOnlinePlayers().length >= server.getMaxPlayers())
-                {
-                    event.disallow(PlayerLoginEvent.Result.KICK_FULL, "Sorry, this server is full");
                 }
             }
         }
