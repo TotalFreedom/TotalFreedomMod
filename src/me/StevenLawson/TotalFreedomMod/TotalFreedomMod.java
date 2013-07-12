@@ -159,6 +159,11 @@ public class TotalFreedomMod extends JavaPlugin
                         commandLabel,
                         StringUtils.join(args, " ")), true);
             }
+            
+            if ("".equals(commandLabel))
+            {
+                return false;
+            }
 
             TFM_Command dispatcher;
             try
