@@ -3,6 +3,8 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
+import me.StevenLawson.TotalFreedomMod.TFM_RollbackEntry;
+import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -24,7 +26,6 @@ public class TFM_BlockListener implements Listener
         if (!TotalFreedomMod.allowFireSpread)
         {
             event.setCancelled(true);
-            return;
         }
     }
 
@@ -34,7 +35,6 @@ public class TFM_BlockListener implements Listener
         if (!TotalFreedomMod.allowFirePlace)
         {
             event.setCancelled(true);
-            return;
         }
     }
 
@@ -95,7 +95,6 @@ public class TFM_BlockListener implements Listener
                 if (TFM_ProtectedArea.isInProtectedArea(block_pos))
                 {
                     event.setCancelled(true);
-                    return;
                 }
             }
         }
@@ -180,7 +179,6 @@ public class TFM_BlockListener implements Listener
                     p.sendMessage(ChatColor.GRAY + "Lava placement is currently disabled.");
 
                     event.setCancelled(true);
-                    return;
                 }
                 break;
             }
@@ -199,7 +197,6 @@ public class TFM_BlockListener implements Listener
                     p.sendMessage(ChatColor.GRAY + "Water placement is currently disabled.");
 
                     event.setCancelled(true);
-                    return;
                 }
                 break;
             }
@@ -217,7 +214,6 @@ public class TFM_BlockListener implements Listener
                     p.sendMessage(ChatColor.GRAY + "Fire placement is currently disabled.");
 
                     event.setCancelled(true);
-                    return;
                 }
                 break;
             }
@@ -235,7 +231,6 @@ public class TFM_BlockListener implements Listener
 
                     p.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
                     event.setCancelled(true);
-                    return;
                 }
                 break;
             }
@@ -249,6 +244,21 @@ public class TFM_BlockListener implements Listener
         {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onBlockPlaceRollback(BlockPlaceEvent event)
+    {
+        TFM_RollbackEntry entry = new TFM_RollbackEntry();
+        entry.setLocation(event.getBlock().getLocation());
+        entry.setMaterial(Material.AIR);
+        TFM_RollbackManager.blockUpdate(event.getPlayer(), entry);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBlockBreakRollback(BlockBreakEvent event)
+    {
+        TFM_RollbackManager.blockUpdate(event.getPlayer(), event.getBlock());
     }
 //    @EventHandler(priority = EventPriority.NORMAL)
 //    public void onCommandBlockChangeEvent(CommandBlockChangeEvent event)

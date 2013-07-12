@@ -22,7 +22,8 @@ import org.bukkit.plugin.Plugin;
 
 public class TFM_CommandLoader
 {
-    public static Pattern COMMAND_CLASS_PATTERN = Pattern.compile(TotalFreedomMod.COMMAND_PATH.replace('.', '/') + "/(" + TotalFreedomMod.COMMAND_PREFIX + "[^\\$]+)\\.class");
+    public static final Pattern COMMAND_CLASS_PATTERN = Pattern.compile(TotalFreedomMod.COMMAND_PATH.replace('.', '/') + "/(" + TotalFreedomMod.COMMAND_PREFIX + "[^\\$]+)\\.class");
+    public static CommandMap commandMap;
     private List<TFM_CommandInfo> commandList = null;
 
     private TFM_CommandLoader()
@@ -31,7 +32,7 @@ public class TFM_CommandLoader
 
     public void scan()
     {
-        CommandMap commandMap = TFM_Util.getField(Bukkit.getServer().getPluginManager(), "commandMap");
+        commandMap = TFM_Util.getField(Bukkit.getServer().getPluginManager(), "commandMap");
         if (commandMap == null)
         {
             TFM_Log.severe("Error loading command map.");

@@ -1,7 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_WorldEditBridge;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -34,19 +36,11 @@ public class Command_gtfo extends TFM_Command
 
         TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
 
-        //Undo WorldEdits:
-        if (senderIsConsole)
-        {
-        }
-        else
-        {
-            server.dispatchCommand(sender, String.format("/undo %d %s", 15, p.getName()));
-        }
-        
-        //rollback
-        
-        server.dispatchCommand(sender, "rollback " + p.getName() + " all");
-        
+        // Undo WorldEdits:
+        TFM_WorldEditBridge.getInstance().undo(p, 15);
+
+        // rollback
+        TFM_RollbackManager.rollback(p);
 
         // deop
         p.setOp(false);

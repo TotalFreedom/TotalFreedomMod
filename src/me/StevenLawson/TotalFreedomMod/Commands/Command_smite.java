@@ -32,6 +32,13 @@ public class Command_smite extends TFM_Command
             return true;
         }
 
+        smite(p);
+
+        return true;
+    }
+
+    public static void smite(final Player p)
+    {
         TFM_Util.bcastMsg(p.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
 
         //Deop
@@ -56,8 +63,6 @@ public class Command_smite extends TFM_Command
         }
 
         //Kill:
-        p.setHealth(0);
-
-        return true;
+        p.setHealth(0.0);
     }
 }

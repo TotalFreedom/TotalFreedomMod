@@ -78,7 +78,7 @@ public class Command_doom extends TFM_Command
                 p.getWorld().strikeLightning(p.getLocation());
 
                 // kill (if not done already)
-                p.setHealth(0);
+                p.setHealth(0.0);
             }
         }, 40L); // 2 seconds
 

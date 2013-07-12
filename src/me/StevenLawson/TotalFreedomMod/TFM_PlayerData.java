@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -320,7 +322,7 @@ public class TFM_PlayerData
             LivingEntity oldmob = mob_thrower_queue.remove(0);
             if (oldmob != null)
             {
-                oldmob.damage(500);
+                oldmob.damage(500.0);
             }
         }
     }
@@ -400,6 +402,32 @@ public class TFM_PlayerData
     public void setHalted(boolean is_halted)
     {
         this.is_halted = is_halted;
+
+        if (is_halted)
+        {
+            player.setOp(false);
+            player.setGameMode(GameMode.SURVIVAL);
+            player.setFlying(false);
+            player.setDisplayName(player_name);
+            player.closeInventory();
+            player.setTotalExperience(0);
+
+            stopOrbiting();
+            setFrozen(true);
+            setMuted(true);
+
+            player.sendMessage(ChatColor.GRAY + "You have been halted, don't move!");
+        }
+        else
+        {
+            player.setOp(true);
+            player.setGameMode(GameMode.CREATIVE);
+            setFrozen(false);
+            setMuted(false);
+
+            player.sendMessage(ChatColor.GRAY + "You are no longer halted.");
+        }
+
     }
 
     public BukkitTask getLockupScheduleID()

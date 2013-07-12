@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, block_host_console = true)
 @CommandParameters(description = "Manage permanently banned players and IPs.", usage = "/<command> <list | reload>")
 public class Command_permban extends TFM_Command
 {

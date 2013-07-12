@@ -15,7 +15,7 @@ superadmins:
     - 127.0.0.1
     - 8.8.8.8
     last_login: Sun, 11 Nov 2012 01:09:14 -0500
-    custom_login_message: the &5Chief-Developer&b and &6Master-ass-kicker&b.
+    custom_login_message: the &4Co-Founder&b and &6Master-ass-kicker&b.
     is_senior_admin: true
     console_aliases:
     - madgeek

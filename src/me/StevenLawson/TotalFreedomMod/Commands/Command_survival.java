@@ -1,6 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -8,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Quickly change your own gamemode to survival, or define someone's username to change theirs.", usage = "/<command> [partialname]")
+@CommandParameters(description = "Quickly change your own gamemode to survival, or define someone's username to change theirs.", usage = "/<command> <[partialname] | -a>")
 public class Command_survival extends TFM_Command
 {
     @Override
@@ -24,12 +27,30 @@ public class Command_survival extends TFM_Command
         }
 
         Player p;
+
         if (args.length == 0)
         {
             p = sender_p;
         }
         else
         {
+            if (args[0].equalsIgnoreCase("-a"))
+            {
+                if (!TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole)
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                    return true;
+                }
+
+                for (Player player : server.getOnlinePlayers())
+                {
+                    player.setGameMode(GameMode.SURVIVAL);
+                }
+
+                TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to survival", false);
+                return true;
+            }
+
             if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
             {
                 try

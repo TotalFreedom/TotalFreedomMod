@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -13,8 +12,6 @@ import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
@@ -27,6 +24,7 @@ public class TFM_Util
     private static final Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     public static final List<String> STOP_COMMANDS = Arrays.asList("stop", "off", "end", "halt", "die");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "DarthSalamon", "AcidicCyanide", "wild1145", "HeXeRei452", "disaster839");
 
     static
     {
@@ -302,77 +300,6 @@ public class TFM_Util
         }
 
         return TFM_Util.mobtypes.get(mobname);
-    }
-
-    public static void zip(File directory, File zipfile, boolean verbose, CommandSender sender) throws IOException
-    {
-        URI base = directory.toURI();
-        Deque<File> queue = new LinkedList<File>();
-        queue.push(directory);
-        OutputStream out = new FileOutputStream(zipfile);
-        Closeable res = out;
-        try
-        {
-            ZipOutputStream zout = new ZipOutputStream(out);
-            res = zout;
-            while (!queue.isEmpty())
-            {
-                directory = queue.pop();
-                for (File kid : directory.listFiles())
-                {
-                    String name = base.relativize(kid.toURI()).getPath();
-                    if (kid.isDirectory())
-                    {
-                        queue.push(kid);
-                        name = name.endsWith("/") ? name : name + "/";
-                        zout.putNextEntry(new ZipEntry(name));
-                    }
-                    else
-                    {
-                        zout.putNextEntry(new ZipEntry(name));
-                        copy(kid, zout);
-                        zout.closeEntry();
-                    }
-
-                    if (verbose)
-                    {
-                        sender.sendMessage("Zipping: " + name);
-                    }
-                }
-            }
-        }
-        finally
-        {
-            res.close();
-        }
-    }
-
-    public static void unzip(File zipfile, File directory) throws IOException
-    {
-        ZipFile zfile = new ZipFile(zipfile);
-        Enumeration<? extends ZipEntry> entries = zfile.entries();
-        while (entries.hasMoreElements())
-        {
-            ZipEntry entry = entries.nextElement();
-            File file = new File(directory, entry.getName());
-            if (entry.isDirectory())
-            {
-                file.mkdirs();
-            }
-            else
-            {
-                file.getParentFile().mkdirs();
-                InputStream in = zfile.getInputStream(entry);
-                try
-                {
-                    copy(in, file);
-                }
-                finally
-                {
-                    in.close();
-                }
-            }
-        }
     }
 
     private static void copy(InputStream in, OutputStream out) throws IOException
@@ -961,17 +888,41 @@ public class TFM_Util
 
     public static void adminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
     {
-        String name = sender.getName() + (senderIsConsole ? ChatColor.DARK_PURPLE + " (Console)" : (TFM_SuperadminList.isSeniorAdmin(sender) ? ChatColor.LIGHT_PURPLE + " (SrA)" : ChatColor.GOLD + " (SA)"));
-
+        String name = sender.getName() + " " + getPrefix(sender, senderIsConsole);
         TFM_Log.info("[ADMIN] " + name + ": " + message);
 
         for (Player p : Bukkit.getOnlinePlayers())
         {
             if (TFM_SuperadminList.isUserSuperadmin(p))
             {
-                p.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
+                p.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
             }
         }
+    }
+
+    public static String getPrefix(CommandSender sender, boolean senderIsConsole)
+    {
+        String prefix;
+        if (senderIsConsole)
+        {
+            prefix = ChatColor.BLUE + "(Console)";
+        }
+        else
+        {
+            if (TFM_SuperadminList.isSeniorAdmin(sender))
+            {
+                prefix = ChatColor.LIGHT_PURPLE + "(SrA)";
+            }
+            else
+            {
+                prefix = ChatColor.GOLD + "(SA)";
+            }
+            if (DEVELOPERS.contains(sender.getName()))
+            {
+                prefix = ChatColor.DARK_PURPLE + "(Dev)";
+            }
+        }
+        return prefix + ChatColor.WHITE;
     }
 
     public static String inputStreamToString(InputStream is, boolean preserveNewlines) throws IOException
@@ -981,7 +932,7 @@ public class TFM_Util
         String line;
         while ((line = br.readLine()) != null)
         {
-            sb.append(line).append(preserveNewlines ? System.lineSeparator() : "");
+            sb.append(line).append(preserveNewlines ? System.getProperty("line.separator") : "");
         }
         return sb.toString();
     }
@@ -1008,5 +959,24 @@ public class TFM_Util
         }
         while (checkClass.getSuperclass() != Object.class && ((checkClass = checkClass.getSuperclass()) != null));
         return null;
+    }
+    public static final List<ChatColor> COLOR_POOL = Arrays.asList(
+            ChatColor.DARK_BLUE,
+            ChatColor.DARK_GREEN,
+            ChatColor.DARK_AQUA,
+            ChatColor.DARK_RED,
+            ChatColor.DARK_PURPLE,
+            ChatColor.GOLD,
+            ChatColor.BLUE,
+            ChatColor.GREEN,
+            ChatColor.AQUA,
+            ChatColor.RED,
+            ChatColor.LIGHT_PURPLE,
+            ChatColor.YELLOW);
+    private static final Random RANDOM = new Random();
+
+    public static ChatColor randomChatColor()
+    {
+        return COLOR_POOL.get(RANDOM.nextInt(COLOR_POOL.size()));
     }
 }

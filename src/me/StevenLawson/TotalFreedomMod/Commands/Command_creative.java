@@ -1,6 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -29,23 +31,39 @@ public class Command_creative extends TFM_Command
         }
         else
         {
-            if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
+            if (args[0].equalsIgnoreCase("-a"))
             {
-                try
+                if (!TFM_SuperadminList.isUserSuperadmin(sender))
                 {
-                    p = getPlayer(args[0]);
-                }
-                catch (CantFindPlayerException ex)
-                {
-                    sender.sendMessage(ex.getMessage());
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
                 }
+
+                for (Player player : server.getOnlinePlayers())
+                {
+                    player.setGameMode(GameMode.CREATIVE);
+                }
+
+                TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to creative", false);
+                return true;
             }
-            else
+
+            if (!(senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender)))
             {
                 playerMsg("Only superadmins can change other user's gamemode.");
                 return true;
             }
+
+            try
+            {
+                p = getPlayer(args[0]);
+            }
+            catch (CantFindPlayerException ex)
+            {
+                sender.sendMessage(ex.getMessage());
+                return true;
+            }
+
         }
 
         playerMsg("Setting " + p.getName() + " to game mode 'Creative'.");

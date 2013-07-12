@@ -72,9 +72,14 @@ public class Command_list extends TFM_Command
                     prefix = (ChatColor.GOLD + "[SA]");
                 }
 
-                if (p.getName().equalsIgnoreCase("madgeek1450") || p.getName().equalsIgnoreCase("darthsalamon"))
+                if (TFM_Util.DEVELOPERS.contains(p.getName()))
                 {
                     prefix = (ChatColor.DARK_PURPLE + "[Dev]");
+                }
+
+                if (p.getName().equals("markbyron"))
+                {
+                    prefix = (ChatColor.BLUE + "[Owner]");
                 }
             }
             else

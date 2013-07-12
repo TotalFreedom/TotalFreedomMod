@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
-import net.minecraft.server.v1_5_R2.BanEntry;
-import net.minecraft.server.v1_5_R2.BanList;
-import net.minecraft.server.v1_5_R2.MinecraftServer;
-import net.minecraft.server.v1_5_R2.PlayerList;
-import net.minecraft.server.v1_5_R2.PropertyManager;
+import net.minecraft.server.v1_6_R2.BanEntry;
+import net.minecraft.server.v1_6_R2.BanList;
+import net.minecraft.server.v1_6_R2.MinecraftServer;
+import net.minecraft.server.v1_6_R2.PlayerList;
+import net.minecraft.server.v1_6_R2.PropertyManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -165,7 +165,7 @@ public class TFM_ServerInterface
             {
                 ban_entry = (BanEntry) banByName.getEntries().get(player_name.toLowerCase());
 
-                String kick_message = "You are banned from this server.";
+                String kick_message = ChatColor.RED + "You are banned from this server.";
                 if (ban_entry != null)
                 {
                     kick_message = kick_message + "\nReason: " + ban_entry.getReason();
@@ -209,7 +209,7 @@ public class TFM_ServerInterface
 
             if (is_ip_banned)
             {
-                String kick_message = "Your IP address is banned from this server.";
+                String kick_message = ChatColor.RED + "Your IP address is banned from this server.";
                 if (ban_entry != null)
                 {
                     kick_message = kick_message + "\nReason: " + ban_entry.getReason();
@@ -296,5 +296,10 @@ public class TFM_ServerInterface
                 }
             }
         }
+    }
+
+    public static String getVersion()
+    {
+        return MinecraftServer.getServer().getVersion();
     }
 }

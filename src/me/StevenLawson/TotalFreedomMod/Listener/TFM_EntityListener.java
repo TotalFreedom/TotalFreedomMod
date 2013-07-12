@@ -36,7 +36,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityCombust(EntityCombustEvent event)
     {
-        if (!TotalFreedomMod.allowFireSpread)
+        if (!TotalFreedomMod.allowExplosions)
         {
             event.setCancelled(true);
         }
@@ -50,6 +50,19 @@ public class TFM_EntityListener implements Listener
             case LAVA:
             {
                 if (!TotalFreedomMod.allowLavaDamage)
+                {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+        }
+
+        if (TotalFreedomMod.petProtectEnabled)
+        {
+            Entity entity = event.getEntity();
+            if (entity instanceof Tameable)
+            {
+                if (((Tameable) entity).isTamed())
                 {
                     event.setCancelled(true);
                 }
