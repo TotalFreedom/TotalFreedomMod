@@ -139,7 +139,7 @@ public class TFM_CommandLoader
             this.blockHostConsole = blockHostConsole;
             this.description = description;
             this.usage = usage;
-            this.aliases = Arrays.asList(aliases.split(","));
+            this.aliases = ("".equals(aliases) ? new ArrayList<String>() : Arrays.asList(aliases.split(",")));
         }
 
         public List<String> getAliases()

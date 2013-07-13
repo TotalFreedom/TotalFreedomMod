@@ -126,7 +126,7 @@ public class TotalFreedomMod extends JavaPlugin
     public void onDisable()
     {
         server.getScheduler().cancelTasks(this);
-        TFM_Log.info("Plugin Disabled");
+        TFM_Log.info("Plugin disabled");
     }
 
     @Override
@@ -152,11 +152,6 @@ public class TotalFreedomMod extends JavaPlugin
                         sender.getName(),
                         commandLabel,
                         StringUtils.join(args, " ")), true);
-            }
-            
-            if ("".equals(commandLabel))
-            {
-                return false;
             }
 
             TFM_Command dispatcher;
@@ -189,7 +184,6 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_Log.severe("Command Error: " + commandLabel + "\n" + ExceptionUtils.getStackTrace(ex));
             }
 
-            dispatcher = null;
         }
         catch (Throwable ex)
         {
