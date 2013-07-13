@@ -54,6 +54,8 @@ blocked_commands:
   - n:b:/md:This server now uses DisguiseCraft instead of MobDisguise. Type /d to disguise and /u to undisguise.
   - n:b:/gamemode:Use /creative and /survival to set your gamemode.
   - n:b:/ban:_
+  - n:b:/ban-ip:_
+  - n:b:/pardon-ip_
   - n:b:/pardon:_
   - n:b:/toggledownfall:_
 
