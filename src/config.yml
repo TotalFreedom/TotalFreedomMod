@@ -58,6 +58,7 @@ blocked_commands:
   - n:b:/toggledownfall:_
   - n:b:/ban-ip:_
   - n:b:/pardon-ip:_
+  - n_b://g:_
 
   # Superadmin commands
   - s:b:/kick:_
@@ -70,7 +71,6 @@ blocked_commands:
   - s:a:/save-all:_
   - s:a:/save-on:_
   - s:a:/save-off:_
-  - s_a://g:_
 
 # Automatically wipe dropped objects:
 auto_wipe: true
