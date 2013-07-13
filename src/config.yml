@@ -58,7 +58,7 @@ blocked_commands:
   - n:b:/toggledownfall:_
   - n:b:/ban-ip:_
   - n:b:/pardon-ip:_
-  - n_b://g:_
+  - n:b://g:_
 
   # Superadmin commands
   - s:b:/kick:_
