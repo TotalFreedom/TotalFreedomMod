@@ -68,6 +68,8 @@ blocked_commands:
   - s:a:/save-all
   - s:a:/save-on
   - s:a:/save-off
+  - s:a:/ban-ip
+  - s:a:/pardon-ip
 
 # Automatically wipe dropped objects:
 auto_wipe: true
