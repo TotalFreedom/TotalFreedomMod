@@ -56,20 +56,20 @@ blocked_commands:
   - n:b:/ban:_
   - n:b:/pardon:_
   - n:b:/toggledownfall:_
+  - n:b:/ban-ip:_
+  - n:b:/pardon-ip:_
 
   # Superadmin commands
   - s:b:/kick:_
   - s:b:/socialspy:_
   - s:b:/kill:_
   - s:b:/clearhistory:_
-  - s:a:/stop
-  - s:a:/reload
-  - s:a:/nuke
-  - s:a:/save-all
-  - s:a:/save-on
-  - s:a:/save-off
-  - s:a:/ban-ip
-  - s:a:/pardon-ip
+  - s:a:/stop:_
+  - s:a:/reload:_
+  - s:a:/nuke:_
+  - s:a:/save-all:_
+  - s:a:/save-on:_
+  - s:a:/save-off:_
 
 # Automatically wipe dropped objects:
 auto_wipe: true
