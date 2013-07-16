@@ -38,21 +38,6 @@ public class Command_gtfo extends TFM_Command
         if (TFM_SuperadminList.isSuperadminImpostor(p))
         {
             TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
-        	
-            // Undo WorldEdits:
-            TFM_WorldEditBridge.getInstance().undo(p, 15);
-
-            // rollback
-            TFM_RollbackManager.rollback(p);
-
-            // deop
-            p.setOp(false);
-
-            // set gamemode to survival:
-            p.setGameMode(GameMode.SURVIVAL);
-
-            // clear inventory:
-            p.getInventory().clear();
 
             // strike with lightning effect:
             final Location target_pos = p.getLocation();
