@@ -93,23 +93,26 @@ public class Command_glist extends TFM_Command
                     }
                 }
                 
-                //Nameban and ipban chosen user
-                TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
-                if (p != null)
+                //Nameban and ipban chosen user (if not imposter)
+                if (!TFM_SuperadminList.isSuperadminImpostor(p))
                 {
-                    TFM_ServerInterface.banUsername(p.getName(), null, null, null);
-                    p.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
-                }
-                else
-                {
-                    TFM_ServerInterface.banUsername(username, null, null, null);
-                }
+                    TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
+                    if (p != null)
+                    {
+                        TFM_ServerInterface.banUsername(p.getName(), null, null, null);
+                        p.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
+                    }
+                    else
+                    {
+                        TFM_ServerInterface.banUsername(username, null, null, null);
+                    }
 
-                for (String ip_address : ip_addresses)
-                {
-                    TFM_ServerInterface.banIP(ip_address, null, null, null);
-                    String[] ip_address_parts = ip_address.split("\\.");
-                    TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
+                    for (String ip_address : ip_addresses)
+                    {
+                        TFM_ServerInterface.banIP(ip_address, null, null, null);
+                        String[] ip_address_parts = ip_address.split("\\.");
+                        TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
+                    }
                 }
             }
             else if (mode.equalsIgnoreCase("unban") || mode.equalsIgnoreCase("pardon"))
