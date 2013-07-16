@@ -33,50 +33,86 @@ public class Command_gtfo extends TFM_Command
             playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
-
-        TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
-
-        // Undo WorldEdits:
-        TFM_WorldEditBridge.getInstance().undo(p, 15);
-
-        // rollback
-        TFM_RollbackManager.rollback(p);
-
-        // deop
-        p.setOp(false);
-
-        // set gamemode to survival:
-        p.setGameMode(GameMode.SURVIVAL);
-
-        // clear inventory:
-        p.getInventory().clear();
-
-        // strike with lightning effect:
-        final Location target_pos = p.getLocation();
-        for (int x = -1; x <= 1; x++)
+        
+        //Check if player is imposter
+        if (TFM_SuperadminList.isSuperadminImpostor(p))
         {
-            for (int z = -1; z <= 1; z++)
+            TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
+
+            // strike with lightning effect:
+            final Location target_pos = p.getLocation();
+            for (int x = -1; x <= 1; x++)
             {
-                final Location strike_pos = new Location(target_pos.getWorld(), target_pos.getBlockX() + x, target_pos.getBlockY(), target_pos.getBlockZ() + z);
-                target_pos.getWorld().strikeLightning(strike_pos);
+                for (int z = -1; z <= 1; z++)
+                {
+                    final Location strike_pos = new Location(target_pos.getWorld(), target_pos.getBlockX() + x, target_pos.getBlockY(), target_pos.getBlockZ() + z);
+                    target_pos.getWorld().strikeLightning(strike_pos);
+                }
             }
-        }
 
-        // ban IP address:
-        String user_ip = p.getAddress().getAddress().getHostAddress();
-        String[] ip_parts = user_ip.split("\\.");
-        if (ip_parts.length == 4)
+            // ban IP address:
+            String user_ip = p.getAddress().getAddress().getHostAddress();
+            String[] ip_parts = user_ip.split("\\.");
+            if (ip_parts.length == 4)
+            {
+                user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+            }
+            TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
+            TFM_ServerInterface.banIP(user_ip, null, null, null);
+            
+            // kick Player
+            p.kickPlayer("GTFO");
+        }
+        
+        if (!TFM_SuperadminList.isSuperadminImposter(p))
         {
-            user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+            // If the user isn't an imposter, then the user will be normally banned.
+            TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
+
+            // Undo WorldEdits:
+           TFM_WorldEditBridge.getInstance().undo(p, 15);
+
+            // rollback
+            TFM_RollbackManager.rollback(p);
+
+            // deop
+            p.setOp(false);
+
+            // set gamemode to survival:
+            p.setGameMode(GameMode.SURVIVAL);
+
+            // clear inventory:
+            p.getInventory().clear();
+
+            // strike with lightning effect:
+            final Location target_pos = p.getLocation();
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    final Location strike_pos = new Location(target_pos.getWorld(), target_pos.getBlockX() + x, target_pos.getBlockY(), target_pos.getBlockZ() + z);
+                    target_pos.getWorld().strikeLightning(strike_pos);
+                }
+            }
+
+            // ban IP address:
+            String user_ip = p.getAddress().getAddress().getHostAddress();
+            String[] ip_parts = user_ip.split("\\.");
+            if (ip_parts.length == 4)
+            {
+                user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+            }
+            TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
+            TFM_ServerInterface.banIP(user_ip, null, null, null);
+
+            // ban username:
+            TFM_ServerInterface.banUsername(p.getName(), null, null, null);
+
+            // kick Player:
+            p.kickPlayer("GTFO");
+            
+            return true;
         }
-        TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
-        TFM_ServerInterface.banIP(user_ip, null, null, null);
-
-        // ban username:
-        TFM_ServerInterface.banUsername(p.getName(), null, null, null);
-
-        // kick Player:
-        p.kickPlayer("GTFO");
 
         return true;
     }

@@ -2,12 +2,15 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserList;
 import me.StevenLawson.TotalFreedomMod.TFM_UserList.TFM_UserListEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -73,24 +76,43 @@ public class Command_glist extends TFM_Command
             String mode = args[0].toLowerCase();
             if (mode.equalsIgnoreCase("ban"))
             {
-                TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
-
+                //Check if user is an admin, if is admin, tfm will ban only the IP (imposters only)
                 Player p = server.getPlayerExact(username);
-                if (p != null)
+                if (TFM_SuperadminList.isSuperadminImpostor(p))
                 {
-                    TFM_ServerInterface.banUsername(p.getName(), null, null, null);
-                    p.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
+                    TFM_Util.adminAction(sender.getName(), "Banning admin imposter IP: " + StringUtils.join(ip_addresses, "," ) + " on admin username: " + username, true);
+            
+                    //Ban IP
+                    for (String ip_address : ip_addresses)
+                    {
+                        TFM_ServerInterface.banIP(ip_address, null, null, null);
+                        String[] ip_address_parts = ip_address.split("\\.");
+                        TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
+                        //Kick the imposter
+                        p.kickPlayer(ChatColor.RED + "You have been banned for attempting to login as an admin, if you wish to apologize, appeal at: http://www.totalfreedom.boards.net");
+                    }
                 }
-                else
+                
+                //Nameban and ipban chosen user (if not imposter)
+                if (!TFM_SuperadminList.isSuperadminImpostor(p))
                 {
-                    TFM_ServerInterface.banUsername(username, null, null, null);
-                }
+                    TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
+                    if (p != null)
+                    {
+                        TFM_ServerInterface.banUsername(p.getName(), null, null, null);
+                        p.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
+                    }
+                    else
+                    {
+                        TFM_ServerInterface.banUsername(username, null, null, null);
+                    }
 
-                for (String ip_address : ip_addresses)
-                {
-                    TFM_ServerInterface.banIP(ip_address, null, null, null);
-                    String[] ip_address_parts = ip_address.split("\\.");
-                    TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
+                    for (String ip_address : ip_addresses)
+                    {
+                        TFM_ServerInterface.banIP(ip_address, null, null, null);
+                        String[] ip_address_parts = ip_address.split("\\.");
+                        TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
+                    }
                 }
             }
             else if (mode.equalsIgnoreCase("unban") || mode.equalsIgnoreCase("pardon"))
