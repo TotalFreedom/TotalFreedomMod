@@ -44,6 +44,10 @@ For those who wish to contribute, we encourage you to fork the repository and su
   * Explain in detail what each one of your commits changes and point out any big changes.
 * Wait as a developer evaluates your changes.
 
+## Image ##
+* Image of getting your pull request accepted
+[Pull Request](http://i.imgur.com/2zwk8QP.png)
+
 ## Additional Resources ##
 * [TotalFreedom information](http://totalfreedom.me)
 * [TotalFreedom forums](http://totalfreedom.boards.net)
