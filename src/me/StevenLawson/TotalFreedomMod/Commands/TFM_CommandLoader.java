@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +24,6 @@ import org.bukkit.plugin.Plugin;
 public class TFM_CommandLoader
 {
     public static final Pattern COMMAND_CLASS_PATTERN = Pattern.compile(TotalFreedomMod.COMMAND_PATH.replace('.', '/') + "/(" + TotalFreedomMod.COMMAND_PREFIX + "[^\\$]+)\\.class");
-    public static CommandMap commandMap;
     private List<TFM_CommandInfo> commandList = null;
 
     private TFM_CommandLoader()
@@ -32,10 +32,10 @@ public class TFM_CommandLoader
 
     public void scan()
     {
-        commandMap = TFM_Util.getField(Bukkit.getServer().getPluginManager(), "commandMap");
+        CommandMap commandMap = getCommandMap();
         if (commandMap == null)
         {
-            TFM_Log.severe("Error loading command map.");
+            TFM_Log.severe("Error loading commandMap.");
             return;
         }
 
@@ -59,9 +59,82 @@ public class TFM_CommandLoader
                     description = "OP Command - " + description;
                     break;
             }
+
             TFM_DynamicCommand dynamicCommand = new TFM_DynamicCommand(commandInfo.getCommandName(), description, commandInfo.getUsage(), commandInfo.getAliases());
+
+            Command existing = commandMap.getCommand(dynamicCommand.getName());
+            if (existing != null)
+            {
+                TFM_Log.info("Replacing command: " + existing.getName());
+                unregisterCommand(existing, commandMap);
+            }
+
             commandMap.register(TotalFreedomMod.plugin.getDescription().getName(), dynamicCommand);
         }
+
+        TFM_Log.info("TFM commands loaded.");
+    }
+
+    public void unregisterCommand(String commandName)
+    {
+        CommandMap commandMap = getCommandMap();
+        if (commandMap != null)
+        {
+            Command command = commandMap.getCommand(commandName.toLowerCase());
+            if (command != null)
+            {
+                unregisterCommand(command, commandMap);
+            }
+        }
+    }
+
+    public void unregisterCommand(Command command, CommandMap commandMap)
+    {
+        try
+        {
+            command.unregister(commandMap);
+            HashMap<String, Command> knownCommands = getKnownCommands(commandMap);
+            if (knownCommands != null)
+            {
+                knownCommands.remove(command.getName());
+                for (String alias : command.getAliases())
+                {
+                    knownCommands.remove(alias);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public CommandMap getCommandMap()
+    {
+        Object commandMap = TFM_Util.getField(Bukkit.getServer().getPluginManager(), "commandMap");
+        if (commandMap != null)
+        {
+            if (commandMap instanceof CommandMap)
+            {
+                return (CommandMap) commandMap;
+            }
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public HashMap<String, Command> getKnownCommands(CommandMap commandMap)
+    {
+        Object knownCommands = TFM_Util.getField(commandMap, "knownCommands");
+        if (knownCommands != null)
+        {
+            if (knownCommands instanceof HashMap)
+            {
+                return (HashMap<String, Command>) knownCommands;
+            }
+        }
+        return null;
     }
 
     private static List<TFM_CommandInfo> getCommands()

@@ -106,8 +106,6 @@ public class TotalFreedomMod extends JavaPlugin
         // Heartbeat
         server.getScheduler().scheduleSyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
-        TFM_CommandLoader.getInstance().scan();
-
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try
         {
@@ -120,6 +118,15 @@ public class TotalFreedomMod extends JavaPlugin
         }
 
         TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
+
+        server.getScheduler().runTaskLater(this, new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                TFM_CommandLoader.getInstance().scan();
+            }
+        }, 20L);
     }
 
     @Override

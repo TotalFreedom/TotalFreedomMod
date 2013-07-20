@@ -26,7 +26,7 @@ public class TFM_CommandBlocker
             if (!(usedcommand + " ").startsWith(parts[2] + " "))
             {
 
-                CommandMap commandMap = TFM_CommandLoader.commandMap;
+                CommandMap commandMap = TFM_CommandLoader.getInstance().getCommandMap();
                 if (commandMap == null)
                 {
                     continue;
