@@ -46,7 +46,7 @@ For those who wish to contribute, we encourage you to fork the repository and su
 
 ## Image ##
 * Image of getting your pull request accepted
-[Pull Request](http://i.imgur.com/2zwk8QP.png)
+![Pull Request](http://i.imgur.com/2zwk8QP.png)
 
 ## Additional Resources ##
 * [TotalFreedom information](http://totalfreedom.me)
