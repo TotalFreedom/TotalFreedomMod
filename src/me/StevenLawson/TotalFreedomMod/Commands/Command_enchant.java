@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -53,9 +54,23 @@ public class Command_enchant extends TFM_Command
         {
             for (Enchantment ench : Enchantment.values())
             {
-                if (ench.canEnchantItem(itemInHand))
+                /*
+                 2013-07-20 23:17:13 [INFO] [TotalFreedomMod]: Command Error: enchant
+                 java.lang.NullPointerException
+                 at net.minecraft.server.v1_6_R2.EnchantmentDurability.canEnchant(SourceFile:33)
+                 at org.bukkit.craftbukkit.v1_6_R2.enchantments.CraftEnchantment.canEnchantItem(CraftEnchantment.java:55)
+                 at me.StevenLawson.TotalFreedomMod.Commands.Command_enchant.run(Command_enchant.java:56)
+                 */
+                try
                 {
-                    itemInHand.addEnchantment(ench, ench.getMaxLevel());
+                    if (ench.canEnchantItem(itemInHand))
+                    {
+                        itemInHand.addEnchantment(ench, ench.getMaxLevel());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TFM_Log.info("Error using " + ench.getName() + " on " + itemInHand.getType().name() + " held by " + sender_p.getName() + ".");
                 }
             }
 
