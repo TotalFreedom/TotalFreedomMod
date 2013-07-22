@@ -468,7 +468,7 @@ public class TFM_PlayerListener implements Listener
         {
             p.sendMessage(ChatColor.RED + "Do not ask for admin!");
             // Force the player to use /admininfo
-            Bukkit.dispatchCommand(sender, "admininfo"); 
+            Bukkit.dispatchCommand(sender, "ai"); 
             event.setCancelled(true);
             return;
         }
