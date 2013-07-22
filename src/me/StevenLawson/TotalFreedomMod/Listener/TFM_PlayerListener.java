@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
-import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
+import me.StevenLawson.TotalFreedomMod.TFM_CommandBlockerNew;
 import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
@@ -39,8 +39,6 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.server.RemoteServerCommandEvent;
-import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -523,7 +521,7 @@ public class TFM_PlayerListener implements Listener
         command = command.toLowerCase().trim();
 
         // Blocked commands
-        if (TFM_CommandBlocker.isCommandBlocked(command, event.getPlayer()))
+        if (TFM_CommandBlockerNew.getInstance().isCommandBlocked(command, event.getPlayer()))
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
@@ -538,24 +536,6 @@ public class TFM_PlayerListener implements Listener
                     TFM_Util.playerMsg(pl, p.getName() + ": " + command);
                 }
             }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onRemoteServerCommand(RemoteServerCommandEvent event)
-    {
-        if (TFM_CommandBlocker.isCommandBlocked("/" + event.getCommand(), event.getSender()))
-        {
-            event.setCommand("");
-        }
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onServerCommand(ServerCommandEvent event)
-    {
-        if (TFM_CommandBlocker.isCommandBlocked("/" + event.getCommand(), event.getSender()))
-        {
-            event.setCommand("");
         }
     }
 

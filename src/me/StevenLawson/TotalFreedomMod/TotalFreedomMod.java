@@ -9,6 +9,7 @@ import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_ServerListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -125,6 +126,7 @@ public class TotalFreedomMod extends JavaPlugin
             public void run()
             {
                 TFM_CommandLoader.getInstance().scan();
+                TFM_CommandBlockerNew.getInstance().parseBlockingRules();
             }
         }, 20L);
     }
@@ -357,6 +359,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_BlockListener(), plugin);
         pm.registerEvents(new TFM_PlayerListener(), plugin);
         pm.registerEvents(new TFM_WeatherListener(), plugin);
+        pm.registerEvents(new TFM_ServerListener(), plugin);
     }
 
     private static void setAppProperties()
