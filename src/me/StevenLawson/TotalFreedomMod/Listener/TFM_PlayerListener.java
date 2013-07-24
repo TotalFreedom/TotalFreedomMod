@@ -6,15 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
-import me.StevenLawson.TotalFreedomMod.TFM_CommandBlockerNew;
-import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
-import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
-import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TFM_UserList;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.*;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -30,16 +22,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.LeavesDecayEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -653,28 +636,5 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         TFM_ServerInterface.handlePlayerLogin(event);
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onServerPing(ServerListPingEvent event)
-    {
-        event.setMotd(TFM_Util.randomChatColor() + "Total" + TFM_Util.randomChatColor() + "Freedom " + ChatColor.DARK_GRAY + "-" + TFM_Util.randomChatColor() + " Bukkit v" + TFM_ServerInterface.getVersion());
-
-        if (TFM_ServerInterface.isIPBanned(event.getAddress().getHostAddress()))
-        {
-            event.setMotd(ChatColor.RED + "You are banned.");
-        }
-        else if (TotalFreedomMod.adminOnlyMode)
-        {
-            event.setMotd(ChatColor.RED + "Server is closed.");
-        }
-        else if (Bukkit.hasWhitelist())
-        {
-            event.setMotd(ChatColor.RED + "Whitelist enabled.");
-        }
-        else if (Bukkit.getOnlinePlayers().length >= Bukkit.getMaxPlayers())
-        {
-            event.setMotd(ChatColor.RED + "Server is full.");
-        }
     }
 }

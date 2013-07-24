@@ -4,7 +4,11 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlockerNew;
+import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -15,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.CommandBlockSetEvent;
 import org.bukkit.event.server.RemoteServerCommandEvent;
 import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -72,6 +77,29 @@ public class TFM_ServerListener implements Listener
         if (TFM_CommandBlockerNew.getInstance().isCommandBlocked(event.getCommand(), event.getSender()))
         {
             event.setCommand("");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onServerPing(ServerListPingEvent event)
+    {
+        event.setMotd(TFM_Util.randomChatColor() + "Total" + TFM_Util.randomChatColor() + "Freedom " + ChatColor.DARK_GRAY + "-" + TFM_Util.randomChatColor() + " Bukkit v" + TFM_ServerInterface.getVersion());
+
+        if (TFM_ServerInterface.isIPBanned(event.getAddress().getHostAddress()))
+        {
+            event.setMotd(ChatColor.RED + "You are banned.");
+        }
+        else if (TotalFreedomMod.adminOnlyMode)
+        {
+            event.setMotd(ChatColor.RED + "Server is closed.");
+        }
+        else if (Bukkit.hasWhitelist())
+        {
+            event.setMotd(ChatColor.RED + "Whitelist enabled.");
+        }
+        else if (Bukkit.getOnlinePlayers().length >= Bukkit.getMaxPlayers())
+        {
+            event.setMotd(ChatColor.RED + "Server is full.");
         }
     }
 
