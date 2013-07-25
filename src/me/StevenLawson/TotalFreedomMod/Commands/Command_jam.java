@@ -70,7 +70,7 @@ public class Command_jam extends TFM_Command
                     }
                 }
                 
-                //Kills player, if not done already
+                //Kills Player, If Not Done Already
                 p.setHealth(0);
                 
                 //Deops
@@ -79,10 +79,10 @@ public class Command_jam extends TFM_Command
                 // Undo WorldEdits:
                 TFM_WorldEditBridge.getInstance().undo(p, 15);
 
-                // rollback
+                // Rolls Back The Player
                 TFM_RollbackManager.rollback(p);
                 
-                // Clears inventory
+                // Clears Player Inventory
                 p.getInventory().clear();
                 
                 // Changes Gamemode
