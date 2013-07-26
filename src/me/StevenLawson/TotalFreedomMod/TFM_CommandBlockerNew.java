@@ -142,7 +142,7 @@ public class TFM_CommandBlockerNew
             {
                 if (doAction)
                 {
-                    doBlockedCommandAction(sender, blockedCommandEntry);
+                    blockedCommandEntry.doActions(sender);
                 }
 
                 return true;
@@ -150,36 +150,6 @@ public class TFM_CommandBlockerNew
         }
 
         return false;
-    }
-
-    private void doBlockedCommandAction(CommandSender sender, TFM_CommandBlocker_BlockedCommandEntry blockedCommandEntry)
-    {
-        CommandBlockerAction action = blockedCommandEntry.getAction();
-
-        if (action == CommandBlockerAction.BLOCK_AND_EJECT && sender instanceof Player)
-        {
-            TFM_Util.autoEject((Player) sender, "You used a prohibited command: " + blockedCommandEntry.getCommand());
-            TFM_Util.bcastMsg(sender.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
-        }
-        else
-        {
-            String message = blockedCommandEntry.getMessage();
-
-            if (action == CommandBlockerAction.BLOCK_UNKNOWN)
-            {
-                message = "Unknown command. Type \"help\" for help.";
-            }
-            else if (message == null || "_".equals(message))
-            {
-                message = ChatColor.GRAY + "That command is blocked.";
-            }
-            else
-            {
-                message = ChatColor.GRAY + ChatColor.translateAlternateColorCodes('&', message);
-            }
-
-            sender.sendMessage(message);
-        }
     }
 
     private static enum CommandBlockerRank
@@ -201,7 +171,7 @@ public class TFM_CommandBlockerNew
 
         public String getToken()
         {
-            return token;
+            return this.token;
         }
 
         public boolean hasPermission(CommandSender sender)
@@ -261,7 +231,7 @@ public class TFM_CommandBlockerNew
 
         public String getToken()
         {
-            return token;
+            return this.token;
         }
 
         public static CommandBlockerAction fromToken(String token)
@@ -294,27 +264,55 @@ public class TFM_CommandBlockerNew
 
         public CommandBlockerAction getAction()
         {
-            return action;
+            return this.action;
         }
 
         public String getCommand()
         {
-            return command;
+            return this.command;
         }
 
         public String getMessage()
         {
-            return message;
+            return this.message;
         }
 
         public CommandBlockerRank getRank()
         {
-            return rank;
+            return this.rank;
         }
 
         public void setCommand(String command)
         {
             this.command = command;
+        }
+
+        private void doActions(CommandSender sender)
+        {
+            if (this.action == CommandBlockerAction.BLOCK_AND_EJECT && sender instanceof Player)
+            {
+                TFM_Util.autoEject((Player) sender, "You used a prohibited command: " + this.command);
+                TFM_Util.bcastMsg(sender.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
+            }
+            else
+            {
+                String response;
+
+                if (this.action == CommandBlockerAction.BLOCK_UNKNOWN)
+                {
+                    response = "Unknown command. Type \"help\" for help.";
+                }
+                else if (this.message == null || "_".equals(this.message))
+                {
+                    response = ChatColor.GRAY + "That command is blocked.";
+                }
+                else
+                {
+                    response = ChatColor.GRAY + ChatColor.translateAlternateColorCodes('&', this.message);
+                }
+
+                sender.sendMessage(response);
+            }
         }
     }
 
