@@ -444,6 +444,18 @@ public class TFM_PlayerListener implements Listener
         {
             TFM_Log.severe(ex);
         }
+        
+        // Make admin's lifes easier, blocks asking for admin.
+        String message = event.getMessage().toLowerCase();
+        if (Pattern.compile("\\sbe\\s.*admin").matcher(message).find()
+                || Pattern.compile("\\shave\\s.*admin").matcher(message).find())
+        {
+            p.sendMessage(ChatColor.RED + "Do not ask for admin!");
+            // Force the player to use /admininfo
+            Bukkit.dispatchCommand(sender, "ai"); 
+            event.setCancelled(true);
+            return;
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
