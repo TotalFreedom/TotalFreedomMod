@@ -5,6 +5,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true)
@@ -111,7 +112,7 @@ public class Command_lockup extends TFM_Command
 
         cancelLockup(playerdata);
 
-        playerdata.setLockupScheduleID(server.getScheduler().runTaskTimerAsynchronously(plugin, new Runnable()
+        playerdata.setLockupScheduleID(new BukkitRunnable()
         {
             @Override
             public void run()
@@ -125,6 +126,6 @@ public class Command_lockup extends TFM_Command
                     cancelLockup(playerdata);
                 }
             }
-        }, 0L, 5L));
+        }.runTaskTimer(plugin, 0L, 5L));
     }
 }

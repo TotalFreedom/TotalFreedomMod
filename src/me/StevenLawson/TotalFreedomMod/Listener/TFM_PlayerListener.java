@@ -24,6 +24,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class TFM_PlayerListener implements Listener
@@ -186,7 +187,7 @@ public class TFM_PlayerListener implements Listener
                                     last_block = test_block;
                                 }
 
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(TotalFreedomMod.plugin, new Runnable()
+                                new BukkitRunnable()
                                 {
                                     @Override
                                     public void run()
@@ -198,7 +199,7 @@ public class TFM_PlayerListener implements Listener
                                             tnt_block.setType(Material.AIR);
                                         }
                                     }
-                                }, 30L);
+                                }.runTaskLater(TotalFreedomMod.plugin, 30L);
 
                                 event.setCancelled(true);
                             }
@@ -617,14 +618,14 @@ public class TFM_PlayerListener implements Listener
 
             if (TotalFreedomMod.adminOnlyMode)
             {
-                TotalFreedomMod.plugin.getServer().getScheduler().scheduleSyncDelayedTask(TotalFreedomMod.plugin, new Runnable()
+                new BukkitRunnable()
                 {
                     @Override
                     public void run()
                     {
                         p.sendMessage(ChatColor.RED + "Server is currently closed to non-superadmins.");
                     }
-                }, 60L);
+                }.runTaskLater(TotalFreedomMod.plugin, 20L * 3L);
             }
         }
         catch (Throwable ex)

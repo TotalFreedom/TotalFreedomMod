@@ -8,6 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "For the bad Superadmins.", usage = "/<command> <playername>")
@@ -69,7 +70,7 @@ public class Command_doom extends TFM_Command
         // generate explosion
         p.getWorld().createExplosion(p.getLocation(), 4F);
 
-        server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+        new BukkitRunnable()
         {
             @Override
             public void run()
@@ -80,9 +81,9 @@ public class Command_doom extends TFM_Command
                 // kill (if not done already)
                 p.setHealth(0.0);
             }
-        }, 40L); // 2 seconds
+        }.runTaskLater(plugin, 20L * 2L);
 
-        server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+        new BukkitRunnable()
         {
             @Override
             public void run()
@@ -96,7 +97,7 @@ public class Command_doom extends TFM_Command
                 // kick player
                 p.kickPlayer(ChatColor.RED + "FUCKOFF, and get your shit together!");
             }
-        }, 60L); // 3 seconds
+        }.runTaskLater(plugin, 20L * 3L);
 
         return true;
     }

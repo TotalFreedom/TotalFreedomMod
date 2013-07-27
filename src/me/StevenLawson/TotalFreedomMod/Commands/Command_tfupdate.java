@@ -7,6 +7,7 @@ import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true)
 @CommandParameters(description = "Update server files.", usage = "/<command>")
@@ -34,7 +35,7 @@ public class Command_tfupdate extends TFM_Command
 
         for (final String url : FILES)
         {
-            server.getScheduler().runTaskAsynchronously(plugin, new Runnable()
+            new BukkitRunnable()
             {
                 @Override
                 public void run()
@@ -60,7 +61,7 @@ public class Command_tfupdate extends TFM_Command
                         TFM_Log.severe(ex);
                     }
                 }
-            });
+            }.runTaskAsynchronously(plugin);
         }
 
         return true;

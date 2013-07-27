@@ -6,6 +6,7 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH, block_host_console = true)
 @CommandParameters(description = "Make some noise.", usage = "/<command>")
@@ -23,14 +24,14 @@ public class Command_deafen extends TFM_Command
             {
                 final float pitch = (float) (percent * 2.0);
 
-                server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+                new BukkitRunnable()
                 {
                     @Override
                     public void run()
                     {
                         p.playSound(randomOffset(p.getLocation(), 5.0), Sound.values()[random.nextInt(Sound.values().length)], 100.0f, pitch);
                     }
-                }, Math.round(20.0 * percent * 2.0));
+                }.runTaskLater(plugin, Math.round(20.0 * percent * 2.0));
             }
         }
 

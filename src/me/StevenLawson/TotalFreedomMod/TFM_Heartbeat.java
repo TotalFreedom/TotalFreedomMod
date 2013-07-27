@@ -3,8 +3,9 @@ package me.StevenLawson.TotalFreedomMod;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
-public class TFM_Heartbeat implements Runnable
+public class TFM_Heartbeat extends BukkitRunnable
 {
     private final TotalFreedomMod plugin;
     private final Server server;

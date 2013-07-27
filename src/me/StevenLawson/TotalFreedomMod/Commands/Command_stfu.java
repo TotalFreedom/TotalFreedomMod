@@ -1,13 +1,13 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> | list | purge | all]", aliases = "mute")
@@ -54,10 +54,9 @@ public class Command_stfu extends TFM_Command
                     count++;
                 }
             }
-            if (TotalFreedomMod.mutePurgeEventId != 0)
+            if (TotalFreedomMod.mutePurgeTask != null)
             {
-                server.getScheduler().cancelTask(TotalFreedomMod.mutePurgeEventId);
-                TotalFreedomMod.mutePurgeEventId = 0;
+                TotalFreedomMod.mutePurgeTask.cancel();
             }
             playerMsg("Unmuted " + count + " players.");
         }
@@ -77,26 +76,24 @@ public class Command_stfu extends TFM_Command
                 }
             }
 
-            TotalFreedomMod.mutePurgeEventId = server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+            if (TotalFreedomMod.mutePurgeTask != null)
+            {
+                TotalFreedomMod.mutePurgeTask.cancel();
+            }
+
+            TotalFreedomMod.mutePurgeTask = new BukkitRunnable()
             {
                 @Override
                 public void run()
                 {
-                    if (TotalFreedomMod.mutePurgeEventId == 0)
-                    {
-                        TFM_Log.warning("Mute autopurge task was improperly cancelled!");
-                        return;
-                    }
-
                     TFM_Util.adminAction("MuteTimer", "Unmuting all players", false);
                     for (Player p : server.getOnlinePlayers())
                     {
                         TFM_PlayerData.getPlayerData(p).setMuted(false);
                     }
-
-                    TotalFreedomMod.mutePurgeEventId = 0;
                 }
-            }, 6000L); // five minutes in ticks: 20*60*5
+            }.runTaskLater(plugin, 20L * 60L * 5L);
+
             playerMsg("Muted " + counter + " players.");
         }
         else

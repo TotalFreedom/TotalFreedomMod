@@ -15,6 +15,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class TFM_PlayerData
@@ -330,7 +331,7 @@ public class TFM_PlayerData
     public void startArrowShooter(TotalFreedomMod plugin)
     {
         this.stopArrowShooter();
-        this.mp44_schedule_id = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new ArrowShooter(this.player), 1L, 1L);
+        new ArrowShooter(this.player).runTaskTimer(plugin, 1L, 1L);
         mp44_firing = true;
     }
 
@@ -344,7 +345,7 @@ public class TFM_PlayerData
         mp44_firing = false;
     }
 
-    class ArrowShooter implements Runnable
+    private class ArrowShooter extends BukkitRunnable
     {
         private Player _player;
 

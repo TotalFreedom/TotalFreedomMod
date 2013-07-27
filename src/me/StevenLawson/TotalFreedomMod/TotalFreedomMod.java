@@ -24,6 +24,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.mcstats.Metrics;
 
 public class TotalFreedomMod extends JavaPlugin
@@ -49,8 +51,8 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     //
     public static boolean allPlayersFrozen = false;
-    public static int freezePurgeEventId = 0;
-    public static int mutePurgeEventId = 0;
+    public static BukkitTask freezePurgeTask = null;
+    public static BukkitTask mutePurgeTask = null;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
     //
     public static String pluginVersion = "";
@@ -104,8 +106,23 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
+        File[] coreDumps = new File(".").listFiles(new java.io.FileFilter()
+        {
+            @Override
+            public boolean accept(File file)
+            {
+                return file.getName().startsWith("java.core");
+            }
+        });
+
+        for (File dump : coreDumps)
+        {
+            TFM_Log.info("Removing core dump file: " + dump.getName());
+            dump.delete();
+        }
+
         // Heartbeat
-        server.getScheduler().scheduleSyncRepeatingTask(this, new TFM_Heartbeat(this), HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+        new TFM_Heartbeat(this).runTaskTimer(plugin, HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try
@@ -120,7 +137,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
 
-        server.getScheduler().runTaskLater(this, new Runnable()
+        new BukkitRunnable()
         {
             @Override
             public void run()
@@ -128,7 +145,7 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_CommandLoader.getInstance().scan();
                 TFM_CommandBlockerNew.getInstance().parseBlockingRules();
             }
-        }, 20L);
+        }.runTaskLater(this, 20L);
     }
 
     @Override
@@ -242,6 +259,8 @@ public class TotalFreedomMod extends JavaPlugin
     public static String twitterbotUrl = "";
     public static String twitterbotSecret = "";
     public static boolean petProtectEnabled = true;
+    public static String logsRegisterPassword = "";
+    public static String logsRegisterURL = "";
 
     public static void loadMainConfig()
     {
@@ -289,6 +308,8 @@ public class TotalFreedomMod extends JavaPlugin
             twitterbotUrl = config.getString("twitterbot_url", twitterbotUrl);
             twitterbotSecret = config.getString("twitterbot_secret", twitterbotSecret);
             petProtectEnabled = config.getBoolean("pet_protect_enabled", petProtectEnabled);
+            logsRegisterPassword = config.getString("logs_register_password", logsRegisterPassword);
+            logsRegisterURL = config.getString("logs_register_url", logsRegisterURL);
         }
         catch (Exception ex)
         {

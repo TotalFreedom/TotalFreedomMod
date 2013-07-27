@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
+import me.StevenLawson.TotalFreedomMod.Commands.Command_logs;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -386,6 +387,7 @@ public class TFM_SuperadminList
             {
                 TFM_Superadmin superadmin = superadminList.get(admin_name);
                 superadmin.setActivated(false);
+                Command_logs.deactivateSuperadmin(superadmin);
                 saveSuperadminList();
             }
         }
@@ -423,6 +425,7 @@ public class TFM_SuperadminList
                         }
 
                         superadmin.setActivated(false);
+                        Command_logs.deactivateSuperadmin(superadmin);
                     }
                 }
             }

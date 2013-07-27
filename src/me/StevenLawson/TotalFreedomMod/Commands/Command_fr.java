@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -8,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Freeze players (toggles on and off).", usage = "/<command> [target | purge]")
@@ -24,33 +24,30 @@ public class Command_fr extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), "Freezing all players", false);
                 TotalFreedomMod.allPlayersFrozen = true;
-                TotalFreedomMod.freezePurgeEventId = server.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+
+                if (TotalFreedomMod.freezePurgeTask != null)
+                {
+                    TotalFreedomMod.freezePurgeTask.cancel();
+                }
+                TotalFreedomMod.freezePurgeTask = new BukkitRunnable()
                 {
                     @Override
                     public void run()
                     {
-                        if (TotalFreedomMod.freezePurgeEventId == 0)
-                        {
-                            TFM_Log.warning("Freeze autopurge task was improperly cancelled!");
-                            return;
-                        }
-
                         TFM_Util.adminAction("FreezeTimer", "Unfreezing all players", false);
-
                         TotalFreedomMod.allPlayersFrozen = false;
-                        TotalFreedomMod.freezePurgeEventId = 0;
                     }
-                }, 6000L); // five minutes in ticks: 20*60*5
+                }.runTaskLater(plugin, 20L * 60L * 5L);
+
                 playerMsg("Players are now frozen.");
             }
             else
             {
                 TFM_Util.adminAction(sender.getName(), "Unfreezing all players", false);
                 TotalFreedomMod.allPlayersFrozen = false;
-                if (TotalFreedomMod.freezePurgeEventId != 0)
+                if (TotalFreedomMod.freezePurgeTask != null)
                 {
-                    server.getScheduler().cancelTask(TotalFreedomMod.freezePurgeEventId);
-                    TotalFreedomMod.freezePurgeEventId = 0;
+                    TotalFreedomMod.freezePurgeTask.cancel();
                 }
                 playerMsg("Players are now free to move.");
             }

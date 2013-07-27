@@ -130,3 +130,7 @@ twitterbot_secret:
 
 # Pet Protect - Prevent tamed pets from being killed.
 pet_protect_enabled: true
+
+# Logs Registration
+logs_register_password:
+logs_register_url:

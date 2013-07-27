@@ -4,16 +4,9 @@ import me.StevenLawson.TotalFreedomMod.TFM_DisguiseCraftBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Ambient;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Slime;
 import org.bukkit.potion.PotionEffect;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
@@ -23,7 +16,6 @@ public class Command_purgeall extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
         TFM_Util.adminAction(sender.getName(), "Purging all player data", true);
 
         // Purge entities
@@ -71,32 +63,30 @@ public class Command_purgeall extends TFM_Command
             {
                 p.removePotionEffect(potion_effect.getType());
             }
+
+            // Uncage
+            if (playerdata.isCaged())
+            {
+                playerdata.setCaged(false);
+                playerdata.regenerateHistory();
+                playerdata.clearHistory();
+            }
         }
 
         // Clear auto-unmute and auto-unfreeze tasks
-        if (TotalFreedomMod.mutePurgeEventId != 0)
+        if (TotalFreedomMod.mutePurgeTask != null)
         {
-            server.getScheduler().cancelTask(TotalFreedomMod.mutePurgeEventId);
-            TotalFreedomMod.mutePurgeEventId = 0;
-        }
-        if (TotalFreedomMod.freezePurgeEventId != 0)
-        {
-            server.getScheduler().cancelTask(TotalFreedomMod.freezePurgeEventId);
-            TotalFreedomMod.freezePurgeEventId = 0;
+            TotalFreedomMod.mutePurgeTask.cancel();
         }
 
+        TotalFreedomMod.allPlayersFrozen = false;
+        if (TotalFreedomMod.freezePurgeTask != null)
+        {
+            TotalFreedomMod.freezePurgeTask.cancel();
+        }
 
         // Remove all mobs
-        for (World world : server.getWorlds())
-        {
-            for (Entity ent : world.getLivingEntities())
-            {
-                if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon || ent instanceof Ambient)
-                {
-                    ent.remove();
-                }
-            }
-        }
+        Command_mp.purgeMobs();
 
         return true;
     }
