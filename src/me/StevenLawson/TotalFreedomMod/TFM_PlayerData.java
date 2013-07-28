@@ -331,7 +331,7 @@ public class TFM_PlayerData
     public void startArrowShooter(TotalFreedomMod plugin)
     {
         this.stopArrowShooter();
-        new ArrowShooter(this.player).runTaskTimer(plugin, 1L, 1L);
+        this.mp44_schedule_id = new ArrowShooter(this.player).runTaskTimer(plugin, 1L, 1L);
         mp44_firing = true;
     }
 
