@@ -12,21 +12,29 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Makes someone GTFO (deop and ip ban by username).", usage = "/<command> <partialname>")
+@CommandParameters(description = "Makes someone GTFO (deop and ip ban by username).", usage = "/<command> <partialname> <reason>")
 public class Command_gtfo extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length != 1)
+        if (args.length == 0)
         {
             return false;
         }
 
         Player p;
+        String reason = "";
         try
         {
             p = getPlayer(args[0]);
+            if(args.length > 1)
+            {
+                for(int i = 1; i < args.length; i++)
+                {
+                    reason = reason + args[i] + " ";
+                }
+            }
         }
         catch (CantFindPlayerException ex)
         {
@@ -76,7 +84,14 @@ public class Command_gtfo extends TFM_Command
         TFM_ServerInterface.banUsername(p.getName(), null, null, null);
 
         // kick Player:
-        p.kickPlayer("GTFO");
+        if(args.length == 1)
+        {
+            p.kickPlayer("GTFO");
+        }
+        else
+        {
+            p.kickPlayer(reason);
+        }
 
         return true;
     }
