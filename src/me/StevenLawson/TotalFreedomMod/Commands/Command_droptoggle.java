@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Enable/disable dropping.", usage = "/<command> <on | off>")
-public class Command_firespread extends TFM_Command
+@CommandParameters(description = "Enable/disable auto entity wiper.", usage = "/<command> <on | off>")
+public class Command_droptoggle extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -17,20 +17,9 @@ public class Command_firespread extends TFM_Command
         {
             return false;
         }
-        
-        if (args[0].equalsIgnoreCase("on"))
-        {
-            TotalFreedomMod.autoEntityWipe = true;
-            playerMsg("Drops are now enabled!");
-            TFM_Util.adminAction(sender.getName(), "Enabling drops", false);
-        }
-        else
-        {
-            TotalFreedomMod.autoEntityWipe = false;
-            playerMsg("Drops are now disabled.");
-            TFM_Util.adminAction(sender.getName(), "Disabling drops", true);
-        }
-        
+        TFM_Util.adminAction(sender.getName(),
+                ((TotalFreedomMod.autoEntityWipe = !args[0].equalsIgnoreCase("off")) ? "Enabled" : "Disabled")
+                + " automatic entity wiping.", false);
         return true;
     }
 }
