@@ -24,16 +24,14 @@ public class Command_gtfo extends TFM_Command
         }
 
         Player p;
-        String reason = "";
+        String ban_reason = "";
+        
         try
         {
             p = getPlayer(args[0]);
             if(args.length > 1)
             {
-                for(int i = 1; i < args.length; i++)
-                {
-                    reason = reason + args[i] + " ";
-                }
+                ban_reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " "); 
             }
         }
         catch (CantFindPlayerException ex)
@@ -78,21 +76,14 @@ public class Command_gtfo extends TFM_Command
             user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
         }
         TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
-        TFM_ServerInterface.banIP(user_ip, null, null, null);
+        TFM_ServerInterface.banIP(user_ip, ban_reason, null, null);
 
         // ban username:
-        TFM_ServerInterface.banUsername(p.getName(), null, null, null);
+        TFM_ServerInterface.banUsername(p.getName(), ban_reason, null, null);
 
         // kick Player:
-        if(args.length == 1)
-        {
-            p.kickPlayer("GTFO");
-        }
-        else
-        {
-            p.kickPlayer(reason);
-        }
-
+        p.kickPlayer("GTFO");
+        
         return true;
     }
 }
