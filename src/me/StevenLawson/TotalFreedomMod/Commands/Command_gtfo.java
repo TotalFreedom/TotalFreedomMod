@@ -4,6 +4,8 @@ import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_WorldEditBridge;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -18,7 +20,7 @@ public class Command_gtfo extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length != 1)
+        if (args.length == 0)
         {
             return false;
         }
@@ -32,6 +34,12 @@ public class Command_gtfo extends TFM_Command
         {
             playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
+        }
+
+        String ban_reason = null;
+        if (args.length >= 2)
+        {
+            ban_reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         }
 
         TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
@@ -70,13 +78,13 @@ public class Command_gtfo extends TFM_Command
             user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
         }
         TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
-        TFM_ServerInterface.banIP(user_ip, null, null, null);
+        TFM_ServerInterface.banIP(user_ip, ban_reason, null, null);
 
         // ban username:
-        TFM_ServerInterface.banUsername(p.getName(), null, null, null);
+        TFM_ServerInterface.banUsername(p.getName(), ban_reason, null, null);
 
         // kick Player:
-        p.kickPlayer("GTFO");
+        p.kickPlayer(ChatColor.RED + "GTFO" + (ban_reason != null ? ("\n" + ChatColor.YELLOW + ban_reason) : ""));
 
         return true;
     }
