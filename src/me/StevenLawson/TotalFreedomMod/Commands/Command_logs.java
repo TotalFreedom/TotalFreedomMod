@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -20,18 +21,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Register your connection with the TFM logviewer.", usage = "/<command>")
+@CommandParameters(description = "Register your connection with the TFM logviewer.", usage = "/<command> [off]")
 public class Command_logs extends TFM_Command
 {
     @Override
     public boolean run(final CommandSender sender, final Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (sender_p == null)
+        LogsRegistrationMode mode = LogsRegistrationMode.UPDATE;
+
+        if (args.length == 1)
         {
-            return true;
+            mode = (TFM_Util.isStopCommand(args[0]) ? LogsRegistrationMode.DELETE : LogsRegistrationMode.UPDATE);
         }
 
-        updateLogsRegistration(sender, sender_p, LogsRegistrationMode.UPDATE);
+        updateLogsRegistration(sender, sender_p, mode);
 
         return true;
     }
