@@ -260,23 +260,4 @@ public class TFM_BlockListener implements Listener
     {
         TFM_RollbackManager.blockUpdate(event.getPlayer(), event.getBlock());
     }
-//    @EventHandler(priority = EventPriority.NORMAL)
-//    public void onCommandBlockChangeEvent(CommandBlockChangeEvent event)
-//    {
-//        Player player = event.getPlayer();
-//
-//        if (!TFM_SuperadminList.isUserSuperadmin(player))
-//        {
-//            TFM_Util.playerMsg(player, "You do not have permission to set Command Block commands.");
-//            event.setCancelled(true);
-//            return;
-//        }
-//
-//        if (!TFM_SuperadminList.isSeniorAdmin(player))
-//        {
-//            TFM_Util.playerMsg(player, "You do not have permission to set Command Block commands.");
-//            event.setCancelled(true);
-//            return;
-//        }
-//    }
 }
