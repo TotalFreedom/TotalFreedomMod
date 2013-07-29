@@ -221,11 +221,11 @@ public class TotalFreedomMod extends JavaPlugin
     }
     //
     public static boolean allowFirePlace = false;
-    public static Boolean allowFireSpread = false;
-    public static Boolean allowLavaDamage = false;
+    public static boolean allowFireSpread = false;
+    public static boolean allowLavaDamage = false;
     public static boolean allowLavaPlace = false;
     public static boolean allowWaterPlace = false;
-    public static Boolean allowExplosions = false;
+    public static boolean allowExplosions = false;
     public static boolean allowFliudSpread = false;
     public static boolean allowTntMinecarts = false;
     public static double explosiveRadius = 4.0D;
@@ -236,9 +236,9 @@ public class TotalFreedomMod extends JavaPlugin
     public static int nukeMonitorCountPlace = 25;
     public static double nukeMonitorRange = 10.0D;
     public static int freecamTriggerCount = 10;
-    public static Boolean preprocessLogEnabled = true;
-    public static Boolean disableNight = true;
-    public static Boolean disableWeather = true;
+    public static boolean preprocessLogEnabled = true;
+    public static boolean disableNight = true;
+    public static boolean disableWeather = true;
     public static boolean landminesEnabled = false;
     public static boolean mp44Enabled = false;
     public static boolean mobLimiterEnabled = true;
