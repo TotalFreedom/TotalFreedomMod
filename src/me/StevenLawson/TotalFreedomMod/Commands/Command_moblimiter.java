@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -73,6 +74,8 @@ public class Command_moblimiter extends TFM_Command
         {
             playerMsg("Moblimiter is disabled. No mob restrictions are in effect.");
         }
+
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !TotalFreedomMod.mobLimiterEnabled);
 
         return true;
     }

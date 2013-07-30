@@ -6,11 +6,7 @@ import java.io.InputStream;
 import java.util.*;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
-import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
-import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
-import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
-import me.StevenLawson.TotalFreedomMod.Listener.TFM_ServerListener;
-import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
+import me.StevenLawson.TotalFreedomMod.Listener.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
@@ -97,6 +93,16 @@ public class TotalFreedomMod extends JavaPlugin
                 world.setThunderDuration(0);
             }
         }
+
+        // Initialize game rules
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_DAYLIGHT_CYCLE, !disableNight, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_FIRE_TICK, allowFireSpread, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_LOOT, false, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !mobLimiterEnabled, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_TILE_DROPS, false, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.MOB_GRIEFING, false, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.NATURAL_REGENERATION, true, false);
+        TFM_GameRuleHandler.commitGameRules();
 
         if (TotalFreedomMod.protectedAreasEnabled)
         {

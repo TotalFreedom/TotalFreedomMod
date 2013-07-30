@@ -32,23 +32,6 @@ public class TFM_Heartbeat extends BukkitRunnable
             TFM_Util.wipeEntities(!TotalFreedomMod.allowExplosions, false);
         }
 
-        if (TotalFreedomMod.disableNight)
-        {
-            try
-            {
-                for (World world : server.getWorlds())
-                {
-                    if (world.getTime() > 12000L)
-                    {
-                        TFM_Util.setWorldTime(world, 1000L);
-                    }
-                }
-            }
-            catch (NullPointerException ex)
-            {
-            }
-        }
-
         if (TotalFreedomMod.disableWeather)
         {
             for (World world : server.getWorlds())

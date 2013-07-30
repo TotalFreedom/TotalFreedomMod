@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,16 +18,9 @@ public class Command_firespread extends TFM_Command
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("on"))
-        {
-            TotalFreedomMod.allowFireSpread = true;
-            playerMsg("Fire spread is now enabled.");
-        }
-        else
-        {
-            TotalFreedomMod.allowFireSpread = false;
-            playerMsg("Fire spread is now disabled.");
-        }
+        playerMsg("Fire spread is now " + ((TotalFreedomMod.allowFireSpread = !args[0].equalsIgnoreCase("off")) ? "enabled" : "disabled") + ".");
+
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_FIRE_TICK, TotalFreedomMod.allowFireSpread);
 
         return true;
     }
