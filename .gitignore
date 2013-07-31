@@ -4,12 +4,6 @@
 /build/
 manifest.mf
 
-# Eclipse excludes - JeromSar (old)
-.project
-.classpath
-/bin/
-/.settings/
-
 # OS generated files
 .DS_Store
 ._*
