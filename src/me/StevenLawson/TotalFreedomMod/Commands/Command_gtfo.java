@@ -84,7 +84,7 @@ public class Command_gtfo extends TFM_Command
         TFM_ServerInterface.banUsername(p.getName(), ban_reason, null, null);
 
         // kick Player:
-        p.kickPlayer(ChatColor.RED + "GTFO" + (ban_reason != null ? ("\n" + ChatColor.YELLOW + ban_reason) : ""));
+        p.kickPlayer(ChatColor.RED + "GTFO" + (ban_reason != null ? ("\nReason: " + ChatColor.YELLOW + ban_reason) : ""));
 
         return true;
     }
