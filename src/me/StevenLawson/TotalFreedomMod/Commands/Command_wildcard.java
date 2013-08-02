@@ -33,6 +33,11 @@ public class Command_wildcard extends TFM_Command
             playerMsg("WOA, WTF are you trying to do???", ChatColor.RED);
             return true;
         }
+        if (args[0].equals("machat"))
+        {
+            playerMsg("Don't you DARE. Just don't, please!", ChatColor.RED);
+            return true;
+        }
 
         String base_command = StringUtils.join(args, " ");
 
