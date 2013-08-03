@@ -15,7 +15,7 @@ public class Command_uall extends TFM_Command
     {
         TFM_Util.adminAction(sender.getName(), "Undisguising all players", true);
 
-        TFM_DisguiseCraftBridge.getInstance().undisguiseAllPlayers();
+        TFM_DisguiseCraftBridge.undisguiseAllPlayers();
 
         return true;
     }
