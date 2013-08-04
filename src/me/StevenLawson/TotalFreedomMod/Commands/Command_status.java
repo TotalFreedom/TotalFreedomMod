@@ -49,7 +49,8 @@ public class Command_status extends TFM_Command
         {
             playerMsg(String.format("World %d: %s - %d players.", i++, world.getName(), world.getPlayers().size()), ChatColor.BLUE);
         }
-
+        
+        /* Moved to TFM_ServiceChecker and Command_services
         new BukkitRunnable()
         {
             @SuppressWarnings("unchecked")
@@ -109,6 +110,7 @@ public class Command_status extends TFM_Command
                 }
             }
         }.runTaskAsynchronously(plugin);
+        */
 
         return true;
     }

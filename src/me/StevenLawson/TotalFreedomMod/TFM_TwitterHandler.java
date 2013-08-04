@@ -49,7 +49,7 @@ public class TFM_TwitterHandler
         String line = "failed";
         try
         {
-            URL getUrl = new URL(TotalFreedomMod.twitterbotUrl + "?auth=" + TotalFreedomMod.twitterbotSecret + "&" + queryString);
+            URL getUrl = new URL(TotalFreedomMod.twitterbotURL + "?auth=" + TotalFreedomMod.twitterbotSecret + "&" + queryString);
             URLConnection urlConnection = getUrl.openConnection();
             // Read the response
             BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));

@@ -16,7 +16,7 @@ public class Command_tfm extends TFM_Command
         playerMsg("TotalFreedomMod for 'TotalFreedom', the original all-op server.", ChatColor.GOLD);
         playerMsg(String.format("Version " + ChatColor.BLUE + "%s.%s" + ChatColor.BLUE + ", built %s.", TotalFreedomMod.pluginVersion, TotalFreedomMod.buildNumber, TotalFreedomMod.buildDate), ChatColor.GOLD);
         playerMsg("Created by Madgeek1450 and DarthSalamon.", ChatColor.GOLD);
-        playerMsg("Visit " + ChatColor.AQUA + "http://totalfreedom.me/" + ChatColor.GREEN + " for more information.", ChatColor.DARK_GREEN);
+        playerMsg("Visit " + ChatColor.AQUA + "http://totalfreedom.me/" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
 
         return true;
     }

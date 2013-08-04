@@ -52,7 +52,7 @@ public class TFM_ServerListener implements Listener
             {
                 topLevelCommand = topLevelCommand.toLowerCase().trim();
 
-                //We need to make it look like the command is coming from the console, so keep the player's name without the Player instance via dummy:
+                // We need to make it look like the command is coming from the console, so keep the player's name without the Player instance via dummy:
                 if (TFM_CommandBlockerNew.getInstance().isCommandBlocked(topLevelCommand, new TFM_ServerListener_DummyCommandSender(player.getName()), false))
                 {
                     player.sendMessage(ChatColor.GRAY + "That command is blocked.");
