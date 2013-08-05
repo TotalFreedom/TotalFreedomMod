@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.server.CommandBlockSetEvent;
 import org.bukkit.event.server.RemoteServerCommandEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -32,7 +31,7 @@ public class TFM_ServerListener implements Listener
     // Just make sure that enable-command-block=false in server.properties.
     // -Madgeek
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onCommandBlockSet(CommandBlockSetEvent event)
+    public void onCommandBlockSet(org.bukkit.event.server.CommandBlockSetEvent event)
     {
         Player player = event.getPlayer();
         String newCommandRaw = event.getNewCommand();
