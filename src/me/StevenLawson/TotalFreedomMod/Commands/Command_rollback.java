@@ -82,7 +82,7 @@ public class Command_rollback extends TFM_Command
         }
 
         TFM_Util.adminAction(sender.getName(), "Rolling back player: " + p.getName(), false);
-        playerMsg("Rolled back " + TFM_RollbackManager.rollback(p) + " blocks");
+        playerMsg("Rolled back " + TFM_RollbackManager.rollback(p.getName()) + " blocks");
         return true;
     }
 }
