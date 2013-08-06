@@ -40,18 +40,16 @@ public class TFM_RollbackManager
 
     public static int purgeEntries()
     {
-        int count = 0;
         Iterator<List<TFM_RollbackManager_Entry>> it = PLAYER_HISTORY_MAP.values().iterator();
         while (it.hasNext())
         {
             List<TFM_RollbackManager_Entry> playerEntryList = it.next();
             if (playerEntryList != null)
             {
-                count += playerEntryList.size();
                 playerEntryList.clear();
             }
         }
-        return count;
+        return PLAYER_HISTORY_MAP.size();
     }
 
     public static int purgeEntries(String playerName)

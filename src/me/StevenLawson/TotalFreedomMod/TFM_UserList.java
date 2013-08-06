@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -123,6 +125,25 @@ public class TFM_UserList
         }
 
         exportList();
+    }
+
+    public String searchByPartialName(String needle)
+    {
+        needle = needle.toLowerCase().trim();
+        Integer minEditDistance = null;
+        String minEditMatch = null;
+        Iterator<String> it = _userlist.keySet().iterator();
+        while (it.hasNext())
+        {
+            String haystack = it.next();
+            int editDistance = StringUtils.getLevenshteinDistance(needle, haystack.toLowerCase());
+            if (minEditDistance == null || minEditDistance.intValue() > editDistance)
+            {
+                minEditDistance = editDistance;
+                minEditMatch = haystack;
+            }
+        }
+        return minEditMatch;
     }
 
     public class TFM_UserListEntry
