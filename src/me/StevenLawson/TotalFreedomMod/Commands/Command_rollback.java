@@ -25,7 +25,7 @@ public class Command_rollback extends TFM_Command
             {
                 String playerName = getPlayerName(args[0]);
                 TFM_Util.adminAction(sender.getName(), "Rolling back player: " + playerName, false);
-                playerMsg("Rolled back " + TFM_RollbackManager.purgeEntries(playerName) + " edits for " + playerName + ".");
+                playerMsg("Rolled back " + TFM_RollbackManager.rollback(playerName) + " edits for " + playerName + ".");
             }
         }
         else if (args.length == 2)
