@@ -94,7 +94,6 @@ public class TFM_BlockListener implements Listener
                 if (TFM_ProtectedArea.isInProtectedArea(block_pos))
                 {
                     event.setCancelled(true);
-                    return;
                 }
             }
         }
@@ -185,7 +184,6 @@ public class TFM_BlockListener implements Listener
                     p.sendMessage(ChatColor.GRAY + "Lava placement is currently disabled.");
 
                     event.setCancelled(true);
-                    return;
                 }
                 break;
             }
@@ -204,7 +202,6 @@ public class TFM_BlockListener implements Listener
                     p.sendMessage(ChatColor.GRAY + "Water placement is currently disabled.");
 
                     event.setCancelled(true);
-                    return;
                 }
                 break;
             }
@@ -222,7 +219,6 @@ public class TFM_BlockListener implements Listener
                     p.sendMessage(ChatColor.GRAY + "Fire placement is currently disabled.");
 
                     event.setCancelled(true);
-                    return;
                 }
                 break;
             }
@@ -240,7 +236,6 @@ public class TFM_BlockListener implements Listener
 
                     p.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
                     event.setCancelled(true);
-                    return;
                 }
                 break;
             }
