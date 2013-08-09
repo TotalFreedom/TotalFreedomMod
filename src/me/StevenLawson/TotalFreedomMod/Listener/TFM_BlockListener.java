@@ -98,11 +98,12 @@ public class TFM_BlockListener implements Listener
                 }
             }
         }
+    }
 
-        if (!event.isCancelled())
-        {
-            TFM_RollbackManager.blockBreak(event);
-        }
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onRollbackBlockBreak(BlockBreakEvent event)
+    {
+        TFM_RollbackManager.blockBreak(event);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -244,11 +245,12 @@ public class TFM_BlockListener implements Listener
                 break;
             }
         }
+    }
 
-        if (!event.isCancelled())
-        {
-            TFM_RollbackManager.blockPlace(event);
-        }
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onRollbackBlockPlace(BlockPlaceEvent event)
+    {
+        TFM_RollbackManager.blockPlace(event);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
