@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,23 +18,24 @@ import org.json.simple.JSONValue;
 public class TFM_ServiceChecker
 {
     public final Map<String, TFM_ServiceChecker_ServiceStatus> services = new HashMap<String, TFM_ServiceChecker_ServiceStatus>();
-    public String lastCheck = "never";
+    public String lastCheck = "Unknown";
     public String version = "1.0-Mojang";
     
     public TFM_ServiceChecker()
     {
         services.put("minecraft.net", new TFM_ServiceChecker_ServiceStatus("Minecraft.net"));
-        services.put("login.minecraft.net", new TFM_ServiceChecker_ServiceStatus("Minecraft Logins"));
-        services.put("session.minecraft.net", new TFM_ServiceChecker_ServiceStatus("Minecraft Multiplayer Sessions"));
-        services.put("account.mojang.com", new TFM_ServiceChecker_ServiceStatus("Mojang Accounts Website"));
-        services.put("auth.mojang.com", new TFM_ServiceChecker_ServiceStatus("Mojang Accounts Login"));
+        services.put("account.mojang.com", new TFM_ServiceChecker_ServiceStatus("Mojang Account Website"));
+        services.put("authserver.mojang.com", new TFM_ServiceChecker_ServiceStatus("Mojang Authentication"));
         services.put("skins.minecraft.net", new TFM_ServiceChecker_ServiceStatus("Minecraft Skins"));
+        services.put("auth.mojang.com", new TFM_ServiceChecker_ServiceStatus("Mojang Authentiation (Legacy)"));
+        services.put("login.minecraft.net", new TFM_ServiceChecker_ServiceStatus("Minecraft Logins (Legacy)"));
+        services.put("session.minecraft.net", new TFM_ServiceChecker_ServiceStatus("Minecraft Sessions (Legacy)"));
     }
 
 
-    public void update()
+    public BukkitRunnable getUpdateRunnable()
     {
-        new BukkitRunnable() 
+        return new BukkitRunnable() 
         {
 
             @Override
@@ -58,6 +58,7 @@ public class TFM_ServiceChecker
                         while (service_it.hasNext())
                         {
                             Entry<String, String> pair = (Entry<String, String>) service_it.next();
+                            
                             if ("lastcheck".equals(pair.getKey()))
                             {
                                 serviceChecker.lastCheck = pair.getValue();
@@ -82,19 +83,19 @@ public class TFM_ServiceChecker
                             {
                                 TFM_ServiceChecker_ServiceStatus status = serviceChecker.services.get(pair.getKey());
                                 status.setColor(pair.getValue());
-                                status.setMessage(("red".equals(pair.getValue()) ? "Offline" : ("yellow".equals(pair.getValue()) ? "Problem" : "Offline")));
+                                status.setMessage(("red".equals(pair.getValue()) ? "Offline" : ("yellow".equals(pair.getValue()) ? "Problem" : "Online")));
                             }
                         }
                     }
-                    TFM_Log.info("Mojang Service pull completed.");
 
                 }
                 catch (Exception ex)
                 {
                     TFM_Log.severe("Error updating mojang services from " + TotalFreedomMod.serviceCheckerURL);
+                    TFM_Log.severe(ex);
                 }
             }
-        }.runTaskAsynchronously(TotalFreedomMod.plugin);
+        };
     }
 
     public List<TFM_ServiceChecker_ServiceStatus> getAllStatuses()
@@ -121,7 +122,7 @@ public class TFM_ServiceChecker
     {
         private String name;
         private String uptime = "100.0"; // skins.minecraft.net, minecraft.net, etc..
-        private ChatColor color = ChatColor.GREEN;
+        private ChatColor color = ChatColor.DARK_GREEN;
         private String message = "Online"; // Online, Offline, Quite Slow, 404 Error, 500 Error, etc..
 
         public TFM_ServiceChecker_ServiceStatus(String name)
@@ -161,7 +162,7 @@ public class TFM_ServiceChecker
 
         public String getFormattedStatus()
         {
-            String status = ChatColor.BLUE + "- " + name + ChatColor.WHITE + ": " + color + message + ChatColor.WHITE;
+            String status = ChatColor.BLUE + "- " + ChatColor.GRAY + name + ChatColor.WHITE + ": " + color + message + ChatColor.WHITE;
 
             if (!TFM_ServiceChecker.getInstance().version.contains("Mojang"))
             {

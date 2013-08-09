@@ -29,7 +29,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final Server server = Bukkit.getServer();
     //
     public static final long HEARTBEAT_RATE = 5L; //Seconds
-    public static final long SERVICE_CHECKER_RATE = 30L;
+    public static final long SERVICE_CHECKER_RATE = 120L;
     //
     public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
@@ -143,6 +143,8 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
 
+        TFM_ServiceChecker.getInstance().getUpdateRunnable().runTaskTimerAsynchronously(plugin, 40L, SERVICE_CHECKER_RATE * 20L);
+
         new BukkitRunnable()
         {
             @Override
@@ -152,6 +154,7 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_CommandBlockerNew.getInstance().parseBlockingRules();
             }
         }.runTaskLater(this, 20L);
+
     }
 
     @Override
