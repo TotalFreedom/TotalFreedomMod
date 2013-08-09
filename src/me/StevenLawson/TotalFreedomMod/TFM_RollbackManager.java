@@ -2,85 +2,137 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 public class TFM_RollbackManager
 {
-    public static Map<String, List<TFM_RollbackEntry>> entries = new HashMap<String, List<TFM_RollbackEntry>>();
+    private static final Map<String, List<TFM_RollbackManager_Entry>> PLAYER_HISTORY_MAP = new HashMap<String, List<TFM_RollbackManager_Entry>>();
 
-    public static void blockUpdate(OfflinePlayer player, Block block)
+    private TFM_RollbackManager()
     {
-        List<TFM_RollbackEntry> e;
-        if (entries.containsKey(player.getName()))
-        {
-            e = entries.get(player.getName());
-        }
-        else
-        {
-            e = new ArrayList<TFM_RollbackEntry>();
-        }
-        e.add(0, new TFM_RollbackEntry(block));
-        entries.put(player.getName(), e);
+        throw new AssertionError();
     }
 
-    public static void blockUpdate(OfflinePlayer player, TFM_RollbackEntry entry)
+    public static void blockPlace(org.bukkit.event.block.BlockPlaceEvent event)
     {
-        List<TFM_RollbackEntry> e;
-        if (entries.containsKey(player.getName()))
-        {
-            e = entries.get(player.getName());
-        }
-        else
-        {
-            e = new ArrayList<TFM_RollbackEntry>();
-        }
-        e.add(0, entry);
-        entries.put(player.getName(), e);
+        storeEntry(event.getPlayer(), new TFM_RollbackManager_Entry(event.getBlock(), TFM_RollbackManager_EntryType.BLOCK_PLACE));
     }
 
-    public static int rollback(OfflinePlayer player)
+    public static void blockBreak(org.bukkit.event.block.BlockBreakEvent event)
     {
-        if (!canRollback(player.getName()))
-        {
-            TFM_Log.severe("Could not rollback player: " + player.getName() + "! No entries are set");
-            return 0;
-        }
-
-        List<TFM_RollbackEntry> e = entries.get(player.getName());
-        int counter = 0;
-        for (TFM_RollbackEntry entry : e)
-        {
-            entry.restore();
-            counter++;
-        }
-        entries.remove(player.getName());
-        return counter;
+        storeEntry(event.getPlayer(), new TFM_RollbackManager_Entry(event.getBlock(), TFM_RollbackManager_EntryType.BLOCK_BREAK));
     }
 
-    public static boolean canRollback(String player)
+    private static void storeEntry(Player player, TFM_RollbackManager_Entry entry)
     {
-        return entries.containsKey(player);
+        List<TFM_RollbackManager_Entry> playerEntryList = getPlayerEntryList(player.getName());
+        if (playerEntryList != null)
+        {
+            playerEntryList.add(0, entry);
+        }
     }
 
     public static int purgeEntries()
     {
-        int counter = entries.size();
-        entries.clear();
-        return counter;
+        Iterator<List<TFM_RollbackManager_Entry>> it = PLAYER_HISTORY_MAP.values().iterator();
+        while (it.hasNext())
+        {
+            List<TFM_RollbackManager_Entry> playerEntryList = it.next();
+            if (playerEntryList != null)
+            {
+                playerEntryList.clear();
+            }
+        }
+        return PLAYER_HISTORY_MAP.size();
     }
 
-    public static int purgeEntries(String player)
+    public static int purgeEntries(String playerName)
     {
-        if (!canRollback(player))
+        List<TFM_RollbackManager_Entry> playerEntryList = getPlayerEntryList(playerName);
+        if (playerEntryList != null)
         {
-            return 0;
+            int count = playerEntryList.size();
+            playerEntryList.clear();
+            return count;
+        }
+        return 0;
+    }
+
+    public static boolean canRollback(String playerName)
+    {
+        return PLAYER_HISTORY_MAP.containsKey(playerName.toLowerCase());
+    }
+
+    public static int rollback(String playerName)
+    {
+        List<TFM_RollbackManager_Entry> playerEntryList = getPlayerEntryList(playerName);
+        if (playerEntryList != null)
+        {
+            int count = playerEntryList.size();
+            Iterator<TFM_RollbackManager_Entry> it = playerEntryList.iterator();
+            while (it.hasNext())
+            {
+                TFM_RollbackManager_Entry entry = it.next();
+                if (entry != null)
+                {
+                    entry.restore();
+                }
+                it.remove();
+            }
+            return count;
+        }
+        return 0;
+    }
+
+    private static List<TFM_RollbackManager_Entry> getPlayerEntryList(String playerName)
+    {
+        playerName = playerName.toLowerCase();
+        List<TFM_RollbackManager_Entry> playerEntryList = PLAYER_HISTORY_MAP.get(playerName);
+        if (playerEntryList == null)
+        {
+            playerEntryList = new ArrayList<TFM_RollbackManager_Entry>();
+            PLAYER_HISTORY_MAP.put(playerName, playerEntryList);
+        }
+        return playerEntryList;
+    }
+
+    private enum TFM_RollbackManager_EntryType
+    {
+        BLOCK_PLACE, BLOCK_BREAK
+    }
+
+    private static class TFM_RollbackManager_Entry
+    {
+        private final Location location;
+        private final Material material;
+        private final byte data;
+
+        public TFM_RollbackManager_Entry(Block block, TFM_RollbackManager_EntryType entryType)
+        {
+            this.location = block.getLocation();
+            if (entryType == TFM_RollbackManager_EntryType.BLOCK_BREAK)
+            {
+                this.material = block.getType();
+                this.data = block.getData();
+            }
+            else
+            {
+                this.material = Material.AIR;
+                this.data = 0;
+            }
         }
 
-        int counter = entries.get(player).size();
-        entries.remove(player);
-        return counter;
+        public void restore()
+        {
+            Block b = this.location.getWorld().getBlockAt(this.location);
+            b.setType(this.material);
+            b.setData(this.data);
+        }
     }
 }

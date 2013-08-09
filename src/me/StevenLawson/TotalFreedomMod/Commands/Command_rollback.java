@@ -1,9 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
+import me.StevenLawson.TotalFreedomMod.TFM_UserList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,74 +14,61 @@ public class Command_rollback extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length > 2)
+        if (args.length == 1)
         {
-            return false;
-        }
-
-        if (args.length == 1 && args[0].equalsIgnoreCase("purgeall"))
-        {
-            TFM_Util.adminAction(sender.getName(), "Puring all rollback data", false);
-            playerMsg("Purged entries for " + TFM_RollbackManager.purgeEntries() + " players.");
-            return true;
-        }
-
-        if (args.length == 2 && args[0].equalsIgnoreCase("purge"))
-        {
-            OfflinePlayer p;
-            try
+            if (args[0].equalsIgnoreCase("purgeall"))
             {
-                p = getPlayer(args[1]);
-            }
-            catch (CantFindPlayerException ex)
-            {
-                p = server.getOfflinePlayer(args[1]);
-                if (!p.hasPlayedBefore())
-                {
-                    playerMsg("Player is not online, or never joined the server.", ChatColor.RED);
-                    return true;
-                }
-            }
-
-            if (!TFM_RollbackManager.canRollback(p.getName()))
-            {
-                playerMsg("No rollback data found for that player", ChatColor.RED);
+                TFM_Util.adminAction(sender.getName(), "Purging all rollback history.", false);
+                playerMsg("Purged all rollback history for " + TFM_RollbackManager.purgeEntries() + " players.");
             }
             else
             {
-                playerMsg("Purged " + TFM_RollbackManager.purgeEntries(p.getName()) + " entries.");
-                return true;
+                String playerName = getPlayerName(args[0]);
+                TFM_Util.adminAction(sender.getName(), "Rolling back player: " + playerName, false);
+                playerMsg("Rolled back " + TFM_RollbackManager.rollback(playerName) + " edits for " + playerName + ".");
             }
         }
-
-        if (args.length != 1)
+        else if (args.length == 2)
+        {
+            if (args[0].equalsIgnoreCase("purge"))
+            {
+                String playerName = getPlayerName(args[1]);
+                playerMsg("Purged " + TFM_RollbackManager.purgeEntries(playerName) + " rollback history entries for " + playerName + ".");
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
         {
             return false;
         }
 
-        OfflinePlayer p;
+        return true;
+    }
+
+    private String getPlayerName(String playerNameInput)
+    {
+        String playerName = null;
+
         try
         {
-            p = getPlayer(args[0]);
+            Player player = getPlayer(playerNameInput);
+            if (player != null)
+            {
+                playerName = player.getName();
+            }
         }
         catch (CantFindPlayerException ex)
         {
-            p = server.getOfflinePlayer(args[0]);
-            if (!p.hasPlayedBefore())
-            {
-                playerMsg("Player is not online, or never joined the server.", ChatColor.RED);
-                return true;
-            }
         }
 
-        if (!TFM_RollbackManager.canRollback(p.getName()))
+        if (playerName == null)
         {
-            playerMsg("Player has no rollback data set.", ChatColor.RED);
-            return true;
+            playerName = TFM_UserList.getInstance(plugin).searchByPartialName(playerNameInput);
         }
 
-        TFM_Util.adminAction(sender.getName(), "Rolling back player: " + p.getName(), false);
-        playerMsg("Rolled back " + TFM_RollbackManager.rollback(p) + " blocks");
-        return true;
+        return playerName;
     }
 }

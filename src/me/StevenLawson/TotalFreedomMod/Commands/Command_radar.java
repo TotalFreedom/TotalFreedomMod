@@ -2,8 +2,8 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import me.StevenLawson.TotalFreedomMod.TFM_RadarData;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -70,5 +70,40 @@ public class Command_radar extends TFM_Command
         }
 
         return true;
+    }
+
+    private class TFM_RadarData implements Comparator<TFM_RadarData>
+    {
+        public Player player;
+        public double distance;
+        public Location location;
+
+        public TFM_RadarData(Player player, double distance, Location location)
+        {
+            this.player = player;
+            this.distance = distance;
+            this.location = location;
+        }
+
+        public TFM_RadarData()
+        {
+        }
+
+        @Override
+        public int compare(TFM_RadarData t1, TFM_RadarData t2)
+        {
+            if (t1.distance > t2.distance)
+            {
+                return 1;
+            }
+            else if (t1.distance < t2.distance)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

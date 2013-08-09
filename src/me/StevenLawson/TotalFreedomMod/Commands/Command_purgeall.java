@@ -22,7 +22,7 @@ public class Command_purgeall extends TFM_Command
         TFM_Util.wipeEntities(true, true);
 
         // Undisguise all players
-        TFM_DisguiseCraftBridge.getInstance().undisguiseAllPlayers();
+        TFM_DisguiseCraftBridge.undisguiseAllPlayers();
 
         for (Player p : server.getOnlinePlayers())
         {

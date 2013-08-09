@@ -17,6 +17,7 @@ public class Command_tfupdate extends TFM_Command
     {
         "http://s3.madgeekonline.com/totalfreedom/BukkitHttpd.jar",
         "http://s3.madgeekonline.com/totalfreedom/BukkitTelnet.jar",
+        "http://s3.madgeekonline.com/totalfreedom/DisguiseCraft.jar",
         "http://s3.madgeekonline.com/totalfreedom/Essentials.jar",
         "http://s3.madgeekonline.com/totalfreedom/EssentialsSpawn.jar",
         "http://s3.madgeekonline.com/totalfreedom/TotalFreedomMod.jar",

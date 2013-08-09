@@ -11,8 +11,13 @@ public class TFM_DisguiseCraftBridge
     {
     }
 
-    public boolean undisguisePlayer(Player player)
+    public static boolean undisguisePlayer(Player player)
     {
+        if (!disguiseCraftEnabled())
+        {
+            return false;
+        }
+
         try
         {
             DisguiseCraftAPI api = DisguiseCraft.getAPI();
@@ -29,8 +34,13 @@ public class TFM_DisguiseCraftBridge
         return false;
     }
 
-    public void undisguiseAllPlayers()
+    public static void undisguiseAllPlayers()
     {
+        if (!disguiseCraftEnabled())
+        {
+            return;
+        }
+
         try
         {
             DisguiseCraftAPI api = DisguiseCraft.getAPI();
@@ -49,13 +59,16 @@ public class TFM_DisguiseCraftBridge
         }
     }
 
-    public static TFM_DisguiseCraftBridge getInstance()
+    public static boolean disguiseCraftEnabled()
     {
-        return TFM_DisguiseCraftBridgeHolder.INSTANCE;
-    }
-
-    private static class TFM_DisguiseCraftBridgeHolder
-    {
-        private static final TFM_DisguiseCraftBridge INSTANCE = new TFM_DisguiseCraftBridge();
+        boolean pluginEnabled = false;
+        try
+        {
+            pluginEnabled = Bukkit.getPluginManager().isPluginEnabled("DisguiseCraft");
+        }
+        catch (Exception ex)
+        {
+        }
+        return pluginEnabled;
     }
 }

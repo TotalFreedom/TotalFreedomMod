@@ -48,7 +48,7 @@ public class Command_gtfo extends TFM_Command
         TFM_WorldEditBridge.getInstance().undo(p, 15);
 
         // rollback
-        TFM_RollbackManager.rollback(p);
+        TFM_RollbackManager.rollback(p.getName());
 
         // deop
         p.setOp(false);
