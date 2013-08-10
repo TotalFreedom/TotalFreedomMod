@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -31,7 +32,7 @@ import org.bukkit.generator.ChunkGenerator;
 
 public class CleanroomChunkGenerator extends ChunkGenerator
 {
-    private Logger log = Logger.getLogger("Minecraft-Server");
+    private static final Logger log = Bukkit.getLogger();
     private short[] layer;
     private byte[] layerDataValues;
 

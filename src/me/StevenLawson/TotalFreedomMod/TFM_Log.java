@@ -2,10 +2,11 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bukkit.Bukkit;
 
 public class TFM_Log
 {
-    private static final Logger logger = Logger.getLogger("Minecraft-Server");
+    private static final Logger logger = Bukkit.getLogger();
 
     private TFM_Log()
     {
