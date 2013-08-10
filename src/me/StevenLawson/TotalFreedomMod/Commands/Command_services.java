@@ -9,10 +9,11 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
 @CommandParameters(description = "Shows the status of all Mojang services", usage = "/<command>")
-public class Command_services extends TFM_Command {
-
+public class Command_services extends TFM_Command
+{
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
         playerMsg("Mojang Services" + ChatColor.WHITE + ":", ChatColor.BLUE);
 
         for (TFM_ServiceChecker_ServiceStatus service : TFM_ServiceChecker.getInstance().getAllStatuses())
@@ -24,5 +25,4 @@ public class Command_services extends TFM_Command {
 
         return true;
     }
-    
 }

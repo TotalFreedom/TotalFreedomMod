@@ -18,10 +18,9 @@ public class Command_health extends TFM_Command
     @Override
     public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        
+
         new BukkitRunnable()
         {
-
             @Override
             public void run()
             {
@@ -36,11 +35,12 @@ public class Command_health extends TFM_Command
                     final int mb = 1048576;  // 1024 * 1024
 
                     final float usedMem = runtime.totalMemory() - runtime.freeMemory();
-                    
+
                     new BukkitRunnable()
                     {
                         @Override
-                        public void run() {
+                        public void run()
+                        {
                             playerMsg("Reserved Memory: " + runtime.totalMemory() / mb + "mb");
                             playerMsg("Used Memory: " + new DecimalFormat("#").format(usedMem / mb) + "mb (" + new DecimalFormat("#").format((usedMem / runtime.totalMemory()) * 100) + "%)");
                             playerMsg("Max Memory: " + runtime.maxMemory() / mb + "mb");
@@ -54,7 +54,6 @@ public class Command_health extends TFM_Command
                     TFM_Log.warning(ExceptionUtils.getStackTrace(iex));
                 }
             }
-        
         }.runTaskAsynchronously(TotalFreedomMod.plugin);
 
         return true;

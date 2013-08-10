@@ -20,7 +20,7 @@ public class TFM_ServiceChecker
     public final Map<String, TFM_ServiceChecker_ServiceStatus> services = new HashMap<String, TFM_ServiceChecker_ServiceStatus>();
     public String lastCheck = "Unknown";
     public String version = "1.0-Mojang";
-    
+
     public TFM_ServiceChecker()
     {
         services.put("minecraft.net", new TFM_ServiceChecker_ServiceStatus("Minecraft.net"));
@@ -32,14 +32,13 @@ public class TFM_ServiceChecker
         services.put("session.minecraft.net", new TFM_ServiceChecker_ServiceStatus("Minecraft Sessions (Legacy)"));
     }
 
-
+    @SuppressWarnings("unchecked")
     public BukkitRunnable getUpdateRunnable()
     {
-        return new BukkitRunnable() 
+        return new BukkitRunnable()
         {
-
             @Override
-            public void run() 
+            public void run()
             {
                 try
                 {
@@ -58,7 +57,7 @@ public class TFM_ServiceChecker
                         while (service_it.hasNext())
                         {
                             Entry<String, String> pair = (Entry<String, String>) service_it.next();
-                            
+
                             if ("lastcheck".equals(pair.getKey()))
                             {
                                 serviceChecker.lastCheck = pair.getValue();
@@ -166,7 +165,7 @@ public class TFM_ServiceChecker
 
             if (!TFM_ServiceChecker.getInstance().version.contains("Mojang"))
             {
-                 status += " (" + getUptimeColor() + getUptime() + ChatColor.WHITE + "%)";
+                status += " (" + getUptimeColor() + getUptime() + ChatColor.WHITE + "%)";
             }
 
             return status;
@@ -202,7 +201,5 @@ public class TFM_ServiceChecker
         {
             this.message = message;
         }
-
     }
-
 }
