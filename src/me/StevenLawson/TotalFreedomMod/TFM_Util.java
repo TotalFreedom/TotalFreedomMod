@@ -83,12 +83,6 @@ public class TFM_Util
         TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
     }
 
-    @Deprecated
-    public static String implodeStringList(String glue, List<String> pieces)
-    {
-        return StringUtils.join(pieces, glue);
-    }
-
     public static String formatLocation(Location in_loc)
     {
         return String.format("%s: (%d, %d, %d)",
@@ -238,12 +232,6 @@ public class TFM_Util
                 }
             }
         }
-    }
-
-    @Deprecated
-    public static boolean isUserSuperadmin(CommandSender user)
-    {
-        return TFM_SuperadminList.isUserSuperadmin(user);
     }
 
     public static int wipeEntities(boolean wipe_explosives, boolean wipe_vehicles)
@@ -404,8 +392,8 @@ public class TFM_Util
 
                 TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned for 1 minute.");
 
-                TFM_Util.banIP(player_ip, kickMessage, "AutoEject", expires);
-                TFM_Util.banUsername(p.getName(), kickMessage, "AutoEject", expires);
+                TFM_ServerInterface.banIP(player_ip, kickMessage, "AutoEject", expires);
+                TFM_ServerInterface.banUsername(p.getName(), kickMessage, "AutoEject", expires);
                 p.kickPlayer(kickMessage);
 
                 break;
@@ -418,8 +406,8 @@ public class TFM_Util
 
                 TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned for 3 minutes.");
 
-                TFM_Util.banIP(player_ip, kickMessage, "AutoEject", expires);
-                TFM_Util.banUsername(p.getName(), kickMessage, "AutoEject", expires);
+                TFM_ServerInterface.banIP(player_ip, kickMessage, "AutoEject", expires);
+                TFM_ServerInterface.banUsername(p.getName(), kickMessage, "AutoEject", expires);
                 p.kickPlayer(kickMessage);
 
                 break;
@@ -427,13 +415,13 @@ public class TFM_Util
             case STRIKE_THREE:
             {
                 //Bukkit.banIP(player_ip);
-                TFM_Util.banIP(player_ip, kickMessage, "AutoEject", null);
+                TFM_ServerInterface.banIP(player_ip, kickMessage, "AutoEject", null);
                 String[] ip_address_parts = player_ip.split("\\.");
                 //Bukkit.banIP();
-                TFM_Util.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", kickMessage, "AutoEject", null);
+                TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", kickMessage, "AutoEject", null);
 
                 //p.setBanned(true);
-                TFM_Util.banUsername(p.getName(), kickMessage, "AutoEject", null);
+                TFM_ServerInterface.banUsername(p.getName(), kickMessage, "AutoEject", null);
 
                 TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned permanently.");
 
@@ -457,12 +445,6 @@ public class TFM_Util
         flatlands.environment(World.Environment.NORMAL);
         flatlands.generator(new CleanroomChunkGenerator(genParams));
         Bukkit.getServer().createWorld(flatlands);
-    }
-
-    @Deprecated
-    public static boolean isSuperadminImpostor(CommandSender user)
-    {
-        return TFM_SuperadminList.isSuperadminImpostor(user);
     }
 
     public static String getRank(CommandSender sender)
@@ -505,42 +487,6 @@ public class TFM_Util
         }
 
         return "a " + ChatColor.GREEN + "non-OP" + ChatColor.AQUA + ".";
-    }
-
-    @Deprecated
-    public static void banUsername(String name, String reason, String source, Date expire_date)
-    {
-        TFM_ServerInterface.banUsername(name, reason, source, expire_date);
-    }
-
-    @Deprecated
-    public static void unbanUsername(String name)
-    {
-        TFM_ServerInterface.unbanUsername(name);
-    }
-
-    @Deprecated
-    public static boolean isNameBanned(String name)
-    {
-        return TFM_ServerInterface.isNameBanned(name);
-    }
-
-    @Deprecated
-    public static void banIP(String ip, String reason, String source, Date expire_date)
-    {
-        TFM_ServerInterface.banIP(ip, reason, source, expire_date);
-    }
-
-    @Deprecated
-    public static void unbanIP(String ip)
-    {
-        TFM_ServerInterface.unbanIP(ip);
-    }
-
-    @Deprecated
-    public static boolean isIPBanned(String ip)
-    {
-        return TFM_ServerInterface.isIPBanned(ip);
     }
 
     public static Date parseDateOffset(String time)

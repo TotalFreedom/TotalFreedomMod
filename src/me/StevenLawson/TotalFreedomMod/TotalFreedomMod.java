@@ -154,7 +154,6 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_CommandBlockerNew.getInstance().parseBlockingRules();
             }
         }.runTaskLater(this, 20L);
-
     }
 
     @Override
@@ -327,11 +326,6 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.severe("Error loading main config: " + ex.getMessage());
         }
     }
-    //
-    @Deprecated
-    public static List<String> superadmins = new ArrayList<String>();
-    @Deprecated
-    public static List<String> superadmin_ips = new ArrayList<String>();
 
     public static void loadSuperadminConfig()
     {
@@ -339,9 +333,6 @@ public class TotalFreedomMod extends JavaPlugin
         {
             TFM_SuperadminList.backupSavedList();
             TFM_SuperadminList.loadSuperadminList();
-
-            superadmins = TFM_SuperadminList.getSuperadminNames();
-            superadmin_ips = TFM_SuperadminList.getSuperadminIPs();
         }
         catch (Exception ex)
         {
