@@ -962,6 +962,7 @@ public class TFM_Util
         while (checkClass.getSuperclass() != Object.class && ((checkClass = checkClass.getSuperclass()) != null));
         return null;
     }
+
     public static final List<ChatColor> COLOR_POOL = Arrays.asList(
             ChatColor.DARK_BLUE,
             ChatColor.DARK_GREEN,
@@ -980,5 +981,10 @@ public class TFM_Util
     public static ChatColor randomChatColor()
     {
         return COLOR_POOL.get(RANDOM.nextInt(COLOR_POOL.size()));
+    }
+
+    public static String colorise(String string)
+    {
+        return ChatColor.translateAlternateColorCodes('&', string);
     }
 }

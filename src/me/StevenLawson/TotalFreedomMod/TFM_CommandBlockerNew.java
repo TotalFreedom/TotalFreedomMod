@@ -308,7 +308,7 @@ public class TFM_CommandBlockerNew
                 }
                 else
                 {
-                    response = ChatColor.GRAY + ChatColor.translateAlternateColorCodes('&', this.message);
+                    response = ChatColor.GRAY + TFM_Util.colorise(this.message);
                 }
 
                 sender.sendMessage(response);

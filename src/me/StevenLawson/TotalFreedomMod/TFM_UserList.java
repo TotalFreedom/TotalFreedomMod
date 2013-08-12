@@ -148,35 +148,35 @@ public class TFM_UserList
 
     public class TFM_UserListEntry
     {
-        private String _username;
-        private List<String> _ip_addresses = new ArrayList<String>();
+        private String username;
+        private List<String> ip_addresses = new ArrayList<String>();
 
         public TFM_UserListEntry(String username, List<String> ip_addresses)
         {
-            _username = username;
-            _ip_addresses = ip_addresses;
+            this.username = username;
+            this.ip_addresses = ip_addresses;
         }
 
         public TFM_UserListEntry(String username)
         {
-            _username = username;
+            this.username = username;
         }
 
         public List<String> getIpAddresses()
         {
-            return _ip_addresses;
+            return ip_addresses;
         }
 
         public String getUsername()
         {
-            return _username;
+            return username;
         }
 
         public boolean addIpAddress(String ip_address)
         {
-            if (!_ip_addresses.contains(ip_address))
+            if (!ip_addresses.contains(ip_address))
             {
-                _ip_addresses.add(ip_address);
+                ip_addresses.add(ip_address);
                 return true;
             }
             return false;

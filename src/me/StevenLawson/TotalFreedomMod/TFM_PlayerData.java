@@ -53,6 +53,7 @@ public class TFM_PlayerData
     private Boolean superadmin_id_verified = null;
     private String last_command = "";
     private boolean cmdspy_enabled = false;
+    private String tag = null;
 
     public TFM_PlayerData(Player player)
     {
@@ -504,4 +505,22 @@ public class TFM_PlayerData
     {
         return cmdspy_enabled;
     }
+
+    public void setTag(String tag)
+    {
+        if (tag == null)
+        {
+            this.tag = null;
+        }
+        else
+        {
+            this.tag = TFM_Util.colorise(tag) + ChatColor.WHITE;
+        }
+    }
+
+    public String getTag()
+    {
+        return this.tag;
+    }
+
 }
