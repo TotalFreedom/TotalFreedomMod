@@ -14,9 +14,11 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <<prefix> | off | clear <player> | clearall>")
 public class Command_tag extends TFM_Command
 {
-    
-    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]{"admin", "owner", "moderator", "developer"});
-    
+    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
+    {
+        "admin", "owner", "moderator", "developer"
+    });
+
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -52,7 +54,7 @@ public class Command_tag extends TFM_Command
                 playerMsg("This can only be used by players.");
                 return true;
             }
-            
+
             if (TFM_Util.isStopCommand(args[0]))
             {
                 TFM_PlayerData.getPlayerData(sender_p).setTag(null);
@@ -111,8 +113,7 @@ public class Command_tag extends TFM_Command
 
             return false;
         }
-        
+
         return false;
     }
-
 }

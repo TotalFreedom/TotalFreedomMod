@@ -442,7 +442,8 @@ public class TFM_PlayerListener implements Listener
             event.setMessage(message);
 
             // Set the tag
-            if (playerdata.getTag() != null) {
+            if (playerdata.getTag() != null)
+            {
                 p.setDisplayName((playerdata.getTag() + " " + p.getDisplayName().replaceAll(" ", "")));
             }
 
