@@ -12,6 +12,7 @@ public class Command_adminworld extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        playerMsg("Going to world: adminworld");
         TFM_AdminWorld.getInstance().sendToAdminWorld(sender_p);
 
         return true;
