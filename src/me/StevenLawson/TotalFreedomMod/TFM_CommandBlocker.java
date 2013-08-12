@@ -71,7 +71,7 @@ public class TFM_CommandBlocker
                 }
                 else
                 {
-                    sender.sendMessage(ChatColor.GRAY + ChatColor.translateAlternateColorCodes('&', parts[3]));
+                    sender.sendMessage(ChatColor.GRAY + TFM_Util.colorise(parts[3]));
                 }
             }
 

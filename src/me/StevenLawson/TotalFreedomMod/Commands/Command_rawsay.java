@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,7 +15,7 @@ public class Command_rawsay extends TFM_Command
     {
         if (args.length > 0)
         {
-            TFM_Util.bcastMsg(ChatColor.translateAlternateColorCodes('&', StringUtils.join(args, " ")));
+            TFM_Util.bcastMsg(TFM_Util.colorise(StringUtils.join(args, " ")));
         }
 
         return true;

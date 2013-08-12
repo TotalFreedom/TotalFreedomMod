@@ -50,7 +50,6 @@ public class TFM_PlayerListener implements Listener
                             player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                             player.sendMessage(ChatColor.GRAY + "Water buckets are currently disabled.");
                             event.setCancelled(true);
-                            return;
                         }
                         break;
                     }
@@ -61,7 +60,6 @@ public class TFM_PlayerListener implements Listener
                             player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                             player.sendMessage(ChatColor.GRAY + "Lava buckets are currently disabled.");
                             event.setCancelled(true);
-                            return;
                         }
                         break;
                     }
@@ -442,6 +440,12 @@ public class TFM_PlayerListener implements Listener
 
             // Finally, set message
             event.setMessage(message);
+
+            // Set the tag
+            if (playerdata.getTag() != null) {
+                p.setDisplayName((playerdata.getTag() + " " + p.getDisplayName().replaceAll(" ", "")));
+            }
+
         }
         catch (Exception ex)
         {
