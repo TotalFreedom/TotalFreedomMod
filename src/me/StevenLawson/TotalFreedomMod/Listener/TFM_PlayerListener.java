@@ -216,6 +216,11 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerMove(PlayerMoveEvent event)
     {
+        if (!TFM_AdminWorld.getInstance().validateMovement(event))
+        {
+            return;
+        }
+
         Player p = event.getPlayer();
         TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
@@ -442,7 +447,8 @@ public class TFM_PlayerListener implements Listener
             event.setMessage(message);
 
             // Set the tag
-            if (playerdata.getTag() != null) {
+            if (playerdata.getTag() != null)
+            {
                 p.setDisplayName((playerdata.getTag() + " " + p.getDisplayName().replaceAll(" ", "")));
             }
 
@@ -644,11 +650,5 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         TFM_ServerInterface.handlePlayerLogin(event);
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerTeleport(PlayerTeleportEvent event)
-    {
-        TFM_AdminWorld.getInstance().validateTeleport(event);
     }
 }
