@@ -466,7 +466,7 @@ public class TFM_PlayerListener implements Listener
 
             playerdata.resetMsgCount();
 
-            TFM_Util.wipeEntities(true, true);
+            TFM_Util.TFM_EntityWiper.wipeEntities(true, true);
 
             event.setCancelled(true);
             return;
@@ -640,5 +640,11 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         TFM_ServerInterface.handlePlayerLogin(event);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerTeleport(PlayerTeleportEvent event)
+    {
+        TFM_AdminWorld.getInstance().validateTeleport(event);
     }
 }

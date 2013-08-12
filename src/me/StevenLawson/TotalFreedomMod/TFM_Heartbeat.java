@@ -29,7 +29,7 @@ public class TFM_Heartbeat extends BukkitRunnable
 
         if (TotalFreedomMod.autoEntityWipe)
         {
-            TFM_Util.wipeEntities(!TotalFreedomMod.allowExplosions, false);
+            TFM_Util.TFM_EntityWiper.wipeEntities(!TotalFreedomMod.allowExplosions, false);
         }
 
         if (TotalFreedomMod.disableWeather)

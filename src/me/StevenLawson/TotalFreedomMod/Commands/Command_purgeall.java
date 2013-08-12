@@ -19,7 +19,7 @@ public class Command_purgeall extends TFM_Command
         TFM_Util.adminAction(sender.getName(), "Purging all player data", true);
 
         // Purge entities
-        TFM_Util.wipeEntities(true, true);
+        TFM_Util.TFM_EntityWiper.wipeEntities(true, true);
 
         // Undisguise all players
         TFM_DisguiseCraftBridge.undisguiseAllPlayers();

@@ -234,25 +234,81 @@ public class TFM_Util
         }
     }
 
-    public static int wipeEntities(boolean wipe_explosives, boolean wipe_vehicles)
+    public static class TFM_EntityWiper
     {
-        int removed = 0;
-        for (World world : Bukkit.getWorlds())
+        private static final List<Class<? extends Entity>> WIPEABLES = new ArrayList<Class<? extends Entity>>();
+
+        static
         {
-            for (Entity ent : world.getEntities())
+            WIPEABLES.add(EnderCrystal.class);
+            WIPEABLES.add(EnderSignal.class);
+            WIPEABLES.add(ExperienceOrb.class);
+            WIPEABLES.add(Projectile.class);
+            WIPEABLES.add(FallingBlock.class);
+            WIPEABLES.add(Firework.class);
+            WIPEABLES.add(Item.class);
+        }
+
+        private TFM_EntityWiper()
+        {
+            throw new AssertionError();
+        }
+
+        private static boolean canWipe(Entity entity, boolean wipeExplosives, boolean wipeVehicles)
+        {
+            if (wipeExplosives)
             {
-                if (ent instanceof Projectile
-                        || ent instanceof Item
-                        || ent instanceof ExperienceOrb
-                        || (ent instanceof Explosive && wipe_explosives)
-                        || (ent instanceof Vehicle && wipe_vehicles))
+                if (Explosive.class.isAssignableFrom(entity.getClass()))
                 {
-                    ent.remove();
-                    removed++;
+                    return true;
                 }
             }
+
+            if (wipeVehicles)
+            {
+                if (Boat.class.isAssignableFrom(entity.getClass()))
+                {
+                    return true;
+                }
+                else if (Minecart.class.isAssignableFrom(entity.getClass()))
+                {
+                    return true;
+                }
+            }
+
+            Iterator<Class<? extends Entity>> it = WIPEABLES.iterator();
+            while (it.hasNext())
+            {
+                if (it.next().isAssignableFrom(entity.getClass()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
-        return removed;
+
+        public static int wipeEntities(boolean wipeExplosives, boolean wipeVehicles)
+        {
+            int removed = 0;
+
+            Iterator<World> worlds = Bukkit.getWorlds().iterator();
+            while (worlds.hasNext())
+            {
+                Iterator<Entity> entities = worlds.next().getEntities().iterator();
+                while (entities.hasNext())
+                {
+                    Entity entity = entities.next();
+                    if (canWipe(entity, wipeExplosives, wipeVehicles))
+                    {
+                        entity.remove();
+                        removed++;
+                    }
+                }
+            }
+
+            return removed;
+        }
     }
 
     public static boolean deleteFolder(File file)

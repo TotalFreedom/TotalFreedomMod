@@ -41,7 +41,7 @@ public class Command_trail extends TFM_Command
                 trailPlayers.add(sender_p);
             }
 
-            playerMsg("Trail enabled!");
+            playerMsg("Trail enabled. Use \"/trail off\" to disable.");
         }
 
         if (!trailPlayers.isEmpty())
