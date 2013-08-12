@@ -522,5 +522,4 @@ public class TFM_PlayerData
     {
         return this.tag;
     }
-
 }
