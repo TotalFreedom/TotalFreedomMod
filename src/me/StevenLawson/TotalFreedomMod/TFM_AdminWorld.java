@@ -9,10 +9,12 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TFM_AdminWorld
@@ -106,6 +108,11 @@ public class TFM_AdminWorld
         Block welcomeSignBlock = adminWorld.getBlockAt(0, 50, 0);
         welcomeSignBlock.setType(Material.SIGN_POST);
         Sign welcomeSign = (Sign) welcomeSignBlock.getState();
+        
+        org.bukkit.material.Sign signData = new org.bukkit.material.Sign(Material.SIGN_POST);
+        signData.setFacingDirection(BlockFace.NORTH);
+        welcomeSign.setData(signData);
+        
         welcomeSign.setLine(0, ChatColor.GREEN + "AdminWorld");
         welcomeSign.setLine(1, ChatColor.DARK_GRAY + "---");
         welcomeSign.setLine(2, ChatColor.YELLOW + "Spawn Point");
