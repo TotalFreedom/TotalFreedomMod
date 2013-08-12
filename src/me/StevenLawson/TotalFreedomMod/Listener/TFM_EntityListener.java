@@ -125,9 +125,9 @@ public class TFM_EntityListener implements Listener
             {
                 int mobcount = 0;
 
-                for (Entity ent : event.getLocation().getWorld().getLivingEntities())
+                for (Entity entity : event.getLocation().getWorld().getLivingEntities())
                 {
-                    if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon)
+                    if (!(entity instanceof HumanEntity))
                     {
                         mobcount++;
                     }
