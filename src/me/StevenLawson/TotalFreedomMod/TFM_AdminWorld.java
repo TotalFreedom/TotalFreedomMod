@@ -20,6 +20,7 @@ public class TFM_AdminWorld
     private static final String GENERATION_PARAMETERS = "16,stone,32,dirt,1,grass";
     private static final String ADMINWORLD_NAME = "adminworld";
     private final Map<CommandSender, Boolean> superadminCache = new HashMap<CommandSender, Boolean>();
+    private Long cacheLastCleared = null;
     private World adminWorld = null;
 
     private TFM_AdminWorld()
@@ -33,10 +34,7 @@ public class TFM_AdminWorld
             return;
         }
 
-        if (adminWorld == null || !Bukkit.getWorlds().contains(adminWorld))
-        {
-            generateWorld();
-        }
+        loadAdminWorld();
 
         player.teleport(adminWorld.getSpawnLocation());
     }
@@ -48,7 +46,7 @@ public class TFM_AdminWorld
             if (event.getTo().getWorld() == adminWorld)
             {
                 final Player player = event.getPlayer();
-                if (!isUserSuperadmin(player))
+                if (!cachedIsUserSuperadmin(player))
                 {
                     new BukkitRunnable()
                     {
@@ -66,8 +64,23 @@ public class TFM_AdminWorld
         return true;
     }
 
-    private boolean isUserSuperadmin(CommandSender user)
+    public void loadAdminWorld()
     {
+        if (adminWorld == null || !Bukkit.getWorlds().contains(adminWorld))
+        {
+            generateWorld();
+        }
+    }
+
+    private boolean cachedIsUserSuperadmin(CommandSender user)
+    {
+        long currentTimeMillis = System.currentTimeMillis();
+        if (cacheLastCleared == null || cacheLastCleared.longValue() >= currentTimeMillis + (10L * 1000L)) // Wipe every 10 seconds.
+        {
+            cacheLastCleared = currentTimeMillis;
+            superadminCache.clear();
+        }
+
         Boolean cached = superadminCache.get(user);
         if (cached == null)
         {
