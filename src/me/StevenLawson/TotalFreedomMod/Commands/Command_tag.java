@@ -6,6 +6,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,7 +25,6 @@ public class Command_tag extends TFM_Command
     {
         if (args.length == 1)
         {
-
             if ("clearall".equals(args[0]))
             {
                 if (!TFM_SuperadminList.isUserSuperadmin(sender))
@@ -52,14 +52,14 @@ public class Command_tag extends TFM_Command
 
             if (senderIsConsole)
             {
-                playerMsg("This can only be used by players.");
+                playerMsg("Only in-game players can set tags. Use \"/tag clearall\" to reset all tags.");
                 return true;
             }
 
             if (TFM_Util.isStopCommand(args[0]))
             {
                 TFM_PlayerData.getPlayerData(sender_p).setTag(null);
-                playerMsg("Removed your tag.");
+                playerMsg("Your tag has been removed.");
                 return true;
             }
 
@@ -73,9 +73,9 @@ public class Command_tag extends TFM_Command
             {
                 for (String word : FORBIDDEN_WORDS)
                 {
-                    if (args[0].toLowerCase().contains(word))
+                    if (args[0].toLowerCase().contains(word.toLowerCase()))
                     {
-                        if (word.contains("&"))
+                        if (word.contains(String.valueOf(ChatColor.COLOR_CHAR)))
                         {
                             playerMsg("That tag contains a forbidden color-code.");
                         }
