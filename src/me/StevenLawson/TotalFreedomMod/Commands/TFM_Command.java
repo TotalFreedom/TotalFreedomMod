@@ -138,7 +138,7 @@ public abstract class TFM_Command
         return true;
     }
 
-    public Player getPlayer(final String partialname) throws CantFindPlayerException
+    public Player getPlayer(final String partialname) throws PlayerNotFoundException
     {
         List<Player> matches = server.matchPlayer(partialname);
         if (matches.isEmpty())
@@ -150,7 +150,7 @@ public abstract class TFM_Command
                     return p;
                 }
             }
-            throw new CantFindPlayerException(partialname);
+            throw new PlayerNotFoundException(partialname);
         }
         else
         {

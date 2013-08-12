@@ -109,7 +109,7 @@ public class Command_tag extends TFM_Command
                 {
                     p = getPlayer(args[1]);
                 }
-                catch (CantFindPlayerException ex)
+                catch (PlayerNotFoundException ex)
                 {
                     playerMsg(ex.getMessage());
                     return true;

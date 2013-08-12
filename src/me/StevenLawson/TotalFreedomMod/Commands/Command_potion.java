@@ -62,7 +62,7 @@ public class Command_potion extends TFM_Command
                     {
                         target = getPlayer(args[1]);
                     }
-                    catch (CantFindPlayerException ex)
+                    catch (PlayerNotFoundException ex)
                     {
                         playerMsg(ex.getMessage(), ChatColor.RED);
                         return true;
@@ -107,7 +107,7 @@ public class Command_potion extends TFM_Command
                     {
                         target = getPlayer(args[4]);
                     }
-                    catch (CantFindPlayerException ex)
+                    catch (PlayerNotFoundException ex)
                     {
                         playerMsg(ex.getMessage(), ChatColor.RED);
                         return true;

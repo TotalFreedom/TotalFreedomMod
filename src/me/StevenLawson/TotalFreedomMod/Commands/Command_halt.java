@@ -81,7 +81,7 @@ public class Command_halt extends TFM_Command
         {
             p = getPlayer(args[0]);
         }
-        catch (CantFindPlayerException ex)
+        catch (PlayerNotFoundException ex)
         {
             sender.sendMessage(ex.getMessage());
             return true;

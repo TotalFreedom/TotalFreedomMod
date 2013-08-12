@@ -23,7 +23,7 @@ public class Command_lastcmd extends TFM_Command
         {
             p = getPlayer(args[0]);
         }
-        catch (CantFindPlayerException ex)
+        catch (PlayerNotFoundException ex)
         {
             playerMsg(ex.getMessage(), ChatColor.RED);
             return true;

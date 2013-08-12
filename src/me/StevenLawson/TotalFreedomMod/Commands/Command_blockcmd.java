@@ -41,7 +41,7 @@ public class Command_blockcmd extends TFM_Command
         {
             p = getPlayer(args[0]);
         }
-        catch (CantFindPlayerException ex)
+        catch (PlayerNotFoundException ex)
         {
             playerMsg(ex.getMessage());
             return true;

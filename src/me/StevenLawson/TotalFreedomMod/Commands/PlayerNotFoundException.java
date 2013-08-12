@@ -2,17 +2,17 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import org.bukkit.ChatColor;
 
-public class CantFindPlayerException extends Exception
+public class PlayerNotFoundException extends Exception
 {
     // apparently, java needs this
     private static final long serialVersionUID = 1L;
 
-    public CantFindPlayerException()
+    public PlayerNotFoundException()
     {
         super(ChatColor.GRAY + "Can't find player.");
     }
 
-    public CantFindPlayerException(String msg)
+    public PlayerNotFoundException(String msg)
     {
         super(ChatColor.GRAY + "Can't find player: " + msg);
     }

@@ -58,7 +58,7 @@ public class Command_ro extends TFM_Command
             {
                 target_player = getPlayer(args[2]);
             }
-            catch (CantFindPlayerException ex)
+            catch (PlayerNotFoundException ex)
             {
                 playerMsg(ex.getMessage(), ChatColor.RED);
                 return true;

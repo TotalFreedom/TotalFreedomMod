@@ -16,12 +16,12 @@ public class TFM_UserList
 {
     private static final String USERLIST_FILENAME = "userlist.yml";
     private static TFM_UserList instance = null;
-    private Map<String, TFM_UserListEntry> _userlist = new HashMap<String, TFM_UserListEntry>();
-    private final TotalFreedomMod _plugin;
+    private Map<String, TFM_UserListEntry> userlist = new HashMap<String, TFM_UserListEntry>();
+    private final TotalFreedomMod plugin;
 
     protected TFM_UserList(TotalFreedomMod plugin)
     {
-        _plugin = plugin;
+        this.plugin = plugin;
 
         primeList();
     }
@@ -30,17 +30,17 @@ public class TFM_UserList
     {
         try
         {
-            _userlist.clear();
+            userlist.clear();
 
-            FileConfiguration saved_userlist = YamlConfiguration.loadConfiguration(new File(_plugin.getDataFolder(), USERLIST_FILENAME));
+            FileConfiguration saved_userlist = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), USERLIST_FILENAME));
 
             for (String username : saved_userlist.getKeys(false))
             {
                 TFM_UserListEntry entry = new TFM_UserListEntry(username, saved_userlist.getStringList(username));
-                _userlist.put(username, entry);
+                userlist.put(username, entry);
             }
 
-            for (Player p : _plugin.getServer().getOnlinePlayers())
+            for (Player p : plugin.getServer().getOnlinePlayers())
             {
                 addUser(p);
             }
@@ -58,14 +58,14 @@ public class TFM_UserList
     {
         FileConfiguration new_userlist = new YamlConfiguration();
 
-        for (TFM_UserListEntry entry : _userlist.values())
+        for (TFM_UserListEntry entry : userlist.values())
         {
             new_userlist.set(entry.getUsername(), entry.getIpAddresses());
         }
 
         try
         {
-            new_userlist.save(new File(_plugin.getDataFolder(), USERLIST_FILENAME));
+            new_userlist.save(new File(plugin.getDataFolder(), USERLIST_FILENAME));
         }
         catch (IOException ex)
         {
@@ -91,13 +91,13 @@ public class TFM_UserList
     {
         username = username.toLowerCase();
 
-        TFM_UserListEntry entry = _userlist.get(username);
+        TFM_UserListEntry entry = userlist.get(username);
         if (entry == null)
         {
             entry = new TFM_UserListEntry(username);
         }
 
-        _userlist.put(username, entry);
+        userlist.put(username, entry);
 
         if (entry.addIpAddress(ip_address))
         {
@@ -112,14 +112,14 @@ public class TFM_UserList
 
     public TFM_UserListEntry getEntry(String username)
     {
-        return _userlist.get(username.toLowerCase());
+        return userlist.get(username.toLowerCase());
     }
 
     public void purge()
     {
-        _userlist.clear();
+        userlist.clear();
 
-        for (Player p : _plugin.getServer().getOnlinePlayers())
+        for (Player p : plugin.getServer().getOnlinePlayers())
         {
             addUser(p);
         }
@@ -132,7 +132,7 @@ public class TFM_UserList
         needle = needle.toLowerCase().trim();
         Integer minEditDistance = null;
         String minEditMatch = null;
-        Iterator<String> it = _userlist.keySet().iterator();
+        Iterator<String> it = userlist.keySet().iterator();
         while (it.hasNext())
         {
             String haystack = it.next();

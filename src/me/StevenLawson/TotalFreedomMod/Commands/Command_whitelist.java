@@ -93,7 +93,7 @@ public class Command_whitelist extends TFM_Command
             {
                 p = getPlayer(search_name);
             }
-            catch (CantFindPlayerException ex)
+            catch (PlayerNotFoundException ex)
             {
                 p = server.getOfflinePlayer(search_name);
             }
@@ -118,7 +118,7 @@ public class Command_whitelist extends TFM_Command
             {
                 p = getPlayer(search_name);
             }
-            catch (CantFindPlayerException ex)
+            catch (PlayerNotFoundException ex)
             {
                 p = server.getOfflinePlayer(search_name);
             }

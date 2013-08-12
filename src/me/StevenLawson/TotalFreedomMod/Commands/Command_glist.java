@@ -56,7 +56,7 @@ public class Command_glist extends TFM_Command
                 username = p.getName();
                 ip_addresses.add(p.getAddress().getAddress().getHostAddress());
             }
-            catch (CantFindPlayerException ex)
+            catch (PlayerNotFoundException ex)
             {
                 TFM_UserListEntry entry = TFM_UserList.getInstance(plugin).getEntry(args[1]);
 
