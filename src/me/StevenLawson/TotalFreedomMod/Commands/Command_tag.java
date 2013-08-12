@@ -6,6 +6,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,10 +19,9 @@ public class Command_tag extends TFM_Command
     {
         "admin", "owner", "moderator", "developer"
     });
-    
     public static final List<String> FORBIDDEN_CODE = Arrays.asList(new String[]
     {
-        "&k"
+        "&k", (ChatColor.COLOR_CHAR + "k")
     });
 
     @Override
@@ -29,7 +29,6 @@ public class Command_tag extends TFM_Command
     {
         if (args.length == 1)
         {
-
             if ("clearall".equals(args[0]))
             {
                 if (!TFM_SuperadminList.isUserSuperadmin(sender))
@@ -56,14 +55,14 @@ public class Command_tag extends TFM_Command
 
             if (senderIsConsole)
             {
-                playerMsg("This can only be used by players.");
+                playerMsg("Only in-game players can set tags. Use \"/tag clearall\" to reset all tags.");
                 return true;
             }
 
             if (TFM_Util.isStopCommand(args[0]))
             {
                 TFM_PlayerData.getPlayerData(sender_p).setTag(null);
-                playerMsg("Removed your tag.");
+                playerMsg("Your tag has been removed.");
                 return true;
             }
 
@@ -77,26 +76,22 @@ public class Command_tag extends TFM_Command
             {
                 for (String word : FORBIDDEN_WORDS)
                 {
-                    if (args[0].toLowerCase().contains(word))
+                    if (args[0].toLowerCase().contains(word.toLowerCase()))
                     {
                         playerMsg("That tag contains a forbidden word.");
                         return true;
                     }
                 }
-            }
-            
-            if (!TFM_SuperadminList.isUserSuperadmin(sender))
-            {
+
                 for (String word : FORBIDDEN_CODE)
                 {
-                    if (args[0].toLowerCase().contains(word))
+                    if (args[0].toLowerCase().contains(word.toLowerCase()))
                     {
-                        playerMsg("You may not include the colour code you have attempted to use in your tag")
-                    	return true;
+                        playerMsg("That tag contains a forbidden color code.");
+                        return true;
                     }
                 }
             }
-
 
             TFM_PlayerData.getPlayerData(sender_p).setTag(args[0]);
             playerMsg("Tag set.");
