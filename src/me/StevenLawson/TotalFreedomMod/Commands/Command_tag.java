@@ -16,12 +16,7 @@ public class Command_tag extends TFM_Command
 {
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
     {
-        "admin", "owner", "moderator", "developer"
-    });
-    
-    public static final List<String> FORBIDDEN_CODE = Arrays.asList(new String[]
-    {
-        "&k"
+        "admin", "owner", "moderator", "developer", "&k"
     });
 
     @Override
@@ -38,6 +33,7 @@ public class Command_tag extends TFM_Command
                     return true;
                 }
 
+                TFM_Util.adminAction(sender.getName(), "Removing all tags", false);
                 int count = 0;
                 for (Player p : server.getOnlinePlayers())
                 {
@@ -79,24 +75,19 @@ public class Command_tag extends TFM_Command
                 {
                     if (args[0].toLowerCase().contains(word))
                     {
-                        playerMsg("That tag contains a forbidden word.");
+                        if (word.contains("&"))
+                        {
+                            playerMsg("That tag contains a forbidden color-code.");
+                        }
+                        else
+                        {
+                            playerMsg("That tag contains a forbidden word.");
+                        }
                         return true;
                     }
                 }
-            }
-            
-            if (!TFM_SuperadminList.isUserSuperadmin(sender))
-            {
-                for (String word : FORBIDDEN_CODE)
-                {
-                    if (args[0].toLowerCase().contains(word))
-                    {
-                        playerMsg("You may not include the colour code you have attempted to use in your tag")
-                    	return true;
-                    }
-                }
-            }
 
+            }
 
             TFM_PlayerData.getPlayerData(sender_p).setTag(args[0]);
             playerMsg("Tag set.");

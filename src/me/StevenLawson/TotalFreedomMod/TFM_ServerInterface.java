@@ -253,6 +253,12 @@ public class TFM_ServerInterface
                 return;
             }
 
+            if (TotalFreedomMod.lockdownEnabled)
+            {
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is currently in lockdown mode.");
+                return;
+            }
+
             if (player_list.hasWhitelist)
             {
                 if (!player_list.getWhitelisted().contains(player_name.toLowerCase()))
@@ -294,6 +300,11 @@ public class TFM_ServerInterface
                         break;
                     }
                 }
+            }
+
+            if (TotalFreedomMod.lockdownEnabled)
+            {
+                TFM_Util.playerMsg(p, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
             }
         }
     }

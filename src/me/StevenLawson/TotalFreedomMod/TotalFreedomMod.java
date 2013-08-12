@@ -49,6 +49,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean allPlayersFrozen = false;
     public static BukkitTask freezePurgeTask = null;
     public static BukkitTask mutePurgeTask = null;
+    public static boolean lockdownEnabled = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
     //
     public static String pluginVersion = "";
