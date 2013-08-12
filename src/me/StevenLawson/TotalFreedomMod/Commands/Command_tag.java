@@ -18,6 +18,11 @@ public class Command_tag extends TFM_Command
     {
         "admin", "owner", "moderator", "developer"
     });
+    
+    public static final List<String> FORBIDDEN_CODE = Arrays.asList(new String[]
+    {
+        "&k"
+    });
 
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -79,6 +84,19 @@ public class Command_tag extends TFM_Command
                     }
                 }
             }
+            
+            if (!TFM_SuperadminList.isUserSuperadmin(sender))
+            {
+                for (String word : FORBIDDEN_CODE)
+                {
+                    if (args[0].toLowerCase().contains(word))
+                    {
+                        playerMsg("You may not include the colour code you have attempted to use in your tag")
+                    	return true;
+                    }
+                }
+            }
+
 
             TFM_PlayerData.getPlayerData(sender_p).setTag(args[0]);
             playerMsg("Tag set.");
