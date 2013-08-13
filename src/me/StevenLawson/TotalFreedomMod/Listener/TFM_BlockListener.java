@@ -77,7 +77,7 @@ public class TFM_BlockListener implements Listener
             Long lastRan = TFM_Heartbeat.getLastRan();
             if (lastRan == null || lastRan + TotalFreedomMod.HEARTBEAT_RATE * 1000L < System.currentTimeMillis())
             {
-                TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
+                //TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
             }
             else
             {
@@ -151,7 +151,7 @@ public class TFM_BlockListener implements Listener
             Long lastRan = TFM_Heartbeat.getLastRan();
             if (lastRan == null || lastRan + TotalFreedomMod.HEARTBEAT_RATE * 1000L < System.currentTimeMillis())
             {
-                TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
+                //TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
             }
             else
             {

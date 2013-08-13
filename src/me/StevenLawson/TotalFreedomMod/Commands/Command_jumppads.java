@@ -37,7 +37,7 @@ public class Command_jumppads extends TFM_Command
             else
             {
                 TFM_Util.adminAction(sender.getName(), "Enabling Jumppads", false);
-                TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.NORMAL);
+                TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.MADGEEK);
             }
         }
         else
@@ -52,8 +52,8 @@ public class Command_jumppads extends TFM_Command
             {
                 if (TFM_Util.isStopCommand(args[1]))
                 {
-                    TFM_Util.adminAction(sender.getName(), "Setting Jumppads mode to: Normal", false);
-                    TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.NORMAL);
+                    TFM_Util.adminAction(sender.getName(), "Setting Jumppads mode to: Madgeek", false);
+                    TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.MADGEEK);
                 }
                 else
                 {

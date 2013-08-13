@@ -1,5 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -10,6 +12,7 @@ public class TFM_Jumppads
 {
     public static final Material BLOCK_ID = Material.WOOL;
     public static final double DAMPING_COEFFICIENT = 0.8;
+    public final Map<Player, Boolean> canPushMap = new HashMap<Player, Boolean>();
     private JumpPadMode mode = JumpPadMode.OFF;
     private double strength = 0.4;
 
@@ -24,31 +27,55 @@ public class TFM_Jumppads
         final Block block = event.getTo().getBlock();
         final Vector velocity = player.getVelocity().clone();
 
-        if (block.getRelative(0, -1, 0).getType() == BLOCK_ID)
+        if (mode == JumpPadMode.MADGEEK)
         {
-            velocity.add(new Vector(0.0, strength, 0.0));
+            Boolean canPush = canPushMap.get(player);
+            if (canPush == null)
+            {
+                canPush = true;
+            }
+            if (block.getRelative(0, -1, 0).getType() == BLOCK_ID)
+            {
+                if (canPush)
+                {
+                    velocity.multiply(strength + 0.85).multiply(-1.0);
+                }
+                canPush = false;
+            }
+            else
+            {
+                canPush = true;
+            }
+            canPushMap.put(player, canPush);
         }
-
-        if (mode == JumpPadMode.NORMAL_AND_SIDEWAYS)
+        else
         {
-            if (block.getRelative(1, 0, 0).getType() == BLOCK_ID)
+            if (block.getRelative(0, -1, 0).getType() == BLOCK_ID)
             {
-                velocity.add(new Vector(-DAMPING_COEFFICIENT * strength, 0.0, 0.0));
+                velocity.add(new Vector(0.0, strength, 0.0));
             }
 
-            if (block.getRelative(-1, 0, 0).getType() == BLOCK_ID)
+            if (mode == JumpPadMode.NORMAL_AND_SIDEWAYS)
             {
-                velocity.add(new Vector(DAMPING_COEFFICIENT * strength, 0.0, 0.0));
-            }
+                if (block.getRelative(1, 0, 0).getType() == BLOCK_ID)
+                {
+                    velocity.add(new Vector(-DAMPING_COEFFICIENT * strength, 0.0, 0.0));
+                }
 
-            if (block.getRelative(0, 0, 1).getType() == BLOCK_ID)
-            {
-                velocity.add(new Vector(0.0, 0.0, -DAMPING_COEFFICIENT * strength));
-            }
+                if (block.getRelative(-1, 0, 0).getType() == BLOCK_ID)
+                {
+                    velocity.add(new Vector(DAMPING_COEFFICIENT * strength, 0.0, 0.0));
+                }
 
-            if (block.getRelative(0, 0, -1).getType() == BLOCK_ID)
-            {
-                velocity.add(new Vector(0.0, 0.0, DAMPING_COEFFICIENT * strength));
+                if (block.getRelative(0, 0, 1).getType() == BLOCK_ID)
+                {
+                    velocity.add(new Vector(0.0, 0.0, -DAMPING_COEFFICIENT * strength));
+                }
+
+                if (block.getRelative(0, 0, -1).getType() == BLOCK_ID)
+                {
+                    velocity.add(new Vector(0.0, 0.0, DAMPING_COEFFICIENT * strength));
+                }
             }
         }
 
@@ -81,7 +108,7 @@ public class TFM_Jumppads
 
     public static enum JumpPadMode
     {
-        OFF(false), NORMAL(true), NORMAL_AND_SIDEWAYS(true);
+        OFF(false), NORMAL(true), NORMAL_AND_SIDEWAYS(true), MADGEEK(true);
         private boolean on;
 
         JumpPadMode(boolean on)
