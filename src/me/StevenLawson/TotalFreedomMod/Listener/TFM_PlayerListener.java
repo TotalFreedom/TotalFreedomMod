@@ -597,7 +597,7 @@ public class TFM_PlayerListener implements Listener
     {
         if (!event.getPlayer().hasPlayedBefore())
     	{
-    		event.getPlayer().setOp(true);
+    	    event.getPlayer().setOp(true);
     	}
         try
         {
