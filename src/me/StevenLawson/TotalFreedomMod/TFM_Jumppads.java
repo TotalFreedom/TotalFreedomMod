@@ -9,7 +9,7 @@ import org.bukkit.util.Vector;
 public class TFM_Jumppads
 {
     final int blockId = Material.WOOL.getId();
-    public Mode mode = Mode.NORMAL_AND_SIDEWAYS;
+    public Mode mode = Mode.OFF;
     public float strength = 0.4F;
 
     public void PlayerMoveEvent(PlayerMoveEvent event)
@@ -32,22 +32,22 @@ public class TFM_Jumppads
         {
             if (b.getRelative(1, 0, 0).getTypeId() == blockId)
             {
-                velocity.add(new Vector(-0.2F, 0F, 0F));
+                velocity.add(new Vector(-0.8F * strength, 0F, 0F));
             }
 
             if (b.getRelative(-1, 0, 0).getTypeId() == blockId)
             {
-                velocity.add(new Vector(0.2F, 0F, 0F));
+                velocity.add(new Vector(0.8F * strength, 0F, 0F));
             }
 
             if (b.getRelative(0, 0, 1).getTypeId() == blockId)
             {
-                velocity.add(new Vector(0F, 0F, -0.2F));
+                velocity.add(new Vector(0F, 0F, -0.8F * strength));
             }
 
             if (b.getRelative(0, 0, -1).getTypeId() == blockId)
             {
-                velocity.add(new Vector(0F, 0F, 0.2F));
+                velocity.add(new Vector(0F, 0F, 0.8F * strength));
             }
         }
 
