@@ -56,7 +56,7 @@ public class TFM_AdminWorld
                     if (lastTP == null || lastTP.longValue() + TP_COOLDOWN_TIME <= currentTimeMillis)
                     {
                         teleportCooldown.put(player, currentTimeMillis);
-                        TFM_Util.bcastMsg(player.getName() + " attempted to access the AdminWorld.", ChatColor.RED);
+                        TFM_Log.info(player.getName() + " attempted to access the AdminWorld.");
                         new BukkitRunnable()
                         {
                             @Override

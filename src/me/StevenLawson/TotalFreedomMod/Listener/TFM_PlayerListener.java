@@ -213,6 +213,12 @@ public class TFM_PlayerListener implements Listener
         }
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerTeleport(PlayerTeleportEvent event)
+    {
+        TFM_AdminWorld.getInstance().validateMovement(event);
+    }
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerMove(PlayerMoveEvent event)
     {
