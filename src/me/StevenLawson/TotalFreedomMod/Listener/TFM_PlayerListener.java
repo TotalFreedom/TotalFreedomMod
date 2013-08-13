@@ -335,6 +335,11 @@ public class TFM_PlayerListener implements Listener
             }
         }
 
+        if (TFM_Jumppads.getInstance().mode.isOn())
+        {
+            TFM_Jumppads.getInstance().PlayerMoveEvent(event);
+        }
+
         if (TotalFreedomMod.landminesEnabled && TotalFreedomMod.allowExplosions)
         {
             Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
@@ -372,6 +377,7 @@ public class TFM_PlayerListener implements Listener
                 }
             }
         }
+
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
