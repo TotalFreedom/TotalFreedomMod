@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Jumppads;
-import me.StevenLawson.TotalFreedomMod.TFM_Jumppads.Mode;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,26 +23,26 @@ public class Command_jumppads extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("info"))
             {
-                playerMsg("Jumppads: " + (TFM_Jumppads.getInstance().mode.isOn() ? "Enabled" : "Disabled"), ChatColor.BLUE);
-                playerMsg("Sideways: " + (TFM_Jumppads.getInstance().mode == Mode.NORMAL_AND_SIDEWAYS ? "Enabled" : "Disabled"), ChatColor.BLUE);
-                playerMsg("Strength: " + (TFM_Jumppads.getInstance().strength * 10 - 1), ChatColor.BLUE);
+                playerMsg("Jumppads: " + (TFM_Jumppads.getInstance().getMode().isOn() ? "Enabled" : "Disabled"), ChatColor.BLUE);
+                playerMsg("Sideways: " + (TFM_Jumppads.getInstance().getMode() == TFM_Jumppads.JumpPadMode.NORMAL_AND_SIDEWAYS ? "Enabled" : "Disabled"), ChatColor.BLUE);
+                playerMsg("Strength: " + (TFM_Jumppads.getInstance().getStrength() * 10 - 1), ChatColor.BLUE);
                 return true;
             }
 
             if (TFM_Util.isStopCommand(args[0]))
             {
                 TFM_Util.adminAction(sender.getName(), "Disabling Jumppads", false);
-                TFM_Jumppads.getInstance().mode = Mode.OFF;
+                TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.OFF);
             }
             else
             {
                 TFM_Util.adminAction(sender.getName(), "Enabling Jumppads", false);
-                TFM_Jumppads.getInstance().mode = Mode.NORMAL;
+                TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.NORMAL);
             }
         }
         else
         {
-            if (TFM_Jumppads.getInstance().mode == Mode.OFF)
+            if (TFM_Jumppads.getInstance().getMode() == TFM_Jumppads.JumpPadMode.OFF)
             {
                 playerMsg("Jumppads are currently disabled, please enable them before changing jumppads settings.");
                 return true;
@@ -51,16 +50,15 @@ public class Command_jumppads extends TFM_Command
 
             if (args[0].equalsIgnoreCase("sideways"))
             {
-
                 if (TFM_Util.isStopCommand(args[1]))
                 {
                     TFM_Util.adminAction(sender.getName(), "Setting Jumppads mode to: Normal", false);
-                    TFM_Jumppads.getInstance().mode = Mode.NORMAL;
+                    TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.NORMAL);
                 }
                 else
                 {
                     TFM_Util.adminAction(sender.getName(), "Setting Jumppads mode to: Normal and Sideways", false);
-                    TFM_Jumppads.getInstance().mode = Mode.NORMAL_AND_SIDEWAYS;
+                    TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.NORMAL_AND_SIDEWAYS);
                 }
             }
             else if (args[0].equalsIgnoreCase("strength"))
@@ -83,7 +81,7 @@ public class Command_jumppads extends TFM_Command
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Setting Jumppads strength to: " + String.valueOf(strength), false);
-                TFM_Jumppads.getInstance().strength = (strength / 10) + 0.1F;
+                TFM_Jumppads.getInstance().setStrength((strength / 10) + 0.1F);
             }
             else
             {

@@ -8,62 +8,83 @@ import org.bukkit.util.Vector;
 
 public class TFM_Jumppads
 {
-    final int blockId = Material.WOOL.getId();
-    public Mode mode = Mode.OFF;
-    public float strength = 0.4F;
+    public static final Material BLOCK_ID = Material.WOOL;
+    public static final double DAMPING_COEFFICIENT = 0.8;
+    private JumpPadMode mode = JumpPadMode.OFF;
+    private double strength = 0.4;
 
     public void PlayerMoveEvent(PlayerMoveEvent event)
     {
-        if (mode == Mode.OFF)
+        if (mode == JumpPadMode.OFF)
         {
             return;
         }
 
-        final Player p = event.getPlayer();
-        final Block b = event.getTo().getBlock();
-        Vector velocity = p.getVelocity().clone();
+        final Player player = event.getPlayer();
+        final Block block = event.getTo().getBlock();
+        final Vector velocity = player.getVelocity().clone();
 
-        if (b.getRelative(0, -1, 0).getTypeId() == blockId)
+        if (block.getRelative(0, -1, 0).getType() == BLOCK_ID)
         {
-            velocity.add(new Vector(0, strength, 0));
+            velocity.add(new Vector(0.0, strength, 0.0));
         }
 
-        if (mode == Mode.NORMAL_AND_SIDEWAYS)
+        if (mode == JumpPadMode.NORMAL_AND_SIDEWAYS)
         {
-            if (b.getRelative(1, 0, 0).getTypeId() == blockId)
+            if (block.getRelative(1, 0, 0).getType() == BLOCK_ID)
             {
-                velocity.add(new Vector(-0.8F * strength, 0F, 0F));
+                velocity.add(new Vector(-DAMPING_COEFFICIENT * strength, 0.0, 0.0));
             }
 
-            if (b.getRelative(-1, 0, 0).getTypeId() == blockId)
+            if (block.getRelative(-1, 0, 0).getType() == BLOCK_ID)
             {
-                velocity.add(new Vector(0.8F * strength, 0F, 0F));
+                velocity.add(new Vector(DAMPING_COEFFICIENT * strength, 0.0, 0.0));
             }
 
-            if (b.getRelative(0, 0, 1).getTypeId() == blockId)
+            if (block.getRelative(0, 0, 1).getType() == BLOCK_ID)
             {
-                velocity.add(new Vector(0F, 0F, -0.8F * strength));
+                velocity.add(new Vector(0.0, 0.0, -DAMPING_COEFFICIENT * strength));
             }
 
-            if (b.getRelative(0, 0, -1).getTypeId() == blockId)
+            if (block.getRelative(0, 0, -1).getType() == BLOCK_ID)
             {
-                velocity.add(new Vector(0F, 0F, 0.8F * strength));
+                velocity.add(new Vector(0.0, 0.0, DAMPING_COEFFICIENT * strength));
             }
         }
 
-        if (!p.getVelocity().equals(velocity))
+        if (!player.getVelocity().equals(velocity))
         {
-            p.setFallDistance(0F);
-            p.setVelocity(velocity);
+            player.setFallDistance(0.0f);
+            player.setVelocity(velocity);
         }
     }
 
-    public static enum Mode
+    public JumpPadMode getMode()
+    {
+        return mode;
+    }
+
+    public void setMode(JumpPadMode mode)
+    {
+        this.mode = mode;
+    }
+
+    public double getStrength()
+    {
+        return strength;
+    }
+
+    public void setStrength(double strength)
+    {
+        this.strength = strength;
+    }
+
+    public static enum JumpPadMode
     {
         OFF(false), NORMAL(true), NORMAL_AND_SIDEWAYS(true);
         private boolean on;
 
-        Mode(boolean on)
+        JumpPadMode(boolean on)
         {
             this.on = on;
         }

@@ -336,7 +336,7 @@ public class TFM_PlayerListener implements Listener
             }
         }
 
-        if (TFM_Jumppads.getInstance().mode.isOn())
+        if (TFM_Jumppads.getInstance().getMode().isOn())
         {
             TFM_Jumppads.getInstance().PlayerMoveEvent(event);
         }
