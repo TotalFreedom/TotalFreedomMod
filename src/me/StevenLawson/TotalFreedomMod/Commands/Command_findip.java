@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Shows all IPs registered to a player", usage = "/<command> <player>")
 public class Command_findip extends TFM_Command
 {
-
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -19,7 +18,7 @@ public class Command_findip extends TFM_Command
         {
             return false;
         }
-        
+
         final Player p;
         try
         {
@@ -30,10 +29,9 @@ public class Command_findip extends TFM_Command
             playerMsg(ex.getMessage());
             return true;
         }
-        
+
         playerMsg("Player IPs: " + StringUtils.join(TFM_UserList.getInstance(TotalFreedomMod.plugin).getEntry(p).getIpAddresses(), ", "));
 
         return true;
     }
-    
 }

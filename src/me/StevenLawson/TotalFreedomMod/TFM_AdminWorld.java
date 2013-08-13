@@ -17,9 +17,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class TFM_AdminWorld
 {
+    private static final long CACHE_CLEAR_FREQUENCY = 30L * 1000L; //30 seconds, milliseconds
+    private static final long TP_COOLDOWN_TIME = 500L; //0.5 seconds, milliseconds
     private static final String GENERATION_PARAMETERS = "16,stone,32,dirt,1,grass";
     private static final String ADMINWORLD_NAME = "adminworld";
+    //
+    private final Map<Player, Long> teleportCooldown = new HashMap<Player, Long>();
     private final Map<CommandSender, Boolean> superadminCache = new HashMap<CommandSender, Boolean>();
+    //
     private Long cacheLastCleared = null;
     private World adminWorld = null;
 
@@ -34,9 +39,7 @@ public class TFM_AdminWorld
             return;
         }
 
-        loadAdminWorld();
-
-        player.teleport(adminWorld.getSpawnLocation());
+        player.teleport(getAdminWorld().getSpawnLocation());
     }
 
     public boolean validateMovement(PlayerMoveEvent event)
@@ -48,14 +51,21 @@ public class TFM_AdminWorld
                 final Player player = event.getPlayer();
                 if (!cachedIsUserSuperadmin(player))
                 {
-                    new BukkitRunnable()
+                    Long lastTP = teleportCooldown.get(player);
+                    long currentTimeMillis = System.currentTimeMillis();
+                    if (lastTP == null || lastTP.longValue() + TP_COOLDOWN_TIME <= currentTimeMillis)
                     {
-                        @Override
-                        public void run()
+                        teleportCooldown.put(player, currentTimeMillis);
+                        TFM_Util.bcastMsg(player.getName() + " attempted to access the AdminWorld.", ChatColor.RED);
+                        new BukkitRunnable()
                         {
-                            player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
-                        }
-                    }.runTaskLater(TotalFreedomMod.plugin, 20L);
+                            @Override
+                            public void run()
+                            {
+                                player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+                            }
+                        }.runTaskLater(TotalFreedomMod.plugin, 1L);
+                    }
                     event.setCancelled(true);
                     return false;
                 }
@@ -64,23 +74,26 @@ public class TFM_AdminWorld
         return true;
     }
 
-    public void loadAdminWorld()
+    public World getAdminWorld()
     {
         if (adminWorld == null || !Bukkit.getWorlds().contains(adminWorld))
         {
             generateWorld();
         }
+
+        return adminWorld;
     }
 
-    public World getAdminWorld()
+    public void wipeSuperadminCache()
     {
-        return adminWorld;
+        cacheLastCleared = System.currentTimeMillis();
+        superadminCache.clear();
     }
 
     private boolean cachedIsUserSuperadmin(CommandSender user)
     {
         long currentTimeMillis = System.currentTimeMillis();
-        if (cacheLastCleared == null || cacheLastCleared.longValue() >= currentTimeMillis + (10L * 1000L)) // Wipe every 10 seconds.
+        if (cacheLastCleared == null || cacheLastCleared.longValue() + CACHE_CLEAR_FREQUENCY <= currentTimeMillis)
         {
             cacheLastCleared = currentTimeMillis;
             superadminCache.clear();

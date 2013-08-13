@@ -84,7 +84,7 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Util.generateFlatlands(flatlandsGenerationParams);
         }
 
-        TFM_AdminWorld.getInstance().loadAdminWorld();
+        TFM_AdminWorld.getInstance().getAdminWorld();
 
         if (disableWeather)
         {

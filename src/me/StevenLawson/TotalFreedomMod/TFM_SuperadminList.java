@@ -121,6 +121,8 @@ public class TFM_SuperadminList
         superadminNames = TFM_Util.removeDuplicates(superadminNames);
         superadminIPs = TFM_Util.removeDuplicates(superadminIPs);
         seniorAdminNames = TFM_Util.removeDuplicates(seniorAdminNames);
+
+        TFM_AdminWorld.getInstance().wipeSuperadminCache();
     }
 
     public static void saveSuperadminList()
