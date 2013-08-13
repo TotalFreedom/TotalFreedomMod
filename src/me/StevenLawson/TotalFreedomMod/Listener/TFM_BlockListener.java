@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Heartbeat;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
@@ -74,16 +75,24 @@ public class TFM_BlockListener implements Listener
                 }
             }
 
-            playerdata.incrementBlockDestroyCount();
-            if (playerdata.getBlockDestroyCount() > TotalFreedomMod.nukeMonitorCountBreak)
+            Long lastRan = TFM_Heartbeat.getLastRan();
+            if (lastRan == null || lastRan + TotalFreedomMod.HEARTBEAT_RATE * 1000L < System.currentTimeMillis())
             {
-                TFM_Util.bcastMsg(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
-                TFM_Util.autoEject(p, "You are breaking blocks too fast. Nukers are not permitted on this server.");
+                TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
+            }
+            else
+            {
+                playerdata.incrementBlockDestroyCount();
+                if (playerdata.getBlockDestroyCount() > TotalFreedomMod.nukeMonitorCountBreak)
+                {
+                    TFM_Util.bcastMsg(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
+                    TFM_Util.autoEject(p, "You are breaking blocks too fast. Nukers are not permitted on this server.");
 
-                playerdata.resetBlockDestroyCount();
+                    playerdata.resetBlockDestroyCount();
 
-                event.setCancelled(true);
-                return;
+                    event.setCancelled(true);
+                    return;
+                }
             }
         }
 
@@ -142,16 +151,24 @@ public class TFM_BlockListener implements Listener
                 }
             }
 
-            playerdata.incrementBlockPlaceCount();
-            if (playerdata.getBlockPlaceCount() > TotalFreedomMod.nukeMonitorCountPlace)
+            Long lastRan = TFM_Heartbeat.getLastRan();
+            if (lastRan == null || lastRan + TotalFreedomMod.HEARTBEAT_RATE * 1000L < System.currentTimeMillis())
             {
-                TFM_Util.bcastMsg(p.getName() + " is placing blocks too fast!", ChatColor.RED);
-                TFM_Util.autoEject(p, "You are placing blocks too fast.");
+                TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
+            }
+            else
+            {
+                playerdata.incrementBlockPlaceCount();
+                if (playerdata.getBlockPlaceCount() > TotalFreedomMod.nukeMonitorCountPlace)
+                {
+                    TFM_Util.bcastMsg(p.getName() + " is placing blocks too fast!", ChatColor.RED);
+                    TFM_Util.autoEject(p, "You are placing blocks too fast.");
 
-                playerdata.resetBlockPlaceCount();
+                    playerdata.resetBlockPlaceCount();
 
-                event.setCancelled(true);
-                return;
+                    event.setCancelled(true);
+                    return;
+                }
             }
         }
 

@@ -9,6 +9,7 @@ public class TFM_Heartbeat extends BukkitRunnable
 {
     private final TotalFreedomMod plugin;
     private final Server server;
+    private static Long lastRan = null;
 
     public TFM_Heartbeat(TotalFreedomMod instance)
     {
@@ -16,9 +17,16 @@ public class TFM_Heartbeat extends BukkitRunnable
         this.server = plugin.getServer();
     }
 
+    public static Long getLastRan()
+    {
+        return lastRan;
+    }
+
     @Override
     public void run()
     {
+        lastRan = System.currentTimeMillis();
+
         for (Player p : server.getOnlinePlayers())
         {
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
