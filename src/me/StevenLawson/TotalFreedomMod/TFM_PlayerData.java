@@ -219,24 +219,14 @@ public class TFM_PlayerData
         this.msg_count = 0;
     }
 
-    public void incrementMsgCount()
+    public int incrementAndGetMsgCount()
     {
-        this.msg_count++;
+        return this.msg_count++;
     }
 
-    public int getMsgCount()
+    public int incrementAndGetBlockDestroyCount()
     {
-        return msg_count;
-    }
-
-    public void incrementBlockDestroyCount()
-    {
-        this.block_destroy_total++;
-    }
-
-    public int getBlockDestroyCount()
-    {
-        return block_destroy_total;
+        return this.block_destroy_total++;
     }
 
     public void resetBlockDestroyCount()
@@ -244,14 +234,9 @@ public class TFM_PlayerData
         this.block_destroy_total = 0;
     }
 
-    public void incrementBlockPlaceCount()
+    public int incrementAndGetBlockPlaceCount()
     {
-        this.block_place_total++;
-    }
-
-    public int getBlockPlaceCount()
-    {
-        return block_place_total;
+        return this.block_place_total++;
     }
 
     public void resetBlockPlaceCount()
@@ -259,14 +244,9 @@ public class TFM_PlayerData
         this.block_place_total = 0;
     }
 
-    public void incrementFreecamDestroyCount()
+    public int incrementAndGetFreecamDestroyCount()
     {
-        this.freecam_destroy_count++;
-    }
-
-    public int getFreecamDestroyCount()
-    {
-        return freecam_destroy_count;
+        return this.freecam_destroy_count++;
     }
 
     public void resetFreecamDestroyCount()
@@ -274,14 +254,9 @@ public class TFM_PlayerData
         this.freecam_destroy_count = 0;
     }
 
-    public void incrementFreecamPlaceCount()
+    public int incrementAndGetFreecamPlaceCount()
     {
-        this.freecam_place_count++;
-    }
-
-    public int getFreecamPlaceCount()
-    {
-        return freecam_place_count;
+        return this.freecam_place_count++;
     }
 
     public void resetFreecamPlaceCount()

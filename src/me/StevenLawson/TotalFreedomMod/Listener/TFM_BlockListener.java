@@ -62,8 +62,7 @@ public class TFM_BlockListener implements Listener
 
             if (out_of_range)
             {
-                playerdata.incrementFreecamDestroyCount();
-                if (playerdata.getFreecamDestroyCount() > TotalFreedomMod.freecamTriggerCount)
+                if (playerdata.incrementAndGetFreecamDestroyCount() > TotalFreedomMod.freecamTriggerCount)
                 {
                     TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
                     TFM_Util.autoEject(p, "Freecam (extended range) block breaking is not permitted on this server.");
@@ -82,8 +81,7 @@ public class TFM_BlockListener implements Listener
             }
             else
             {
-                playerdata.incrementBlockDestroyCount();
-                if (playerdata.getBlockDestroyCount() > TotalFreedomMod.nukeMonitorCountBreak)
+                if (playerdata.incrementAndGetBlockDestroyCount() > TotalFreedomMod.nukeMonitorCountBreak)
                 {
                     TFM_Util.bcastMsg(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
                     TFM_Util.autoEject(p, "You are breaking blocks too fast. Nukers are not permitted on this server.");
@@ -138,8 +136,7 @@ public class TFM_BlockListener implements Listener
 
             if (out_of_range)
             {
-                playerdata.incrementFreecamPlaceCount();
-                if (playerdata.getFreecamPlaceCount() > TotalFreedomMod.freecamTriggerCount)
+                if (playerdata.incrementAndGetFreecamPlaceCount() > TotalFreedomMod.freecamTriggerCount)
                 {
                     TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
                     TFM_Util.autoEject(p, "Freecam (extended range) block building is not permitted on this server.");
@@ -158,8 +155,7 @@ public class TFM_BlockListener implements Listener
             }
             else
             {
-                playerdata.incrementBlockPlaceCount();
-                if (playerdata.getBlockPlaceCount() > TotalFreedomMod.nukeMonitorCountPlace)
+                if (playerdata.incrementAndGetBlockPlaceCount() > TotalFreedomMod.nukeMonitorCountPlace)
                 {
                     TFM_Util.bcastMsg(p.getName() + " is placing blocks too fast!", ChatColor.RED);
                     TFM_Util.autoEject(p, "You are placing blocks too fast.");

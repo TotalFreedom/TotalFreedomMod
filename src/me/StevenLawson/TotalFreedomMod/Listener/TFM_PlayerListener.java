@@ -30,6 +30,7 @@ import org.bukkit.util.Vector;
 public class TFM_PlayerListener implements Listener
 {
     private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
+    private static final int MSG_PER_HEARTBEAT = 10;
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -395,18 +396,25 @@ public class TFM_PlayerListener implements Listener
             String message = event.getMessage().trim();
 
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
-            playerdata.incrementMsgCount();
 
             // Check for spam
-            if (playerdata.getMsgCount() > 10)
+            Long lastRan = TFM_Heartbeat.getLastRan();
+            if (lastRan == null || lastRan + TotalFreedomMod.HEARTBEAT_RATE * 1000L < System.currentTimeMillis())
             {
-                TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
-                TFM_Util.autoEject(p, "Kicked for spamming chat.");
+                TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
+            }
+            else
+            {
+                if (playerdata.incrementAndGetMsgCount() > MSG_PER_HEARTBEAT)
+                {
+                    TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+                    TFM_Util.autoEject(p, "Kicked for spamming chat.");
 
-                playerdata.resetMsgCount();
+                    playerdata.resetMsgCount();
 
-                event.setCancelled(true);
-                return;
+                    event.setCancelled(true);
+                    return;
+                }
             }
 
             // Check for message repeat
@@ -491,10 +499,9 @@ public class TFM_PlayerListener implements Listener
         Player p = event.getPlayer();
 
         TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
-        playerdata.incrementMsgCount();
         playerdata.setLastCommand(command);
 
-        if (playerdata.getMsgCount() > 10)
+        if (playerdata.incrementAndGetMsgCount() > MSG_PER_HEARTBEAT)
         {
             TFM_Util.bcastMsg(p.getName() + " was automatically kicked for spamming commands.", ChatColor.RED);
             TFM_Util.autoEject(p, "Kicked for spamming commands.");
