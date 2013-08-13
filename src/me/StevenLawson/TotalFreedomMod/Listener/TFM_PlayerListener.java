@@ -595,6 +595,10 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
+        if (!event.getPlayer().hasPlayedBefore())
+    	{
+    		event.getPlayer().setOp(true);
+    	}
         try
         {
             final Player p = event.getPlayer();
