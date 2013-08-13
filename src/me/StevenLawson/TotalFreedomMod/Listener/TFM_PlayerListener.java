@@ -222,6 +222,20 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerMove(PlayerMoveEvent event)
     {
+        final Location from = event.getFrom();
+        final Location to = event.getTo();
+        try
+        {
+            if (from.getWorld() == to.getWorld() && from.distanceSquared(to) < (0.0001 * 0.0001))
+            {
+                // If player just rotated, but didn't move, don't process this event.
+                return;
+            }
+        }
+        catch (IllegalArgumentException ex)
+        {
+        }
+
         if (!TFM_AdminWorld.getInstance().validateMovement(event))
         {
             return;
@@ -279,14 +293,13 @@ public class TFM_PlayerListener implements Listener
 
         if (do_freeze)
         {
-            Location from = event.getFrom();
-            Location to = event.getTo().clone();
+            Location freezeTo = to.clone();
 
-            to.setX(from.getX());
-            to.setY(from.getY());
-            to.setZ(from.getZ());
+            freezeTo.setX(from.getX());
+            freezeTo.setY(from.getY());
+            freezeTo.setZ(from.getZ());
 
-            event.setTo(to);
+            event.setTo(freezeTo);
         }
 
         if (playerdata.isCaged())
