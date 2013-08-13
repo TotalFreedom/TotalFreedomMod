@@ -26,7 +26,7 @@ public class Command_jumppads extends TFM_Command
             {
                 playerMsg("Jumppads: " + (TFM_Jumppads.getInstance().mode.isOn() ? "Enabled" : "Disabled"), ChatColor.BLUE);
                 playerMsg("Sideways: " + (TFM_Jumppads.getInstance().mode == Mode.NORMAL_AND_SIDEWAYS ? "Enabled" : "Disabled"), ChatColor.BLUE);
-                playerMsg("Strength: " + TFM_Jumppads.getInstance().strength * 10, ChatColor.BLUE);
+                playerMsg("Strength: " + (TFM_Jumppads.getInstance().strength * 10 - 1), ChatColor.BLUE);
                 return true;
             }
 
@@ -82,7 +82,7 @@ public class Command_jumppads extends TFM_Command
                     return true;
                 }
 
-                TFM_Util.adminAction(sender.getName(), "Setting Jumppads hight to: " + String.valueOf(strength), false);
+                TFM_Util.adminAction(sender.getName(), "Setting Jumppads strength to: " + String.valueOf(strength), false);
                 TFM_Jumppads.getInstance().strength = (strength / 10) + 0.1F;
             }
             else
