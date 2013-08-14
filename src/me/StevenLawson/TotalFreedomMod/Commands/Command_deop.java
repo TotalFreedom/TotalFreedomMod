@@ -18,25 +18,25 @@ public class Command_deop extends TFM_Command
             return false;
         }
 
-        OfflinePlayer player = null;
+        OfflinePlayer p = null;
 
         for (Player onlinePlayer : server.getOnlinePlayers())
         {
             if (args[0].equalsIgnoreCase(onlinePlayer.getName()))
             {
-                player = onlinePlayer;
+                p = onlinePlayer;
             }
         }
 
         // if the player is not online
-        if (player == null)
+        if (p == null)
         {
-            player = server.getOfflinePlayer(args[0]);
+            p = server.getOfflinePlayer(args[0]);
         }
 
-        TFM_Util.adminAction(sender.getName(), "De-opping " + player.getName(), false);
+        TFM_Util.adminAction(sender.getName(), "De-opping " + p.getName(), false);
 
-        player.setOp(false);
+        p.setOp(false);
 
         return true;
     }

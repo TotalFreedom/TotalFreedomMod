@@ -23,9 +23,9 @@ public class Command_listsync extends TFM_Command
             TotalFreedomMod.loadSuperadminConfig();
             TFM_Util.adminAction(sender.getName(), TotalFreedomMod.SUPERADMIN_FILE + " downloaded.", false);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
 
         try
@@ -34,9 +34,9 @@ public class Command_listsync extends TFM_Command
             TotalFreedomMod.loadPermbanConfig();
             TFM_Util.adminAction(sender.getName(), TotalFreedomMod.PERMBAN_FILE + " downloaded.", false);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
 
         return true;

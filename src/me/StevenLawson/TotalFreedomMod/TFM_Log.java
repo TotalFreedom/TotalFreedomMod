@@ -48,8 +48,8 @@ public class TFM_Log
         TFM_Log.log(Level.SEVERE, message, raw);
     }
 
-    public static void severe(Throwable e)
+    public static void severe(Throwable ex)
     {
-        logger.log(Level.SEVERE, null, e);
+        logger.log(Level.SEVERE, null, ex);
     }
 }

@@ -52,9 +52,9 @@ public class TFM_Superadmin
             output.append("- Console Aliases: ").append(StringUtils.join(this.console_aliases, ", ")).append("\n");
             output.append("- Is Activated: ").append(this.is_activated);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
 
         return output.toString();

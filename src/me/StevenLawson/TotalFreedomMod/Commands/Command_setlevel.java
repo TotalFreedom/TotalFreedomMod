@@ -32,7 +32,7 @@ public class Command_setlevel extends TFM_Command
                 new_level = 50;
             }
         }
-        catch (NumberFormatException e)
+        catch (NumberFormatException ex)
         {
             playerMsg("Invalid level.", ChatColor.RED);
             return true;

@@ -38,25 +38,25 @@ public class Command_expel extends TFM_Command
         }
 
         Location sender_pos = sender_p.getLocation();
-        for (Player player: sender_pos.getWorld().getPlayers())
+        for (Player p : sender_pos.getWorld().getPlayers())
         {
-            if (!player.equals(sender_p))
+            if (!p.equals(sender_p))
             {
-                Location target_pos = player.getLocation();
+                Location target_pos = p.getLocation();
 
                 boolean in_range = false;
                 try
                 {
                     in_range = target_pos.distanceSquared(sender_pos) < (radius * radius);
                 }
-                catch (IllegalArgumentException e)
+                catch (IllegalArgumentException ex)
                 {
                 }
 
                 if (in_range)
                 {
-                    player.setVelocity(target_pos.clone().subtract(sender_pos).toVector().normalize().multiply(strength));
-                    playerMsg("Pushing " + player.getName() + ".");
+                    p.setVelocity(target_pos.clone().subtract(sender_pos).toVector().normalize().multiply(strength));
+                    playerMsg("Pushing " + p.getName() + ".");
                 }
             }
         }

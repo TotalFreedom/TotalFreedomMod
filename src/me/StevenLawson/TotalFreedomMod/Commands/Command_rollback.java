@@ -60,7 +60,7 @@ public class Command_rollback extends TFM_Command
                 playerName = player.getName();
             }
         }
-        catch (PlayerNotFoundException e)
+        catch (PlayerNotFoundException ex)
         {
         }
 

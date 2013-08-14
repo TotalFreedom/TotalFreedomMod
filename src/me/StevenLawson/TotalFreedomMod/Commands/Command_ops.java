@@ -31,9 +31,9 @@ public class Command_ops extends TFM_Command
             int offlineOPs = 0;
             int totalOPs = 0;
 
-            for (OfflinePlayer player: server.getOperators())
+            for (OfflinePlayer p : server.getOperators())
             {
-                if (player.isOnline())
+                if (p.isOnline())
                 {
                     onlineOPs++;
                 }
@@ -61,13 +61,13 @@ public class Command_ops extends TFM_Command
 
             TFM_Util.adminAction(sender.getName(), "Removing all operators", true);
 
-            for (OfflinePlayer player: server.getOperators())
+            for (OfflinePlayer p : server.getOperators())
             {
-                player.setOp(false);
+                p.setOp(false);
 
-                if (player.isOnline())
+                if (p.isOnline())
                 {
-                    player.getPlayer().sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+                    p.getPlayer().sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                 }
             }
 

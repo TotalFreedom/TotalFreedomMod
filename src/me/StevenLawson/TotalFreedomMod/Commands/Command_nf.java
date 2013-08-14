@@ -38,7 +38,7 @@ public class Command_nf extends TFM_Command
                     {
                         player = getPlayerByDisplayName(displayName);
                     }
-                    catch (PlayerNotFoundException e)
+                    catch (PlayerNotFoundException ex)
                     {
                     }
                     if (player == null)
@@ -47,7 +47,7 @@ public class Command_nf extends TFM_Command
                         {
                             player = getPlayerByDisplayNameAlt(displayName);
                         }
-                        catch (PlayerNotFoundException e)
+                        catch (PlayerNotFoundException ex)
                         {
                             sender.sendMessage(ChatColor.GRAY + "Can't find player by nickname: " + displayName);
                             return true;

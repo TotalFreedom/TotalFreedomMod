@@ -28,14 +28,14 @@ public class Command_cake extends TFM_Command
             output.append(ChatColor.COLOR_CHAR).append(color_code).append(word).append(" ");
         }
 
-        for (Player player: server.getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
             ItemStack heldItem = new ItemStack(Material.CAKE, 1);
-            player.getInventory().setItem(player.getInventory().firstEmpty(), heldItem);
-            player.awardAchievement(Achievement.MINE_WOOD);
-            player.awardAchievement(Achievement.BUILD_WORKBENCH);
-            player.awardAchievement(Achievement.BUILD_HOE);
-            player.awardAchievement(Achievement.BAKE_CAKE);
+            p.getInventory().setItem(p.getInventory().firstEmpty(), heldItem);
+            p.awardAchievement(Achievement.MINE_WOOD);
+            p.awardAchievement(Achievement.BUILD_WORKBENCH);
+            p.awardAchievement(Achievement.BUILD_HOE);
+            p.awardAchievement(Achievement.BAKE_CAKE);
         }
 
         TFM_Util.bcastMsg(output.toString());

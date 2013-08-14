@@ -22,53 +22,53 @@ public class Command_doom extends TFM_Command
             return false;
         }
 
-        final Player player;
+        final Player p;
         try
         {
-            player = getPlayer(args[0]);
+            p = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException e)
+        catch (PlayerNotFoundException ex)
         {
-            sender.sendMessage(e.getMessage());
+            sender.sendMessage(ex.getMessage());
             return true;
         }
 
-        TFM_Util.adminAction(sender.getName(), "Casting oblivion over " + player.getName(), true);
-        TFM_Util.bcastMsg(player.getName() + " will be completely obliviated!", ChatColor.RED);
+        TFM_Util.adminAction(sender.getName(), "Casting oblivion over " + p.getName(), true);
+        TFM_Util.bcastMsg(p.getName() + " will be completely obliviated!", ChatColor.RED);
 
-        final String IP = player.getAddress().getAddress().getHostAddress().trim();
+        final String IP = p.getAddress().getAddress().getHostAddress().trim();
 
         // remove from superadmin
-        if (TFM_SuperadminList.isUserSuperadmin(player))
+        if (TFM_SuperadminList.isUserSuperadmin(p))
         {
-            TFM_Util.adminAction(sender.getName(), "Removing " + player.getName() + " from the superadmin list.", true);
-            TFM_SuperadminList.removeSuperadmin(player);
+            TFM_Util.adminAction(sender.getName(), "Removing " + p.getName() + " from the superadmin list.", true);
+            TFM_SuperadminList.removeSuperadmin(p);
         }
 
         // remove from whitelist
-        player.setWhitelisted(false);
+        p.setWhitelisted(false);
 
         // deop
-        player.setOp(false);
+        p.setOp(false);
 
         // ban IP
         TFM_ServerInterface.banIP(IP, null, null, null);
 
         // ban name
-        TFM_ServerInterface.banUsername(player.getName(), null, null, null);
+        TFM_ServerInterface.banUsername(p.getName(), null, null, null);
 
         // set gamemode to survival
-        player.setGameMode(GameMode.SURVIVAL);
+        p.setGameMode(GameMode.SURVIVAL);
 
         // clear inventory
-        player.closeInventory();
-        player.getInventory().clear();
+        p.closeInventory();
+        p.getInventory().clear();
 
         // ignite player
-        player.setFireTicks(10000);
+        p.setFireTicks(10000);
 
         // generate explosion
-        player.getWorld().createExplosion(player.getLocation(), 4F);
+        p.getWorld().createExplosion(p.getLocation(), 4F);
 
         new BukkitRunnable()
         {
@@ -76,10 +76,10 @@ public class Command_doom extends TFM_Command
             public void run()
             {
                 // strike lightning
-                player.getWorld().strikeLightning(player.getLocation());
+                p.getWorld().strikeLightning(p.getLocation());
 
                 // kill (if not done already)
-                player.setHealth(0.0);
+                p.setHealth(0.0);
             }
         }.runTaskLater(plugin, 20L * 2L);
 
@@ -89,13 +89,13 @@ public class Command_doom extends TFM_Command
             public void run()
             {
                 // message
-                TFM_Util.adminAction(sender.getName(), "Banning " + player.getName() + ", IP: " + IP, true);
+                TFM_Util.adminAction(sender.getName(), "Banning " + p.getName() + ", IP: " + IP, true);
 
                 // generate explosion
-                player.getWorld().createExplosion(player.getLocation(), 4F);
+                p.getWorld().createExplosion(p.getLocation(), 4F);
 
                 // kick player
-                player.kickPlayer(ChatColor.RED + "FUCKOFF, and get your shit together!");
+                p.kickPlayer(ChatColor.RED + "FUCKOFF, and get your shit together!");
             }
         }.runTaskLater(plugin, 20L * 3L);
 

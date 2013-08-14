@@ -21,9 +21,9 @@ public class Command_cartsit extends TFM_Command
             {
                 target_player = getPlayer(args[0]);
             }
-            catch (PlayerNotFoundException e)
+            catch (PlayerNotFoundException ex)
             {
-                sender.sendMessage(e.getMessage());
+                sender.sendMessage(ex.getMessage());
                 return true;
             }
         }

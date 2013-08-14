@@ -26,21 +26,21 @@ public class Command_op extends TFM_Command
             return true;
         }
 
-        OfflinePlayer player = null;
+        OfflinePlayer p = null;
         for (Player onlinePlayer : server.getOnlinePlayers())
         {
             if (args[0].equalsIgnoreCase(onlinePlayer.getName()))
             {
-                player = onlinePlayer;
+                p = onlinePlayer;
             }
         }
 
         // if the player is not online
-        if (player == null)
+        if (p == null)
         {
             if (TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole)
             {
-                player = server.getOfflinePlayer(args[0]);
+                p = server.getOfflinePlayer(args[0]);
             }
             else
             {
@@ -50,8 +50,8 @@ public class Command_op extends TFM_Command
             }
         }
 
-        TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
-        player.setOp(true);
+        TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
+        p.setOp(true);
 
         return true;
     }

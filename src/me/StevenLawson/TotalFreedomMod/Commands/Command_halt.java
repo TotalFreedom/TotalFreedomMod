@@ -23,11 +23,11 @@ public class Command_halt extends TFM_Command
         {
             TFM_Util.adminAction(sender.getName(), "Halting all non-superadmins.", true);
             int counter = 0;
-            for (Player player: server.getOnlinePlayers())
+            for (Player p : server.getOnlinePlayers())
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(player))
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                    TFM_PlayerData.getPlayerData(player).setHalted(true);
+                    TFM_PlayerData.getPlayerData(p).setHalted(true);
                     counter++;
                 }
             }
@@ -39,10 +39,10 @@ public class Command_halt extends TFM_Command
         {
             TFM_Util.adminAction(sender.getName(), "Unhalting all players.", true);
             int counter = 0;
-            for (Player player: server.getOnlinePlayers())
+            for (Player p : server.getOnlinePlayers())
             {
-                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-                if (TFM_PlayerData.getPlayerData(player).isHalted())
+                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
+                if (TFM_PlayerData.getPlayerData(p).isHalted())
                 {
                     playerdata.setHalted(false);
                     counter++;
@@ -76,28 +76,28 @@ public class Command_halt extends TFM_Command
             return true;
         }
 
-        Player player;
+        Player p;
         try
         {
-            player = getPlayer(args[0]);
+            p = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException e)
+        catch (PlayerNotFoundException ex)
         {
-            sender.sendMessage(e.getMessage());
+            sender.sendMessage(ex.getMessage());
             return true;
         }
 
 
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
         if (!playerdata.isHalted())
         {
-            TFM_Util.adminAction(sender.getName(), "Halting " + player.getName(), true);
+            TFM_Util.adminAction(sender.getName(), "Halting " + p.getName(), true);
             playerdata.setHalted(true);
             return true;
         }
         else
         {
-            TFM_Util.adminAction(sender.getName(), "Unhalting " + player.getName(), true);
+            TFM_Util.adminAction(sender.getName(), "Unhalting " + p.getName(), true);
             playerdata.setHalted(false);
             return true;
         }

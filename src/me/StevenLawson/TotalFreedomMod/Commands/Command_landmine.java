@@ -34,7 +34,7 @@ public class Command_landmine extends TFM_Command
                 {
                     radius = Math.max(2.0, Math.min(6.0, Double.parseDouble(args[0])));
                 }
-                catch (NumberFormatException e)
+                catch (NumberFormatException ex)
                 {
                 }
             }

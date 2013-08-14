@@ -19,18 +19,18 @@ public class Command_findip extends TFM_Command
             return false;
         }
 
-        final Player player;
+        final Player p;
         try
         {
-            player = getPlayer(args[0]);
+            p = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException e)
+        catch (PlayerNotFoundException ex)
         {
-            playerMsg(e.getMessage());
+            playerMsg(ex.getMessage());
             return true;
         }
 
-        playerMsg("Player IPs: " + StringUtils.join(TFM_UserList.getInstance(TotalFreedomMod.plugin).getEntry(player).getIpAddresses(), ", "));
+        playerMsg("Player IPs: " + StringUtils.join(TFM_UserList.getInstance(TotalFreedomMod.plugin).getEntry(p).getIpAddresses(), ", "));
 
         return true;
     }

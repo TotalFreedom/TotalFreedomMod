@@ -139,9 +139,9 @@ public class TotalFreedomMod extends JavaPlugin
             Metrics metrics = new Metrics(plugin);
             metrics.start();
         }
-        catch (IOException e)
+        catch (IOException ex)
         {
-            TFM_Log.warning("Failed to submit metrics data: " + e.getMessage());
+            TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
 
         TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
@@ -198,9 +198,9 @@ public class TotalFreedomMod extends JavaPlugin
                 dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, cmd.getName().toLowerCase())).newInstance();
                 dispatcher.setup(this, sender, dispatcher.getClass());
             }
-            catch (Throwable e)
+            catch (Throwable ex)
             {
-                TFM_Log.severe("Command not loaded: " + cmd.getName() + "\n" + ExceptionUtils.getStackTrace(e));
+                TFM_Log.severe("Command not loaded: " + cmd.getName() + "\n" + ExceptionUtils.getStackTrace(ex));
                 sender.sendMessage(ChatColor.RED + "Command Error: Command not loaded: " + cmd.getName());
                 return true;
             }
@@ -216,15 +216,15 @@ public class TotalFreedomMod extends JavaPlugin
                     sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                 }
             }
-            catch (Throwable e)
+            catch (Throwable ex)
             {
-                TFM_Log.severe("Command Error: " + commandLabel + "\n" + ExceptionUtils.getStackTrace(e));
+                TFM_Log.severe("Command Error: " + commandLabel + "\n" + ExceptionUtils.getStackTrace(ex));
             }
 
         }
-        catch (Throwable e)
+        catch (Throwable ex)
         {
-            TFM_Log.severe("Command Error: " + commandLabel + "\n" + ExceptionUtils.getStackTrace(e));
+            TFM_Log.severe("Command Error: " + commandLabel + "\n" + ExceptionUtils.getStackTrace(ex));
             sender.sendMessage(ChatColor.RED + "Unknown Command Error.");
         }
 
@@ -324,9 +324,9 @@ public class TotalFreedomMod extends JavaPlugin
             logsRegisterURL = config.getString("logs_register_url", logsRegisterURL);
             serviceCheckerURL = config.getString("service_checker_url", serviceCheckerURL);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe("Error loading main config: " + e.getMessage());
+            TFM_Log.severe("Error loading main config: " + ex.getMessage());
         }
     }
 
@@ -337,9 +337,9 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_SuperadminList.backupSavedList();
             TFM_SuperadminList.loadSuperadminList();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe("Error loading superadmin list: " + e.getMessage());
+            TFM_Log.severe("Error loading superadmin list: " + ex.getMessage());
         }
     }
     //
@@ -371,9 +371,9 @@ public class TotalFreedomMod extends JavaPlugin
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe("Error loading permban list: " + e.getMessage());
+            TFM_Log.severe("Error loading permban list: " + ex.getMessage());
         }
     }
 
@@ -403,9 +403,9 @@ public class TotalFreedomMod extends JavaPlugin
             TotalFreedomMod.buildNumber = props.getProperty("program.BUILDNUM");
             TotalFreedomMod.buildDate = props.getProperty("program.BUILDDATE");
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 }

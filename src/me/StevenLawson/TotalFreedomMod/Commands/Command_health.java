@@ -51,9 +51,9 @@ public class Command_health extends TFM_Command
                         }
                     }.runTask(plugin);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    TFM_Log.severe(e);
+                    TFM_Log.severe(ex);
                 }
             }
         }.runTaskAsynchronously(plugin);

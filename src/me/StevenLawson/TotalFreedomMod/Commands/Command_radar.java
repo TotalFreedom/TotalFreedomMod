@@ -21,15 +21,15 @@ public class Command_radar extends TFM_Command
 
         List<TFM_RadarData> radar_data = new ArrayList<TFM_RadarData>();
 
-        for (Player player : sender_pos.getWorld().getPlayers())
+        for (Player p : sender_pos.getWorld().getPlayers())
         {
-            if (!player.equals(sender_p))
+            if (!p.equals(sender_p))
             {
                 try
                 {
-                    radar_data.add(new TFM_RadarData(player, sender_pos.distance(player.getLocation()), player.getLocation()));
+                    radar_data.add(new TFM_RadarData(p, sender_pos.distance(p.getLocation()), p.getLocation()));
                 }
-                catch (IllegalArgumentException e)
+                catch (IllegalArgumentException ex)
                 {
                 }
             }

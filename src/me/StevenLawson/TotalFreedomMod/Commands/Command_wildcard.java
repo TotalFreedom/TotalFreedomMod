@@ -36,9 +36,9 @@ public class Command_wildcard extends TFM_Command
 
         String base_command = StringUtils.join(args, " ");
 
-        for (Player player: server.getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
-            String out_command = base_command.replaceAll("\\x3f", player.getName());
+            String out_command = base_command.replaceAll("\\x3f", p.getName());
             playerMsg("Running Command: " + out_command);
             server.dispatchCommand(sender, out_command);
         }

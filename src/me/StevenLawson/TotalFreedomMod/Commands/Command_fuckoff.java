@@ -30,7 +30,7 @@ public class Command_fuckoff extends TFM_Command
                 {
                     fuckoff_range = Math.max(5.0, Math.min(100.0, Double.parseDouble(args[1])));
                 }
-                catch (NumberFormatException e)
+                catch (NumberFormatException ex)
                 {
                 }
             }

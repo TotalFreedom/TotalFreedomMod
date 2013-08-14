@@ -25,14 +25,14 @@ public class Command_gtfo extends TFM_Command
             return false;
         }
 
-        Player player;
+        Player p;
         try
         {
-            player = getPlayer(args[0]);
+            p = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException e)
+        catch (PlayerNotFoundException ex)
         {
-            playerMsg(e.getMessage(), ChatColor.RED);
+            playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
 
@@ -42,25 +42,25 @@ public class Command_gtfo extends TFM_Command
             ban_reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         }
 
-        TFM_Util.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
+        TFM_Util.bcastMsg(p.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
 
         // Undo WorldEdits:
-        TFM_WorldEditBridge.getInstance().undo(player, 15);
+        TFM_WorldEditBridge.getInstance().undo(p, 15);
 
         // rollback
-        TFM_RollbackManager.rollback(player.getName());
+        TFM_RollbackManager.rollback(p.getName());
 
         // deop
-        player.setOp(false);
+        p.setOp(false);
 
         // set gamemode to survival:
-        player.setGameMode(GameMode.SURVIVAL);
+        p.setGameMode(GameMode.SURVIVAL);
 
         // clear inventory:
-        player.getInventory().clear();
+        p.getInventory().clear();
 
         // strike with lightning effect:
-        final Location target_pos = player.getLocation();
+        final Location target_pos = p.getLocation();
         for (int x = -1; x <= 1; x++)
         {
             for (int z = -1; z <= 1; z++)
@@ -71,20 +71,20 @@ public class Command_gtfo extends TFM_Command
         }
 
         // ban IP address:
-        String user_ip = player.getAddress().getAddress().getHostAddress();
+        String user_ip = p.getAddress().getAddress().getHostAddress();
         String[] ip_parts = user_ip.split("\\.");
         if (ip_parts.length == 4)
         {
             user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
         }
-        TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", player.getName(), user_ip), ChatColor.RED);
+        TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", p.getName(), user_ip), ChatColor.RED);
         TFM_ServerInterface.banIP(user_ip, ban_reason, null, null);
 
         // ban username:
-        TFM_ServerInterface.banUsername(player.getName(), ban_reason, null, null);
+        TFM_ServerInterface.banUsername(p.getName(), ban_reason, null, null);
 
         // kick Player:
-        player.kickPlayer(ChatColor.RED + "GTFO" + (ban_reason != null ? ("\nReason: " + ChatColor.YELLOW + ban_reason) : ""));
+        p.kickPlayer(ChatColor.RED + "GTFO" + (ban_reason != null ? ("\nReason: " + ChatColor.YELLOW + ban_reason) : ""));
 
         return true;
     }

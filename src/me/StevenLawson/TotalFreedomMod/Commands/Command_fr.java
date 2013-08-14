@@ -62,9 +62,9 @@ public class Command_fr extends TFM_Command
                     TotalFreedomMod.freezePurgeTask.cancel();
                 }
 
-                for (Player player: server.getOnlinePlayers())
+                for (Player p : server.getOnlinePlayers())
                 {
-                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
                     playerdata.setFrozen(false);
                 }
 
@@ -72,22 +72,22 @@ public class Command_fr extends TFM_Command
             }
             else
             {
-                Player player;
+                Player p;
                 try
                 {
-                    player = getPlayer(args[0]);
+                    p = getPlayer(args[0]);
                 }
-                catch (PlayerNotFoundException e)
+                catch (PlayerNotFoundException ex)
                 {
-                    playerMsg(e.getMessage(), ChatColor.RED);
+                    playerMsg(ex.getMessage(), ChatColor.RED);
                     return true;
                 }
 
-                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
                 playerdata.setFrozen(!playerdata.isFrozen());
 
-                playerMsg(player.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
-                playerMsg(player, "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".", ChatColor.AQUA);
+                playerMsg(p.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                playerMsg(p, "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".", ChatColor.AQUA);
             }
         }
 

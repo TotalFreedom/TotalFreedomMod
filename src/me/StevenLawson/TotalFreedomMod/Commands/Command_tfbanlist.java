@@ -29,9 +29,9 @@ public class Command_tfbanlist extends TFM_Command
                         TFM_ServerInterface.wipeNameBans();
                         sender.sendMessage(ChatColor.GRAY + "Ban list has been purged.");
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        TFM_Log.severe(e);
+                        TFM_Log.severe(ex);
                     }
 
                     return true;
@@ -46,14 +46,14 @@ public class Command_tfbanlist extends TFM_Command
         StringBuilder banned_players = new StringBuilder();
         banned_players.append("Banned Players: ");
         boolean first = true;
-        for (OfflinePlayer player: server.getBannedPlayers())
+        for (OfflinePlayer p : server.getBannedPlayers())
         {
             if (!first)
             {
                 banned_players.append(", ");
             }
             first = false;
-            banned_players.append(player.getName().trim());
+            banned_players.append(p.getName().trim());
         }
 
         playerMsg(banned_players.toString());

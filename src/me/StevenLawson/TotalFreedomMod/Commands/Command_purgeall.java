@@ -24,9 +24,9 @@ public class Command_purgeall extends TFM_Command
         // Undisguise all players
         TFM_DisguiseCraftBridge.undisguiseAllPlayers();
 
-        for (Player player: server.getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
-            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
             // Unmute all players
             if (playerdata.isMuted())
@@ -59,9 +59,9 @@ public class Command_purgeall extends TFM_Command
             }
 
             // Purge potion effects
-            for (PotionEffect potion_effect : player.getActivePotionEffects())
+            for (PotionEffect potion_effect : p.getActivePotionEffects())
             {
-                player.removePotionEffect(potion_effect.getType());
+                p.removePotionEffect(potion_effect.getType());
             }
 
             // Uncage

@@ -35,14 +35,14 @@ public class Command_tag extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Removing all tags", false);
                 int count = 0;
-                for (Player player: server.getOnlinePlayers())
+                for (Player p : server.getOnlinePlayers())
                 {
-                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
                     if (playerdata.getTag() != null)
                     {
                         count++;
-                        TFM_PlayerData.getPlayerData(player).setTag(null);
+                        TFM_PlayerData.getPlayerData(p).setTag(null);
                     }
                 }
 
@@ -104,19 +104,19 @@ public class Command_tag extends TFM_Command
                     return true;
                 }
 
-                final Player player;
+                final Player p;
                 try
                 {
-                    player = getPlayer(args[1]);
+                    p = getPlayer(args[1]);
                 }
-                catch (PlayerNotFoundException e)
+                catch (PlayerNotFoundException ex)
                 {
-                    playerMsg(e.getMessage());
+                    playerMsg(ex.getMessage());
                     return true;
                 }
 
-                TFM_PlayerData.getPlayerData(player).setTag(null);
-                playerMsg("Removed " + player.getName() + "'s tag.");
+                TFM_PlayerData.getPlayerData(p).setTag(null);
+                playerMsg("Removed " + p.getName() + "'s tag.");
                 return true;
             }
 

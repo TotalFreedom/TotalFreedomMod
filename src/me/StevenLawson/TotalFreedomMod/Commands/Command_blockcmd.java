@@ -23,9 +23,9 @@ public class Command_blockcmd extends TFM_Command
         {
             TFM_Util.adminAction(sender.getName(), "Unblocking commands for all players", true);
             int counter = 0;
-            for (Player player: server.getOnlinePlayers())
+            for (Player p : server.getOnlinePlayers())
             {
-                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
                 if (playerdata.allCommandsBlocked())
                 {
                     counter += 1;
@@ -36,28 +36,28 @@ public class Command_blockcmd extends TFM_Command
             return true;
         }
 
-        Player player;
+        Player p;
         try
         {
-            player = getPlayer(args[0]);
+            p = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException e)
+        catch (PlayerNotFoundException ex)
         {
-            playerMsg(e.getMessage());
+            playerMsg(ex.getMessage());
             return true;
         }
 
-        if (TFM_SuperadminList.isUserSuperadmin(player))
+        if (TFM_SuperadminList.isUserSuperadmin(p))
         {
-            playerMsg(player.getName() + " is a Superadmin, and cannot have their commands blocked.");
+            playerMsg(p.getName() + " is a Superadmin, and cannot have their commands blocked.");
             return true;
         }
 
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         playerdata.setCommandsBlocked(!playerdata.allCommandsBlocked());
 
-        TFM_Util.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all commands for " + player.getName(), true);
+        TFM_Util.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all commands for " + p.getName(), true);
         playerMsg((playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
 
         return true;

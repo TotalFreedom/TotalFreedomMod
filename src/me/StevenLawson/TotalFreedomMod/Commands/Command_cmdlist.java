@@ -21,11 +21,11 @@ public class Command_cmdlist extends TFM_Command
     {
         List<String> commands = new ArrayList<String>();
 
-        for (Plugin target_plugin : server.getPluginManager().getPlugins())
+        for (Plugin p : server.getPluginManager().getPlugins())
         {
             try
             {
-                PluginDescriptionFile desc = target_plugin.getDescription();
+                PluginDescriptionFile desc = p.getDescription();
                 Map<String, Map<String, Object>> map = (Map<String, Map<String, Object>>) desc.getCommands();
 
                 if (map != null)
@@ -37,7 +37,7 @@ public class Command_cmdlist extends TFM_Command
                     }
                 }
             }
-            catch (Throwable e)
+            catch (Throwable ex)
             {
             }
         }

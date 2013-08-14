@@ -15,10 +15,10 @@ public class Command_deopall extends TFM_Command
     {
         TFM_Util.adminAction(sender.getName(), "De-opping all players on the server", true);
 
-        for (Player player: server.getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
-            player.setOp(false);
-            player.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+            p.setOp(false);
+            p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
         }
 
         return true;

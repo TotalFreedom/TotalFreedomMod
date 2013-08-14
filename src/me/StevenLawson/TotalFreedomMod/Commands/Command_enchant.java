@@ -68,7 +68,7 @@ public class Command_enchant extends TFM_Command
                         itemInHand.addEnchantment(ench, ench.getMaxLevel());
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
                     TFM_Log.info("Error using " + ench.getName() + " on " + itemInHand.getType().name() + " held by " + sender_p.getName() + ".");
                 }
@@ -98,7 +98,7 @@ public class Command_enchant extends TFM_Command
             {
                 ench = Enchantment.getByName(args[1]);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
             }
 

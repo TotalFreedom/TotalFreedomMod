@@ -68,7 +68,7 @@ public class Command_jumppads extends TFM_Command
                 {
                     strength = Float.parseFloat(args[1]);
                 }
-                catch (NumberFormatException e)
+                catch (NumberFormatException ex)
                 {
                     playerMsg("Invalid Strength");
                     return true;

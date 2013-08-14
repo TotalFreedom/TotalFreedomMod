@@ -25,9 +25,9 @@ public class Command_list extends TFM_Command
         if (TFM_Util.isFromHostConsole(sender.getName()))
         {
             List<String> player_names = new ArrayList<String>();
-            for (Player player: server.getOnlinePlayers())
+            for (Player p : server.getOnlinePlayers())
             {
-                player_names.add(player.getName());
+                player_names.add(p.getName());
             }
             playerMsg("There are " + player_names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(player_names, ", "), ChatColor.WHITE);
             return true;
@@ -50,9 +50,9 @@ public class Command_list extends TFM_Command
         onlineStats.append(ChatColor.BLUE).append(" players online.");
 
         List<String> player_names = new ArrayList<String>();
-        for (Player player: server.getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
-            boolean userSuperadmin = TFM_SuperadminList.isUserSuperadmin(player);
+            boolean userSuperadmin = TFM_SuperadminList.isUserSuperadmin(p);
 
             if (listFilter == ListFilter.SHOW_ADMINS && !userSuperadmin)
             {
@@ -63,7 +63,7 @@ public class Command_list extends TFM_Command
 
             if (userSuperadmin)
             {
-                if (TFM_SuperadminList.isSeniorAdmin(player))
+                if (TFM_SuperadminList.isSeniorAdmin(p))
                 {
                     prefix = (ChatColor.LIGHT_PURPLE + "[SrA]");
                 }
@@ -72,25 +72,25 @@ public class Command_list extends TFM_Command
                     prefix = (ChatColor.GOLD + "[SA]");
                 }
 
-                if (TFM_Util.DEVELOPERS.contains(player.getName()))
+                if (TFM_Util.DEVELOPERS.contains(p.getName()))
                 {
                     prefix = (ChatColor.DARK_PURPLE + "[Dev]");
                 }
 
-                if (player.getName().equals("markbyron"))
+                if (p.getName().equals("markbyron"))
                 {
                     prefix = (ChatColor.BLUE + "[Owner]");
                 }
             }
             else
             {
-                if (player.isOp())
+                if (p.isOp())
                 {
                     prefix = (ChatColor.RED + "[OP]");
                 }
             }
 
-            player_names.add(prefix + player.getName() + ChatColor.WHITE);
+            player_names.add(prefix + p.getName() + ChatColor.WHITE);
         }
 
         onlineUsers.append("Connected ").append(listFilter == ListFilter.SHOW_ADMINS ? "admins" : "players").append(": ").append(StringUtils.join(player_names, ", "));

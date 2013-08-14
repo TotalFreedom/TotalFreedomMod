@@ -70,9 +70,9 @@ public class TFM_SuperadminList
 
             updateIndexLists();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 
@@ -153,9 +153,9 @@ public class TFM_SuperadminList
 
             config.save(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 
@@ -173,9 +173,9 @@ public class TFM_SuperadminList
         }
     }
 
-    public static TFM_Superadmin getAdminEntry(Player player)
+    public static TFM_Superadmin getAdminEntry(Player p)
     {
-        return getAdminEntry(player.getName().toLowerCase());
+        return getAdminEntry(p.getName().toLowerCase());
     }
 
     public static TFM_Superadmin getAdminEntryByIP(String ip)
@@ -193,9 +193,9 @@ public class TFM_SuperadminList
         return null;
     }
 
-    public static void updateLastLogin(Player player)
+    public static void updateLastLogin(Player p)
     {
-        TFM_Superadmin admin_entry = getAdminEntry(player);
+        TFM_Superadmin admin_entry = getAdminEntry(p);
         if (admin_entry != null)
         {
             admin_entry.setLastLogin(new Date());
@@ -260,7 +260,7 @@ public class TFM_SuperadminList
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
             return false;
         }
@@ -309,9 +309,9 @@ public class TFM_SuperadminList
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
 
         return false;
@@ -324,11 +324,11 @@ public class TFM_SuperadminList
             return false;
         }
 
-        Player player = (Player) user;
+        Player p = (Player) user;
 
-        if (superadminNames.contains(player.getName().toLowerCase()))
+        if (superadminNames.contains(p.getName().toLowerCase()))
         {
-            return !isUserSuperadmin(player);
+            return !isUserSuperadmin(p);
         }
 
         return false;
@@ -360,16 +360,16 @@ public class TFM_SuperadminList
 
             saveSuperadminList();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 
-    public static void addSuperadmin(Player player)
+    public static void addSuperadmin(Player p)
     {
-        String admin_name = player.getName().toLowerCase();
-        List<String> ips = Arrays.asList(player.getAddress().getAddress().getHostAddress());
+        String admin_name = p.getName().toLowerCase();
+        List<String> ips = Arrays.asList(p.getAddress().getAddress().getHostAddress());
 
         addSuperadmin(admin_name, ips);
     }
@@ -393,15 +393,15 @@ public class TFM_SuperadminList
                 saveSuperadminList();
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 
-    public static void removeSuperadmin(Player player)
+    public static void removeSuperadmin(Player p)
     {
-        removeSuperadmin(player.getName());
+        removeSuperadmin(p.getName());
     }
 
     public static void cleanSuperadminList(boolean verbose)
@@ -433,9 +433,9 @@ public class TFM_SuperadminList
             }
             saveSuperadminList();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 

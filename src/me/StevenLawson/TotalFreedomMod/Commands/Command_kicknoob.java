@@ -16,11 +16,11 @@ public class Command_kicknoob extends TFM_Command
     {
         TFM_Util.adminAction(sender.getName(), "Disconnecting all non-superadmins.", true);
 
-        for (Player player: server.getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
-            if (!TFM_SuperadminList.isUserSuperadmin(player))
+            if (!TFM_SuperadminList.isUserSuperadmin(p))
             {
-                player.kickPlayer(ChatColor.RED + "Disconnected by admin.");
+                p.kickPlayer(ChatColor.RED + "Disconnected by admin.");
             }
         }
 

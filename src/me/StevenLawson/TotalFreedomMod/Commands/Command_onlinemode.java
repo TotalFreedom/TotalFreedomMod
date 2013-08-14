@@ -43,9 +43,9 @@ public class Command_onlinemode extends TFM_Command
 
                 if (online_mode)
                 {
-                    for (Player player: server.getOnlinePlayers())
+                    for (Player p : server.getOnlinePlayers())
                     {
-                        player.kickPlayer("Server is activating \"online-mode=true\". Please reconnect.");
+                        p.kickPlayer("Server is activating \"online-mode=true\". Please reconnect.");
                     }
                 }
 
@@ -53,9 +53,9 @@ public class Command_onlinemode extends TFM_Command
 
                 server.reload();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                TFM_Log.severe(e);
+                TFM_Log.severe(ex);
             }
         }
 

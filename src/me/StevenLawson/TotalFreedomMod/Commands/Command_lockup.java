@@ -21,18 +21,18 @@ public class Command_lockup extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), "Locking up all players", true);
 
-                for (Player player: server.getOnlinePlayers())
+                for (Player p : server.getOnlinePlayers())
                 {
-                    startLockup(player);
+                    startLockup(p);
                 }
                 playerMsg("Locked up all players.");
             }
             else if (args[0].equalsIgnoreCase("purge"))
             {
                 TFM_Util.adminAction(sender.getName(), "Unlocking all players", true);
-                for (Player player: server.getOnlinePlayers())
+                for (Player p : server.getOnlinePlayers())
                 {
-                    cancelLockup(player);
+                    cancelLockup(p);
                 }
 
                 playerMsg("Unlocked all players.");
@@ -46,37 +46,37 @@ public class Command_lockup extends TFM_Command
         {
             if (args[1].equalsIgnoreCase("on"))
             {
-                final Player player;
+                final Player p;
                 try
                 {
-                    player = getPlayer(args[0]);
+                    p = getPlayer(args[0]);
                 }
-                catch (PlayerNotFoundException e)
+                catch (PlayerNotFoundException ex)
                 {
-                    sender.sendMessage(e.getMessage());
+                    sender.sendMessage(ex.getMessage());
                     return true;
                 }
 
-                TFM_Util.adminAction(sender.getName(), "Locking up " + player.getName(), true);
-                startLockup(player);
-                playerMsg("Locked up " + player.getName() + ".");
+                TFM_Util.adminAction(sender.getName(), "Locking up " + p.getName(), true);
+                startLockup(p);
+                playerMsg("Locked up " + p.getName() + ".");
             }
             else if (TFM_Util.isStopCommand(args[1]))
             {
-                final Player player;
+                final Player p;
                 try
                 {
-                    player = getPlayer(args[0]);
+                    p = getPlayer(args[0]);
                 }
-                catch (PlayerNotFoundException e)
+                catch (PlayerNotFoundException ex)
                 {
-                    sender.sendMessage(e.getMessage());
+                    sender.sendMessage(ex.getMessage());
                     return true;
                 }
 
-                TFM_Util.adminAction(sender.getName(), "Unlocking " + player.getName(), true);
-                cancelLockup(player);
-                playerMsg("Unlocked " + player.getName() + ".");
+                TFM_Util.adminAction(sender.getName(), "Unlocking " + p.getName(), true);
+                cancelLockup(p);
+                playerMsg("Unlocked " + p.getName() + ".");
             }
             else
             {
@@ -101,14 +101,14 @@ public class Command_lockup extends TFM_Command
         }
     }
 
-    private void cancelLockup(final Player player)
+    private void cancelLockup(final Player p)
     {
-        cancelLockup(TFM_PlayerData.getPlayerData(player));
+        cancelLockup(TFM_PlayerData.getPlayerData(p));
     }
 
-    private void startLockup(final Player player)
+    private void startLockup(final Player p)
     {
-        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         cancelLockup(playerdata);
 
@@ -117,9 +117,9 @@ public class Command_lockup extends TFM_Command
             @Override
             public void run()
             {
-                if (player.isOnline())
+                if (p.isOnline())
                 {
-                    player.openInventory(player.getInventory());
+                    p.openInventory(p.getInventory());
                 }
                 else
                 {

@@ -30,56 +30,56 @@ public class TFM_WorldEditBridge
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                TFM_Log.severe(e);
+                TFM_Log.severe(ex);
             }
         }
         return this.worldEditPlugin;
     }
 
-    public BukkitPlayer getBukkitPlayer(Player player)
+    public BukkitPlayer getBukkitPlayer(Player p)
     {
         try
         {
             WorldEditPlugin wep = this.getWorldEditPlugin();
             if (wep != null)
             {
-                return wep.wrapPlayer(player);
+                return wep.wrapPlayer(p);
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
         return null;
     }
 
-    public LocalSession getPlayerSession(Player player)
+    public LocalSession getPlayerSession(Player p)
     {
         try
         {
             WorldEditPlugin wep = this.getWorldEditPlugin();
             if (wep != null)
             {
-                return wep.getSession(player);
+                return wep.getSession(p);
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
         return null;
     }
 
-    public void undo(Player player, int count)
+    public void undo(Player p, int count)
     {
         try
         {
-            LocalSession session = getPlayerSession(player);
+            LocalSession session = getPlayerSession(p);
             if (session != null)
             {
-                BukkitPlayer bukkitPlayer = this.getBukkitPlayer(player);
+                BukkitPlayer bukkitPlayer = this.getBukkitPlayer(p);
                 if (bukkitPlayer != null)
                 {
                     for (int i = 0; i < count; i++)
@@ -89,25 +89,25 @@ public class TFM_WorldEditBridge
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 
-    public void setLimit(Player player, int limit)
+    public void setLimit(Player p, int limit)
     {
         try
         {
-            LocalSession session = getPlayerSession(player);
+            LocalSession session = getPlayerSession(p);
             if (session != null)
             {
                 session.setBlockChangeLimit(limit);
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 

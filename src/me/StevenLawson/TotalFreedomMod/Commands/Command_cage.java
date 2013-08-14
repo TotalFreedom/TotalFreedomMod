@@ -21,18 +21,18 @@ public class Command_cage extends TFM_Command
             return false;
         }
 
-        Player player;
+        Player p;
         try
         {
-            player = getPlayer(args[0]);
+            p = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException e)
+        catch (PlayerNotFoundException ex)
         {
-            sender.sendMessage(e.getMessage());
+            sender.sendMessage(ex.getMessage());
             return true;
         }
 
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         Material cage_material_outer = Material.GLASS;
         Material cage_material_inner = Material.AIR;
@@ -40,7 +40,7 @@ public class Command_cage extends TFM_Command
         {
             if (TFM_Util.isStopCommand(args[1]))
             {
-                TFM_Util.adminAction(sender.getName(), "Uncaging " + player.getName() + ".", true);
+                TFM_Util.adminAction(sender.getName(), "Uncaging " + p.getName() + ".", true);
 
                 playerdata.setCaged(false);
                 playerdata.regenerateHistory();
@@ -70,7 +70,7 @@ public class Command_cage extends TFM_Command
             }
         }
 
-        Location target_pos = player.getLocation().add(0, 1, 0);
+        Location target_pos = p.getLocation().add(0, 1, 0);
         playerdata.setCaged(true, target_pos, cage_material_outer, cage_material_inner);
         playerdata.regenerateHistory();
         playerdata.clearHistory();
@@ -78,9 +78,9 @@ public class Command_cage extends TFM_Command
         TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
         TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
 
-        player.setGameMode(GameMode.SURVIVAL);
+        p.setGameMode(GameMode.SURVIVAL);
 
-        TFM_Util.adminAction(sender.getName(), "Caging " + player.getName() + ".", true);
+        TFM_Util.adminAction(sender.getName(), "Caging " + p.getName() + ".", true);
 
         return true;
     }

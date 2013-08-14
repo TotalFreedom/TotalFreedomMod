@@ -21,18 +21,18 @@ public class Command_orbit extends TFM_Command
             return false;
         }
 
-        Player player;
+        Player p;
         try
         {
-            player = getPlayer(args[0]);
+            p = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException e)
+        catch (PlayerNotFoundException ex)
         {
-            playerMsg(e.getMessage(), ChatColor.RED);
+            playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
 
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
 
         double strength = 10.0;
 
@@ -40,7 +40,7 @@ public class Command_orbit extends TFM_Command
         {
             if (TFM_Util.isStopCommand(args[1]))
             {
-                playerMsg("Stopped orbiting " + player.getName());
+                playerMsg("Stopped orbiting " + p.getName());
                 playerdata.stopOrbiting();
                 return true;
             }
@@ -49,18 +49,18 @@ public class Command_orbit extends TFM_Command
             {
                 strength = Math.max(1.0, Math.min(150.0, Double.parseDouble(args[1])));
             }
-            catch (NumberFormatException e)
+            catch (NumberFormatException ex)
             {
-                playerMsg(e.getMessage(), ChatColor.RED);
+                playerMsg(ex.getMessage(), ChatColor.RED);
                 return true;
             }
         }
 
-        player.setGameMode(GameMode.SURVIVAL);
+        p.setGameMode(GameMode.SURVIVAL);
         playerdata.startOrbiting(strength);
 
-        player.setVelocity(new Vector(0, strength, 0));
-        TFM_Util.adminAction(sender.getName(), "Orbiting " + player.getName() + ".", false);
+        p.setVelocity(new Vector(0, strength, 0));
+        TFM_Util.adminAction(sender.getName(), "Orbiting " + p.getName() + ".", false);
 
         return true;
     }

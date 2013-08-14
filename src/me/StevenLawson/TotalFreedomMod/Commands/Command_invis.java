@@ -33,14 +33,14 @@ public class Command_invis extends TFM_Command
         List<String> players = new ArrayList<String>();
         int smites = 0;
 
-        for (Player player: server.getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
-            if (player.hasPotionEffect(PotionEffectType.INVISIBILITY))
+            if (p.hasPotionEffect(PotionEffectType.INVISIBILITY))
             {
-                players.add(player.getName());
-                if (smite && !TFM_SuperadminList.isUserSuperadmin(player))
+                players.add(p.getName());
+                if (smite && !TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                    Command_smite.smite(player);
+                    Command_smite.smite(p);
                     smites++;
                 }
             }

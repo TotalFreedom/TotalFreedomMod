@@ -158,25 +158,25 @@ public class TFM_ServerListener implements Listener
         }
 
         @Override
-        public PermissionAttachment addAttachment(Plugin target_plugin, String name, boolean value)
+        public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value)
         {
             return null;
         }
 
         @Override
-        public PermissionAttachment addAttachment(Plugin target_plugin)
+        public PermissionAttachment addAttachment(Plugin plugin)
         {
             return null;
         }
 
         @Override
-        public PermissionAttachment addAttachment(Plugin target_plugin, String name, boolean value, int ticks)
+        public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks)
         {
             return null;
         }
 
         @Override
-        public PermissionAttachment addAttachment(Plugin target_plugin, int ticks)
+        public PermissionAttachment addAttachment(Plugin plugin, int ticks)
         {
             return null;
         }

@@ -66,11 +66,11 @@ public class Command_stfu extends TFM_Command
 
             TFM_PlayerData playerdata;
             int counter = 0;
-            for (Player player: server.getOnlinePlayers())
+            for (Player p : server.getOnlinePlayers())
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(player))
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                    playerdata = TFM_PlayerData.getPlayerData(player);
+                    playerdata = TFM_PlayerData.getPlayerData(p);
                     playerdata.setMuted(true);
                     counter++;
                 }
@@ -87,9 +87,9 @@ public class Command_stfu extends TFM_Command
                 public void run()
                 {
                     TFM_Util.adminAction("MuteTimer", "Unmuting all players", false);
-                    for (Player player: server.getOnlinePlayers())
+                    for (Player p : server.getOnlinePlayers())
                     {
-                        TFM_PlayerData.getPlayerData(player).setMuted(false);
+                        TFM_PlayerData.getPlayerData(p).setMuted(false);
                     }
                 }
             }.runTaskLater(plugin, 20L * 60L * 5L);
@@ -98,35 +98,35 @@ public class Command_stfu extends TFM_Command
         }
         else
         {
-            Player player;
+            Player p;
             try
             {
-                player = getPlayer(args[0]);
+                p = getPlayer(args[0]);
             }
-            catch (PlayerNotFoundException e)
+            catch (PlayerNotFoundException ex)
             {
-                sender.sendMessage(e.getMessage());
+                sender.sendMessage(ex.getMessage());
                 return true;
             }
 
-            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
             if (playerdata.isMuted())
             {
-                TFM_Util.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
+                TFM_Util.adminAction(sender.getName(), "Unmuting " + p.getName(), true);
                 playerdata.setMuted(false);
-                playerMsg("Unmuted " + player.getName());
+                playerMsg("Unmuted " + p.getName());
             }
             else
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(player))
+                if (!TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
+                    TFM_Util.adminAction(sender.getName(), "Muting " + p.getName(), true);
                     playerdata.setMuted(true);
-                    playerMsg("Muted " + player.getName());
+                    playerMsg("Muted " + p.getName());
                 }
                 else
                 {
-                    playerMsg(player.getName() + " is a superadmin, and can't be muted.");
+                    playerMsg(p.getName() + " is a superadmin, and can't be muted.");
                 }
             }
         }

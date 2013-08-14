@@ -34,9 +34,9 @@ public class Command_debug extends TFM_Command
 
             sender.sendMessage("Debug: OK");
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            sender.sendMessage(e.getMessage());
+            sender.sendMessage(ex.getMessage());
         }
 
         return true;

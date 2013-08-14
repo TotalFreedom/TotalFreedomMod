@@ -57,9 +57,9 @@ public class Command_tfupdate extends TFM_Command
 
                         TFM_Util.downloadFile(url, file, true);
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        TFM_Log.severe(e);
+                        TFM_Log.severe(ex);
                     }
                 }
             }.runTaskAsynchronously(plugin);

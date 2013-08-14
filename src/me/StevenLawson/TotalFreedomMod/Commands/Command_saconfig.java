@@ -66,7 +66,7 @@ public class Command_saconfig extends TFM_Command
                     {
                         superadmin = TFM_SuperadminList.getAdminEntry(getPlayer(args[1]).getName().toLowerCase());
                     }
-                    catch (PlayerNotFoundException e)
+                    catch (PlayerNotFoundException ex)
                     {
                     }
                 }
@@ -91,14 +91,14 @@ public class Command_saconfig extends TFM_Command
 
             if (args[0].equalsIgnoreCase("add"))
             {
-                Player player = null;
+                Player p = null;
                 String admin_name = null;
 
                 try
                 {
-                    player = getPlayer(args[1]);
+                    p = getPlayer(args[1]);
                 }
-                catch (PlayerNotFoundException e)
+                catch (PlayerNotFoundException ex)
                 {
                     TFM_Superadmin superadmin = TFM_SuperadminList.getAdminEntry(args[1].toLowerCase());
                     if (superadmin != null)
@@ -107,15 +107,15 @@ public class Command_saconfig extends TFM_Command
                     }
                     else
                     {
-                        playerMsg(e.getMessage(), ChatColor.RED);
+                        playerMsg(ex.getMessage(), ChatColor.RED);
                         return true;
                     }
                 }
 
-                if (player != null)
+                if (p != null)
                 {
-                    TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list.", true);
-                    TFM_SuperadminList.addSuperadmin(player);
+                    TFM_Util.adminAction(sender.getName(), "Adding " + p.getName() + " to the superadmin list.", true);
+                    TFM_SuperadminList.addSuperadmin(p);
                 }
                 else if (admin_name != null)
                 {
@@ -137,7 +137,7 @@ public class Command_saconfig extends TFM_Command
                 {
                     target_name = getPlayer(target_name).getName();
                 }
-                catch (PlayerNotFoundException e)
+                catch (PlayerNotFoundException ex)
                 {
                 }
 

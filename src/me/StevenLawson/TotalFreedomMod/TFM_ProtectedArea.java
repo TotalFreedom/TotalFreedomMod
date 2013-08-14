@@ -83,9 +83,9 @@ public class TFM_ProtectedArea implements Serializable
             oos.close();
             fos.close();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 
@@ -104,12 +104,12 @@ public class TFM_ProtectedArea implements Serializable
                 fis.close();
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
             File input_file = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILE);
             input_file.delete();
 
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 

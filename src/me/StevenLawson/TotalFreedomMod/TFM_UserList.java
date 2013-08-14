@@ -40,16 +40,16 @@ public class TFM_UserList
                 userlist.put(username, entry);
             }
 
-            for (Player player: plugin.getServer().getOnlinePlayers())
+            for (Player p : plugin.getServer().getOnlinePlayers())
             {
-                addUser(player);
+                addUser(p);
             }
 
             exportList();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            TFM_Log.severe("Error loading Userlist, resetting list: " + e.getMessage());
+            TFM_Log.severe("Error loading Userlist, resetting list: " + ex.getMessage());
             purge();
         }
     }
@@ -67,9 +67,9 @@ public class TFM_UserList
         {
             new_userlist.save(new File(plugin.getDataFolder(), USERLIST_FILENAME));
         }
-        catch (IOException e)
+        catch (IOException ex)
         {
-            TFM_Log.severe(e);
+            TFM_Log.severe(ex);
         }
     }
 
@@ -82,9 +82,9 @@ public class TFM_UserList
         return instance;
     }
 
-    public void addUser(Player player)
+    public void addUser(Player p)
     {
-        addUser(player.getName(), player.getAddress().getAddress().getHostAddress());
+        addUser(p.getName(), p.getAddress().getAddress().getHostAddress());
     }
 
     public void addUser(String username, String ip_address)
@@ -105,9 +105,9 @@ public class TFM_UserList
         }
     }
 
-    public TFM_UserListEntry getEntry(Player player)
+    public TFM_UserListEntry getEntry(Player p)
     {
-        return getEntry(player.getName());
+        return getEntry(p.getName());
     }
 
     public TFM_UserListEntry getEntry(String username)
@@ -119,9 +119,9 @@ public class TFM_UserList
     {
         userlist.clear();
 
-        for (Player player: plugin.getServer().getOnlinePlayers())
+        for (Player p : plugin.getServer().getOnlinePlayers())
         {
-            addUser(player);
+            addUser(p);
         }
 
         exportList();

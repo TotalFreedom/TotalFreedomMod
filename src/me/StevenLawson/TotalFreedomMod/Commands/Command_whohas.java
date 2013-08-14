@@ -39,7 +39,7 @@ public class Command_whohas extends TFM_Command
             {
                 material = Material.getMaterial(Integer.parseInt(args[0]));
             }
-            catch (NumberFormatException e)
+            catch (NumberFormatException ex)
             {
             }
 
@@ -52,14 +52,14 @@ public class Command_whohas extends TFM_Command
 
         List<String> players = new ArrayList<String>();
 
-        for (Player player: server.getOnlinePlayers())
+        for (Player p : server.getOnlinePlayers())
         {
-            if (player.getInventory().contains(material))
+            if (p.getInventory().contains(material))
             {
-                players.add(player.getName());
-                if (smite & !TFM_SuperadminList.isUserSuperadmin(player))
+                players.add(p.getName());
+                if (smite & !TFM_SuperadminList.isUserSuperadmin(p))
                 {
-                    Command_smite.smite(player);
+                    Command_smite.smite(p);
                 }
             }
         }

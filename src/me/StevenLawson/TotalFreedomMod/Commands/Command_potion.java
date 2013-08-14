@@ -62,9 +62,9 @@ public class Command_potion extends TFM_Command
                     {
                         target = getPlayer(args[1]);
                     }
-                    catch (PlayerNotFoundException e)
+                    catch (PlayerNotFoundException ex)
                     {
-                        playerMsg(e.getMessage(), ChatColor.RED);
+                        playerMsg(ex.getMessage(), ChatColor.RED);
                         return true;
                     }
                 }
@@ -107,9 +107,9 @@ public class Command_potion extends TFM_Command
                     {
                         target = getPlayer(args[4]);
                     }
-                    catch (PlayerNotFoundException e)
+                    catch (PlayerNotFoundException ex)
                     {
-                        playerMsg(e.getMessage(), ChatColor.RED);
+                        playerMsg(ex.getMessage(), ChatColor.RED);
                         return true;
                     }
                 }
@@ -140,7 +140,7 @@ public class Command_potion extends TFM_Command
                 {
                     duration = Integer.parseInt(args[2]);
                 }
-                catch (NumberFormatException e)
+                catch (NumberFormatException ex)
                 {
                     playerMsg("Invalid potion duration.", ChatColor.RED);
                     return true;
@@ -151,7 +151,7 @@ public class Command_potion extends TFM_Command
                 {
                     amplifier = Integer.parseInt(args[3]);
                 }
-                catch (NumberFormatException e)
+                catch (NumberFormatException ex)
                 {
                     playerMsg("Invalid potion amplifier.", ChatColor.RED);
                     return true;
