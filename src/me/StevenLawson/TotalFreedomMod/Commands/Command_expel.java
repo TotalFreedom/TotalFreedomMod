@@ -38,11 +38,11 @@ public class Command_expel extends TFM_Command
         }
 
         Location sender_pos = sender_p.getLocation();
-        for (Player p : sender_pos.getWorld().getPlayers())
+        for (Player player : sender_pos.getWorld().getPlayers())
         {
-            if (!p.equals(sender_p))
+            if (!player.equals(sender_p))
             {
-                Location target_pos = p.getLocation();
+                Location target_pos = player.getLocation();
 
                 boolean in_range = false;
                 try
@@ -55,8 +55,8 @@ public class Command_expel extends TFM_Command
 
                 if (in_range)
                 {
-                    p.setVelocity(target_pos.clone().subtract(sender_pos).toVector().normalize().multiply(strength));
-                    playerMsg("Pushing " + p.getName() + ".");
+                    player.setVelocity(target_pos.clone().subtract(sender_pos).toVector().normalize().multiply(strength));
+                    playerMsg("Pushing " + player.getName() + ".");
                 }
             }
         }

@@ -15,9 +15,9 @@ public class Command_stop extends TFM_Command
     {
         TFM_Util.bcastMsg("Server is going offline!", ChatColor.LIGHT_PURPLE);
 
-        for (Player p : server.getOnlinePlayers())
+        for (Player player : server.getOnlinePlayers())
         {
-            p.kickPlayer("Server is going offline, come back in about 20 seconds.");
+            player.kickPlayer("Server is going offline, come back in about 20 seconds.");
         }
 
         server.shutdown();

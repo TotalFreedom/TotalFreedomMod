@@ -15,9 +15,9 @@ public class Command_rank extends TFM_Command
     {
         if (senderIsConsole && args.length < 1)
         {
-            for (Player p : server.getOnlinePlayers())
+            for (Player player : server.getOnlinePlayers())
             {
-                playerMsg(p.getName() + " is " + TFM_Util.getRank(p));
+                playerMsg(player.getName() + " is " + TFM_Util.getRank(player));
             }
             return true;
         }
@@ -33,10 +33,10 @@ public class Command_rank extends TFM_Command
             return true;
         }
 
-        Player p;
+        Player player;
         try
         {
-            p = getPlayer(args[0]);
+            player = getPlayer(args[0]);
         }
         catch (PlayerNotFoundException ex)
         {
@@ -44,7 +44,7 @@ public class Command_rank extends TFM_Command
             return true;
         }
 
-        playerMsg(p.getName() + " is " + TFM_Util.getRank(p), ChatColor.AQUA);
+        playerMsg(player.getName() + " is " + TFM_Util.getRank(player), ChatColor.AQUA);
 
         return true;
     }

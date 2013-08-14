@@ -130,9 +130,9 @@ public class TFM_ServerInterface
         final BanList banByIP = player_list.getIPBans();
         final BanList banByName = player_list.getNameBans();
 
-        final Player p = event.getPlayer();
+        final Player player = event.getPlayer();
 
-        final String player_name = p.getName();
+        final String player_name = player.getName();
         final String player_ip = event.getAddress().getHostAddress().trim().toLowerCase();
 
         if (player_name.trim().length() <= 2)
@@ -146,7 +146,7 @@ public class TFM_ServerInterface
             return;
         }
 
-        // not safe to use TFM_Util.isUserSuperadmin for player logging in because p.getAddress() will return a null until after player login.
+        // not safe to use TFM_Util.isUserSuperadmin for player logging in because player.getAddress() will return a null until after player login.
         boolean is_superadmin;
         if (server.getOnlineMode())
         {
@@ -304,7 +304,7 @@ public class TFM_ServerInterface
 
             if (TotalFreedomMod.lockdownEnabled)
             {
-                TFM_Util.playerMsg(p, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
+                TFM_Util.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
             }
         }
     }

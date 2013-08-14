@@ -62,9 +62,9 @@ public class TFM_PlayerData
         this.player_name = player.getName();
     }
 
-    public static TFM_PlayerData getPlayerData(Player p)
+    public static TFM_PlayerData getPlayerData(Player player)
     {
-        TFM_PlayerData playerdata = TFM_PlayerData.userinfo.get(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.userinfo.get(player);
 
         if (playerdata == null)
         {
@@ -74,7 +74,7 @@ public class TFM_PlayerData
                 Entry<Player, TFM_PlayerData> pair = it.next();
                 TFM_PlayerData playerdata_test = pair.getValue();
 
-                if (playerdata_test.player_name.equalsIgnoreCase(p.getName()))
+                if (playerdata_test.player_name.equalsIgnoreCase(player.getName()))
                 {
                     if (Bukkit.getOnlineMode())
                     {
@@ -83,7 +83,7 @@ public class TFM_PlayerData
                     }
                     else
                     {
-                        if (playerdata_test.ip_address.equalsIgnoreCase(p.getAddress().getAddress().getHostAddress()))
+                        if (playerdata_test.ip_address.equalsIgnoreCase(player.getAddress().getAddress().getHostAddress()))
                         {
                             playerdata = playerdata_test;
                             break;
@@ -95,8 +95,8 @@ public class TFM_PlayerData
 
         if (playerdata == null)
         {
-            playerdata = new TFM_PlayerData(p);
-            TFM_PlayerData.userinfo.put(p, playerdata);
+            playerdata = new TFM_PlayerData(player);
+            TFM_PlayerData.userinfo.put(player, playerdata);
         }
 
         return playerdata;

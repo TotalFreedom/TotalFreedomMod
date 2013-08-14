@@ -17,10 +17,10 @@ public class Command_gcmd extends TFM_Command
             return false;
         }
 
-        Player p;
+        Player player;
         try
         {
-            p = getPlayer(args[0]);
+            player = getPlayer(args[0]);
         }
         catch (PlayerNotFoundException ex)
         {
@@ -46,8 +46,8 @@ public class Command_gcmd extends TFM_Command
 
         try
         {
-            playerMsg("Sending command as " + p.getName() + ": " + outcommand);
-            if (server.dispatchCommand(p, outcommand))
+            playerMsg("Sending command as " + player.getName() + ": " + outcommand);
+            if (server.dispatchCommand(player, outcommand))
             {
                 playerMsg("Command sent.");
             }

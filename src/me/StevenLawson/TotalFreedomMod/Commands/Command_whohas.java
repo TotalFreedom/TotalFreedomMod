@@ -52,14 +52,14 @@ public class Command_whohas extends TFM_Command
 
         List<String> players = new ArrayList<String>();
 
-        for (Player p : server.getOnlinePlayers())
+        for (Player player : server.getOnlinePlayers())
         {
-            if (p.getInventory().contains(material))
+            if (player.getInventory().contains(material))
             {
-                players.add(p.getName());
-                if (smite & !TFM_SuperadminList.isUserSuperadmin(p))
+                players.add(player.getName());
+                if (smite & !TFM_SuperadminList.isUserSuperadmin(player))
                 {
-                    Command_smite.smite(p);
+                    Command_smite.smite(player);
                 }
             }
         }

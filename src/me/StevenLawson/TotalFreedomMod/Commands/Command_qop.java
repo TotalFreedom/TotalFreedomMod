@@ -28,18 +28,18 @@ public class Command_qop extends TFM_Command
 
         String target_name = args[0].toLowerCase();
 
-        for (Player p : server.getOnlinePlayers())
+        for (Player player : server.getOnlinePlayers())
         {
-            if (p.getName().toLowerCase().indexOf(target_name) != -1 || p.getDisplayName().toLowerCase().indexOf(target_name) != -1)
+            if (player.getName().toLowerCase().indexOf(target_name) != -1 || player.getDisplayName().toLowerCase().indexOf(target_name) != -1)
             {
                 matched_player = true;
 
                 if (!silent)
                 {
-                    TFM_Util.adminAction(sender.getName(), "Opping " + p.getName(), false);
+                    TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
                 }
-                p.setOp(true);
-                p.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+                player.setOp(true);
+                player.sendMessage(TotalFreedomMod.YOU_ARE_OP);
             }
         }
 

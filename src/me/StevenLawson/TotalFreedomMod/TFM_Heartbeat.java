@@ -27,9 +27,9 @@ public class TFM_Heartbeat extends BukkitRunnable
     {
         lastRan = System.currentTimeMillis();
 
-        for (Player p : server.getOnlinePlayers())
+        for (Player player : server.getOnlinePlayers())
         {
-            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
             playerdata.resetMsgCount();
             playerdata.resetBlockDestroyCount();
             playerdata.resetBlockPlaceCount();

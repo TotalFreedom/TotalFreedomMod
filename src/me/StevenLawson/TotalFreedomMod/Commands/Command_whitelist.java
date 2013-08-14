@@ -35,9 +35,9 @@ public class Command_whitelist extends TFM_Command
             int offlineWPs = 0;
             int totalWPs = 0;
 
-            for (OfflinePlayer p : server.getWhitelistedPlayers())
+            for (OfflinePlayer player : server.getWhitelistedPlayers())
             {
-                if (p.isOnline())
+                if (player.isOnline())
                 {
                     onlineWPs++;
                 }
@@ -88,18 +88,18 @@ public class Command_whitelist extends TFM_Command
 
             String search_name = args[1].trim().toLowerCase();
 
-            OfflinePlayer p;
+            OfflinePlayer player;
             try
             {
-                p = getPlayer(search_name);
+                player = getPlayer(search_name);
             }
             catch (PlayerNotFoundException ex)
             {
-                p = server.getOfflinePlayer(search_name);
+                player = server.getOfflinePlayer(search_name);
             }
 
-            TFM_Util.adminAction(sender.getName(), "Adding " + p.getName() + " to the whitelist.", false);
-            p.setWhitelisted(true);
+            TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the whitelist.", false);
+            player.setWhitelisted(true);
             return true;
         }
 
@@ -113,20 +113,20 @@ public class Command_whitelist extends TFM_Command
 
             String search_name = args[1].trim().toLowerCase();
 
-            OfflinePlayer p;
+            OfflinePlayer player;
             try
             {
-                p = getPlayer(search_name);
+                player = getPlayer(search_name);
             }
             catch (PlayerNotFoundException ex)
             {
-                p = server.getOfflinePlayer(search_name);
+                player = server.getOfflinePlayer(search_name);
             }
 
-            if (p.isWhitelisted())
+            if (player.isWhitelisted())
             {
-                TFM_Util.adminAction(sender.getName(), "Removing " + p.getName() + " from the whitelist.", false);
-                p.setWhitelisted(false);
+                TFM_Util.adminAction(sender.getName(), "Removing " + player.getName() + " from the whitelist.", false);
+                player.setWhitelisted(false);
                 return true;
             }
             else
@@ -142,11 +142,11 @@ public class Command_whitelist extends TFM_Command
         {
             TFM_Util.adminAction(sender.getName(), "Adding all online players to the whitelist.", false);
             int counter = 0;
-            for (Player p : server.getOnlinePlayers())
+            for (Player player : server.getOnlinePlayers())
             {
-                if (!p.isWhitelisted())
+                if (!player.isWhitelisted())
                 {
-                    p.setWhitelisted(true);
+                    player.setWhitelisted(true);
                     counter++;
                 }
             }

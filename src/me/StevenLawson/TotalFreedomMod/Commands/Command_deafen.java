@@ -18,7 +18,7 @@ public class Command_deafen extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        for (final Player p : server.getOnlinePlayers())
+        for (final Player player : server.getOnlinePlayers())
         {
             for (double percent = 0.0; percent <= 1.0; percent += (1.0 / STEPS))
             {
@@ -29,7 +29,7 @@ public class Command_deafen extends TFM_Command
                     @Override
                     public void run()
                     {
-                        p.playSound(randomOffset(p.getLocation(), 5.0), Sound.values()[random.nextInt(Sound.values().length)], 100.0f, pitch);
+                        player.playSound(randomOffset(player.getLocation(), 5.0), Sound.values()[random.nextInt(Sound.values().length)], 100.0f, pitch);
                     }
                 }.runTaskLater(plugin, Math.round(20.0 * percent * 2.0));
             }

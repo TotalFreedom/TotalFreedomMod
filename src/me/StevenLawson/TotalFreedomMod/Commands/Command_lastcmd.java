@@ -18,10 +18,10 @@ public class Command_lastcmd extends TFM_Command
             return false;
         }
 
-        Player p;
+        Player player;
         try
         {
-            p = getPlayer(args[0]);
+            player = getPlayer(args[0]);
         }
         catch (PlayerNotFoundException ex)
         {
@@ -29,7 +29,7 @@ public class Command_lastcmd extends TFM_Command
             return true;
         }
 
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
         if (playerdata != null)
         {
@@ -38,7 +38,7 @@ public class Command_lastcmd extends TFM_Command
             {
                 last_command = "(none)";
             }
-            playerMsg(p.getName() + " - Last Command: " + last_command, ChatColor.GRAY);
+            playerMsg(player.getName() + " - Last Command: " + last_command, ChatColor.GRAY);
         }
 
         return true;

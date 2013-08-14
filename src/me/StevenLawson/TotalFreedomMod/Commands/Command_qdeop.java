@@ -28,18 +28,18 @@ public class Command_qdeop extends TFM_Command
 
         String target_name = args[0].toLowerCase();
 
-        for (Player p : server.getOnlinePlayers())
+        for (Player player : server.getOnlinePlayers())
         {
-            if (p.getName().toLowerCase().indexOf(target_name) != -1 || p.getDisplayName().toLowerCase().indexOf(target_name) != -1)
+            if (player.getName().toLowerCase().indexOf(target_name) != -1 || player.getDisplayName().toLowerCase().indexOf(target_name) != -1)
             {
                 matched_player = true;
 
                 if (!silent)
                 {
-                    TFM_Util.adminAction(sender.getName(), "De-opping " + p.getName(), false);
+                    TFM_Util.adminAction(sender.getName(), "De-opping " + player.getName(), false);
                 }
-                p.setOp(false);
-                p.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+                player.setOp(false);
+                player.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
             }
         }
 

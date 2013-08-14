@@ -38,14 +38,14 @@ public class TFM_WorldEditBridge
         return this.worldEditPlugin;
     }
 
-    public BukkitPlayer getBukkitPlayer(Player p)
+    public BukkitPlayer getBukkitPlayer(Player player)
     {
         try
         {
             WorldEditPlugin wep = this.getWorldEditPlugin();
             if (wep != null)
             {
-                return wep.wrapPlayer(p);
+                return wep.wrapPlayer(player);
             }
         }
         catch (Exception ex)
@@ -55,14 +55,14 @@ public class TFM_WorldEditBridge
         return null;
     }
 
-    public LocalSession getPlayerSession(Player p)
+    public LocalSession getPlayerSession(Player player)
     {
         try
         {
             WorldEditPlugin wep = this.getWorldEditPlugin();
             if (wep != null)
             {
-                return wep.getSession(p);
+                return wep.getSession(player);
             }
         }
         catch (Exception ex)
@@ -72,14 +72,14 @@ public class TFM_WorldEditBridge
         return null;
     }
 
-    public void undo(Player p, int count)
+    public void undo(Player player, int count)
     {
         try
         {
-            LocalSession session = getPlayerSession(p);
+            LocalSession session = getPlayerSession(player);
             if (session != null)
             {
-                BukkitPlayer bukkitPlayer = this.getBukkitPlayer(p);
+                BukkitPlayer bukkitPlayer = this.getBukkitPlayer(player);
                 if (bukkitPlayer != null)
                 {
                     for (int i = 0; i < count; i++)
@@ -95,11 +95,11 @@ public class TFM_WorldEditBridge
         }
     }
 
-    public void setLimit(Player p, int limit)
+    public void setLimit(Player player, int limit)
     {
         try
         {
-            LocalSession session = getPlayerSession(p);
+            LocalSession session = getPlayerSession(player);
             if (session != null)
             {
                 session.setBlockChangeLimit(limit);

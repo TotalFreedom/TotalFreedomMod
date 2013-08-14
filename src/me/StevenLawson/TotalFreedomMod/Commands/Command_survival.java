@@ -26,11 +26,11 @@ public class Command_survival extends TFM_Command
             }
         }
 
-        Player p;
+        Player player;
 
         if (args.length == 0)
         {
-            p = sender_p;
+            player = sender_p;
         }
         else
         {
@@ -42,9 +42,9 @@ public class Command_survival extends TFM_Command
                     return true;
                 }
 
-                for (Player player : server.getOnlinePlayers())
+                for (Player target_player : server.getOnlinePlayers())
                 {
-                    player.setGameMode(GameMode.SURVIVAL);
+                    target_player.setGameMode(GameMode.SURVIVAL);
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to survival", false);
@@ -55,7 +55,7 @@ public class Command_survival extends TFM_Command
             {
                 try
                 {
-                    p = getPlayer(args[0]);
+                    player = getPlayer(args[0]);
                 }
                 catch (PlayerNotFoundException ex)
                 {
@@ -70,9 +70,9 @@ public class Command_survival extends TFM_Command
             }
         }
 
-        playerMsg("Setting " + p.getName() + " to game mode 'Survival'.");
-        p.sendMessage(sender.getName() + " set your game mode to 'Survival'.");
-        p.setGameMode(GameMode.SURVIVAL);
+        playerMsg("Setting " + player.getName() + " to game mode 'Survival'.");
+        player.sendMessage(sender.getName() + " set your game mode to 'Survival'.");
+        player.setGameMode(GameMode.SURVIVAL);
 
         return true;
     }

@@ -23,9 +23,9 @@ public class Command_blockcmd extends TFM_Command
         {
             TFM_Util.adminAction(sender.getName(), "Unblocking commands for all players", true);
             int counter = 0;
-            for (Player p : server.getOnlinePlayers())
+            for (Player player : server.getOnlinePlayers())
             {
-                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
+                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
                 if (playerdata.allCommandsBlocked())
                 {
                     counter += 1;
@@ -36,10 +36,10 @@ public class Command_blockcmd extends TFM_Command
             return true;
         }
 
-        Player p;
+        Player player;
         try
         {
-            p = getPlayer(args[0]);
+            player = getPlayer(args[0]);
         }
         catch (PlayerNotFoundException ex)
         {
@@ -47,17 +47,17 @@ public class Command_blockcmd extends TFM_Command
             return true;
         }
 
-        if (TFM_SuperadminList.isUserSuperadmin(p))
+        if (TFM_SuperadminList.isUserSuperadmin(player))
         {
-            playerMsg(p.getName() + " is a Superadmin, and cannot have their commands blocked.");
+            playerMsg(player.getName() + " is a Superadmin, and cannot have their commands blocked.");
             return true;
         }
 
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
+        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
         playerdata.setCommandsBlocked(!playerdata.allCommandsBlocked());
 
-        TFM_Util.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all commands for " + p.getName(), true);
+        TFM_Util.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all commands for " + player.getName(), true);
         playerMsg((playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
 
         return true;

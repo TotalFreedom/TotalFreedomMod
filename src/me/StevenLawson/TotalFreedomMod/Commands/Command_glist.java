@@ -51,10 +51,10 @@ public class Command_glist extends TFM_Command
 
             try
             {
-                Player p = getPlayer(args[1]);
+                Player player = getPlayer(args[1]);
 
-                username = p.getName();
-                ip_addresses.add(p.getAddress().getAddress().getHostAddress());
+                username = player.getName();
+                ip_addresses.add(player.getAddress().getAddress().getHostAddress());
             }
             catch (PlayerNotFoundException ex)
             {
@@ -75,11 +75,11 @@ public class Command_glist extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
 
-                Player p = server.getPlayerExact(username);
-                if (p != null)
+                Player player = server.getPlayerExact(username);
+                if (player != null)
                 {
-                    TFM_ServerInterface.banUsername(p.getName(), null, null, null);
-                    p.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
+                    TFM_ServerInterface.banUsername(player.getName(), null, null, null);
+                    player.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
                 }
                 else
                 {

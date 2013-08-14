@@ -21,11 +21,11 @@ public class Command_cmdlist extends TFM_Command
     {
         List<String> commands = new ArrayList<String>();
 
-        for (Plugin p : server.getPluginManager().getPlugins())
+        for (Plugin target_plugin : server.getPluginManager().getPlugins())
         {
             try
             {
-                PluginDescriptionFile desc = p.getDescription();
+                PluginDescriptionFile desc = target_plugin.getDescription();
                 Map<String, Map<String, Object>> map = (Map<String, Map<String, Object>>) desc.getCommands();
 
                 if (map != null)

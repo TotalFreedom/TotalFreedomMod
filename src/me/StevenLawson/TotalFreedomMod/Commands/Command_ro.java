@@ -70,9 +70,9 @@ public class Command_ro extends TFM_Command
         if (target_player == null)
         {
             TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of all players. Brace for lag...", senderIsConsole);
-            for (Player p : server.getOnlinePlayers())
+            for (Player player : server.getOnlinePlayers())
             {
-                affected += TFM_Util.replaceBlocks(p.getLocation(), from_material, Material.AIR, radius);
+                affected += TFM_Util.replaceBlocks(player.getLocation(), from_material, Material.AIR, radius);
             }
         }
         else

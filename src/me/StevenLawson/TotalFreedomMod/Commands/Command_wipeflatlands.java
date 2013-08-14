@@ -17,9 +17,9 @@ public class Command_wipeflatlands extends TFM_Command
 
         TFM_Util.bcastMsg("Server is going offline for flatlands wipe.", ChatColor.GRAY);
 
-        for (Player p : server.getOnlinePlayers())
+        for (Player player : server.getOnlinePlayers())
         {
-            p.kickPlayer("Server is going offline for flatlands wipe, come back in a few minutes.");
+            player.kickPlayer("Server is going offline for flatlands wipe, come back in a few minutes.");
         }
 
         server.shutdown();

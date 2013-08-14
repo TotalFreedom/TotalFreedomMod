@@ -29,7 +29,7 @@ public class Command_premium extends TFM_Command
         {
             name = getPlayer(args[0]).getName();
         }
-        catch (PlayerNotFoundException e)
+        catch (PlayerNotFoundException ex)
         {
             name = args[0];
         }
@@ -59,9 +59,9 @@ public class Command_premium extends TFM_Command
                     }.runTask(plugin);
 
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    TFM_Log.severe(ExceptionUtils.getStackTrace(e));
+                    TFM_Log.severe(ExceptionUtils.getStackTrace(ex));
                     playerMsg("There was an error querying the mojang server.", ChatColor.RED);
                 }
             }

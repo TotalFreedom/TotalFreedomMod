@@ -46,14 +46,14 @@ public class Command_tfbanlist extends TFM_Command
         StringBuilder banned_players = new StringBuilder();
         banned_players.append("Banned Players: ");
         boolean first = true;
-        for (OfflinePlayer p : server.getBannedPlayers())
+        for (OfflinePlayer player : server.getBannedPlayers())
         {
             if (!first)
             {
                 banned_players.append(", ");
             }
             first = false;
-            banned_players.append(p.getName().trim());
+            banned_players.append(player.getName().trim());
         }
 
         playerMsg(banned_players.toString());

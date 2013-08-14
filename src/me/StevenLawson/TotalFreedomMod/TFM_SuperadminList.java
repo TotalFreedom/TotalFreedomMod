@@ -173,9 +173,9 @@ public class TFM_SuperadminList
         }
     }
 
-    public static TFM_Superadmin getAdminEntry(Player p)
+    public static TFM_Superadmin getAdminEntry(Player player)
     {
-        return getAdminEntry(p.getName().toLowerCase());
+        return getAdminEntry(player.getName().toLowerCase());
     }
 
     public static TFM_Superadmin getAdminEntryByIP(String ip)
@@ -193,9 +193,9 @@ public class TFM_SuperadminList
         return null;
     }
 
-    public static void updateLastLogin(Player p)
+    public static void updateLastLogin(Player player)
     {
-        TFM_Superadmin admin_entry = getAdminEntry(p);
+        TFM_Superadmin admin_entry = getAdminEntry(player);
         if (admin_entry != null)
         {
             admin_entry.setLastLogin(new Date());
@@ -324,11 +324,11 @@ public class TFM_SuperadminList
             return false;
         }
 
-        Player p = (Player) user;
+        Player player = (Player) user;
 
-        if (superadminNames.contains(p.getName().toLowerCase()))
+        if (superadminNames.contains(player.getName().toLowerCase()))
         {
-            return !isUserSuperadmin(p);
+            return !isUserSuperadmin(player);
         }
 
         return false;
@@ -366,10 +366,10 @@ public class TFM_SuperadminList
         }
     }
 
-    public static void addSuperadmin(Player p)
+    public static void addSuperadmin(Player player)
     {
-        String admin_name = p.getName().toLowerCase();
-        List<String> ips = Arrays.asList(p.getAddress().getAddress().getHostAddress());
+        String admin_name = player.getName().toLowerCase();
+        List<String> ips = Arrays.asList(player.getAddress().getAddress().getHostAddress());
 
         addSuperadmin(admin_name, ips);
     }
@@ -399,9 +399,9 @@ public class TFM_SuperadminList
         }
     }
 
-    public static void removeSuperadmin(Player p)
+    public static void removeSuperadmin(Player player)
     {
-        removeSuperadmin(p.getName());
+        removeSuperadmin(player.getName());
     }
 
     public static void cleanSuperadminList(boolean verbose)
