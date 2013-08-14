@@ -40,8 +40,18 @@ public class Command_nf extends TFM_Command
                     }
                     catch (PlayerNotFoundException ex)
                     {
-                        sender.sendMessage(ChatColor.GRAY + "Can't find player by nickname: " + displayName);
-                        return true;
+                    }
+                    if (player == null)
+                    {
+                        try
+                        {
+                            player = getPlayerByDisplayNameAlt(displayName);
+                        }
+                        catch (PlayerNotFoundException ex)
+                        {
+                            sender.sendMessage(ChatColor.GRAY + "Can't find player by nickname: " + displayName);
+                            return true;
+                        }
                     }
                 }
 
@@ -63,7 +73,9 @@ public class Command_nf extends TFM_Command
             return true;
         }
 
-        Bukkit.dispatchCommand(sender, StringUtils.join(outputCommand, " "));
+        String newCommand = StringUtils.join(outputCommand, " ");
+        sender.sendMessage("Sending command: \"" + newCommand + "\".");
+        server.dispatchCommand(sender, newCommand);
 
         return true;
     }
@@ -72,10 +84,27 @@ public class Command_nf extends TFM_Command
     {
         needle = needle.toLowerCase().trim();
 
+        Player[] onlinePlayers = Bukkit.getOnlinePlayers();
+        for (Player player : onlinePlayers)
+        {
+            if (player.getDisplayName().toLowerCase().trim().contains(needle))
+            {
+                return player;
+            }
+        }
+
+        throw new PlayerNotFoundException();
+    }
+
+    private static Player getPlayerByDisplayNameAlt(String needle) throws PlayerNotFoundException
+    {
+        needle = needle.toLowerCase().trim();
+
         Integer minEditDistance = null;
         Player minEditMatch = null;
 
-        for (Player player : Bukkit.getOnlinePlayers())
+        Player[] onlinePlayers = Bukkit.getOnlinePlayers();
+        for (Player player : onlinePlayers)
         {
             String haystack = player.getDisplayName().toLowerCase().trim();
             int editDistance = StringUtils.getLevenshteinDistance(needle, haystack.toLowerCase());
