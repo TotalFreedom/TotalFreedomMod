@@ -19,21 +19,21 @@ public class Command_tban extends TFM_Command
             return false;
         }
 
-        Player p;
+        Player player;
         try
         {
-            p = getPlayer(args[0]);
+            player = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException ex)
+        catch (PlayerNotFoundException e)
         {
-            playerMsg(ex.getMessage(), ChatColor.RED);
+            playerMsg(e.getMessage(), ChatColor.RED);
             return true;
         }
 
-        TFM_Util.adminAction(sender.getName(), "NOPE: " + p.getName(), true);
-        TFM_ServerInterface.banUsername(p.getName(), ChatColor.RED + "You have been temporarily banned for 5 minutes",
+        TFM_Util.adminAction(sender.getName(), "NOPE: " + player.getName(), true);
+        TFM_ServerInterface.banUsername(player.getName(), ChatColor.RED + "You have been temporarily banned for 5 minutes",
                 sender.getName(), TFM_Util.parseDateOffset("5m"));
-        p.kickPlayer(ChatColor.RED + "NOPE!\nYou have been temporarily banned for five minutes.");
+        player.kickPlayer(ChatColor.RED + "NOPE!\nYou have been temporarily banned for five minutes.");
 
         return true;
     }

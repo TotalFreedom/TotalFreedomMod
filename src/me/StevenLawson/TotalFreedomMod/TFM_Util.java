@@ -40,7 +40,7 @@ public class TFM_Util
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
             }
         }
@@ -55,9 +55,9 @@ public class TFM_Util
     {
         TFM_Log.info(message, true);
 
-        for (Player p : Bukkit.getOnlinePlayers())
+        for (Player player: Bukkit.getOnlinePlayers())
         {
-            p.sendMessage((color == null ? "" : color) + message);
+            player.sendMessage((color == null ? "" : color) + message);
         }
     }
 
@@ -396,14 +396,14 @@ public class TFM_Util
         STRIKE_ONE, STRIKE_TWO, STRIKE_THREE;
     }
 
-    public static void autoEject(Player p, String kickMessage)
+    public static void autoEject(Player player, String kickMessage)
     {
         EjectMethod method = EjectMethod.STRIKE_ONE;
         String player_ip = null;
 
         try
         {
-            player_ip = p.getAddress().getAddress().getHostAddress();
+            player_ip = player.getAddress().getAddress().getHostAddress();
 
             Integer num_kicks = TFM_Util.eject_tracker.get(player_ip);
             if (num_kicks == null)
@@ -428,15 +428,15 @@ public class TFM_Util
                 method = EjectMethod.STRIKE_THREE;
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
         }
 
-        TFM_Log.info("autoEject -> name: " + p.getName() + " - player_ip: " + player_ip + " - method: " + method.toString());
+        TFM_Log.info("autoEject -> name: " + player.getName() + " - player_ip: " + player_ip + " - method: " + method.toString());
 
-        p.setOp(false);
-        p.setGameMode(GameMode.SURVIVAL);
-        p.getInventory().clear();
+        player.setOp(false);
+        player.setGameMode(GameMode.SURVIVAL);
+        player.getInventory().clear();
 
         switch (method)
         {
@@ -446,11 +446,11 @@ public class TFM_Util
                 c.add(Calendar.MINUTE, 1);
                 Date expires = c.getTime();
 
-                TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned for 1 minute.");
+                TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 1 minute.");
 
                 TFM_ServerInterface.banIP(player_ip, kickMessage, "AutoEject", expires);
-                TFM_ServerInterface.banUsername(p.getName(), kickMessage, "AutoEject", expires);
-                p.kickPlayer(kickMessage);
+                TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", expires);
+                player.kickPlayer(kickMessage);
 
                 break;
             }
@@ -460,11 +460,11 @@ public class TFM_Util
                 c.add(Calendar.MINUTE, 3);
                 Date expires = c.getTime();
 
-                TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned for 3 minutes.");
+                TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 3 minutes.");
 
                 TFM_ServerInterface.banIP(player_ip, kickMessage, "AutoEject", expires);
-                TFM_ServerInterface.banUsername(p.getName(), kickMessage, "AutoEject", expires);
-                p.kickPlayer(kickMessage);
+                TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", expires);
+                player.kickPlayer(kickMessage);
 
                 break;
             }
@@ -477,11 +477,11 @@ public class TFM_Util
                 TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", kickMessage, "AutoEject", null);
 
                 //p.setBanned(true);
-                TFM_ServerInterface.banUsername(p.getName(), kickMessage, "AutoEject", null);
+                TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", null);
 
-                TFM_Util.bcastMsg(ChatColor.RED + p.getName() + " has been banned permanently.");
+                TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned permanently.");
 
-                p.kickPlayer(kickMessage);
+                player.kickPlayer(kickMessage);
 
                 break;
             }
@@ -653,9 +653,9 @@ public class TFM_Util
     public static String playerListToNames(Set<OfflinePlayer> players)
     {
         List<String> player_names = new ArrayList<String>();
-        for (OfflinePlayer p : players)
+        for (OfflinePlayer player: players)
         {
-            player_names.add(p.getName());
+            player_names.add(player.getName());
         }
         return StringUtils.join(player_names, ", ");
     }
@@ -676,9 +676,9 @@ public class TFM_Util
                 ois.close();
                 fis.close();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                TFM_Log.severe(ex);
+                TFM_Log.severe(e);
             }
         }
 
@@ -728,9 +728,9 @@ public class TFM_Util
             oos.close();
             fos.close();
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            TFM_Log.severe(ex);
+            TFM_Log.severe(e);
         }
     }
 
@@ -741,7 +741,7 @@ public class TFM_Util
         {
             do_wipe_flatlands = TFM_Util.getSavedFlag("do_wipe_flatlands");
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
         }
 
@@ -779,7 +779,7 @@ public class TFM_Util
         {
             return new SimpleDateFormat(DATE_STORAGE_FORMAT, Locale.ENGLISH).parse(date_str);
         }
-        catch (ParseException ex)
+        catch (ParseException e)
         {
             return new Date(0L);
         }
@@ -893,11 +893,11 @@ public class TFM_Util
         String name = sender.getName() + " " + getPrefix(sender, senderIsConsole);
         TFM_Log.info("[ADMIN] " + name + ": " + message);
 
-        for (Player p : Bukkit.getOnlinePlayers())
+        for (Player player: Bukkit.getOnlinePlayers())
         {
-            if (TFM_SuperadminList.isUserSuperadmin(p))
+            if (TFM_SuperadminList.isUserSuperadmin(player))
             {
-                p.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
+                player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
             }
         }
     }
@@ -952,10 +952,10 @@ public class TFM_Util
                 field.setAccessible(true);
                 return (T) field.get(from);
             }
-            catch (NoSuchFieldException ex)
+            catch (NoSuchFieldException e)
             {
             }
-            catch (IllegalAccessException ex)
+            catch (IllegalAccessException e)
             {
             }
         }

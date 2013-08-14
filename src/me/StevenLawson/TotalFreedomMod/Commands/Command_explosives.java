@@ -24,9 +24,9 @@ public class Command_explosives extends TFM_Command
             {
                 TotalFreedomMod.explosiveRadius = Math.max(1.0, Math.min(30.0, Double.parseDouble(args[1])));
             }
-            catch (NumberFormatException nfex)
+            catch (NumberFormatException e)
             {
-                TFM_Util.playerMsg(sender, nfex.getMessage());
+                TFM_Util.playerMsg(sender, e.getMessage());
                 return true;
             }
         }

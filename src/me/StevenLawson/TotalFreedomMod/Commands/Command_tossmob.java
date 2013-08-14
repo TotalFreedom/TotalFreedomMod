@@ -47,7 +47,7 @@ public class Command_tossmob extends TFM_Command
             {
                 creature = TFM_Util.getEntityType(args[0]);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 playerMsg(args[0] + " is not a supported mob type. Using a pig instead.", ChatColor.RED);
                 playerMsg("By the way, you can type /tossmob list to see all possible mobs.", ChatColor.RED);

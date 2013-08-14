@@ -58,20 +58,20 @@ public class Command_plugincontrol extends TFM_Command
         else if (commandMode == CommandMode.RELOAD)
         {
             playerMsg("Disabling all plugins.");
-            for (Plugin p : pluginManager.getPlugins())
+            for (Plugin target_plugin : pluginManager.getPlugins())
             {
-                if (!p.getName().toLowerCase().startsWith("totalfreedommod"))
+                if (!target_plugin.getName().toLowerCase().startsWith("totalfreedommod"))
                 {
-                    pluginManager.disablePlugin(p);
+                    pluginManager.disablePlugin(target_plugin);
                 }
             }
 
             playerMsg("Enabling all plugins.");
-            for (Plugin p : pluginManager.getPlugins())
+            for (Plugin target_plugin : pluginManager.getPlugins())
             {
-                if (!p.getName().toLowerCase().startsWith("totalfreedommod"))
+                if (!target_plugin.getName().toLowerCase().startsWith("totalfreedommod"))
                 {
-                    pluginManager.enablePlugin(p);
+                    pluginManager.enablePlugin(target_plugin);
                 }
             }
         }
@@ -81,11 +81,11 @@ public class Command_plugincontrol extends TFM_Command
 
             Plugin targetPlugin = null;
 
-            for (Plugin p : pluginManager.getPlugins())
+            for (Plugin target_plugin : pluginManager.getPlugins())
             {
-                if (searchPluginName.equalsIgnoreCase(p.getName().toLowerCase().trim()))
+                if (searchPluginName.equalsIgnoreCase(target_plugin.getName().toLowerCase().trim()))
                 {
-                    targetPlugin = p;
+                    targetPlugin = plugin;
                     break;
                 }
             }

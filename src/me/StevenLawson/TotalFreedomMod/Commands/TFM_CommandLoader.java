@@ -103,9 +103,9 @@ public class TFM_CommandLoader
                 }
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            TFM_Log.severe(ex);
+            TFM_Log.severe(e);
         }
     }
 
@@ -176,17 +176,17 @@ public class TFM_CommandLoader
                                 commandList.add(commandInfo);
                             }
                         }
-                        catch (ClassNotFoundException ex)
+                        catch (ClassNotFoundException e)
                         {
-                            TFM_Log.severe(ex);
+                            TFM_Log.severe(e);
                         }
                     }
                 }
             }
         }
-        catch (IOException ex)
+        catch (IOException e)
         {
-            TFM_Log.severe(ex);
+            TFM_Log.severe(e);
         }
 
         return commandList;
@@ -292,9 +292,9 @@ public class TFM_CommandLoader
             {
                 success = getPlugin().onCommand(sender, this, commandLabel, args);
             }
-            catch (Throwable ex)
+            catch (Throwable e)
             {
-                throw new CommandException("Unhandled exception executing command '" + commandLabel + "' in plugin " + getPlugin().getDescription().getFullName(), ex);
+                throw new CommandException("Unhandled exception executing command '" + commandLabel + "' in plugin " + getPlugin().getDescription().getFullName(), e);
             }
 
             if (!success && getUsage().length() > 0)

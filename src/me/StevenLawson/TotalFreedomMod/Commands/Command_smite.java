@@ -21,38 +21,38 @@ public class Command_smite extends TFM_Command
             return false;
         }
 
-        Player p;
+        Player player;
         try
         {
-            p = getPlayer(args[0]);
+            player = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException ex)
+        catch (PlayerNotFoundException e)
         {
-            playerMsg(ex.getMessage(), ChatColor.RED);
+            playerMsg(e.getMessage(), ChatColor.RED);
             return true;
         }
 
-        smite(p);
+        smite(player);
 
         return true;
     }
 
-    public static void smite(final Player p)
+    public static void smite(final Player player)
     {
-        TFM_Util.bcastMsg(p.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
+        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
 
         //Deop
-        p.setOp(false);
+        player.setOp(false);
 
         //Set gamemode to survival:
-        p.setGameMode(GameMode.SURVIVAL);
+        player.setGameMode(GameMode.SURVIVAL);
 
         //Clear inventory:
-        p.getInventory().clear();
+        player.getInventory().clear();
 
         //Strike with lightning effect:
-        final Location target_pos = p.getLocation();
-        final World world = p.getWorld();
+        final Location target_pos = player.getLocation();
+        final World world = player.getWorld();
         for (int x = -1; x <= 1; x++)
         {
             for (int z = -1; z <= 1; z++)
@@ -63,6 +63,6 @@ public class Command_smite extends TFM_Command
         }
 
         //Kill:
-        p.setHealth(0.0);
+        player.setHealth(0.0);
     }
 }

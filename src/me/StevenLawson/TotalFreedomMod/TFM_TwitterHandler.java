@@ -56,9 +56,9 @@ public class TFM_TwitterHandler
             line = in.readLine();
             in.close();
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            TFM_Log.severe(ExceptionUtils.getFullStackTrace(ex));
+            TFM_Log.severe(ExceptionUtils.getFullStackTrace(e));
         }
         return line;
     }

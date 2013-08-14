@@ -29,9 +29,9 @@ public class Command_tfipbanlist extends TFM_Command
                         TFM_ServerInterface.wipeIpBans();
                         sender.sendMessage(ChatColor.GRAY + "IP ban list has been purged.");
                     }
-                    catch (Exception ex)
+                    catch (Exception e)
                     {
-                        TFM_Log.severe(ex);
+                        TFM_Log.severe(e);
                     }
 
                     return true;

@@ -88,10 +88,10 @@ public class TFM_ServiceChecker
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
                     TFM_Log.severe("Error updating mojang services from " + TotalFreedomMod.serviceCheckerURL);
-                    TFM_Log.severe(ex);
+                    TFM_Log.severe(e);
                 }
             }
         };

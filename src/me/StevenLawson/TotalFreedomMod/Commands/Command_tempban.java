@@ -25,18 +25,18 @@ public class Command_tempban extends TFM_Command
             return false;
         }
 
-        Player p;
+        Player player;
         try
         {
-            p = getPlayer(args[0]);
+            player = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException ex)
+        catch (PlayerNotFoundException e)
         {
-            playerMsg(ex.getMessage(), ChatColor.RED);
+            playerMsg(e.getMessage(), ChatColor.RED);
             return true;
         }
 
-        StringBuilder bcast_msg = new StringBuilder("Temporarily banned " + p.getName());
+        StringBuilder bcast_msg = new StringBuilder("Temporarily banned " + player.getName());
 
         Date ban_duration = TFM_Util.parseDateOffset("30m");
         if (args.length >= 2)
@@ -57,9 +57,9 @@ public class Command_tempban extends TFM_Command
         }
 
         TFM_Util.adminAction(sender.getName(), bcast_msg.toString(), true);
-        TFM_ServerInterface.banUsername(p.getName(), ban_reason, sender.getName(), ban_duration);
-        TFM_ServerInterface.banIP(p.getAddress().getAddress().getHostAddress().trim(), ban_reason, sender.getName(), ban_duration);
-        p.kickPlayer(sender.getName() + " - " + bcast_msg.toString());
+        TFM_ServerInterface.banUsername(player.getName(), ban_reason, sender.getName(), ban_duration);
+        TFM_ServerInterface.banIP(player.getAddress().getAddress().getHostAddress().trim(), ban_reason, sender.getName(), ban_duration);
+        player.kickPlayer(sender.getName() + " - " + bcast_msg.toString());
 
         return true;
     }

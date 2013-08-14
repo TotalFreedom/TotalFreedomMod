@@ -102,9 +102,9 @@ public class Command_logs extends TFM_Command
                         }.runTask(TotalFreedomMod.plugin);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    TFM_Log.severe(ex);
+                    TFM_Log.severe(e);
                 }
             }
         }.runTaskAsynchronously(TotalFreedomMod.plugin);

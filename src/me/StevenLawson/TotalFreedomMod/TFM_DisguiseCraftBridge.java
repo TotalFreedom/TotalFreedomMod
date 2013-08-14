@@ -26,9 +26,9 @@ public class TFM_DisguiseCraftBridge
                 return api.undisguisePlayer(player);
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            TFM_Log.severe(ex);
+            TFM_Log.severe(e);
         }
 
         return false;
@@ -53,9 +53,9 @@ public class TFM_DisguiseCraftBridge
                 }
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            TFM_Log.severe(ex);
+            TFM_Log.severe(e);
         }
     }
 
@@ -66,7 +66,7 @@ public class TFM_DisguiseCraftBridge
         {
             pluginEnabled = Bukkit.getPluginManager().isPluginEnabled("DisguiseCraft");
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
         }
         return pluginEnabled;

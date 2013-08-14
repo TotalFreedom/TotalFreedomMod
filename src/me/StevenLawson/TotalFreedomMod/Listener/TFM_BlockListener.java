@@ -41,14 +41,14 @@ public class TFM_BlockListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockBreak(BlockBreakEvent event)
     {
-        Player p = event.getPlayer();
+        Player player = event.getPlayer();
         Location block_pos = event.getBlock().getLocation();
 
         if (TotalFreedomMod.nukeMonitor)
         {
-            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
-            Location player_pos = p.getLocation();
+            Location player_pos = player.getLocation();
 
             boolean out_of_range = false;
             if (!player_pos.getWorld().equals(block_pos.getWorld()))
@@ -64,8 +64,8 @@ public class TFM_BlockListener implements Listener
             {
                 if (playerdata.incrementAndGetFreecamDestroyCount() > TotalFreedomMod.freecamTriggerCount)
                 {
-                    TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
-                    TFM_Util.autoEject(p, "Freecam (extended range) block breaking is not permitted on this server.");
+                    TFM_Util.bcastMsg(player.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
+                    TFM_Util.autoEject(player, "Freecam (extended range) block breaking is not permitted on this server.");
 
                     playerdata.resetFreecamDestroyCount();
 
@@ -83,8 +83,8 @@ public class TFM_BlockListener implements Listener
             {
                 if (playerdata.incrementAndGetBlockDestroyCount() > TotalFreedomMod.nukeMonitorCountBreak)
                 {
-                    TFM_Util.bcastMsg(p.getName() + " is breaking blocks too fast!", ChatColor.RED);
-                    TFM_Util.autoEject(p, "You are breaking blocks too fast. Nukers are not permitted on this server.");
+                    TFM_Util.bcastMsg(player.getName() + " is breaking blocks too fast!", ChatColor.RED);
+                    TFM_Util.autoEject(player, "You are breaking blocks too fast. Nukers are not permitted on this server.");
 
                     playerdata.resetBlockDestroyCount();
 
@@ -96,7 +96,7 @@ public class TFM_BlockListener implements Listener
 
         if (TotalFreedomMod.protectedAreasEnabled)
         {
-            if (!TFM_SuperadminList.isUserSuperadmin(p))
+            if (!TFM_SuperadminList.isUserSuperadmin(player))
             {
                 if (TFM_ProtectedArea.isInProtectedArea(block_pos))
                 {
@@ -115,14 +115,14 @@ public class TFM_BlockListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event)
     {
-        Player p = event.getPlayer();
+        Player player = event.getPlayer();
         Location block_pos = event.getBlock().getLocation();
 
         if (TotalFreedomMod.nukeMonitor)
         {
-            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
-            Location player_pos = p.getLocation();
+            Location player_pos = player.getLocation();
 
             boolean out_of_range = false;
             if (!player_pos.getWorld().equals(block_pos.getWorld()))
@@ -138,8 +138,8 @@ public class TFM_BlockListener implements Listener
             {
                 if (playerdata.incrementAndGetFreecamPlaceCount() > TotalFreedomMod.freecamTriggerCount)
                 {
-                    TFM_Util.bcastMsg(p.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
-                    TFM_Util.autoEject(p, "Freecam (extended range) block building is not permitted on this server.");
+                    TFM_Util.bcastMsg(player.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
+                    TFM_Util.autoEject(player, "Freecam (extended range) block building is not permitted on this server.");
 
                     playerdata.resetFreecamPlaceCount();
 
@@ -157,8 +157,8 @@ public class TFM_BlockListener implements Listener
             {
                 if (playerdata.incrementAndGetBlockPlaceCount() > TotalFreedomMod.nukeMonitorCountPlace)
                 {
-                    TFM_Util.bcastMsg(p.getName() + " is placing blocks too fast!", ChatColor.RED);
-                    TFM_Util.autoEject(p, "You are placing blocks too fast.");
+                    TFM_Util.bcastMsg(player.getName() + " is placing blocks too fast!", ChatColor.RED);
+                    TFM_Util.autoEject(player, "You are placing blocks too fast.");
 
                     playerdata.resetBlockPlaceCount();
 
@@ -170,7 +170,7 @@ public class TFM_BlockListener implements Listener
 
         if (TotalFreedomMod.protectedAreasEnabled)
         {
-            if (!TFM_SuperadminList.isUserSuperadmin(p))
+            if (!TFM_SuperadminList.isUserSuperadmin(player))
             {
                 if (TFM_ProtectedArea.isInProtectedArea(block_pos))
                 {
@@ -187,14 +187,14 @@ public class TFM_BlockListener implements Listener
             {
                 if (TotalFreedomMod.allowLavaPlace)
                 {
-                    TFM_Log.info(String.format("%s placed lava @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    TFM_Log.info(String.format("%s placed lava @ %s", player.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
 
-                    p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                    player.getInventory().clear(player.getInventory().getHeldItemSlot());
                 }
                 else
                 {
-                    p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                    p.sendMessage(ChatColor.GRAY + "Lava placement is currently disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    player.sendMessage(ChatColor.GRAY + "Lava placement is currently disabled.");
 
                     event.setCancelled(true);
                 }
@@ -205,14 +205,14 @@ public class TFM_BlockListener implements Listener
             {
                 if (TotalFreedomMod.allowWaterPlace)
                 {
-                    TFM_Log.info(String.format("%s placed water @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    TFM_Log.info(String.format("%s placed water @ %s", player.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
 
-                    p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                    player.getInventory().clear(player.getInventory().getHeldItemSlot());
                 }
                 else
                 {
-                    p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                    p.sendMessage(ChatColor.GRAY + "Water placement is currently disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    player.sendMessage(ChatColor.GRAY + "Water placement is currently disabled.");
 
                     event.setCancelled(true);
                 }
@@ -222,14 +222,14 @@ public class TFM_BlockListener implements Listener
             {
                 if (TotalFreedomMod.allowFirePlace)
                 {
-                    TFM_Log.info(String.format("%s placed fire @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    TFM_Log.info(String.format("%s placed fire @ %s", player.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
 
-                    p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                    player.getInventory().clear(player.getInventory().getHeldItemSlot());
                 }
                 else
                 {
-                    p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                    p.sendMessage(ChatColor.GRAY + "Fire placement is currently disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    player.sendMessage(ChatColor.GRAY + "Fire placement is currently disabled.");
 
                     event.setCancelled(true);
                 }
@@ -239,15 +239,15 @@ public class TFM_BlockListener implements Listener
             {
                 if (TotalFreedomMod.allowExplosions)
                 {
-                    TFM_Log.info(String.format("%s placed TNT @ %s", p.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                    TFM_Log.info(String.format("%s placed TNT @ %s", player.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
 
-                    p.getInventory().clear(p.getInventory().getHeldItemSlot());
+                    player.getInventory().clear(player.getInventory().getHeldItemSlot());
                 }
                 else
                 {
-                    p.getInventory().setItem(p.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
 
-                    p.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
+                    player.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
                     event.setCancelled(true);
                 }
                 break;

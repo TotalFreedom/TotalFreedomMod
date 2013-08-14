@@ -29,7 +29,7 @@ public class Command_dispfill extends TFM_Command
             {
                 radius = Math.max(5, Math.min(25, Integer.parseInt(args[0])));
             }
-            catch (NumberFormatException ex)
+            catch (NumberFormatException e)
             {
                 sender.sendMessage("Invalid radius.");
                 return true;
@@ -49,7 +49,7 @@ public class Command_dispfill extends TFM_Command
                     {
                         is = new ItemStack(Integer.parseInt(search_item), 64);
                     }
-                    catch (NumberFormatException ex)
+                    catch (NumberFormatException e)
                     {
                     }
                 }

@@ -26,7 +26,7 @@ public class Command_ro extends TFM_Command
             {
                 from_material = Material.getMaterial(Integer.parseInt(args[0]));
             }
-            catch (NumberFormatException ex)
+            catch (NumberFormatException e)
             {
             }
 
@@ -44,7 +44,7 @@ public class Command_ro extends TFM_Command
             {
                 radius = Math.max(1, Math.min(50, Integer.parseInt(args[1])));
             }
-            catch (NumberFormatException ex)
+            catch (NumberFormatException e)
             {
                 playerMsg("Invalid radius: " + args[1], ChatColor.RED);
                 return true;
@@ -58,9 +58,9 @@ public class Command_ro extends TFM_Command
             {
                 target_player = getPlayer(args[2]);
             }
-            catch (PlayerNotFoundException ex)
+            catch (PlayerNotFoundException e)
             {
-                playerMsg(ex.getMessage(), ChatColor.RED);
+                playerMsg(e.getMessage(), ChatColor.RED);
                 return true;
             }
         }
@@ -70,9 +70,9 @@ public class Command_ro extends TFM_Command
         if (target_player == null)
         {
             TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of all players. Brace for lag...", senderIsConsole);
-            for (Player p : server.getOnlinePlayers())
+            for (Player player: server.getOnlinePlayers())
             {
-                affected += TFM_Util.replaceBlocks(p.getLocation(), from_material, Material.AIR, radius);
+                affected += TFM_Util.replaceBlocks(player.getLocation(), from_material, Material.AIR, radius);
             }
         }
         else

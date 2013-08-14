@@ -17,14 +17,14 @@ public class Command_gcmd extends TFM_Command
             return false;
         }
 
-        Player p;
+        Player player;
         try
         {
-            p = getPlayer(args[0]);
+            player = getPlayer(args[0]);
         }
-        catch (PlayerNotFoundException ex)
+        catch (PlayerNotFoundException e)
         {
-            sender.sendMessage(ex.getMessage());
+            sender.sendMessage(e.getMessage());
             return true;
         }
 
@@ -38,16 +38,16 @@ public class Command_gcmd extends TFM_Command
             }
             outcommand = outcommand_bldr.toString().trim();
         }
-        catch (Throwable ex)
+        catch (Throwable e)
         {
-            sender.sendMessage(ChatColor.GRAY + "Error building command: " + ex.getMessage());
+            sender.sendMessage(ChatColor.GRAY + "Error building command: " + e.getMessage());
             return true;
         }
 
         try
         {
-            playerMsg("Sending command as " + p.getName() + ": " + outcommand);
-            if (server.dispatchCommand(p, outcommand))
+            playerMsg("Sending command as " + player.getName() + ": " + outcommand);
+            if (server.dispatchCommand(player, outcommand))
             {
                 playerMsg("Command sent.");
             }
@@ -56,9 +56,9 @@ public class Command_gcmd extends TFM_Command
                 playerMsg("Unknown error sending command.");
             }
         }
-        catch (Throwable ex)
+        catch (Throwable e)
         {
-            playerMsg("Error sending command: " + ex.getMessage());
+            playerMsg("Error sending command: " + e.getMessage());
         }
 
         return true;

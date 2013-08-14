@@ -24,10 +24,10 @@ public class Command_creative extends TFM_Command
             }
         }
 
-        Player p;
+        Player target;
         if (args.length == 0)
         {
-            p = sender_p;
+            target = sender_p;
         }
         else
         {
@@ -56,19 +56,19 @@ public class Command_creative extends TFM_Command
 
             try
             {
-                p = getPlayer(args[0]);
+                target = getPlayer(args[0]);
             }
-            catch (PlayerNotFoundException ex)
+            catch (PlayerNotFoundException e)
             {
-                sender.sendMessage(ex.getMessage());
+                sender.sendMessage(e.getMessage());
                 return true;
             }
 
         }
 
-        playerMsg("Setting " + p.getName() + " to game mode 'Creative'.");
-        playerMsg(p, sender.getName() + " set your game mode to 'Creative'.");
-        p.setGameMode(GameMode.CREATIVE);
+        playerMsg("Setting " + target.getName() + " to game mode 'Creative'.");
+        playerMsg(target, sender.getName() + " set your game mode to 'Creative'.");
+        target.setGameMode(GameMode.CREATIVE);
 
         return true;
     }
