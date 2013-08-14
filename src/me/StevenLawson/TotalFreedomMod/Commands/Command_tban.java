@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Temporarily bans a player for five minutes.", usage = "/<command> <partialname>", aliases = "nope")
+@CommandParameters(description = "Temporarily bans a player for five minutes.", usage = "/<command> <partialname>", aliases = "noob")
 public class Command_tban extends TFM_Command
 {
     @Override
@@ -30,10 +30,10 @@ public class Command_tban extends TFM_Command
             return true;
         }
 
-        TFM_Util.adminAction(sender.getName(), "NOPE: " + player.getName(), true);
+        TFM_Util.adminAction(sender.getName(), "Tempbanning: " + player.getName() " for 5 minutes.", true);
         TFM_ServerInterface.banUsername(player.getName(), ChatColor.RED + "You have been temporarily banned for 5 minutes",
                 sender.getName(), TFM_Util.parseDateOffset("5m"));
-        player.kickPlayer(ChatColor.RED + "NOPE!\nYou have been temporarily banned for five minutes.");
+        player.kickPlayer(ChatColor.RED + "\nYou have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
 
         return true;
     }
