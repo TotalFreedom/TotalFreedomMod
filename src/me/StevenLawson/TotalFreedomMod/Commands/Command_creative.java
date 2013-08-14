@@ -39,9 +39,9 @@ public class Command_creative extends TFM_Command
                     return true;
                 }
 
-                for (Player target_player : server.getOnlinePlayers())
+                for (Player targetPlayer : server.getOnlinePlayers())
                 {
-                    target_player.setGameMode(GameMode.CREATIVE);
+                    targetPlayer.setGameMode(GameMode.CREATIVE);
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to creative", false);

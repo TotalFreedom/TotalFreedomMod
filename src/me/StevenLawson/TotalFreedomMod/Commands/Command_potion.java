@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
 @CommandParameters(
         description = "Manipulate potion effects. Duration is measured in server ticks (~20 ticks per second).",
-        usage = "/<command> <list | clear [target_name] | add <type> <duration> <amplifier> [target_name]>")
+        usage = "/<command> <list | clear [target name] | add <type> <duration> <amplifier> [target name]>")
 public class Command_potion extends TFM_Command
 {
     @Override

@@ -26,11 +26,11 @@ public class Command_qop extends TFM_Command
 
         boolean matched_player = false;
 
-        String target_name = args[0].toLowerCase();
+        String targetName = args[0].toLowerCase();
 
         for (Player player : server.getOnlinePlayers())
         {
-            if (player.getName().toLowerCase().indexOf(target_name) != -1 || player.getDisplayName().toLowerCase().indexOf(target_name) != -1)
+            if (player.getName().toLowerCase().indexOf(targetName) != -1 || player.getDisplayName().toLowerCase().indexOf(targetName) != -1)
             {
                 matched_player = true;
 

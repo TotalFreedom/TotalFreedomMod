@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -42,9 +41,9 @@ public class Command_survival extends TFM_Command
                     return true;
                 }
 
-                for (Player target_player : server.getOnlinePlayers())
+                for (Player targetPlayer : server.getOnlinePlayers())
                 {
-                    target_player.setGameMode(GameMode.SURVIVAL);
+                    targetPlayer.setGameMode(GameMode.SURVIVAL);
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to survival", false);

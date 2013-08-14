@@ -60,13 +60,13 @@ public class Command_gtfo extends TFM_Command
         player.getInventory().clear();
 
         // strike with lightning effect:
-        final Location target_pos = player.getLocation();
+        final Location targetPos = player.getLocation();
         for (int x = -1; x <= 1; x++)
         {
             for (int z = -1; z <= 1; z++)
             {
-                final Location strike_pos = new Location(target_pos.getWorld(), target_pos.getBlockX() + x, target_pos.getBlockY(), target_pos.getBlockZ() + z);
-                target_pos.getWorld().strikeLightning(strike_pos);
+                final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
+                targetPos.getWorld().strikeLightning(strike_pos);
             }
         }
 

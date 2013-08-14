@@ -74,13 +74,13 @@ public class Command_dispfill extends TFM_Command
                 {
                     for (int z_offset = -radius; z_offset <= radius; z_offset++)
                     {
-                        Block target_block = center_block.getRelative(x_offset, y_offset, z_offset);
-                        if (target_block.getLocation().distanceSquared(center_location) < (radius * radius))
+                        Block targetBlock = center_block.getRelative(x_offset, y_offset, z_offset);
+                        if (targetBlock.getLocation().distanceSquared(center_location) < (radius * radius))
                         {
-                            if (target_block.getType().equals(Material.DISPENSER))
+                            if (targetBlock.getType().equals(Material.DISPENSER))
                             {
-                                sender.sendMessage("Filling dispenser @ " + TFM_Util.formatLocation(target_block.getLocation()));
-                                setDispenserContents(target_block, items_array);
+                                sender.sendMessage("Filling dispenser @ " + TFM_Util.formatLocation(targetBlock.getLocation()));
+                                setDispenserContents(targetBlock, items_array);
                                 affected++;
                             }
                         }
@@ -98,9 +98,9 @@ public class Command_dispfill extends TFM_Command
         return true;
     }
 
-    private static void setDispenserContents(Block target_block, ItemStack[] items)
+    private static void setDispenserContents(Block targetBlock, ItemStack[] items)
     {
-        Dispenser dispenser = (Dispenser) target_block.getState();
+        Dispenser dispenser = (Dispenser) targetBlock.getState();
         Inventory disp_inv = dispenser.getInventory();
         disp_inv.clear();
         disp_inv.addItem(items);

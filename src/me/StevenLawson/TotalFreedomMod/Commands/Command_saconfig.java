@@ -131,24 +131,24 @@ public class Command_saconfig extends TFM_Command
                     return true;
                 }
 
-                String target_name = args[1];
+                String targetName = args[1];
 
                 try
                 {
-                    target_name = getPlayer(target_name).getName();
+                    targetName = getPlayer(targetName).getName();
                 }
                 catch (PlayerNotFoundException ex)
                 {
                 }
 
-                if (!TFM_SuperadminList.getSuperadminNames().contains(target_name.toLowerCase()))
+                if (!TFM_SuperadminList.getSuperadminNames().contains(targetName.toLowerCase()))
                 {
-                    playerMsg("Superadmin not found: " + target_name);
+                    playerMsg("Superadmin not found: " + targetName);
                     return true;
                 }
 
-                TFM_Util.adminAction(sender.getName(), "Removing " + target_name + " from the superadmin list", true);
-                TFM_SuperadminList.removeSuperadmin(target_name);
+                TFM_Util.adminAction(sender.getName(), "Removing " + targetName + " from the superadmin list", true);
+                TFM_SuperadminList.removeSuperadmin(targetName);
 
                 if (!TotalFreedomMod.twitterbotEnabled)
                 {
@@ -157,10 +157,10 @@ public class Command_saconfig extends TFM_Command
 
                 // Twitterbot
                 TFM_TwitterHandler twitterbot = TFM_TwitterHandler.getInstance(plugin);
-                String reply = twitterbot.delTwitter(target_name);
+                String reply = twitterbot.delTwitter(targetName);
                 if ("ok".equals(reply))
                 {
-                    TFM_Util.adminAction(sender.getName(), "Removing " + target_name + " from TwitterBot", true);
+                    TFM_Util.adminAction(sender.getName(), "Removing " + targetName + " from TwitterBot", true);
                 }
                 else if ("disabled".equals(reply))
                 {
@@ -184,7 +184,7 @@ public class Command_saconfig extends TFM_Command
                 }
                 else if ("notfound".equals(reply))
                 {
-                    TFM_Util.playerMsg(sender, target_name + " did not have a twitter handle registered to their name.", ChatColor.GREEN);
+                    TFM_Util.playerMsg(sender, targetName + " did not have a twitter handle registered to their name.", ChatColor.GREEN);
                 }
 
             }

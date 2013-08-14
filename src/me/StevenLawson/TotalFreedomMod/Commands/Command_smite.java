@@ -51,13 +51,13 @@ public class Command_smite extends TFM_Command
         player.getInventory().clear();
 
         //Strike with lightning effect:
-        final Location target_pos = player.getLocation();
+        final Location targetPos = player.getLocation();
         final World world = player.getWorld();
         for (int x = -1; x <= 1; x++)
         {
             for (int z = -1; z <= 1; z++)
             {
-                final Location strike_pos = new Location(world, target_pos.getBlockX() + x, target_pos.getBlockY(), target_pos.getBlockZ() + z);
+                final Location strike_pos = new Location(world, targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
                 world.strikeLightning(strike_pos);
             }
         }

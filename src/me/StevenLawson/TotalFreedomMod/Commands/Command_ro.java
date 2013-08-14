@@ -51,12 +51,12 @@ public class Command_ro extends TFM_Command
             }
         }
 
-        Player target_player = null;
+        Player targetPlayer = null;
         if (args.length == 3)
         {
             try
             {
-                target_player = getPlayer(args[2]);
+                targetPlayer = getPlayer(args[2]);
             }
             catch (PlayerNotFoundException ex)
             {
@@ -67,7 +67,7 @@ public class Command_ro extends TFM_Command
 
         int affected = 0;
 
-        if (target_player == null)
+        if (targetPlayer == null)
         {
             TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of all players. Brace for lag...", senderIsConsole);
             for (Player player : server.getOnlinePlayers())
@@ -77,8 +77,8 @@ public class Command_ro extends TFM_Command
         }
         else
         {
-            TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of " + target_player.getName() + ".", senderIsConsole);
-            affected += TFM_Util.replaceBlocks(target_player.getLocation(), from_material, Material.AIR, radius);
+            TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of " + targetPlayer.getName() + ".", senderIsConsole);
+            affected += TFM_Util.replaceBlocks(targetPlayer.getLocation(), from_material, Material.AIR, radius);
         }
 
         TFM_Util.adminAction(sender.getName(), "Remove complete. " + affected + " blocks removed.", senderIsConsole);

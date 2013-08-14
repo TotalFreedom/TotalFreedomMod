@@ -122,21 +122,21 @@ public class TFM_PlayerListener implements Listener
                         {
                             if (TFM_SuperadminList.isSeniorAdmin(player, true))
                             {
-                                Block target_block;
+                                Block targetBlock;
 
                                 if (event.getAction().equals(Action.LEFT_CLICK_AIR))
                                 {
-                                    target_block = player.getTargetBlock(null, 120);
+                                    targetBlock = player.getTargetBlock(null, 120);
                                 }
                                 else
                                 {
-                                    target_block = event.getClickedBlock();
+                                    targetBlock = event.getClickedBlock();
                                 }
 
-                                if (target_block != null)
+                                if (targetBlock != null)
                                 {
-                                    player.getWorld().createExplosion(target_block.getLocation(), 4F, true);
-                                    player.getWorld().strikeLightning(target_block.getLocation());
+                                    player.getWorld().createExplosion(targetBlock.getLocation(), 4F, true);
+                                    player.getWorld().strikeLightning(targetBlock.getLocation());
                                 }
                                 else
                                 {
@@ -160,10 +160,10 @@ public class TFM_PlayerListener implements Listener
                                 Vector player_dir = player_location.getDirection().normalize();
 
                                 double distance = 150.0;
-                                Block target_block = player.getTargetBlock(null, Math.round((float) distance));
-                                if (target_block != null)
+                                Block targetBlock = player.getTargetBlock(null, Math.round((float) distance));
+                                if (targetBlock != null)
                                 {
-                                    distance = player_location.distance(target_block.getLocation());
+                                    distance = player_location.distance(targetBlock.getLocation());
                                 }
 
                                 final List<Block> affected = new ArrayList<Block>();
@@ -305,26 +305,26 @@ public class TFM_PlayerListener implements Listener
 
         if (playerdata.isCaged())
         {
-            Location target_pos = player.getLocation().add(0, 1, 0);
+            Location targetPos = player.getLocation().add(0, 1, 0);
 
             boolean out_of_cage;
-            if (!target_pos.getWorld().equals(playerdata.getCagePos().getWorld()))
+            if (!targetPos.getWorld().equals(playerdata.getCagePos().getWorld()))
             {
                 out_of_cage = true;
             }
             else
             {
-                out_of_cage = target_pos.distanceSquared(playerdata.getCagePos()) > (2.5 * 2.5);
+                out_of_cage = targetPos.distanceSquared(playerdata.getCagePos()) > (2.5 * 2.5);
             }
 
             if (out_of_cage)
             {
-                playerdata.setCaged(true, target_pos, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER), playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
+                playerdata.setCaged(true, targetPos, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER), playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
                 playerdata.regenerateHistory();
                 playerdata.clearHistory();
-                TFM_Util.buildHistory(target_pos, 2, playerdata);
-                TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
-                TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
+                TFM_Util.buildHistory(targetPos, 2, playerdata);
+                TFM_Util.generateCube(targetPos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
+                TFM_Util.generateCube(targetPos, 1, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
             }
         }
 

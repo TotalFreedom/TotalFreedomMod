@@ -13,13 +13,13 @@ public class Command_cartsit extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        Player target_player = sender_p;
+        Player targetPlayer = sender_p;
 
         if (args.length == 1)
         {
             try
             {
-                target_player = getPlayer(args[0]);
+                targetPlayer = getPlayer(args[0]);
             }
             catch (PlayerNotFoundException ex)
             {
@@ -30,26 +30,26 @@ public class Command_cartsit extends TFM_Command
 
         if (senderIsConsole)
         {
-            if (target_player == null)
+            if (targetPlayer == null)
             {
                 sender.sendMessage("When used from the console, you must define a target player: /cartsit <player>");
                 return true;
             }
         }
-        else if (target_player != sender_p && !TFM_SuperadminList.isUserSuperadmin(sender))
+        else if (targetPlayer != sender_p && !TFM_SuperadminList.isUserSuperadmin(sender))
         {
             sender.sendMessage("Only superadmins can select another player as a /cartsit target.");
             return true;
         }
 
-        if (target_player.isInsideVehicle())
+        if (targetPlayer.isInsideVehicle())
         {
-            target_player.getVehicle().eject();
+            targetPlayer.getVehicle().eject();
         }
         else
         {
             Minecart nearest_cart = null;
-            for (Minecart cart : target_player.getWorld().getEntitiesByClass(Minecart.class))
+            for (Minecart cart : targetPlayer.getWorld().getEntitiesByClass(Minecart.class))
             {
                 if (cart.isEmpty())
                 {
@@ -59,7 +59,7 @@ public class Command_cartsit extends TFM_Command
                     }
                     else
                     {
-                        if (cart.getLocation().distanceSquared(target_player.getLocation()) < nearest_cart.getLocation().distanceSquared(target_player.getLocation()))
+                        if (cart.getLocation().distanceSquared(targetPlayer.getLocation()) < nearest_cart.getLocation().distanceSquared(targetPlayer.getLocation()))
                         {
                             nearest_cart = cart;
                         }
@@ -69,7 +69,7 @@ public class Command_cartsit extends TFM_Command
 
             if (nearest_cart != null)
             {
-                nearest_cart.setPassenger(target_player);
+                nearest_cart.setPassenger(targetPlayer);
             }
             else
             {

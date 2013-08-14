@@ -70,13 +70,13 @@ public class Command_cage extends TFM_Command
             }
         }
 
-        Location target_pos = player.getLocation().add(0, 1, 0);
-        playerdata.setCaged(true, target_pos, cage_material_outer, cage_material_inner);
+        Location targetPos = player.getLocation().add(0, 1, 0);
+        playerdata.setCaged(true, targetPos, cage_material_outer, cage_material_inner);
         playerdata.regenerateHistory();
         playerdata.clearHistory();
-        TFM_Util.buildHistory(target_pos, 2, playerdata);
-        TFM_Util.generateCube(target_pos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
-        TFM_Util.generateCube(target_pos, 1, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
+        TFM_Util.buildHistory(targetPos, 2, playerdata);
+        TFM_Util.generateCube(targetPos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
+        TFM_Util.generateCube(targetPos, 1, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
 
         player.setGameMode(GameMode.SURVIVAL);
 
