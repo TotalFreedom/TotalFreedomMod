@@ -123,7 +123,7 @@ public class Command_saconfig extends TFM_Command
                     TFM_SuperadminList.addSuperadmin(admin_name);
                 }
             }
-            else if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del") || args[0].equalsIgnoreCase("remove"))
+            else if (TFM_Util.isRemoveCommand(args[0]))
             {
                 if (!TFM_SuperadminList.isSeniorAdmin(sender))
                 {

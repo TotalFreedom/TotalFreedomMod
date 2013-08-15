@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
@@ -43,7 +44,7 @@ public class Command_protectarea extends TFM_Command
         }
         else if (args.length == 2)
         {
-            if (args[0].equalsIgnoreCase("remove"))
+            if (TFM_Util.isRemoveCommand(args[0]))
             {
                 TFM_ProtectedArea.removeProtectedArea(args[1]);
 

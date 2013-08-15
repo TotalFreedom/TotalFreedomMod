@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -121,7 +122,7 @@ public class Command_enchant extends TFM_Command
                     playerMsg("Can't use this enchantment on held item.");
                 }
             }
-            else if (args[0].equalsIgnoreCase("remove"))
+            else if (TFM_Util.isRemoveCommand(args[0]))
             {
                 itemInHand.removeEnchantment(ench);
 
