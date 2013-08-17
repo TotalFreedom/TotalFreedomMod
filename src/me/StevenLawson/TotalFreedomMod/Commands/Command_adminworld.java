@@ -12,25 +12,13 @@ public class Command_adminworld extends TFM_Command
 {
     private enum CommandMode
     {
-        TELEPORT, GUEST, TIME
+        TELEPORT, GUEST, TIME, WEATHER
     }
 
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         CommandMode commandMode = null;
-
-        /*
-         *
-         * /adminworld
-         *
-         * /adminworld guest list
-         * /adminworld guest remove <player>
-         * /adminworld guest add <player>
-         *
-         * /adminworld time <time>
-         *
-         */
 
         if (args.length == 0)
         {
@@ -46,6 +34,10 @@ public class Command_adminworld extends TFM_Command
             {
                 commandMode = CommandMode.TIME;
             }
+            else if ("weather".equalsIgnoreCase(args[0]))
+            {
+                commandMode = CommandMode.WEATHER;
+            }
         }
 
         if (commandMode == null)
@@ -57,6 +49,7 @@ public class Command_adminworld extends TFM_Command
         {
             case TELEPORT:
             {
+//                /adminworld
                 if (sender_p.getWorld() == TFM_AdminWorld.getInstance().getAdminWorld())
                 {
                     playerMsg("Going to the main world.");
@@ -72,6 +65,9 @@ public class Command_adminworld extends TFM_Command
             }
             case GUEST:
             {
+//                /adminworld guest list
+//                /adminworld guest add <player>
+//                /adminworld guest remove <player>
                 if (args.length == 2)
                 {
                     if ("list".equalsIgnoreCase(args[1]))
@@ -95,9 +91,20 @@ public class Command_adminworld extends TFM_Command
             }
             case TIME:
             {
+//                /adminworld time <morning|noon|evening|night>
                 if (args.length == 2)
                 {
                     //set time = args[1]
+                }
+
+                break;
+            }
+            case WEATHER:
+            {
+//                /adminworld weather <off|on|storm>
+                if (args.length == 2)
+                {
+                    //set weather = args[1]
                 }
 
                 break;
