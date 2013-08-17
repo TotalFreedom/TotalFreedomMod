@@ -31,7 +31,6 @@ public class TotalFreedomMod extends JavaPlugin
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final long SERVICE_CHECKER_RATE = 120L;
     //
-    public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
     public static final String PERMBAN_FILE = "permban.yml";
     public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
@@ -70,7 +69,6 @@ public class TotalFreedomMod extends JavaPlugin
 
         setAppProperties();
 
-        loadMainConfig();
         loadSuperadminConfig();
         loadPermbanConfig();
 
@@ -231,104 +229,90 @@ public class TotalFreedomMod extends JavaPlugin
         return true;
     }
     //
-    public static boolean allowFirePlace = false;
-    public static boolean allowFireSpread = false;
-    public static boolean allowLavaDamage = false;
-    public static boolean allowLavaPlace = false;
-    public static boolean allowWaterPlace = false;
-    public static boolean allowExplosions = false;
-    public static boolean allowFliudSpread = false;
-    public static boolean allowTntMinecarts = false;
-    public static double explosiveRadius = 4.0D;
-    public static List<String> blockedCommands = new ArrayList<String>();
-    public static boolean autoEntityWipe = true;
-    public static boolean nukeMonitor = true;
-    public static int nukeMonitorCountBreak = 100;
-    public static int nukeMonitorCountPlace = 25;
-    public static double nukeMonitorRange = 10.0D;
-    public static int freecamTriggerCount = 10;
-    public static boolean preprocessLogEnabled = true;
-    public static boolean disableNight = true;
-    public static boolean disableWeather = true;
-    public static boolean landminesEnabled = false;
-    public static boolean mp44Enabled = false;
-    public static boolean mobLimiterEnabled = true;
-    public static int mobLimiterMax = 50;
-    public static boolean mobLimiterDisableDragon = true;
-    public static boolean mobLimiterDisableGhast = true;
-    public static boolean mobLimiterDisableSlime = true;
-    public static boolean mobLimiterDisableGiant = true;
-    public static boolean tossmobEnabled = false;
-    public static boolean generateFlatlands = true;
-    public static String flatlandsGenerationParams = "16,stone,32,dirt,1,grass";
+    @Deprecated
     public static boolean adminOnlyMode = false;
-    public static boolean protectedAreasEnabled = true;
+    @Deprecated
+    public static boolean allowExplosions = false;
+    @Deprecated
+    public static boolean allowFirePlace = false;
+    @Deprecated
+    public static boolean allowFireSpread = false;
+    @Deprecated
+    public static boolean allowFliudSpread = false;
+    @Deprecated
+    public static boolean allowLavaDamage = false;
+    @Deprecated
+    public static boolean allowLavaPlace = false;
+    @Deprecated
+    public static boolean allowTntMinecarts = false;
+    @Deprecated
+    public static boolean allowWaterPlace = false;
+    @Deprecated
+    public static boolean autoEntityWipe = true;
+    @Deprecated
     public static boolean autoProtectSpawnpoints = true;
-    public static double autoProtectRadius = 25.0D;
-    public static List<String> host_sender_names = Arrays.asList("rcon", "remotebukkit");
-    public static boolean twitterbotEnabled = false;
-    public static String twitterbotURL = "";
-    public static String twitterbotSecret = "";
+    @Deprecated
+    public static boolean disableNight = true;
+    @Deprecated
+    public static boolean disableWeather = true;
+    @Deprecated
+    public static boolean generateFlatlands = true;
+    @Deprecated
+    public static boolean landminesEnabled = false;
+    @Deprecated
+    public static boolean mobLimiterDisableDragon = true;
+    @Deprecated
+    public static boolean mobLimiterDisableGhast = true;
+    @Deprecated
+    public static boolean mobLimiterDisableGiant = true;
+    @Deprecated
+    public static boolean mobLimiterDisableSlime = true;
+    @Deprecated
+    public static boolean mobLimiterEnabled = true;
+    @Deprecated
+    public static boolean mp44Enabled = false;
+    @Deprecated
+    public static boolean nukeMonitor = true;
+    @Deprecated
     public static boolean petProtectEnabled = true;
+    @Deprecated
+    public static boolean preprocessLogEnabled = true;
+    @Deprecated
+    public static boolean protectedAreasEnabled = true;
+    @Deprecated
+    public static boolean tossmobEnabled = false;
+    @Deprecated
+    public static boolean twitterbotEnabled = false;
+    @Deprecated
+    public static double autoProtectRadius = 25.0D;
+    @Deprecated
+    public static double explosiveRadius = 4.0D;
+    @Deprecated
+    public static double nukeMonitorRange = 10.0D;
+    @Deprecated
+    public static int freecamTriggerCount = 10;
+    @Deprecated
+    public static int mobLimiterMax = 50;
+    @Deprecated
+    public static int nukeMonitorCountBreak = 100;
+    @Deprecated
+    public static int nukeMonitorCountPlace = 25;
+    @Deprecated
+    public static List<String> blockedCommands = new ArrayList<String>();
+    @Deprecated
+    public static List<String> host_sender_names = Arrays.asList("rcon", "remotebukkit");
+    @Deprecated
+    public static String flatlandsGenerationParams = "16,stone,32,dirt,1,grass";
+    @Deprecated
     public static String logsRegisterPassword = "";
+    @Deprecated
     public static String logsRegisterURL = "";
+    @Deprecated
     public static String serviceCheckerURL = "http://status.mojang.com/check";
-
-    public static void loadMainConfig()
-    {
-        try
-        {
-            TFM_Util.createDefaultConfiguration(CONFIG_FILE, plugin_file);
-            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), CONFIG_FILE));
-
-            allowFirePlace = config.getBoolean("allow_fire_place", allowFirePlace);
-            allowFireSpread = config.getBoolean("allow_fire_spread", allowFireSpread);
-            allowLavaDamage = config.getBoolean("allow_lava_damage", allowLavaDamage);
-            allowLavaPlace = config.getBoolean("allow_lava_place", allowLavaPlace);
-            allowWaterPlace = config.getBoolean("allow_water_place", allowWaterPlace);
-            allowExplosions = config.getBoolean("allow_explosions", allowExplosions);
-            allowTntMinecarts = config.getBoolean("allow_tnt_minecarts", allowTntMinecarts);
-            explosiveRadius = config.getDouble("explosiveRadius", explosiveRadius);
-            blockedCommands = config.getStringList("blocked_commands");
-            autoEntityWipe = config.getBoolean("auto_wipe", autoEntityWipe);
-            nukeMonitor = config.getBoolean("nuke_monitor", nukeMonitor);
-            nukeMonitorCountBreak = config.getInt("nuke_monitor_count_break", nukeMonitorCountBreak);
-            nukeMonitorCountPlace = config.getInt("nuke_monitor_count_place", nukeMonitorCountPlace);
-            nukeMonitorRange = config.getDouble("nuke_monitor_range", nukeMonitorRange);
-            freecamTriggerCount = config.getInt("freecam_trigger_count", freecamTriggerCount);
-            preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
-            disableNight = config.getBoolean("disable_night", disableNight);
-            disableWeather = config.getBoolean("disable_weather", disableWeather);
-            landminesEnabled = config.getBoolean("landmines_enabled", landminesEnabled);
-            mp44Enabled = config.getBoolean("mp44_enabled", mp44Enabled);
-            mobLimiterEnabled = config.getBoolean("mob_limiter_enabled", mobLimiterEnabled);
-            mobLimiterMax = config.getInt("mob_limiter_max", mobLimiterMax);
-            mobLimiterDisableDragon = config.getBoolean("mob_limiter_disable_dragon", mobLimiterDisableDragon);
-            mobLimiterDisableGhast = config.getBoolean("mob_limiter_disable_ghast", mobLimiterDisableGhast);
-            mobLimiterDisableSlime = config.getBoolean("mob_limiter_disable_slime", mobLimiterDisableSlime);
-            mobLimiterDisableGiant = config.getBoolean("mob_limiter_disable_giant", mobLimiterDisableGiant);
-            tossmobEnabled = config.getBoolean("tossmob_enabled", tossmobEnabled);
-            generateFlatlands = config.getBoolean("generate_flatlands", generateFlatlands);
-            flatlandsGenerationParams = config.getString("flatlands_generation_params", flatlandsGenerationParams);
-            allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
-            adminOnlyMode = config.getBoolean("admin_only_mode", adminOnlyMode);
-            protectedAreasEnabled = config.getBoolean("protected_areas_enabled", protectedAreasEnabled);
-            autoProtectSpawnpoints = config.getBoolean("auto_protect_spawnpoints", autoProtectSpawnpoints);
-            autoProtectRadius = config.getDouble("auto_protect_radius", autoProtectRadius);
-            host_sender_names = config.getStringList("host_sender_names");
-            twitterbotEnabled = config.getBoolean("twitterbot_enabled", twitterbotEnabled);
-            twitterbotURL = config.getString("twitterbot_url", twitterbotURL);
-            twitterbotSecret = config.getString("twitterbot_secret", twitterbotSecret);
-            petProtectEnabled = config.getBoolean("pet_protect_enabled", petProtectEnabled);
-            logsRegisterPassword = config.getString("logs_register_password", logsRegisterPassword);
-            logsRegisterURL = config.getString("logs_register_url", logsRegisterURL);
-            serviceCheckerURL = config.getString("service_checker_url", serviceCheckerURL);
-        }
-        catch (Exception ex)
-        {
-            TFM_Log.severe("Error loading main config: " + ex.getMessage());
-        }
-    }
+    @Deprecated
+    public static String twitterbotSecret = "";
+    @Deprecated
+    public static String twitterbotURL = "";
 
     public static void loadSuperadminConfig()
     {
