@@ -1,8 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,9 +20,9 @@ public class Command_setspawnworld extends TFM_Command
 
         playerMsg("Spawn location for this world set to: " + TFM_Util.formatLocation(sender_p.getWorld().getSpawnLocation()));
 
-        if (TotalFreedomMod.protectedAreasEnabled && TotalFreedomMod.autoProtectSpawnpoints)
+        if (TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean() && TFM_ConfigEntry.AUTO_PROTECT_SPAWNPOINTS.getBoolean())
         {
-            TFM_ProtectedArea.addProtectedArea("spawn_" + sender_p.getWorld().getName(), pos, TotalFreedomMod.autoProtectRadius);
+            TFM_ProtectedArea.addProtectedArea("spawn_" + sender_p.getWorld().getName(), pos, TFM_ConfigEntry.AUTO_PROTECT_RADIUS.getDouble());
         }
 
         return true;

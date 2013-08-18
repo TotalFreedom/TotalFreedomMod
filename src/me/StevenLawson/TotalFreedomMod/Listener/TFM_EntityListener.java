@@ -58,7 +58,7 @@ public class TFM_EntityListener implements Listener
             }
         }
 
-        if (TotalFreedomMod.petProtectEnabled)
+        if (TFM_ConfigEntry.PET_PROTECT_ENABLED.getBoolean())
         {
             Entity entity = event.getEntity();
             if (entity instanceof Tameable)
@@ -74,7 +74,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onCreatureSpawn(CreatureSpawnEvent event)
     {
-        if (TotalFreedomMod.mobLimiterEnabled)
+        if (TFM_ConfigEntry.MOB_LIMITER_ENABLED.getBoolean())
         {
             if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.EGG))
             {
@@ -86,7 +86,7 @@ public class TFM_EntityListener implements Listener
 
             if (spawned instanceof EnderDragon)
             {
-                if (TotalFreedomMod.mobLimiterDisableDragon)
+                if (TFM_ConfigEntry.MOB_LIMITER_DISABLE_DRAGON.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -94,7 +94,7 @@ public class TFM_EntityListener implements Listener
             }
             else if (spawned instanceof Ghast)
             {
-                if (TotalFreedomMod.mobLimiterDisableGhast)
+                if (TFM_ConfigEntry.MOB_LIMITER_DISABLE_GHAST.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -102,7 +102,7 @@ public class TFM_EntityListener implements Listener
             }
             else if (spawned instanceof Slime)
             {
-                if (TotalFreedomMod.mobLimiterDisableSlime)
+                if (TFM_ConfigEntry.MOB_LIMITER_DISABLE_SLIME.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -110,7 +110,7 @@ public class TFM_EntityListener implements Listener
             }
             else if (spawned instanceof Giant)
             {
-                if (TotalFreedomMod.mobLimiterDisableGiant)
+                if (TFM_ConfigEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -122,7 +122,9 @@ public class TFM_EntityListener implements Listener
                 return;
             }
 
-            if (TotalFreedomMod.mobLimiterMax > 0)
+            int mobLimiterMax = TFM_ConfigEntry.MOB_LIMITER_MAX.getInteger().intValue();
+
+            if (mobLimiterMax > 0)
             {
                 int mobcount = 0;
 
@@ -134,7 +136,7 @@ public class TFM_EntityListener implements Listener
                     }
                 }
 
-                if (mobcount > TotalFreedomMod.mobLimiterMax)
+                if (mobcount > mobLimiterMax)
                 {
                     event.setCancelled(true);
                 }

@@ -76,7 +76,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         registerEventHandlers();
 
-        if (generateFlatlands)
+        if (TFM_ConfigEntry.GENERATE_FLATLANDS.getBoolean())
         {
             TFM_Util.wipeFlatlandsIfFlagged();
             TFM_Util.generateFlatlands(flatlandsGenerationParams);
@@ -84,7 +84,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_AdminWorld.getInstance().getAdminWorld();
 
-        if (disableWeather)
+        if (TFM_ConfigEntry.DISABLE_WEATHER.getBoolean())
         {
             for (World world : server.getWorlds())
             {
@@ -96,16 +96,16 @@ public class TotalFreedomMod extends JavaPlugin
         }
 
         // Initialize game rules
-        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_DAYLIGHT_CYCLE, !disableNight, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_DAYLIGHT_CYCLE, !TFM_ConfigEntry.DISABLE_NIGHT.getBoolean(), false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_FIRE_TICK, TFM_ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean(), false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_LOOT, false, false);
-        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !mobLimiterEnabled, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !TFM_ConfigEntry.MOB_LIMITER_ENABLED.getBoolean(), false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_TILE_DROPS, false, false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.MOB_GRIEFING, false, false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.NATURAL_REGENERATION, true, false);
         TFM_GameRuleHandler.commitGameRules();
 
-        if (TotalFreedomMod.protectedAreasEnabled)
+        if (TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean())
         {
             TFM_ProtectedArea.loadProtectedAreas();
             TFM_ProtectedArea.autoAddSpawnpoints();
@@ -230,34 +230,6 @@ public class TotalFreedomMod extends JavaPlugin
     }
     //
     @Deprecated
-    public static boolean autoProtectSpawnpoints = true;
-    @Deprecated
-    public static boolean disableNight = true;
-    @Deprecated
-    public static boolean disableWeather = true;
-    @Deprecated
-    public static boolean generateFlatlands = true;
-    @Deprecated
-    public static boolean landminesEnabled = false;
-    @Deprecated
-    public static boolean mobLimiterDisableDragon = true;
-    @Deprecated
-    public static boolean mobLimiterDisableGhast = true;
-    @Deprecated
-    public static boolean mobLimiterDisableGiant = true;
-    @Deprecated
-    public static boolean mobLimiterDisableSlime = true;
-    @Deprecated
-    public static boolean mobLimiterEnabled = true;
-    @Deprecated
-    public static boolean mp44Enabled = false;
-    @Deprecated
-    public static boolean nukeMonitor = true;
-    @Deprecated
-    public static boolean petProtectEnabled = true;
-    @Deprecated
-    public static boolean preprocessLogEnabled = true;
-    @Deprecated
     public static boolean protectedAreasEnabled = true;
     @Deprecated
     public static boolean tossmobEnabled = false;
@@ -267,16 +239,6 @@ public class TotalFreedomMod extends JavaPlugin
     public static double autoProtectRadius = 25.0D;
     @Deprecated
     public static double explosiveRadius = 4.0D;
-    @Deprecated
-    public static double nukeMonitorRange = 10.0D;
-    @Deprecated
-    public static int freecamTriggerCount = 10;
-    @Deprecated
-    public static int mobLimiterMax = 50;
-    @Deprecated
-    public static int nukeMonitorCountBreak = 100;
-    @Deprecated
-    public static int nukeMonitorCountPlace = 25;
     @Deprecated
     public static List<String> blockedCommands = new ArrayList<String>();
     @Deprecated

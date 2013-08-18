@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -16,7 +16,7 @@ public class Command_mp44 extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!TotalFreedomMod.mp44Enabled)
+        if (!TFM_ConfigEntry.MP44_ENABLED.getBoolean())
         {
             playerMsg("The mp44 is currently disabled.", ChatColor.GREEN);
             return true;

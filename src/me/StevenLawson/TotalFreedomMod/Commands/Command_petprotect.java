@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,11 +18,9 @@ public class Command_petprotect extends TFM_Command
             return false;
         }
 
-        TotalFreedomMod.petProtectEnabled = !TFM_Util.isStopCommand(args[0]);
-
         TFM_Util.adminAction(
                 sender.getName(),
-                "Tamed pet protection is now " + (TotalFreedomMod.petProtectEnabled ? "enabled" : "disabled") + ".",
+                "Tamed pet protection is now " + (TFM_ConfigEntry.PET_PROTECT_ENABLED.setBoolean(!TFM_Util.isStopCommand(args[0])) ? "enabled" : "disabled") + ".",
                 false);
 
         return true;

@@ -341,7 +341,7 @@ public class TFM_PlayerListener implements Listener
             TFM_Jumppads.getInstance().PlayerMoveEvent(event);
         }
 
-        if (TotalFreedomMod.landminesEnabled && TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
+        if (TFM_ConfigEntry.LANDMINES_ENABLED.getBoolean() && TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
             while (landmines.hasNext())
@@ -542,7 +542,7 @@ public class TFM_PlayerListener implements Listener
             }
         }
 
-        if (TotalFreedomMod.preprocessLogEnabled)
+        if (TFM_ConfigEntry.PREPROCESS_LOG_ENABLED.getBoolean())
         {
             TFM_Log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", player.getName(), ChatColor.stripColor(player.getDisplayName()), command), true);
         }

@@ -1,14 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
-import me.StevenLawson.TotalFreedomMod.TFM_Heartbeat;
-import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
-import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
-import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -45,25 +37,27 @@ public class TFM_BlockListener implements Listener
         Player player = event.getPlayer();
         Location block_pos = event.getBlock().getLocation();
 
-        if (TotalFreedomMod.nukeMonitor)
+        if (TFM_ConfigEntry.NUKE_MONITOR.getBoolean())
         {
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
             Location player_pos = player.getLocation();
+
+            final double nukeMonitorRange = TFM_ConfigEntry.NUKE_MONITOR_RANGE.getDouble().doubleValue();
 
             boolean out_of_range = false;
             if (!player_pos.getWorld().equals(block_pos.getWorld()))
             {
                 out_of_range = true;
             }
-            else if (player_pos.distanceSquared(block_pos) > (TotalFreedomMod.nukeMonitorRange * TotalFreedomMod.nukeMonitorRange))
+            else if (player_pos.distanceSquared(block_pos) > (nukeMonitorRange * nukeMonitorRange))
             {
                 out_of_range = true;
             }
 
             if (out_of_range)
             {
-                if (playerdata.incrementAndGetFreecamDestroyCount() > TotalFreedomMod.freecamTriggerCount)
+                if (playerdata.incrementAndGetFreecamDestroyCount() > TFM_ConfigEntry.FREECAM_TRIGGER_COUNT.getInteger())
                 {
                     TFM_Util.bcastMsg(player.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
                     TFM_Util.autoEject(player, "Freecam (extended range) block breaking is not permitted on this server.");
@@ -82,7 +76,7 @@ public class TFM_BlockListener implements Listener
             }
             else
             {
-                if (playerdata.incrementAndGetBlockDestroyCount() > TotalFreedomMod.nukeMonitorCountBreak)
+                if (playerdata.incrementAndGetBlockDestroyCount() > TFM_ConfigEntry.NUKE_MONITOR_COUNT_BREAK.getInteger())
                 {
                     TFM_Util.bcastMsg(player.getName() + " is breaking blocks too fast!", ChatColor.RED);
                     TFM_Util.autoEject(player, "You are breaking blocks too fast. Nukers are not permitted on this server.");
@@ -95,7 +89,7 @@ public class TFM_BlockListener implements Listener
             }
         }
 
-        if (TotalFreedomMod.protectedAreasEnabled)
+        if (TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean())
         {
             if (!TFM_SuperadminList.isUserSuperadmin(player))
             {
@@ -119,25 +113,27 @@ public class TFM_BlockListener implements Listener
         Player player = event.getPlayer();
         Location block_pos = event.getBlock().getLocation();
 
-        if (TotalFreedomMod.nukeMonitor)
+        if (TFM_ConfigEntry.NUKE_MONITOR.getBoolean())
         {
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
             Location player_pos = player.getLocation();
+
+            double nukeMonitorRange = TFM_ConfigEntry.NUKE_MONITOR_RANGE.getDouble().doubleValue();
 
             boolean out_of_range = false;
             if (!player_pos.getWorld().equals(block_pos.getWorld()))
             {
                 out_of_range = true;
             }
-            else if (player_pos.distanceSquared(block_pos) > (TotalFreedomMod.nukeMonitorRange * TotalFreedomMod.nukeMonitorRange))
+            else if (player_pos.distanceSquared(block_pos) > (nukeMonitorRange * nukeMonitorRange))
             {
                 out_of_range = true;
             }
 
             if (out_of_range)
             {
-                if (playerdata.incrementAndGetFreecamPlaceCount() > TotalFreedomMod.freecamTriggerCount)
+                if (playerdata.incrementAndGetFreecamPlaceCount() > TFM_ConfigEntry.FREECAM_TRIGGER_COUNT.getInteger())
                 {
                     TFM_Util.bcastMsg(player.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
                     TFM_Util.autoEject(player, "Freecam (extended range) block building is not permitted on this server.");
@@ -156,7 +152,7 @@ public class TFM_BlockListener implements Listener
             }
             else
             {
-                if (playerdata.incrementAndGetBlockPlaceCount() > TotalFreedomMod.nukeMonitorCountPlace)
+                if (playerdata.incrementAndGetBlockPlaceCount() > TFM_ConfigEntry.NUKE_MONITOR_COUNT_PLACE.getInteger())
                 {
                     TFM_Util.bcastMsg(player.getName() + " is placing blocks too fast!", ChatColor.RED);
                     TFM_Util.autoEject(player, "You are placing blocks too fast.");
@@ -169,7 +165,7 @@ public class TFM_BlockListener implements Listener
             }
         }
 
-        if (TotalFreedomMod.protectedAreasEnabled)
+        if (TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean())
         {
             if (!TFM_SuperadminList.isUserSuperadmin(player))
             {

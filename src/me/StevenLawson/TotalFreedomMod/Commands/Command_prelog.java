@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,12 +21,12 @@ public class Command_prelog extends TFM_Command
 
         if (args[0].equalsIgnoreCase("on"))
         {
-            TotalFreedomMod.preprocessLogEnabled = true;
+            TFM_ConfigEntry.PREPROCESS_LOG_ENABLED.setBoolean(true);
             playerMsg("Command preprocess logging is now enabled. This will be spammy in the log.");
         }
         else
         {
-            TotalFreedomMod.preprocessLogEnabled = false;
+            TFM_ConfigEntry.PREPROCESS_LOG_ENABLED.setBoolean(false);
             playerMsg("Command preprocess logging is now disabled.");
         }
 

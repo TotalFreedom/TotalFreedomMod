@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,7 +17,7 @@ public class Command_landmine extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!TotalFreedomMod.landminesEnabled)
+        if (!TFM_ConfigEntry.LANDMINES_ENABLED.getBoolean())
         {
             playerMsg("The landmine is currently disabled.", ChatColor.GREEN);
         }

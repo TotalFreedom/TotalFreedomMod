@@ -115,7 +115,7 @@ public class TFM_ProtectedArea implements Serializable
 
     public static void autoAddSpawnpoints()
     {
-        if (TotalFreedomMod.autoProtectSpawnpoints)
+        if (TFM_ConfigEntry.AUTO_PROTECT_SPAWNPOINTS.getBoolean())
         {
             for (World world : Bukkit.getWorlds())
             {
