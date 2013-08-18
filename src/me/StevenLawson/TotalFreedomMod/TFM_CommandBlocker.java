@@ -12,11 +12,11 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class TFM_CommandBlockerNew
+public class TFM_CommandBlocker
 {
     private Map<String, TFM_CommandBlocker_BlockedCommandEntry> blockedCommands = new HashMap<String, TFM_CommandBlocker_BlockedCommandEntry>();
 
-    private TFM_CommandBlockerNew()
+    private TFM_CommandBlocker()
     {
         parseBlockingRules();
     }
@@ -319,13 +319,13 @@ public class TFM_CommandBlockerNew
         }
     }
 
-    public static TFM_CommandBlockerNew getInstance()
+    public static TFM_CommandBlocker getInstance()
     {
         return TFM_CommandBlockerNewHolder.INSTANCE;
     }
 
     private static class TFM_CommandBlockerNewHolder
     {
-        private static final TFM_CommandBlockerNew INSTANCE = new TFM_CommandBlockerNew();
+        private static final TFM_CommandBlocker INSTANCE = new TFM_CommandBlocker();
     }
 }
