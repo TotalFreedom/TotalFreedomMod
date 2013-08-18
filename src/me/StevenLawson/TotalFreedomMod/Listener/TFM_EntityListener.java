@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,7 +30,7 @@ public class TFM_EntityListener implements Listener
             return;
         }
 
-        event.setRadius((float) TotalFreedomMod.explosiveRadius);
+        event.setRadius((float) TFM_ConfigEntry.EXPLOSIVE_RADIUS.getDouble().doubleValue());
     }
 
     @EventHandler(priority = EventPriority.HIGH)

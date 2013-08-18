@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +21,7 @@ public class TFM_CommandBlockerNew
         parseBlockingRules();
     }
 
+    @SuppressWarnings("unchecked")
     public final void parseBlockingRules()
     {
         blockedCommands.clear();
@@ -31,7 +33,8 @@ public class TFM_CommandBlockerNew
             return;
         }
 
-        for (String rawEntry : TotalFreedomMod.blockedCommands)
+        List<String> _blockedCommands = (List<String>) TFM_ConfigEntry.BLOCKED_COMMANDS.getList();
+        for (String rawEntry : _blockedCommands)
         {
             String[] parts = rawEntry.split(":");
             if (parts.length < 3 || parts.length > 4)

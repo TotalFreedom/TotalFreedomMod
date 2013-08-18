@@ -119,7 +119,7 @@ public class TFM_ProtectedArea implements Serializable
         {
             for (World world : Bukkit.getWorlds())
             {
-                TFM_ProtectedArea.addProtectedArea("spawn_" + world.getName(), world.getSpawnLocation(), TotalFreedomMod.autoProtectRadius);
+                TFM_ProtectedArea.addProtectedArea("spawn_" + world.getName(), world.getSpawnLocation(), TFM_ConfigEntry.AUTO_PROTECT_RADIUS.getDouble());
             }
         }
     }

@@ -114,7 +114,7 @@ public enum TFM_ConfigEntry
         return value;
     }
 
-    public List getList(TFM_ConfigEntry entry)
+    public List getList()
     {
         return TFM_Config.getInstance().getList(this);
     }

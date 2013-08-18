@@ -79,7 +79,7 @@ public class TotalFreedomMod extends JavaPlugin
         if (TFM_ConfigEntry.GENERATE_FLATLANDS.getBoolean())
         {
             TFM_Util.wipeFlatlandsIfFlagged();
-            TFM_Util.generateFlatlands(flatlandsGenerationParams);
+            TFM_Util.generateFlatlands(TFM_ConfigEntry.FLATLANDS_GENERATION_PARAMS.getString());
         }
 
         TFM_AdminWorld.getInstance().getAdminWorld();
@@ -228,33 +228,6 @@ public class TotalFreedomMod extends JavaPlugin
 
         return true;
     }
-    //
-    @Deprecated
-    public static boolean protectedAreasEnabled = true;
-    @Deprecated
-    public static boolean tossmobEnabled = false;
-    @Deprecated
-    public static boolean twitterbotEnabled = false;
-    @Deprecated
-    public static double autoProtectRadius = 25.0D;
-    @Deprecated
-    public static double explosiveRadius = 4.0D;
-    @Deprecated
-    public static List<String> blockedCommands = new ArrayList<String>();
-    @Deprecated
-    public static List<String> host_sender_names = Arrays.asList("rcon", "remotebukkit");
-    @Deprecated
-    public static String flatlandsGenerationParams = "16,stone,32,dirt,1,grass";
-    @Deprecated
-    public static String logsRegisterPassword = "";
-    @Deprecated
-    public static String logsRegisterURL = "";
-    @Deprecated
-    public static String serviceCheckerURL = "http://status.mojang.com/check";
-    @Deprecated
-    public static String twitterbotSecret = "";
-    @Deprecated
-    public static String twitterbotURL = "";
 
     public static void loadSuperadminConfig()
     {

@@ -496,7 +496,7 @@ public class TFM_Util
 
     public static void generateFlatlands()
     {
-        generateFlatlands(TotalFreedomMod.flatlandsGenerationParams);
+        generateFlatlands(TFM_ConfigEntry.FLATLANDS_GENERATION_PARAMS.getString());
     }
 
     public static void generateFlatlands(String genParams)
@@ -791,9 +791,10 @@ public class TFM_Util
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static boolean isFromHostConsole(String sender_name)
     {
-        return TotalFreedomMod.host_sender_names.contains(sender_name.toLowerCase());
+        return ((List<String>) TFM_ConfigEntry.HOST_SENDER_NAMES.getList()).contains(sender_name.toLowerCase());
     }
 
     public static List<String> removeDuplicates(List<String> old_list)

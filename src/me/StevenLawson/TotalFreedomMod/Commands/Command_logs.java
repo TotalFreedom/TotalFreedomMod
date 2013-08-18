@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -46,12 +47,10 @@ public class Command_logs extends TFM_Command
 
     public static void updateLogsRegistration(final CommandSender sender, final String targetName, final String targetIP, final LogsRegistrationMode mode)
     {
-        if (TotalFreedomMod.logsRegisterURL == null || TotalFreedomMod.logsRegisterPassword == null)
-        {
-            return;
-        }
+        final String logsRegisterURL = TFM_ConfigEntry.LOGS_REGISTER_URL.getString();
+        final String logsRegisterPassword = TFM_ConfigEntry.LOGS_REGISTER_PASSWORD.getString();
 
-        if (TotalFreedomMod.logsRegisterPassword.isEmpty() || TotalFreedomMod.logsRegisterURL.isEmpty())
+        if (logsRegisterURL == null || logsRegisterPassword == null || logsRegisterURL.isEmpty() || logsRegisterPassword.isEmpty())
         {
             return;
         }
@@ -68,9 +67,9 @@ public class Command_logs extends TFM_Command
                         sender.sendMessage(ChatColor.YELLOW + "Connecting...");
                     }
 
-                    URL url = new URLBuilder(TotalFreedomMod.logsRegisterURL)
+                    URL url = new URLBuilder(logsRegisterURL)
                             .addQueryParameter("mode", mode.toString())
-                            .addQueryParameter("password", TotalFreedomMod.logsRegisterPassword)
+                            .addQueryParameter("password", logsRegisterPassword)
                             .addQueryParameter("name", targetName)
                             .addQueryParameter("ip", targetIP)
                             .getURL();

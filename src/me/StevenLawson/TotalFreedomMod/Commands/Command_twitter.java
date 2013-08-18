@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -15,7 +16,7 @@ public class Command_twitter extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!TotalFreedomMod.twitterbotEnabled)
+        if (!TFM_ConfigEntry.TWITTERBOT_ENABLED.getBoolean())
         {
             TFM_Util.playerMsg(sender, "TwitterBot has been disabled in config.", ChatColor.RED);
             return true;
@@ -26,7 +27,7 @@ public class Command_twitter extends TFM_Command
             return false;
         }
 
-        TFM_TwitterHandler twitterbot = TFM_TwitterHandler.getInstance(plugin);
+        TFM_TwitterHandler twitterbot = TFM_TwitterHandler.getInstance();
 
         if ("set".equals(args[0]))
         {

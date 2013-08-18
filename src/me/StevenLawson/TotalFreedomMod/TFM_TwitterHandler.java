@@ -8,11 +8,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 
 public class TFM_TwitterHandler
 {
-    private TotalFreedomMod plugin;
-
-    private TFM_TwitterHandler(TotalFreedomMod plugin)
+    private TFM_TwitterHandler()
     {
-        this.plugin = plugin;
     }
 
     public String getTwitter(String player)
@@ -47,24 +44,32 @@ public class TFM_TwitterHandler
     private String request(String queryString)
     {
         String line = "failed";
-        try
+
+        final String twitterbotURL = TFM_ConfigEntry.TWITTERBOT_URL.getString();
+        final String twitterbotSecret = TFM_ConfigEntry.TWITTERBOT_SECRET.getString();
+
+        if (twitterbotURL != null && twitterbotSecret != null && !twitterbotURL.isEmpty() && !twitterbotSecret.isEmpty())
         {
-            URL getUrl = new URL(TotalFreedomMod.twitterbotURL + "?auth=" + TotalFreedomMod.twitterbotSecret + "&" + queryString);
-            URLConnection urlConnection = getUrl.openConnection();
-            // Read the response
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            line = in.readLine();
-            in.close();
+            try
+            {
+                URL getUrl = new URL(twitterbotURL + "?auth=" + twitterbotSecret + "&" + queryString);
+                URLConnection urlConnection = getUrl.openConnection();
+                // Read the response
+                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                line = in.readLine();
+                in.close();
+            }
+            catch (Exception ex)
+            {
+                TFM_Log.severe(ExceptionUtils.getFullStackTrace(ex));
+            }
         }
-        catch (Exception ex)
-        {
-            TFM_Log.severe(ExceptionUtils.getFullStackTrace(ex));
-        }
+
         return line;
     }
 
-    public static TFM_TwitterHandler getInstance(TotalFreedomMod plugin)
+    public static TFM_TwitterHandler getInstance()
     {
-        return new TFM_TwitterHandler(plugin);
+        return new TFM_TwitterHandler();
     }
 }
