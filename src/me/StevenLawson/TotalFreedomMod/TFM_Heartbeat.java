@@ -35,9 +35,9 @@ public class TFM_Heartbeat extends BukkitRunnable
             playerdata.resetBlockPlaceCount();
         }
 
-        if (TotalFreedomMod.autoEntityWipe)
+        if (TFM_ConfigEntry.AUTO_ENTITY_WIPE.getBoolean())
         {
-            TFM_Util.TFM_EntityWiper.wipeEntities(!TotalFreedomMod.allowExplosions, false);
+            TFM_Util.TFM_EntityWiper.wipeEntities(!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean(), false);
         }
 
         if (TotalFreedomMod.disableWeather)

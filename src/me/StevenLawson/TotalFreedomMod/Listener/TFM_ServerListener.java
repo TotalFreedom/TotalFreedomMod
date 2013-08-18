@@ -4,10 +4,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlockerNew;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -88,7 +88,7 @@ public class TFM_ServerListener implements Listener
         {
             event.setMotd(ChatColor.RED + "You are banned.");
         }
-        else if (TotalFreedomMod.adminOnlyMode)
+        else if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
         {
             event.setMotd(ChatColor.RED + "Server is closed.");
         }

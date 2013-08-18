@@ -247,7 +247,7 @@ public class TFM_ServerInterface
                 return;
             }
 
-            if (TotalFreedomMod.adminOnlyMode)
+            if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is temporarily open to admins only.");
                 return;

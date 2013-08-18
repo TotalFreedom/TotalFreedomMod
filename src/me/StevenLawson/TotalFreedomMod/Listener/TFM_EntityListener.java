@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -12,7 +13,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityExplode(EntityExplodeEvent event)
     {
-        if (!TotalFreedomMod.allowExplosions)
+        if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             event.setCancelled(true);
             return;
@@ -24,7 +25,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onExplosionPrime(ExplosionPrimeEvent event)
     {
-        if (!TotalFreedomMod.allowExplosions)
+        if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             event.setCancelled(true);
             return;
@@ -36,7 +37,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityCombust(EntityCombustEvent event)
     {
-        if (!TotalFreedomMod.allowExplosions)
+        if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             event.setCancelled(true);
         }
@@ -49,7 +50,7 @@ public class TFM_EntityListener implements Listener
         {
             case LAVA:
             {
-                if (!TotalFreedomMod.allowLavaDamage)
+                if (!TFM_ConfigEntry.ALLOW_LAVA_DAMAGE.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -144,7 +145,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDeath(EntityDeathEvent event)
     {
-        if (TotalFreedomMod.autoEntityWipe)
+        if (TFM_ConfigEntry.AUTO_ENTITY_WIPE.getBoolean())
         {
             event.setDroppedExp(0);
         }
@@ -153,7 +154,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onProjectileHit(ProjectileHitEvent event)
     {
-        if (TotalFreedomMod.allowExplosions)
+        if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             Projectile entity = event.getEntity();
             if (event.getEntityType() == EntityType.ARROW && entity.getShooter() instanceof Player)

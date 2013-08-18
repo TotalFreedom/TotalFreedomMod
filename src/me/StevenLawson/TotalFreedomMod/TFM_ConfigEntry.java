@@ -75,9 +75,10 @@ public enum TFM_ConfigEntry
         return TFM_Config.getInstance().getString(this);
     }
 
-    public void setString(String value)
+    public String setString(String value)
     {
         TFM_Config.getInstance().setString(this, value);
+        return value;
     }
 
     public Double getDouble()
@@ -85,9 +86,10 @@ public enum TFM_ConfigEntry
         return TFM_Config.getInstance().getDouble(this);
     }
 
-    public void setDouble(Double value)
+    public Double setDouble(Double value)
     {
         TFM_Config.getInstance().setDouble(this, value);
+        return value;
     }
 
     public Boolean getBoolean()
@@ -95,9 +97,10 @@ public enum TFM_ConfigEntry
         return TFM_Config.getInstance().getBoolean(this);
     }
 
-    public void setBoolean(Boolean value)
+    public Boolean setBoolean(Boolean value)
     {
         TFM_Config.getInstance().setBoolean(this, value);
+        return value;
     }
 
     public Integer getInteger()
@@ -105,9 +108,10 @@ public enum TFM_ConfigEntry
         return TFM_Config.getInstance().getInteger(this);
     }
 
-    public void setInteger(Integer value)
+    public Integer setInteger(Integer value)
     {
         TFM_Config.getInstance().setInteger(this, value);
+        return value;
     }
 
     public List getList(TFM_ConfigEntry entry)

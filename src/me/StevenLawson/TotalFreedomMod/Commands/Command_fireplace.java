@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,12 +19,12 @@ public class Command_fireplace extends TFM_Command
 
         if (args[0].equalsIgnoreCase("on"))
         {
-            TotalFreedomMod.allowFirePlace = true;
+            TFM_ConfigEntry.ALLOW_FIRE_PLACE.setBoolean(true);
             playerMsg("Fire placement is now enabled.");
         }
         else
         {
-            TotalFreedomMod.allowFirePlace = false;
+            TFM_ConfigEntry.ALLOW_FIRE_PLACE.setBoolean(false);
             playerMsg("Fire placement is now disabled.");
         }
 

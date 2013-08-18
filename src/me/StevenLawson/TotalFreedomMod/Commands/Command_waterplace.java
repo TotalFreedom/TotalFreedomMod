@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,22 +12,12 @@ public class Command_waterplace extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
         if (args.length != 1)
         {
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("on"))
-        {
-            TotalFreedomMod.allowWaterPlace = true;
-            playerMsg("Water placement is now enabled.");
-        }
-        else
-        {
-            TotalFreedomMod.allowWaterPlace = false;
-            playerMsg("Water placement is now disabled.");
-        }
+        playerMsg("Water placement is now " + (TFM_ConfigEntry.ALLOW_WATER_PLACE.setBoolean(!args[0].equalsIgnoreCase("off")) ? "enabled" : "disabled") + ".");
 
         return true;
     }

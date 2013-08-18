@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Heartbeat;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
@@ -23,7 +24,7 @@ public class TFM_BlockListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBurn(BlockBurnEvent event)
     {
-        if (!TotalFreedomMod.allowFireSpread)
+        if (!TFM_ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean())
         {
             event.setCancelled(true);
         }
@@ -32,7 +33,7 @@ public class TFM_BlockListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockIgnite(BlockIgniteEvent event)
     {
-        if (!TotalFreedomMod.allowFirePlace)
+        if (!TFM_ConfigEntry.ALLOW_FIRE_PLACE.getBoolean())
         {
             event.setCancelled(true);
         }
@@ -185,7 +186,7 @@ public class TFM_BlockListener implements Listener
             case LAVA:
             case STATIONARY_LAVA:
             {
-                if (TotalFreedomMod.allowLavaPlace)
+                if (TFM_ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
                 {
                     TFM_Log.info(String.format("%s placed lava @ %s", player.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
 
@@ -203,7 +204,7 @@ public class TFM_BlockListener implements Listener
             case WATER:
             case STATIONARY_WATER:
             {
-                if (TotalFreedomMod.allowWaterPlace)
+                if (TFM_ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
                 {
                     TFM_Log.info(String.format("%s placed water @ %s", player.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
 
@@ -220,7 +221,7 @@ public class TFM_BlockListener implements Listener
             }
             case FIRE:
             {
-                if (TotalFreedomMod.allowFirePlace)
+                if (TFM_ConfigEntry.ALLOW_FIRE_PLACE.getBoolean())
                 {
                     TFM_Log.info(String.format("%s placed fire @ %s", player.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
 
@@ -237,7 +238,7 @@ public class TFM_BlockListener implements Listener
             }
             case TNT:
             {
-                if (TotalFreedomMod.allowExplosions)
+                if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
                 {
                     TFM_Log.info(String.format("%s placed TNT @ %s", player.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
 
@@ -264,7 +265,7 @@ public class TFM_BlockListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockFromTo(BlockFromToEvent event)
     {
-        if (!TotalFreedomMod.allowFliudSpread)
+        if (!TFM_ConfigEntry.ALLOW_FLIUD_SPREAD.getBoolean())
         {
             event.setCancelled(true);
         }

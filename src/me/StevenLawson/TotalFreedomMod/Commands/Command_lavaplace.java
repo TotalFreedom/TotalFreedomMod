@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,16 +17,7 @@ public class Command_lavaplace extends TFM_Command
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("on"))
-        {
-            TotalFreedomMod.allowLavaPlace = true;
-            playerMsg("Lava placement is now enabled.");
-        }
-        else
-        {
-            TotalFreedomMod.allowLavaPlace = false;
-            playerMsg("Lava placement is now disabled.");
-        }
+        playerMsg("Lava placement is now " + (TFM_ConfigEntry.ALLOW_LAVA_PLACE.setBoolean(!args[0].equalsIgnoreCase("off")) ? "enabled" : "disabled") + ".");
 
         return true;
     }

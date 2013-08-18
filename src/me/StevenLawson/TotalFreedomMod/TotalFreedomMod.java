@@ -97,7 +97,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         // Initialize game rules
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_DAYLIGHT_CYCLE, !disableNight, false);
-        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_FIRE_TICK, allowFireSpread, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_FIRE_TICK, TFM_ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean(), false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_LOOT, false, false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !mobLimiterEnabled, false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_TILE_DROPS, false, false);
@@ -229,26 +229,6 @@ public class TotalFreedomMod extends JavaPlugin
         return true;
     }
     //
-    @Deprecated
-    public static boolean adminOnlyMode = false;
-    @Deprecated
-    public static boolean allowExplosions = false;
-    @Deprecated
-    public static boolean allowFirePlace = false;
-    @Deprecated
-    public static boolean allowFireSpread = false;
-    @Deprecated
-    public static boolean allowFliudSpread = false;
-    @Deprecated
-    public static boolean allowLavaDamage = false;
-    @Deprecated
-    public static boolean allowLavaPlace = false;
-    @Deprecated
-    public static boolean allowTntMinecarts = false;
-    @Deprecated
-    public static boolean allowWaterPlace = false;
-    @Deprecated
-    public static boolean autoEntityWipe = true;
     @Deprecated
     public static boolean autoProtectSpawnpoints = true;
     @Deprecated

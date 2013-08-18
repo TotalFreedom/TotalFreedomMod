@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
@@ -33,12 +34,12 @@ public class Command_explosives extends TFM_Command
 
         if (args[0].equalsIgnoreCase("on"))
         {
-            TotalFreedomMod.allowExplosions = true;
+            TFM_ConfigEntry.ALLOW_EXPLOSIONS.setBoolean(true);
             playerMsg("Explosives are now enabled, radius set to " + TotalFreedomMod.explosiveRadius + " blocks.");
         }
         else
         {
-            TotalFreedomMod.allowExplosions = false;
+            TFM_ConfigEntry.ALLOW_EXPLOSIONS.setBoolean(false);
             playerMsg("Explosives are now disabled.");
         }
 
