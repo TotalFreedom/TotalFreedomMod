@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 
 public class TFM_Log
@@ -13,43 +13,44 @@ public class TFM_Log
         throw new AssertionError();
     }
 
-    private static void log(Level level, String message, boolean raw)
-    {
-        logger.log(level, (raw ? "" : "[" + TotalFreedomMod.pluginName + "]: ") + message);
-    }
-
     public static void info(String message)
     {
-        TFM_Log.info(message, false);
+        TotalFreedomMod.logger.info(message);
     }
-
+    
     public static void info(String message, boolean raw)
     {
-        TFM_Log.log(Level.INFO, message, raw);
+        if (raw)
+        {
+            TotalFreedomMod.logger.info(message);
+        }
+        else
+        {
+            info(message);
+        }
     }
 
-    public static void warning(String message)
+    public static void severe(Object message)
     {
-        TFM_Log.info(message, false);
+        if (message instanceof Throwable)
+        {
+            TotalFreedomMod.logger.severe(ExceptionUtils.getFullStackTrace((Throwable) message));
+        }
+        else
+        {
+            TotalFreedomMod.logger.severe(String.valueOf(message));
+        }
     }
 
-    public static void warning(String message, boolean raw)
+    public static void warning(Object message)
     {
-        TFM_Log.log(Level.WARNING, message, raw);
-    }
-
-    public static void severe(String message)
-    {
-        TFM_Log.info(message, false);
-    }
-
-    public static void severe(String message, boolean raw)
-    {
-        TFM_Log.log(Level.SEVERE, message, raw);
-    }
-
-    public static void severe(Throwable ex)
-    {
-        logger.log(Level.SEVERE, null, ex);
+        if (message instanceof Throwable)
+        {
+            TotalFreedomMod.logger.warning(ExceptionUtils.getFullStackTrace((Throwable) message));
+        }
+        else
+        {
+            TotalFreedomMod.logger.warning(String.valueOf(message));
+        }
     }
 }

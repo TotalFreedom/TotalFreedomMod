@@ -1,4 +1,4 @@
-# TotalFreedomMod v3.00 Configuration
+# TotalFreedomMod v3.1 Configuration
 # by Madgeek1450 and DarthSalamon
 
 # Block placement prevention:
@@ -12,7 +12,7 @@ allow_tnt_minecarts: false
 
 # Explosion management:
 allow_explosions: false
-explosiveRadius: 4.0
+explosive_radius: 4.0
 
 # Blocked commands:
 #
@@ -126,15 +126,15 @@ host_sender_names:
 
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot_enabled: false
-twitterbot_url:
-twitterbot_secret:
+twitterbot_url: ''
+twitterbot_secret: ''
 
 # Pet Protect - Prevent tamed pets from being killed.
 pet_protect_enabled: true
 
 # Logs Registration
-logs_register_password:
-logs_register_url:
+logs_register_password: ''
+logs_register_url: ''
   
 # Mojang service checker
 service_checker_url: http://status.mojang.com/check

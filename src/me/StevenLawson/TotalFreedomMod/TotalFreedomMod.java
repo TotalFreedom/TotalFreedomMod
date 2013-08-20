@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Listener.*;
@@ -26,8 +27,6 @@ import org.mcstats.Metrics;
 
 public class TotalFreedomMod extends JavaPlugin
 {
-    public static final Server server = Bukkit.getServer();
-    //
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final long SERVICE_CHECKER_RATE = 120L;
     //
@@ -45,34 +44,45 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     //
+    public static final Server server = Bukkit.getServer();
+    public static TotalFreedomMod plugin = null;
+    public static File plugin_file = null;
+    //
+    public static Logger logger;
+    //
+    public static String pluginName = "";
+    public static String pluginVersion = "";
+    public static String buildNumber = "";
+    public static String buildDate = "";
+    //
     public static boolean allPlayersFrozen = false;
     public static BukkitTask freezePurgeTask = null;
     public static BukkitTask mutePurgeTask = null;
     public static boolean lockdownEnabled = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
     //
-    public static String pluginVersion = "";
-    public static String buildNumber = "";
-    public static String buildDate = "";
-    public static String pluginName = "";
-    //
-    public static TotalFreedomMod plugin = null;
-    public static File plugin_file = null;
+    public static List<String> permbanned_players = new ArrayList<String>();
+    public static List<String> permbanned_ips = new ArrayList<String>();
 
     @Override
     public void onEnable()
     {
         TotalFreedomMod.plugin = this;
-        TotalFreedomMod.plugin_file = getFile();
+        TotalFreedomMod.plugin_file = plugin.getFile();
+        TotalFreedomMod.logger = plugin.getLogger();
 
-        TotalFreedomMod.pluginName = this.getDescription().getName();
-
+        TotalFreedomMod.pluginName = plugin.getDescription().getName();
+        
         setAppProperties();
+        
+        logger = plugin.getLogger();
+        
+        TFM_Log.info("Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
 
         loadSuperadminConfig();
         loadPermbanConfig();
 
-        TFM_UserList.getInstance(this);
+        TFM_UserList.getInstance(plugin);
 
         registerEventHandlers();
 
@@ -90,7 +100,6 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 world.setThundering(false);
                 world.setStorm(false);
-                world.setThunderDuration(0);
                 world.setThunderDuration(0);
             }
         }
@@ -129,7 +138,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
 
         // Heartbeat
-        new TFM_Heartbeat(this).runTaskTimer(plugin, HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+        new TFM_Heartbeat(plugin).runTaskTimer(plugin, HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try
@@ -142,8 +151,6 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
 
-        TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
-
         TFM_ServiceChecker.getInstance().getUpdateRunnable().runTaskTimerAsynchronously(plugin, 40L, SERVICE_CHECKER_RATE * 20L);
 
         new BukkitRunnable()
@@ -154,13 +161,16 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_CommandLoader.getInstance().scan();
                 TFM_CommandBlocker.getInstance().parseBlockingRules();
             }
-        }.runTaskLater(this, 20L);
+        }.runTaskLater(plugin, 20L);
+    
+        
+         TFM_Log.info("Plugin enabled");
     }
 
     @Override
     public void onDisable()
     {
-        server.getScheduler().cancelTasks(this);
+        server.getScheduler().cancelTasks(plugin);
         TFM_Log.info("Plugin disabled");
     }
 
@@ -194,7 +204,7 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
                 dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, cmd.getName().toLowerCase())).newInstance();
-                dispatcher.setup(this, sender, dispatcher.getClass());
+                dispatcher.setup(plugin, sender, dispatcher.getClass());
             }
             catch (Throwable ex)
             {
@@ -241,9 +251,6 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.severe("Error loading superadmin list: " + ex.getMessage());
         }
     }
-    //
-    public static List<String> permbanned_players = new ArrayList<String>();
-    public static List<String> permbanned_ips = new ArrayList<String>();
 
     public static void loadPermbanConfig()
     {
@@ -272,7 +279,8 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Exception ex)
         {
-            TFM_Log.severe("Error loading permban list: " + ex.getMessage());
+            TFM_Log.severe("Error loading permban list!");
+            TFM_Log.severe(ex);
         }
     }
 
@@ -291,10 +299,10 @@ public class TotalFreedomMod extends JavaPlugin
     {
         try
         {
-            InputStream in;
+            InputStream in = plugin.getResource("appinfo.properties");
             Properties props = new Properties();
 
-            in = plugin.getClass().getResourceAsStream("/appinfo.properties");
+            // in = plugin.getClass().getResourceAsStream("/appinfo.properties");
             props.load(in);
             in.close();
 
@@ -304,6 +312,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Exception ex)
         {
+            TFM_Log.severe("Could not load App properties!");
             TFM_Log.severe(ex);
         }
     }

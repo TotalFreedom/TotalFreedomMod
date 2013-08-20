@@ -33,7 +33,7 @@ public enum TFM_ConfigEntry
     TWITTERBOT_ENABLED(Boolean.class, "twitterbot_enabled"),
     //
     AUTO_PROTECT_RADIUS(Double.class, "auto_protect_radius"),
-    EXPLOSIVE_RADIUS(Double.class, "explosiveRadius"),
+    EXPLOSIVE_RADIUS(Double.class, "explosive_radius"),
     NUKE_MONITOR_RANGE(Double.class, "nuke_monitor_range"),
     //
     FREECAM_TRIGGER_COUNT(Integer.class, "freecam_trigger_count"),
