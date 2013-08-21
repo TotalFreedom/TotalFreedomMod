@@ -6,8 +6,6 @@ import org.bukkit.Bukkit;
 
 public class TFM_Log
 {
-    private static final Logger LOGGER = Bukkit.getLogger();
-
     private TFM_Log()
     {
         throw new AssertionError();
@@ -49,11 +47,34 @@ public class TFM_Log
 
     private static void log(Level level, String message, boolean raw)
     {
-        LOGGER.log(level, (raw ? "" : "[" + TotalFreedomMod.pluginName + "]: ") + message);
+        LoggerType.getLogger(raw).log(level, message);
     }
 
     private static void log(Level level, Throwable throwable)
     {
-        LOGGER.log(level, null, throwable);
+        LoggerType.SERVER.getLogger().log(level, null, throwable);
+    }
+
+    private static enum LoggerType
+    {
+        SERVER(Bukkit.getLogger()),
+        PLUGIN(TotalFreedomMod.plugin.getLogger());
+        //
+        private final Logger logger;
+
+        private LoggerType(Logger logger)
+        {
+            this.logger = logger;
+        }
+
+        public Logger getLogger()
+        {
+            return logger;
+        }
+
+        public static Logger getLogger(boolean getRawLogger)
+        {
+            return (getRawLogger ? SERVER.getLogger() : PLUGIN.getLogger());
+        }
     }
 }
