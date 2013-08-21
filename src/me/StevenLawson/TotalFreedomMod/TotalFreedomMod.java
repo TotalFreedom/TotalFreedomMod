@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Listener.*;
@@ -63,14 +62,21 @@ public class TotalFreedomMod extends JavaPlugin
     public static List<String> permbanned_ips = new ArrayList<String>();
 
     @Override
-    public void onEnable()
+    public void onLoad()
     {
         TotalFreedomMod.plugin = this;
         TotalFreedomMod.plugin_file = plugin.getFile();
         TotalFreedomMod.pluginName = plugin.getDescription().getName();
 
-        setAppProperties();
+        TFM_Log.setPluginLogger(this.getLogger());
+        TFM_Log.setServerLogger(this.getServer().getLogger());
 
+        setAppProperties();
+    }
+
+    @Override
+    public void onEnable()
+    {
         TFM_Log.info("Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
 
         loadSuperadminConfig();
