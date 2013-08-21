@@ -46,7 +46,7 @@ public class TFM_PlayerListener implements Listener
                 {
                     case WATER_BUCKET:
                     {
-                        if (!TotalFreedomMod.allowWaterPlace)
+                        if (!TFM_ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
                         {
                             player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                             player.sendMessage(ChatColor.GRAY + "Water buckets are currently disabled.");
@@ -56,7 +56,7 @@ public class TFM_PlayerListener implements Listener
                     }
                     case LAVA_BUCKET:
                     {
-                        if (!TotalFreedomMod.allowLavaPlace)
+                        if (!TFM_ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
                         {
                             player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                             player.sendMessage(ChatColor.GRAY + "Lava buckets are currently disabled.");
@@ -66,7 +66,7 @@ public class TFM_PlayerListener implements Listener
                     }
                     case EXPLOSIVE_MINECART:
                     {
-                        if (!TotalFreedomMod.allowTntMinecarts)
+                        if (!TFM_ConfigEntry.ALLOW_TNT_MINECARTS.getBoolean())
                         {
                             player.getInventory().clear(player.getInventory().getHeldItemSlot());
                             player.sendMessage(ChatColor.GRAY + "TNT minecarts are currently disabled.");
@@ -118,7 +118,7 @@ public class TFM_PlayerListener implements Listener
                     }
                     case BLAZE_ROD:
                     {
-                        if (TotalFreedomMod.allowExplosions)
+                        if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
                         {
                             if (TFM_SuperadminList.isSeniorAdmin(player, true))
                             {
@@ -150,7 +150,7 @@ public class TFM_PlayerListener implements Listener
                     }
                     case CARROT:
                     {
-                        if (TotalFreedomMod.allowExplosions)
+                        if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
                         {
                             if (TFM_SuperadminList.isSeniorAdmin(player, true))
                             {
@@ -341,7 +341,7 @@ public class TFM_PlayerListener implements Listener
             TFM_Jumppads.getInstance().PlayerMoveEvent(event);
         }
 
-        if (TotalFreedomMod.landminesEnabled && TotalFreedomMod.allowExplosions)
+        if (TFM_ConfigEntry.LANDMINES_ENABLED.getBoolean() && TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
             while (landmines.hasNext())
@@ -542,7 +542,7 @@ public class TFM_PlayerListener implements Listener
             }
         }
 
-        if (TotalFreedomMod.preprocessLogEnabled)
+        if (TFM_ConfigEntry.PREPROCESS_LOG_ENABLED.getBoolean())
         {
             TFM_Log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", player.getName(), ChatColor.stripColor(player.getDisplayName()), command), true);
         }
@@ -550,7 +550,7 @@ public class TFM_PlayerListener implements Listener
         command = command.toLowerCase().trim();
 
         // Blocked commands
-        if (TFM_CommandBlockerNew.getInstance().isCommandBlocked(command, event.getPlayer()))
+        if (TFM_CommandBlocker.getInstance().isCommandBlocked(command, event.getPlayer()))
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
@@ -571,7 +571,7 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
-        if (TotalFreedomMod.autoEntityWipe)
+        if (TFM_ConfigEntry.AUTO_ENTITY_WIPE.getBoolean())
         {
             if (event.getPlayer().getWorld().getEntities().size() > 750)
             {
@@ -661,7 +661,7 @@ public class TFM_PlayerListener implements Listener
                 }
             }
 
-            if (TotalFreedomMod.adminOnlyMode)
+            if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
             {
                 new BukkitRunnable()
                 {

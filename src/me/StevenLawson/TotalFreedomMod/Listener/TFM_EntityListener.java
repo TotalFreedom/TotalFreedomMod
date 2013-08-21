@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,7 +12,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityExplode(EntityExplodeEvent event)
     {
-        if (!TotalFreedomMod.allowExplosions)
+        if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             event.setCancelled(true);
             return;
@@ -24,19 +24,19 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onExplosionPrime(ExplosionPrimeEvent event)
     {
-        if (!TotalFreedomMod.allowExplosions)
+        if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             event.setCancelled(true);
             return;
         }
 
-        event.setRadius((float) TotalFreedomMod.explosiveRadius);
+        event.setRadius((float) TFM_ConfigEntry.EXPLOSIVE_RADIUS.getDouble().doubleValue());
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityCombust(EntityCombustEvent event)
     {
-        if (!TotalFreedomMod.allowExplosions)
+        if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             event.setCancelled(true);
         }
@@ -49,7 +49,7 @@ public class TFM_EntityListener implements Listener
         {
             case LAVA:
             {
-                if (!TotalFreedomMod.allowLavaDamage)
+                if (!TFM_ConfigEntry.ALLOW_LAVA_DAMAGE.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -57,7 +57,7 @@ public class TFM_EntityListener implements Listener
             }
         }
 
-        if (TotalFreedomMod.petProtectEnabled)
+        if (TFM_ConfigEntry.PET_PROTECT_ENABLED.getBoolean())
         {
             Entity entity = event.getEntity();
             if (entity instanceof Tameable)
@@ -73,7 +73,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onCreatureSpawn(CreatureSpawnEvent event)
     {
-        if (TotalFreedomMod.mobLimiterEnabled)
+        if (TFM_ConfigEntry.MOB_LIMITER_ENABLED.getBoolean())
         {
             if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.EGG))
             {
@@ -85,7 +85,7 @@ public class TFM_EntityListener implements Listener
 
             if (spawned instanceof EnderDragon)
             {
-                if (TotalFreedomMod.mobLimiterDisableDragon)
+                if (TFM_ConfigEntry.MOB_LIMITER_DISABLE_DRAGON.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -93,7 +93,7 @@ public class TFM_EntityListener implements Listener
             }
             else if (spawned instanceof Ghast)
             {
-                if (TotalFreedomMod.mobLimiterDisableGhast)
+                if (TFM_ConfigEntry.MOB_LIMITER_DISABLE_GHAST.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -101,7 +101,7 @@ public class TFM_EntityListener implements Listener
             }
             else if (spawned instanceof Slime)
             {
-                if (TotalFreedomMod.mobLimiterDisableSlime)
+                if (TFM_ConfigEntry.MOB_LIMITER_DISABLE_SLIME.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -109,7 +109,7 @@ public class TFM_EntityListener implements Listener
             }
             else if (spawned instanceof Giant)
             {
-                if (TotalFreedomMod.mobLimiterDisableGiant)
+                if (TFM_ConfigEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean())
                 {
                     event.setCancelled(true);
                     return;
@@ -121,7 +121,9 @@ public class TFM_EntityListener implements Listener
                 return;
             }
 
-            if (TotalFreedomMod.mobLimiterMax > 0)
+            int mobLimiterMax = TFM_ConfigEntry.MOB_LIMITER_MAX.getInteger().intValue();
+
+            if (mobLimiterMax > 0)
             {
                 int mobcount = 0;
 
@@ -133,7 +135,7 @@ public class TFM_EntityListener implements Listener
                     }
                 }
 
-                if (mobcount > TotalFreedomMod.mobLimiterMax)
+                if (mobcount > mobLimiterMax)
                 {
                     event.setCancelled(true);
                 }
@@ -144,7 +146,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDeath(EntityDeathEvent event)
     {
-        if (TotalFreedomMod.autoEntityWipe)
+        if (TFM_ConfigEntry.AUTO_ENTITY_WIPE.getBoolean())
         {
             event.setDroppedExp(0);
         }
@@ -153,7 +155,7 @@ public class TFM_EntityListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onProjectileHit(ProjectileHitEvent event)
     {
-        if (TotalFreedomMod.allowExplosions)
+        if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             Projectile entity = event.getEntity();
             if (event.getEntityType() == EntityType.ARROW && entity.getShooter() instanceof Player)

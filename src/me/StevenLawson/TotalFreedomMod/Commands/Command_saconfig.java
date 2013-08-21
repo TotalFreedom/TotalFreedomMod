@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
@@ -150,13 +151,13 @@ public class Command_saconfig extends TFM_Command
                 TFM_Util.adminAction(sender.getName(), "Removing " + targetName + " from the superadmin list", true);
                 TFM_SuperadminList.removeSuperadmin(targetName);
 
-                if (!TotalFreedomMod.twitterbotEnabled)
+                if (!TFM_ConfigEntry.TWITTERBOT_ENABLED.getBoolean())
                 {
                     return true;
                 }
 
                 // Twitterbot
-                TFM_TwitterHandler twitterbot = TFM_TwitterHandler.getInstance(plugin);
+                TFM_TwitterHandler twitterbot = TFM_TwitterHandler.getInstance();
                 String reply = twitterbot.delTwitter(targetName);
                 if ("ok".equals(reply))
                 {

@@ -33,7 +33,7 @@ public class Command_premium extends TFM_Command
         {
             name = args[0];
         }
-        
+
         final String playername = name;
         new BukkitRunnable()
         {
@@ -66,7 +66,7 @@ public class Command_premium extends TFM_Command
                 }
             }
         }.runTaskAsynchronously(plugin);
-        
+
         return true;
     }
 }

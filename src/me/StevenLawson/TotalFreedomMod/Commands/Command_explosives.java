@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class Command_explosives extends TFM_Command
         {
             try
             {
-                TotalFreedomMod.explosiveRadius = Math.max(1.0, Math.min(30.0, Double.parseDouble(args[1])));
+                TFM_ConfigEntry.EXPLOSIVE_RADIUS.setDouble(Math.max(1.0, Math.min(30.0, Double.parseDouble(args[1]))));
             }
             catch (NumberFormatException nfex)
             {
@@ -33,12 +33,12 @@ public class Command_explosives extends TFM_Command
 
         if (args[0].equalsIgnoreCase("on"))
         {
-            TotalFreedomMod.allowExplosions = true;
-            playerMsg("Explosives are now enabled, radius set to " + TotalFreedomMod.explosiveRadius + " blocks.");
+            TFM_ConfigEntry.ALLOW_EXPLOSIONS.setBoolean(true);
+            playerMsg("Explosives are now enabled, radius set to " + TFM_ConfigEntry.EXPLOSIVE_RADIUS.getDouble() + " blocks.");
         }
         else
         {
-            TotalFreedomMod.allowExplosions = false;
+            TFM_ConfigEntry.ALLOW_EXPLOSIONS.setBoolean(false);
             playerMsg("Explosives are now disabled.");
         }
 

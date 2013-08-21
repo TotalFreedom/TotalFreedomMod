@@ -40,9 +40,16 @@ public class TFM_ServiceChecker
             @Override
             public void run()
             {
+                final String serviceCheckerURL = TFM_ConfigEntry.SERVICE_CHECKER_URL.getString();
+
+                if (serviceCheckerURL == null || serviceCheckerURL.isEmpty())
+                {
+                    return;
+                }
+
                 try
                 {
-                    URL mojang_status = new URL(TotalFreedomMod.serviceCheckerURL);
+                    URL mojang_status = new URL(serviceCheckerURL);
                     BufferedReader in = new BufferedReader(new InputStreamReader(mojang_status.openStream()));
                     JSONArray status_json = (JSONArray) JSONValue.parse(in.readLine());
                     in.close();
@@ -90,7 +97,7 @@ public class TFM_ServiceChecker
                 }
                 catch (Exception ex)
                 {
-                    TFM_Log.severe("Error updating mojang services from " + TotalFreedomMod.serviceCheckerURL);
+                    TFM_Log.severe("Error updating mojang services from " + serviceCheckerURL);
                     TFM_Log.severe(ex);
                 }
             }

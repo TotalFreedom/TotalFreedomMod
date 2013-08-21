@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Listener.*;
@@ -26,12 +27,9 @@ import org.mcstats.Metrics;
 
 public class TotalFreedomMod extends JavaPlugin
 {
-    public static final Server server = Bukkit.getServer();
-    //
     public static final long HEARTBEAT_RATE = 5L; //Seconds
     public static final long SERVICE_CHECKER_RATE = 120L;
     //
-    public static final String CONFIG_FILE = "config.yml";
     public static final String SUPERADMIN_FILE = "superadmin.yml";
     public static final String PERMBAN_FILE = "permban.yml";
     public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
@@ -46,68 +44,71 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     //
+    public static final Server server = Bukkit.getServer();
+    public static TotalFreedomMod plugin = null;
+    public static File plugin_file = null;
+    //
+    public static String pluginName = "";
+    public static String pluginVersion = "";
+    public static String buildNumber = "";
+    public static String buildDate = "";
+    //
     public static boolean allPlayersFrozen = false;
     public static BukkitTask freezePurgeTask = null;
     public static BukkitTask mutePurgeTask = null;
     public static boolean lockdownEnabled = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
     //
-    public static String pluginVersion = "";
-    public static String buildNumber = "";
-    public static String buildDate = "";
-    public static String pluginName = "";
-    //
-    public static TotalFreedomMod plugin = null;
-    public static File plugin_file = null;
+    public static List<String> permbanned_players = new ArrayList<String>();
+    public static List<String> permbanned_ips = new ArrayList<String>();
 
     @Override
     public void onEnable()
     {
         TotalFreedomMod.plugin = this;
-        TotalFreedomMod.plugin_file = getFile();
-
-        TotalFreedomMod.pluginName = this.getDescription().getName();
+        TotalFreedomMod.plugin_file = plugin.getFile();
+        TotalFreedomMod.pluginName = plugin.getDescription().getName();
 
         setAppProperties();
 
-        loadMainConfig();
+        TFM_Log.info("Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
+
         loadSuperadminConfig();
         loadPermbanConfig();
 
-        TFM_UserList.getInstance(this);
+        TFM_UserList.getInstance(plugin);
 
         registerEventHandlers();
 
-        if (generateFlatlands)
+        if (TFM_ConfigEntry.GENERATE_FLATLANDS.getBoolean())
         {
             TFM_Util.wipeFlatlandsIfFlagged();
-            TFM_Util.generateFlatlands(flatlandsGenerationParams);
+            TFM_Util.generateFlatlands(TFM_ConfigEntry.FLATLANDS_GENERATION_PARAMS.getString());
         }
 
         TFM_AdminWorld.getInstance().getAdminWorld();
 
-        if (disableWeather)
+        if (TFM_ConfigEntry.DISABLE_WEATHER.getBoolean())
         {
             for (World world : server.getWorlds())
             {
                 world.setThundering(false);
                 world.setStorm(false);
                 world.setThunderDuration(0);
-                world.setThunderDuration(0);
             }
         }
 
         // Initialize game rules
-        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_DAYLIGHT_CYCLE, !disableNight, false);
-        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_FIRE_TICK, allowFireSpread, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_DAYLIGHT_CYCLE, !TFM_ConfigEntry.DISABLE_NIGHT.getBoolean(), false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_FIRE_TICK, TFM_ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean(), false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_LOOT, false, false);
-        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !mobLimiterEnabled, false);
+        TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !TFM_ConfigEntry.MOB_LIMITER_ENABLED.getBoolean(), false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_TILE_DROPS, false, false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.MOB_GRIEFING, false, false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.NATURAL_REGENERATION, true, false);
         TFM_GameRuleHandler.commitGameRules();
 
-        if (TotalFreedomMod.protectedAreasEnabled)
+        if (TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean())
         {
             TFM_ProtectedArea.loadProtectedAreas();
             TFM_ProtectedArea.autoAddSpawnpoints();
@@ -131,7 +132,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
 
         // Heartbeat
-        new TFM_Heartbeat(this).runTaskTimer(plugin, HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+        new TFM_Heartbeat(plugin).runTaskTimer(plugin, HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try
@@ -144,8 +145,6 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
 
-        TFM_Log.info("Plugin Enabled - Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
-
         TFM_ServiceChecker.getInstance().getUpdateRunnable().runTaskTimerAsynchronously(plugin, 40L, SERVICE_CHECKER_RATE * 20L);
 
         new BukkitRunnable()
@@ -154,16 +153,19 @@ public class TotalFreedomMod extends JavaPlugin
             public void run()
             {
                 TFM_CommandLoader.getInstance().scan();
-                TFM_CommandBlockerNew.getInstance().parseBlockingRules();
+                TFM_CommandBlocker.getInstance().parseBlockingRules();
             }
-        }.runTaskLater(this, 20L);
+        }.runTaskLater(plugin, 20L);
+
+        TFM_Log.info("Plugin enabled.");
     }
 
     @Override
     public void onDisable()
     {
-        server.getScheduler().cancelTasks(this);
-        TFM_Log.info("Plugin disabled");
+        server.getScheduler().cancelTasks(plugin);
+
+        TFM_Log.info("Plugin disabled.");
     }
 
     @Override
@@ -196,7 +198,7 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
                 dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, cmd.getName().toLowerCase())).newInstance();
-                dispatcher.setup(this, sender, dispatcher.getClass());
+                dispatcher.setup(plugin, sender, dispatcher.getClass());
             }
             catch (Throwable ex)
             {
@@ -230,105 +232,6 @@ public class TotalFreedomMod extends JavaPlugin
 
         return true;
     }
-    //
-    public static boolean allowFirePlace = false;
-    public static boolean allowFireSpread = false;
-    public static boolean allowLavaDamage = false;
-    public static boolean allowLavaPlace = false;
-    public static boolean allowWaterPlace = false;
-    public static boolean allowExplosions = false;
-    public static boolean allowFliudSpread = false;
-    public static boolean allowTntMinecarts = false;
-    public static double explosiveRadius = 4.0D;
-    public static List<String> blockedCommands = new ArrayList<String>();
-    public static boolean autoEntityWipe = true;
-    public static boolean nukeMonitor = true;
-    public static int nukeMonitorCountBreak = 100;
-    public static int nukeMonitorCountPlace = 25;
-    public static double nukeMonitorRange = 10.0D;
-    public static int freecamTriggerCount = 10;
-    public static boolean preprocessLogEnabled = true;
-    public static boolean disableNight = true;
-    public static boolean disableWeather = true;
-    public static boolean landminesEnabled = false;
-    public static boolean mp44Enabled = false;
-    public static boolean mobLimiterEnabled = true;
-    public static int mobLimiterMax = 50;
-    public static boolean mobLimiterDisableDragon = true;
-    public static boolean mobLimiterDisableGhast = true;
-    public static boolean mobLimiterDisableSlime = true;
-    public static boolean mobLimiterDisableGiant = true;
-    public static boolean tossmobEnabled = false;
-    public static boolean generateFlatlands = true;
-    public static String flatlandsGenerationParams = "16,stone,32,dirt,1,grass";
-    public static boolean adminOnlyMode = false;
-    public static boolean protectedAreasEnabled = true;
-    public static boolean autoProtectSpawnpoints = true;
-    public static double autoProtectRadius = 25.0D;
-    public static List<String> host_sender_names = Arrays.asList("rcon", "remotebukkit");
-    public static boolean twitterbotEnabled = false;
-    public static String twitterbotURL = "";
-    public static String twitterbotSecret = "";
-    public static boolean petProtectEnabled = true;
-    public static String logsRegisterPassword = "";
-    public static String logsRegisterURL = "";
-    public static String serviceCheckerURL = "http://status.mojang.com/check";
-
-    public static void loadMainConfig()
-    {
-        try
-        {
-            TFM_Util.createDefaultConfiguration(CONFIG_FILE, plugin_file);
-            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), CONFIG_FILE));
-
-            allowFirePlace = config.getBoolean("allow_fire_place", allowFirePlace);
-            allowFireSpread = config.getBoolean("allow_fire_spread", allowFireSpread);
-            allowLavaDamage = config.getBoolean("allow_lava_damage", allowLavaDamage);
-            allowLavaPlace = config.getBoolean("allow_lava_place", allowLavaPlace);
-            allowWaterPlace = config.getBoolean("allow_water_place", allowWaterPlace);
-            allowExplosions = config.getBoolean("allow_explosions", allowExplosions);
-            allowTntMinecarts = config.getBoolean("allow_tnt_minecarts", allowTntMinecarts);
-            explosiveRadius = config.getDouble("explosiveRadius", explosiveRadius);
-            blockedCommands = config.getStringList("blocked_commands");
-            autoEntityWipe = config.getBoolean("auto_wipe", autoEntityWipe);
-            nukeMonitor = config.getBoolean("nuke_monitor", nukeMonitor);
-            nukeMonitorCountBreak = config.getInt("nuke_monitor_count_break", nukeMonitorCountBreak);
-            nukeMonitorCountPlace = config.getInt("nuke_monitor_count_place", nukeMonitorCountPlace);
-            nukeMonitorRange = config.getDouble("nuke_monitor_range", nukeMonitorRange);
-            freecamTriggerCount = config.getInt("freecam_trigger_count", freecamTriggerCount);
-            preprocessLogEnabled = config.getBoolean("preprocess_log", preprocessLogEnabled);
-            disableNight = config.getBoolean("disable_night", disableNight);
-            disableWeather = config.getBoolean("disable_weather", disableWeather);
-            landminesEnabled = config.getBoolean("landmines_enabled", landminesEnabled);
-            mp44Enabled = config.getBoolean("mp44_enabled", mp44Enabled);
-            mobLimiterEnabled = config.getBoolean("mob_limiter_enabled", mobLimiterEnabled);
-            mobLimiterMax = config.getInt("mob_limiter_max", mobLimiterMax);
-            mobLimiterDisableDragon = config.getBoolean("mob_limiter_disable_dragon", mobLimiterDisableDragon);
-            mobLimiterDisableGhast = config.getBoolean("mob_limiter_disable_ghast", mobLimiterDisableGhast);
-            mobLimiterDisableSlime = config.getBoolean("mob_limiter_disable_slime", mobLimiterDisableSlime);
-            mobLimiterDisableGiant = config.getBoolean("mob_limiter_disable_giant", mobLimiterDisableGiant);
-            tossmobEnabled = config.getBoolean("tossmob_enabled", tossmobEnabled);
-            generateFlatlands = config.getBoolean("generate_flatlands", generateFlatlands);
-            flatlandsGenerationParams = config.getString("flatlands_generation_params", flatlandsGenerationParams);
-            allowFliudSpread = config.getBoolean("allow_fluid_spread", allowFliudSpread);
-            adminOnlyMode = config.getBoolean("admin_only_mode", adminOnlyMode);
-            protectedAreasEnabled = config.getBoolean("protected_areas_enabled", protectedAreasEnabled);
-            autoProtectSpawnpoints = config.getBoolean("auto_protect_spawnpoints", autoProtectSpawnpoints);
-            autoProtectRadius = config.getDouble("auto_protect_radius", autoProtectRadius);
-            host_sender_names = config.getStringList("host_sender_names");
-            twitterbotEnabled = config.getBoolean("twitterbot_enabled", twitterbotEnabled);
-            twitterbotURL = config.getString("twitterbot_url", twitterbotURL);
-            twitterbotSecret = config.getString("twitterbot_secret", twitterbotSecret);
-            petProtectEnabled = config.getBoolean("pet_protect_enabled", petProtectEnabled);
-            logsRegisterPassword = config.getString("logs_register_password", logsRegisterPassword);
-            logsRegisterURL = config.getString("logs_register_url", logsRegisterURL);
-            serviceCheckerURL = config.getString("service_checker_url", serviceCheckerURL);
-        }
-        catch (Exception ex)
-        {
-            TFM_Log.severe("Error loading main config: " + ex.getMessage());
-        }
-    }
 
     public static void loadSuperadminConfig()
     {
@@ -342,9 +245,6 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.severe("Error loading superadmin list: " + ex.getMessage());
         }
     }
-    //
-    public static List<String> permbanned_players = new ArrayList<String>();
-    public static List<String> permbanned_ips = new ArrayList<String>();
 
     public static void loadPermbanConfig()
     {
@@ -373,7 +273,8 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Exception ex)
         {
-            TFM_Log.severe("Error loading permban list: " + ex.getMessage());
+            TFM_Log.severe("Error loading permban list!");
+            TFM_Log.severe(ex);
         }
     }
 
@@ -392,10 +293,10 @@ public class TotalFreedomMod extends JavaPlugin
     {
         try
         {
-            InputStream in;
+            InputStream in = plugin.getResource("appinfo.properties");
             Properties props = new Properties();
 
-            in = plugin.getClass().getResourceAsStream("/appinfo.properties");
+            // in = plugin.getClass().getResourceAsStream("/appinfo.properties");
             props.load(in);
             in.close();
 
@@ -405,6 +306,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Exception ex)
         {
+            TFM_Log.severe("Could not load App properties!");
             TFM_Log.severe(ex);
         }
     }

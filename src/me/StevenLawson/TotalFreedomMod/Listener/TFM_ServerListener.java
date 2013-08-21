@@ -3,11 +3,11 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import me.StevenLawson.TotalFreedomMod.TFM_CommandBlockerNew;
+import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -52,7 +52,7 @@ public class TFM_ServerListener implements Listener
                 topLevelCommand = topLevelCommand.toLowerCase().trim();
 
                 // We need to make it look like the command is coming from the console, so keep the player's name without the Player instance via dummy:
-                if (TFM_CommandBlockerNew.getInstance().isCommandBlocked(topLevelCommand, new TFM_ServerListener_DummyCommandSender(player.getName()), false))
+                if (TFM_CommandBlocker.getInstance().isCommandBlocked(topLevelCommand, new TFM_ServerListener_DummyCommandSender(player.getName()), false))
                 {
                     player.sendMessage(ChatColor.GRAY + "That command is blocked.");
                     event.setCancelled(true);
@@ -64,7 +64,7 @@ public class TFM_ServerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onRemoteServerCommand(RemoteServerCommandEvent event)
     {
-        if (TFM_CommandBlockerNew.getInstance().isCommandBlocked(event.getCommand(), event.getSender()))
+        if (TFM_CommandBlocker.getInstance().isCommandBlocked(event.getCommand(), event.getSender()))
         {
             event.setCommand("");
         }
@@ -73,7 +73,7 @@ public class TFM_ServerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onServerCommand(ServerCommandEvent event)
     {
-        if (TFM_CommandBlockerNew.getInstance().isCommandBlocked(event.getCommand(), event.getSender()))
+        if (TFM_CommandBlocker.getInstance().isCommandBlocked(event.getCommand(), event.getSender()))
         {
             event.setCommand("");
         }
@@ -88,7 +88,7 @@ public class TFM_ServerListener implements Listener
         {
             event.setMotd(ChatColor.RED + "You are banned.");
         }
-        else if (TotalFreedomMod.adminOnlyMode)
+        else if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
         {
             event.setMotd(ChatColor.RED + "Server is closed.");
         }

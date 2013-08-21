@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,16 +17,7 @@ public class Command_fluidspread extends TFM_Command
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("on"))
-        {
-            TotalFreedomMod.allowFliudSpread = true;
-            playerMsg("Lava and water spread is now enabled.");
-        }
-        else
-        {
-            TotalFreedomMod.allowFliudSpread = false;
-            playerMsg("Lava and water spread is now disabled.");
-        }
+        playerMsg("Lava and water spread is now " + (TFM_ConfigEntry.ALLOW_FLIUD_SPREAD.setBoolean(!args[0].equalsIgnoreCase("off")) ? "enabled" : "disabled") + ".");
 
         return true;
     }

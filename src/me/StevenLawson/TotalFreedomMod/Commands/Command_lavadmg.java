@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,16 +17,7 @@ public class Command_lavadmg extends TFM_Command
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("on"))
-        {
-            TotalFreedomMod.allowLavaDamage = true;
-            playerMsg("Lava damage is now enabled.");
-        }
-        else
-        {
-            TotalFreedomMod.allowLavaDamage = false;
-            playerMsg("Lava damage is now disabled.");
-        }
+        playerMsg("Lava damage is now " + (TFM_ConfigEntry.ALLOW_LAVA_DAMAGE.setBoolean(!args[0].equalsIgnoreCase("off")) ? "enabled" : "disabled") + ".");
 
         return true;
     }

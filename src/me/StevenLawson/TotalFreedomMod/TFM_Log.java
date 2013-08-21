@@ -6,50 +6,75 @@ import org.bukkit.Bukkit;
 
 public class TFM_Log
 {
-    private static final Logger logger = Bukkit.getLogger();
-
     private TFM_Log()
     {
         throw new AssertionError();
     }
 
+    public static void info(Object... params)
+    {
+        prepareLogMessage(Level.INFO, params);
+    }
+
+    public static void warning(Object... params)
+    {
+        prepareLogMessage(Level.WARNING, params);
+    }
+
+    public static void severe(Object... params)
+    {
+        prepareLogMessage(Level.SEVERE, params);
+    }
+
+    private static void prepareLogMessage(Level level, Object... params)
+    {
+        if (params.length == 0)
+        {
+            return;
+        }
+
+        Object payload = params[0];
+
+        if (payload instanceof Throwable)
+        {
+            log(level, (Throwable) payload);
+        }
+        else
+        {
+            log(level, payload.toString(), params.length >= 2 && params[1] instanceof Boolean ? (Boolean) params[1] : false);
+        }
+    }
+
     private static void log(Level level, String message, boolean raw)
     {
-        logger.log(level, (raw ? "" : "[" + TotalFreedomMod.pluginName + "]: ") + message);
+        LoggerType.getLogger(raw).log(level, message);
     }
 
-    public static void info(String message)
+    private static void log(Level level, Throwable throwable)
     {
-        TFM_Log.info(message, false);
+        LoggerType.SERVER.getLogger().log(level, null, throwable);
     }
 
-    public static void info(String message, boolean raw)
+    private static enum LoggerType
     {
-        TFM_Log.log(Level.INFO, message, raw);
-    }
+        SERVER(Bukkit.getLogger()),
+        PLUGIN(TotalFreedomMod.plugin.getLogger());
+        //
+        private final Logger logger;
 
-    public static void warning(String message)
-    {
-        TFM_Log.info(message, false);
-    }
+        private LoggerType(Logger logger)
+        {
+            this.logger = logger;
+        }
 
-    public static void warning(String message, boolean raw)
-    {
-        TFM_Log.log(Level.WARNING, message, raw);
-    }
+        public Logger getLogger()
+        {
+            return logger;
+        }
 
-    public static void severe(String message)
-    {
-        TFM_Log.info(message, false);
-    }
-
-    public static void severe(String message, boolean raw)
-    {
-        TFM_Log.log(Level.SEVERE, message, raw);
-    }
-
-    public static void severe(Throwable ex)
-    {
-        logger.log(Level.SEVERE, null, ex);
+        public static Logger getLogger(boolean getRawLogger)
+        {
+            return (getRawLogger ? SERVER.getLogger() : PLUGIN.getLogger());
+        }
     }
 }

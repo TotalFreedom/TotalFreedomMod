@@ -1,5 +1,10 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,98 +14,148 @@ import org.bukkit.entity.Player;
 
 public class TFM_CommandBlocker
 {
-    public static boolean isCommandBlocked(String usedcommand, CommandSender sender)
+    private Map<String, TFM_CommandBlocker_BlockedCommandEntry> blockedCommands = new HashMap<String, TFM_CommandBlocker_BlockedCommandEntry>();
+
+    private TFM_CommandBlocker()
     {
+        parseBlockingRules();
+    }
 
-        String name = sender.getName();
-        usedcommand = usedcommand.toLowerCase().trim();
+    @SuppressWarnings("unchecked")
+    public final void parseBlockingRules()
+    {
+        blockedCommands.clear();
 
-        for (String blocked_command : TotalFreedomMod.blockedCommands)
+        CommandMap commandMap = TFM_CommandLoader.getInstance().getCommandMap();
+        if (commandMap == null)
         {
-            String[] parts = blocked_command.split(":");
+            TFM_Log.severe("Error loading commandMap.");
+            return;
+        }
+
+        List<String> _blockedCommands = (List<String>) TFM_ConfigEntry.BLOCKED_COMMANDS.getList();
+        for (String rawEntry : _blockedCommands)
+        {
+            String[] parts = rawEntry.split(":");
             if (parts.length < 3 || parts.length > 4)
             {
                 continue;
             }
 
-            if (!(usedcommand + " ").startsWith(parts[2] + " "))
-            {
-
-                CommandMap commandMap = TFM_CommandLoader.getInstance().getCommandMap();
-                if (commandMap == null)
-                {
-                    continue;
-                }
-
-                Command command = commandMap.getCommand(parts[2].replaceAll("/", ""));
-                if (command == null)
-                {
-                    continue;
-                }
-
-                boolean block = false;
-                for (String alias : command.getAliases())
-                {
-                    if (usedcommand.replaceAll("/", "").startsWith(alias))
-                    {
-                        block = true;
-                        break;
-                    }
-                }
-
-                if (!block)
-                {
-                    continue;
-                }
-            }
-
-
-            if (SenderRank.hasPermissions(sender, parts[0]))
+            CommandBlockerRank rank = CommandBlockerRank.fromToken(parts[0]);
+            if (rank == null)
             {
                 continue;
             }
 
-            // Past this line indicates that the command is blocked.
-
-            // Optional: Send a message
-            if (parts.length == 4)
+            CommandBlockerAction action = CommandBlockerAction.fromToken(parts[1]);
+            if (action == null)
             {
-                if ("_".equals(parts[3]))
+                continue;
+            }
+
+            String command = parts[2];
+            if (command == null || command.isEmpty())
+            {
+                continue;
+            }
+            Matcher matcher = Pattern.compile("^/?(\\S+)").matcher(command);
+            if (matcher.find())
+            {
+                command = matcher.group(1);
+                if (command == null)
                 {
-                    sender.sendMessage(ChatColor.GRAY + "That command is blocked.");
+                    continue;
                 }
                 else
                 {
-                    sender.sendMessage(ChatColor.GRAY + TFM_Util.colorise(parts[3]));
+                    command = command.toLowerCase().trim();
                 }
+            }
+            else
+            {
+                continue;
             }
 
-            // Action
-            if ("b".equals(parts[1]))
+            String message = null;
+            if (parts.length == 4)
             {
-                return true;
+                message = parts[3];
             }
-            else if ("a".equals(parts[1]))
+
+            TFM_CommandBlocker_BlockedCommandEntry blockedCommandEntry = new TFM_CommandBlocker_BlockedCommandEntry(rank, action, command, message);
+
+            Command bukkitCommand = commandMap.getCommand(command);
+            if (bukkitCommand == null)
             {
-                if (SenderRank.getSenderRank(sender).rank < 2) // Only auto-eject Ops and non-ops
+                //TFM_Log.info("Blocking unknown command: " + blockedCommandEntry.getCommand());
+                blockedCommands.put(blockedCommandEntry.getCommand(), blockedCommandEntry);
+            }
+            else
+            {
+                blockedCommandEntry.setCommand(bukkitCommand.getName().toLowerCase());
+
+                //TFM_Log.info("Blocking command: " + blockedCommandEntry.getCommand());
+                blockedCommands.put(blockedCommandEntry.getCommand(), blockedCommandEntry);
+
+                for (String alias : bukkitCommand.getAliases())
                 {
-                    TFM_Util.autoEject((Player) sender, "You used a prohibited command: " + usedcommand);
-                    TFM_Util.bcastMsg(name + " was automatically kicked for using harmful commands.", ChatColor.RED);
+                    //TFM_Log.info("Blocking alias: " + alias.toLowerCase() + " of " + blockedCommandEntry.getCommand());
+                    blockedCommands.put(alias.toLowerCase(), blockedCommandEntry);
                 }
-                return true;
             }
-            else if ("u".equals(parts[1]))
-            {
-                sender.sendMessage("Unknown command. Type \"help\" for help.");
-                return true;
-            }
+        }
+    }
+
+    public boolean isCommandBlocked(String command, CommandSender sender)
+    {
+        return isCommandBlocked(command, sender, true);
+    }
+
+    public boolean isCommandBlocked(String command, CommandSender sender, boolean doAction)
+    {
+        if (command == null || command.isEmpty())
+        {
             return false;
+        }
+
+        Matcher matcher = Pattern.compile("^/?(\\S+)").matcher(command);
+        if (matcher.find())
+        {
+            command = matcher.group(1);
+            if (command == null)
+            {
+                return false;
+            }
+            else
+            {
+                command = command.toLowerCase().trim();
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        TFM_CommandBlocker_BlockedCommandEntry blockedCommandEntry = blockedCommands.get(command);
+
+        if (blockedCommandEntry != null)
+        {
+            if (!blockedCommandEntry.getRank().hasPermission(sender))
+            {
+                if (doAction)
+                {
+                    blockedCommandEntry.doActions(sender);
+                }
+
+                return true;
+            }
         }
 
         return false;
     }
 
-    public enum SenderRank
+    private static enum CommandBlockerRank
     {
         ANYONE("a", 0),
         OP("o", 1),
@@ -108,57 +163,169 @@ public class TFM_CommandBlocker
         TELNET("t", 3),
         SENIOR("c", 4),
         NOBODY("n", 5);
-        private String letter = "n";
-        private int rank = 5;
+        private final String token;
+        private final int level;
 
-        SenderRank(String letter, int rank)
+        private CommandBlockerRank(String token, int level)
         {
-            this.letter = letter;
-            this.rank = rank;
+            this.token = token;
+            this.level = level;
         }
 
-        public static boolean hasPermissions(CommandSender sender, String letter)
+        public String getToken()
         {
-            return (getSenderRank(sender).rank >= getSenderRankByLetter(letter).rank);
+            return this.token;
         }
 
-        public static SenderRank getSenderRank(CommandSender sender)
+        public boolean hasPermission(CommandSender sender)
         {
-            if (!(sender instanceof Player))
+            return getSenderRank(sender).level >= this.level;
+        }
+
+        public static CommandBlockerRank getSenderRank(CommandSender sender)
+        {
+            if (!TFM_SuperadminList.isUserSuperadmin(sender))
+            {
+                if (sender.isOp())
+                {
+                    return OP;
+                }
+
+                return ANYONE;
+            }
+            else
             {
                 if (TFM_SuperadminList.isSeniorAdmin(sender))
                 {
-                    return SenderRank.SENIOR;
+                    return SENIOR;
                 }
-                else
+
+                if (!(sender instanceof Player))
                 {
-                    return SenderRank.TELNET;
+                    return TELNET;
                 }
-            }
 
-            if (TFM_SuperadminList.isUserSuperadmin(sender))
-            {
-                return SenderRank.SUPER;
+                return SUPER;
             }
-
-            if (sender.isOp())
-            {
-                return SenderRank.OP;
-            }
-
-            return SenderRank.ANYONE;
         }
 
-        public static SenderRank getSenderRankByLetter(String letter)
+        public static CommandBlockerRank fromToken(String token)
         {
-            for (SenderRank rank : SenderRank.values())
+            for (CommandBlockerRank rank : CommandBlockerRank.values())
             {
-                if (letter.equals(rank.letter))
+                if (rank.getToken().equalsIgnoreCase(token))
                 {
                     return rank;
                 }
             }
-            return SenderRank.NOBODY;
+            return ANYONE;
         }
+    }
+
+    private enum CommandBlockerAction
+    {
+        BLOCK("b"), BLOCK_AND_EJECT("a"), BLOCK_UNKNOWN("u");
+        private final String token;
+
+        private CommandBlockerAction(String token)
+        {
+            this.token = token;
+        }
+
+        public String getToken()
+        {
+            return this.token;
+        }
+
+        public static CommandBlockerAction fromToken(String token)
+        {
+            for (CommandBlockerAction action : CommandBlockerAction.values())
+            {
+                if (action.getToken().equalsIgnoreCase(token))
+                {
+                    return action;
+                }
+            }
+            return null;
+        }
+    }
+
+    private static class TFM_CommandBlocker_BlockedCommandEntry
+    {
+        private final CommandBlockerRank rank;
+        private final CommandBlockerAction action;
+        private String command;
+        private final String message;
+
+        public TFM_CommandBlocker_BlockedCommandEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String message)
+        {
+            this.rank = rank;
+            this.action = action;
+            this.command = command;
+            this.message = message;
+        }
+
+        public CommandBlockerAction getAction()
+        {
+            return this.action;
+        }
+
+        public String getCommand()
+        {
+            return this.command;
+        }
+
+        public String getMessage()
+        {
+            return this.message;
+        }
+
+        public CommandBlockerRank getRank()
+        {
+            return this.rank;
+        }
+
+        public void setCommand(String command)
+        {
+            this.command = command;
+        }
+
+        private void doActions(CommandSender sender)
+        {
+            if (this.action == CommandBlockerAction.BLOCK_AND_EJECT && sender instanceof Player)
+            {
+                TFM_Util.autoEject((Player) sender, "You used a prohibited command: " + this.command);
+                TFM_Util.bcastMsg(sender.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
+            }
+            else
+            {
+                String response;
+
+                if (this.action == CommandBlockerAction.BLOCK_UNKNOWN)
+                {
+                    response = "Unknown command. Type \"help\" for help.";
+                }
+                else if (this.message == null || "_".equals(this.message))
+                {
+                    response = ChatColor.GRAY + "That command is blocked.";
+                }
+                else
+                {
+                    response = ChatColor.GRAY + TFM_Util.colorise(this.message);
+                }
+
+                sender.sendMessage(response);
+            }
+        }
+    }
+
+    public static TFM_CommandBlocker getInstance()
+    {
+        return TFM_CommandBlockerNewHolder.INSTANCE;
+    }
+
+    private static class TFM_CommandBlockerNewHolder
+    {
+        private static final TFM_CommandBlocker INSTANCE = new TFM_CommandBlocker();
     }
 }

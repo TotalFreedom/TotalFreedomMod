@@ -65,7 +65,6 @@ public class TFM_CommandLoader
             Command existing = commandMap.getCommand(dynamicCommand.getName());
             if (existing != null)
             {
-                TFM_Log.info("Replacing command: " + existing.getName());
                 unregisterCommand(existing, commandMap);
             }
 
