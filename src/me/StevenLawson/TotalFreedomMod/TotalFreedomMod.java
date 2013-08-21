@@ -48,8 +48,6 @@ public class TotalFreedomMod extends JavaPlugin
     public static TotalFreedomMod plugin = null;
     public static File plugin_file = null;
     //
-    public static Logger logger;
-    //
     public static String pluginName = "";
     public static String pluginVersion = "";
     public static String buildNumber = "";
@@ -69,14 +67,10 @@ public class TotalFreedomMod extends JavaPlugin
     {
         TotalFreedomMod.plugin = this;
         TotalFreedomMod.plugin_file = plugin.getFile();
-        TotalFreedomMod.logger = plugin.getLogger();
-
         TotalFreedomMod.pluginName = plugin.getDescription().getName();
-        
+
         setAppProperties();
-        
-        logger = plugin.getLogger();
-        
+
         TFM_Log.info("Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
 
         loadSuperadminConfig();
@@ -162,16 +156,16 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_CommandBlocker.getInstance().parseBlockingRules();
             }
         }.runTaskLater(plugin, 20L);
-    
-        
-         TFM_Log.info("Plugin enabled");
+
+        TFM_Log.info("Plugin enabled.");
     }
 
     @Override
     public void onDisable()
     {
         server.getScheduler().cancelTasks(plugin);
-        TFM_Log.info("Plugin disabled");
+
+        TFM_Log.info("Plugin disabled.");
     }
 
     @Override

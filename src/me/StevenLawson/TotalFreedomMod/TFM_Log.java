@@ -1,56 +1,59 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 
 public class TFM_Log
 {
-    private static final Logger logger = Bukkit.getLogger();
+    private static final Logger LOGGER = Bukkit.getLogger();
 
     private TFM_Log()
     {
         throw new AssertionError();
     }
 
-    public static void info(String message)
+    public static void info(Object... params)
     {
-        TotalFreedomMod.logger.info(message);
+        prepareLogMessage(Level.INFO, params);
     }
-    
-    public static void info(String message, boolean raw)
+
+    public static void warning(Object... params)
     {
-        if (raw)
+        prepareLogMessage(Level.WARNING, params);
+    }
+
+    public static void severe(Object... params)
+    {
+        prepareLogMessage(Level.SEVERE, params);
+    }
+
+    private static void prepareLogMessage(Level level, Object... params)
+    {
+        if (params.length == 0)
         {
-            TotalFreedomMod.logger.info(message);
+            return;
+        }
+
+        Object payload = params[0];
+
+        if (payload instanceof Throwable)
+        {
+            log(level, (Throwable) payload);
         }
         else
         {
-            info(message);
+            log(level, payload.toString(), params.length >= 2 && params[1] instanceof Boolean ? (Boolean) params[1] : false);
         }
     }
 
-    public static void severe(Object message)
+    private static void log(Level level, String message, boolean raw)
     {
-        if (message instanceof Throwable)
-        {
-            TotalFreedomMod.logger.severe(ExceptionUtils.getFullStackTrace((Throwable) message));
-        }
-        else
-        {
-            TotalFreedomMod.logger.severe(String.valueOf(message));
-        }
+        LOGGER.log(level, (raw ? "" : "[" + TotalFreedomMod.pluginName + "]: ") + message);
     }
 
-    public static void warning(Object message)
+    private static void log(Level level, Throwable throwable)
     {
-        if (message instanceof Throwable)
-        {
-            TotalFreedomMod.logger.warning(ExceptionUtils.getFullStackTrace((Throwable) message));
-        }
-        else
-        {
-            TotalFreedomMod.logger.warning(String.valueOf(message));
-        }
+        LOGGER.log(level, null, throwable);
     }
 }
