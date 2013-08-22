@@ -14,40 +14,55 @@ public class TFM_Log
         throw new AssertionError();
     }
 
-    public static void info(Object... params)
+    //Level.INFO:
+    public static void info(String message)
     {
-        prepareLogMessage(Level.INFO, params);
+        info(message, false);
     }
 
-    public static void warning(Object... params)
+    public static void info(String message, Boolean raw)
     {
-        prepareLogMessage(Level.WARNING, params);
+        log(Level.INFO, message, raw);
     }
 
-    public static void severe(Object... params)
+    public static void info(Throwable ex)
     {
-        prepareLogMessage(Level.SEVERE, params);
+        log(Level.INFO, ex);
     }
 
-    private static void prepareLogMessage(Level level, Object... params)
+    //Level.WARNING:
+    public static void warning(String message)
     {
-        if (params.length == 0)
-        {
-            return;
-        }
-
-        Object payload = params[0];
-
-        if (payload instanceof Throwable)
-        {
-            log(level, (Throwable) payload);
-        }
-        else
-        {
-            log(level, payload.toString(), params.length >= 2 && params[1] instanceof Boolean ? (Boolean) params[1] : false);
-        }
+        info(message, false);
     }
 
+    public static void warning(String message, Boolean raw)
+    {
+        log(Level.WARNING, message, raw);
+    }
+
+    public static void warning(Throwable ex)
+    {
+        log(Level.WARNING, ex);
+    }
+
+    //Level.SEVERE:
+    public static void severe(String message)
+    {
+        info(message, false);
+    }
+
+    public static void severe(String message, Boolean raw)
+    {
+        log(Level.SEVERE, message, raw);
+    }
+
+    public static void severe(Throwable ex)
+    {
+        log(Level.SEVERE, ex);
+    }
+
+    //Utility
     private static void log(Level level, String message, boolean raw)
     {
         getLogger(raw).log(level, message);
