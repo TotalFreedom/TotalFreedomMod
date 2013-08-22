@@ -21,6 +21,7 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
     private final Map<CommandSender, Boolean> accessCache = new HashMap<CommandSender, Boolean>();
     //
     private Long cacheLastCleared = null;
+    private Map<Player, Player> guestList = new HashMap<Player, Player>();
 
     private TFM_AdminWorld()
     {
@@ -69,6 +70,19 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
         return world;
     }
 
+    public void addGuest(Player guest, Player supervisor)
+    {
+        if (TFM_SuperadminList.isUserSuperadmin(supervisor))
+        {
+            guestList.put(guest, supervisor);
+        }
+    }
+
+    public void removeGuest(Player guest)
+    {
+        guestList.remove(guest);
+    }
+
     public boolean validateMovement(PlayerMoveEvent event)
     {
         World world;
@@ -115,7 +129,7 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
         accessCache.clear();
     }
 
-    public boolean canAccessWorld(CommandSender user)
+    public boolean canAccessWorld(Player player)
     {
         long currentTimeMillis = System.currentTimeMillis();
         if (cacheLastCleared == null || cacheLastCleared.longValue() + CACHE_CLEAR_FREQUENCY <= currentTimeMillis)
@@ -124,11 +138,17 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
             accessCache.clear();
         }
 
-        Boolean cached = accessCache.get(user);
+        Boolean cached = accessCache.get(player);
         if (cached == null)
         {
-            cached = TFM_SuperadminList.isUserSuperadmin(user);
-            accessCache.put(user, cached);
+            boolean canAccess = TFM_SuperadminList.isUserSuperadmin(player);
+            if (!canAccess)
+            {
+                Player supervisor = guestList.get(player);
+                canAccess = supervisor != null && supervisor.isOnline() && TFM_SuperadminList.isUserSuperadmin(supervisor);
+            }
+            cached = canAccess;
+            accessCache.put(player, cached);
         }
         return cached;
     }

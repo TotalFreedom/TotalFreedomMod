@@ -1,7 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminWorld;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -87,6 +89,12 @@ public class Command_adminworld extends TFM_Command
                 }
                 else if (args.length == 3)
                 {
+                    if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isUserSuperadmin(sender))
+                    {
+                        sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                        return true;
+                    }
+
                     if ("add".equalsIgnoreCase(args[1]))
                     {
                         //add args[2]
@@ -102,6 +110,13 @@ public class Command_adminworld extends TFM_Command
             case TIME:
             {
 //                /adminworld time <morning|noon|evening|night>
+
+                if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isUserSuperadmin(sender))
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                    return true;
+                }
+
                 if (args.length == 2)
                 {
                     //set time = args[1]
@@ -112,6 +127,13 @@ public class Command_adminworld extends TFM_Command
             case WEATHER:
             {
 //                /adminworld weather <off|on|storm>
+
+                if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isUserSuperadmin(sender))
+                {
+                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                    return true;
+                }
+
                 if (args.length == 2)
                 {
                     //set weather = args[1]
