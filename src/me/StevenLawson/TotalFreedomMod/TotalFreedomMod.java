@@ -86,13 +86,21 @@ public class TotalFreedomMod extends JavaPlugin
 
         registerEventHandlers();
 
-        if (TFM_ConfigEntry.GENERATE_FLATLANDS.getBoolean())
+        try
         {
-            TFM_Util.wipeFlatlandsIfFlagged();
-            TFM_Util.generateFlatlands(TFM_ConfigEntry.FLATLANDS_GENERATION_PARAMS.getString());
+            TFM_Flatlands.getInstance().getWorld();
+        }
+        catch (Exception ex)
+        {
         }
 
-        TFM_AdminWorld.getInstance().getAdminWorld();
+        try
+        {
+            TFM_AdminWorld.getInstance().getWorld();
+        }
+        catch (Exception ex)
+        {
+        }
 
         if (TFM_ConfigEntry.DISABLE_WEATHER.getBoolean())
         {

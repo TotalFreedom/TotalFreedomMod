@@ -2,12 +2,7 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
@@ -15,113 +10,48 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class TFM_AdminWorld
+public final class TFM_AdminWorld extends TFM_CustomWorld
 {
     private static final long CACHE_CLEAR_FREQUENCY = 30L * 1000L; //30 seconds, milliseconds
     private static final long TP_COOLDOWN_TIME = 500L; //0.5 seconds, milliseconds
     private static final String GENERATION_PARAMETERS = TFM_ConfigEntry.FLATLANDS_GENERATION_PARAMS.getString();
-    private static final String ADMINWORLD_NAME = "adminworld";
+    private static final String WORLD_NAME = "adminworld";
     //
     private final Map<Player, Long> teleportCooldown = new HashMap<Player, Long>();
-    private final Map<CommandSender, Boolean> superadminCache = new HashMap<CommandSender, Boolean>();
+    private final Map<CommandSender, Boolean> accessCache = new HashMap<CommandSender, Boolean>();
     //
     private Long cacheLastCleared = null;
-    private World adminWorld = null;
 
     private TFM_AdminWorld()
     {
     }
 
-    public void sendToAdminWorld(Player player)
+    @Override
+    public void sendToWorld(Player player)
     {
-        if (!TFM_SuperadminList.isUserSuperadmin(player))
+        if (!canAccessWorld(player))
         {
             return;
         }
 
-        player.teleport(getAdminWorld().getSpawnLocation());
+        super.sendToWorld(player);
     }
 
-    public boolean validateMovement(PlayerMoveEvent event)
+    @Override
+    protected World generateWorld()
     {
-        if (adminWorld != null)
-        {
-            if (event.getTo().getWorld() == adminWorld)
-            {
-                final Player player = event.getPlayer();
-                if (!cachedIsUserSuperadmin(player))
-                {
-                    Long lastTP = teleportCooldown.get(player);
-                    long currentTimeMillis = System.currentTimeMillis();
-                    if (lastTP == null || lastTP.longValue() + TP_COOLDOWN_TIME <= currentTimeMillis)
-                    {
-                        teleportCooldown.put(player, currentTimeMillis);
-                        TFM_Log.info(player.getName() + " attempted to access the AdminWorld.");
-                        new BukkitRunnable()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
-                            }
-                        }.runTaskLater(TotalFreedomMod.plugin, 1L);
-                    }
-                    event.setCancelled(true);
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+        WorldCreator worldCreator = new WorldCreator(WORLD_NAME);
+        worldCreator.generateStructures(false);
+        worldCreator.type(WorldType.NORMAL);
+        worldCreator.environment(World.Environment.NORMAL);
+        worldCreator.generator(new CleanroomChunkGenerator(GENERATION_PARAMETERS));
 
-    public World getAdminWorld()
-    {
-        if (adminWorld == null || !Bukkit.getWorlds().contains(adminWorld))
-        {
-            generateWorld();
-        }
+        World world = Bukkit.getServer().createWorld(worldCreator);
 
-        return adminWorld;
-    }
+        world.setSpawnFlags(false, false);
+        world.setSpawnLocation(0, 50, 0);
 
-    public void wipeSuperadminCache()
-    {
-        cacheLastCleared = System.currentTimeMillis();
-        superadminCache.clear();
-    }
-
-    private boolean cachedIsUserSuperadmin(CommandSender user)
-    {
-        long currentTimeMillis = System.currentTimeMillis();
-        if (cacheLastCleared == null || cacheLastCleared.longValue() + CACHE_CLEAR_FREQUENCY <= currentTimeMillis)
-        {
-            cacheLastCleared = currentTimeMillis;
-            superadminCache.clear();
-        }
-
-        Boolean cached = superadminCache.get(user);
-        if (cached == null)
-        {
-            cached = TFM_SuperadminList.isUserSuperadmin(user);
-            superadminCache.put(user, cached);
-        }
-        return cached;
-    }
-
-    private void generateWorld()
-    {
-        WorldCreator adminWorldCreator = new WorldCreator(ADMINWORLD_NAME);
-        adminWorldCreator.generateStructures(false);
-        adminWorldCreator.type(WorldType.NORMAL);
-        adminWorldCreator.environment(World.Environment.NORMAL);
-        adminWorldCreator.generator(new CleanroomChunkGenerator(GENERATION_PARAMETERS));
-
-        adminWorld = Bukkit.getServer().createWorld(adminWorldCreator);
-
-        adminWorld.setSpawnFlags(false, false);
-        adminWorld.setSpawnLocation(0, 50, 0);
-
-        Block welcomeSignBlock = adminWorld.getBlockAt(0, 50, 0);
+        Block welcomeSignBlock = world.getBlockAt(0, 50, 0);
         welcomeSignBlock.setType(Material.SIGN_POST);
         org.bukkit.block.Sign welcomeSign = (org.bukkit.block.Sign) welcomeSignBlock.getState();
 
@@ -135,6 +65,72 @@ public class TFM_AdminWorld
         welcomeSign.update();
 
         TFM_GameRuleHandler.commitGameRules();
+
+        return world;
+    }
+
+    public boolean validateMovement(PlayerMoveEvent event)
+    {
+        World world;
+        try
+        {
+            world = getWorld();
+        }
+        catch (Exception ex)
+        {
+            return true;
+        }
+
+        if (world != null && event.getTo().getWorld() == world)
+        {
+            final Player player = event.getPlayer();
+            if (!canAccessWorld(player))
+            {
+                Long lastTP = teleportCooldown.get(player);
+                long currentTimeMillis = System.currentTimeMillis();
+                if (lastTP == null || lastTP.longValue() + TP_COOLDOWN_TIME <= currentTimeMillis)
+                {
+                    teleportCooldown.put(player, currentTimeMillis);
+                    TFM_Log.info(player.getName() + " attempted to access the AdminWorld.");
+                    new BukkitRunnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+                        }
+                    }.runTaskLater(TotalFreedomMod.plugin, 1L);
+                }
+                event.setCancelled(true);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void wipeAccessCache()
+    {
+        cacheLastCleared = System.currentTimeMillis();
+        accessCache.clear();
+    }
+
+    public boolean canAccessWorld(CommandSender user)
+    {
+        long currentTimeMillis = System.currentTimeMillis();
+        if (cacheLastCleared == null || cacheLastCleared.longValue() + CACHE_CLEAR_FREQUENCY <= currentTimeMillis)
+        {
+            cacheLastCleared = currentTimeMillis;
+            accessCache.clear();
+        }
+
+        Boolean cached = accessCache.get(user);
+        if (cached == null)
+        {
+            cached = TFM_SuperadminList.isUserSuperadmin(user);
+            accessCache.put(user, cached);
+        }
+        return cached;
     }
 
     public static TFM_AdminWorld getInstance()

@@ -122,7 +122,7 @@ public class TFM_SuperadminList
         superadminIPs = TFM_Util.removeDuplicates(superadminIPs);
         seniorAdminNames = TFM_Util.removeDuplicates(seniorAdminNames);
 
-        TFM_AdminWorld.getInstance().wipeSuperadminCache();
+        TFM_AdminWorld.getInstance().wipeAccessCache();
     }
 
     public static void saveSuperadminList()

@@ -494,21 +494,6 @@ public class TFM_Util
         }
     }
 
-    public static void generateFlatlands()
-    {
-        generateFlatlands(TFM_ConfigEntry.FLATLANDS_GENERATION_PARAMS.getString());
-    }
-
-    public static void generateFlatlands(String genParams)
-    {
-        WorldCreator flatlands = new WorldCreator("flatlands");
-        flatlands.generateStructures(false);
-        flatlands.type(WorldType.NORMAL);
-        flatlands.environment(World.Environment.NORMAL);
-        flatlands.generator(new CleanroomChunkGenerator(genParams));
-        Bukkit.getServer().createWorld(flatlands);
-    }
-
     public static String getRank(CommandSender sender)
     {
         if (TFM_SuperadminList.isSuperadminImpostor(sender))
@@ -737,39 +722,6 @@ public class TFM_Util
         catch (Exception ex)
         {
             TFM_Log.severe(ex);
-        }
-    }
-
-    public static void wipeFlatlandsIfFlagged()
-    {
-        boolean do_wipe_flatlands = false;
-        try
-        {
-            do_wipe_flatlands = TFM_Util.getSavedFlag("do_wipe_flatlands");
-        }
-        catch (Exception ex)
-        {
-        }
-
-        if (do_wipe_flatlands)
-        {
-            if (Bukkit.getServer().getWorld("flatlands") == null)
-            {
-                TFM_Log.info("Wiping flaglands.");
-
-                TFM_Util.setSavedFlag("do_wipe_flatlands", false);
-
-                File flatlands_folder = new File("./flatlands");
-
-                if (flatlands_folder.exists())
-                {
-                    TFM_Util.deleteFolder(flatlands_folder);
-                }
-            }
-            else
-            {
-                TFM_Log.severe("Can't wipe flatlands, it is already loaded.");
-            }
         }
     }
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";

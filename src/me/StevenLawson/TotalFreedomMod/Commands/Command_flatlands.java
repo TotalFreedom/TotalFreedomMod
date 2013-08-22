@@ -1,12 +1,12 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_Flatlands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Goto the flatlands.", usage = "/<command>")
 public class Command_flatlands extends TFM_Command
 {
@@ -15,7 +15,7 @@ public class Command_flatlands extends TFM_Command
     {
         if (TFM_ConfigEntry.GENERATE_FLATLANDS.getBoolean())
         {
-            TFM_Util.gotoWorld(sender, "flatlands");
+            TFM_Flatlands.getInstance().sendToWorld(sender_p);
         }
         else
         {

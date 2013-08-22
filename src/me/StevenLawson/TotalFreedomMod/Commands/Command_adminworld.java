@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -50,7 +51,16 @@ public class Command_adminworld extends TFM_Command
             case TELEPORT:
             {
 //                /adminworld
-                if (sender_p.getWorld() == TFM_AdminWorld.getInstance().getAdminWorld())
+                World adminWorld = null;
+                try
+                {
+                    adminWorld = TFM_AdminWorld.getInstance().getWorld();
+                }
+                catch (Exception ex)
+                {
+                }
+
+                if (adminWorld == null || sender_p.getWorld() == adminWorld)
                 {
                     playerMsg("Going to the main world.");
                     sender_p.teleport(server.getWorlds().get(0).getSpawnLocation());
@@ -58,7 +68,7 @@ public class Command_adminworld extends TFM_Command
                 else
                 {
                     playerMsg("Going to the AdminWorld.");
-                    TFM_AdminWorld.getInstance().sendToAdminWorld(sender_p);
+                    TFM_AdminWorld.getInstance().sendToWorld(sender_p);
                 }
 
                 break;
