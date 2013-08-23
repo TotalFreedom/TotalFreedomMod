@@ -54,6 +54,11 @@ public class Command_adminworld extends TFM_Command
             {
                 case TELEPORT:
                 {
+                    if (!(sender instanceof Player) || sender_p == null)
+                    {
+                        return true;
+                    }
+
                     World adminWorld = null;
                     try
                     {
@@ -70,8 +75,15 @@ public class Command_adminworld extends TFM_Command
                     }
                     else
                     {
-                        playerMsg("Going to the AdminWorld.");
-                        TFM_AdminWorld.getInstance().sendToWorld(sender_p);
+                        if (TFM_AdminWorld.getInstance().canAccessWorld(sender_p))
+                        {
+                            playerMsg("Going to the AdminWorld.");
+                            TFM_AdminWorld.getInstance().sendToWorld(sender_p);
+                        }
+                        else
+                        {
+                            playerMsg("You don't have permission to access the AdminWorld.");
+                        }
                     }
 
                     break;
