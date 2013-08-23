@@ -1,7 +1,11 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -75,12 +79,50 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
         if (TFM_SuperadminList.isUserSuperadmin(supervisor))
         {
             guestList.put(guest, supervisor);
+            wipeAccessCache();
         }
     }
 
-    public void removeGuest(Player guest)
+    public Player removeGuest(Player guest)
     {
-        guestList.remove(guest);
+        Player player = guestList.remove(guest);
+        wipeAccessCache();
+        return player;
+    }
+
+    public Player removeGuest(String partialName)
+    {
+        partialName = partialName.toLowerCase().trim();
+        Iterator<Player> it = guestList.values().iterator();
+        while (it.hasNext())
+        {
+            Player player = it.next();
+            if (player.getName().toLowerCase().trim().contains(partialName))
+            {
+                return removeGuest(player);
+            }
+        }
+        return null;
+    }
+
+    public String guestListToString()
+    {
+        List<String> output = new ArrayList<String>();
+        Iterator<Map.Entry<Player, Player>> it = guestList.entrySet().iterator();
+        while (it.hasNext())
+        {
+            Map.Entry<Player, Player> entry = it.next();
+            Player player = entry.getKey();
+            Player supervisor = entry.getValue();
+            output.add(player.getName() + " (Supervisor: " + supervisor.getName() + ")");
+        }
+        return StringUtils.join(output, ", ");
+    }
+
+    public void purgeGuestList()
+    {
+        guestList.clear();
+        wipeAccessCache();
     }
 
     public boolean validateMovement(PlayerMoveEvent event)
@@ -129,7 +171,7 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
         accessCache.clear();
     }
 
-    public boolean canAccessWorld(Player player)
+    public boolean canAccessWorld(final Player player)
     {
         long currentTimeMillis = System.currentTimeMillis();
         if (cacheLastCleared == null || cacheLastCleared.longValue() + CACHE_CLEAR_FREQUENCY <= currentTimeMillis)
@@ -146,6 +188,10 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
             {
                 Player supervisor = guestList.get(player);
                 canAccess = supervisor != null && supervisor.isOnline() && TFM_SuperadminList.isUserSuperadmin(supervisor);
+                if (!canAccess)
+                {
+                    guestList.remove(player);
+                }
             }
             cached = canAccess;
             accessCache.put(player, cached);

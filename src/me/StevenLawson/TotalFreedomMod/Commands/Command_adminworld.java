@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Go to the AdminWorld.", usage = "/<command> [guest < list | add <player> | remove <player> > | time <worldtime>]")
+@CommandParameters(description = "Go to the AdminWorld.", usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]")
 public class Command_adminworld extends TFM_Command
 {
     private enum CommandMode
@@ -48,105 +48,150 @@ public class Command_adminworld extends TFM_Command
             return false;
         }
 
-        switch (commandMode)
+        try
         {
-            case TELEPORT:
+            switch (commandMode)
             {
-//                /adminworld
-                World adminWorld = null;
-                try
+                case TELEPORT:
                 {
-                    adminWorld = TFM_AdminWorld.getInstance().getWorld();
-                }
-                catch (Exception ex)
-                {
-                }
-
-                if (adminWorld == null || sender_p.getWorld() == adminWorld)
-                {
-                    playerMsg("Going to the main world.");
-                    sender_p.teleport(server.getWorlds().get(0).getSpawnLocation());
-                }
-                else
-                {
-                    playerMsg("Going to the AdminWorld.");
-                    TFM_AdminWorld.getInstance().sendToWorld(sender_p);
-                }
-
-                break;
-            }
-            case GUEST:
-            {
-//                /adminworld guest list
-//                /adminworld guest add <player>
-//                /adminworld guest remove <player>
-                if (args.length == 2)
-                {
-                    if ("list".equalsIgnoreCase(args[1]))
+                    World adminWorld = null;
+                    try
                     {
-                        //list
+                        adminWorld = TFM_AdminWorld.getInstance().getWorld();
                     }
-                }
-                else if (args.length == 3)
-                {
-                    if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isUserSuperadmin(sender))
+                    catch (Exception ex)
                     {
-                        sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-                        return true;
                     }
 
-                    if ("add".equalsIgnoreCase(args[1]))
+                    if (adminWorld == null || sender_p.getWorld() == adminWorld)
                     {
-                        //add args[2]
+                        playerMsg("Going to the main world.");
+                        sender_p.teleport(server.getWorlds().get(0).getSpawnLocation());
                     }
-                    else if (TFM_Util.isRemoveCommand(args[1]))
+                    else
                     {
-                        //remove args[2]
+                        playerMsg("Going to the AdminWorld.");
+                        TFM_AdminWorld.getInstance().sendToWorld(sender_p);
                     }
+
+                    break;
                 }
-
-                break;
-            }
-            case TIME:
-            {
-//                /adminworld time <morning|noon|evening|night>
-
-                if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isUserSuperadmin(sender))
+                case GUEST:
                 {
-                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-                    return true;
-                }
+                    if (args.length == 2)
+                    {
+                        if ("list".equalsIgnoreCase(args[1]))
+                        {
+                            playerMsg("AdminWorld Guest List: " + TFM_AdminWorld.getInstance().guestListToString());
+                        }
+                        else if ("purge".equalsIgnoreCase(args[1]))
+                        {
+                            assertCommandPerms(sender, sender_p);
+                            TFM_AdminWorld.getInstance().purgeGuestList();
+                            playerMsg("AdminWorld guest list purged.");
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else if (args.length == 3)
+                    {
+                        assertCommandPerms(sender, sender_p);
 
-                if (args.length == 2)
+                        if ("add".equalsIgnoreCase(args[1]))
+                        {
+                            try
+                            {
+                                TFM_AdminWorld.getInstance().addGuest(getPlayer(args[2]), sender_p);
+                            }
+                            catch (PlayerNotFoundException ex)
+                            {
+                                sender.sendMessage(ex.getMessage());
+                                return true;
+                            }
+                        }
+                        else if (TFM_Util.isRemoveCommand(args[1]))
+                        {
+                            Player player = TFM_AdminWorld.getInstance().removeGuest(args[2]);
+                            if (player != null)
+                            {
+                                playerMsg("Guest removed: " + player.getName());
+                            }
+                            else
+                            {
+                                playerMsg("Can't find guest entry for: " + args[2]);
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+
+                    break;
+                }
+                case TIME:
                 {
-                    //set time = args[1]
+                    assertCommandPerms(sender, sender_p);
+
+                    if (args.length == 2)
+                    {
+                        //set time = args[1] : <morning|noon|evening|night>
+
+                        playerMsg("Feature not implemented.");
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    break;
                 }
-
-                break;
-            }
-            case WEATHER:
-            {
-//                /adminworld weather <off|on|storm>
-
-                if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isUserSuperadmin(sender))
+                case WEATHER:
                 {
-                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-                    return true;
-                }
+                    assertCommandPerms(sender, sender_p);
 
-                if (args.length == 2)
+                    if (args.length == 2)
+                    {
+                        //set weather = args[1] : <off|on|storm>
+
+                        playerMsg("Feature not implemented.");
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    break;
+                }
+                default:
                 {
-                    //set weather = args[1]
+                    return false;
                 }
-
-                break;
             }
-            default:
-            {
-                return false;
-            }
+        }
+        catch (PermissionDeniedException ex)
+        {
+            sender.sendMessage(ex.getMessage());
         }
 
         return true;
+    }
+
+    private void assertCommandPerms(CommandSender sender, Player sender_p) throws PermissionDeniedException
+    {
+        if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isUserSuperadmin(sender))
+        {
+            throw new PermissionDeniedException(TotalFreedomMod.MSG_NO_PERMS);
+        }
+    }
+
+    private class PermissionDeniedException extends Exception
+    {
+        public PermissionDeniedException(String string)
+        {
+            super(string);
+        }
     }
 }
