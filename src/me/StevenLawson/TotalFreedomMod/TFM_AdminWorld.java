@@ -74,13 +74,21 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
         return world;
     }
 
-    public void addGuest(Player guest, Player supervisor)
+    public boolean addGuest(Player guest, Player supervisor)
     {
+        if (guest == supervisor || TFM_SuperadminList.isUserSuperadmin(guest))
+        {
+            return false;
+        }
+
         if (TFM_SuperadminList.isUserSuperadmin(supervisor))
         {
             guestList.put(guest, supervisor);
             wipeAccessCache();
+            return true;
         }
+
+        return false;
     }
 
     public Player removeGuest(Player guest)

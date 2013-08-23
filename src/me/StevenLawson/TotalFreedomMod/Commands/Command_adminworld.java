@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Go to the AdminWorld.", usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]")
 public class Command_adminworld extends TFM_Command
 {
@@ -82,13 +82,13 @@ public class Command_adminworld extends TFM_Command
                     {
                         if ("list".equalsIgnoreCase(args[1]))
                         {
-                            playerMsg("AdminWorld Guest List: " + TFM_AdminWorld.getInstance().guestListToString());
+                            playerMsg("AdminWorld guest list: " + TFM_AdminWorld.getInstance().guestListToString());
                         }
                         else if ("purge".equalsIgnoreCase(args[1]))
                         {
                             assertCommandPerms(sender, sender_p);
                             TFM_AdminWorld.getInstance().purgeGuestList();
-                            playerMsg("AdminWorld guest list purged.");
+                            TFM_Util.adminAction(sender.getName(), "AdminWorld guest list purged.", false);
                         }
                         else
                         {
@@ -101,14 +101,24 @@ public class Command_adminworld extends TFM_Command
 
                         if ("add".equalsIgnoreCase(args[1]))
                         {
+                            Player player;
                             try
                             {
-                                TFM_AdminWorld.getInstance().addGuest(getPlayer(args[2]), sender_p);
+                                player = getPlayer(args[2]);
                             }
                             catch (PlayerNotFoundException ex)
                             {
                                 sender.sendMessage(ex.getMessage());
                                 return true;
+                            }
+
+                            if (player != null && TFM_AdminWorld.getInstance().addGuest(player, sender_p))
+                            {
+                                TFM_Util.adminAction(sender.getName(), "AdminWorld guest added: " + player.getName(), false);
+                            }
+                            else
+                            {
+                                playerMsg("Could not add player to guest list.");
                             }
                         }
                         else if (TFM_Util.isRemoveCommand(args[1]))
@@ -116,7 +126,7 @@ public class Command_adminworld extends TFM_Command
                             Player player = TFM_AdminWorld.getInstance().removeGuest(args[2]);
                             if (player != null)
                             {
-                                playerMsg("Guest removed: " + player.getName());
+                                TFM_Util.adminAction(sender.getName(), "AdminWorld guest removed: " + player.getName(), false);
                             }
                             else
                             {
