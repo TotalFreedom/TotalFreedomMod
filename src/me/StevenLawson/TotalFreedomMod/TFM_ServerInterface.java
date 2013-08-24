@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import net.minecraft.server.v1_6_R2.BanEntry;
@@ -50,6 +51,22 @@ public class TFM_ServerInterface
     public static void banUsername(String name, String reason, String source, Date expire_date)
     {
         name = name.toLowerCase().trim();
+        
+        if (TFM_SuperadminList.getSuperadminNames().contains(name))
+        {
+            TFM_Log.info("Not banning username " + name + ": is superadmin");
+            return;
+        }
+        
+        for (String username : TFM_ConfigEntry.UNBANNABLE_USERNAMES.getStringList())
+        {
+            if (username.toLowerCase().trim().equals(name))
+            {
+                TFM_Log.info("Not banning username " + name + ": is unbannable as defined in config.");
+                return;
+            }
+        }
+        
         BanEntry ban_entry = new BanEntry(name);
         if (expire_date != null)
         {
@@ -110,7 +127,6 @@ public class TFM_ServerInterface
         return ipBans.getEntries().containsKey(ip);
     }
 
-    @SuppressWarnings("rawtypes")
     public static int purgeWhitelist()
     {
         Set whitelisted = MinecraftServer.getServer().getPlayerList().getWhitelisted();
@@ -181,7 +197,6 @@ public class TFM_ServerInterface
 
             boolean is_ip_banned = false;
 
-            @SuppressWarnings("rawtypes")
             Iterator ip_bans = banByIP.getEntries().keySet().iterator();
             while (ip_bans.hasNext())
             {

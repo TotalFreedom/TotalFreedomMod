@@ -49,7 +49,8 @@ public enum TFM_ConfigEntry
     TWITTERBOT_URL(String.class, "twitterbot_url"),
     //
     BLOCKED_COMMANDS(List.class, "blocked_commands"),
-    HOST_SENDER_NAMES(List.class, "host_sender_names");
+    HOST_SENDER_NAMES(List.class, "host_sender_names"),
+    UNBANNABLE_USERNAMES(List.class, "unbannable_usernames");
     //
     private final Class<?> type;
     private final String configName;
@@ -114,8 +115,8 @@ public enum TFM_ConfigEntry
         return value;
     }
 
-    public List getList()
+    public List<String> getStringList()
     {
-        return TFM_Config.getInstance().getList(this);
+        return TFM_Config.getInstance().getStringList(this);
     }
 }

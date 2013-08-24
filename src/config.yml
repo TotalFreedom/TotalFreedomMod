@@ -124,6 +124,37 @@ host_sender_names:
   - rcon
   - remotebukkit
 
+# Players who cannot be banned by username
+unbannable_usernames:
+  - honeydew
+  - xephos
+  - captainsparklez
+  - truemu
+  - kiershar
+  - fvdisco
+  - sethbling
+  - notch
+  - jeb_
+  - gamechap
+  - bertiechap
+  - vechs
+  - antvenom
+  - chimneyswift
+  - deadmau5
+  - etho
+  - skydoesminecraft
+  - tobyturner
+  - xxslyfoxhoundxx
+  - paulsoaresjr
+  - sips_
+  - deadlox
+  - xxslyxx
+  - jeromeasf
+  - dinnerbone
+  - grumm
+  - cavemanfilms
+
+
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot_enabled: false
 twitterbot_url: ''

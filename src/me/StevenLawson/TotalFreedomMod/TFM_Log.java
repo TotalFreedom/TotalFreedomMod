@@ -14,7 +14,7 @@ public class TFM_Log
         throw new AssertionError();
     }
 
-    //Level.INFO:
+    // Level.INFO:
     public static void info(String message)
     {
         info(message, false);
@@ -30,7 +30,7 @@ public class TFM_Log
         log(Level.INFO, ex);
     }
 
-    //Level.WARNING:
+    // Level.WARNING:
     public static void warning(String message)
     {
         info(message, false);
@@ -46,7 +46,7 @@ public class TFM_Log
         log(Level.WARNING, ex);
     }
 
-    //Level.SEVERE:
+    // Level.SEVERE:
     public static void severe(String message)
     {
         info(message, false);
@@ -62,7 +62,7 @@ public class TFM_Log
         log(Level.SEVERE, ex);
     }
 
-    //Utility
+    // Utility
     private static void log(Level level, String message, boolean raw)
     {
         getLogger(raw).log(level, message);
