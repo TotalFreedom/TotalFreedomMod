@@ -109,6 +109,7 @@ public class TotalFreedomMod extends JavaPlugin
                 world.setThundering(false);
                 world.setStorm(false);
                 world.setThunderDuration(0);
+                world.setWeatherDuration(0);
             }
         }
 

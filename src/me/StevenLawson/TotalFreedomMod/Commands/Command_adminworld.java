@@ -159,9 +159,16 @@ public class Command_adminworld extends TFM_Command
 
                     if (args.length == 2)
                     {
-                        //set time = args[1] : <morning|noon|evening|night>
-
-                        playerMsg("Feature not implemented.");
+                        TFM_AdminWorld.TimeOfDay timeOfDay = TFM_AdminWorld.TimeOfDay.getByAlias(args[1]);
+                        if (timeOfDay != null)
+                        {
+                            TFM_AdminWorld.getInstance().setTimeOfDay(timeOfDay);
+                            playerMsg("AdminWorld time set to: " + timeOfDay.name());
+                        }
+                        else
+                        {
+                            playerMsg("Invalid time of day. Can be: sunrise, noon, sunset, midnight");
+                        }
                     }
                     else
                     {
@@ -176,9 +183,16 @@ public class Command_adminworld extends TFM_Command
 
                     if (args.length == 2)
                     {
-                        //set weather = args[1] : <off|on|storm>
-
-                        playerMsg("Feature not implemented.");
+                        TFM_AdminWorld.WeatherMode weatherMode = TFM_AdminWorld.WeatherMode.getByAlias(args[1]);
+                        if (weatherMode != null)
+                        {
+                            TFM_AdminWorld.getInstance().setWeatherMode(weatherMode);
+                            playerMsg("AdminWorld weather set to: " + weatherMode.name());
+                        }
+                        else
+                        {
+                            playerMsg("Invalid weather mode. Can be: off, rain, storm");
+                        }
                     }
                     else
                     {

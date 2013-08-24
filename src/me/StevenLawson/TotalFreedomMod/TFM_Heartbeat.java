@@ -44,6 +44,17 @@ public class TFM_Heartbeat extends BukkitRunnable
         {
             for (World world : server.getWorlds())
             {
+                try
+                {
+                    if (world == TFM_AdminWorld.getInstance().getWorld() && TFM_AdminWorld.getInstance().getWeatherMode() != TFM_AdminWorld.WeatherMode.OFF)
+                    {
+                        continue;
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+
                 if (world.getWeatherDuration() > 0)
                 {
                     world.setThundering(false);

@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +27,8 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
     //
     private Long cacheLastCleared = null;
     private Map<Player, Player> guestList = new HashMap<Player, Player>();
+    private WeatherMode weatherMode = WeatherMode.OFF;
+    private TimeOfDay timeOfDay = TimeOfDay.INHERIT;
 
     private TFM_AdminWorld()
     {
@@ -205,6 +208,127 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
             accessCache.put(player, cached);
         }
         return cached;
+    }
+
+    public static enum WeatherMode
+    {
+        OFF("off"),
+        RAIN("rain"),
+        STORM("storm,thunderstorm");
+        //
+        private final List<String> aliases;
+
+        private WeatherMode(String aliases)
+        {
+            this.aliases = Arrays.asList(StringUtils.split(aliases, ","));
+        }
+
+        private void setWorldToWeather(World world)
+        {
+            world.setStorm(this == RAIN || this == STORM);
+            world.setWeatherDuration(this == RAIN || this == STORM ? 20 * 60 * 5 : 0);
+
+            world.setThundering(this == STORM);
+            world.setThunderDuration(this == STORM ? 20 * 60 * 5 : 0);
+        }
+
+        public static WeatherMode getByAlias(String needle)
+        {
+            needle = needle.toLowerCase();
+            for (WeatherMode mode : values())
+            {
+                if (mode.aliases.contains(needle))
+                {
+                    return mode;
+                }
+            }
+            return null;
+        }
+    }
+
+    public static enum TimeOfDay
+    {
+        INHERIT(),
+        SUNRISE("sunrise,morning", 0),
+        NOON("noon,midday,day", 6000),
+        SUNSET("sunset,evening", 12000),
+        MIDNIGHT("midnight,night", 18000);
+        //
+        private final int timeTicks;
+        private final List<String> aliases;
+
+        private TimeOfDay()
+        {
+            this.timeTicks = 0;
+            this.aliases = null;
+        }
+
+        private TimeOfDay(String aliases, int timeTicks)
+        {
+            this.timeTicks = timeTicks;
+            this.aliases = Arrays.asList(StringUtils.split(aliases, ","));
+        }
+
+        public int getTimeTicks()
+        {
+            return timeTicks;
+        }
+
+        public void setWorldToTime(World world)
+        {
+            long time = world.getTime();
+            time -= time % 24000;
+            world.setTime(time + 24000 + getTimeTicks());
+        }
+
+        public static TimeOfDay getByAlias(String needle)
+        {
+            needle = needle.toLowerCase();
+            for (TimeOfDay time : values())
+            {
+                if (time.aliases != null && time.aliases.contains(needle))
+                {
+                    return time;
+                }
+            }
+            return null;
+        }
+    }
+
+    public WeatherMode getWeatherMode()
+    {
+        return weatherMode;
+    }
+
+    public void setWeatherMode(final WeatherMode weatherMode)
+    {
+        this.weatherMode = weatherMode;
+
+        try
+        {
+            weatherMode.setWorldToWeather(getWorld());
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    public TimeOfDay getTimeOfDay()
+    {
+        return timeOfDay;
+    }
+
+    public void setTimeOfDay(final TimeOfDay timeOfDay)
+    {
+        this.timeOfDay = timeOfDay;
+
+        try
+        {
+            timeOfDay.setWorldToTime(getWorld());
+        }
+        catch (Exception ex)
+        {
+        }
     }
 
     public static TFM_AdminWorld getInstance()
