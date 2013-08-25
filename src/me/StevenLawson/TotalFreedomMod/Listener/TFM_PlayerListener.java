@@ -348,7 +348,7 @@ public class TFM_PlayerListener implements Listener
             {
                 TFM_LandmineData landmine = landmines.next();
 
-                Location landmine_pos = landmine.landmine_pos;
+                Location landmine_pos = landmine.location;
                 if (landmine_pos.getBlock().getType() != Material.TNT)
                 {
                     landmines.remove();
@@ -361,7 +361,7 @@ public class TFM_PlayerListener implements Listener
                     {
                         if (player.getLocation().distanceSquared(landmine_pos) <= (landmine.radius * landmine.radius))
                         {
-                            landmine.landmine_pos.getBlock().setType(Material.AIR);
+                            landmine.location.getBlock().setType(Material.AIR);
 
                             TNTPrimed tnt1 = landmine_pos.getWorld().spawn(landmine_pos, TNTPrimed.class);
                             tnt1.setFuseTicks(40);

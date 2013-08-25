@@ -49,21 +49,21 @@ public class TFM_ServiceChecker
 
                 try
                 {
-                    URL mojang_status = new URL(serviceCheckerURL);
-                    BufferedReader in = new BufferedReader(new InputStreamReader(mojang_status.openStream()));
-                    JSONArray status_json = (JSONArray) JSONValue.parse(in.readLine());
+                    URL mojangStatus = new URL(serviceCheckerURL);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(mojangStatus.openStream()));
+                    JSONArray statusJson = (JSONArray) JSONValue.parse(in.readLine());
                     in.close();
 
                     TFM_ServiceChecker serviceChecker = TFM_ServiceChecker.getInstance();
 
-                    Iterator status_it = status_json.iterator();
+                    Iterator status_it = statusJson.iterator();
                     while (status_it.hasNext())
                     {
                         JSONObject service = (JSONObject) status_it.next();
-                        Iterator service_it = service.entrySet().iterator();
-                        while (service_it.hasNext())
+                        Iterator serviceIt = service.entrySet().iterator();
+                        while (serviceIt.hasNext())
                         {
-                            Entry<String, String> pair = (Entry<String, String>) service_it.next();
+                            Entry<String, String> pair = (Entry<String, String>) serviceIt.next();
 
                             if ("lastcheck".equals(pair.getKey()))
                             {

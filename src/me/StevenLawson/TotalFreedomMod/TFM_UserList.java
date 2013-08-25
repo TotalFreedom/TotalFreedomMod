@@ -32,11 +32,11 @@ public class TFM_UserList
         {
             userlist.clear();
 
-            FileConfiguration saved_userlist = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), USERLIST_FILENAME));
+            FileConfiguration savedUserlist = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), USERLIST_FILENAME));
 
-            for (String username : saved_userlist.getKeys(false))
+            for (String username : savedUserlist.getKeys(false))
             {
-                TFM_UserListEntry entry = new TFM_UserListEntry(username, saved_userlist.getStringList(username));
+                TFM_UserListEntry entry = new TFM_UserListEntry(username, savedUserlist.getStringList(username));
                 userlist.put(username, entry);
             }
 
@@ -56,16 +56,16 @@ public class TFM_UserList
 
     private void exportList()
     {
-        FileConfiguration new_userlist = new YamlConfiguration();
+        FileConfiguration newUserlist = new YamlConfiguration();
 
         for (TFM_UserListEntry entry : userlist.values())
         {
-            new_userlist.set(entry.getUsername(), entry.getIpAddresses());
+            newUserlist.set(entry.getUsername(), entry.getIpAddresses());
         }
 
         try
         {
-            new_userlist.save(new File(plugin.getDataFolder(), USERLIST_FILENAME));
+            newUserlist.save(new File(plugin.getDataFolder(), USERLIST_FILENAME));
         }
         catch (IOException ex)
         {
@@ -87,7 +87,7 @@ public class TFM_UserList
         addUser(player.getName(), player.getAddress().getAddress().getHostAddress());
     }
 
-    public void addUser(String username, String ip_address)
+    public void addUser(String username, String ip)
     {
         username = username.toLowerCase();
 
@@ -99,7 +99,7 @@ public class TFM_UserList
 
         userlist.put(username, entry);
 
-        if (entry.addIpAddress(ip_address))
+        if (entry.addIpAddress(ip))
         {
             exportList();
         }
@@ -149,12 +149,12 @@ public class TFM_UserList
     public class TFM_UserListEntry
     {
         private String username;
-        private List<String> ip_addresses = new ArrayList<String>();
+        private List<String> ipAddresses = new ArrayList<String>();
 
-        public TFM_UserListEntry(String username, List<String> ip_addresses)
+        public TFM_UserListEntry(String username, List<String> ipAddresses)
         {
             this.username = username;
-            this.ip_addresses = ip_addresses;
+            this.ipAddresses = ipAddresses;
         }
 
         public TFM_UserListEntry(String username)
@@ -164,7 +164,7 @@ public class TFM_UserList
 
         public List<String> getIpAddresses()
         {
-            return ip_addresses;
+            return ipAddresses;
         }
 
         public String getUsername()
@@ -172,11 +172,11 @@ public class TFM_UserList
             return username;
         }
 
-        public boolean addIpAddress(String ip_address)
+        public boolean addIpAddress(String ip)
         {
-            if (!ip_addresses.contains(ip_address))
+            if (!ipAddresses.contains(ip))
             {
-                ip_addresses.add(ip_address);
+                ipAddresses.add(ip);
                 return true;
             }
             return false;

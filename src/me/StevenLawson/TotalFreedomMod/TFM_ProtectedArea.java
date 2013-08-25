@@ -18,27 +18,27 @@ public class TFM_ProtectedArea implements Serializable
     private static final long serialVersionUID = -3270338811000937254L;
     public static final double MAX_RADIUS = 50.0D;
     private static Map<String, TFM_ProtectedArea> protectedAreas = new HashMap<String, TFM_ProtectedArea>();
-    private final SerializableLocation center_location;
+    private final SerializableLocation center;
     private final double radius;
 
     private TFM_ProtectedArea(Location root_location, double radius)
     {
-        this.center_location = new SerializableLocation(root_location);
+        this.center = new SerializableLocation(root_location);
         this.radius = radius;
     }
 
-    public static boolean isInProtectedArea(Location check_location)
+    public static boolean isInProtectedArea(Location location)
     {
-        for (Map.Entry<String, TFM_ProtectedArea> protected_area : TFM_ProtectedArea.protectedAreas.entrySet())
+        for (Map.Entry<String, TFM_ProtectedArea> protectedArea : TFM_ProtectedArea.protectedAreas.entrySet())
         {
-            Location protected_area_center = SerializableLocation.returnLocation(protected_area.getValue().center_location);
-            if (protected_area_center != null)
+            Location protectedAreaCenter = SerializableLocation.returnLocation(protectedArea.getValue().center);
+            if (protectedAreaCenter != null)
             {
-                if (check_location.getWorld() == protected_area_center.getWorld())
+                if (location.getWorld() == protectedAreaCenter.getWorld())
                 {
-                    double protected_area_radius = protected_area.getValue().radius;
+                    double protectedAreaRadius = protectedArea.getValue().radius;
 
-                    if (check_location.distanceSquared(protected_area_center) <= (protected_area_radius * protected_area_radius))
+                    if (location.distanceSquared(protectedAreaCenter) <= (protectedAreaRadius * protectedAreaRadius))
                     {
                         return true;
                     }
@@ -49,9 +49,9 @@ public class TFM_ProtectedArea implements Serializable
         return false;
     }
 
-    public static void addProtectedArea(String label, Location root_location, double radius)
+    public static void addProtectedArea(String label, Location location, double radius)
     {
-        TFM_ProtectedArea.protectedAreas.put(label.toLowerCase(), new TFM_ProtectedArea(root_location, radius));
+        TFM_ProtectedArea.protectedAreas.put(label.toLowerCase(), new TFM_ProtectedArea(location, radius));
         saveProtectedAreas();
     }
 
@@ -89,15 +89,14 @@ public class TFM_ProtectedArea implements Serializable
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static void loadProtectedAreas()
     {
         try
         {
-            File input_file = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILE);
-            if (input_file.exists())
+            File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILE);
+            if (input.exists())
             {
-                FileInputStream fis = new FileInputStream(input_file);
+                FileInputStream fis = new FileInputStream(input);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 TFM_ProtectedArea.protectedAreas = (HashMap<String, TFM_ProtectedArea>) ois.readObject();
                 ois.close();
@@ -106,8 +105,8 @@ public class TFM_ProtectedArea implements Serializable
         }
         catch (Exception ex)
         {
-            File input_file = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILE);
-            input_file.delete();
+            File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILE);
+            input.delete();
 
             TFM_Log.severe(ex);
         }

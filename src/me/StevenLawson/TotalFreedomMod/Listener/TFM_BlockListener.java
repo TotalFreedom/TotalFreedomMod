@@ -35,27 +35,27 @@ public class TFM_BlockListener implements Listener
     public void onBlockBreak(BlockBreakEvent event)
     {
         Player player = event.getPlayer();
-        Location block_pos = event.getBlock().getLocation();
+        Location blockLocation = event.getBlock().getLocation();
 
         if (TFM_ConfigEntry.NUKE_MONITOR.getBoolean())
         {
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
-            Location player_pos = player.getLocation();
+            Location playerLocation = player.getLocation();
 
             final double nukeMonitorRange = TFM_ConfigEntry.NUKE_MONITOR_RANGE.getDouble().doubleValue();
 
-            boolean out_of_range = false;
-            if (!player_pos.getWorld().equals(block_pos.getWorld()))
+            boolean outOfRange = false;
+            if (!playerLocation.getWorld().equals(blockLocation.getWorld()))
             {
-                out_of_range = true;
+                outOfRange = true;
             }
-            else if (player_pos.distanceSquared(block_pos) > (nukeMonitorRange * nukeMonitorRange))
+            else if (playerLocation.distanceSquared(blockLocation) > (nukeMonitorRange * nukeMonitorRange))
             {
-                out_of_range = true;
+                outOfRange = true;
             }
 
-            if (out_of_range)
+            if (outOfRange)
             {
                 if (playerdata.incrementAndGetFreecamDestroyCount() > TFM_ConfigEntry.FREECAM_TRIGGER_COUNT.getInteger())
                 {
@@ -93,7 +93,7 @@ public class TFM_BlockListener implements Listener
         {
             if (!TFM_SuperadminList.isUserSuperadmin(player))
             {
-                if (TFM_ProtectedArea.isInProtectedArea(block_pos))
+                if (TFM_ProtectedArea.isInProtectedArea(blockLocation))
                 {
                     event.setCancelled(true);
                 }
@@ -111,27 +111,27 @@ public class TFM_BlockListener implements Listener
     public void onBlockPlace(BlockPlaceEvent event)
     {
         Player player = event.getPlayer();
-        Location block_pos = event.getBlock().getLocation();
+        Location blockLocation = event.getBlock().getLocation();
 
         if (TFM_ConfigEntry.NUKE_MONITOR.getBoolean())
         {
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
-            Location player_pos = player.getLocation();
+            Location playerLocation = player.getLocation();
 
             double nukeMonitorRange = TFM_ConfigEntry.NUKE_MONITOR_RANGE.getDouble().doubleValue();
 
-            boolean out_of_range = false;
-            if (!player_pos.getWorld().equals(block_pos.getWorld()))
+            boolean outOfRange = false;
+            if (!playerLocation.getWorld().equals(blockLocation.getWorld()))
             {
-                out_of_range = true;
+                outOfRange = true;
             }
-            else if (player_pos.distanceSquared(block_pos) > (nukeMonitorRange * nukeMonitorRange))
+            else if (playerLocation.distanceSquared(blockLocation) > (nukeMonitorRange * nukeMonitorRange))
             {
-                out_of_range = true;
+                outOfRange = true;
             }
 
-            if (out_of_range)
+            if (outOfRange)
             {
                 if (playerdata.incrementAndGetFreecamPlaceCount() > TFM_ConfigEntry.FREECAM_TRIGGER_COUNT.getInteger())
                 {
@@ -169,7 +169,7 @@ public class TFM_BlockListener implements Listener
         {
             if (!TFM_SuperadminList.isUserSuperadmin(player))
             {
-                if (TFM_ProtectedArea.isInProtectedArea(block_pos))
+                if (TFM_ProtectedArea.isInProtectedArea(blockLocation))
                 {
                     event.setCancelled(true);
                     return;

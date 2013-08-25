@@ -21,7 +21,7 @@ import org.bukkit.entity.*;
 
 public class TFM_Util
 {
-    private static final Map<String, Integer> eject_tracker = new HashMap<String, Integer>();
+    private static final Map<String, Integer> ejectTracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     public static final List<String> STOP_COMMANDS = Arrays.asList("stop", "off", "end", "halt", "die");
     public static final List<String> REMOVE_COMMANDS = Arrays.asList("del", "delete", "rem", "remove");
@@ -29,15 +29,15 @@ public class TFM_Util
 
     static
     {
-        for (EntityType entity_type : EntityType.values())
+        for (EntityType type : EntityType.values())
         {
             try
             {
-                if (entity_type.getName() != null)
+                if (type.getName() != null)
                 {
-                    if (Creature.class.isAssignableFrom(entity_type.getEntityClass()))
+                    if (Creature.class.isAssignableFrom(type.getEntityClass()))
                     {
-                        mobtypes.put(entity_type.getName().toLowerCase(), entity_type);
+                        mobtypes.put(type.getName().toLowerCase(), type);
                     }
                 }
             }
@@ -84,25 +84,25 @@ public class TFM_Util
         TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
     }
 
-    public static String formatLocation(Location in_loc)
+    public static String formatLocation(Location location)
     {
         return String.format("%s: (%d, %d, %d)",
-                in_loc.getWorld().getName(),
-                Math.round(in_loc.getX()),
-                Math.round(in_loc.getY()),
-                Math.round(in_loc.getZ()));
+                location.getWorld().getName(),
+                Math.round(location.getX()),
+                Math.round(location.getY()),
+                Math.round(location.getZ()));
     }
 
     public static void gotoWorld(CommandSender sender, String targetworld)
     {
         if (sender instanceof Player)
         {
-            Player sender_p = (Player) sender;
+            Player player = (Player) sender;
 
-            if (sender_p.getWorld().getName().equalsIgnoreCase(targetworld))
+            if (player.getWorld().getName().equalsIgnoreCase(targetworld))
             {
                 sender.sendMessage(ChatColor.GRAY + "Going to main world.");
-                sender_p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+                player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
                 return;
             }
 
@@ -111,7 +111,7 @@ public class TFM_Util
                 if (world.getName().equalsIgnoreCase(targetworld))
                 {
                     sender.sendMessage(ChatColor.GRAY + "Going to world: " + targetworld);
-                    sender_p.teleport(world.getSpawnLocation());
+                    player.teleport(world.getSpawnLocation());
                     return;
                 }
             }
@@ -126,14 +126,14 @@ public class TFM_Util
 
     public static void buildHistory(Location location, int length, TFM_PlayerData playerdata)
     {
-        Block center_block = location.getBlock();
-        for (int x_offset = -length; x_offset <= length; x_offset++)
+        Block center = location.getBlock();
+        for (int xOffset = -length; xOffset <= length; xOffset++)
         {
-            for (int y_offset = -length; y_offset <= length; y_offset++)
+            for (int yOffset = -length; yOffset <= length; yOffset++)
             {
-                for (int z_offset = -length; z_offset <= length; z_offset++)
+                for (int zOffset = -length; zOffset <= length; zOffset++)
                 {
-                    Block block = center_block.getRelative(x_offset, y_offset, z_offset);
+                    Block block = center.getRelative(xOffset, yOffset, zOffset);
                     playerdata.insertHistoryBlock(block.getLocation(), block.getType());
                 }
             }
@@ -142,14 +142,14 @@ public class TFM_Util
 
     public static void generateCube(Location location, int length, Material material)
     {
-        Block center_block = location.getBlock();
-        for (int x_offset = -length; x_offset <= length; x_offset++)
+        Block block = location.getBlock();
+        for (int xOffset = -length; xOffset <= length; xOffset++)
         {
-            for (int y_offset = -length; y_offset <= length; y_offset++)
+            for (int yOffset = -length; yOffset <= length; yOffset++)
             {
-                for (int z_offset = -length; z_offset <= length; z_offset++)
+                for (int zOffset = -length; zOffset <= length; zOffset++)
                 {
-                    center_block.getRelative(x_offset, y_offset, z_offset).setType(material);
+                    block.getRelative(xOffset, yOffset, zOffset).setType(material);
                 }
             }
         }
@@ -162,7 +162,7 @@ public class TFM_Util
         world.setTime(time + 24000 + ticks);
     }
 
-    public static void createDefaultConfiguration(String name, File plugin_file)
+    public static void createDefaultConfiguration(String name, File pluginFile)
     {
         TotalFreedomMod tfm = TotalFreedomMod.plugin;
 
@@ -173,7 +173,7 @@ public class TFM_Util
             InputStream input = null;
             try
             {
-                JarFile file = new JarFile(plugin_file);
+                JarFile file = new JarFile(pluginFile);
                 ZipEntry copy = file.getEntry(name);
                 if (copy == null)
                 {
@@ -405,31 +405,31 @@ public class TFM_Util
     public static void autoEject(Player player, String kickMessage)
     {
         EjectMethod method = EjectMethod.STRIKE_ONE;
-        String player_ip = null;
+        String ip = null;
 
         try
         {
-            player_ip = player.getAddress().getAddress().getHostAddress();
+            ip = player.getAddress().getAddress().getHostAddress();
 
-            Integer num_kicks = TFM_Util.eject_tracker.get(player_ip);
-            if (num_kicks == null)
+            Integer kicks = TFM_Util.ejectTracker.get(ip);
+            if (kicks == null)
             {
-                num_kicks = new Integer(0);
+                kicks = new Integer(0);
             }
 
-            num_kicks = new Integer(num_kicks.intValue() + 1);
+            kicks = new Integer(kicks.intValue() + 1);
 
-            TFM_Util.eject_tracker.put(player_ip, num_kicks);
+            TFM_Util.ejectTracker.put(ip, kicks);
 
-            if (num_kicks.intValue() <= 1)
+            if (kicks.intValue() <= 1)
             {
                 method = EjectMethod.STRIKE_ONE;
             }
-            else if (num_kicks.intValue() == 2)
+            else if (kicks.intValue() == 2)
             {
                 method = EjectMethod.STRIKE_TWO;
             }
-            else if (num_kicks.intValue() >= 3)
+            else if (kicks.intValue() >= 3)
             {
                 method = EjectMethod.STRIKE_THREE;
             }
@@ -438,7 +438,7 @@ public class TFM_Util
         {
         }
 
-        TFM_Log.info("autoEject -> name: " + player.getName() + " - player_ip: " + player_ip + " - method: " + method.toString());
+        TFM_Log.info("autoEject -> name: " + player.getName() + " - player ip: " + ip + " - method: " + method.toString());
 
         player.setOp(false);
         player.setGameMode(GameMode.SURVIVAL);
@@ -454,7 +454,7 @@ public class TFM_Util
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 1 minute.");
 
-                TFM_ServerInterface.banIP(player_ip, kickMessage, "AutoEject", expires);
+                TFM_ServerInterface.banIP(ip, kickMessage, "AutoEject", expires);
                 TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", expires);
                 player.kickPlayer(kickMessage);
 
@@ -468,7 +468,7 @@ public class TFM_Util
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 3 minutes.");
 
-                TFM_ServerInterface.banIP(player_ip, kickMessage, "AutoEject", expires);
+                TFM_ServerInterface.banIP(ip, kickMessage, "AutoEject", expires);
                 TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", expires);
                 player.kickPlayer(kickMessage);
 
@@ -477,10 +477,10 @@ public class TFM_Util
             case STRIKE_THREE:
             {
                 //Bukkit.banIP(player_ip);
-                TFM_ServerInterface.banIP(player_ip, kickMessage, "AutoEject", null);
-                String[] ip_address_parts = player_ip.split("\\.");
+                TFM_ServerInterface.banIP(ip, kickMessage, "AutoEject", null);
+                String[] ipAddressParts = ip.split("\\.");
                 //Bukkit.banIP();
-                TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", kickMessage, "AutoEject", null);
+                TFM_ServerInterface.banIP(ipAddressParts[0] + "." + ipAddressParts[1] + ".*.*", kickMessage, "AutoEject", null);
 
                 //p.setBanned(true);
                 TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", null);
@@ -501,23 +501,23 @@ public class TFM_Util
             return "an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "impostor" + ChatColor.RESET + ChatColor.AQUA + "!";
         }
 
-        TFM_Superadmin admin_entry = TFM_SuperadminList.getAdminEntry(sender.getName());
+        TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(sender.getName());
 
-        if (admin_entry != null)
+        if (entry != null)
         {
-            if (admin_entry.isActivated())
+            if (entry.isActivated())
             {
-                String custom_login_message = admin_entry.getCustomLoginMessage();
+                String loginMessage = entry.getCustomLoginMessage();
 
-                if (custom_login_message != null)
+                if (loginMessage != null)
                 {
-                    if (!custom_login_message.isEmpty())
+                    if (!loginMessage.isEmpty())
                     {
-                        return ChatColor.translateAlternateColorCodes('&', custom_login_message);
+                        return ChatColor.translateAlternateColorCodes('&', loginMessage);
                     }
                 }
 
-                if (admin_entry.isSeniorAdmin())
+                if (entry.isSeniorAdmin())
                 {
                     return "a " + ChatColor.LIGHT_PURPLE + "Senior Admin" + ChatColor.AQUA + ".";
                 }
@@ -643,27 +643,27 @@ public class TFM_Util
 
     public static String playerListToNames(Set<OfflinePlayer> players)
     {
-        List<String> player_names = new ArrayList<String>();
+        List<String> names = new ArrayList<String>();
         for (OfflinePlayer player : players)
         {
-            player_names.add(player.getName());
+            names.add(player.getName());
         }
-        return StringUtils.join(player_names, ", ");
+        return StringUtils.join(names, ", ");
     }
 
     @SuppressWarnings("unchecked")
     public static Map<String, Boolean> getSavedFlags()
     {
-        Map<String, Boolean> saved_flags = null;
+        Map<String, Boolean> flags = null;
 
-        File input_file = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILE);
-        if (input_file.exists())
+        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILE);
+        if (input.exists())
         {
             try
             {
-                FileInputStream fis = new FileInputStream(input_file);
+                FileInputStream fis = new FileInputStream(input);
                 ObjectInputStream ois = new ObjectInputStream(fis);
-                saved_flags = (HashMap<String, Boolean>) ois.readObject();
+                flags = (HashMap<String, Boolean>) ois.readObject();
                 ois.close();
                 fis.close();
             }
@@ -673,26 +673,26 @@ public class TFM_Util
             }
         }
 
-        return saved_flags;
+        return flags;
     }
 
     public static boolean getSavedFlag(String flag) throws Exception
     {
-        Boolean flag_value = null;
+        Boolean flagValue = null;
 
-        Map<String, Boolean> saved_flags = TFM_Util.getSavedFlags();
+        Map<String, Boolean> flags = TFM_Util.getSavedFlags();
 
-        if (saved_flags != null)
+        if (flags != null)
         {
-            if (saved_flags.containsKey(flag))
+            if (flags.containsKey(flag))
             {
-                flag_value = saved_flags.get(flag);
+                flagValue = flags.get(flag);
             }
         }
 
-        if (flag_value != null)
+        if (flagValue != null)
         {
-            return flag_value.booleanValue();
+            return flagValue.booleanValue();
         }
         else
         {
@@ -702,20 +702,20 @@ public class TFM_Util
 
     public static void setSavedFlag(String flag, boolean value)
     {
-        Map<String, Boolean> saved_flags = TFM_Util.getSavedFlags();
+        Map<String, Boolean> flags = TFM_Util.getSavedFlags();
 
-        if (saved_flags == null)
+        if (flags == null)
         {
-            saved_flags = new HashMap<String, Boolean>();
+            flags = new HashMap<String, Boolean>();
         }
 
-        saved_flags.put(flag, value);
+        flags.put(flag, value);
 
         try
         {
             FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILE));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(saved_flags);
+            oos.writeObject(flags);
             oos.close();
             fos.close();
         }
@@ -731,92 +731,92 @@ public class TFM_Util
         return new SimpleDateFormat(DATE_STORAGE_FORMAT, Locale.ENGLISH).format(date);
     }
 
-    public static Date stringToDate(String date_str)
+    public static Date stringToDate(String dateString)
     {
         try
         {
-            return new SimpleDateFormat(DATE_STORAGE_FORMAT, Locale.ENGLISH).parse(date_str);
+            return new SimpleDateFormat(DATE_STORAGE_FORMAT, Locale.ENGLISH).parse(dateString);
         }
-        catch (ParseException ex)
+        catch (ParseException pex)
         {
             return new Date(0L);
         }
     }
 
-    public static boolean isFromHostConsole(String sender_name)
+    public static boolean isFromHostConsole(String senderName)
     {
-        return ((List<String>) TFM_ConfigEntry.HOST_SENDER_NAMES.getList()).contains(sender_name.toLowerCase());
+        return ((List<String>) TFM_ConfigEntry.HOST_SENDER_NAMES.getList()).contains(senderName.toLowerCase());
     }
 
-    public static List<String> removeDuplicates(List<String> old_list)
+    public static List<String> removeDuplicates(List<String> oldList)
     {
-        List<String> new_list = new ArrayList<String>();
-        for (String entry : old_list)
+        List<String> newList = new ArrayList<String>();
+        for (String entry : oldList)
         {
-            if (!new_list.contains(entry))
+            if (!newList.contains(entry))
             {
-                new_list.add(entry);
+                newList.add(entry);
             }
         }
-        return new_list;
+        return newList;
     }
 
-    public static boolean fuzzyIpMatch(String a, String b, int required_octets)
+    public static boolean fuzzyIpMatch(String a, String b, int octets)
     {
-        boolean is_match = true;
+        boolean match = true;
 
-        String[] a_parts = a.split("\\.");
-        String[] b_parts = b.split("\\.");
+        String[] aParts = a.split("\\.");
+        String[] bParts = b.split("\\.");
 
-        if (a_parts.length != 4 || b_parts.length != 4)
+        if (aParts.length != 4 || bParts.length != 4)
         {
             return false;
         }
 
-        if (required_octets > 4)
+        if (octets > 4)
         {
-            required_octets = 4;
+            octets = 4;
         }
-        else if (required_octets < 1)
+        else if (octets < 1)
         {
-            required_octets = 1;
+            octets = 1;
         }
 
-        for (int i = 0; i < required_octets && i < 4; i++)
+        for (int i = 0; i < octets && i < 4; i++)
         {
-            if (a_parts[i].equals("*") || b_parts[i].equals("*"))
+            if (aParts[i].equals("*") || bParts[i].equals("*"))
             {
                 continue;
             }
 
-            if (!a_parts[i].equals(b_parts[i]))
+            if (!aParts[i].equals(bParts[i]))
             {
-                is_match = false;
+                match = false;
                 break;
             }
         }
 
-        return is_match;
+        return match;
     }
 
-    public static int replaceBlocks(Location center_location, Material from_material, Material to_material, int radius)
+    public static int replaceBlocks(Location center, Material fromMaterial, Material toMaterial, int radius)
     {
         int affected = 0;
 
-        Block center_block = center_location.getBlock();
-        for (int x_offset = -radius; x_offset <= radius; x_offset++)
+        Block centerBlock = center.getBlock();
+        for (int xOffset = -radius; xOffset <= radius; xOffset++)
         {
-            for (int y_offset = -radius; y_offset <= radius; y_offset++)
+            for (int yOffset = -radius; yOffset <= radius; yOffset++)
             {
-                for (int z_offset = -radius; z_offset <= radius; z_offset++)
+                for (int zOffset = -radius; zOffset <= radius; zOffset++)
                 {
-                    Block test_block = center_block.getRelative(x_offset, y_offset, z_offset);
+                    Block block = centerBlock.getRelative(xOffset, yOffset, zOffset);
 
-                    if (test_block.getType().equals(from_material))
+                    if (block.getType().equals(fromMaterial))
                     {
-                        if (test_block.getLocation().distanceSquared(center_location) < (radius * radius))
+                        if (block.getLocation().distanceSquared(center) < (radius * radius))
                         {
-                            test_block.setType(to_material);
+                            block.setType(toMaterial);
                             affected++;
                         }
                     }
@@ -827,22 +827,22 @@ public class TFM_Util
         return affected;
     }
 
-    public static void downloadFile(String url, File output_file) throws java.lang.Exception
+    public static void downloadFile(String url, File output) throws java.lang.Exception
     {
-        downloadFile(url, output_file, false);
+        downloadFile(url, output, false);
     }
 
-    public static void downloadFile(String url, File output_file, boolean verbose) throws java.lang.Exception
+    public static void downloadFile(String url, File output, boolean verbose) throws java.lang.Exception
     {
         URL website = new URL(url);
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-        FileOutputStream fos = new FileOutputStream(output_file);
+        FileOutputStream fos = new FileOutputStream(output);
         fos.getChannel().transferFrom(rbc, 0, 1 << 24);
         fos.close();
 
         if (verbose)
         {
-            TFM_Log.info("Downloaded " + url + " to " + output_file.toString() + ".");
+            TFM_Log.info("Downloaded " + url + " to " + output.toString() + ".");
         }
     }
 
