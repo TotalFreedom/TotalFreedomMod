@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
@@ -142,14 +143,27 @@ public class TFM_Util
 
     public static void generateCube(Location location, int length, Material material)
     {
-        Block block = location.getBlock();
+        Block center = location.getBlock();
         for (int xOffset = -length; xOffset <= length; xOffset++)
         {
             for (int yOffset = -length; yOffset <= length; yOffset++)
             {
                 for (int zOffset = -length; zOffset <= length; zOffset++)
                 {
-                    block.getRelative(xOffset, yOffset, zOffset).setType(material);
+                    if (material != Material.SKULL)
+                    {
+                        center.getRelative(xOffset, yOffset, zOffset).setType(material);
+                    }
+                    else
+                    {
+                        final Block block = center.getRelative(xOffset, yOffset, zOffset);
+                        block.setType(Material.SKULL);
+                        Skull skull = (Skull) block.getState();
+                        skull.setSkullType(SkullType.PLAYER);
+                        skull.setOwner("DarthSalamon");
+                        skull.update();
+                        //skull.setRotation(block.getFace(center));
+                    }
                 }
             }
         }
