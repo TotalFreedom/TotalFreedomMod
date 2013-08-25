@@ -33,7 +33,7 @@ public class TFM_CommandBlocker
             return;
         }
 
-        List<String> _blockedCommands = (List<String>) TFM_ConfigEntry.BLOCKED_COMMANDS.getStringList();
+        List<String> _blockedCommands = (List<String>) TFM_ConfigEntry.BLOCKED_COMMANDS.getList();
         for (String rawEntry : _blockedCommands)
         {
             String[] parts = rawEntry.split(":");

@@ -189,7 +189,7 @@ public class TFM_Config
         }
     }
 
-    public List<String> getStringList(TFM_ConfigEntry entry)
+    public List getList(TFM_ConfigEntry entry)
     {
         try
         {

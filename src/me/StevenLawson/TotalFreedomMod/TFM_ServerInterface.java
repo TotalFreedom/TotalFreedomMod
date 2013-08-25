@@ -58,7 +58,7 @@ public class TFM_ServerInterface
             return;
         }
         
-        for (String username : TFM_ConfigEntry.UNBANNABLE_USERNAMES.getStringList())
+        for (String username : (List<String>) TFM_ConfigEntry.UNBANNABLE_USERNAMES.getList())
         {
             if (username.toLowerCase().trim().equals(name))
             {

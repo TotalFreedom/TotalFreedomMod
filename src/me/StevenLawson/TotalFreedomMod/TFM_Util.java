@@ -743,10 +743,9 @@ public class TFM_Util
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static boolean isFromHostConsole(String sender_name)
     {
-        return ((List<String>) TFM_ConfigEntry.HOST_SENDER_NAMES.getStringList()).contains(sender_name.toLowerCase());
+        return ((List<String>) TFM_ConfigEntry.HOST_SENDER_NAMES.getList()).contains(sender_name.toLowerCase());
     }
 
     public static List<String> removeDuplicates(List<String> old_list)
