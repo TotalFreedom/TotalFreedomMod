@@ -122,19 +122,19 @@ public class TFM_RollbackManager
 
     public enum EntryType
     {
-        BLOCK_PLACE, BLOCK_BREAK;
+        BLOCK_PLACE("placed"),
+        BLOCK_BREAK("broke");
+        private final String action;
+
+        private EntryType(String action)
+        {
+            this.action = action;
+        }
 
         @Override
         public String toString()
         {
-            if (this == BLOCK_PLACE)
-            {
-                return "placed";
-            }
-            else
-            {
-                return "broke";
-            }
+            return this.action;
         }
     }
 
