@@ -51,13 +51,13 @@ public class TFM_ServerInterface
     public static void banUsername(String name, String reason, String source, Date expireDate)
     {
         name = name.toLowerCase().trim();
-        
+
         if (TFM_SuperadminList.getSuperadminNames().contains(name))
         {
             TFM_Log.info("Not banning username " + name + ": is superadmin");
             return;
         }
-        
+
         for (String username : (List<String>) TFM_ConfigEntry.UNBANNABLE_USERNAMES.getList())
         {
             if (username.toLowerCase().trim().equals(name))
@@ -66,7 +66,7 @@ public class TFM_ServerInterface
                 return;
             }
         }
-        
+
         BanEntry entry = new BanEntry(name);
         if (expireDate != null)
         {

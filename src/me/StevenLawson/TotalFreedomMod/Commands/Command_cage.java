@@ -20,12 +20,12 @@ public class Command_cage extends TFM_Command
         {
             return false;
         }
-        
+
         if (TFM_Util.isStopCommand(args[0]) && sender instanceof Player)
         {
             TFM_Util.adminAction(sender.getName(), "Uncaging " + sender.getName(), true);
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender_p);
-            
+
             playerdata.setCaged(false);
             playerdata.regenerateHistory();
             playerdata.clearHistory();
@@ -47,7 +47,7 @@ public class Command_cage extends TFM_Command
 
         Material outerMaterial = Material.GLASS;
         Material innerMaterial = Material.AIR;
-        
+
         if (args.length >= 2)
         {
             if (TFM_Util.isStopCommand(args[1]))
@@ -96,7 +96,7 @@ public class Command_cage extends TFM_Command
         player.setGameMode(GameMode.SURVIVAL);
 
         if (outerMaterial != Material.SKULL)
-        {     
+        {
             TFM_Util.adminAction(sender.getName(), "Caging " + player.getName(), true);
         }
         else

@@ -123,7 +123,7 @@ public class TFM_RollbackManager
     public enum EntryType
     {
         BLOCK_PLACE, BLOCK_BREAK;
-        
+
         @Override
         public String toString()
         {
@@ -179,7 +179,7 @@ public class TFM_RollbackManager
         {
             return Material.getMaterial(fromBlockId);
         }
-        
+
         public Material getToMaterial()
         {
             return Material.getMaterial(toBlockId);
