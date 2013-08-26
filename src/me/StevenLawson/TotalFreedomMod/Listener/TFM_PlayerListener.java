@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
+import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.EntryType;
+import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -84,6 +86,34 @@ public class TFM_PlayerListener implements Listener
                 {
                     case STICK:
                     {
+                        if (!TFM_SuperadminList.isUserSuperadmin(player))
+                        {
+                            break;
+                        }
+
+                        event.setCancelled(true);
+
+                        final Location location = player.getTargetBlock(null, 5).getLocation();
+                        final List<RollbackEntry> entries = TFM_RollbackManager.getEntriesAtLocation(location);
+
+                        if (entries.isEmpty())
+                        {
+                            TFM_Util.playerMsg(player, "No block edits at that location.");
+                            break;
+                        }
+
+                        TFM_Util.playerMsg(player, "Block edits at (" + ChatColor.WHITE + "X" + location.getBlockX() + ", Y" + location.getBlockY() + ", Z" + location.getBlockZ() + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
+                        for (RollbackEntry entry : entries)
+                        {
+                            String material = (entry.getType() == EntryType.BLOCK_BREAK ? entry.getFromMaterial() : entry.getToMaterial() + String.valueOf(entry.getData() == 0 ? entry.getData() : "")).toString();
+                            TFM_Util.playerMsg(player, " - " + ChatColor.BLUE + entry.getAuthor() + " " + entry.getType() + " " + material);
+                        }
+
+                        break;
+                    }
+
+                    case BONE:
+                    {
                         TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
                         if (playerdata.mobThrowerEnabled())
                         {
@@ -98,6 +128,7 @@ public class TFM_PlayerListener implements Listener
                         }
                         break;
                     }
+
                     case SULPHUR:
                     {
                         TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
@@ -116,6 +147,7 @@ public class TFM_PlayerListener implements Listener
                         }
                         break;
                     }
+
                     case BLAZE_ROD:
                     {
                         if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
@@ -148,6 +180,7 @@ public class TFM_PlayerListener implements Listener
                         }
                         break;
                     }
+
                     case CARROT:
                     {
                         if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())

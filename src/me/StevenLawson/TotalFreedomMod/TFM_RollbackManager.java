@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class TFM_RollbackManager
 {
-    private static final Map<String, List<TFM_RollbackManager_Entry>> PLAYER_HISTORY_MAP = new HashMap<String, List<TFM_RollbackManager_Entry>>();
+    private static final Map<String, List<RollbackEntry>> PLAYER_HISTORY_MAP = new HashMap<String, List<RollbackEntry>>();
 
     private TFM_RollbackManager()
     {
@@ -21,17 +21,17 @@ public class TFM_RollbackManager
 
     public static void blockPlace(org.bukkit.event.block.BlockPlaceEvent event)
     {
-        storeEntry(event.getPlayer(), new TFM_RollbackManager_Entry(event.getBlock(), TFM_RollbackManager_EntryType.BLOCK_PLACE));
+        storeEntry(event.getPlayer(), new RollbackEntry(event.getPlayer().getName(), event.getBlock(), EntryType.BLOCK_PLACE));
     }
 
     public static void blockBreak(org.bukkit.event.block.BlockBreakEvent event)
     {
-        storeEntry(event.getPlayer(), new TFM_RollbackManager_Entry(event.getBlock(), TFM_RollbackManager_EntryType.BLOCK_BREAK));
+        storeEntry(event.getPlayer(), new RollbackEntry(event.getPlayer().getName(), event.getBlock(), EntryType.BLOCK_BREAK));
     }
 
-    private static void storeEntry(Player player, TFM_RollbackManager_Entry entry)
+    private static void storeEntry(Player player, RollbackEntry entry)
     {
-        List<TFM_RollbackManager_Entry> playerEntryList = getPlayerEntryList(player.getName());
+        List<RollbackEntry> playerEntryList = getEntriesByPlayer(player.getName());
         if (playerEntryList != null)
         {
             playerEntryList.add(0, entry);
@@ -40,10 +40,10 @@ public class TFM_RollbackManager
 
     public static int purgeEntries()
     {
-        Iterator<List<TFM_RollbackManager_Entry>> it = PLAYER_HISTORY_MAP.values().iterator();
+        Iterator<List<RollbackEntry>> it = PLAYER_HISTORY_MAP.values().iterator();
         while (it.hasNext())
         {
-            List<TFM_RollbackManager_Entry> playerEntryList = it.next();
+            List<RollbackEntry> playerEntryList = it.next();
             if (playerEntryList != null)
             {
                 playerEntryList.clear();
@@ -54,7 +54,7 @@ public class TFM_RollbackManager
 
     public static int purgeEntries(String playerName)
     {
-        List<TFM_RollbackManager_Entry> playerEntryList = getPlayerEntryList(playerName);
+        List<RollbackEntry> playerEntryList = getEntriesByPlayer(playerName);
         if (playerEntryList != null)
         {
             int count = playerEntryList.size();
@@ -71,14 +71,14 @@ public class TFM_RollbackManager
 
     public static int rollback(String playerName)
     {
-        List<TFM_RollbackManager_Entry> playerEntryList = getPlayerEntryList(playerName);
+        List<RollbackEntry> playerEntryList = getEntriesByPlayer(playerName);
         if (playerEntryList != null)
         {
             int count = playerEntryList.size();
-            Iterator<TFM_RollbackManager_Entry> it = playerEntryList.iterator();
+            Iterator<RollbackEntry> it = playerEntryList.iterator();
             while (it.hasNext())
             {
-                TFM_RollbackManager_Entry entry = it.next();
+                RollbackEntry entry = it.next();
                 if (entry != null)
                 {
                     entry.restore();
@@ -90,49 +90,116 @@ public class TFM_RollbackManager
         return 0;
     }
 
-    private static List<TFM_RollbackManager_Entry> getPlayerEntryList(String playerName)
+    public static List<RollbackEntry> getEntriesAtLocation(Location location)
+    {
+        location = location.clone();
+
+        List<RollbackEntry> entries = new ArrayList<RollbackEntry>();
+        for (String playername : PLAYER_HISTORY_MAP.keySet())
+        {
+            for (RollbackEntry entry : PLAYER_HISTORY_MAP.get(playername))
+            {
+                if (entry.getLocation().equals(location))
+                {
+                    entries.add(0, entry);
+                }
+            }
+        }
+        return entries;
+    }
+
+    private static List<RollbackEntry> getEntriesByPlayer(String playerName)
     {
         playerName = playerName.toLowerCase();
-        List<TFM_RollbackManager_Entry> playerEntryList = PLAYER_HISTORY_MAP.get(playerName);
+        List<RollbackEntry> playerEntryList = PLAYER_HISTORY_MAP.get(playerName);
         if (playerEntryList == null)
         {
-            playerEntryList = new ArrayList<TFM_RollbackManager_Entry>();
+            playerEntryList = new ArrayList<RollbackEntry>();
             PLAYER_HISTORY_MAP.put(playerName, playerEntryList);
         }
         return playerEntryList;
     }
 
-    private enum TFM_RollbackManager_EntryType
+    public enum EntryType
     {
-        BLOCK_PLACE, BLOCK_BREAK
-    }
-
-    private static class TFM_RollbackManager_Entry
-    {
-        private final Location location;
-        private final Material material;
-        private final byte data;
-
-        public TFM_RollbackManager_Entry(Block block, TFM_RollbackManager_EntryType entryType)
+        BLOCK_PLACE, BLOCK_BREAK;
+        
+        @Override
+        public String toString()
         {
-            this.location = block.getLocation();
-            if (entryType == TFM_RollbackManager_EntryType.BLOCK_BREAK)
+            if (this == BLOCK_PLACE)
             {
-                this.material = block.getType();
-                this.data = block.getData();
+                return "placed";
             }
             else
             {
-                this.material = Material.AIR;
-                this.data = 0;
+                return "broke";
             }
+        }
+    }
+
+    public static class RollbackEntry
+    {
+        private final String author;
+        private final Location location;
+        private final int toBlockId; // ints have less overhead than Materials
+        private final int fromBlockId;
+        private final byte data;
+
+        private RollbackEntry(String author, Block block, EntryType entryType)
+        {
+            this.location = block.getLocation().clone();
+            this.author = author;
+
+            if (entryType == EntryType.BLOCK_BREAK)
+            {
+                fromBlockId = block.getTypeId();
+                toBlockId = Material.AIR.getId();
+                data = block.getData();
+            }
+            else
+            {
+                fromBlockId = Material.AIR.getId();
+                toBlockId = block.getTypeId();
+                data = 0;
+            }
+        }
+
+        public String getAuthor()
+        {
+            return author;
+        }
+
+        public Location getLocation()
+        {
+            return location;
+        }
+
+        public Material getFromMaterial()
+        {
+            return Material.getMaterial(fromBlockId);
+        }
+        
+        public Material getToMaterial()
+        {
+            return Material.getMaterial(toBlockId);
+        }
+
+        public byte getData()
+        {
+            return data;
+        }
+
+        public EntryType getType()
+        {
+            return (getFromMaterial() == Material.AIR ? EntryType.BLOCK_PLACE : EntryType.BLOCK_BREAK);
         }
 
         public void restore()
         {
-            Block b = this.location.getWorld().getBlockAt(this.location);
-            b.setType(this.material);
-            b.setData(this.data);
+            Block block = location.getWorld().getBlockAt(location);
+            block.setType(getFromMaterial());
+            block.setData(data);
         }
     }
 }

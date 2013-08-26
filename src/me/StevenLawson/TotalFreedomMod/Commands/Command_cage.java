@@ -23,7 +23,7 @@ public class Command_cage extends TFM_Command
         
         if (TFM_Util.isStopCommand(args[0]) && sender instanceof Player)
         {
-            TFM_Util.adminAction(sender.getName(), "Uncaging " + sender.getName(), true);;
+            TFM_Util.adminAction(sender.getName(), "Uncaging " + sender.getName(), true);
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender_p);
             
             playerdata.setCaged(false);
