@@ -20,6 +20,17 @@ public class Command_cage extends TFM_Command
         {
             return false;
         }
+        
+        if (TFM_Util.isStopCommand(args[0]) && sender instanceof Player)
+        {
+            TFM_Util.adminAction(sender.getName(), "Uncaging " + sender.getName(), true);;
+            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender_p);
+            
+            playerdata.setCaged(false);
+            playerdata.regenerateHistory();
+            playerdata.clearHistory();
+            return true;
+        }
 
         Player player;
         try
@@ -79,7 +90,7 @@ public class Command_cage extends TFM_Command
         playerdata.regenerateHistory();
         playerdata.clearHistory();
         TFM_Util.buildHistory(targetPos, 2, playerdata);
-        TFM_Util.generateCube(targetPos, 2, outerMaterial);
+        TFM_Util.generateHollowCube(targetPos, 2, outerMaterial);
         TFM_Util.generateCube(targetPos, 1, innerMaterial);
 
         player.setGameMode(GameMode.SURVIVAL);

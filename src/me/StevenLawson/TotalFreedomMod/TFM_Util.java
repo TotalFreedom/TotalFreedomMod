@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
@@ -150,19 +151,57 @@ public class TFM_Util
             {
                 for (int zOffset = -length; zOffset <= length; zOffset++)
                 {
+                    final Block block = center.getRelative(xOffset, yOffset, zOffset);
+                    if (block.getType() != material)
+                    {
+                        block.setType(material);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void generateHollowCube(Location location, int length, Material material)
+    {
+        Block center = location.getBlock();
+        for (int xOffset = -length; xOffset <= length; xOffset++)
+        {
+            for (int yOffset = -length; yOffset <= length; yOffset++)
+            {
+                for (int zOffset = -length; zOffset <= length; zOffset++)
+                {
+                    // Hollow
+                    if (Math.abs(xOffset) != length && Math.abs(yOffset) != length && Math.abs(zOffset) != length)
+                    {
+                        continue;
+                    }
+
+                    final Block block = center.getRelative(xOffset, yOffset, zOffset);
+
                     if (material != Material.SKULL)
                     {
-                        center.getRelative(xOffset, yOffset, zOffset).setType(material);
+                        // Glowstone light
+                        if (material != Material.GLASS && xOffset == 0 && yOffset == 2 && zOffset == 0)
+                        {
+                            block.setType(Material.GLOWSTONE);
+                            continue;
+                        }
+
+                        block.setType(material);
                     }
-                    else
+                    else // Darth mode
                     {
-                        final Block block = center.getRelative(xOffset, yOffset, zOffset);
+                        if (Math.abs(xOffset) == length && Math.abs(yOffset) == length && Math.abs(zOffset) == length)
+                        {
+                            block.setType(Material.GLOWSTONE);
+                            continue;
+                        }
+
                         block.setType(Material.SKULL);
                         Skull skull = (Skull) block.getState();
                         skull.setSkullType(SkullType.PLAYER);
                         skull.setOwner("DarthSalamon");
                         skull.update();
-                        //skull.setRotation(block.getFace(center));
                     }
                 }
             }

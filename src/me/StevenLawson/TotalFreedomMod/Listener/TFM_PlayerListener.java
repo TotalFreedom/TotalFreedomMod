@@ -323,7 +323,7 @@ public class TFM_PlayerListener implements Listener
                 playerdata.regenerateHistory();
                 playerdata.clearHistory();
                 TFM_Util.buildHistory(targetPos, 2, playerdata);
-                TFM_Util.generateCube(targetPos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
+                TFM_Util.generateHollowCube(targetPos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
                 TFM_Util.generateCube(targetPos, 1, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
             }
         }
