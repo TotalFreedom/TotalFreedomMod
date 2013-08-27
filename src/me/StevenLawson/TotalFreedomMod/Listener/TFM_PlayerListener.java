@@ -37,7 +37,8 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
     {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
         switch (event.getAction())
         {
@@ -48,37 +49,46 @@ public class TFM_PlayerListener implements Listener
                 {
                     case WATER_BUCKET:
                     {
-                        if (!TFM_ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
+                        if (TFM_ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
                         {
-                            player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                            player.sendMessage(ChatColor.GRAY + "Water buckets are currently disabled.");
-                            event.setCancelled(true);
+                            break;
                         }
+
+                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                        player.sendMessage(ChatColor.GRAY + "Water buckets are currently disabled.");
+                        event.setCancelled(true);
                         break;
                     }
+
                     case LAVA_BUCKET:
                     {
-                        if (!TFM_ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
+                        if (TFM_ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
                         {
-                            player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                            player.sendMessage(ChatColor.GRAY + "Lava buckets are currently disabled.");
-                            event.setCancelled(true);
+                            break;
                         }
+
+                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                        player.sendMessage(ChatColor.GRAY + "Lava buckets are currently disabled.");
+                        event.setCancelled(true);
                         break;
                     }
+
                     case EXPLOSIVE_MINECART:
                     {
-                        if (!TFM_ConfigEntry.ALLOW_TNT_MINECARTS.getBoolean())
+                        if (TFM_ConfigEntry.ALLOW_TNT_MINECARTS.getBoolean())
                         {
-                            player.getInventory().clear(player.getInventory().getHeldItemSlot());
-                            player.sendMessage(ChatColor.GRAY + "TNT minecarts are currently disabled.");
-                            event.setCancelled(true);
+                            break;
                         }
+
+                        player.getInventory().clear(player.getInventory().getHeldItemSlot());
+                        player.sendMessage(ChatColor.GRAY + "TNT minecarts are currently disabled.");
+                        event.setCancelled(true);
                         break;
                     }
                 }
                 break;
             }
+
             case LEFT_CLICK_AIR:
             case LEFT_CLICK_BLOCK:
             {
@@ -113,131 +123,140 @@ public class TFM_PlayerListener implements Listener
 
                     case BONE:
                     {
-                        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-                        if (playerdata.mobThrowerEnabled())
+                        if (!playerdata.mobThrowerEnabled())
                         {
-                            Location player_pos = player.getLocation();
-                            Vector direction = player_pos.getDirection().normalize();
-
-                            LivingEntity rezzed_mob = (LivingEntity) player.getWorld().spawnEntity(player_pos.add(direction.multiply(2.0)), playerdata.mobThrowerCreature());
-                            rezzed_mob.setVelocity(direction.multiply(playerdata.mobThrowerSpeed()));
-                            playerdata.enqueueMob(rezzed_mob);
-
-                            event.setCancelled(true);
+                            break;
                         }
+
+                        Location player_pos = player.getLocation();
+                        Vector direction = player_pos.getDirection().normalize();
+
+                        LivingEntity rezzed_mob = (LivingEntity) player.getWorld().spawnEntity(player_pos.add(direction.multiply(2.0)), playerdata.mobThrowerCreature());
+                        rezzed_mob.setVelocity(direction.multiply(playerdata.mobThrowerSpeed()));
+                        playerdata.enqueueMob(rezzed_mob);
+
+                        event.setCancelled(true);
                         break;
                     }
 
                     case SULPHUR:
                     {
-                        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-                        if (playerdata.isMP44Armed())
+                        if (!playerdata.isMP44Armed())
                         {
-                            if (playerdata.toggleMP44Firing())
-                            {
-                                playerdata.startArrowShooter(TotalFreedomMod.plugin);
-                            }
-                            else
-                            {
-                                playerdata.stopArrowShooter();
-                            }
+                            break;
+                        }
 
-                            event.setCancelled(true);
+                        event.setCancelled(true);
+
+                        if (playerdata.toggleMP44Firing())
+                        {
+                            playerdata.startArrowShooter(TotalFreedomMod.plugin);
+                        }
+                        else
+                        {
+                            playerdata.stopArrowShooter();
                         }
                         break;
                     }
 
                     case BLAZE_ROD:
                     {
-                        if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
+                        if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
                         {
-                            if (TFM_SuperadminList.isSeniorAdmin(player, true))
-                            {
-                                Block targetBlock;
-
-                                if (event.getAction().equals(Action.LEFT_CLICK_AIR))
-                                {
-                                    targetBlock = player.getTargetBlock(null, 120);
-                                }
-                                else
-                                {
-                                    targetBlock = event.getClickedBlock();
-                                }
-
-                                if (targetBlock != null)
-                                {
-                                    player.getWorld().createExplosion(targetBlock.getLocation(), 4F, true);
-                                    player.getWorld().strikeLightning(targetBlock.getLocation());
-                                }
-                                else
-                                {
-                                    player.sendMessage("Can't resolve target block.");
-                                }
-
-                                event.setCancelled(true);
-                            }
+                            break;
                         }
+
+                        if (!TFM_SuperadminList.isSeniorAdmin(player, true))
+                        {
+                            break;
+                        }
+
+                        event.setCancelled(true);
+                        Block targetBlock;
+
+                        if (event.getAction().equals(Action.LEFT_CLICK_AIR))
+                        {
+                            targetBlock = player.getTargetBlock(null, 120);
+                        }
+                        else
+                        {
+                            targetBlock = event.getClickedBlock();
+                        }
+
+                        if (targetBlock == null)
+                        {
+                            player.sendMessage("Can't resolve target block.");
+                            break;
+                        }
+
+                        player.getWorld().createExplosion(targetBlock.getLocation(), 4F, true);
+                        player.getWorld().strikeLightning(targetBlock.getLocation());
+
                         break;
                     }
 
                     case CARROT:
                     {
-                        if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
+                        if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
                         {
-                            if (TFM_SuperadminList.isSeniorAdmin(player, true))
-                            {
-                                Location player_location = player.getLocation().clone();
-
-                                Vector player_pos = player_location.toVector().add(new Vector(0.0, 1.65, 0.0));
-                                Vector player_dir = player_location.getDirection().normalize();
-
-                                double distance = 150.0;
-                                Block targetBlock = player.getTargetBlock(null, Math.round((float) distance));
-                                if (targetBlock != null)
-                                {
-                                    distance = player_location.distance(targetBlock.getLocation());
-                                }
-
-                                final List<Block> affected = new ArrayList<Block>();
-
-                                Block last_block = null;
-                                for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))
-                                {
-                                    Block test_block = player_pos.clone().add(player_dir.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
-
-                                    if (!test_block.equals(last_block))
-                                    {
-                                        if (test_block.isEmpty())
-                                        {
-                                            affected.add(test_block);
-                                            test_block.setType(Material.TNT);
-                                        }
-                                        else
-                                        {
-                                            break;
-                                        }
-                                    }
-
-                                    last_block = test_block;
-                                }
-
-                                new BukkitRunnable()
-                                {
-                                    @Override
-                                    public void run()
-                                    {
-                                        for (Block tnt_block : affected)
-                                        {
-                                            TNTPrimed tnt_primed = tnt_block.getWorld().spawn(tnt_block.getLocation(), TNTPrimed.class);
-                                            tnt_primed.setFuseTicks(5);
-                                            tnt_block.setType(Material.AIR);
-                                        }
-                                    }
-                                }.runTaskLater(TotalFreedomMod.plugin, 30L);
-
-                                event.setCancelled(true);
-                            }
+                            break;
                         }
+
+                        if (!TFM_SuperadminList.isSeniorAdmin(player, true))
+                        {
+                            break;
+                        }
+
+                        Location location = player.getLocation().clone();
+
+                        Vector playerPostion = location.toVector().add(new Vector(0.0, 1.65, 0.0));
+                        Vector playerDirection = location.getDirection().normalize();
+
+                        double distance = 150.0;
+                        Block targetBlock = player.getTargetBlock(null, Math.round((float) distance));
+                        if (targetBlock != null)
+                        {
+                            distance = location.distance(targetBlock.getLocation());
+                        }
+
+                        final List<Block> affected = new ArrayList<Block>();
+
+                        Block lastBlock = null;
+                        for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))
+                        {
+                            Block block = playerPostion.clone().add(playerDirection.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
+
+                            if (!block.equals(lastBlock))
+                            {
+                                if (block.isEmpty())
+                                {
+                                    affected.add(block);
+                                    block.setType(Material.TNT);
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            lastBlock = block;
+                        }
+
+                        new BukkitRunnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                for (Block tntBlock : affected)
+                                {
+                                    TNTPrimed tnt = tntBlock.getWorld().spawn(tntBlock.getLocation(), TNTPrimed.class);
+                                    tnt.setFuseTicks(5);
+                                    tntBlock.setType(Material.AIR);
+                                }
+                            }
+                        }.runTaskLater(TotalFreedomMod.plugin, 30L);
+
+                        event.setCancelled(true);
                         break;
                     }
                 }
@@ -279,52 +298,52 @@ public class TFM_PlayerListener implements Listener
 
         for (Entry<Player, Double> fuckoff : TotalFreedomMod.fuckoffEnabledFor.entrySet())
         {
-            Player fuckoff_player = fuckoff.getKey();
+            Player fuckoffPlayer = fuckoff.getKey();
 
-            if (fuckoff_player.equals(player) || !fuckoff_player.isOnline())
+            if (fuckoffPlayer.equals(player) || !fuckoffPlayer.isOnline())
             {
                 continue;
             }
 
-            double fuckoff_range = fuckoff.getValue().doubleValue();
+            double fuckoffRange = fuckoff.getValue().doubleValue();
 
-            Location mover_pos = player.getLocation();
-            Location fuckoff_pos = fuckoff_player.getLocation();
+            Location playerLocation = player.getLocation();
+            Location fuckoffLocation = fuckoffPlayer.getLocation();
 
             double distanceSquared;
             try
             {
-                distanceSquared = mover_pos.distanceSquared(fuckoff_pos);
+                distanceSquared = playerLocation.distanceSquared(fuckoffLocation);
             }
             catch (IllegalArgumentException ex)
             {
                 continue;
             }
 
-            if (distanceSquared < (fuckoff_range * fuckoff_range))
+            if (distanceSquared < (fuckoffRange * fuckoffRange))
             {
-                event.setTo(fuckoff_pos.clone().add(mover_pos.subtract(fuckoff_pos).toVector().normalize().multiply(fuckoff_range * 1.1)));
+                event.setTo(fuckoffLocation.clone().add(playerLocation.subtract(fuckoffLocation).toVector().normalize().multiply(fuckoffRange * 1.1)));
                 break;
             }
         }
 
-        boolean do_freeze = false;
+        boolean freeze = false;
         if (TotalFreedomMod.allPlayersFrozen)
         {
             if (!TFM_SuperadminList.isUserSuperadmin(player))
             {
-                do_freeze = true;
+                freeze = true;
             }
         }
         else
         {
             if (playerdata.isFrozen())
             {
-                do_freeze = true;
+                freeze = true;
             }
         }
 
-        if (do_freeze)
+        if (freeze)
         {
             Location freezeTo = to.clone();
 
@@ -339,17 +358,17 @@ public class TFM_PlayerListener implements Listener
         {
             Location targetPos = player.getLocation().add(0, 1, 0);
 
-            boolean out_of_cage;
+            boolean outOfCage;
             if (!targetPos.getWorld().equals(playerdata.getCagePos().getWorld()))
             {
-                out_of_cage = true;
+                outOfCage = true;
             }
             else
             {
-                out_of_cage = targetPos.distanceSquared(playerdata.getCagePos()) > (2.5 * 2.5);
+                outOfCage = targetPos.distanceSquared(playerdata.getCagePos()) > (2.5 * 2.5);
             }
 
-            if (out_of_cage)
+            if (outOfCage)
             {
                 playerdata.setCaged(true, targetPos, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER), playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
                 playerdata.regenerateHistory();
@@ -373,42 +392,50 @@ public class TFM_PlayerListener implements Listener
             TFM_Jumppads.getInstance().PlayerMoveEvent(event);
         }
 
-        if (TFM_ConfigEntry.LANDMINES_ENABLED.getBoolean() && TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
+        if (!(TFM_ConfigEntry.LANDMINES_ENABLED.getBoolean() && TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean()))
         {
-            Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
-            while (landmines.hasNext())
+            return;
+        }
+
+        Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
+        while (landmines.hasNext())
+        {
+            TFM_LandmineData landmine = landmines.next();
+
+            Location location = landmine.location;
+            if (location.getBlock().getType() != Material.TNT)
             {
-                TFM_LandmineData landmine = landmines.next();
-
-                Location landmine_pos = landmine.location;
-                if (landmine_pos.getBlock().getType() != Material.TNT)
-                {
-                    landmines.remove();
-                    continue;
-                }
-
-                if (!landmine.player.equals(player))
-                {
-                    if (player.getWorld().equals(landmine_pos.getWorld()))
-                    {
-                        if (player.getLocation().distanceSquared(landmine_pos) <= (landmine.radius * landmine.radius))
-                        {
-                            landmine.location.getBlock().setType(Material.AIR);
-
-                            TNTPrimed tnt1 = landmine_pos.getWorld().spawn(landmine_pos, TNTPrimed.class);
-                            tnt1.setFuseTicks(40);
-                            tnt1.setPassenger(player);
-                            tnt1.setVelocity(new Vector(0.0, 2.0, 0.0));
-
-                            TNTPrimed tnt2 = landmine_pos.getWorld().spawn(player.getLocation(), TNTPrimed.class);
-                            tnt2.setFuseTicks(1);
-
-                            player.setGameMode(GameMode.SURVIVAL);
-                            landmines.remove();
-                        }
-                    }
-                }
+                landmines.remove();
+                continue;
             }
+
+            if (landmine.player.equals(player))
+            {
+                break;
+            }
+
+            if (!player.getWorld().equals(location.getWorld()))
+            {
+                break;
+            }
+
+            if (!(player.getLocation().distanceSquared(location) <= (landmine.radius * landmine.radius)))
+            {
+                break;
+            }
+
+            landmine.location.getBlock().setType(Material.AIR);
+
+            TNTPrimed tnt1 = location.getWorld().spawn(location, TNTPrimed.class);
+            tnt1.setFuseTicks(40);
+            tnt1.setPassenger(player);
+            tnt1.setVelocity(new Vector(0.0, 2.0, 0.0));
+
+            TNTPrimed tnt2 = location.getWorld().spawn(player.getLocation(), TNTPrimed.class);
+            tnt2.setFuseTicks(1);
+
+            player.setGameMode(GameMode.SURVIVAL);
+            landmines.remove();
         }
 
     }
@@ -456,6 +483,7 @@ public class TFM_PlayerListener implements Listener
                 event.setCancelled(true);
                 return;
             }
+
             playerdata.setLastMessage(message);
 
             // Check for muted
@@ -467,10 +495,8 @@ public class TFM_PlayerListener implements Listener
                     event.setCancelled(true);
                     return;
                 }
-                else
-                {
-                    playerdata.setMuted(false);
-                }
+
+                playerdata.setMuted(false);
             }
 
             // Strip color from messages
@@ -558,9 +584,9 @@ public class TFM_PlayerListener implements Listener
         {
             if (!TFM_SuperadminList.isUserSuperadmin(player))
             {
-                for (String test_command : BLOCKED_MUTED_CMDS)
+                for (String commandName : BLOCKED_MUTED_CMDS)
                 {
-                    if (Pattern.compile("^/" + test_command.toLowerCase() + " ").matcher(command).find())
+                    if (Pattern.compile("^/" + commandName.toLowerCase() + " ").matcher(command).find())
                     {
                         player.sendMessage(ChatColor.RED + "That command is blocked while you are muted.");
                         event.setCancelled(true);
@@ -661,13 +687,13 @@ public class TFM_PlayerListener implements Listener
 
             TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(player);
 
-            boolean superadmin_impostor = TFM_SuperadminList.isSuperadminImpostor(player);
+            boolean impostor = TFM_SuperadminList.isSuperadminImpostor(player);
 
-            if (superadmin_impostor || TFM_SuperadminList.isUserSuperadmin(player))
+            if (impostor || TFM_SuperadminList.isUserSuperadmin(player))
             {
                 TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_Util.getRank(player));
 
-                if (superadmin_impostor)
+                if (impostor)
                 {
                     player.getInventory().clear();
                     player.setOp(false);
