@@ -24,11 +24,11 @@ public class Module_dump extends TFM_HTTPD_Module
                 .append(paragraph("args (Length: " + args.length + "): " + StringUtils.join(args, ",")))
                 .append(paragraph("Method: " + method.toString()))
                 .append(paragraph("Headers:"))
-                .append(mapToHTMLList(headers))
+                .append(list(headers))
                 .append(paragraph("Params:"))
-                .append(mapToHTMLList(params))
+                .append(list(params))
                 .append(paragraph("Files:"))
-                .append(mapToHTMLList(files));
+                .append(list(files));
 
         return responseBody.toString();
     }

@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 
 public class TFM_HTTPD_Manager
 {
-    public static final int PORT = 28966;
+    public static final int PORT = 8748;
     //
     private final TFM_HTTPD httpd = new TFM_HTTPD(PORT);
 
@@ -24,6 +24,15 @@ public class TFM_HTTPD_Manager
         try
         {
             httpd.start();
+
+            if (httpd.isAlive())
+            {
+                TFM_Log.info("TFM HTTPd started. Listening on port: " + httpd.getListeningPort());
+            }
+            else
+            {
+                TFM_Log.info("Error starting TFM HTTPd.");
+            }
         }
         catch (IOException ex)
         {
@@ -34,6 +43,8 @@ public class TFM_HTTPD_Manager
     public void stop()
     {
         httpd.stop();
+
+        TFM_Log.info("TFM HTTPd stopped.");
     }
 
     private static class TFM_HTTPD extends NanoHTTPD
@@ -56,7 +67,6 @@ public class TFM_HTTPD_Manager
             final String[] args = StringUtils.split(uri, "/");
             if (args.length >= 1)
             {
-                // Hop onto the Bukkit thread, so we're safe to access the Bukkit API
                 Future<Response> responseCall = Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin, new Callable<Response>()
                 {
                     @Override
@@ -72,11 +82,8 @@ public class TFM_HTTPD_Manager
                         }
                         else if ("help".equalsIgnoreCase(args[0]))
                         {
-                            //The issue is that plugin.getDescription().getCommands() only shows commands in the plugin.yml file.
-                            //I need to make another version of this that uses the CommandMap.
-                            return new Module_help(uri, method, headers, params, files).getResponse();
+                            return new Module_helpNew(uri, method, headers, params, files).getResponse();
                         }
-
                         return null;
                     }
                 });
