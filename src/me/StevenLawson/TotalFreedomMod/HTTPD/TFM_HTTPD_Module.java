@@ -20,16 +20,22 @@ public abstract class TFM_HTTPD_Module
         this.files = files;
     }
 
-    public abstract String getBody();
+    public String getBody()
+    {
+        return "";
+    }
 
-    public abstract String getTitle();
+    public String getTitle()
+    {
+        return "";
+    }
 
     public String getStyle()
     {
         return "";
     }
 
-    public final Response getResponse()
+    public Response getResponse()
     {
         return new TFM_HTTPD_PageBuilder(getBody(), getTitle(), getStyle()).getResponse();
     }

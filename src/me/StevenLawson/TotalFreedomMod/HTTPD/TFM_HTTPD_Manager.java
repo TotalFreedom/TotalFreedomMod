@@ -84,6 +84,10 @@ public class TFM_HTTPD_Manager
                         {
                             return new Module_help(uri, method, headers, params, files).getResponse();
                         }
+                        else if ("public".equalsIgnoreCase(args[0]))
+                        {
+                            return new Module_file(uri, method, headers, params, files).getResponse();
+                        }
                         return null;
                     }
                 });
