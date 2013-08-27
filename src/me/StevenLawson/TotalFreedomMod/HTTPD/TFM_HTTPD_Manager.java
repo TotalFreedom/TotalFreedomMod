@@ -82,7 +82,7 @@ public class TFM_HTTPD_Manager
                         }
                         else if ("help".equalsIgnoreCase(args[0]))
                         {
-                            return new Module_helpNew(uri, method, headers, params, files).getResponse();
+                            return new Module_help(uri, method, headers, params, files).getResponse();
                         }
                         return null;
                     }

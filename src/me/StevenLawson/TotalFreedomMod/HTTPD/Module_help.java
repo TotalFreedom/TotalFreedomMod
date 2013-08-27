@@ -1,10 +1,18 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
+import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.PluginIdentifiableCommand;
+
+import static me.StevenLawson.TotalFreedomMod.HTTPD.HTMLGenerationTools.*;
 
 public class Module_help extends TFM_HTTPD_Module
 {
@@ -16,47 +24,73 @@ public class Module_help extends TFM_HTTPD_Module
     @Override
     public String getBody()
     {
-        final StringBuilder body = new StringBuilder();
+        StringBuilder responseBody = new StringBuilder();
 
-        Plugin[] plugins = Bukkit.getPluginManager().getPlugins();
-        for (Plugin plugin : plugins)
+        CommandMap commandMap;
+        HashMap<String, Command> knownCommands;
+        if ((commandMap = TFM_CommandLoader.getInstance().getCommandMap()) == null
+                || (knownCommands = TFM_CommandLoader.getInstance().getKnownCommands(commandMap)) == null)
         {
-            Map<String, Map<String, Object>> commands = plugin.getDescription().getCommands();
-            if (commands != null)
+            return paragraph("Error loading commands.");
+        }
+
+        final Map<String, List<Command>> commandsByPlugin = new HashMap<String, List<Command>>();
+
+        final Iterator<Map.Entry<String, Command>> itKnownCommands = knownCommands.entrySet().iterator();
+        while (itKnownCommands.hasNext())
+        {
+            final Map.Entry<String, Command> entry = itKnownCommands.next();
+            final String name = entry.getKey();
+            final Command command = entry.getValue();
+            if (name.equalsIgnoreCase(command.getName()))
             {
-                Iterator<Map.Entry<String, Map<String, Object>>> it1 = commands.entrySet().iterator();
-                while (it1.hasNext())
+                String pluginName = "Bukkit";
+                if (command instanceof PluginIdentifiableCommand)
                 {
-                    Map.Entry<String, Map<String, Object>> next1 = it1.next();
-                    String key1 = next1.getKey();
-                    Map<String, Object> value1 = next1.getValue();
-
-                    Iterator<Map.Entry<String, Object>> it2 = value1.entrySet().iterator();
-                    while (it2.hasNext())
-                    {
-                        Map.Entry<String, Object> next2 = it2.next();
-                        String key2 = next2.getKey();
-                        Object value2 = next2.getValue();
-
-                        body
-                                .append("<p>")
-                                .append(StringEscapeUtils.escapeHtml(key1))
-                                .append(".")
-                                .append(StringEscapeUtils.escapeHtml(key2))
-                                .append(" = ")
-                                .append(StringEscapeUtils.escapeHtml(value2.toString()))
-                                .append("</p>\r\n");
-                    }
+                    pluginName = ((PluginIdentifiableCommand) command).getPlugin().getName();
                 }
+                List<Command> pluginCommands = commandsByPlugin.get(pluginName);
+                if (pluginCommands == null)
+                {
+                    commandsByPlugin.put(pluginName, pluginCommands = new ArrayList<Command>());
+                }
+                pluginCommands.add(command);
             }
         }
 
-        return body.toString();
+        final Iterator<Map.Entry<String, List<Command>>> itCommandsByPlugin = commandsByPlugin.entrySet().iterator();
+        while (itCommandsByPlugin.hasNext())
+        {
+            final Map.Entry<String, List<Command>> entry = itCommandsByPlugin.next();
+            final String pluginName = entry.getKey();
+            final List<Command> commands = entry.getValue();
+
+            Collections.sort(commands, new Comparator<Command>()
+            {
+                @Override
+                public int compare(Command a, Command b)
+                {
+                    return a.getName().compareTo(b.getName());
+                }
+            });
+
+            List<String> descriptions = new ArrayList<String>();
+            for (Command command : commands)
+            {
+                descriptions.add(command.getName() + " (" + command.getUsage().replace("<command>", command.getName()).trim() + "): " + command.getDescription());
+            }
+
+            responseBody
+                    .append(paragraph(pluginName))
+                    .append(list(descriptions));
+        }
+
+        return responseBody.toString();
     }
 
     @Override
     public String getTitle()
     {
-        return "Module_help";
+        return "TotalFreedomMod :: WebHelp";
     }
 }
