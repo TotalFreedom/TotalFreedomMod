@@ -72,7 +72,7 @@ public class TFM_BlockListener implements Listener
             Long lastRan = TFM_Heartbeat.getLastRan();
             if (lastRan == null || lastRan + TotalFreedomMod.HEARTBEAT_RATE * 1000L < System.currentTimeMillis())
             {
-                //TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
+                // TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
             }
             else
             {
@@ -99,12 +99,6 @@ public class TFM_BlockListener implements Listener
                 }
             }
         }
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onRollbackBlockBreak(BlockBreakEvent event)
-    {
-        TFM_RollbackManager.blockBreak(event);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -253,9 +247,21 @@ public class TFM_BlockListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onRollbackBlockBreak(BlockBreakEvent event)
+    {
+        if (!TFM_SuperadminList.isUserSuperadmin(event.getPlayer()))
+        {
+            TFM_RollbackManager.blockBreak(event);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onRollbackBlockPlace(BlockPlaceEvent event)
     {
-        TFM_RollbackManager.blockPlace(event);
+        if (!TFM_SuperadminList.isUserSuperadmin(event.getPlayer()))
+        {
+            TFM_RollbackManager.blockPlace(event);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)

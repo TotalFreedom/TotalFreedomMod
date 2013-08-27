@@ -197,22 +197,22 @@ public class TFM_RollbackManager
         {
             return Material.getMaterial(blockId);
         }
-        
+
         public int getX()
         {
             return x;
         }
-        
+
         public int getY()
         {
             return y;
         }
-        
+
         public int getZ()
         {
             return z;
         }
-        
+
         public byte getData()
         {
             return data;
