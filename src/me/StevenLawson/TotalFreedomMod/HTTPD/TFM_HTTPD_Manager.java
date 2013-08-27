@@ -2,8 +2,12 @@ package me.StevenLawson.TotalFreedomMod.HTTPD;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 
 public class TFM_HTTPD_Manager
 {
@@ -45,26 +49,45 @@ public class TFM_HTTPD_Manager
         }
 
         @Override
-        public Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files)
+        public Response serve(final String uri, final Method method, final Map<String, String> headers, final Map<String, String> params, final Map<String, String> files)
         {
             Response response = null;
 
             final String[] args = StringUtils.split(uri, "/");
             if (args.length >= 1)
             {
-                if ("dump".equalsIgnoreCase(args[0]))
+                // Hop onto the Bukkit thread, so we're safe to access the Bukkit API
+                Future<Response> responseCall = Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin, new Callable<Response>()
                 {
-                    response = new Module_dump(uri, method, headers, params, files).getResponse();
+                    @Override
+                    public Response call() throws Exception
+                    {
+                        if ("dump".equalsIgnoreCase(args[0]))
+                        {
+                            return new Module_dump(uri, method, headers, params, files).getResponse();
+                        }
+                        else if ("list".equalsIgnoreCase(args[0]))
+                        {
+                            return new Module_list(uri, method, headers, params, files).getResponse();
+                        }
+                        else if ("help".equalsIgnoreCase(args[0]))
+                        {
+                            //The issue is that plugin.getDescription().getCommands() only shows commands in the plugin.yml file.
+                            //I need to make another version of this that uses the CommandMap.
+                            return new Module_help(uri, method, headers, params, files).getResponse();
+                        }
+
+                        return null;
+                    }
+                });
+
+                try
+                {
+                    response = responseCall.get();
                 }
-                else if ("list".equalsIgnoreCase(args[0]))
+                catch (Exception ex)
                 {
-                    response = new Module_list(uri, method, headers, params, files).getResponse();
-                }
-                else if ("help".equalsIgnoreCase(args[0]))
-                {
-                    //The issue is that plugin.getDescription().getCommands() only shows commands in the plugin.yml file.
-                    //I need to make another version of this that uses the CommandMap.
-                    response = new Module_help(uri, method, headers, params, files).getResponse();
+                    TFM_Log.severe(ex);
                 }
             }
 
