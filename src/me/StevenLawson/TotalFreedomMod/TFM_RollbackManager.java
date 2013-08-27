@@ -91,21 +91,25 @@ public class TFM_RollbackManager
         return 0;
     }
 
-    public static List<RollbackEntry> getEntriesAtLocation(Location location)
+    public static List<RollbackEntry> getEntriesAtLocation(final Location location)
     {
-        location = location.clone();
+        final int testX = location.getBlockX();
+        final short testY = (short) location.getBlockY();
+        final int testZ = location.getBlockZ();
+        final String testWorldName = location.getWorld().getName();
 
         List<RollbackEntry> entries = new ArrayList<RollbackEntry>();
         for (String playername : PLAYER_HISTORY_MAP.keySet())
         {
             for (RollbackEntry entry : PLAYER_HISTORY_MAP.get(playername))
             {
-                if (entry.getLocation().equals(location))
+                if (testX == entry.x && testY == entry.y && testZ == entry.z && testWorldName.equals(entry.getWorldName()))
                 {
                     entries.add(0, entry);
                 }
             }
         }
+
         return entries;
     }
 
@@ -144,9 +148,9 @@ public class TFM_RollbackManager
         // Use of primitives to decrease overhead
         private final String author;
         private final String worldName;
-        private final int x;
-        private final short y;
-        private final int z;
+        public final int x;
+        public final short y;
+        public final int z;
         private final short blockId;
         private final byte data;
         private final boolean isBreak;
@@ -203,7 +207,7 @@ public class TFM_RollbackManager
             return x;
         }
 
-        public int getY()
+        public short getY()
         {
             return y;
         }
@@ -235,6 +239,11 @@ public class TFM_RollbackManager
             {
                 block.setType(Material.AIR);
             }
+        }
+
+        public String getWorldName()
+        {
+            return worldName;
         }
     }
 }
