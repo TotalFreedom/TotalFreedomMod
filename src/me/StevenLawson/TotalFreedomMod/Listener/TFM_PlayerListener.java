@@ -115,7 +115,7 @@ public class TFM_PlayerListener implements Listener
                         TFM_Util.playerMsg(player, "Block edits at (" + ChatColor.WHITE + "x" + location.getBlockX() + ", y" + location.getBlockY() + ", z" + location.getBlockZ() + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
                         for (RollbackEntry entry : entries)
                         {
-                            TFM_Util.playerMsg(player, " - " + ChatColor.BLUE + entry.getAuthor() + " " + entry.getType() + " " + StringUtils.capitalize(entry.getMaterial().toString().toLowerCase()) + (entry.getData() == 0 ? "" : ":" + entry.getData()));
+                            TFM_Util.playerMsg(player, " - " + ChatColor.BLUE + entry.author + " " + entry.getType() + " " + StringUtils.capitalize(entry.getMaterial().toString().toLowerCase()) + (entry.data == 0 ? "" : ":" + entry.data));
                         }
 
                         break;

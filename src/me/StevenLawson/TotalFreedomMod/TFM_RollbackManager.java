@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,10 +11,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class TFM_RollbackManager
 {
-    private static final Map<String, List<RollbackEntry>> PLAYER_HISTORY_MAP = new HashMap<String, List<RollbackEntry>>();
+    private static final Map<String, List<RollbackEntry>> PLAYER_HISTORY = new HashMap<String, List<RollbackEntry>>();
+    private static final List<String> REMOVE_ROLLBACK_HISTORY = new ArrayList<String>();
 
     private TFM_RollbackManager()
     {
@@ -33,6 +36,7 @@ public class TFM_RollbackManager
     private static void storeEntry(Player player, RollbackEntry entry)
     {
         List<RollbackEntry> playerEntryList = getEntriesByPlayer(player.getName());
+
         if (playerEntryList != null)
         {
             playerEntryList.add(0, entry);
@@ -41,7 +45,7 @@ public class TFM_RollbackManager
 
     public static int purgeEntries()
     {
-        Iterator<List<RollbackEntry>> it = PLAYER_HISTORY_MAP.values().iterator();
+        Iterator<List<RollbackEntry>> it = PLAYER_HISTORY.values().iterator();
         while (it.hasNext())
         {
             List<RollbackEntry> playerEntryList = it.next();
@@ -50,45 +54,97 @@ public class TFM_RollbackManager
                 playerEntryList.clear();
             }
         }
-        return PLAYER_HISTORY_MAP.size();
+        return PLAYER_HISTORY.size();
     }
 
     public static int purgeEntries(String playerName)
     {
         List<RollbackEntry> playerEntryList = getEntriesByPlayer(playerName);
-        if (playerEntryList != null)
+
+        if (playerEntryList == null)
         {
-            int count = playerEntryList.size();
-            playerEntryList.clear();
-            return count;
+            return 0;
         }
-        return 0;
+
+        int count = playerEntryList.size();
+        playerEntryList.clear();
+        return count;
+
     }
 
     public static boolean canRollback(String playerName)
     {
-        return PLAYER_HISTORY_MAP.containsKey(playerName.toLowerCase());
+        return PLAYER_HISTORY.containsKey(playerName.toLowerCase()) && !PLAYER_HISTORY.get(playerName.toLowerCase()).isEmpty();
     }
 
-    public static int rollback(String playerName)
+    public static boolean canUndoRollback(String playerName)
     {
-        List<RollbackEntry> playerEntryList = getEntriesByPlayer(playerName);
-        if (playerEntryList != null)
+        return REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase());
+    }
+
+    public static int rollback(final String playerName)
+    {
+        final List<RollbackEntry> entries = getEntriesByPlayer(playerName);
+        if (entries == null)
         {
-            int count = playerEntryList.size();
-            Iterator<RollbackEntry> it = playerEntryList.iterator();
-            while (it.hasNext())
-            {
-                RollbackEntry entry = it.next();
-                if (entry != null)
-                {
-                    entry.restore();
-                }
-                it.remove();
-            }
-            return count;
+            return 0;
         }
-        return 0;
+
+        int count = entries.size();
+        for (RollbackEntry entry : entries)
+        {
+            if (entry != null)
+            {
+                entry.restore();
+            }
+        }
+
+        if (!REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase()))
+        {
+            REMOVE_ROLLBACK_HISTORY.add(playerName.toLowerCase());
+        }
+
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                if (REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase()))
+                {
+                    REMOVE_ROLLBACK_HISTORY.remove(playerName.toLowerCase());
+                    purgeEntries(playerName);
+                }
+            }
+        }.runTaskLater(TotalFreedomMod.plugin, 20L * 20L);
+        return count;
+    }
+
+    public static int undoRollback(String playerName)
+    {
+        List<RollbackEntry> entries = getEntriesByPlayer(playerName);
+
+        if (entries == null)
+        {
+            return 0;
+        }
+
+        entries = Lists.reverse(entries);
+
+        int count = entries.size();
+        for (RollbackEntry entry : entries)
+        {
+            if (entry != null)
+            {
+                entry.redo();
+            }
+        }
+
+        if (REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase()))
+        {
+            REMOVE_ROLLBACK_HISTORY.remove(playerName.toLowerCase());
+        }
+
+        return count;
     }
 
     public static List<RollbackEntry> getEntriesAtLocation(final Location location)
@@ -99,11 +155,11 @@ public class TFM_RollbackManager
         final String testWorldName = location.getWorld().getName();
 
         List<RollbackEntry> entries = new ArrayList<RollbackEntry>();
-        for (String playername : PLAYER_HISTORY_MAP.keySet())
+        for (String playername : PLAYER_HISTORY.keySet())
         {
-            for (RollbackEntry entry : PLAYER_HISTORY_MAP.get(playername))
+            for (RollbackEntry entry : PLAYER_HISTORY.get(playername.toLowerCase()))
             {
-                if (testX == entry.x && testY == entry.y && testZ == entry.z && testWorldName.equals(entry.getWorldName()))
+                if (testX == entry.x && testY == entry.y && testZ == entry.z && testWorldName.equals(entry.worldName))
                 {
                     entries.add(0, entry);
                 }
@@ -116,11 +172,11 @@ public class TFM_RollbackManager
     private static List<RollbackEntry> getEntriesByPlayer(String playerName)
     {
         playerName = playerName.toLowerCase();
-        List<RollbackEntry> playerEntryList = PLAYER_HISTORY_MAP.get(playerName);
+        List<RollbackEntry> playerEntryList = PLAYER_HISTORY.get(playerName.toLowerCase());
         if (playerEntryList == null)
         {
             playerEntryList = new ArrayList<RollbackEntry>();
-            PLAYER_HISTORY_MAP.put(playerName, playerEntryList);
+            PLAYER_HISTORY.put(playerName.toLowerCase(), playerEntryList);
         }
         return playerEntryList;
     }
@@ -146,13 +202,13 @@ public class TFM_RollbackManager
     public static class RollbackEntry
     {
         // Use of primitives to decrease overhead
-        private final String author;
-        private final String worldName;
+        public final String author;
+        public final String worldName;
         public final int x;
         public final short y;
         public final int z;
-        private final short blockId;
-        private final byte data;
+        public final byte data;
+        public final short blockId;
         private final boolean isBreak;
 
         private RollbackEntry(String author, Block block, EntryType entryType)
@@ -173,15 +229,10 @@ public class TFM_RollbackManager
             }
             else
             {
-                blockId = (short) block.getTypeId();
-                data = 0;
+                this.blockId = (short) block.getTypeId();
+                this.data = block.getData();
                 this.isBreak = false;
             }
-        }
-
-        public String getAuthor()
-        {
-            return author;
         }
 
         public Location getLocation()
@@ -202,26 +253,6 @@ public class TFM_RollbackManager
             return Material.getMaterial(blockId);
         }
 
-        public int getX()
-        {
-            return x;
-        }
-
-        public short getY()
-        {
-            return y;
-        }
-
-        public int getZ()
-        {
-            return z;
-        }
-
-        public byte getData()
-        {
-            return data;
-        }
-
         public EntryType getType()
         {
             return (isBreak ? EntryType.BLOCK_BREAK : EntryType.BLOCK_PLACE);
@@ -229,7 +260,7 @@ public class TFM_RollbackManager
 
         public void restore()
         {
-            Block block = Bukkit.getWorld(worldName).getBlockAt(x, y, z);
+            final Block block = Bukkit.getWorld(worldName).getBlockAt(x, y, z);
             if (isBreak)
             {
                 block.setType(getMaterial());
@@ -241,9 +272,19 @@ public class TFM_RollbackManager
             }
         }
 
-        public String getWorldName()
+        public void redo()
         {
-            return worldName;
+            final Block block = Bukkit.getWorld(worldName).getBlockAt(x, y, z);
+
+            if (isBreak)
+            {
+                block.setType(Material.AIR);
+            }
+            else
+            {
+                block.setType(getMaterial());
+                block.setData(data);
+            }
         }
     }
 }
