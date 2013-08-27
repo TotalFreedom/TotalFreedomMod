@@ -102,11 +102,10 @@ public class TFM_PlayerListener implements Listener
                             break;
                         }
 
-                        TFM_Util.playerMsg(player, "Block edits at (" + ChatColor.WHITE + "X" + location.getBlockX() + ", Y" + location.getBlockY() + ", Z" + location.getBlockZ() + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
+                        TFM_Util.playerMsg(player, "Block edits at (" + ChatColor.WHITE + "x" + location.getBlockX() + ", y" + location.getBlockY() + ", z" + location.getBlockZ() + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
                         for (RollbackEntry entry : entries)
                         {
-                            String material = (entry.getType() == EntryType.BLOCK_BREAK ? String.valueOf(entry.getFromMaterial()) : entry.getToMaterial() + (entry.getData() != 0 ? ":" + String.valueOf(entry.getData()) : ""));
-                            TFM_Util.playerMsg(player, " - " + ChatColor.BLUE + entry.getAuthor() + " " + entry.getType() + " " + material);
+                            TFM_Util.playerMsg(player, " - " + ChatColor.BLUE + entry.getAuthor() + " " + entry.getType() + " " + StringUtils.capitalize(entry.getMaterial().toString().toLowerCase()) + (entry.getData() == 0 ? "" : ":" + entry.getData()));
                         }
 
                         break;
