@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.*;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
-import me.StevenLawson.TotalFreedomMod.HTTPD.TFM_HTTPDManager;
+import me.StevenLawson.TotalFreedomMod.HTTPD.TFM_HTTPD_Manager;
 import me.StevenLawson.TotalFreedomMod.Listener.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -173,7 +173,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
         }.runTaskLater(plugin, 20L);
 
-        TFM_HTTPDManager.getInstance().start();
+        TFM_HTTPD_Manager.getInstance().start();
 
         TFM_Log.info("Plugin enabled.");
     }
@@ -183,7 +183,7 @@ public class TotalFreedomMod extends JavaPlugin
     {
         server.getScheduler().cancelTasks(plugin);
 
-        TFM_HTTPDManager.getInstance().stop();
+        TFM_HTTPD_Manager.getInstance().stop();
 
         TFM_Log.info("Plugin disabled.");
     }
