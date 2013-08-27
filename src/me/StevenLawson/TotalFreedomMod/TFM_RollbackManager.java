@@ -76,7 +76,7 @@ public class TFM_RollbackManager
     {
         return PLAYER_HISTORY.containsKey(playerName.toLowerCase()) && !PLAYER_HISTORY.get(playerName.toLowerCase()).isEmpty();
     }
-    
+
     public static boolean canUndoRollback(String playerName)
     {
         return REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase());
