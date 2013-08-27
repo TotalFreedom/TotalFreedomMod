@@ -13,6 +13,8 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginIdentifiableCommand;
 
 import static me.StevenLawson.TotalFreedomMod.HTTPD.HTMLGenerationTools.*;
+import static org.apache.commons.lang3.StringEscapeUtils.*;
+import org.apache.commons.lang3.StringUtils;
 
 public class Module_help extends TFM_HTTPD_Module
 {
@@ -33,6 +35,8 @@ public class Module_help extends TFM_HTTPD_Module
         {
             return paragraph("Error loading commands.");
         }
+
+        responseBody.append(heading("Command Help Index", 1));
 
         final Map<String, List<Command>> commandsByPlugin = new HashMap<String, List<Command>>();
 
@@ -74,15 +78,30 @@ public class Module_help extends TFM_HTTPD_Module
                 }
             });
 
-            List<String> descriptions = new ArrayList<String>();
+            responseBody.append(heading(pluginName, 2)).append("<ul>\r\n");
+
             for (Command command : commands)
             {
-                descriptions.add(command.getName() + " (" + command.getUsage().replace("<command>", command.getName()).trim() + "): " + command.getDescription());
+                responseBody
+                        .append("<li><div><span class=\"commandName\">")
+                        .append(escapeHtml4(command.getName()))
+                        .append("</span> - Usage: <span class=\"commandUsage\">")
+                        .append(escapeHtml4(command.getUsage().replace("<command>", command.getName()).trim()))
+                        .append("</span>");
+
+                if (!command.getAliases().isEmpty())
+                {
+                    responseBody.append(" - Aliases: <span class=\"commandAliases\">")
+                            .append(escapeHtml4(StringUtils.join(command.getAliases(), ", ")))
+                            .append("</span>");
+                }
+
+                responseBody.append("<br /><span class=\"commandDescription\">")
+                        .append(escapeHtml4(command.getDescription()))
+                        .append("</span></div></li>\r\n");
             }
 
-            responseBody
-                    .append(paragraph(pluginName))
-                    .append(list(descriptions));
+            responseBody.append("</ul>\r\n");
         }
 
         return responseBody.toString();
@@ -92,5 +111,11 @@ public class Module_help extends TFM_HTTPD_Module
     public String getTitle()
     {
         return "TotalFreedomMod :: WebHelp";
+    }
+
+    @Override
+    public String getStyle()
+    {
+        return ".commandName{font-weight:bold;}.commandDescription{padding-left:15px;}li{margin:.15em;padding:.15em;}";
     }
 }

@@ -18,6 +18,11 @@ public class HTMLGenerationTools
         return "<p>" + escapeHtml4(data) + "</p>\r\n";
     }
 
+    public static String heading(String data, int level)
+    {
+        return "<h" + level + ">" + escapeHtml4(data) + "</h" + level + ">\r\n";
+    }
+
     public static <K, V> String list(Map<K, V> map)
     {
         StringBuilder output = new StringBuilder();

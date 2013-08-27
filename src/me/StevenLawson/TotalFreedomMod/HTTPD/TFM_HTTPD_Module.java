@@ -24,8 +24,13 @@ public abstract class TFM_HTTPD_Module
 
     public abstract String getTitle();
 
+    public String getStyle()
+    {
+        return "";
+    }
+
     public final Response getResponse()
     {
-        return new TFM_HTTPD_PageBuilder(getBody(), getTitle()).getResponse();
+        return new TFM_HTTPD_PageBuilder(getBody(), getTitle(), getStyle()).getResponse();
     }
 }
