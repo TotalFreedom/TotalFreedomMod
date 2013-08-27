@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -140,28 +141,37 @@ public class TFM_RollbackManager
 
     public static class RollbackEntry
     {
+        // Use of primitives to decrease overhead
         private final String author;
-        private final Location location;
-        private final int toBlockId; // ints have less overhead than Materials
-        private final int fromBlockId;
+        private final String worldName;
+        private final int x;
+        private final short y;
+        private final int z;
+        private final short blockId;
         private final byte data;
+        private final boolean isBreak;
 
         private RollbackEntry(String author, Block block, EntryType entryType)
         {
-            this.location = block.getLocation().clone();
+            final Location location = block.getLocation();
+
+            this.x = location.getBlockX();
+            this.y = (short) location.getBlockY();
+            this.z = location.getBlockZ();
+            this.worldName = location.getWorld().getName();
             this.author = author;
 
             if (entryType == EntryType.BLOCK_BREAK)
             {
-                fromBlockId = block.getTypeId();
-                toBlockId = Material.AIR.getId();
-                data = block.getData();
+                this.blockId = (short) block.getTypeId();
+                this.data = block.getData();
+                this.isBreak = true;
             }
             else
             {
-                fromBlockId = Material.AIR.getId();
-                toBlockId = block.getTypeId();
+                blockId = (short) block.getTypeId();
                 data = 0;
+                this.isBreak = false;
             }
         }
 
@@ -172,17 +182,35 @@ public class TFM_RollbackManager
 
         public Location getLocation()
         {
-            return location;
+            try
+            {
+                return new Location(Bukkit.getWorld(worldName), (double) x, (double) y, (double) z);
+            }
+            catch (Exception ex)
+            {
+                TFM_Log.warning("Could not get location of rollback entry at (" + worldName + ":" + x + "," + y + "," + x + ")!");
+            }
+            return null;
         }
 
-        public Material getFromMaterial()
+        public Material getMaterial()
         {
-            return Material.getMaterial(fromBlockId);
+            return Material.getMaterial(blockId);
         }
 
-        public Material getToMaterial()
+        public int getX()
         {
-            return Material.getMaterial(toBlockId);
+            return x;
+        }
+
+        public int getY()
+        {
+            return y;
+        }
+
+        public int getZ()
+        {
+            return z;
         }
 
         public byte getData()
@@ -192,14 +220,21 @@ public class TFM_RollbackManager
 
         public EntryType getType()
         {
-            return (getFromMaterial() == Material.AIR ? EntryType.BLOCK_PLACE : EntryType.BLOCK_BREAK);
+            return (isBreak ? EntryType.BLOCK_BREAK : EntryType.BLOCK_PLACE);
         }
 
         public void restore()
         {
-            Block block = location.getWorld().getBlockAt(location);
-            block.setType(getFromMaterial());
-            block.setData(data);
+            Block block = Bukkit.getWorld(worldName).getBlockAt(x, y, z);
+            if (isBreak)
+            {
+                block.setType(getMaterial());
+                block.setData(data);
+            }
+            else
+            {
+                block.setType(Material.AIR);
+            }
         }
     }
 }
