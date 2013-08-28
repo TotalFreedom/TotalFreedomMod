@@ -117,7 +117,7 @@ public enum TFM_ConfigEntry
         TFM_Config.getInstance().setInteger(this, value);
         return value;
     }
-    
+
     public void setList(List value)
     {
         TFM_Config.getInstance().setList(this, value);

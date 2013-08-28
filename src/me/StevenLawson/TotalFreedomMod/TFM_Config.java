@@ -201,7 +201,7 @@ public class TFM_Config
         }
         return null;
     }
-    
+
     public void setList(TFM_ConfigEntry entry, List value)
     {
         try

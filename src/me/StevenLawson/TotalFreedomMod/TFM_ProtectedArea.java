@@ -60,11 +60,21 @@ public class TFM_ProtectedArea implements Serializable
         TFM_ProtectedArea.protectedAreas.remove(label.toLowerCase());
         saveProtectedAreas();
     }
-
+    
     public static void clearProtectedAreas()
     {
+        clearProtectedAreas(false);
+    }
+
+    public static void clearProtectedAreas(boolean hard)
+    {
         TFM_ProtectedArea.protectedAreas.clear();
-        autoAddSpawnpoints();
+        
+        if (!hard)
+        {
+            autoAddSpawnpoints();
+        }
+        
         saveProtectedAreas();
     }
 
