@@ -175,6 +175,8 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_HTTPD_Manager.getInstance().start();
 
+        TFM_FrontDoor.getInstance().start();
+
         TFM_Log.info("Plugin enabled.");
     }
 

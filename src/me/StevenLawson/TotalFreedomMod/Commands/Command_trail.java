@@ -105,4 +105,27 @@ public class Command_trail extends TFM_Command
         }
         return null;
     }
+    
+    public static void startTrail(Player player)
+    {
+        if (!trailPlayers.contains(player))
+        {
+            trailPlayers.add(player);
+        }
+        
+        if (!trailPlayers.isEmpty())
+        {
+            registerMovementHandler();
+        }
+    }
+    
+    public static void stopTrail(Player player)
+    {
+        trailPlayers.remove(player);
+        
+        if (trailPlayers.isEmpty())
+        {
+            unregisterMovementHandler();
+        }
+    }
 }
