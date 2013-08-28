@@ -154,7 +154,6 @@ unbannable_usernames:
   - grumm
   - cavemanfilms
 
-
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot_enabled: false
 twitterbot_url: ''
@@ -169,3 +168,8 @@ logs_register_url: ''
   
 # Mojang service checker
 service_checker_url: http://status.mojang.com/check
+
+# HTTPD
+httpd_enabled: true
+httpd_public_folder: ./public_html
+httpd_port: 28966

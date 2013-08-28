@@ -36,7 +36,7 @@ public class Module_help extends TFM_HTTPD_Module
             return paragraph("Error loading commands.");
         }
 
-        responseBody.append(heading("Command Help Index", 1));
+        responseBody.append(heading("Command Help", 1)).append(paragraph("This page is an automatically generated listing of all plugin commands that are currently live on the server. Please note that it does not include vanilla server commands."));
 
         final Map<String, List<Command>> commandsByPlugin = new HashMap<String, List<Command>>();
 
@@ -48,7 +48,7 @@ public class Module_help extends TFM_HTTPD_Module
             final Command command = entry.getValue();
             if (name.equalsIgnoreCase(command.getName()))
             {
-                String pluginName = "Bukkit";
+                String pluginName = "Bukkit Default";
                 if (command instanceof PluginIdentifiableCommand)
                 {
                     pluginName = ((PluginIdentifiableCommand) command).getPlugin().getName();

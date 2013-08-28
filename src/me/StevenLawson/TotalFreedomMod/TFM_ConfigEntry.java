@@ -31,6 +31,7 @@ public enum TFM_ConfigEntry
     PROTECTED_AREAS_ENABLED(Boolean.class, "protected_areas_enabled"),
     TOSSMOB_ENABLED(Boolean.class, "tossmob_enabled"),
     TWITTERBOT_ENABLED(Boolean.class, "twitterbot_enabled"),
+    HTTPD_ENABLED(Boolean.class, "httpd_enabled"),
     //
     AUTO_PROTECT_RADIUS(Double.class, "auto_protect_radius"),
     EXPLOSIVE_RADIUS(Double.class, "explosive_radius"),
@@ -40,6 +41,7 @@ public enum TFM_ConfigEntry
     MOB_LIMITER_MAX(Integer.class, "mob_limiter_max"),
     NUKE_MONITOR_COUNT_BREAK(Integer.class, "nuke_monitor_count_break"),
     NUKE_MONITOR_COUNT_PLACE(Integer.class, "nuke_monitor_count_place"),
+    HTTPD_PORT(Integer.class, "httpd_port"),
     //
     FLATLANDS_GENERATION_PARAMS(String.class, "flatlands_generation_params"),
     LOGS_REGISTER_PASSWORD(String.class, "logs_register_password"),
@@ -47,6 +49,7 @@ public enum TFM_ConfigEntry
     SERVICE_CHECKER_URL(String.class, "service_checker_url"),
     TWITTERBOT_SECRET(String.class, "twitterbot_secret"),
     TWITTERBOT_URL(String.class, "twitterbot_url"),
+    HTTPD_PUBLIC_FOLDER(String.class, "httpd_public_folder"),
     //
     BLOCKED_COMMANDS(List.class, "blocked_commands"),
     HOST_SENDER_NAMES(List.class, "host_sender_names"),

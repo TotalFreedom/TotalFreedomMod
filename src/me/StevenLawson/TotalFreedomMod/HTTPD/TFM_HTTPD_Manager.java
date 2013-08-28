@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
+import static me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.MIME_PLAINTEXT;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
@@ -11,7 +13,7 @@ import org.bukkit.Bukkit;
 
 public class TFM_HTTPD_Manager
 {
-    public static final int PORT = 8748;
+    public static final int PORT = TFM_ConfigEntry.HTTPD_PORT.getInteger();
     //
     private final TFM_HTTPD httpd = new TFM_HTTPD(PORT);
 
@@ -21,6 +23,11 @@ public class TFM_HTTPD_Manager
 
     public void start()
     {
+        if (!TFM_ConfigEntry.HTTPD_ENABLED.getBoolean())
+        {
+            return;
+        }
+
         try
         {
             httpd.start();
@@ -42,9 +49,52 @@ public class TFM_HTTPD_Manager
 
     public void stop()
     {
+        if (!TFM_ConfigEntry.HTTPD_ENABLED.getBoolean())
+        {
+            return;
+        }
+
         httpd.stop();
 
         TFM_Log.info("TFM HTTPd stopped.");
+    }
+
+    private static enum ModuleType
+    {
+        DUMP(false, "dump"),
+        HELP(true, "help"),
+        LIST(true, "list"),
+        FILE(false, "file");
+        private final boolean runOnBukkitThread;
+        private final String name;
+
+        private ModuleType(boolean runOnBukkitThread, String name)
+        {
+            this.runOnBukkitThread = runOnBukkitThread;
+            this.name = name;
+        }
+
+        public boolean isRunOnBukkitThread()
+        {
+            return runOnBukkitThread;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        private static ModuleType getByName(String needle)
+        {
+            for (ModuleType type : values())
+            {
+                if (type.getName().equalsIgnoreCase(needle))
+                {
+                    return type;
+                }
+            }
+            return FILE;
+        }
     }
 
     private static class TFM_HTTPD extends NanoHTTPD
@@ -65,30 +115,24 @@ public class TFM_HTTPD_Manager
             Response response = null;
 
             final String[] args = StringUtils.split(uri, "/");
-            if (args.length >= 1)
+            final ModuleType moduleType = args.length >= 1 ? ModuleType.getByName(args[0]) : ModuleType.FILE;
+
+            if (moduleType.isRunOnBukkitThread())
             {
                 Future<Response> responseCall = Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin, new Callable<Response>()
                 {
                     @Override
                     public Response call() throws Exception
                     {
-                        if ("dump".equalsIgnoreCase(args[0]))
+                        switch (moduleType)
                         {
-                            return new Module_dump(uri, method, headers, params, files).getResponse();
+                            case HELP:
+                                return new Module_help(uri, method, headers, params, files).getResponse();
+                            case LIST:
+                                return new Module_list(uri, method, headers, params, files).getResponse();
+                            default:
+                                return null;
                         }
-                        else if ("list".equalsIgnoreCase(args[0]))
-                        {
-                            return new Module_list(uri, method, headers, params, files).getResponse();
-                        }
-                        else if ("help".equalsIgnoreCase(args[0]))
-                        {
-                            return new Module_help(uri, method, headers, params, files).getResponse();
-                        }
-                        else if ("public".equalsIgnoreCase(args[0]))
-                        {
-                            return new Module_file(uri, method, headers, params, files).getResponse();
-                        }
-                        return null;
                     }
                 });
 
@@ -101,6 +145,18 @@ public class TFM_HTTPD_Manager
                     TFM_Log.severe(ex);
                 }
             }
+            else
+            {
+                switch (moduleType)
+                {
+                    case DUMP:
+                        response = new Module_dump(uri, method, headers, params, files).getResponse();
+                        break;
+                    default:
+                        response = new Module_file(uri, method, headers, params, files).getResponse();
+                }
+            }
+
 
             if (response == null)
             {
