@@ -48,6 +48,7 @@ public class TFM_ServerInterface
         nameBans.remove(name);
     }
 
+    @SuppressWarnings("unchecked")
     public static void banUsername(String name, String reason, String source, Date expireDate)
     {
         name = name.toLowerCase().trim();

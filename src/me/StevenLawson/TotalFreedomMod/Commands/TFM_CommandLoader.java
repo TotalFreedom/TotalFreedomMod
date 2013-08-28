@@ -46,21 +46,7 @@ public class TFM_CommandLoader
 
         for (TFM_CommandInfo commandInfo : commandList)
         {
-            String description = commandInfo.getDescription();
-            switch (commandInfo.getLevel())
-            {
-                case SENIOR:
-                    description = "Senior " + (commandInfo.getSource() == SourceType.ONLY_CONSOLE ? "Console" : "") + " Command - " + description;
-                    break;
-                case SUPER:
-                    description = "Superadmin Command - " + description;
-                    break;
-                case OP:
-                    description = "OP Command - " + description;
-                    break;
-            }
-
-            TFM_DynamicCommand dynamicCommand = new TFM_DynamicCommand(commandInfo.getCommandName(), description, commandInfo.getUsage(), commandInfo.getAliases());
+            TFM_DynamicCommand dynamicCommand = new TFM_DynamicCommand(commandInfo);
 
             Command existing = commandMap.getCommand(dynamicCommand.getName());
             if (existing != null)
@@ -191,7 +177,7 @@ public class TFM_CommandLoader
         return commandList;
     }
 
-    private static class TFM_CommandInfo
+    public static class TFM_CommandInfo
     {
         private final String commandName;
         private final Class<?> commandClass;
@@ -234,6 +220,26 @@ public class TFM_CommandLoader
             return description;
         }
 
+        public String getDescriptionPermissioned()
+        {
+            String _description = description;
+
+            switch (this.getLevel())
+            {
+                case SENIOR:
+                    _description = "Senior " + (this.getSource() == SourceType.ONLY_CONSOLE ? "Console" : "") + " Command - " + _description;
+                    break;
+                case SUPER:
+                    _description = "Superadmin Command - " + _description;
+                    break;
+                case OP:
+                    _description = "OP Command - " + _description;
+                    break;
+            }
+
+            return _description;
+        }
+
         public AdminLevel getLevel()
         {
             return level;
@@ -270,11 +276,15 @@ public class TFM_CommandLoader
         }
     }
 
-    private class TFM_DynamicCommand extends Command implements PluginIdentifiableCommand
+    public class TFM_DynamicCommand extends Command implements PluginIdentifiableCommand
     {
-        public TFM_DynamicCommand(String commandName, String description, String usage, List<String> aliases)
+        private final TFM_CommandInfo commandInfo;
+
+        private TFM_DynamicCommand(TFM_CommandInfo commandInfo)
         {
-            super(commandName, description, usage, aliases);
+            super(commandInfo.getCommandName(), commandInfo.getDescriptionPermissioned(), commandInfo.getUsage(), commandInfo.getAliases());
+
+            this.commandInfo = commandInfo;
         }
 
         @Override
@@ -311,6 +321,11 @@ public class TFM_CommandLoader
         public Plugin getPlugin()
         {
             return TotalFreedomMod.plugin;
+        }
+
+        public TFM_CommandInfo getCommandInfo()
+        {
+            return commandInfo;
         }
     }
 

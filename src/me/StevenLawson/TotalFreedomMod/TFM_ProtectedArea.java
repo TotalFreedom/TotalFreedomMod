@@ -89,6 +89,7 @@ public class TFM_ProtectedArea implements Serializable
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static void loadProtectedAreas()
     {
         try
