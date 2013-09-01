@@ -5,3 +5,7 @@ TotalFreedomMod is a CraftBukkit server plugin designed primarily to support the
 This plugin was originally coded by StevenLawson (Madgeek1450), with Jerom van der Sar (DarthSalamon) becoming heavily involved in its development some time later. It consists of over 85 custom coded commands and a large variety of distinguishable features not included in any other plugin. The plugin has since its beginning grown immensely. Together, with the main TotalFreedom server, TotalFreedomMod has a long-standing reputation of effectiveness whilst maintaining a clear feeling of openness towards the administrators and the players themselves.
 
 Please see [CONTRIBUTING.md](CONTRIBUTING.md) if you are interested in developing TotalFreedomMod. For information on how TotalFreedomMod is licensed, please see [LICENSE.md](LICENSE.md).
+
+Dependences:
+
+TotalFreedomMod now has some dependencies, without these, the server and plugin will cause problems. Worldedit is the most key dependence, without it rollback and /gtfo will fail to work. Please ensure that it is downloaded and installed on your server before attempting to run this plugin!
