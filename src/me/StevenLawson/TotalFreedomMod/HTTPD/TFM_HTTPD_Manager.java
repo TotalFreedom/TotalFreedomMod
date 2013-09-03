@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -64,7 +65,8 @@ public class TFM_HTTPD_Manager
         DUMP(false, "dump"),
         HELP(true, "help"),
         LIST(true, "list"),
-        FILE(false, "file");
+        FILE(false, "file"),
+        SCHEMATIC(false, "schematic");
         private final boolean runOnBukkitThread;
         private final String name;
 
@@ -110,7 +112,13 @@ public class TFM_HTTPD_Manager
         }
 
         @Override
-        public Response serve(final String uri, final Method method, final Map<String, String> headers, final Map<String, String> params, final Map<String, String> files)
+        public Response serve(
+                final String uri,
+                final Method method,
+                final Map<String, String> headers,
+                final Map<String, String> params,
+                final Map<String, String> files,
+                final Socket socket)
         {
             Response response = null;
 
@@ -127,9 +135,9 @@ public class TFM_HTTPD_Manager
                         switch (moduleType)
                         {
                             case HELP:
-                                return new Module_help(uri, method, headers, params, files).getResponse();
+                                return new Module_help(uri, method, headers, params, files, socket).getResponse();
                             case LIST:
-                                return new Module_list(uri, method, headers, params, files).getResponse();
+                                return new Module_list(uri, method, headers, params, files, socket).getResponse();
                             default:
                                 return null;
                         }
@@ -150,10 +158,13 @@ public class TFM_HTTPD_Manager
                 switch (moduleType)
                 {
                     case DUMP:
-                        response = new Module_dump(uri, method, headers, params, files).getResponse();
+                        response = new Module_dump(uri, method, headers, params, files, socket).getResponse();
+                        break;
+                    case SCHEMATIC:
+                        response = new Module_schematic(uri, method, headers, params, files, socket).getResponse();
                         break;
                     default:
-                        response = new Module_file(uri, method, headers, params, files).getResponse();
+                        response = new Module_file(uri, method, headers, params, files, socket).getResponse();
                 }
             }
 

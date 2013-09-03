@@ -134,7 +134,7 @@ public abstract class NanoHTTPD
                                     {
                                         outputStream = finalAccept.getOutputStream();
                                         TempFileManager tempFileManager = tempFileManagerFactory.create();
-                                        HTTPSession session = new HTTPSession(tempFileManager, inputStream, outputStream);
+                                        HTTPSession session = new HTTPSession(tempFileManager, inputStream, outputStream, finalAccept);
                                         while (!finalAccept.isClosed())
                                         {
                                             session.execute();
@@ -200,7 +200,7 @@ public abstract class NanoHTTPD
      * @return HTTP response, see class Response for details
      */
     public abstract Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> parms,
-            Map<String, String> files);
+            Map<String, String> files, Socket socket);
 
     /**
      * Override this to customize the server.
@@ -232,7 +232,8 @@ public abstract class NanoHTTPD
         Method method = session.getMethod();
         Map<String, String> parms = session.getParms();
         Map<String, String> headers = session.getHeaders();
-        return serve(uri, method, headers, parms, files);
+        Socket socket = session.getSocket();
+        return serve(uri, method, headers, parms, files, socket);
     }
 
     /**
@@ -742,12 +743,14 @@ public abstract class NanoHTTPD
         private Method method;
         private Map<String, String> parms;
         private Map<String, String> headers;
+        private Socket socket;
 
-        public HTTPSession(TempFileManager tempFileManager, InputStream inputStream, OutputStream outputStream)
+        private HTTPSession(TempFileManager tempFileManager, InputStream inputStream, OutputStream outputStream, Socket socket)
         {
             this.tempFileManager = tempFileManager;
             this.inputStream = inputStream;
             this.outputStream = outputStream;
+            this.socket = socket;
         }
 
         public void execute() throws IOException
@@ -1280,6 +1283,11 @@ public abstract class NanoHTTPD
         public final InputStream getInputStream()
         {
             return inputStream;
+        }
+
+        public final Socket getSocket()
+        {
+            return socket;
         }
     }
 

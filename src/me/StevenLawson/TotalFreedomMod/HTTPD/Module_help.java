@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,9 +21,9 @@ import static org.apache.commons.lang3.StringEscapeUtils.*;
 
 public class Module_help extends TFM_HTTPD_Module
 {
-    public Module_help(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files)
+    public Module_help(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
     {
-        super(uri, method, headers, params, files);
+        super(uri, method, headers, params, files, socket);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
+import java.net.Socket;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
@@ -7,9 +8,9 @@ import static me.StevenLawson.TotalFreedomMod.HTTPD.HTMLGenerationTools.*;
 
 public class Module_dump extends TFM_HTTPD_Module
 {
-    public Module_dump(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files)
+    public Module_dump(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
     {
-        super(uri, method, headers, params, files);
+        super(uri, method, headers, params, files, socket);
     }
 
     @Override
