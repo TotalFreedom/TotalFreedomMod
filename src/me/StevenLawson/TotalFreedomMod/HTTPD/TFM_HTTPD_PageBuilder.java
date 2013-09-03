@@ -10,24 +10,32 @@ public class TFM_HTTPD_PageBuilder
             + "<head>\r\n"
             + "<title>{$TITLE}</title>\r\n"
             + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n"
-            + "<style type=\"text/css\">{$STYLE}</style>\r\n"
+            + "{$STYLE}"
+            + "{$SCRIPT}"
             + "</head>\r\n"
-            + "<body>{$BODY}</body>\r\n"
+            + "<body>\r\n{$BODY}</body>\r\n"
             + "</html>\r\n";
+    private static final String STYLE = "<style type=\"text/css\">{$STYLE}</style>\r\n";
+    private static final String SCRIPT =
+            "<script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js\"></script>\r\n"
+            + "<script src=\"//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js\"></script>\r\n"
+            + "<script>\r\n{$SCRIPT}\r\n</script>\r\n";
     //
-    private String body = "";
-    private String title = "";
-    private String style = "";
+    private String body = null;
+    private String title = null;
+    private String style = null;
+    private String script = null;
 
     public TFM_HTTPD_PageBuilder()
     {
     }
 
-    public TFM_HTTPD_PageBuilder(String body, String title, String style)
+    public TFM_HTTPD_PageBuilder(String body, String title, String style, String script)
     {
         this.body = body;
         this.title = title;
         this.style = style;
+        this.script = script;
     }
 
     public void setBody(String body)
@@ -45,6 +53,11 @@ public class TFM_HTTPD_PageBuilder
         this.style = style;
     }
 
+    public void setScript(String script)
+    {
+        this.script = script;
+    }
+
     public Response getResponse()
     {
         return new Response(this.toString());
@@ -53,6 +66,10 @@ public class TFM_HTTPD_PageBuilder
     @Override
     public String toString()
     {
-        return TEMPLATE.replace("{$BODY}", body).replace("{$TITLE}", title).replace("{$STYLE}", style);
+        return TEMPLATE
+                .replace("{$BODY}", this.body == null ? "" : this.body)
+                .replace("{$TITLE}", this.title == null ? "" : this.title)
+                .replace("{$STYLE}", this.style == null ? "" : STYLE.replace("{$STYLE}", this.style))
+                .replace("{$SCRIPT}", this.script == null ? "" : SCRIPT.replace("{$SCRIPT}", this.script));
     }
 }
