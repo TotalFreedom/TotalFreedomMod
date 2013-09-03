@@ -795,6 +795,7 @@ public class TFM_Util
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static boolean isFromHostConsole(String senderName)
     {
         return ((List<String>) TFM_ConfigEntry.HOST_SENDER_NAMES.getList()).contains(senderName.toLowerCase());

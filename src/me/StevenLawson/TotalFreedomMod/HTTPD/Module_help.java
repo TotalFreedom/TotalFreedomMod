@@ -7,14 +7,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import me.StevenLawson.TotalFreedomMod.Commands.AdminLevel;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
+import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader.TFM_DynamicCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginIdentifiableCommand;
+import org.apache.commons.lang3.StringUtils;
 
 import static me.StevenLawson.TotalFreedomMod.HTTPD.HTMLGenerationTools.*;
 import static org.apache.commons.lang3.StringEscapeUtils.*;
-import org.apache.commons.lang3.StringUtils;
 
 public class Module_help extends TFM_HTTPD_Module
 {
@@ -36,7 +38,11 @@ public class Module_help extends TFM_HTTPD_Module
             return paragraph("Error loading commands.");
         }
 
-        responseBody.append(heading("Command Help", 1)).append(paragraph("This page is an automatically generated listing of all plugin commands that are currently live on the server. Please note that it does not include vanilla server commands."));
+        responseBody
+                .append(heading("Command Help", 1))
+                .append(paragraph(
+                "This page is an automatically generated listing of all plugin commands that are currently live on the server. "
+                + "Please note that it does not include vanilla server commands."));
 
         final Map<String, List<Command>> commandsByPlugin = new HashMap<String, List<Command>>();
 
@@ -74,31 +80,31 @@ public class Module_help extends TFM_HTTPD_Module
                 @Override
                 public int compare(Command a, Command b)
                 {
+                    if (a instanceof TFM_DynamicCommand && b instanceof TFM_DynamicCommand)
+                    {
+                        String aName = ((TFM_DynamicCommand) a).getCommandInfo().getLevel().name() + a.getName();
+                        String bName = ((TFM_DynamicCommand) b).getCommandInfo().getLevel().name() + b.getName();
+                        return aName.compareTo(bName);
+                    }
                     return a.getName().compareTo(b.getName());
                 }
             });
 
             responseBody.append(heading(pluginName, 2)).append("<ul>\r\n");
 
+            AdminLevel lastTfmCommandLevel = null;
             for (Command command : commands)
             {
-                responseBody
-                        .append("<li><div><span class=\"commandName\">")
-                        .append(escapeHtml4(command.getName()))
-                        .append("</span> - Usage: <span class=\"commandUsage\">")
-                        .append(escapeHtml4(command.getUsage().replace("<command>", command.getName()).trim()))
-                        .append("</span>");
-
-                if (!command.getAliases().isEmpty())
+                if ("TotalFreedomMod".equals(pluginName))
                 {
-                    responseBody.append(" - Aliases: <span class=\"commandAliases\">")
-                            .append(escapeHtml4(StringUtils.join(command.getAliases(), ", ")))
-                            .append("</span>");
+                    AdminLevel tfmCommandLevel = ((TFM_DynamicCommand) command).getCommandInfo().getLevel();
+                    if (lastTfmCommandLevel == null || lastTfmCommandLevel != tfmCommandLevel)
+                    {
+                        responseBody.append("</ul>\r\n").append(heading(tfmCommandLevel.getFriendlyName(), 3)).append("<ul>\r\n");
+                    }
+                    lastTfmCommandLevel = tfmCommandLevel;
                 }
-
-                responseBody.append("<br /><span class=\"commandDescription\">")
-                        .append(escapeHtml4(command.getDescription()))
-                        .append("</span></div></li>\r\n");
+                responseBody.append(buildDescription(command));
             }
 
             responseBody.append("</ul>\r\n");
@@ -107,10 +113,33 @@ public class Module_help extends TFM_HTTPD_Module
         return responseBody.toString();
     }
 
+    private static String buildDescription(Command command)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(
+                "<li><span class=\"commandName\">{$CMD_NAME}</span> - Usage: <span class=\"commandUsage\">{$CMD_USAGE}</span>"
+                .replace("{$CMD_NAME}", escapeHtml4(command.getName().trim()))
+                .replace("{$CMD_USAGE}", escapeHtml4(command.getUsage().trim())));
+
+        if (!command.getAliases().isEmpty())
+        {
+            sb.append(
+                    " - Aliases: <span class=\"commandAliases\">{$CMD_ALIASES}</span>"
+                    .replace("{$CMD_ALIASES}", escapeHtml4(StringUtils.join(command.getAliases(), ", "))));
+        }
+
+        sb.append(
+                "<br><span class=\"commandDescription\">{$CMD_DESC}</span></li>\r\n"
+                .replace("{$CMD_DESC}", escapeHtml4(command.getDescription().trim())));
+
+        return sb.toString();
+    }
+
     @Override
     public String getTitle()
     {
-        return "TotalFreedomMod :: WebHelp";
+        return "TotalFreedomMod :: Command Help";
     }
 
     @Override
