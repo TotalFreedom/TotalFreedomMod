@@ -23,7 +23,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 public class Module_file extends TFM_HTTPD_Module
 {
     private final File rootDir = new File(TFM_ConfigEntry.HTTPD_PUBLIC_FOLDER.getString());
-    private static final Map<String, String> MIME_TYPES = new HashMap<String, String>();
+    public static final Map<String, String> MIME_TYPES = new HashMap<String, String>();
 
     static
     {

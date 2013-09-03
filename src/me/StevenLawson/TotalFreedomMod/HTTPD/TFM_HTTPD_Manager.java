@@ -1,11 +1,16 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import static me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.MIME_PLAINTEXT;
+import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -14,6 +19,8 @@ import org.bukkit.Bukkit;
 
 public class TFM_HTTPD_Manager
 {
+    private static final Pattern EXT_REGEX = Pattern.compile("\\.([^\\.\\s]+)$");
+    //
     public static final int PORT = TFM_ConfigEntry.HTTPD_PORT.getInteger();
     //
     private final TFM_HTTPD httpd = new TFM_HTTPD(PORT);
@@ -158,7 +165,8 @@ public class TFM_HTTPD_Manager
                 switch (moduleType)
                 {
                     case DUMP:
-                        response = new Module_dump(uri, method, headers, params, files, socket).getResponse();
+                        //response = new Module_dump(uri, method, headers, params, files, socket).getResponse();
+                        response = new Response(Response.Status.OK, MIME_PLAINTEXT, "The DUMP module is disabled. It is intended for debugging use only.");
                         break;
                     case SCHEMATIC:
                         response = new Module_schematic(uri, method, headers, params, files, socket).getResponse();
@@ -167,7 +175,6 @@ public class TFM_HTTPD_Manager
                         response = new Module_file(uri, method, headers, params, files, socket).getResponse();
                 }
             }
-
 
             if (response == null)
             {
@@ -178,6 +185,39 @@ public class TFM_HTTPD_Manager
                 return response;
             }
         }
+    }
+
+    public static Response serveFileBasic(File file)
+    {
+        Response response = null;
+
+        if (file != null && file.exists())
+        {
+            try
+            {
+                String mimetype = null;
+
+                Matcher matcher = EXT_REGEX.matcher(file.getCanonicalPath());
+                if (matcher.find())
+                {
+                    mimetype = Module_file.MIME_TYPES.get(matcher.group(1));
+                }
+
+                if (mimetype == null || mimetype.trim().isEmpty())
+                {
+                    mimetype = NanoHTTPD.MIME_DEFAULT_BINARY;
+                }
+
+                response = new NanoHTTPD.Response(NanoHTTPD.Response.Status.OK, mimetype, new FileInputStream(file));
+                response.addHeader("Content-Length", "" + file.length());
+            }
+            catch (IOException ex)
+            {
+                TFM_Log.severe(ex);
+            }
+        }
+
+        return response;
     }
 
     public static TFM_HTTPD_Manager getInstance()

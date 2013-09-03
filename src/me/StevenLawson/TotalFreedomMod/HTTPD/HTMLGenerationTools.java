@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringEscapeUtils.*;
@@ -41,7 +41,7 @@ public class HTMLGenerationTools
         return output.toString();
     }
 
-    public static <T> String list(List<T> list)
+    public static <T> String list(Collection<T> list)
     {
         StringBuilder output = new StringBuilder();
 
