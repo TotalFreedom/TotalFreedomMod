@@ -118,11 +118,6 @@ public enum TFM_ConfigEntry
         return value;
     }
 
-    public void setList(List value)
-    {
-        TFM_Config.getInstance().setList(this, value);
-    }
-
     public List getList()
     {
         return TFM_Config.getInstance().getList(this);

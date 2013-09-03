@@ -202,18 +202,6 @@ public class TFM_Config
         return null;
     }
 
-    public void setList(TFM_ConfigEntry entry, List value)
-    {
-        try
-        {
-            set(entry, value, List.class);
-        }
-        catch (IllegalArgumentException ex)
-        {
-            TFM_Log.severe(ex);
-        }
-    }
-
     public <T> T get(TFM_ConfigEntry entry, Class<T> type) throws IllegalArgumentException
     {
         Object value = configEntryMap.get(entry);
