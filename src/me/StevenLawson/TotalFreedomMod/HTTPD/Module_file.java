@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.Socket;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,7 +23,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 public class Module_file extends TFM_HTTPD_Module
 {
     private final File rootDir = new File(TFM_ConfigEntry.HTTPD_PUBLIC_FOLDER.getString());
-    private static final Map<String, String> MIME_TYPES = new HashMap<String, String>();
+    public static final Map<String, String> MIME_TYPES = new HashMap<String, String>();
 
     static
     {
@@ -53,9 +54,9 @@ public class Module_file extends TFM_HTTPD_Module
         MIME_TYPES.put("class", "application/octet-stream");
     }
 
-    public Module_file(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files)
+    public Module_file(String uri, Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
     {
-        super(uri, method, headers, params, files);
+        super(uri, method, headers, params, files, socket);
     }
 
     private File getRootDir()

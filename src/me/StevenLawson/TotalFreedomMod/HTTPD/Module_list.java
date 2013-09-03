@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
+import java.net.Socket;
 import java.util.Map;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -8,9 +9,9 @@ import org.bukkit.entity.Player;
 
 public class Module_list extends TFM_HTTPD_Module
 {
-    public Module_list(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files)
+    public Module_list(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
     {
-        super(uri, method, headers, params, files);
+        super(uri, method, headers, params, files, socket);
     }
 
     @Override
