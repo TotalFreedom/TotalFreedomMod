@@ -9,12 +9,12 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.MIME_PLAINTEXT;
 import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 
 public class TFM_HTTPD_Manager
@@ -129,61 +129,67 @@ public class TFM_HTTPD_Manager
         {
             Response response = null;
 
-            final String[] args = StringUtils.split(uri, "/");
-            final ModuleType moduleType = args.length >= 1 ? ModuleType.getByName(args[0]) : ModuleType.FILE;
-
-            if (moduleType.isRunOnBukkitThread())
+            try
             {
-                Future<Response> responseCall = Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin, new Callable<Response>()
-                {
-                    @Override
-                    public Response call() throws Exception
-                    {
-                        switch (moduleType)
-                        {
-                            case HELP:
-                                return new Module_help(uri, method, headers, params, files, socket).getResponse();
-                            case LIST:
-                                return new Module_list(uri, method, headers, params, files, socket).getResponse();
-                            default:
-                                return null;
-                        }
-                    }
-                });
 
-                try
+                final String[] args = StringUtils.split(uri, "/");
+                final ModuleType moduleType = args.length >= 1 ? ModuleType.getByName(args[0]) : ModuleType.FILE;
+
+                if (moduleType.isRunOnBukkitThread())
                 {
-                    response = responseCall.get();
+                    Future<Response> responseCall = Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin, new Callable<Response>()
+                    {
+                        @Override
+                        public Response call() throws Exception
+                        {
+                            switch (moduleType)
+                            {
+                                case HELP:
+                                    return new Module_help(uri, method, headers, params, files, socket).getResponse();
+                                case LIST:
+                                    return new Module_list(uri, method, headers, params, files, socket).getResponse();
+                                default:
+                                    return null;
+                            }
+                        }
+                    });
+
+                    try
+                    {
+                        response = responseCall.get();
+                    }
+                    catch (Exception ex)
+                    {
+                        TFM_Log.severe(ex);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    TFM_Log.severe(ex);
+                    switch (moduleType)
+                    {
+                        case DUMP:
+                            //response = new Module_dump(uri, method, headers, params, files, socket).getResponse();
+                            response = new Response(Response.Status.OK, MIME_PLAINTEXT, "The DUMP module is disabled. It is intended for debugging use only.");
+                            break;
+                        case SCHEMATIC:
+                            response = new Module_schematic(uri, method, headers, params, files, socket).getResponse();
+                            break;
+                        default:
+                            response = new Module_file(uri, method, headers, params, files, socket).getResponse();
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                switch (moduleType)
-                {
-                    case DUMP:
-                        //response = new Module_dump(uri, method, headers, params, files, socket).getResponse();
-                        response = new Response(Response.Status.OK, MIME_PLAINTEXT, "The DUMP module is disabled. It is intended for debugging use only.");
-                        break;
-                    case SCHEMATIC:
-                        response = new Module_schematic(uri, method, headers, params, files, socket).getResponse();
-                        break;
-                    default:
-                        response = new Module_file(uri, method, headers, params, files, socket).getResponse();
-                }
+                response = new Response(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, "Error 500: Internal Server Error\r\n" + ex.getMessage() + "\r\n" + ExceptionUtils.getFullStackTrace(ex));
             }
 
             if (response == null)
             {
-                return new Response(Response.Status.NOT_FOUND, MIME_PLAINTEXT, "Error 404: Not Found - The requested resource was not found on this server.");
+                response = new Response(Response.Status.NOT_FOUND, MIME_PLAINTEXT, "Error 404: Not Found - The requested resource was not found on this server.");
             }
-            else
-            {
-                return response;
-            }
+
+            return response;
         }
     }
 

@@ -40,6 +40,11 @@ public class Module_schematic extends TFM_HTTPD_Module
     @Override
     public String getBody()
     {
+        if (!SCHEMATIC_FOLDER.exists())
+        {
+            return HTMLGenerationTools.paragraph("Can't find WorldEdit schematic folder.");
+        }
+
         final StringBuilder out = new StringBuilder();
 
         final String[] args = StringUtils.split(uri, "/");
@@ -119,29 +124,36 @@ public class Module_schematic extends TFM_HTTPD_Module
                 final File tempFile = new File(tempFileName);
                 if (tempFile.exists())
                 {
-                    if (SCHEMATIC_FILENAME.matcher(origFileName).find())
+                    if (tempFile.length() <= FileUtils.ONE_KB * 64L)
                     {
-                        final File targetFile = new File(SCHEMATIC_FOLDER.getPath(), origFileName);
-                        if (targetFile.exists())
+                        if (SCHEMATIC_FILENAME.matcher(origFileName).find())
                         {
-                            throw new SchematicUploadException("Schematic exists on the server already.");
+                            final File targetFile = new File(SCHEMATIC_FOLDER.getPath(), origFileName);
+                            if (targetFile.exists())
+                            {
+                                throw new SchematicUploadException("Schematic exists on the server already.");
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    FileUtils.copyFile(tempFile, targetFile);
+                                }
+                                catch (IOException ex)
+                                {
+                                    TFM_Log.severe(ex);
+                                    throw new SchematicUploadException();
+                                }
+                            }
                         }
                         else
                         {
-                            try
-                            {
-                                FileUtils.copyFile(tempFile, targetFile);
-                            }
-                            catch (IOException ex)
-                            {
-                                TFM_Log.severe(ex);
-                                throw new SchematicUploadException();
-                            }
+                            throw new SchematicUploadException("File name must be alphanumeric with a \".schematic\" extension.");
                         }
                     }
                     else
                     {
-                        throw new SchematicUploadException("File name must be alphanumeric with a \".schematic\" extension.");
+                        throw new SchematicUploadException("Schematic is too big (64kb max).");
                     }
                 }
                 else
