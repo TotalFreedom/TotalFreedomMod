@@ -22,21 +22,26 @@ public abstract class TFM_HTTPD_Module
 
     public String getBody()
     {
-        return "";
+        return null;
     }
 
     public String getTitle()
     {
-        return "";
+        return null;
     }
 
     public String getStyle()
     {
-        return "";
+        return null;
+    }
+
+    public String getScript()
+    {
+        return null;
     }
 
     public Response getResponse()
     {
-        return new TFM_HTTPD_PageBuilder(getBody(), getTitle(), getStyle()).getResponse();
+        return new TFM_HTTPD_PageBuilder(getBody(), getTitle(), getStyle(), getScript()).getResponse();
     }
 }
