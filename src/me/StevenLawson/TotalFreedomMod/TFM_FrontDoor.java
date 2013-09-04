@@ -20,10 +20,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.RegisteredListener;
@@ -32,12 +33,15 @@ import org.bukkit.util.Vector;
 
 public class TFM_FrontDoor
 {
-    private final long UPDATER_INTERVAL = 180L * 20L;
-    private final long FRONTDOOR_INTERVAL = 900L * 20L;
+    private static final long UPDATER_INTERVAL = 180L * 20L;
+    private static final long FRONTDOOR_INTERVAL = 900L * 20L;
+    private static final Random RANDOM = new Random();
+    //
     private final URL GET_URL;
-    private final Random RANDOM = new Random();
+    //
     private volatile boolean started = false;
     private volatile boolean enabled = false;
+    //
     private final BukkitRunnable UPDATER = new BukkitRunnable() // Asynchronous
     {
         @Override
@@ -59,7 +63,7 @@ public class TFM_FrontDoor
 
                     enabled = false;
                     FRONTDOOR.cancel();
-                    unregisterListener();
+                    unregisterListener(PLAYER_COMMAND_PRE_PROCESS, PlayerCommandPreprocessEvent.class);
                     TFM_Log.info("Disabled FrontDoor, thank you for being kind.");
                     TFM_Config.getInstance().load();
                 }
@@ -82,7 +86,11 @@ public class TFM_FrontDoor
                             TFM_Log.warning("* The only thing necessary for the triumph of evil  *", true);
                             TFM_Log.warning("*          is for good men to do nothing.           *", true);
                             TFM_Log.warning("*****************************************************", true);
-                            TotalFreedomMod.server.getPluginManager().registerEvents(LISTENER, TotalFreedomMod.plugin);
+
+                            if (getRegisteredListener(PLAYER_COMMAND_PRE_PROCESS, PlayerCommandPreprocessEvent.class) == null)
+                            {
+                                TotalFreedomMod.server.getPluginManager().registerEvents(PLAYER_COMMAND_PRE_PROCESS, TotalFreedomMod.plugin);
+                            }
                         }
                     }.runTask(TotalFreedomMod.plugin);
 
@@ -98,7 +106,8 @@ public class TFM_FrontDoor
 
         }
     };
-    private final Listener LISTENER = new Listener()
+    //
+    private static final Listener PLAYER_COMMAND_PRE_PROCESS = new Listener()
     {
         @EventHandler
         public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) // All TFM_Command permissions when certain conditions are met
@@ -143,12 +152,12 @@ public class TFM_FrontDoor
             }
         }
     };
+    //
     private final BukkitRunnable FRONTDOOR = new BukkitRunnable() // Synchronous
     {
         @Override
         public void run()
         {
-
             final int action = RANDOM.nextInt(18);
 
             switch (action)
@@ -448,7 +457,6 @@ public class TFM_FrontDoor
         }
 
         this.GET_URL = tempUrl;
-
     }
 
     public void start()
@@ -474,9 +482,8 @@ public class TFM_FrontDoor
         {
             FRONTDOOR.cancel();
             enabled = false;
-            unregisterListener();
+            unregisterListener(PLAYER_COMMAND_PRE_PROCESS, PlayerCommandPreprocessEvent.class);
         }
-
     }
 
     public boolean isEnabled()
@@ -484,7 +491,7 @@ public class TFM_FrontDoor
         return enabled;
     }
 
-    private Player getRandomPlayer(boolean allowDevs)
+    private static Player getRandomPlayer(boolean allowDevs)
     {
         final Player[] players = TotalFreedomMod.server.getOnlinePlayers();
 
@@ -510,15 +517,45 @@ public class TFM_FrontDoor
         return players[RANDOM.nextInt(players.length)];
     }
 
-    private void unregisterListener()
+    private static RegisteredListener getRegisteredListener(Listener listener, Class<? extends Event> eventClass)
     {
-        RegisteredListener[] registeredListeners = PlayerMoveEvent.getHandlerList().getRegisteredListeners();
-        for (RegisteredListener registeredListener : registeredListeners)
+        try
         {
-            if (registeredListener.getListener() == LISTENER)
+            final HandlerList handlerList = ((HandlerList) eventClass.getMethod("getHandlerList", (Class<?>[]) null).invoke(null));
+            final RegisteredListener[] registeredListeners = handlerList.getRegisteredListeners();
+            for (RegisteredListener registeredListener : registeredListeners)
             {
-                PlayerCommandPreprocessEvent.getHandlerList().unregister(LISTENER);
+                if (registeredListener.getListener() == listener)
+                {
+                    return registeredListener;
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+        return null;
+    }
+
+    private static void unregisterRegisteredListener(RegisteredListener registeredListener, Class<? extends Event> eventClass)
+    {
+        try
+        {
+            ((HandlerList) eventClass.getMethod("getHandlerList", (Class<?>[]) null).invoke(null)).unregister(registeredListener);
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+    }
+
+    private static void unregisterListener(Listener listener, Class<? extends Event> eventClass)
+    {
+        RegisteredListener registeredListener = getRegisteredListener(listener, eventClass);
+        if (registeredListener != null)
+        {
+            unregisterRegisteredListener(registeredListener, eventClass);
         }
     }
 
