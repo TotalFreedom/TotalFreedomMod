@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -61,7 +60,7 @@ public class Command_premium extends TFM_Command
                 }
                 catch (Exception ex)
                 {
-                    TFM_Log.severe(ExceptionUtils.getStackTrace(ex));
+                    TFM_Log.severe(ex);
                     playerMsg("There was an error querying the mojang server.", ChatColor.RED);
                 }
             }

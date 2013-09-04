@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import org.apache.commons.lang.exception.ExceptionUtils;
 
 public class TFM_TwitterHandler
 {
@@ -61,7 +60,7 @@ public class TFM_TwitterHandler
             }
             catch (Exception ex)
             {
-                TFM_Log.severe(ExceptionUtils.getFullStackTrace(ex));
+                TFM_Log.severe(ex);
             }
         }
 

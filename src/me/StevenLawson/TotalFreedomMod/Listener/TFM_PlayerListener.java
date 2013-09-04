@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.EntryType;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
