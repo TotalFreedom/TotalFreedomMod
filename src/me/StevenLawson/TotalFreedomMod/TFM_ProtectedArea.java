@@ -71,7 +71,6 @@ public class TFM_ProtectedArea implements Serializable
 
         return false;
     }
-    //
 
     private static boolean cubeIntersectsSphere(Vector min, Vector max, Vector sphere, double radius)
     {
@@ -110,7 +109,6 @@ public class TFM_ProtectedArea implements Serializable
         return v * v;
     }
 
-    //
     public static void addProtectedArea(String label, Location location, double radius)
     {
         TFM_ProtectedArea.protectedAreas.put(label.toLowerCase(), new TFM_ProtectedArea(location, radius));

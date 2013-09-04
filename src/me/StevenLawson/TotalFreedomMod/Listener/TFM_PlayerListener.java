@@ -262,11 +262,6 @@ public class TFM_PlayerListener implements Listener
                 break;
             }
         }
-
-        if (event.getMaterial() == Material.WOOD_AXE)
-        {
-            TFM_WorldEditBridge.getInstance().validateSelection(player);
-        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
