@@ -1,10 +1,10 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -121,18 +121,19 @@ public class TFM_RollbackManager
 
     public static int undoRollback(String playerName)
     {
-        List<RollbackEntry> entries = getEntriesByPlayer(playerName);
+        final List<RollbackEntry> entries = getEntriesByPlayer(playerName);
 
         if (entries == null)
         {
             return 0;
         }
 
-        entries = Lists.reverse(entries);
+        final int count = entries.size();
 
-        int count = entries.size();
-        for (RollbackEntry entry : entries)
+        final ListIterator<RollbackEntry> it = entries.listIterator(count);
+        while (it.hasPrevious())
         {
+            RollbackEntry entry = it.previous();
             if (entry != null)
             {
                 entry.redo();
