@@ -6,9 +6,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Method;
+import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
@@ -20,29 +23,47 @@ public class Module_schematic extends TFM_HTTPD_Module
 {
     private static final File SCHEMATIC_FOLDER = new File("./plugins/WorldEdit/schematics/");
     private static final String REQUEST_FORM_FILE_ELEMENT_NAME = "schematicFile";
-    private static final Pattern SCHEMATIC_FILENAME = Pattern.compile("^[a-zA-Z0-9]+\\.schematic$");
+    private static final Pattern SCHEMATIC_FILENAME_LC = Pattern.compile("^[a-z0-9]{5,30}\\.schematic$");
     private static final String[] SCHEMATIC_FILTER = new String[]
     {
         "schematic"
     };
+    private static final String UPLOAD_FORM =
+            "<form method=\"post\" name=\"schematicForm\" id=\"schematicForm\" action=\"/schematic/upload/\" enctype=\"multipart/form-data\">\n"
+            + "<p>Select a schematic file to upload. Filenames must be alphanumeric, between 5 and 30 characters long (inclusive), and have a .schematic extension.</p>\n"
+            + "<input type=\"file\" id=\"schematicFile\" name=\"schematicFile\" />\n"
+            + "<br />\n"
+            + "<button type=\"submit\">Submit</button>\n"
+            + "</form>";
 
-    public Module_schematic(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
+    public Module_schematic(String uri, Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
     {
         super(uri, method, headers, params, files, socket);
     }
 
     @Override
-    public String getTitle()
+    public Response getResponse()
+    {
+        try
+        {
+            return new TFM_HTTPD_PageBuilder(body(), title(), null, null).getResponse();
+        }
+        catch (ResponseOverrideException ex)
+        {
+            return ex.getResponse();
+        }
+    }
+
+    public String title()
     {
         return "TotalFreedomMod :: Schematic Manager";
     }
 
-    @Override
-    public String getBody()
+    public String body() throws ResponseOverrideException
     {
         if (!SCHEMATIC_FOLDER.exists())
         {
-            return HTMLGenerationTools.paragraph("Can't find WorldEdit schematic folder.");
+            return HTMLGenerationTools.paragraph("Can't find the WorldEdit schematic folder.");
         }
 
         final StringBuilder out = new StringBuilder();
@@ -63,7 +84,14 @@ public class Module_schematic extends TFM_HTTPD_Module
                     schematicsFormatted.add("<li><a href=\"/schematic/download?schematicName=" + filename + "\">" + filename + "</a></li>");
                 }
 
-                Collections.sort(schematicsFormatted);
+                Collections.sort(schematicsFormatted, new Comparator<String>()
+                {
+                    @Override
+                    public int compare(String a, String b)
+                    {
+                        return a.toLowerCase().compareTo(b.toLowerCase());
+                    }
+                });
 
                 out
                         .append(HTMLGenerationTools.heading("Schematics:", 1))
@@ -75,7 +103,14 @@ public class Module_schematic extends TFM_HTTPD_Module
             }
             case DOWNLOAD:
             {
-                out.append(HTMLGenerationTools.paragraph("Not yet implemented - Download: " + params.get("schematicName")));
+                try
+                {
+                    throw new ResponseOverrideException(downloadSchematic(params.get("schematicName")));
+                }
+                catch (SchematicTransferException ex)
+                {
+                    out.append(HTMLGenerationTools.paragraph("Error downloading schematic: " + ex.getMessage()));
+                }
                 break;
             }
             case UPLOAD:
@@ -87,14 +122,21 @@ public class Module_schematic extends TFM_HTTPD_Module
                 }
                 else
                 {
-                    try
+                    if (method == Method.POST)
                     {
-                        uploadSchematic();
-                        out.append(HTMLGenerationTools.paragraph("Schematic uploaded successfully."));
+                        try
+                        {
+                            uploadSchematic();
+                            out.append(HTMLGenerationTools.paragraph("Schematic uploaded successfully."));
+                        }
+                        catch (SchematicTransferException ex)
+                        {
+                            out.append(HTMLGenerationTools.paragraph("Error uploading schematic: " + ex.getMessage()));
+                        }
                     }
-                    catch (SchematicUploadException ex)
+                    else
                     {
-                        out.append(HTMLGenerationTools.paragraph("Error uploading schematic."));
+                        out.append(UPLOAD_FORM);
                     }
                 }
                 break;
@@ -109,83 +151,112 @@ public class Module_schematic extends TFM_HTTPD_Module
         return out.toString();
     }
 
-    private boolean uploadSchematic() throws SchematicUploadException
+    private boolean uploadSchematic() throws SchematicTransferException
     {
         final String tempFileName = files.get(REQUEST_FORM_FILE_ELEMENT_NAME);
-        if (tempFileName != null)
+        if (tempFileName == null)
         {
-            final String origFileName = params.get(REQUEST_FORM_FILE_ELEMENT_NAME).trim();
-            if (origFileName == null || origFileName.trim().isEmpty())
-            {
-                throw new SchematicUploadException("Can't resolve original file name.");
-            }
-            else
-            {
-                final File tempFile = new File(tempFileName);
-                if (tempFile.exists())
-                {
-                    if (tempFile.length() <= FileUtils.ONE_KB * 64L)
-                    {
-                        if (SCHEMATIC_FILENAME.matcher(origFileName).find())
-                        {
-                            final File targetFile = new File(SCHEMATIC_FOLDER.getPath(), origFileName);
-                            if (targetFile.exists())
-                            {
-                                throw new SchematicUploadException("Schematic exists on the server already.");
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    FileUtils.copyFile(tempFile, targetFile);
-                                }
-                                catch (IOException ex)
-                                {
-                                    TFM_Log.severe(ex);
-                                    throw new SchematicUploadException();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            throw new SchematicUploadException("File name must be alphanumeric with a \".schematic\" extension.");
-                        }
-                    }
-                    else
-                    {
-                        throw new SchematicUploadException("Schematic is too big (64kb max).");
-                    }
-                }
-                else
-                {
-                    throw new SchematicUploadException();
-                }
-            }
+            throw new SchematicTransferException("No file transmitted to server.");
         }
-        else
+
+        final File tempFile = new File(tempFileName);
+        if (!tempFile.exists())
         {
-            throw new SchematicUploadException("No file transmitted to server.");
+            throw new SchematicTransferException();
+        }
+
+        String origFileName = params.get(REQUEST_FORM_FILE_ELEMENT_NAME);
+        if (origFileName == null || (origFileName = origFileName.trim()).isEmpty())
+        {
+            throw new SchematicTransferException("Can't resolve original file name.");
+        }
+
+        if (tempFile.length() > FileUtils.ONE_KB * 64L)
+        {
+            throw new SchematicTransferException("Schematic is too big (64kb max).");
+        }
+
+        if (!SCHEMATIC_FILENAME_LC.matcher(origFileName.toLowerCase()).find())
+        {
+            throw new SchematicTransferException("File name must be alphanumeric with a \".schematic\" extension.");
+        }
+
+        final File targetFile = new File(SCHEMATIC_FOLDER.getPath(), origFileName);
+        if (targetFile.exists())
+        {
+            throw new SchematicTransferException("Schematic already exists on the server.");
+        }
+
+        try
+        {
+            FileUtils.copyFile(tempFile, targetFile);
+        }
+        catch (IOException ex)
+        {
+            TFM_Log.severe(ex);
+            throw new SchematicTransferException();
         }
 
         return true;
     }
 
-    private static class SchematicUploadException extends Exception
+    private Response downloadSchematic(String schematicName) throws SchematicTransferException
     {
-        public SchematicUploadException()
+        if (schematicName == null || !SCHEMATIC_FILENAME_LC.matcher((schematicName = schematicName.trim()).toLowerCase()).find())
         {
+            throw new SchematicTransferException("Invalid schematic name requested: " + schematicName);
         }
 
-        public SchematicUploadException(String string)
+        final File targetFile = new File(SCHEMATIC_FOLDER.getPath(), schematicName);
+        if (!targetFile.exists())
         {
-            super(string);
+            throw new SchematicTransferException("Schematic not found: " + schematicName);
         }
+
+        Response response = TFM_HTTPD_Manager.serveFileBasic(targetFile);
+
+        response.addHeader("Content-Disposition", "attachment; filename=" + targetFile.getName() + ";");
+
+        return response;
     }
 
     private boolean isAuthorized(String remoteAddress)
     {
         TFM_Superadmin entry = TFM_SuperadminList.getAdminEntryByIP(remoteAddress);
         return entry != null && entry.isActivated();
+    }
+
+    private static class SchematicTransferException extends Exception
+    {
+        public SchematicTransferException()
+        {
+        }
+
+        public SchematicTransferException(String string)
+        {
+            super(string);
+        }
+    }
+
+    private static class ResponseOverrideException extends Exception
+    {
+        private final Response response;
+
+        public ResponseOverrideException(Response response)
+        {
+            this.response = response;
+        }
+
+        public Response getResponse()
+        {
+            return response;
+        }
+    }
+
+    private static String getArg(String[] args, int index)
+    {
+        String out = (args.length == index + 1 ? args[index] : null);
+        return (out == null ? null : (out.trim().isEmpty() ? null : out.trim()));
     }
 
     private static enum ModuleMode
@@ -220,11 +291,5 @@ public class Module_schematic extends TFM_HTTPD_Module
             }
             return INVALID;
         }
-    }
-
-    private String getArg(String[] args, int index)
-    {
-        String out = (args.length == index + 1 ? args[index] : null);
-        return (out == null ? null : (out.trim().isEmpty() ? null : out.trim()));
     }
 }
