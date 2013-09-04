@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
-import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.EntryType;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -262,6 +261,11 @@ public class TFM_PlayerListener implements Listener
                 }
                 break;
             }
+        }
+
+        if (event.getMaterial() == Material.WOOD_AXE)
+        {
+            TFM_WorldEditBridge.getInstance().validateSelection(player);
         }
     }
 

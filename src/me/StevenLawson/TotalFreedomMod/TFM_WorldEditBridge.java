@@ -1,8 +1,10 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.LocalWorld;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldedit.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -109,6 +111,35 @@ public class TFM_WorldEditBridge
         {
             TFM_Log.severe(ex);
         }
+    }
+
+    public void validateSelection(Player player)
+    {
+        try
+        {
+            LocalSession session = getPlayerSession(player);
+            if (session != null)
+            {
+                LocalWorld selectionWorld = session.getSelectionWorld();
+                Region selection = session.getSelection(selectionWorld);
+                if (TFM_ProtectedArea.isInProtectedArea(
+                        getBukkitVector(selection.getMinimumPoint()),
+                        getBukkitVector(selection.getMaximumPoint()),
+                        selectionWorld.getName()))
+                {
+                    TFM_Util.bcastMsg("(DEBUG MSG: " + player.getName() + " has selected part of a protected area.");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+    }
+
+    private static org.bukkit.util.Vector getBukkitVector(com.sk89q.worldedit.Vector worldEditVector)
+    {
+        return new org.bukkit.util.Vector(worldEditVector.getX(), worldEditVector.getY(), worldEditVector.getZ());
     }
 
     public static TFM_WorldEditBridge getInstance()

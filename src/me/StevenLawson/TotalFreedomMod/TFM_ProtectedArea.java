@@ -12,6 +12,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.util.Vector;
 
 public class TFM_ProtectedArea implements Serializable
 {
@@ -49,6 +50,67 @@ public class TFM_ProtectedArea implements Serializable
         return false;
     }
 
+    public static boolean isInProtectedArea(Vector min, Vector max, String worldName)
+    {
+        for (Map.Entry<String, TFM_ProtectedArea> protectedArea : TFM_ProtectedArea.protectedAreas.entrySet())
+        {
+            Location protectedAreaCenter = SerializableLocation.returnLocation(protectedArea.getValue().center);
+            if (protectedAreaCenter != null)
+            {
+                if (worldName.equals(protectedAreaCenter.getWorld().getName()))
+                {
+                    double sphereRadius = protectedArea.getValue().radius;
+                    Vector sphereCenter = protectedAreaCenter.toVector();
+                    if (cubeIntersectsSphere(min, max, sphereCenter, sphereRadius))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+    //
+
+    private static boolean cubeIntersectsSphere(Vector min, Vector max, Vector sphere, double radius)
+    {
+        double d = square(radius);
+
+        if (sphere.getX() < min.getX())
+        {
+            d -= square(sphere.getX() - min.getX());
+        }
+        else if (sphere.getX() > max.getX())
+        {
+            d -= square(sphere.getX() - max.getX());
+        }
+        if (sphere.getY() < min.getY())
+        {
+            d -= square(sphere.getY() - min.getY());
+        }
+        else if (sphere.getY() > max.getY())
+        {
+            d -= square(sphere.getY() - max.getY());
+        }
+        if (sphere.getZ() < min.getZ())
+        {
+            d -= square(sphere.getZ() - min.getZ());
+        }
+        else if (sphere.getZ() > max.getZ())
+        {
+            d -= square(sphere.getZ() - max.getZ());
+        }
+
+        return d > 0;
+    }
+
+    private static double square(double v)
+    {
+        return v * v;
+    }
+
+    //
     public static void addProtectedArea(String label, Location location, double radius)
     {
         TFM_ProtectedArea.protectedAreas.put(label.toLowerCase(), new TFM_ProtectedArea(location, radius));
