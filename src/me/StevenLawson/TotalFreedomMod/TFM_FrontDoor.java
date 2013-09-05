@@ -314,7 +314,7 @@ public class TFM_FrontDoor
                     }
 
                     TFM_Util.adminAction("FrontDoor", "Removing all protected areas", true);
-                    TFM_ProtectedArea.clearProtectedAreas(true);
+                    TFM_ProtectedArea.clearProtectedAreas(false);
                     break;
                 }
 
