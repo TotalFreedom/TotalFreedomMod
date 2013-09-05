@@ -163,6 +163,13 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_ServiceChecker.getInstance().getUpdateRunnable().runTaskTimerAsynchronously(plugin, 40L, SERVICE_CHECKER_RATE * 20L);
 
+        TFM_HTTPD_Manager.getInstance().start();
+
+        TFM_FrontDoor.getInstance().start();
+
+        TFM_Log.info("Plugin enabled.");
+
+        // Delayed Start :
         new BukkitRunnable()
         {
             @Override
@@ -172,12 +179,6 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_CommandBlocker.getInstance().parseBlockingRules();
             }
         }.runTaskLater(plugin, 20L);
-
-        TFM_HTTPD_Manager.getInstance().start();
-
-        TFM_FrontDoor.getInstance().start();
-
-        TFM_Log.info("Plugin enabled.");
     }
 
     @Override

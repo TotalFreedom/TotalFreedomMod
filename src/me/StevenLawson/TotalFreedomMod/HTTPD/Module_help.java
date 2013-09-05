@@ -148,7 +148,6 @@ public class Module_help extends TFM_HTTPD_Module
     {
         return ".commandName{font-weight:bold;}.commandDescription{padding-left:15px;}li{margin:.15em;padding:.15em;}";
     }
-
 //    @Override
 //    public String getScript()
 //    {
