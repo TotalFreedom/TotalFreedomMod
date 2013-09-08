@@ -27,7 +27,7 @@ public class Command_saconfig extends TFM_Command
             }
             else
             {
-                if (!TFM_SuperadminList.isSeniorAdmin(sender))
+                if (sender instanceof Player && !TFM_SuperadminList.isSeniorAdmin(sender))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
