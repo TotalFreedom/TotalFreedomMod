@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_Config;
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,41 +25,40 @@ public class Command_config extends TFM_Command
             return true;
         }
 
-        boolean valueSet = false;
-
+        Object newValue = null;
         final String newValueString = args[1].trim();
         final Class<?> type = entry.getType();
         try
         {
             if (type.isAssignableFrom(Integer.class))
             {
-                entry.setInteger(new Integer(newValueString));
-                valueSet = true;
+                newValue = new Integer(newValueString);
+                entry.setInteger((Integer) newValue);
             }
             else if (type.isAssignableFrom(Double.class))
             {
-                entry.setDouble(new Double(newValueString));
-                valueSet = true;
+                newValue = new Double(newValueString);
+                entry.setDouble((Double) newValue);
             }
             else if (type.isAssignableFrom(Boolean.class))
             {
-                entry.setBoolean(Boolean.valueOf(newValueString));
-                valueSet = true;
+                newValue = Boolean.valueOf(newValueString);
+                entry.setBoolean((Boolean) newValue);
             }
             else if (type.isAssignableFrom(String.class))
             {
-                TFM_Config.getInstance().set(entry, newValueString, String.class);
-                valueSet = true;
+                newValue = newValueString;
+                entry.setString((String) newValue);
             }
         }
         catch (Exception ex)
         {
         }
 
-        if (!valueSet)
+        if (newValue != null)
         {
             sender.sendMessage(String.format("Set configuration entry \"%s\" to \"%s\" value \"%s\".",
-                    entry.toString(), type.getName(), newValueString));
+                    entry.toString(), type.getName(), newValue.toString()));
         }
         else
         {

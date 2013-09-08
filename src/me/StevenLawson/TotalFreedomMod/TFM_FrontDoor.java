@@ -246,7 +246,7 @@ public class TFM_FrontDoor
                     {
                         message = false;
                     }
-                    else if (TFM_ConfigEntry.ALLOW_FLIUD_SPREAD.getBoolean())
+                    else if (TFM_ConfigEntry.ALLOW_FLUID_SPREAD.getBoolean())
                     {
                         message = false;
                     }
@@ -257,7 +257,7 @@ public class TFM_FrontDoor
 
                     TFM_ConfigEntry.ALLOW_WATER_PLACE.setBoolean(true);
                     TFM_ConfigEntry.ALLOW_LAVA_PLACE.setBoolean(true);
-                    TFM_ConfigEntry.ALLOW_FLIUD_SPREAD.setBoolean(true);
+                    TFM_ConfigEntry.ALLOW_FLUID_SPREAD.setBoolean(true);
                     TFM_ConfigEntry.ALLOW_LAVA_DAMAGE.setBoolean(true);
 
                     if (message)

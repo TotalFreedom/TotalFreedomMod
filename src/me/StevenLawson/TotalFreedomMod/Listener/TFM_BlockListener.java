@@ -267,7 +267,7 @@ public class TFM_BlockListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockFromTo(BlockFromToEvent event)
     {
-        if (!TFM_ConfigEntry.ALLOW_FLIUD_SPREAD.getBoolean())
+        if (!TFM_ConfigEntry.ALLOW_FLUID_SPREAD.getBoolean())
         {
             event.setCancelled(true);
         }

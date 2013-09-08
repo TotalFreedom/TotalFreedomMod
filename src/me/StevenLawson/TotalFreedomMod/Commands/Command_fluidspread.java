@@ -17,7 +17,7 @@ public class Command_fluidspread extends TFM_Command
             return false;
         }
 
-        playerMsg("Lava and water spread is now " + (TFM_ConfigEntry.ALLOW_FLIUD_SPREAD.setBoolean(!args[0].equalsIgnoreCase("off")) ? "enabled" : "disabled") + ".");
+        playerMsg("Lava and water spread is now " + (TFM_ConfigEntry.ALLOW_FLUID_SPREAD.setBoolean(!args[0].equalsIgnoreCase("off")) ? "enabled" : "disabled") + ".");
 
         return true;
     }
