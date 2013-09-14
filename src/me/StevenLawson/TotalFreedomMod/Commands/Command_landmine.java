@@ -1,8 +1,10 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.ArrayList;
+import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
-import me.StevenLawson.TotalFreedomMod.TFM_LandmineData;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -47,5 +49,21 @@ public class Command_landmine extends TFM_Command
         }
 
         return true;
+    }
+
+    public static class TFM_LandmineData
+    {
+        public static List<TFM_LandmineData> landmines = new ArrayList<TFM_LandmineData>();
+        public Location location;
+        public Player player;
+        public double radius;
+
+        public TFM_LandmineData(Location landmine_pos, Player player, double radius)
+        {
+            super();
+            this.location = landmine_pos;
+            this.player = player;
+            this.radius = radius;
+        }
     }
 }
