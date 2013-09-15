@@ -73,7 +73,8 @@ public class TFM_HTTPD_Manager
         HELP(true, "help"),
         LIST(true, "list"),
         FILE(false, "file"),
-        SCHEMATIC(false, "schematic");
+        SCHEMATIC(false, "schematic"),
+        PERMBANS(false, "permbans");
         private final boolean runOnBukkitThread;
         private final String name;
 
@@ -173,6 +174,9 @@ public class TFM_HTTPD_Manager
                             break;
                         case SCHEMATIC:
                             response = new Module_schematic(uri, method, headers, params, files, socket).getResponse();
+                            break;
+                        case PERMBANS:
+                            response = new Module_permbans(uri, method, headers, params, files, socket).getResponse();
                             break;
                         default:
                             response = new Module_file(uri, method, headers, params, files, socket).getResponse();

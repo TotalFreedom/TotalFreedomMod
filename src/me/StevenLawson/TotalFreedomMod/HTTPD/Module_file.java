@@ -34,6 +34,7 @@ public class Module_file extends TFM_HTTPD_Module
         MIME_TYPES.put("java", "text/x-java-source, text/java");
         MIME_TYPES.put("txt", "text/plain");
         MIME_TYPES.put("asc", "text/plain");
+        MIME_TYPES.put("yml", "text/yaml");
         MIME_TYPES.put("gif", "image/gif");
         MIME_TYPES.put("jpg", "image/jpeg");
         MIME_TYPES.put("jpeg", "image/jpeg");
