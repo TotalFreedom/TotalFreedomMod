@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -86,55 +84,39 @@ public class TFM_RollbackManager
 
     public static int rollback(final String playerName)
     {
-        final Future<Integer> future = Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin, new Callable<Integer>()
-        {
-            @Override
-            public Integer call() throws Exception
-            {
-                final List<RollbackEntry> entries = getEntriesByPlayer(playerName);
-                if (entries == null)
-                {
-                    return 0;
-                }
-
-                int count = entries.size();
-                for (RollbackEntry entry : entries)
-                {
-                    if (entry != null)
-                    {
-                        entry.restore();
-                    }
-                }
-
-                if (!REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase()))
-                {
-                    REMOVE_ROLLBACK_HISTORY.add(playerName.toLowerCase());
-                }
-
-                new BukkitRunnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        if (REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase()))
-                        {
-                            REMOVE_ROLLBACK_HISTORY.remove(playerName.toLowerCase());
-                            purgeEntries(playerName);
-                        }
-                    }
-                }.runTaskLater(TotalFreedomMod.plugin, 20L * 20L);
-                return count;
-            }
-        });
-
-        try
-        {
-            return future.get();
-        }
-        catch (Exception ex)
+        final List<RollbackEntry> entries = getEntriesByPlayer(playerName);
+        if (entries == null)
         {
             return 0;
         }
+
+        int count = entries.size();
+        for (RollbackEntry entry : entries)
+        {
+            if (entry != null)
+            {
+                entry.restore();
+            }
+        }
+
+        if (!REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase()))
+        {
+            REMOVE_ROLLBACK_HISTORY.add(playerName.toLowerCase());
+        }
+
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                if (REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase()))
+                {
+                    REMOVE_ROLLBACK_HISTORY.remove(playerName.toLowerCase());
+                    purgeEntries(playerName);
+                }
+            }
+        }.runTaskLater(TotalFreedomMod.plugin, 20L * 20L);
+        return count;
     }
 
     public static int undoRollback(String playerName)
