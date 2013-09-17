@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, block_host_console = true)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, block_host_console = true)
 @CommandParameters(description = "Switch server online-mode on and off.", usage = "/<command> <on | off>")
 public class Command_onlinemode extends TFM_Command
 {
@@ -18,12 +18,17 @@ public class Command_onlinemode extends TFM_Command
         if (args.length < 1)
         {
             playerMsg("Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.", ChatColor.WHITE);
-            playerMsg("Use \"/onlinemode on\" and \"/onlinemode off\" to change online mode.", ChatColor.WHITE);
+            playerMsg("If you have Telnet, you can use \"/onlinemode on\" and \"/onlinemode off\" to change online mode.", ChatColor.WHITE);
         }
         else
         {
             boolean online_mode;
-
+            
+            if (sender instanceof Player && !TFM_SuperadminList.isSeniorAdmin(sender))
+            {
+                playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                return true;
+            }
             if (args[0].equalsIgnoreCase("on"))
             {
                 online_mode = true;
