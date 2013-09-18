@@ -3,12 +3,10 @@ package me.StevenLawson.TotalFreedomMod.HTTPD;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.Socket;
-import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.HTTPSession;
 import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
@@ -19,6 +17,9 @@ import org.bukkit.Bukkit;
 
 public class TFM_HTTPD_Manager
 {
+    @Deprecated
+    public static String MIME_DEFAULT_BINARY = "application/octet-stream";
+    //
     private static final Pattern EXT_REGEX = Pattern.compile("\\.([^\\.\\s]+)$");
     //
     public static final int PORT = TFM_ConfigEntry.HTTPD_PORT.getInteger();
@@ -69,36 +70,118 @@ public class TFM_HTTPD_Manager
 
     private static enum ModuleType
     {
-        DUMP(false, "dump"),
-        HELP(true, "help"),
-        LIST(true, "list"),
-        FILE(false, "file"),
-        SCHEMATIC(false, "schematic"),
-        PERMBANS(false, "permbans");
-        private final boolean runOnBukkitThread;
-        private final String name;
-
-        private ModuleType(boolean runOnBukkitThread, String name)
+        DUMP(new ModuleExecutable(false, "dump")
         {
-            this.runOnBukkitThread = runOnBukkitThread;
-            this.name = name;
+            @Override
+            public Response getResponse(HTTPSession session)
+            {
+                return new Response(Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, "The DUMP module is disabled. It is intended for debugging use only.");
+            }
+        }),
+        HELP(new ModuleExecutable(true, "help")
+        {
+            @Override
+            public Response getResponse(HTTPSession session)
+            {
+                return new Module_help(session).getResponse();
+            }
+        }),
+        LIST(new ModuleExecutable(true, "list")
+        {
+            @Override
+            public Response getResponse(HTTPSession session)
+            {
+                return new Module_list(session).getResponse();
+            }
+        }),
+        FILE(new ModuleExecutable(false, "file")
+        {
+            @Override
+            public Response getResponse(HTTPSession session)
+            {
+                return new Module_file(session).getResponse();
+            }
+        }),
+        SCHEMATIC(new ModuleExecutable(false, "schematic")
+        {
+            @Override
+            public Response getResponse(HTTPSession session)
+            {
+                return new Module_schematic(session).getResponse();
+            }
+        }),
+        PERMBANS(new ModuleExecutable(false, "permbans")
+        {
+            @Override
+            public Response getResponse(HTTPSession session)
+            {
+                return new Module_permbans(session).getResponse();
+            }
+        });
+        //
+        private final ModuleExecutable moduleExecutable;
+
+        private ModuleType(ModuleExecutable moduleExecutable)
+        {
+            this.moduleExecutable = moduleExecutable;
         }
 
-        public boolean isRunOnBukkitThread()
+        private abstract static class ModuleExecutable
         {
-            return runOnBukkitThread;
+            private final boolean runOnBukkitThread;
+            private final String name;
+
+            public ModuleExecutable(boolean runOnBukkitThread, String name)
+            {
+                this.runOnBukkitThread = runOnBukkitThread;
+                this.name = name;
+            }
+
+            public Response execute(final HTTPSession session)
+            {
+                try
+                {
+                    if (this.runOnBukkitThread)
+                    {
+                        return Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin, new Callable<Response>()
+                        {
+                            @Override
+                            public Response call() throws Exception
+                            {
+                                return getResponse(session);
+                            }
+                        }).get();
+                    }
+                    else
+                    {
+                        return getResponse(session);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TFM_Log.severe(ex);
+                }
+                return null;
+            }
+
+            public abstract Response getResponse(HTTPSession session);
+
+            public String getName()
+            {
+                return name;
+            }
         }
 
-        public String getName()
+        public ModuleExecutable getModuleExecutable()
         {
-            return name;
+            return moduleExecutable;
         }
 
         private static ModuleType getByName(String needle)
         {
             for (ModuleType type : values())
             {
-                if (type.getName().equalsIgnoreCase(needle))
+                if (type.getModuleExecutable().getName().equalsIgnoreCase(needle))
                 {
                     return type;
                 }
@@ -120,68 +203,15 @@ public class TFM_HTTPD_Manager
         }
 
         @Override
-        public Response serve(
-                final String uri,
-                final Method method,
-                final Map<String, String> headers,
-                final Map<String, String> params,
-                final Map<String, String> files,
-                final Socket socket)
+        public Response serve(HTTPSession session)
         {
-            Response response = null;
+            Response response;
 
             try
             {
-
-                final String[] args = StringUtils.split(uri, "/");
+                final String[] args = StringUtils.split(session.getUri(), "/");
                 final ModuleType moduleType = args.length >= 1 ? ModuleType.getByName(args[0]) : ModuleType.FILE;
-
-                if (moduleType.isRunOnBukkitThread())
-                {
-                    Future<Response> responseCall = Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin, new Callable<Response>()
-                    {
-                        @Override
-                        public Response call() throws Exception
-                        {
-                            switch (moduleType)
-                            {
-                                case HELP:
-                                    return new Module_help(uri, method, headers, params, files, socket).getResponse();
-                                case LIST:
-                                    return new Module_list(uri, method, headers, params, files, socket).getResponse();
-                                default:
-                                    return null;
-                            }
-                        }
-                    });
-
-                    try
-                    {
-                        response = responseCall.get();
-                    }
-                    catch (Exception ex)
-                    {
-                        TFM_Log.severe(ex);
-                    }
-                }
-                else
-                {
-                    switch (moduleType)
-                    {
-                        case DUMP:
-                            //response = new Module_dump(uri, method, headers, params, files, socket).getResponse();
-                            response = new Response(Response.Status.OK, MIME_PLAINTEXT, "The DUMP module is disabled. It is intended for debugging use only.");
-                            break;
-                        case SCHEMATIC:
-                            response = new Module_schematic(uri, method, headers, params, files, socket).getResponse();
-                            break;
-                        case PERMBANS:
-                            response = new Module_permbans(uri, method, headers, params, files, socket).getResponse();
-                            break;
-                        default:
-                            response = new Module_file(uri, method, headers, params, files, socket).getResponse();
-                    }
-                }
+                response = moduleType.getModuleExecutable().execute(session);
             }
             catch (Exception ex)
             {
@@ -215,10 +245,10 @@ public class TFM_HTTPD_Manager
 
                 if (mimetype == null || mimetype.trim().isEmpty())
                 {
-                    mimetype = NanoHTTPD.MIME_DEFAULT_BINARY;
+                    mimetype = MIME_DEFAULT_BINARY;
                 }
 
-                response = new NanoHTTPD.Response(NanoHTTPD.Response.Status.OK, mimetype, new FileInputStream(file));
+                response = new Response(Response.Status.OK, mimetype, new FileInputStream(file));
                 response.addHeader("Content-Length", "" + file.length());
             }
             catch (IOException ex)

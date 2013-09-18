@@ -1,8 +1,10 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.*;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 
 public abstract class TFM_HTTPD_Module
 {
@@ -10,17 +12,17 @@ public abstract class TFM_HTTPD_Module
     protected final Method method;
     protected final Map<String, String> headers;
     protected final Map<String, String> params;
-    protected final Map<String, String> files;
     protected final Socket socket;
+    protected final HTTPSession session;
 
-    public TFM_HTTPD_Module(String uri, Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
+    public TFM_HTTPD_Module(HTTPSession session)
     {
-        this.uri = uri;
-        this.method = method;
-        this.headers = headers;
-        this.params = params;
-        this.files = files;
-        this.socket = socket;
+        this.uri = session.getUri();
+        this.method = session.getMethod();
+        this.headers = session.getHeaders();
+        this.params = session.getParms();
+        this.socket = session.getSocket();
+        this.session = session;
     }
 
     public String getBody()
@@ -46,5 +48,21 @@ public abstract class TFM_HTTPD_Module
     public Response getResponse()
     {
         return new TFM_HTTPD_PageBuilder(getBody(), getTitle(), getStyle(), getScript()).getResponse();
+    }
+
+    protected final Map<String, String> getFiles()
+    {
+        Map<String, String> files = new HashMap<String, String>();
+
+        try
+        {
+            session.parseBody(files);
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+
+        return files;
     }
 }

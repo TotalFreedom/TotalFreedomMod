@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.Socket;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,9 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 
 import static me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.*;
-import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 
 /*
  * This class was adapted from https://github.com/NanoHttpd/nanohttpd/blob/master/webserver/src/main/java/fi/iki/elonen/SimpleWebServer.java
@@ -55,9 +54,9 @@ public class Module_file extends TFM_HTTPD_Module
         MIME_TYPES.put("class", "application/octet-stream");
     }
 
-    public Module_file(String uri, Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
+    public Module_file(NanoHTTPD.HTTPSession session)
     {
-        super(uri, method, headers, params, files, socket);
+        super(session);
     }
 
     private File getRootDir()
@@ -175,7 +174,7 @@ public class Module_file extends TFM_HTTPD_Module
                 }
                 if (mime == null)
                 {
-                    mime = NanoHTTPD.MIME_DEFAULT_BINARY;
+                    mime = TFM_HTTPD_Manager.MIME_DEFAULT_BINARY;
                 }
 
                 // Calculate etag

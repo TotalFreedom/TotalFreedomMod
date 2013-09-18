@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.HTTPD;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.Iterator;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -16,9 +15,9 @@ public class Module_dump extends TFM_HTTPD_Module
     private File echoFile = null;
     private final String body;
 
-    public Module_dump(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
+    public Module_dump(NanoHTTPD.HTTPSession session)
     {
-        super(uri, method, headers, params, files, socket);
+        super(session);
 
         //Body needs to be computed before getResponse, so we know if a text response or a file echo is needed.
         this.body = body();
@@ -53,6 +52,8 @@ public class Module_dump extends TFM_HTTPD_Module
         String remoteAddress = socket.getInetAddress().getHostAddress();
 
         String[] args = StringUtils.split(uri, "/");
+
+        Map<String, String> files = getFiles();
 
         responseBody
                 .append(paragraph("URI: " + uri))

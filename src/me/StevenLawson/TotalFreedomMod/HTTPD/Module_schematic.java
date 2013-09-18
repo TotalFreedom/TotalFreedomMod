@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.HTTPD;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,8 +15,8 @@ import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class Module_schematic extends TFM_HTTPD_Module
 {
@@ -36,9 +35,9 @@ public class Module_schematic extends TFM_HTTPD_Module
             + "<button type=\"submit\">Submit</button>\n"
             + "</form>";
 
-    public Module_schematic(String uri, Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
+    public Module_schematic(NanoHTTPD.HTTPSession session)
     {
-        super(uri, method, headers, params, files, socket);
+        super(session);
     }
 
     @Override
@@ -153,6 +152,8 @@ public class Module_schematic extends TFM_HTTPD_Module
 
     private boolean uploadSchematic() throws SchematicTransferException
     {
+        Map<String, String> files = getFiles();
+
         final String tempFileName = files.get(REQUEST_FORM_FILE_ELEMENT_NAME);
         if (tempFileName == null)
         {

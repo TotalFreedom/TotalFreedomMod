@@ -1,15 +1,13 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
 import java.io.File;
-import java.net.Socket;
-import java.util.Map;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 
 public class Module_permbans extends TFM_HTTPD_Module
 {
-    public Module_permbans(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files, Socket socket)
+    public Module_permbans(NanoHTTPD.HTTPSession session)
     {
-        super(uri, method, headers, params, files, socket);
+        super(session);
     }
 
     @Override
