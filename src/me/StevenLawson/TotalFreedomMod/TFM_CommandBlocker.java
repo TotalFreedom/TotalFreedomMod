@@ -311,7 +311,7 @@ public class TFM_CommandBlocker
                 }
                 else
                 {
-                    response = ChatColor.GRAY + TFM_Util.colorise(this.message);
+                    response = ChatColor.GRAY + TFM_Util.colorize(this.message);
                 }
 
                 sender.sendMessage(response);

@@ -78,7 +78,7 @@ public class Command_saconfig extends TFM_Command
                 }
                 else
                 {
-                    playerMsg(ChatColor.stripColor(TFM_Util.colorise(superadmin.toString())));
+                    playerMsg(ChatColor.stripColor(TFM_Util.colorize(superadmin.toString())));
                 }
 
                 return true;

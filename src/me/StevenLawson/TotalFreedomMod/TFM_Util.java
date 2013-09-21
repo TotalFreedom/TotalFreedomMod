@@ -993,7 +993,7 @@ public class TFM_Util
         return COLOR_POOL.get(RANDOM.nextInt(COLOR_POOL.size()));
     }
 
-    public static String colorise(String string)
+    public static String colorize(String string)
     {
         return ChatColor.translateAlternateColorCodes('&', string);
     }

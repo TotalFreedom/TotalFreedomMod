@@ -63,9 +63,9 @@ public class Command_tag extends TFM_Command
                 return true;
             }
 
-            if (args[0].length() > 15)
+            if (ChatColor.stripColor(TFM_Util.colorize(args[0])).length() > 20)
             {
-                playerMsg("That tag is too long.");
+                playerMsg("That tag is too long [Max = 20 characters, not including color codes].");
                 return true;
             }
 

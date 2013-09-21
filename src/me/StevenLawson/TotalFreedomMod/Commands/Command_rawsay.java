@@ -15,7 +15,7 @@ public class Command_rawsay extends TFM_Command
     {
         if (args.length > 0)
         {
-            TFM_Util.bcastMsg(TFM_Util.colorise(StringUtils.join(args, " ")));
+            TFM_Util.bcastMsg(TFM_Util.colorize(StringUtils.join(args, " ")));
         }
 
         return true;

@@ -489,7 +489,7 @@ public class TFM_PlayerData
         }
         else
         {
-            this.tag = TFM_Util.colorise(tag) + ChatColor.WHITE;
+            this.tag = TFM_Util.colorize(tag) + ChatColor.WHITE;
         }
     }
 
