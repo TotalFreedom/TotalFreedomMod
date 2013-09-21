@@ -240,7 +240,7 @@ public class TFM_Config
         try
         {
             InputStream defaultConfig = getDefaultConfig();
-            FileUtils.copyInputStreamToFile(getDefaultConfig(), targetFile);
+            FileUtils.copyInputStreamToFile(defaultConfig, targetFile);
             defaultConfig.close();
         }
         catch (IOException ex)
