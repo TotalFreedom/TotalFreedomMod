@@ -46,7 +46,6 @@ public class TotalFreedomMod extends JavaPlugin
     //
     public static final Server server = Bukkit.getServer();
     public static TotalFreedomMod plugin = null;
-    public static File plugin_file = null;
     //
     public static String pluginName = "";
     public static String pluginVersion = "";
@@ -66,7 +65,6 @@ public class TotalFreedomMod extends JavaPlugin
     public void onLoad()
     {
         TotalFreedomMod.plugin = this;
-        TotalFreedomMod.plugin_file = plugin.getFile();
         TotalFreedomMod.pluginName = plugin.getDescription().getName();
 
         TFM_Log.setPluginLogger(this.getLogger());
@@ -273,7 +271,7 @@ public class TotalFreedomMod extends JavaPlugin
     {
         try
         {
-            TFM_Util.createDefaultConfiguration(PERMBAN_FILE, plugin_file);
+            TFM_Util.createDefaultConfiguration(PERMBAN_FILE);
             FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), PERMBAN_FILE));
 
             permbanned_players = new ArrayList<String>();
