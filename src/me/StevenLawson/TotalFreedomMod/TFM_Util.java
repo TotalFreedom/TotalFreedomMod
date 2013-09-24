@@ -27,7 +27,8 @@ public class TFM_Util
     public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "DarthSalamon", "AcidicCyanide", "wild1145", "HeXeRei452");
     private static final Random RANDOM = new Random();
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
-    public static final List<ChatColor> COLOR_POOL = Arrays.asList(
+    public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<String, ChatColor>();
+    public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
             ChatColor.DARK_BLUE,
             ChatColor.DARK_GREEN,
             ChatColor.DARK_AQUA,
@@ -58,6 +59,11 @@ public class TFM_Util
             catch (Exception ex)
             {
             }
+        }
+
+        for (ChatColor chatColor : CHAT_COLOR_POOL)
+        {
+            CHAT_COLOR_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
         }
     }
 
@@ -804,7 +810,7 @@ public class TFM_Util
 
     public static ChatColor randomChatColor()
     {
-        return COLOR_POOL.get(RANDOM.nextInt(COLOR_POOL.size()));
+        return CHAT_COLOR_POOL.get(RANDOM.nextInt(CHAT_COLOR_POOL.size()));
     }
 
     public static String colorize(String string)
