@@ -47,7 +47,7 @@ public class Command_colorme extends TFM_Command
             return true;
         }
 
-        final String newNick = color + ChatColor.stripColor(sender_p.getDisplayName()) + ChatColor.WHITE;
+        final String newNick = color + ChatColor.stripColor(sender_p.getDisplayName()).trim() + ChatColor.WHITE;
 
         TFM_EssentialsBridge.getInstance().setNickname(sender.getName(), newNick);
 

@@ -46,7 +46,7 @@ public class Command_nicknyan extends TFM_Command
             {
                 continue;
             }
-            if (player.getName().equalsIgnoreCase(nickPlain) || ChatColor.stripColor(player.getDisplayName()).equalsIgnoreCase(nickPlain))
+            if (player.getName().equalsIgnoreCase(nickPlain) || ChatColor.stripColor(player.getDisplayName()).trim().equalsIgnoreCase(nickPlain))
             {
                 playerMsg("That nickname is already in use.");
                 return true;
