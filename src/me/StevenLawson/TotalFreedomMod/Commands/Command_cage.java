@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <partialname> <off | [[outermaterial] [innermaterial]]>")
+@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <partialname> [purge] <off | [[outermaterial] [innermaterial]]>")
 public class Command_cage extends TFM_Command
 {
     @Override
@@ -29,6 +29,18 @@ public class Command_cage extends TFM_Command
             playerdata.setCaged(false);
             playerdata.regenerateHistory();
             playerdata.clearHistory();
+            return true;
+        }
+        if (args[0].equalsIgnoreCase("purge"))
+        {
+            for (Player p : server.getOnlinePlayers())
+            {
+                TFM_Util.adminAction(sender.getName(), "Purging cages for all players", true);
+                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
+                playerdata.setCaged(false);
+                playerdata.regenerateHistory();
+                playerdata.clearHistory();
+            }
             return true;
         }
 
@@ -50,7 +62,7 @@ public class Command_cage extends TFM_Command
 
         if (args.length >= 2)
         {
-            if (TFM_Util.isStopCommand(args[1]))
+            else if (TFM_Util.isStopCommand(args[1]))
             {
                 TFM_Util.adminAction(sender.getName(), "Uncaging " + player.getName(), true);
 
