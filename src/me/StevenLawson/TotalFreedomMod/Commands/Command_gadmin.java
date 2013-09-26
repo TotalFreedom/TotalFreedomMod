@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(
         description = "Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci",
-        usage = "/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci> <targethash>] ]")
+        usage = "/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci | fr> <targethash>] ]")
 public class Command_gadmin extends TFM_Command
 {
     @Override
