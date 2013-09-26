@@ -62,7 +62,7 @@ public class Command_cage extends TFM_Command
 
         if (args.length >= 2)
         {
-            else if (TFM_Util.isStopCommand(args[1]))
+            if (TFM_Util.isStopCommand(args[1]))
             {
                 TFM_Util.adminAction(sender.getName(), "Uncaging " + player.getName(), true);
 
