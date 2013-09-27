@@ -147,6 +147,7 @@ public class TFM_SuperadminList
                 config.set("superadmins." + admin_name + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
                 config.set("superadmins." + admin_name + ".custom_login_message", superadmin.getCustomLoginMessage());
                 config.set("superadmins." + admin_name + ".is_senior_admin", superadmin.isSeniorAdmin());
+                config.set("superadmins." + admin_name + ".is_telnet_admin", superadmin.isTelnetAdmin());
                 config.set("superadmins." + admin_name + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
                 config.set("superadmins." + admin_name + ".is_activated", superadmin.isActivated());
             }
