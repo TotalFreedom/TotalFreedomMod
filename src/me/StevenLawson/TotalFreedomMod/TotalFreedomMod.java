@@ -308,6 +308,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_PlayerListener(), plugin);
         pm.registerEvents(new TFM_WeatherListener(), plugin);
         pm.registerEvents(new TFM_ServerListener(), plugin);
+        pm.registerEvents(new TFM_CustomListener(), plugin);
     }
 
     private static void setAppProperties()
