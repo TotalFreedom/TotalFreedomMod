@@ -10,18 +10,20 @@ public class TFM_Superadmin
     private final String name;
     private final String loginMessage;
     private final boolean isSeniorAdmin;
+    private final boolean isTelnetAdmin;
     private final List<String> consoleAliases;
-    private List<String> ips;
+    private final List<String> ips;
     private Date lastLogin;
     private boolean isActivated;
 
-    public TFM_Superadmin(String name, List<String> ips, Date lastLogin, String loginMessage, boolean isSeniorAdmin, List<String> consoleAliases, boolean isActivated)
+    public TFM_Superadmin(String name, List<String> ips, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, List<String> consoleAliases, boolean isActivated)
     {
         this.name = name.toLowerCase();
         this.ips = ips;
         this.lastLogin = lastLogin;
         this.loginMessage = loginMessage;
         this.isSeniorAdmin = isSeniorAdmin;
+        this.isTelnetAdmin = isTelnetAdmin;
         this.consoleAliases = consoleAliases;
         this.isActivated = isActivated;
     }
@@ -33,6 +35,7 @@ public class TFM_Superadmin
         this.lastLogin = TFM_Util.stringToDate(section.getString("last_login", TFM_Util.dateToString(new Date(0L))));
         this.loginMessage = section.getString("custom_login_message", "");
         this.isSeniorAdmin = section.getBoolean("is_senior_admin", false);
+        this.isTelnetAdmin = section.getBoolean("is_telnet_admin", false);
         this.consoleAliases = section.getStringList("console_aliases");
         this.isActivated = section.getBoolean("is_activated", true);
     }
@@ -49,6 +52,7 @@ public class TFM_Superadmin
             output.append("- Last Login: ").append(TFM_Util.dateToString(this.lastLogin)).append("\n");
             output.append("- Custom Login Message: ").append(this.loginMessage).append("\n");
             output.append("- Is Senior Admin: ").append(this.isSeniorAdmin).append("\n");
+            output.append("- Is Telnet Admin: ").append(this.isTelnetAdmin).append("\n");
             output.append("- Console Aliases: ").append(StringUtils.join(this.consoleAliases, ", ")).append("\n");
             output.append("- Is Activated: ").append(this.isActivated);
         }
@@ -85,14 +89,14 @@ public class TFM_Superadmin
         return isSeniorAdmin;
     }
 
+    public boolean isTelnetAdmin()
+    {
+        return isTelnetAdmin;
+    }
+
     public List<String> getConsoleAliases()
     {
         return consoleAliases;
-    }
-
-    public void setIps(List<String> ips)
-    {
-        this.ips = ips;
     }
 
     public void setLastLogin(Date lastLogin)

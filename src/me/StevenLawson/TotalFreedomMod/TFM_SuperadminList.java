@@ -180,14 +180,32 @@ public class TFM_SuperadminList
 
     public static TFM_Superadmin getAdminEntryByIP(String ip)
     {
+        return getAdminEntryByIP(ip, false);
+    }
+
+    public static TFM_Superadmin getAdminEntryByIP(String needleIP, boolean fuzzy)
+    {
         Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
         while (it.hasNext())
         {
             Entry<String, TFM_Superadmin> pair = it.next();
             TFM_Superadmin superadmin = pair.getValue();
-            if (superadmin.getIps().contains(ip))
+            if (fuzzy)
             {
-                return superadmin;
+                for (String haystackIP : superadmin.getIps())
+                {
+                    if (TFM_Util.fuzzyIpMatch(needleIP, haystackIP, 3))
+                    {
+                        return superadmin;
+                    }
+                }
+            }
+            else
+            {
+                if (superadmin.getIps().contains(needleIP))
+                {
+                    return superadmin;
+                }
             }
         }
         return null;
@@ -300,7 +318,6 @@ public class TFM_SuperadminList
                         {
                             List<String> ips = entry.getIps();
                             ips.add(ip);
-                            entry.setIps(ips);
                             saveSuperadminList();
                         }
                     }
@@ -349,12 +366,7 @@ public class TFM_SuperadminList
             }
             else
             {
-                Date lastLogin = new Date();
-                String loginMessage = "";
-                boolean isSeniorAdmin = false;
-                List<String> consoleAliases = new ArrayList<String>();
-
-                TFM_Superadmin superadmin = new TFM_Superadmin(username, ips, lastLogin, loginMessage, isSeniorAdmin, consoleAliases, true);
+                TFM_Superadmin superadmin = new TFM_Superadmin(username, ips, new Date(), "", false, false, new ArrayList<String>(), true);
                 superadminList.put(username.toLowerCase(), superadmin);
             }
 
