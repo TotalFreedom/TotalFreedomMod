@@ -428,6 +428,7 @@ public class TFM_SuperadminList
 
                         superadmin.setActivated(false);
                         Command_logs.deactivateSuperadmin(superadmin);
+                        TFM_TwitterHandler.getInstance().delTwitter(superadmin.getName());
                     }
                 }
             }
