@@ -184,3 +184,10 @@ service_checker_url: http://status.mojang.com/check
 httpd_enabled: true
 httpd_public_folder: ./public_html
 httpd_port: 28966
+
+# Inactivity Auto-Kick (Requires Essentials)
+autokick_enabled: true
+# autokick_threshold - Percentage of server player capacity used at which players will be automatically kicked for being inactive. Range: 0.0 - 1.0
+autokick_threshold: 0.9
+# autokick_time - Time, in seconds, after which a player should be kicked when inactive
+autokick_time: 120

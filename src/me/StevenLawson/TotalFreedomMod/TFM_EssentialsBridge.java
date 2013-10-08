@@ -70,6 +70,40 @@ public class TFM_EssentialsBridge
         }
     }
 
+    public long getLastActivity(String username)
+    {
+        try
+        {
+            final User user = getEssentialsUser(username);
+            if (user != null)
+            {
+                return TFM_Util.getField(user, "lastActivity");
+            }
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+        return 0L;
+    }
+
+    public boolean isEssentialsEnabled()
+    {
+        try
+        {
+            final Essentials essentials = getEssentialsPlugin();
+            if (essentials != null)
+            {
+                return essentials.isEnabled();
+            }
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+        return false;
+    }
+
     public static TFM_EssentialsBridge getInstance()
     {
         return TFM_EssentialsBridgeHolder.INSTANCE;

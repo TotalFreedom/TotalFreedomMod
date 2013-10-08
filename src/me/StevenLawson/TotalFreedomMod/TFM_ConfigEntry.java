@@ -32,16 +32,19 @@ public enum TFM_ConfigEntry
     TOSSMOB_ENABLED(Boolean.class, "tossmob_enabled"),
     TWITTERBOT_ENABLED(Boolean.class, "twitterbot_enabled"),
     HTTPD_ENABLED(Boolean.class, "httpd_enabled"),
+    AUTOKICK_ENABLED(Boolean.class, "autokick_enabled"),
     //
     AUTO_PROTECT_RADIUS(Double.class, "auto_protect_radius"),
     EXPLOSIVE_RADIUS(Double.class, "explosive_radius"),
     NUKE_MONITOR_RANGE(Double.class, "nuke_monitor_range"),
+    AUTOKICK_THRESHOLD(Double.class, "autokick_threshold"),
     //
     FREECAM_TRIGGER_COUNT(Integer.class, "freecam_trigger_count"),
     MOB_LIMITER_MAX(Integer.class, "mob_limiter_max"),
     NUKE_MONITOR_COUNT_BREAK(Integer.class, "nuke_monitor_count_break"),
     NUKE_MONITOR_COUNT_PLACE(Integer.class, "nuke_monitor_count_place"),
     HTTPD_PORT(Integer.class, "httpd_port"),
+    AUTOKICK_TIME(Integer.class, "autokick_time"),
     //
     FLATLANDS_GENERATION_PARAMS(String.class, "flatlands_generation_params"),
     LOGS_REGISTER_PASSWORD(String.class, "logs_register_password"),
