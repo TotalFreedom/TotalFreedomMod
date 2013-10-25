@@ -2,8 +2,10 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -63,11 +65,15 @@ public class Command_list extends TFM_Command
 
             if (userSuperadmin)
             {
-                if (TFM_SuperadminList.isSeniorAdmin(player))
+            	if (TFM_SuperadminList.isTelnetAdmin(player))
+            	{
+            		prefix = (ChatColor.DARK_GREEN + "[STA]");
+            	}
+            	else if (TFM_SuperadminList.isSeniorAdmin(player))
                 {
                     prefix = (ChatColor.LIGHT_PURPLE + "[SrA]");
                 }
-                else
+                else if (TFM_SuperadminList.isUserSuperadmin(player)) 
                 {
                     prefix = (ChatColor.GOLD + "[SA]");
                 }

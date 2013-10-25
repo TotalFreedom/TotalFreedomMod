@@ -15,7 +15,7 @@ public class TFM_CustomListener implements Listener
         if (ip != null && !ip.isEmpty())
         {
             TFM_Superadmin admin = TFM_SuperadminList.getAdminEntryByIP(ip, true);
-            if (admin != null && (admin.isTelnetAdmin() || admin.isSeniorAdmin()))
+            if (admin != null && (admin.canUseTelnet() || admin.isSeniorAdmin()))
             {
                 event.setBypassPassword(true);
                 event.setName(admin.getName());
