@@ -418,7 +418,7 @@ public class TFM_Util
                 
                 if (entry.isTelnetAdmin())
                 {
-                	return "a " + ChatColor.DARK_GREEN + "Super Telnet Admin" + ChatColor.AQUA + ".";
+                    return "a " + ChatColor.DARK_GREEN + "Super Telnet Admin" + ChatColor.AQUA + ".";
                 }
 
                 if (entry.isSeniorAdmin())
@@ -773,11 +773,11 @@ public class TFM_Util
         }
         else
         {
-        	if (TFM_SuperadminList.isTelnetAdmin(sender))
-        	{
-        		prefix = ChatColor.DARK_GREEN + "(STA)";
-        	}
-        	else if (TFM_SuperadminList.isSeniorAdmin(sender))
+            if (TFM_SuperadminList.isTelnetAdmin(sender))
+            {
+                prefix = ChatColor.DARK_GREEN + "(STA)";
+            }
+            else if (TFM_SuperadminList.isSeniorAdmin(sender))
             {
                 prefix = ChatColor.LIGHT_PURPLE + "(SrA)";
             }

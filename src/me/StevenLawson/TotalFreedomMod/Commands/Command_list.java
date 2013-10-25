@@ -65,11 +65,11 @@ public class Command_list extends TFM_Command
 
             if (userSuperadmin)
             {
-            	if (TFM_SuperadminList.isTelnetAdmin(player))
-            	{
-            		prefix = (ChatColor.DARK_GREEN + "[STA]");
-            	}
-            	else if (TFM_SuperadminList.isSeniorAdmin(player))
+                if (TFM_SuperadminList.isTelnetAdmin(player))
+                {
+            	    prefix = (ChatColor.DARK_GREEN + "[STA]");
+                }
+                else if (TFM_SuperadminList.isSeniorAdmin(player))
                 {
                     prefix = (ChatColor.LIGHT_PURPLE + "[SrA]");
                 }

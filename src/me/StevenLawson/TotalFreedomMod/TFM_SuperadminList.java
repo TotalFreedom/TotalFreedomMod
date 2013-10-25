@@ -112,12 +112,12 @@ public class TFM_SuperadminList
                 
                 if (superadmin.isTelnetAdmin())
                 {
-                	telnetAdminNames.add(admin_name);
+                    telnetAdminNames.add(admin_name);
                 	
-                	for (String console_alias : superadmin.getConsoleAliases())
-                	{
-                		telnetAdminNames.add(console_alias.toLowerCase());
-                	}
+                    for (String console_alias : superadmin.getConsoleAliases())
+                    {
+                	    telnetAdminNames.add(console_alias.toLowerCase());
+                    }
                 }
 
                 if (superadmin.isSeniorAdmin())
@@ -270,7 +270,7 @@ public class TFM_SuperadminList
     
     public static boolean isTelnetAdmin(CommandSender user)
     {
-    	return isTelnetAdmin(user, false);
+        return isTelnetAdmin(user, false);
     }
     
     public static boolean isTelnetAdmin(CommandSender user, boolean verifySuperadmin)
