@@ -116,7 +116,7 @@ public class TFM_SuperadminList
                 	
                     for (String console_alias : superadmin.getConsoleAliases())
                     {
-                	    telnetAdminNames.add(console_alias.toLowerCase());
+                        telnetAdminNames.add(console_alias.toLowerCase());   
                     }
                 }
 
@@ -163,6 +163,7 @@ public class TFM_SuperadminList
                 config.set("superadmins." + admin_name + ".custom_login_message", superadmin.getCustomLoginMessage());
                 config.set("superadmins." + admin_name + ".is_senior_admin", superadmin.isSeniorAdmin());
                 config.set("superadmins." + admin_name + ".is_telnet_admin", superadmin.isTelnetAdmin());
+                config.set("superadmins." + admin_name + ".can_use_telnet", superadmin.canUseTelnet());
                 config.set("superadmins." + admin_name + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
                 config.set("superadmins." + admin_name + ".is_activated", superadmin.isActivated());
             }
@@ -413,7 +414,7 @@ public class TFM_SuperadminList
             }
             else
             {
-                TFM_Superadmin superadmin = new TFM_Superadmin(username, ips, new Date(), "", false, false, new ArrayList<String>(), true);
+                TFM_Superadmin superadmin = new TFM_Superadmin(username, ips, new Date(), "", false, false, false, new ArrayList<String>(), true);
                 superadminList.put(username.toLowerCase(), superadmin);
             }
 
