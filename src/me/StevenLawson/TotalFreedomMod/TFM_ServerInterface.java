@@ -243,7 +243,7 @@ public class TFM_ServerInterface
             {
                 if (testPlayer.equalsIgnoreCase(username))
                 {
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your username is permanently banned from this server.\nRelease procedures are available at http://bit.ly/PermBan");
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your username is permanently banned from this server.\nRelease procedures are available at http://bit.ly/TF_PermBan");
                     return;
                 }
             }
@@ -252,7 +252,7 @@ public class TFM_ServerInterface
             {
                 if (TFM_Util.fuzzyIpMatch(testIp, ip, 4))
                 {
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your IP address is permanently banned from this server.\nRelease procedures are available at http://bit.ly/PermBan");
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your IP address is permanently banned from this server.\nRelease procedures are available at http://bit.ly/TF_PermBan");
                     return;
                 }
             }
