@@ -10,13 +10,14 @@ public class TFM_Superadmin
     private final String name;
     private final String loginMessage;
     private final boolean isSeniorAdmin;
+    private final boolean canUseTelnet;
     private final boolean isTelnetAdmin;
     private final List<String> consoleAliases;
     private final List<String> ips;
     private Date lastLogin;
     private boolean isActivated;
 
-    public TFM_Superadmin(String name, List<String> ips, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, List<String> consoleAliases, boolean isActivated)
+    public TFM_Superadmin(String name, List<String> ips, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, boolean canUseTelnet, List<String> consoleAliases, boolean isActivated)
     {
         this.name = name.toLowerCase();
         this.ips = ips;
@@ -24,6 +25,7 @@ public class TFM_Superadmin
         this.loginMessage = loginMessage;
         this.isSeniorAdmin = isSeniorAdmin;
         this.isTelnetAdmin = isTelnetAdmin;
+        this.canUseTelnet = canUseTelnet;
         this.consoleAliases = consoleAliases;
         this.isActivated = isActivated;
     }
@@ -36,6 +38,7 @@ public class TFM_Superadmin
         this.loginMessage = section.getString("custom_login_message", "");
         this.isSeniorAdmin = section.getBoolean("is_senior_admin", false);
         this.isTelnetAdmin = section.getBoolean("is_telnet_admin", false);
+        this.canUseTelnet = section.getBoolean("can_use_telnet", false);
         this.consoleAliases = section.getStringList("console_aliases");
         this.isActivated = section.getBoolean("is_activated", true);
     }
@@ -53,6 +56,7 @@ public class TFM_Superadmin
             output.append("- Custom Login Message: ").append(this.loginMessage).append("\n");
             output.append("- Is Senior Admin: ").append(this.isSeniorAdmin).append("\n");
             output.append("- Is Telnet Admin: ").append(this.isTelnetAdmin).append("\n");
+            output.append("- Can Use Telnet/Console: ").append(this.canUseTelnet).append("\n");
             output.append("- Console Aliases: ").append(StringUtils.join(this.consoleAliases, ", ")).append("\n");
             output.append("- Is Activated: ").append(this.isActivated);
         }
@@ -92,6 +96,11 @@ public class TFM_Superadmin
     public boolean isTelnetAdmin()
     {
         return isTelnetAdmin;
+    }
+    
+    public boolean canUseTelnet()
+    {
+    	return canUseTelnet;
     }
 
     public List<String> getConsoleAliases()

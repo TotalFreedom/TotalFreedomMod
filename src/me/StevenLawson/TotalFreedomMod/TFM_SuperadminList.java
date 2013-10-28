@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
+
 import me.StevenLawson.TotalFreedomMod.Commands.Command_logs;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -24,6 +26,7 @@ public class TFM_SuperadminList
     private static Map<String, TFM_Superadmin> superadminList = new HashMap<String, TFM_Superadmin>();
     private static List<String> superadminNames = new ArrayList<String>();
     private static List<String> superadminIPs = new ArrayList<String>();
+    private static List<String> telnetAdminNames = new ArrayList<String>();
     private static List<String> seniorAdminNames = new ArrayList<String>();
     private static int cleanThreshold = 24 * 7; // 1 Week in hours
 
@@ -87,6 +90,7 @@ public class TFM_SuperadminList
     {
         superadminNames.clear();
         superadminIPs.clear();
+        telnetAdminNames.clear();
         seniorAdminNames.clear();
 
         Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
@@ -105,6 +109,16 @@ public class TFM_SuperadminList
                 {
                     superadminIPs.add(ip);
                 }
+                
+                if (superadmin.isTelnetAdmin())
+                {
+                    telnetAdminNames.add(admin_name);
+                	
+                    for (String console_alias : superadmin.getConsoleAliases())
+                    {
+                        telnetAdminNames.add(console_alias.toLowerCase());   
+                    }
+                }
 
                 if (superadmin.isSeniorAdmin())
                 {
@@ -120,6 +134,7 @@ public class TFM_SuperadminList
 
         superadminNames = TFM_Util.removeDuplicates(superadminNames);
         superadminIPs = TFM_Util.removeDuplicates(superadminIPs);
+        telnetAdminNames = TFM_Util.removeDuplicates(telnetAdminNames);
         seniorAdminNames = TFM_Util.removeDuplicates(seniorAdminNames);
 
         TFM_AdminWorld.getInstance().wipeAccessCache();
@@ -148,6 +163,7 @@ public class TFM_SuperadminList
                 config.set("superadmins." + admin_name + ".custom_login_message", superadmin.getCustomLoginMessage());
                 config.set("superadmins." + admin_name + ".is_senior_admin", superadmin.isSeniorAdmin());
                 config.set("superadmins." + admin_name + ".is_telnet_admin", superadmin.isTelnetAdmin());
+                config.set("superadmins." + admin_name + ".can_use_telnet", superadmin.canUseTelnet());
                 config.set("superadmins." + admin_name + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
                 config.set("superadmins." + admin_name + ".is_activated", superadmin.isActivated());
             }
@@ -248,6 +264,37 @@ public class TFM_SuperadminList
         if (entry != null)
         {
             return entry.isSeniorAdmin();
+        }
+
+        return false;
+    }
+    
+    public static boolean isTelnetAdmin(CommandSender user)
+    {
+        return isTelnetAdmin(user, false);
+    }
+    
+    public static boolean isTelnetAdmin(CommandSender user, boolean verifySuperadmin)
+    {
+        if (verifySuperadmin)
+        {
+            if (!isUserSuperadmin(user))
+            {
+                return false;
+            }
+        }
+
+        String username = user.getName().toLowerCase();
+
+        if (!(user instanceof Player))
+        {
+            return telnetAdminNames.contains(username);
+        }
+
+        TFM_Superadmin entry = getAdminEntry((Player) user);
+        if (entry != null)
+        {
+            return entry.isTelnetAdmin();
         }
 
         return false;
@@ -367,7 +414,7 @@ public class TFM_SuperadminList
             }
             else
             {
-                TFM_Superadmin superadmin = new TFM_Superadmin(username, ips, new Date(), "", false, false, new ArrayList<String>(), true);
+                TFM_Superadmin superadmin = new TFM_Superadmin(username, ips, new Date(), "", false, false, false, new ArrayList<String>(), true);
                 superadminList.put(username.toLowerCase(), superadmin);
             }
 
