@@ -29,7 +29,7 @@ public class Command_say extends TFM_Command
 
                 for (Player player : server.getOnlinePlayers())
                 {
-                    player.kickPlayer("Server is going offline, come back in a few minutes.");
+                    player.kickPlayer("Server is going offline, come back in about 20 seconds.");
                 }
 
                 server.shutdown();
