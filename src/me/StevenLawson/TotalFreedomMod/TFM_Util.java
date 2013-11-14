@@ -414,6 +414,10 @@ public class TFM_Util
                     {
                         return ChatColor.translateAlternateColorCodes('&', loginMessage);
                     }
+                } 
+                if (entry.isTelnetAdmin())
+                {
+                   return "a " + ChatColor.GREEN + "Super Telnet Admin" + ChatColor.AQUA + ".";
                 }
 
                 if (entry.isSeniorAdmin())
