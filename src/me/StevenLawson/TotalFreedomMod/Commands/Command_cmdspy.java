@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Spy on commands", usage = "/<command>")
+@CommandParameters(description = "Spy on commands", usage = "/<command>", aliases = "commandspy")
 public class Command_cmdspy extends TFM_Command
 {
     @Override
