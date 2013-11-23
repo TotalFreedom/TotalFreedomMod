@@ -70,6 +70,7 @@ blocked_commands:
   - 's:b://:_'
   - 's:b:/superpickaxe:_'
   - 's:b:/brush:_'
+  - 's:b:/mat:_'
   - 's:b:/tool:_'
   - 's:b://butcher:_'
   - 's:b:/scoreboard:_'
