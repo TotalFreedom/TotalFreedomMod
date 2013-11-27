@@ -37,6 +37,7 @@ For those who wish to contribute, we encourage you to fork the repository and su
 * Make sure all changes work before you commit these, this avoids having multiple unnecessary commits.
 * Please refrain from using an excessive amount of commits. As few as possible is generally the best.
 * Please do not spread your addition over several pull-requests.
+* Do not make a lib folder or modify folders and files such as nbproject, or .gitignore. Your request probably won't get rejected if you modify something like .gitignore, but it will if you include a lib folder. If you want to make a change specifically towards a file like .gitignore, that's fine.
 
 ## Submitting Your Changes ##
 * Push your changes to a topic branch in your fork of the repository.
