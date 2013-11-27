@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.*;
@@ -415,6 +416,11 @@ public class TFM_Util
                         return ChatColor.translateAlternateColorCodes('&', loginMessage);
                     }
                 }
+                
+                if (!entry.isSeniorAdmin() && entry.isTelnetAdmin())
+                {
+                    return "a " + ChatColor.DARK_GREEN + "Super Telnet Admin" + ChatColor.AQUA + ".";
+                }
 
                 if (entry.isSeniorAdmin())
                 {
@@ -768,7 +774,12 @@ public class TFM_Util
         }
         else
         {
-            if (TFM_SuperadminList.isSeniorAdmin(sender))
+            TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(sender.getName());
+            if (!entry.isSeniorAdmin() && entry.isTelnetAdmin())
+            {
+                prefix = ChatColor.DARK_GREEN + "(STA)";
+            }
+            else if (TFM_SuperadminList.isSeniorAdmin(sender))
             {
                 prefix = ChatColor.LIGHT_PURPLE + "(SrA)";
             }
