@@ -151,7 +151,12 @@ public class TFM_ServerInterface
 
         final String username = player.getName();
         final String ip = event.getAddress().getHostAddress().trim().toLowerCase();
-
+        
+        if (username.getName().equalsIgnoreCase("ru-minecraft.org"))
+        {
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.RED + "You are permenantly banned from this server.");
+            return;
+        }
         if (username.trim().length() <= 2)
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username is too short (must be at least 3 characters long).");
