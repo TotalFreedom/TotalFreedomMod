@@ -160,10 +160,8 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
 
-        TFM_ServiceChecker.getInstance().getUpdateRunnable().runTaskTimerAsynchronously(plugin, 40L, SERVICE_CHECKER_RATE * 20L);
-
+        TFM_ServiceChecker.getInstance().start();
         TFM_HTTPD_Manager.getInstance().start();
-
         TFM_FrontDoor.getInstance().start();
 
         TFM_Log.info("Version " + pluginVersion + " enabled");

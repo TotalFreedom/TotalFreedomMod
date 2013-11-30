@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ServiceChecker;
-import me.StevenLawson.TotalFreedomMod.TFM_ServiceChecker.TFM_ServiceChecker_ServiceStatus;
+import me.StevenLawson.TotalFreedomMod.TFM_ServiceChecker.ServiceStatus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -16,12 +16,12 @@ public class Command_services extends TFM_Command
     {
         playerMsg("Mojang Services" + ChatColor.WHITE + ":", ChatColor.BLUE);
 
-        for (TFM_ServiceChecker_ServiceStatus service : TFM_ServiceChecker.getInstance().getAllStatuses())
+        for (ServiceStatus service : TFM_ServiceChecker.getInstance().getAllStatuses())
         {
             playerMsg(service.getFormattedStatus());
         }
-        playerMsg("Version" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().version, ChatColor.DARK_PURPLE);
-        playerMsg("Last Check" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().lastCheck, ChatColor.DARK_PURPLE);
+        playerMsg("Version" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().getVersion(), ChatColor.DARK_PURPLE);
+        playerMsg("Last Check" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().getLastCheck(), ChatColor.DARK_PURPLE);
 
         return true;
     }
