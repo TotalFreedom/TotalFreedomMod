@@ -13,11 +13,31 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.SkullType;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Boat;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.EnderCrystal;
+import org.bukkit.entity.EnderSignal;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.Explosive;
+import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Minecart;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 
 public class TFM_Util
 {
@@ -25,7 +45,7 @@ public class TFM_Util
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     public static final List<String> STOP_COMMANDS = Arrays.asList("stop", "off", "end", "halt", "die");
     public static final List<String> REMOVE_COMMANDS = Arrays.asList("del", "delete", "rem", "remove");
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "DarthSalamon", "AcidicCyanide", "wild1145", "HeXeRei452");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "DarthSalamon", "AcidicCyanide", "wild1145", "HeXeRei452", "xXWilee99Xx");
     private static final Random RANDOM = new Random();
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<String, ChatColor>();
@@ -416,7 +436,7 @@ public class TFM_Util
                         return ChatColor.translateAlternateColorCodes('&', loginMessage);
                     }
                 }
-                
+
                 if (!entry.isSeniorAdmin() && entry.isTelnetAdmin())
                 {
                     return "a " + ChatColor.DARK_GREEN + "Super Telnet Admin" + ChatColor.AQUA + ".";
