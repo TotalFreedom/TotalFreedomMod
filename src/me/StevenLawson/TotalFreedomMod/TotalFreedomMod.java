@@ -66,9 +66,10 @@ public class TotalFreedomMod extends JavaPlugin
     {
         TotalFreedomMod.plugin = this;
         TotalFreedomMod.pluginName = plugin.getDescription().getName();
+        TotalFreedomMod.pluginVersion = plugin.getDescription().getVersion();
 
-        TFM_Log.setPluginLogger(this.getLogger());
-        TFM_Log.setServerLogger(this.getServer().getLogger());
+        TFM_Log.setPluginLogger(plugin.getLogger());
+        TFM_Log.setServerLogger(server.getLogger());
 
         setAppProperties();
     }
@@ -165,7 +166,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_FrontDoor.getInstance().start();
 
-        TFM_Log.info("Plugin enabled.");
+        TFM_Log.info("Version " + pluginVersion + " enabled");
 
         // Delayed Start :
         new BukkitRunnable()
@@ -186,7 +187,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_HTTPD_Manager.getInstance().stop();
 
-        TFM_Log.info("Plugin disabled.");
+        TFM_Log.info("Plugin disabled");
     }
 
     @Override
@@ -322,14 +323,16 @@ public class TotalFreedomMod extends JavaPlugin
             props.load(in);
             in.close();
 
-            TotalFreedomMod.pluginVersion = props.getProperty("program.VERSION");
-            TotalFreedomMod.buildNumber = props.getProperty("program.BUILDNUM");
-            TotalFreedomMod.buildDate = props.getProperty("program.BUILDDATE");
+            TotalFreedomMod.buildNumber = props.getProperty("program.buildnumber");
+            TotalFreedomMod.buildDate = props.getProperty("program.builddate");
         }
         catch (Exception ex)
         {
             TFM_Log.severe("Could not load App properties!");
             TFM_Log.severe(ex);
+
+            TotalFreedomMod.buildNumber = "1";
+            TotalFreedomMod.buildDate = TFM_Util.dateToString(new Date());
         }
     }
 }
