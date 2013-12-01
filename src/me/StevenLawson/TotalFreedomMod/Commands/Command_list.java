@@ -54,7 +54,7 @@ public class Command_list extends TFM_Command
         final List<String> names = new ArrayList<String>();
         for (Player player : server.getOnlinePlayers())
         {
-            boolean userSuperadmin = TFM_SuperadminList.isUserSuperadmin(player);
+            final boolean userSuperadmin = TFM_SuperadminList.isUserSuperadmin(player);
 
             if (listFilter == ListFilter.ADMINS && !userSuperadmin)
             {
@@ -66,7 +66,7 @@ public class Command_list extends TFM_Command
             if (userSuperadmin)
             {
                 final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(player.getName());
-                if (entry == null)
+                if (entry == null || !entry.isActivated())
                 {
                     prefix = ChatColor.GOLD + "[SA]";
                 }

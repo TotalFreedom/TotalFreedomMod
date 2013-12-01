@@ -421,38 +421,34 @@ public class TFM_Util
             return "an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "impostor" + ChatColor.RESET + ChatColor.AQUA + "!";
         }
 
-        TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(sender.getName());
+        final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(sender.getName());
 
-        if (entry != null)
+        if (entry != null && entry.isActivated())
         {
-            if (entry.isActivated())
+            String loginMessage = entry.getCustomLoginMessage();
+
+            if (loginMessage != null)
             {
-                String loginMessage = entry.getCustomLoginMessage();
-
-                if (loginMessage != null)
+                if (!loginMessage.isEmpty())
                 {
-                    if (!loginMessage.isEmpty())
-                    {
-                        return ChatColor.translateAlternateColorCodes('&', loginMessage);
-                    }
-                }
-
-                if (!entry.isSeniorAdmin() && entry.isTelnetAdmin())
-                {
-                    return "a " + ChatColor.DARK_GREEN + "Super Telnet Admin" + ChatColor.AQUA + ".";
-                }
-
-                if (entry.isSeniorAdmin())
-                {
-                    return "a " + ChatColor.LIGHT_PURPLE + "Senior Admin" + ChatColor.AQUA + ".";
-                }
-                else
-                {
-                    return "a " + ChatColor.GOLD + "Super Admin" + ChatColor.AQUA + ".";
+                    return ChatColor.translateAlternateColorCodes('&', loginMessage);
                 }
             }
-        }
 
+            if (entry.isSeniorAdmin())
+            {
+                return "a " + ChatColor.LIGHT_PURPLE + "Senior Admin" + ChatColor.AQUA + ".";
+            }
+            else if (entry.isTelnetAdmin())
+            {
+                return "a " + ChatColor.DARK_GREEN + "Super Telnet Admin" + ChatColor.AQUA + ".";
+            }
+            else
+            {
+                return "a " + ChatColor.GOLD + "Super Admin" + ChatColor.AQUA + ".";
+            }
+        }
+        
         if (sender.isOp())
         {
             return "an " + ChatColor.DARK_GREEN + "OP" + ChatColor.AQUA + ".";
@@ -759,7 +755,7 @@ public class TFM_Util
 
     public static void downloadFile(String url, File output, boolean verbose) throws java.lang.Exception
     {
-        URL website = new URL(url);
+        final URL website = new URL(url);
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
         FileOutputStream fos = new FileOutputStream(output);
         fos.getChannel().transferFrom(rbc, 0, 1 << 24);
@@ -794,19 +790,25 @@ public class TFM_Util
         }
         else
         {
-            TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(sender.getName());
-            if (!entry.isSeniorAdmin() && entry.isTelnetAdmin())
-            {
-                prefix = ChatColor.DARK_GREEN + "(STA)";
+            final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(sender.getName());
+            
+            if (entry == null) {
+                return "";
             }
-            else if (TFM_SuperadminList.isSeniorAdmin(sender))
+            
+            if (entry.isSeniorAdmin())
             {
                 prefix = ChatColor.LIGHT_PURPLE + "(SrA)";
+            }
+            else if (entry.isTelnetAdmin())
+            {
+                prefix = ChatColor.DARK_GREEN + "(STA)";
             }
             else
             {
                 prefix = ChatColor.GOLD + "(SA)";
             }
+            
             if (DEVELOPERS.contains(sender.getName()))
             {
                 prefix = ChatColor.DARK_PURPLE + "(Dev)";
