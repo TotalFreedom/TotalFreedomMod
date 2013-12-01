@@ -331,7 +331,7 @@ public class TFM_ServerInterface
             {
                 for (Player p : server.getOnlinePlayers())
                 {
-                    if (!TFM_SuperadminList.isUserSuperadmin(player))
+                    if (!TFM_SuperadminList.isUserSuperadmin(p))
                     {
                         p.kickPlayer("You have been kicked to free up room for an admin.");
                         count--;
