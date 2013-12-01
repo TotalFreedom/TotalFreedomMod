@@ -160,13 +160,13 @@ public class TFM_SuperadminList
         }
     }
 
-    public static TFM_Superadmin getAdminEntry(String admin_name)
+    public static TFM_Superadmin getAdminEntry(String name)
     {
-        admin_name = admin_name.toLowerCase();
+        name = name.toLowerCase();
 
-        if (superadminList.containsKey(admin_name))
+        if (superadminList.containsKey(name))
         {
-            return superadminList.get(admin_name);
+            return superadminList.get(name);
         }
         else
         {

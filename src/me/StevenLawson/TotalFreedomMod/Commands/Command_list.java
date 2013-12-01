@@ -66,8 +66,8 @@ public class Command_list extends TFM_Command
 
             if (userSuperadmin)
             {
-                TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(player.getName());
-                if (!entry.isSeniorAdmin() && entry.isTelnetAdmin())
+                final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(player.getName());
+                if (entry != null && !entry.isSeniorAdmin() && entry.isTelnetAdmin())
                 {
                     prefix = (ChatColor.DARK_GREEN + "[STA]");
                 }
