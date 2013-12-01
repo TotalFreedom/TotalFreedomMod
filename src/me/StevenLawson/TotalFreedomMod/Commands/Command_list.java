@@ -42,7 +42,7 @@ public class Command_list extends TFM_Command
             return true;
         }
 
-        final ListFilter listFilter = (args.length == 1 && args[0].equals("-a") ? ListFilter.ADMINS : ListFilter.ALL);
+        final Command_list.ListFilter listFilter = (args.length == 1 && args[0].equals("-a") ? Command_list.ListFilter.ADMINS : Command_list.ListFilter.ALL);
 
         final StringBuilder onlineStats = new StringBuilder();
         final StringBuilder onlineUsers = new StringBuilder();
@@ -56,53 +56,54 @@ public class Command_list extends TFM_Command
         {
             final boolean userSuperadmin = TFM_SuperadminList.isUserSuperadmin(player);
 
-            if (listFilter == ListFilter.ADMINS && !userSuperadmin)
+            if (listFilter == Command_list.ListFilter.ADMINS && !userSuperadmin)
             {
                 continue;
             }
 
-            String prefix = "";
+            final StringBuilder prefix = new StringBuilder();
 
             if (userSuperadmin)
             {
-                final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(player.getName());
-                if (entry == null || !entry.isActivated())
+                TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(player.getName());
+                if (entry == null)
                 {
-                    prefix = ChatColor.GOLD + "[SA]";
+                    prefix.append(ChatColor.GOLD).append("[SA]");
                 }
                 else if (entry.isSeniorAdmin())
                 {
-                    prefix = ChatColor.LIGHT_PURPLE + "[SrA]";
+                    prefix.append(ChatColor.LIGHT_PURPLE).append("[SrA]");
                 }
                 else if (entry.isTelnetAdmin())
                 {
-                    prefix = ChatColor.DARK_GREEN + "[STA]";
+                    prefix.append(ChatColor.DARK_GREEN).append("[STA]");
                 }
 
                 if (TFM_Util.DEVELOPERS.contains(player.getName()))
                 {
-                    prefix = ChatColor.DARK_PURPLE + "[Dev]";
+                    prefix.append(ChatColor.DARK_PURPLE).append("[Dev]");
                 }
 
                 if (player.getName().equals("markbyron"))
                 {
-                    prefix = ChatColor.BLUE + "[Owner]";
+                    prefix.append(ChatColor.BLUE).append("[Owner]");
                 }
             }
             else
             {
                 if (player.isOp())
                 {
-                    prefix = ChatColor.RED + "[OP]";
+                    prefix.append(ChatColor.RED).append("[OP]");
                 }
             }
 
-            names.add(prefix + player.getName() + ChatColor.WHITE);
+            
+            names.add(prefix.append(player.getName()).toString());
         }
 
         onlineUsers.append("Connected ");
-        onlineUsers.append(listFilter == ListFilter.ADMINS ? "admins: " : "players: ");
-        onlineUsers.append(StringUtils.join(names, ", "));
+        onlineUsers.append(listFilter == Command_list.ListFilter.ADMINS ? "admins: " : "players: ");
+        onlineUsers.append(StringUtils.join(names, ChatColor.WHITE + ", "));
 
         if (senderIsConsole)
         {
