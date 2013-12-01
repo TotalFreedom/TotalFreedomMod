@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.io.FileUtils;
+import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import net.minecraft.util.org.apache.commons.io.FileUtils;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 
 import static me.StevenLawson.TotalFreedomMod.HTTPD.HTMLGenerationTools.*;

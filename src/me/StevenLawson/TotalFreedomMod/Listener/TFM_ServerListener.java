@@ -30,6 +30,8 @@ public class TFM_ServerListener implements Listener
     // Comment this method out if you want to compile this without a custom CraftBukkit.
     // Just make sure that enable-command-block=false in server.properties.
     // -Madgeek
+    
+    /* Temporary: Until we get a custom CB build out
     @EventHandler(priority = EventPriority.NORMAL)
     public void onCommandBlockSet(org.bukkit.event.server.CommandBlockSetEvent event)
     {
@@ -59,7 +61,7 @@ public class TFM_ServerListener implements Listener
                 }
             }
         }
-    }
+    }*/
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onRemoteServerCommand(RemoteServerCommandEvent event)

@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.io.File;
-import org.apache.commons.io.FileUtils;
+import net.minecraft.util.org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

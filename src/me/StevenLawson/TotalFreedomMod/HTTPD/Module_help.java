@@ -13,10 +13,10 @@ import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader.TFM_DynamicCom
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginIdentifiableCommand;
-import org.apache.commons.lang3.StringUtils;
+import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 
 import static me.StevenLawson.TotalFreedomMod.HTTPD.HTMLGenerationTools.*;
-import static org.apache.commons.lang3.StringEscapeUtils.*;
+import static net.minecraft.util.org.apache.commons.lang3.StringEscapeUtils.*;
 
 public class Module_help extends TFM_HTTPD_Module
 {

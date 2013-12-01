@@ -11,7 +11,7 @@ import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_trail;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
-import org.apache.commons.lang3.ArrayUtils;
+import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
