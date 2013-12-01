@@ -447,6 +447,11 @@ public class TFM_Util
             {
                 return "a " + ChatColor.AQUA + "Super Admin" + ChatColor.AQUA + ".";
             }
+            
+            if (DEVELOPERS.contains(sender.getName())
+            {
+                return "a " + ChatColor.DARK_PURPLE + "Dev" + ChatColor.AQUA + ".";
+            }
         }
 
         if (sender.isOp())
