@@ -434,7 +434,6 @@ public class TFM_Util
                     return ChatColor.translateAlternateColorCodes('&', loginMessage);
                 }
             }
-            
             if (DEVELOPERS.contains(entry.getName()))
             {
                 return "a " + ChatColor.DARK_PURPLE + "Developer" + ChatColor.AQUA + ".";
