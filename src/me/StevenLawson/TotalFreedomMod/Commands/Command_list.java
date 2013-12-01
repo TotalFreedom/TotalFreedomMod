@@ -63,41 +63,60 @@ public class Command_list extends TFM_Command
 
             final StringBuilder prefix = new StringBuilder();
 
+            if (TFM_Util.DEVELOPERS.contains(player.getName()))
+            {
+                prefix.append(ChatColor.DARK_PURPLE).append("[Dev]");
+                names.add(prefix.append(player.getName()).toString());
+                continue;
+            }
+
             if (userSuperadmin)
             {
                 TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(player.getName());
+
+                if (player.getName().equals("markbyron"))
+                {
+                    prefix.append(ChatColor.DARK_RED).append("[Owner]");
+                    names.add(prefix.append(player.getName()).toString());
+                    continue;
+                }
+
                 if (entry == null)
                 {
-                    prefix.append(ChatColor.GOLD).append("[SA]");
+                    entry = TFM_SuperadminList.getAdminEntryByIP(player.getAddress().getAddress().getHostAddress().trim());
+                    if (entry == null)
+                    {
+                        prefix.append(ChatColor.AQUA).append("[SA]");
+                        names.add(prefix.append(player.getName()).toString());
+                        continue;
+                    }
                 }
-                else if (entry.isSeniorAdmin())
+
+                if (entry.isSeniorAdmin())
                 {
-                    prefix.append(ChatColor.LIGHT_PURPLE).append("[SrA]");
+                    prefix.append(ChatColor.GOLD).append("[SrA]");
                 }
                 else if (entry.isTelnetAdmin())
                 {
                     prefix.append(ChatColor.DARK_GREEN).append("[STA]");
                 }
-
-                if (TFM_Util.DEVELOPERS.contains(player.getName()))
+                else
                 {
-                    prefix.append(ChatColor.DARK_PURPLE).append("[Dev]");
-                }
-
-                if (player.getName().equals("markbyron"))
-                {
-                    prefix.append(ChatColor.BLUE).append("[Owner]");
+                    prefix.append(ChatColor.AQUA).append("[SA]");
                 }
             }
             else
             {
                 if (player.isOp())
                 {
-                    prefix.append(ChatColor.RED).append("[OP]");
+                    prefix.append(ChatColor.BLUE).append("[OP]");
+                }
+                else
+                {
+                    prefix.append(ChatColor.GREEN);
                 }
             }
 
-            
             names.add(prefix.append(player.getName()).toString());
         }
 

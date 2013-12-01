@@ -437,7 +437,7 @@ public class TFM_Util
 
             if (entry.isSeniorAdmin())
             {
-                return "a " + ChatColor.LIGHT_PURPLE + "Senior Admin" + ChatColor.AQUA + ".";
+                return "a " + ChatColor.GOLD + "Senior Admin" + ChatColor.AQUA + ".";
             }
             else if (entry.isTelnetAdmin())
             {
@@ -445,13 +445,13 @@ public class TFM_Util
             }
             else
             {
-                return "a " + ChatColor.GOLD + "Super Admin" + ChatColor.AQUA + ".";
+                return "a " + ChatColor.AQUA + "Super Admin" + ChatColor.AQUA + ".";
             }
         }
-        
+
         if (sender.isOp())
         {
-            return "an " + ChatColor.DARK_GREEN + "OP" + ChatColor.AQUA + ".";
+            return "an " + ChatColor.BLUE + "OP" + ChatColor.AQUA + ".";
         }
 
         return "a " + ChatColor.GREEN + "non-OP" + ChatColor.AQUA + ".";
@@ -791,14 +791,14 @@ public class TFM_Util
         else
         {
             final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(sender.getName());
-            
-            if (entry == null) {
-                return "";
-            }
-            
-            if (entry.isSeniorAdmin())
+
+            if (entry == null)
             {
-                prefix = ChatColor.LIGHT_PURPLE + "(SrA)";
+                return ChatColor.AQUA + "(SA)";
+            }
+            else if (entry.isSeniorAdmin())
+            {
+                prefix = ChatColor.GOLD + "(SrA)";
             }
             else if (entry.isTelnetAdmin())
             {
@@ -806,14 +806,15 @@ public class TFM_Util
             }
             else
             {
-                prefix = ChatColor.GOLD + "(SA)";
+                prefix = ChatColor.AQUA + "(SA)";
             }
-            
+
             if (DEVELOPERS.contains(sender.getName()))
             {
                 prefix = ChatColor.DARK_PURPLE + "(Dev)";
             }
         }
+
         return prefix + ChatColor.WHITE;
     }
 
