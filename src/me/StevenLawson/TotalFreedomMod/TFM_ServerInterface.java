@@ -15,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 public class TFM_ServerInterface
 {
@@ -141,16 +142,16 @@ public class TFM_ServerInterface
         // this should supersede all other onPlayerLogin authentication on the TFM server.
         // when using the TFM CraftBukkit, CraftBukkit itself should not do any of its own authentication.
 
-        final Server server = TotalFreedomMod.plugin.getServer();
+        final Server server = TotalFreedomMod.server;
 
         final PlayerList playerList = MinecraftServer.getServer().getPlayerList();
-        final BanList banByIP = playerList.getIPBans();
-        final BanList banByName = playerList.getNameBans();
+        final BanList ipBans = playerList.getIPBans();
+        final BanList nameBans = playerList.getNameBans();
 
         final Player player = event.getPlayer();
 
         final String username = player.getName();
-        final String ip = event.getAddress().getHostAddress().trim().toLowerCase();
+        final String ip = event.getAddress().getHostAddress().trim();
 
         if (username.trim().length() <= 2)
         {
@@ -174,34 +175,36 @@ public class TFM_ServerInterface
             isSuperadmin = TFM_SuperadminList.checkPartialSuperadminIP(ip, username.toLowerCase());
         }
 
-        if (!isSuperadmin)
-        {
-            BanEntry entry = null;
+        // Validation below this point
 
-            if (banByName.isBanned(username.toLowerCase()))
+        if (!isSuperadmin) // non-admins
+        {
+            // banned-players.txt
+            if (nameBans.isBanned(username.toLowerCase()))
             {
-                entry = (BanEntry) banByName.getEntries().get(username.toLowerCase());
+                final BanEntry nameBan = (BanEntry) nameBans.getEntries().get(username.toLowerCase());
 
                 String kickMessage = ChatColor.RED + "You are banned from this server.";
-                if (entry != null)
+                if (nameBan != null)
                 {
-                    kickMessage = kickMessage + "\nReason: " + entry.getReason();
-                    if (entry.getExpires() != null)
+                    kickMessage = kickMessage + "\nReason: " + nameBan.getReason();
+                    if (nameBan.getExpires() != null)
                     {
-                        kickMessage = kickMessage + "\nYour ban will be removed on " + dateFormat.format(entry.getExpires());
+                        kickMessage = kickMessage + "\nYour ban will be removed on " + dateFormat.format(nameBan.getExpires());
                     }
                 }
 
-                event.disallow(PlayerLoginEvent.Result.KICK_BANNED, kickMessage);
+                event.disallow(Result.KICK_OTHER, kickMessage);
                 return;
             }
 
+            // banned-ips.txt
+            final Iterator ipBansIt = ipBans.getEntries().keySet().iterator();
             boolean isIpBanned = false;
-
-            Iterator ipBans = banByIP.getEntries().keySet().iterator();
-            while (ipBans.hasNext())
+            BanEntry ipBan = null;
+            while (ipBansIt.hasNext())
             {
-                String testIp = (String) ipBans.next();
+                String testIp = (String) ipBansIt.next();
 
                 if (!testIp.matches("^\\d{1,3}\\.\\d{1,3}\\.(\\d{1,3}|\\*)\\.(\\d{1,3}|\\*)$"))
                 {
@@ -210,15 +213,15 @@ public class TFM_ServerInterface
 
                 if (ip.equals(testIp))
                 {
-                    entry = (BanEntry) banByIP.getEntries().get(testIp);
                     isIpBanned = true;
+                    ipBan = (BanEntry) ipBans.getEntries().get(testIp);
                     break;
                 }
 
                 if (TFM_Util.fuzzyIpMatch(testIp, ip, 4))
                 {
-                    entry = (BanEntry) banByIP.getEntries().get(testIp);
                     isIpBanned = true;
+                    ipBan = (BanEntry) ipBans.getEntries().get(testIp);
                     break;
                 }
             }
@@ -226,55 +229,61 @@ public class TFM_ServerInterface
             if (isIpBanned)
             {
                 String kickMessage = ChatColor.RED + "Your IP address is banned from this server.";
-                if (entry != null)
+                if (ipBan != null)
                 {
-                    kickMessage = kickMessage + "\nReason: " + entry.getReason();
-                    if (entry.getExpires() != null)
+                    kickMessage = kickMessage + "\nReason: " + ipBan.getReason();
+                    if (ipBan.getExpires() != null)
                     {
-                        kickMessage = kickMessage + "\nYour ban will be removed on " + dateFormat.format(entry.getExpires());
+                        kickMessage = kickMessage + "\nYour ban will be removed on " + dateFormat.format(ipBan.getExpires());
                     }
                 }
 
-                event.disallow(PlayerLoginEvent.Result.KICK_BANNED, kickMessage);
+                event.disallow(Result.KICK_OTHER, kickMessage);
                 return;
             }
 
-            for (String testPlayer : TotalFreedomMod.permbanned_players)
-            {
-                if (testPlayer.equalsIgnoreCase(username))
-                {
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your username is permanently banned from this server.\nRelease procedures are available at http://bit.ly/TF_PermBan");
-                    return;
-                }
-            }
-
-            for (String testIp : TotalFreedomMod.permbanned_ips)
+            // permban.yml - ips
+            for (String testIp : TotalFreedomMod.permbannedIps)
             {
                 if (TFM_Util.fuzzyIpMatch(testIp, ip, 4))
                 {
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "Your IP address is permanently banned from this server.\nRelease procedures are available at http://bit.ly/TF_PermBan");
+                    event.disallow(Result.KICK_OTHER, ChatColor.RED + "Your IP address is permanently banned from this server.\nRelease procedures are available at http://bit.ly/TF_PermBan");
                     return;
                 }
             }
 
+            // permban.yml - names
+            for (String testPlayer : TotalFreedomMod.permbannedPlayers)
+            {
+                if (testPlayer.equalsIgnoreCase(username))
+                {
+                    event.disallow(Result.KICK_OTHER, ChatColor.RED + "Your username is permanently banned from this server.\nRelease procedures are available at http://bit.ly/TF_PermBan");
+                    return;
+                }
+            }
+
+            // Server full check
             if (server.getOnlinePlayers().length >= server.getMaxPlayers())
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_FULL, "Sorry, but this server is full.");
                 return;
             }
 
+            // Admin-only mode
             if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is temporarily open to admins only.");
                 return;
             }
 
+            // Lockdown mode
             if (TotalFreedomMod.lockdownEnabled)
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is currently in lockdown mode.");
                 return;
             }
 
+            // Whitelist check
             if (playerList.hasWhitelist)
             {
                 if (!playerList.getWhitelisted().contains(username.toLowerCase()))
@@ -284,6 +293,7 @@ public class TFM_ServerInterface
                 }
             }
 
+            // Username already logged in check
             for (Player test_player : server.getOnlinePlayers())
             {
                 if (test_player.getName().equalsIgnoreCase(username))
@@ -293,8 +303,21 @@ public class TFM_ServerInterface
                 }
             }
         }
-        else
+        else // Player is superadmin
         {
+            // force-allow superadmins to log in
+            event.allow();
+
+            if (isIPBanned(ip))
+            {
+                unbanIP(ip);
+            }
+
+            if (isNameBanned(username))
+            {
+                unbanUsername(username);
+            }
+
             for (Player testPlayer : server.getOnlinePlayers())
             {
                 if (testPlayer.getName().equalsIgnoreCase(username))
@@ -303,25 +326,33 @@ public class TFM_ServerInterface
                 }
             }
 
-            boolean canKick = true; // if the server is full of superadmins, however unlikely that might be, this will prevent an infinite loop.
-            while (server.getOnlinePlayers().length >= server.getMaxPlayers() && canKick)
+            if (server.getOnlinePlayers().length >= server.getMaxPlayers())
             {
-                canKick = false;
-                for (Player testPlayer : server.getOnlinePlayers())
+                for (Player p : server.getOnlinePlayers())
                 {
-                    if (!TFM_SuperadminList.isUserSuperadmin(testPlayer))
+                    if (!TFM_SuperadminList.isUserSuperadmin(player))
                     {
-                        canKick = true;
-                        testPlayer.kickPlayer("You have been kicked to free up room for an admin.");
+                        p.kickPlayer("You have been kicked to free up room for an admin.");
+                    }
+
+                    if (server.getOnlinePlayers().length < server.getMaxPlayers())
+                    {
                         break;
                     }
                 }
             }
 
-            if (TotalFreedomMod.lockdownEnabled)
+            if (server.getOnlinePlayers().length >= server.getMaxPlayers())
             {
-                TFM_Util.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "The server is full and a player could not be kicked, sorry!");
+                return;
             }
+
+        }
+
+        if (TotalFreedomMod.lockdownEnabled)
+        {
+            TFM_Util.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
         }
     }
 

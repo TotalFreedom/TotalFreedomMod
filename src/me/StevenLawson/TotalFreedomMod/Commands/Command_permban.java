@@ -44,24 +44,24 @@ public class Command_permban extends TFM_Command
 
     private void dumplist(CommandSender sender)
     {
-        if (TotalFreedomMod.permbanned_players.isEmpty())
+        if (TotalFreedomMod.permbannedPlayers.isEmpty())
         {
             playerMsg(sender, "No permanently banned player names.");
         }
         else
         {
-            playerMsg(sender, TotalFreedomMod.permbanned_players.size() + " permanently banned players:");
-            playerMsg(sender, StringUtils.join(TotalFreedomMod.permbanned_players, ", "));
+            playerMsg(sender, TotalFreedomMod.permbannedPlayers.size() + " permanently banned players:");
+            playerMsg(sender, StringUtils.join(TotalFreedomMod.permbannedPlayers, ", "));
         }
 
-        if (TotalFreedomMod.permbanned_ips.isEmpty())
+        if (TotalFreedomMod.permbannedIps.isEmpty())
         {
             playerMsg(sender, "No permanently banned IPs.");
         }
         else
         {
-            playerMsg(sender, TotalFreedomMod.permbanned_ips.size() + " permanently banned IPs:");
-            playerMsg(sender, StringUtils.join(TotalFreedomMod.permbanned_ips, ", "));
+            playerMsg(sender, TotalFreedomMod.permbannedIps.size() + " permanently banned IPs:");
+            playerMsg(sender, StringUtils.join(TotalFreedomMod.permbannedIps, ", "));
         }
     }
 }

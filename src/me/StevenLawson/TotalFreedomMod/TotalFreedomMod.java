@@ -58,8 +58,8 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean lockdownEnabled = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
     //
-    public static List<String> permbanned_players = new ArrayList<String>();
-    public static List<String> permbanned_ips = new ArrayList<String>();
+    public static List<String> permbannedPlayers = new ArrayList<String>();
+    public static List<String> permbannedIps = new ArrayList<String>();
 
     @Override
     public void onLoad()
@@ -274,20 +274,20 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Util.createDefaultConfiguration(PERMBAN_FILE);
             FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), PERMBAN_FILE));
 
-            permbanned_players = new ArrayList<String>();
-            permbanned_ips = new ArrayList<String>();
+            permbannedPlayers = new ArrayList<String>();
+            permbannedIps = new ArrayList<String>();
 
             for (String user : config.getKeys(false))
             {
-                permbanned_players.add(user.toLowerCase().trim());
+                permbannedPlayers.add(user.toLowerCase().trim());
 
                 List<String> user_ips = config.getStringList(user);
                 for (String ip : user_ips)
                 {
                     ip = ip.toLowerCase().trim();
-                    if (!permbanned_ips.contains(ip))
+                    if (!permbannedIps.contains(ip))
                     {
-                        permbanned_ips.add(ip);
+                        permbannedIps.add(ip);
                     }
                 }
             }
