@@ -6,58 +6,57 @@ import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.apache.commons.lang.StringUtils;
 
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command>", aliases = "who")
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a]", aliases = "who")
 public class Command_list extends TFM_Command
 {
     private static enum ListFilter
     {
-        SHOW_ALL, SHOW_ADMINS
+        ALL,
+        ADMINS;
     }
 
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (args.length > 1)
+        {
+            return false;
+        }
+
         if (TFM_Util.isFromHostConsole(sender.getName()))
         {
-            List<String> player_names = new ArrayList<String>();
+            final List<String> names = new ArrayList<String>();
             for (Player player : server.getOnlinePlayers())
             {
-                player_names.add(player.getName());
+                names.add(player.getName());
             }
-            playerMsg("There are " + player_names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(player_names, ", "), ChatColor.WHITE);
+            playerMsg("There are " + names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "), ChatColor.WHITE);
             return true;
         }
 
-        ListFilter listFilter = ListFilter.SHOW_ALL;
-        if (args.length >= 1)
-        {
-            if (args[0].equalsIgnoreCase("-a"))
-            {
-                listFilter = ListFilter.SHOW_ADMINS;
-            }
-        }
+        final ListFilter listFilter = (args.length == 1 && args[0].equals("-a") ? ListFilter.ADMINS : ListFilter.ALL);
 
-        StringBuilder onlineStats = new StringBuilder();
-        StringBuilder onlineUsers = new StringBuilder();
+        final StringBuilder onlineStats = new StringBuilder();
+        final StringBuilder onlineUsers = new StringBuilder();
 
         onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().length);
         onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(server.getMaxPlayers());
         onlineStats.append(ChatColor.BLUE).append(" players online.");
 
-        List<String> player_names = new ArrayList<String>();
+        final List<String> names = new ArrayList<String>();
         for (Player player : server.getOnlinePlayers())
         {
             boolean userSuperadmin = TFM_SuperadminList.isUserSuperadmin(player);
 
-            if (listFilter == ListFilter.SHOW_ADMINS && !userSuperadmin)
+            if (listFilter == ListFilter.ADMINS && !userSuperadmin)
             {
                 continue;
             }
@@ -67,41 +66,43 @@ public class Command_list extends TFM_Command
             if (userSuperadmin)
             {
                 final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(player.getName());
-                if (entry != null && !entry.isSeniorAdmin() && entry.isTelnetAdmin())
+                if (entry == null)
                 {
-                    prefix = (ChatColor.DARK_GREEN + "[STA]");
+                    prefix = ChatColor.GOLD + "[SA]";
                 }
-                else if (TFM_SuperadminList.isSeniorAdmin(player))
+                else if (entry.isSeniorAdmin())
                 {
-                    prefix = (ChatColor.LIGHT_PURPLE + "[SrA]");
+                    prefix = ChatColor.LIGHT_PURPLE + "[SrA]";
                 }
-                else if (TFM_SuperadminList.isUserSuperadmin(player))
+                else if (entry.isTelnetAdmin())
                 {
-                    prefix = (ChatColor.GOLD + "[SA]");
+                    prefix = ChatColor.DARK_GREEN + "[STA]";
                 }
 
                 if (TFM_Util.DEVELOPERS.contains(player.getName()))
                 {
-                    prefix = (ChatColor.DARK_PURPLE + "[Dev]");
+                    prefix = ChatColor.DARK_PURPLE + "[Dev]";
                 }
 
                 if (player.getName().equals("markbyron"))
                 {
-                    prefix = (ChatColor.BLUE + "[Owner]");
+                    prefix = ChatColor.BLUE + "[Owner]";
                 }
             }
             else
             {
                 if (player.isOp())
                 {
-                    prefix = (ChatColor.RED + "[OP]");
+                    prefix = ChatColor.RED + "[OP]";
                 }
             }
 
-            player_names.add(prefix + player.getName() + ChatColor.WHITE);
+            names.add(prefix + player.getName() + ChatColor.WHITE);
         }
 
-        onlineUsers.append("Connected ").append(listFilter == ListFilter.SHOW_ADMINS ? "admins" : "players").append(": ").append(StringUtils.join(player_names, ", "));
+        onlineUsers.append("Connected ");
+        onlineUsers.append(listFilter == ListFilter.ADMINS ? "admins: " : "players: ");
+        onlineUsers.append(StringUtils.join(names, ", "));
 
         if (senderIsConsole)
         {
