@@ -326,23 +326,25 @@ public class TFM_ServerInterface
                 }
             }
 
-            if (server.getOnlinePlayers().length >= server.getMaxPlayers())
+            int count = server.getOnlinePlayers().length;
+            if (count >= server.getMaxPlayers())
             {
                 for (Player p : server.getOnlinePlayers())
                 {
                     if (!TFM_SuperadminList.isUserSuperadmin(player))
                     {
                         p.kickPlayer("You have been kicked to free up room for an admin.");
+                        count--;
                     }
 
-                    if (server.getOnlinePlayers().length < server.getMaxPlayers())
+                    if (count < server.getMaxPlayers())
                     {
                         break;
                     }
                 }
             }
 
-            if (server.getOnlinePlayers().length >= server.getMaxPlayers())
+            if (count >= server.getMaxPlayers())
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "The server is full and a player could not be kicked, sorry!");
                 return;
