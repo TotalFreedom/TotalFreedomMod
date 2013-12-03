@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 public enum TFM_PlayerRank
 {
+    DEVELOPER(ChatColor.DARK_PURPLE + "Developer", ChatColor.DARK_PURPLE + "[Dev]"),
     IMPOSTOR("an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "Impostor", ChatColor.YELLOW.toString() + ChatColor.UNDERLINE + "[IMP]"),
     NON_OP("a " + ChatColor.GREEN + "Non-OP", ChatColor.GREEN.toString()),
     OP("an " + ChatColor.RED + "OP", ChatColor.RED + "[OP]"),
@@ -24,6 +25,32 @@ public enum TFM_PlayerRank
         this.prefix = prefix;
     }
 
+    public static String getLoginMessage(CommandSender sender)
+    {
+        if (!(sender instanceof Player))
+        {
+            return fromSender(sender).getLoginMessage();
+        }
+
+        final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry((Player) sender);
+
+        if (entry == null)
+        {
+            return fromSender(sender).getLoginMessage();
+        }
+
+        final String loginMessage = entry.getCustomLoginMessage();
+
+        if (loginMessage != null && !loginMessage.isEmpty())
+        {
+            return ChatColor.translateAlternateColorCodes('&', loginMessage);
+        }
+        else
+        {
+            return fromSender(sender).getLoginMessage();
+        }
+    }
+
     public static TFM_PlayerRank fromSender(CommandSender sender)
     {
         if (!(sender instanceof Player))
@@ -35,6 +62,12 @@ public enum TFM_PlayerRank
         {
             return IMPOSTOR;
         }
+
+        if (DEVELOPERS.contains(sender.getName()))
+        {
+            return DEVELOPER;
+        }
+
 
         final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry((Player) sender);
 
@@ -59,20 +92,6 @@ public enum TFM_PlayerRank
             {
                 rank = SUPER;
             }
-
-            final String loginMessage = entry.getCustomLoginMessage();
-
-            if (loginMessage != null && !loginMessage.isEmpty())
-            {
-                rank.setLoginMessage(ChatColor.translateAlternateColorCodes('&', loginMessage));
-            }
-            else
-            {
-                if (DEVELOPERS.contains(sender.getName()))
-                {
-                    rank.setLoginMessage("a " + ChatColor.DARK_PURPLE + "Developer");
-                }
-            }
         }
         else
         {
@@ -85,34 +104,13 @@ public enum TFM_PlayerRank
                 rank = NON_OP;
             }
 
-            if (DEVELOPERS.contains(sender.getName()))
-            {
-                rank.setLoginMessage("a " + ChatColor.DARK_PURPLE + "Developer");
-            }
-
         }
-
-        if (DEVELOPERS.contains(sender.getName()))
-        {
-            rank.setPrefix(ChatColor.DARK_PURPLE + "[Dev]");
-        }
-
         return rank;
     }
 
     public String getPrefix()
     {
         return prefix;
-    }
-
-    public void setPrefix(String prefix)
-    {
-        this.prefix = prefix;
-    }
-
-    public void setLoginMessage(String rank)
-    {
-        this.loginMessage = rank;
     }
 
     public String getLoginMessage()
