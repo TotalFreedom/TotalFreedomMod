@@ -415,12 +415,6 @@ public class TFM_Util
         }
     }
 
-    @Deprecated
-    public static String getRank(CommandSender sender)
-    {
-        return TFM_PlayerRank.fromSender(sender).getLoginMessage();
-    }
-
     public static Date parseDateOffset(String time)
     {
         Pattern timePattern = Pattern.compile(
@@ -733,7 +727,7 @@ public class TFM_Util
 
     public static void adminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
     {
-        String name = sender.getName() + " " + getPrefix(sender, senderIsConsole) + ChatColor.WHITE;
+        String name = sender.getName() + " " + TFM_PlayerRank.fromSender(sender).getPrefix() + ChatColor.WHITE;
         TFM_Log.info("[ADMIN] " + name + ": " + message);
 
         for (Player player : Bukkit.getOnlinePlayers())
@@ -743,12 +737,6 @@ public class TFM_Util
                 player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
             }
         }
-    }
-
-    @Deprecated
-    public static String getPrefix(CommandSender sender, boolean senderIsConsole)
-    {
-        return TFM_PlayerRank.fromSender(sender).getPrefix();
     }
 
     //getField: Borrowed from WorldEdit

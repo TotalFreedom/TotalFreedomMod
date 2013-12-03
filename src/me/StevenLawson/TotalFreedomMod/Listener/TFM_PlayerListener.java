@@ -691,7 +691,7 @@ public class TFM_PlayerListener implements Listener
 
             if (impostor || TFM_SuperadminList.isUserSuperadmin(player))
             {
-                TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_Util.getRank(player));
+                TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.fromSender(player).getLoginMessage());
 
                 if (impostor)
                 {
@@ -720,7 +720,7 @@ public class TFM_PlayerListener implements Listener
             }
             else if (TFM_Util.DEVELOPERS.contains(player.getName()))
             {
-                TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_Util.getRank(player));
+                TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.fromSender(player).getLoginMessage());
             }
 
             if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
