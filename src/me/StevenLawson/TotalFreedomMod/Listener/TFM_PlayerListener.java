@@ -687,7 +687,7 @@ public class TFM_PlayerListener implements Listener
 
             TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(player);
 
-            boolean impostor = TFM_SuperadminList.isSuperadminImpostor(player);
+            final boolean impostor = TFM_SuperadminList.isSuperadminImpostor(player);
 
             if (impostor || TFM_SuperadminList.isUserSuperadmin(player))
             {
@@ -717,6 +717,8 @@ public class TFM_PlayerListener implements Listener
 
                     player.setOp(true);
                 }
+            } else if (TFM_Util.DEVELOPERS.contains(player.getName())) {
+                TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_Util.getRank(player));
             }
 
             if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())

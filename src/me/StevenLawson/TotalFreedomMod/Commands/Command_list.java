@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerRank;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
@@ -60,64 +61,8 @@ public class Command_list extends TFM_Command
             {
                 continue;
             }
-
-            final StringBuilder prefix = new StringBuilder();
-
-            if (TFM_Util.DEVELOPERS.contains(player.getName()))
-            {
-                prefix.append(ChatColor.DARK_PURPLE).append("[Dev]");
-                names.add(prefix.append(player.getName()).toString());
-                continue;
-            }
-
-            if (userSuperadmin)
-            {
-                TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(player.getName());
-
-                if (player.getName().equals("markbyron"))
-                {
-                    prefix.append(ChatColor.DARK_RED).append("[Owner]");
-                    names.add(prefix.append(player.getName()).toString());
-                    continue;
-                }
-
-                if (entry == null)
-                {
-                    entry = TFM_SuperadminList.getAdminEntryByIP(player.getAddress().getAddress().getHostAddress().trim());
-                    if (entry == null)
-                    {
-                        prefix.append(ChatColor.AQUA).append("[SA]");
-                        names.add(prefix.append(player.getName()).toString());
-                        continue;
-                    }
-                }
-
-                if (entry.isSeniorAdmin())
-                {
-                    prefix.append(ChatColor.GOLD).append("[SrA]");
-                }
-                else if (entry.isTelnetAdmin())
-                {
-                    prefix.append(ChatColor.DARK_GREEN).append("[STA]");
-                }
-                else
-                {
-                    prefix.append(ChatColor.AQUA).append("[SA]");
-                }
-            }
-            else
-            {
-                if (player.isOp())
-                {
-                    prefix.append(ChatColor.BLUE).append("[OP]");
-                }
-                else
-                {
-                    prefix.append(ChatColor.GREEN);
-                }
-            }
-
-            names.add(prefix.append(player.getName()).toString());
+            
+            names.add(TFM_PlayerRank.fromSender(sender).getPrefix() + player.getName());
         }
 
         onlineUsers.append("Connected ");

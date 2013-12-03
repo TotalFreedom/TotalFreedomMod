@@ -160,6 +160,34 @@ public class TFM_SuperadminList
         }
     }
 
+    public static TFM_Superadmin getAdminEntry(Player player)
+    {
+        final String name = player.getName().toLowerCase();
+
+        if (Bukkit.getOnlineMode())
+        {
+            if (superadminList.containsKey(name))
+            {
+                return superadminList.get(name);
+            }
+        }
+
+        try
+        {
+            final String ip = player.getAddress().getAddress().getHostAddress().trim();
+            if (ip != null && !ip.isEmpty())
+            {
+                return getAdminEntryByIP(ip);
+            }
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+        return null;
+    }
+
+    @Deprecated
     public static TFM_Superadmin getAdminEntry(String name)
     {
         name = name.toLowerCase();
@@ -172,11 +200,6 @@ public class TFM_SuperadminList
         {
             return null;
         }
-    }
-
-    public static TFM_Superadmin getAdminEntry(Player player)
-    {
-        return getAdminEntry(player.getName().toLowerCase());
     }
 
     public static TFM_Superadmin getAdminEntryByIP(String ip)

@@ -298,6 +298,7 @@ public class TFM_Util
         return TFM_Util.mobtypes.get(mobname);
     }
 
+    @Deprecated
     private static void copy(InputStream in, OutputStream out) throws IOException
     {
         byte[] buffer = new byte[1024];
@@ -414,47 +415,10 @@ public class TFM_Util
         }
     }
 
+    @Deprecated
     public static String getRank(CommandSender sender)
     {
-        if (TFM_SuperadminList.isSuperadminImpostor(sender))
-        {
-            return "an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "impostor" + ChatColor.RESET + ChatColor.AQUA + "!";
-        }
-
-        final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(sender.getName());
-
-        if (entry != null && entry.isActivated())
-        {
-            String loginMessage = entry.getCustomLoginMessage();
-
-            if (loginMessage != null)
-            {
-                if (!loginMessage.isEmpty())
-                {
-                    return ChatColor.translateAlternateColorCodes('&', loginMessage);
-                }
-            }
-
-            if (entry.isSeniorAdmin())
-            {
-                return "a " + ChatColor.GOLD + "Senior Admin" + ChatColor.AQUA + ".";
-            }
-            else if (entry.isTelnetAdmin())
-            {
-                return "a " + ChatColor.DARK_GREEN + "Super Telnet Admin" + ChatColor.AQUA + ".";
-            }
-            else
-            {
-                return "a " + ChatColor.AQUA + "Super Admin" + ChatColor.AQUA + ".";
-            }
-        }
-
-        if (sender.isOp())
-        {
-            return "an " + ChatColor.BLUE + "OP" + ChatColor.AQUA + ".";
-        }
-
-        return "a " + ChatColor.GREEN + "non-OP" + ChatColor.AQUA + ".";
+       return TFM_PlayerRank.fromSender(sender).getLoginMessage();
     }
 
     public static Date parseDateOffset(String time)
@@ -769,7 +733,7 @@ public class TFM_Util
 
     public static void adminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
     {
-        String name = sender.getName() + " " + getPrefix(sender, senderIsConsole);
+        String name = sender.getName() + " " + getPrefix(sender, senderIsConsole) + ChatColor.WHITE;
         TFM_Log.info("[ADMIN] " + name + ": " + message);
 
         for (Player player : Bukkit.getOnlinePlayers())
@@ -781,41 +745,10 @@ public class TFM_Util
         }
     }
 
+    @Deprecated
     public static String getPrefix(CommandSender sender, boolean senderIsConsole)
     {
-        String prefix;
-        if (senderIsConsole)
-        {
-            prefix = ChatColor.BLUE + "(Console)";
-        }
-        else
-        {
-            final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry(sender.getName());
-
-            if (entry == null)
-            {
-                return ChatColor.AQUA + "(SA)";
-            }
-            else if (entry.isSeniorAdmin())
-            {
-                prefix = ChatColor.GOLD + "(SrA)";
-            }
-            else if (entry.isTelnetAdmin())
-            {
-                prefix = ChatColor.DARK_GREEN + "(STA)";
-            }
-            else
-            {
-                prefix = ChatColor.AQUA + "(SA)";
-            }
-
-            if (DEVELOPERS.contains(sender.getName()))
-            {
-                prefix = ChatColor.DARK_PURPLE + "(Dev)";
-            }
-        }
-
-        return prefix + ChatColor.WHITE;
+        return TFM_PlayerRank.fromSender(sender).getPrefix();
     }
 
     //getField: Borrowed from WorldEdit
