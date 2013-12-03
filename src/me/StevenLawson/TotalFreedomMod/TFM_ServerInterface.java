@@ -184,7 +184,7 @@ public class TFM_ServerInterface
             {
                 final BanEntry nameBan = (BanEntry) nameBans.getEntries().get(username.toLowerCase());
 
-                String kickMessage = ChatColor.RED + "You are temporarily banned from this server for awhile.\nAppeal at http://totalfreedom.boards.net/.";
+                String kickMessage = ChatColor.RED + "You are temporarily banned from this server for a while.\nAppeal at http://totalfreedom.boards.net/.";
                 if (nameBan != null)
                 {
                     kickMessage = kickMessage + "\nReason: " + nameBan.getReason();
@@ -228,7 +228,7 @@ public class TFM_ServerInterface
 
             if (isIpBanned)
             {
-                String kickMessage = ChatColor.RED + "Your IP address is temporarily banned from this server for awhile.\nAppeal at http://totalfreedom.boards.net/.";
+                String kickMessage = ChatColor.RED + "Your IP address is temporarily banned from this server for a while.\nAppeal at http://totalfreedom.boards.net/.";
                 if (ipBan != null)
                 {
                     kickMessage = kickMessage + "\nReason: " + ipBan.getReason();
