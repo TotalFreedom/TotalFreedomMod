@@ -15,8 +15,6 @@ public enum TFM_PlayerRank
     SENIOR("a " + ChatColor.LIGHT_PURPLE + "Senior Admin", ChatColor.LIGHT_PURPLE + "[SrA]"),
     OWNER("the " + ChatColor.BLUE + "Owner", ChatColor.BLUE + "[Owner]"),
     CONSOLE("The " + ChatColor.DARK_PURPLE + "Console", ChatColor.DARK_PURPLE + "[Console]");
-    
-    
     private String loginMessage;
     private String prefix;
 
@@ -28,10 +26,11 @@ public enum TFM_PlayerRank
 
     public static TFM_PlayerRank fromSender(CommandSender sender)
     {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player))
+        {
             return CONSOLE;
         }
-        
+
         if (TFM_SuperadminList.isSuperadminImpostor(sender))
         {
             return IMPOSTOR;
@@ -47,7 +46,7 @@ public enum TFM_PlayerRank
             {
                 return OWNER;
             }
-            
+
             if (entry.isSeniorAdmin())
             {
                 rank = SENIOR;
@@ -71,7 +70,6 @@ public enum TFM_PlayerRank
             {
                 if (DEVELOPERS.contains(sender.getName()))
                 {
-                    rank.setPrefix(ChatColor.DARK_PURPLE + "[Dev]");
                     rank.setLoginMessage("a " + ChatColor.DARK_PURPLE + "Developer");
                 }
             }
@@ -86,13 +84,17 @@ public enum TFM_PlayerRank
             {
                 rank = NON_OP;
             }
-            
+
             if (DEVELOPERS.contains(sender.getName()))
             {
-                rank.setPrefix(ChatColor.DARK_PURPLE + "[Dev]");
                 rank.setLoginMessage("a " + ChatColor.DARK_PURPLE + "Developer");
             }
 
+        }
+
+        if (DEVELOPERS.contains(sender.getName()))
+        {
+            rank.setPrefix(ChatColor.DARK_PURPLE + "[Dev]");
         }
 
         return rank;

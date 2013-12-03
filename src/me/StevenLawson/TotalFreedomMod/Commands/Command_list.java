@@ -61,7 +61,7 @@ public class Command_list extends TFM_Command
             {
                 continue;
             }
-            
+
             names.add(TFM_PlayerRank.fromSender(player).getPrefix() + player.getName());
         }
 

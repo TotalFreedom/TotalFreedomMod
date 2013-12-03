@@ -418,7 +418,7 @@ public class TFM_Util
     @Deprecated
     public static String getRank(CommandSender sender)
     {
-       return TFM_PlayerRank.fromSender(sender).getLoginMessage();
+        return TFM_PlayerRank.fromSender(sender).getLoginMessage();
     }
 
     public static Date parseDateOffset(String time)

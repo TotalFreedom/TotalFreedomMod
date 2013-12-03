@@ -717,7 +717,9 @@ public class TFM_PlayerListener implements Listener
 
                     player.setOp(true);
                 }
-            } else if (TFM_Util.DEVELOPERS.contains(player.getName())) {
+            }
+            else if (TFM_Util.DEVELOPERS.contains(player.getName()))
+            {
                 TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_Util.getRank(player));
             }
 
