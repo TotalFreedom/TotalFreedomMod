@@ -613,6 +613,18 @@ public class TFM_PlayerListener implements Listener
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
         }
+        
+        public String getWorldeditArea()
+        {
+            if (this.command.startsWith("//"))
+            {
+                return ChatColor.YELLOW + "[WorldEdit] [" + ChatColor.RED + this.selection.getArea() + ChatColor.YELLOW + " blocks] " + ChatColor.WHITE; 
+            }
+            else
+            {
+                return "";
+            }
+        }
 
         if (!TFM_SuperadminList.isUserSuperadmin(player))
         {
@@ -620,7 +632,7 @@ public class TFM_PlayerListener implements Listener
             {
                 if (TFM_SuperadminList.isUserSuperadmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
                 {
-                    TFM_Util.playerMsg(pl, player.getName() + ": " + command);
+                    TFM_Util.playerMsg(pl, getWorldeditArea() + player.getName() + ": " + command);
                 }
             }
         }
