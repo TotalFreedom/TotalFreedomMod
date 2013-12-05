@@ -10,6 +10,7 @@ import me.StevenLawson.TotalFreedomMod.*;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_landmine;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import com.sk89q.worldedit.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -33,6 +34,7 @@ public class TFM_PlayerListener implements Listener
 {
     private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
     private static final int MSG_PER_HEARTBEAT = 10;
+    public Region selection;
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -613,6 +615,18 @@ public class TFM_PlayerListener implements Listener
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
         }
+        
+        public String getWorldeditArea()
+        {
+            if (this.command.startsWith("//"))
+            {
+                return ChatColor.YELLOW + "[WorldEdit] [" + ChatColor.RED + this.selection.getArea() + ChatColor.YELLOW + " blocks] " + ChatColor.WHITE; 
+            }
+            else
+            {
+                return "";
+            }
+        }
 
         if (!TFM_SuperadminList.isUserSuperadmin(player))
         {
@@ -620,7 +634,7 @@ public class TFM_PlayerListener implements Listener
             {
                 if (TFM_SuperadminList.isUserSuperadmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
                 {
-                    TFM_Util.playerMsg(pl, player.getName() + ": " + command);
+                    TFM_Util.playerMsg(pl, getWorldeditArea() + player.getName() + ": " + command);
                 }
             }
         }
