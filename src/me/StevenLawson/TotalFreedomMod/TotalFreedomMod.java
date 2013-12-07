@@ -44,7 +44,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     //
-    public static final Server server = Bukkit.getServer();
+    public static Server server = null;
     public static TotalFreedomMod plugin = null;
     //
     public static String pluginName = "";
@@ -65,6 +65,7 @@ public class TotalFreedomMod extends JavaPlugin
     public void onLoad()
     {
         TotalFreedomMod.plugin = this;
+        TotalFreedomMod.server = plugin.getServer();
         TotalFreedomMod.pluginName = plugin.getDescription().getName();
         TotalFreedomMod.pluginVersion = plugin.getDescription().getVersion();
 
@@ -131,7 +132,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
-        File[] coreDumps = new File(".").listFiles(new java.io.FileFilter()
+        final File[] coreDumps = new File(".").listFiles(new java.io.FileFilter()
         {
             @Override
             public boolean accept(File file)
@@ -163,6 +164,7 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_ServiceChecker.getInstance().start();
         TFM_HTTPD_Manager.getInstance().start();
         TFM_FrontDoor.getInstance().start();
+        TFM_LogFile.getInstance().start();
 
         TFM_Log.info("Version " + pluginVersion + " enabled");
 
@@ -213,10 +215,10 @@ public class TotalFreedomMod extends JavaPlugin
                         StringUtils.join(args, " ")), true);
             }
 
-            TFM_Command dispatcher;
+            final TFM_Command dispatcher;
             try
             {
-                ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
+                final ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
                 dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, cmd.getName().toLowerCase())).newInstance();
                 dispatcher.setup(plugin, sender, dispatcher.getClass());
             }
@@ -301,7 +303,7 @@ public class TotalFreedomMod extends JavaPlugin
 
     private static void registerEventHandlers()
     {
-        PluginManager pm = server.getPluginManager();
+        final PluginManager pm = server.getPluginManager();
 
         pm.registerEvents(new TFM_EntityListener(), plugin);
         pm.registerEvents(new TFM_BlockListener(), plugin);
