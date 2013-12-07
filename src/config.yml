@@ -50,15 +50,9 @@ explosive_radius: 4.0
 #
 blocked_commands:
   # Disabled commands
-  - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
   - 'n:b:/md:This server now uses DisguiseCraft instead of MobDisguise. Type /d to disguise and /u to undisguise.'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
   - 'n:b:/gamerule:_'
-  - 'n:b:/ban:_'
-  - 'n:b:/pardon:_'
-  - 'n:b:/ban-ip:_'
-  - 'n:b:/pardon-ip:_'
-  - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
   
@@ -83,6 +77,14 @@ blocked_commands:
   - 's:a:/save-on'
   - 's:a:/save-off'
   - 's:a:/clearhistory'
+  
+  # Telnet Admin commands
+  - 't:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
+  - 't:b:/ban:_'
+  - 't:b:/pardon:_'
+  - 't:b:/ban-ip:_'
+  - 't:b:/pardon-ip:_'
+  - 't:b:/toggledownfall:_'
 
 # Automatically wipe dropped objects:
 auto_wipe: true
