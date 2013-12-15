@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 public class TFM_LogFile
 {
+    public static final int MAX_LOG_SIZE = 1024 * 1024; // Bytes
     private final Logger logger;
     private final SimpleDateFormat date;
 
@@ -37,7 +38,7 @@ public class TFM_LogFile
 
     private FileHandler getHandler() throws SecurityException, IOException
     {
-        final FileHandler handler = new FileHandler("server.log");
+        final FileHandler handler = new FileHandler("server.log", MAX_LOG_SIZE, 1);
         handler.setLevel(Level.ALL);
         handler.setFormatter(getFormatter());
         return handler;
@@ -47,8 +48,8 @@ public class TFM_LogFile
     {
         return new Formatter()
         {
-            @Override // org.bukkit.craftbukkit.util.ShortConsoleFormatter
-            public String format(LogRecord record)
+            @Override
+            public String format(LogRecord record)  // org.bukkit.craftbukkit.util.ShortConsoleFormatter
             {
                 StringBuilder builder = new StringBuilder();
                 Throwable ex = record.getThrown();
