@@ -22,7 +22,7 @@ public class Command_uall extends TFM_Command
         }
         else
         {
-            playerMsg("I apologize, however DisguiseCraft is not enabled/installed on this server.", ChatColor.RED);
+            playerMsg("DisguiseCraft is not enabled/installed on this server, try again when it is enabled.", ChatColor.RED);
         }
 
         return true;
