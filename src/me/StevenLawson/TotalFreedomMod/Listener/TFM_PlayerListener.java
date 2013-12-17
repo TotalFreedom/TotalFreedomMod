@@ -536,6 +536,9 @@ public class TFM_PlayerListener implements Listener
 
             // Finally, set message
             event.setMessage(message);
+            
+            // Broadcast it to console (since 1.7 doesn't do that anymore)
+            TFM_Log.info(String.format(event.getFormat(), player.getDisplayName(), event.getMessage()), true);
 
             // Set the tag
             if (playerdata.getTag() != null)
