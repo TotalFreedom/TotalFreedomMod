@@ -14,14 +14,13 @@ import org.bukkit.entity.Player;
 
 public class TFM_CommandBlocker
 {
-    private Map<String, TFM_CommandBlocker_BlockedCommandEntry> blockedCommands = new HashMap<String, TFM_CommandBlocker_BlockedCommandEntry>();
+    private Map<String, CommandBlockerEntry> blockedCommands = new HashMap<String, CommandBlockerEntry>();
 
     private TFM_CommandBlocker()
     {
         parseBlockingRules();
     }
 
-    @SuppressWarnings("unchecked")
     public final void parseBlockingRules()
     {
         blockedCommands.clear();
@@ -83,7 +82,7 @@ public class TFM_CommandBlocker
                 message = parts[3];
             }
 
-            TFM_CommandBlocker_BlockedCommandEntry blockedCommandEntry = new TFM_CommandBlocker_BlockedCommandEntry(rank, action, command, message);
+            CommandBlockerEntry blockedCommandEntry = new CommandBlockerEntry(rank, action, command, message);
 
             Command bukkitCommand = commandMap.getCommand(command);
             if (bukkitCommand == null)
@@ -137,7 +136,7 @@ public class TFM_CommandBlocker
             return false;
         }
 
-        TFM_CommandBlocker_BlockedCommandEntry blockedCommandEntry = blockedCommands.get(command);
+        final CommandBlockerEntry blockedCommandEntry = blockedCommands.get(command);
 
         if (blockedCommandEntry != null)
         {
@@ -224,7 +223,9 @@ public class TFM_CommandBlocker
 
     private enum CommandBlockerAction
     {
-        BLOCK("b"), BLOCK_AND_EJECT("a"), BLOCK_UNKNOWN("u");
+        BLOCK("b"),
+        BLOCK_AND_EJECT("a"),
+        BLOCK_UNKNOWN("u");
         private final String token;
 
         private CommandBlockerAction(String token)
@@ -250,14 +251,14 @@ public class TFM_CommandBlocker
         }
     }
 
-    private static class TFM_CommandBlocker_BlockedCommandEntry
+    private static class CommandBlockerEntry
     {
         private final CommandBlockerRank rank;
         private final CommandBlockerAction action;
         private String command;
         private final String message;
 
-        public TFM_CommandBlocker_BlockedCommandEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String message)
+        public CommandBlockerEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String message)
         {
             this.rank = rank;
             this.action = action;
@@ -321,10 +322,10 @@ public class TFM_CommandBlocker
 
     public static TFM_CommandBlocker getInstance()
     {
-        return TFM_CommandBlockerNewHolder.INSTANCE;
+        return TFM_CommandBlockerHolder.INSTANCE;
     }
 
-    private static class TFM_CommandBlockerNewHolder
+    private static class TFM_CommandBlockerHolder
     {
         private static final TFM_CommandBlocker INSTANCE = new TFM_CommandBlocker();
     }

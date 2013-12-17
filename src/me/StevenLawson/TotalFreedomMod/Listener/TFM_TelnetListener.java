@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
 import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import org.bukkit.Bukkit;
@@ -9,12 +9,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-public class TFM_CustomListener implements Listener
+public class TFM_TelnetListener implements Listener
 {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onTelnetPreLogin(me.StevenLawson.BukkitTelnet.TelnetPreLoginEvent event)
-    {  
-        
+    {
+
         final String ip = event.getIp();
         if (ip == null || ip.isEmpty())
         {
@@ -36,7 +36,16 @@ public class TFM_CustomListener implements Listener
         {
             return;
         }
-        
+
         event.setName(player.getName());
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onTelnetCommand(me.StevenLawson.BukkitTelnet.TelnetCommandEvent event)
+    {
+        if (TFM_CommandBlocker.getInstance().isCommandBlocked(event.getCommand(), event.getSender()))
+        {
+            event.setCancelled(true);
+        }
     }
 }
