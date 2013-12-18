@@ -97,8 +97,9 @@ public class TFM_SuperadminList
     public static void updateIndexLists()
     {
         superadminNames.clear();
-        superadminIPs.clear();
+        telnetadminNames.clear();
         senioradminNames.clear();
+        superadminIPs.clear();
 
         Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
         while (it.hasNext())
@@ -135,8 +136,9 @@ public class TFM_SuperadminList
         }
 
         superadminNames = TFM_Util.removeDuplicates(superadminNames);
-        superadminIPs = TFM_Util.removeDuplicates(superadminIPs);
+        telnetadminNames = TFM_Util.removeDuplicates(telnetadminNames);
         senioradminNames = TFM_Util.removeDuplicates(senioradminNames);
+        superadminIPs = TFM_Util.removeDuplicates(superadminIPs);
 
         TFM_AdminWorld.getInstance().wipeAccessCache();
     }
