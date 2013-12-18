@@ -19,7 +19,7 @@ public class Module_players extends TFM_HTTPD_Module
     @Override
     public NanoHTTPD.Response getResponse()
     {
-        final JSONObject response = new JSONObject();
+        final JSONObject responseObject = new JSONObject();
 
         final JSONArray players = new JSONArray();
         final JSONArray superadmins = new JSONArray();
@@ -68,13 +68,15 @@ public class Module_players extends TFM_HTTPD_Module
         // Developers
         developers.addAll(TFM_Util.DEVELOPERS);
 
-        response.put("players", players);
-        response.put("superadmins", superadmins);
-        response.put("telnetadmins", telnetadmins);
-        response.put("senioradmins", senioradmins);
-        response.put("developers", developers);
+        responseObject.put("players", players);
+        responseObject.put("superadmins", superadmins);
+        responseObject.put("telnetadmins", telnetadmins);
+        responseObject.put("senioradmins", senioradmins);
+        responseObject.put("developers", developers);
 
-        return new NanoHTTPD.Response(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_JSON, response.toString());
+        final NanoHTTPD.Response response = new NanoHTTPD.Response(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_JSON, responseObject.toString());
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        return response;
     }
 
     private String getName(String caseInsensitiveName)
