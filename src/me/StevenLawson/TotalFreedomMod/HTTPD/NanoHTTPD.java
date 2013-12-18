@@ -62,6 +62,12 @@ public abstract class NanoHTTPD
      * Common mime type for dynamic content: html
      */
     public static final String MIME_HTML = "text/html";
+    // TFM Start
+    /**
+     * Common mime type for dynamic content: json
+     */
+    public static final String MIME_JSON = "application/json";
+    // TFM End
     /**
      * Pseudo-Parameter to use to store the actual query string in the parameters map for later re-processing.
      */

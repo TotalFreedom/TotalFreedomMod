@@ -21,10 +21,11 @@ import org.bukkit.util.FileUtil;
 
 public class TFM_SuperadminList
 {
-    private static Map<String, TFM_Superadmin> superadminList = new HashMap<String, TFM_Superadmin>();
+    private static final Map<String, TFM_Superadmin> superadminList = new HashMap<String, TFM_Superadmin>();
     private static List<String> superadminNames = new ArrayList<String>();
+    private static List<String> senioradminNames = new ArrayList<String>();
+    private static List<String> telnetadminNames = new ArrayList<String>();
     private static List<String> superadminIPs = new ArrayList<String>();
-    private static List<String> seniorAdminNames = new ArrayList<String>();
     private static int cleanThreshold = 24 * 7; // 1 Week in hours
 
     private TFM_SuperadminList()
@@ -40,6 +41,16 @@ public class TFM_SuperadminList
     public static List<String> getSuperadminNames()
     {
         return superadminNames;
+    }
+
+    public static List<String> getTelnetadminNames()
+    {
+        return telnetadminNames;
+    }
+
+    public static List<String> getSenioradminNames()
+    {
+        return senioradminNames;
     }
 
     public static void loadSuperadminList()
@@ -87,19 +98,19 @@ public class TFM_SuperadminList
     {
         superadminNames.clear();
         superadminIPs.clear();
-        seniorAdminNames.clear();
+        senioradminNames.clear();
 
         Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
         while (it.hasNext())
         {
             Entry<String, TFM_Superadmin> pair = it.next();
 
-            String admin_name = pair.getKey().toLowerCase();
+            String name = pair.getKey().toLowerCase();
             TFM_Superadmin superadmin = pair.getValue();
 
             if (superadmin.isActivated())
             {
-                superadminNames.add(admin_name);
+                superadminNames.add(name);
 
                 for (String ip : superadmin.getIps())
                 {
@@ -108,19 +119,24 @@ public class TFM_SuperadminList
 
                 if (superadmin.isSeniorAdmin())
                 {
-                    seniorAdminNames.add(admin_name);
+                    senioradminNames.add(name);
 
                     for (String console_alias : superadmin.getConsoleAliases())
                     {
-                        seniorAdminNames.add(console_alias.toLowerCase());
+                        senioradminNames.add(console_alias.toLowerCase());
                     }
+                }
+
+                if (superadmin.isTelnetAdmin())
+                {
+                    telnetadminNames.add(name);
                 }
             }
         }
 
         superadminNames = TFM_Util.removeDuplicates(superadminNames);
         superadminIPs = TFM_Util.removeDuplicates(superadminIPs);
-        seniorAdminNames = TFM_Util.removeDuplicates(seniorAdminNames);
+        senioradminNames = TFM_Util.removeDuplicates(senioradminNames);
 
         TFM_AdminWorld.getInstance().wipeAccessCache();
     }
@@ -264,7 +280,7 @@ public class TFM_SuperadminList
 
         if (!(user instanceof Player))
         {
-            return seniorAdminNames.contains(username);
+            return senioradminNames.contains(username);
         }
 
         TFM_Superadmin entry = getAdminEntry((Player) user);
