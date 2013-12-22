@@ -60,7 +60,7 @@ public class Command_plugincontrol extends TFM_Command
             playerMsg("Disabling all plugins.");
             for (Plugin targetPlugin : pluginManager.getPlugins())
             {
-                if (!targetPlugin.getName().toLowerCase().startsWith("totalfreedommod"))
+                if (!targetPlugin.getName().toLowerCase().startsWith("totalfreedommod") || !targetPlugin.getName().toLowerCase().startsWith("disguisecraft"))
                 {
                     pluginManager.disablePlugin(targetPlugin);
                 }
@@ -69,7 +69,7 @@ public class Command_plugincontrol extends TFM_Command
             playerMsg("Enabling all plugins.");
             for (Plugin targetPlugin : pluginManager.getPlugins())
             {
-                if (!targetPlugin.getName().toLowerCase().startsWith("totalfreedommod"))
+                if (!targetPlugin.getName().toLowerCase().startsWith("totalfreedommod") || !targetPlugin.getName().toLowerCase().startsWith("disguisecraft"))
                 {
                     pluginManager.enablePlugin(targetPlugin);
                 }
