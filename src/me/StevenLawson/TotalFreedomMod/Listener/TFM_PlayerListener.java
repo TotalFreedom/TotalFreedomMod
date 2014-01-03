@@ -660,6 +660,9 @@ public class TFM_PlayerListener implements Listener
             playerdata.regenerateHistory();
             playerdata.clearHistory();
         }
+        
+        // Log player quitting, because 1.7 doesn't do this
+        TFM_Log.info(player.getName() + " left the game.");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -687,6 +690,9 @@ public class TFM_PlayerListener implements Listener
             final Player player = event.getPlayer();
             final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
             playerdata.setSuperadminIdVerified(null);
+            
+            // Log join message, as 1.7 doesn't log it anymore
+            TFM_Log.info(player.getName() + " joined the game.");
 
             TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(player);
 
