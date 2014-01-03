@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Run any command on all users, username placeholder = ?.", usage = "/<command> [fluff] ? [fluff] ?")
+@CommandParameters(description = "Run any command on all users, username placeholder = ?.", usage = "/<command> [fluff] ? [fluff] ?", aliases = "spamcmd")
 public class Command_wildcard extends TFM_Command
 {
     @Override
@@ -31,6 +31,17 @@ public class Command_wildcard extends TFM_Command
         if (args[0].equals("saconfig"))
         {
             playerMsg("WOA, WTF are you trying to do???", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("smite"))
+        {
+            playerMsg("WTF are you trying to do???", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("say"))
+        {
+            playerMsg("No Spam, Don't broke the rules yourself.", ChatColor.RED);
+            sender.setOp(false);
             return true;
         }
 
