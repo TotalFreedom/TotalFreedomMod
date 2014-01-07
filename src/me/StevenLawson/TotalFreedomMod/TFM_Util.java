@@ -406,7 +406,7 @@ public class TFM_Util
                 //p.setBanned(true);
                 TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", null);
 
-                TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned permanently.");
+                TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been fully banned.");
 
                 player.kickPlayer(kickMessage);
 
