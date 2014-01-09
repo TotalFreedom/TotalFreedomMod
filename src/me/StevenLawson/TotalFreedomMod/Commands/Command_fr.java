@@ -22,7 +22,7 @@ public class Command_fr extends TFM_Command
 
             if (TotalFreedomMod.allPlayersFrozen)
             {
-                TFM_Util.adminAction(sender.getName(), "Freezing all players", false);
+                TFM_Util.adminAction(sender.getName(), "Freezing all players due to rule breakers", false);
                 TotalFreedomMod.allPlayersFrozen = true;
 
                 if (TotalFreedomMod.freezePurgeTask != null)
