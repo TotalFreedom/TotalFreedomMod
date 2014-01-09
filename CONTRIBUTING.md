@@ -22,7 +22,7 @@ For those who wish to contribute, we encourage you to fork the repository and su
 
 ## Tips - How To Get Your Pull Request Accepted ##
 * See this picture for help:
-[Imgur](http://i.imgur.com/7kogorv.jpg)
+![Imgur](http://i.imgur.com/7kogorv.jpg)
 
 * Make sure your changes work and compile without difficulty.
 * Make sure your change adds something useful, do not add commands to micromanage the server. (ie: Shorthands for a collection of commands)
