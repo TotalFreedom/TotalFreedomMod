@@ -249,7 +249,7 @@ public class TFM_BlockListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onRollbackBlockBreak(BlockBreakEvent event)
     {
-        if (!TFM_SuperadminList.isUserSuperadmin(event.getPlayer()))
+        if (!TFM_SuperadminList.isSeniorAdmin(event.getPlayer()))
         {
             TFM_RollbackManager.blockBreak(event);
         }
