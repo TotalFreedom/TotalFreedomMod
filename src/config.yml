@@ -78,7 +78,6 @@ blocked_commands:
   # Superadmin commands - Auto-eject
   - 's:a:/stop'
   - 's:a:/reload'
-  - 's:a:/nuke'
   - 's:a:/save-all'
   - 's:a:/save-on'
   - 's:a:/save-off'
