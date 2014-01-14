@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.Location;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Temporarily ban someone.", usage = "/<command> [playername] [duration] [reason]")
@@ -54,6 +55,18 @@ public class Command_tempban extends TFM_Command
         {
             ban_reason = StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ") + " (" + sender.getName() + ")";
             bcast_msg.append(", Reason: \"").append(ban_reason).append("\"");
+        }
+        
+        
+        // strike with lightning effect:
+        final Location targetPos = player.getLocation();
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int z = -1; z <= 1; z++)
+            {
+                final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
+                targetPos.getWorld().strikeLightning(strike_pos);
+            }
         }
 
         TFM_Util.adminAction(sender.getName(), bcast_msg.toString(), true);
