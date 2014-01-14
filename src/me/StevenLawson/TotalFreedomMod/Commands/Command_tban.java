@@ -30,8 +30,8 @@ public class Command_tban extends TFM_Command
             playerMsg(ex.getMessage(), ChatColor.RED);
             return true;
         }
-        
-        
+
+
         // strike with lightning effect:
         final Location targetPos = player.getLocation();
         for (int x = -1; x <= 1; x++)

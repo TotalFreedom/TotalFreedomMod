@@ -56,8 +56,8 @@ public class Command_tempban extends TFM_Command
             ban_reason = StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ") + " (" + sender.getName() + ")";
             bcast_msg.append(", Reason: \"").append(ban_reason).append("\"");
         }
-        
-        
+
+
         // strike with lightning effect:
         final Location targetPos = player.getLocation();
         for (int x = -1; x <= 1; x++)
