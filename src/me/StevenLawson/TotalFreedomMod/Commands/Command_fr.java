@@ -42,12 +42,12 @@ public class Command_fr extends TFM_Command
                 }.runTaskLater(plugin, 20L * 60L * 5L);
 
                 playerMsg("Players are now frozen.");
-                for (Player p : Bukkit.getOnlinePlayers())
+                for (Player player : Bukkit.getOnlinePlayers())
                 {
-                	if (!TFM_SuperadminList.isUserSuperadmin(p))
-                	{
-                		p.sendMessage(ChatColor.RED + "You have been frozen due to rule breaker(s), you will be unfrozen very soon.");
-                	}
+                    if (!TFM_SuperadminList.isUserSuperadmin(player))
+                    {
+                        TFM_Util.playerMsg(player, "You have been frozen due to rule breaker(s), you will be unfrozen very soon.", ChatColor.RED);
+                    }
                 }
             }
             else
