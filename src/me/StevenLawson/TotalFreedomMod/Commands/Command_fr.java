@@ -1,9 +1,11 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,7 +24,15 @@ public class Command_fr extends TFM_Command
 
             if (TotalFreedomMod.allPlayersFrozen)
             {
-                TFM_Util.adminAction(sender.getName(), "Freezing all players due to rule breakers", false);
+                TFM_Util.adminAction(sender.getName(), "Freezing all players", false);
+                for (Player p : Bukkit.getOnlinePlayers())
+                {
+                    if (TFM_SuperadminList.isUserSuperadmin(p))
+                    {
+                        // Do nothing
+                    }
+                    playerMsg("You have been frozen due to rule breaker(s), you will be unfrozen very soon.", ChatColor.RED);
+                }
                 TotalFreedomMod.allPlayersFrozen = true;
 
                 if (TotalFreedomMod.freezePurgeTask != null)
