@@ -25,14 +25,6 @@ public class Command_fr extends TFM_Command
             if (TotalFreedomMod.allPlayersFrozen)
             {
                 TFM_Util.adminAction(sender.getName(), "Freezing all players", false);
-                for (Player p : Bukkit.getOnlinePlayers())
-                {
-                    if (TFM_SuperadminList.isUserSuperadmin(p))
-                    {
-                        // Do nothing
-                    }
-                    playerMsg("You have been frozen due to rule breaker(s), you will be unfrozen very soon.", ChatColor.RED);
-                }
                 TotalFreedomMod.allPlayersFrozen = true;
 
                 if (TotalFreedomMod.freezePurgeTask != null)
@@ -50,6 +42,13 @@ public class Command_fr extends TFM_Command
                 }.runTaskLater(plugin, 20L * 60L * 5L);
 
                 playerMsg("Players are now frozen.");
+                for (Player p : Bukkit.getOnlinePlayers())
+                {
+                	if (!TFM_SuperadminList.isUserSuperadmin(p))
+                	{
+                		p.sendMessage(ChatColor.RED + "You have been frozen due to rule breaker(s), you will be unfrozen very soon.");
+                	}
+                }
             }
             else
             {
