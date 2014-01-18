@@ -690,9 +690,10 @@ public class TFM_PlayerListener implements Listener
             final Player player = event.getPlayer();
             final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
             playerdata.setSuperadminIdVerified(null);
+            final String IP = player.getAddress().getAddress().getHostAddress().trim();
 
             // Log join message, as 1.7 doesn't log it anymore
-            TFM_Log.info(player.getName() + " joined the game.");
+            TFM_Log.info(player.getName() + " joined the game with IP address: " + IP);
 
             TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(player);
 
