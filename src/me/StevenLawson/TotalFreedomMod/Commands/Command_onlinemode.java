@@ -53,7 +53,14 @@ public class Command_onlinemode extends TFM_Command
                 {
                     for (Player player : server.getOnlinePlayers())
                     {
-                        player.kickPlayer("Server is activating \"online-mode=true\". Please reconnect.");
+                        if (TFM_SuperadminList.isUserSuperdmin(player))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            player.kickPlayer("Server is activating \"online-mode=true\". Please reconnect.");
+                        }
                     }
                 }
 
