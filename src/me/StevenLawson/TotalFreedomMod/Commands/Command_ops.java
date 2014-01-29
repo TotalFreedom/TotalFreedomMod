@@ -1,14 +1,13 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage operators", usage = "/<command> <count | list | purge>")
+@CommandParameters(description = "Manage operators", usage = "/<command> <count | list>")
 public class Command_ops extends TFM_Command
 {
     @Override
@@ -47,29 +46,6 @@ public class Command_ops extends TFM_Command
             playerMsg("Online OPs: " + onlineOPs);
             playerMsg("Offline OPs: " + offlineOPs);
             playerMsg("Total OPs: " + totalOPs);
-
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("purge"))
-        {
-            if (!senderIsConsole)
-            {
-                playerMsg(TotalFreedomMod.MSG_NO_PERMS);
-                return true;
-            }
-
-            TFM_Util.adminAction(sender.getName(), "Removing all operators", true);
-
-            for (OfflinePlayer player : server.getOperators())
-            {
-                player.setOp(false);
-
-                if (player.isOnline())
-                {
-                    player.getPlayer().sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
-                }
-            }
 
             return true;
         }
