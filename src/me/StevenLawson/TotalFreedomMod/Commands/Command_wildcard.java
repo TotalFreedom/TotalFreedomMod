@@ -13,6 +13,11 @@ public class Command_wildcard extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (args.length == 0)
+        {
+            return false;
+        }
+
         if (args[0].equals("wildcard"))
         {
             playerMsg("What the hell are you trying to do, you stupid idiot...", ChatColor.RED);
