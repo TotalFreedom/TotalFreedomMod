@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(
-        description = "Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci",
+        description = "Use admin commands on someone by hash.",
         usage = "/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci | fr> <targethash>] ]")
 public class Command_gadmin extends TFM_Command
 {
@@ -102,7 +102,16 @@ public class Command_gadmin extends TFM_Command
                     playerMsg(player.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                     player.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                 }
+                else
+                {
+                    playerMsg("Invalid mode.", ChatColor.RED);
+                }
 
+                return true;
+            }
+            else
+            {
+                playerMsg("You did not enter a hash.", ChatColor.RED);
                 return true;
             }
         }
