@@ -81,7 +81,7 @@ public class Command_doom extends TFM_Command
                 // kill (if not done already)
                 player.setHealth(0.0);
             }
-        }.runTaskLater(plugin, 20L * 2L);
+        }.runTaskLater(plugin, 40L); // 2 seconds
 
         new BukkitRunnable()
         {
@@ -97,7 +97,7 @@ public class Command_doom extends TFM_Command
                 // kick player
                 player.kickPlayer(ChatColor.RED + "FUCKOFF, and get your shit together!");
             }
-        }.runTaskLater(plugin, 20L * 3L);
+        }.runTaskLater(plugin, 60L); // 3 seconds
 
         return true;
     }
