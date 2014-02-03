@@ -99,6 +99,18 @@ public class TFM_RollbackManager
             }
         }
 
+        if (count == 1000)
+        {
+            for (Player player : TotalFreedomMod.server.getOnlinePlayers())
+            {
+                if (TFM_SuperadminList.isUserSuperadmin(player))
+                {
+                    player.sendMessage(ChatColor.RED + playerName + " has broke/placed 1000 blocks!");
+                    player.sendMessage(ChatColor.RED + "Please check on this player to ensure the player isn't griefing.");
+                }
+            }
+        }
+
         if (!REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase()))
         {
             REMOVE_ROLLBACK_HISTORY.add(playerName.toLowerCase());
