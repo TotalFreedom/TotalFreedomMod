@@ -1,9 +1,11 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
+import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,6 +42,13 @@ public class Command_fr extends TFM_Command
                 }.runTaskLater(plugin, 20L * 60L * 5L);
 
                 playerMsg("Players are now frozen.");
+                for (Player player : Bukkit.getOnlinePlayers())
+                {
+                    if (!TFM_SuperadminList.isUserSuperadmin(player))
+                    {
+                        TFM_Util.playerMsg(player, "You have been frozen due to rule breaker(s), you will be unfrozen very soon.", ChatColor.RED);
+                    }
+                }
             }
             else
             {
