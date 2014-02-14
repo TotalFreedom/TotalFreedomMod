@@ -18,6 +18,10 @@ public class Command_cake extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        ItemStack C = new ItemStack(Material.CAKE);
+            ItemMeta CM = C.getItemMeta();
+            CM.setDisplayName((new StringBuilder()).append(ChatColor.WHITE).append("The ").append(ChatColor.BLACK).append("Lie").toString());
+            C.setItemMeta(CM);
         StringBuilder output = new StringBuilder();
         Random randomGenerator = new Random();
 
@@ -30,7 +34,7 @@ public class Command_cake extends TFM_Command
 
         for (Player player : server.getOnlinePlayers())
         {
-            ItemStack heldItem = new ItemStack(Material.CAKE, 1);
+            ItemStack heldItem = new ItemStack(C);
             player.getInventory().setItem(player.getInventory().firstEmpty(), heldItem);
             player.awardAchievement(Achievement.MINE_WOOD);
             player.awardAchievement(Achievement.BUILD_WORKBENCH);
