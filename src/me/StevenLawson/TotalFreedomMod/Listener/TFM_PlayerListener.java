@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import java.util.logging.Logger;
 import me.StevenLawson.TotalFreedomMod.*;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_landmine;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
@@ -33,6 +34,8 @@ public class TFM_PlayerListener implements Listener
 {
     private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
     private static final int MSG_PER_HEARTBEAT = 10;
+    
+    public static final Logger log = Bukkit.getLogger();
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -662,7 +665,7 @@ public class TFM_PlayerListener implements Listener
         }
 
         // Log player quitting, because 1.7 doesn't do this
-        TFM_Log.info(player.getName() + " left the game.");
+        log.info(player.getName() + " left the game.");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -680,6 +683,9 @@ public class TFM_PlayerListener implements Listener
             playerdata.regenerateHistory();
             playerdata.clearHistory();
         }
+        
+        // Log player quitting, because 1.7 doesn't do this
+        log.info(player.getName() + " left the game.");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -693,7 +699,7 @@ public class TFM_PlayerListener implements Listener
             final String IP = player.getAddress().getAddress().getHostAddress().trim();
 
             // Log join message, as 1.7 doesn't log it anymore
-            TFM_Log.info(player.getName() + " joined the game with IP address: " + IP);
+            log.info(player.getName() + " joined the game with IP address: " + IP);
 
             TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(player);
 
