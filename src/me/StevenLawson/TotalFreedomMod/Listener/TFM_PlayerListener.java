@@ -662,7 +662,7 @@ public class TFM_PlayerListener implements Listener
         }
 
         // Log player quitting, because 1.7 doesn't do this
-        TFM_Log.info(player.getName() + " left the game.");
+        TFM_Log.info("[EXIT] " + player.getName() + " left the game.", true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -680,6 +680,9 @@ public class TFM_PlayerListener implements Listener
             playerdata.regenerateHistory();
             playerdata.clearHistory();
         }
+        
+        // Log player quitting, because 1.7 doesn't do this
+        TFM_Log.info("[EXIT] " + player.getName() + " left the game.", true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -693,7 +696,7 @@ public class TFM_PlayerListener implements Listener
             final String IP = player.getAddress().getAddress().getHostAddress().trim();
 
             // Log join message, as 1.7 doesn't log it anymore
-            TFM_Log.info(player.getName() + " joined the game with IP address: " + IP);
+            TFM_Log.info("[JOIN] " + player.getName() + " joined the game with IP address: " + IP, true);
 
             TFM_UserList.getInstance(TotalFreedomMod.plugin).addUser(player);
 
