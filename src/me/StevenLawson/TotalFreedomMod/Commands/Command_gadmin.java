@@ -105,6 +105,7 @@ public class Command_gadmin extends TFM_Command
                 else
                 {
                     playerMsg("Invalid mode.", ChatColor.RED);
+                    return false;
                 }
 
                 return true;
@@ -112,13 +113,14 @@ public class Command_gadmin extends TFM_Command
             else
             {
                 playerMsg("You did not enter a hash.", ChatColor.RED);
-                return true;
+                return false;
             }
         }
 
         if (!mode.equals("list"))
         {
             playerMsg("Invalid hash.", ChatColor.RED);
+            return false;
         }
 
         return true;
