@@ -69,6 +69,10 @@ public class Command_doom extends TFM_Command
 
         // generate explosion
         player.getWorld().createExplosion(player.getLocation(), 4F);
+        
+        
+        // fly the player up to the moon
+        player.setVelocity(new Vector(player.getLocation().getX(), 7000, player.getLocation().getZ()));
 
         new BukkitRunnable()
         {
@@ -80,6 +84,9 @@ public class Command_doom extends TFM_Command
 
                 // kill (if not done already)
                 player.setHealth(0.0);
+
+                // fly the player up to the moon
+                player.setVelocity(new Vector(player.getLocation().getX(), 7000, player.getLocation().getZ()));
             }
         }.runTaskLater(plugin, 20L * 2L);
 
