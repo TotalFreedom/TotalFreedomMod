@@ -170,6 +170,8 @@ unbannable_usernames:
   - cavemanfilms
   - herobrine
   - whiteboy7thst
+  - stampylonghead
+  - stampylongnose
 
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot_enabled: false
