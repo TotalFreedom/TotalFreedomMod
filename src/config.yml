@@ -172,6 +172,7 @@ unbannable_usernames:
   - whiteboy7thst
   - stampylonghead
   - stampylongnose
+  - dantdm
 
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot_enabled: false
