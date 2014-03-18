@@ -1,5 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
+import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -28,26 +30,17 @@ public class Command_gcmd extends TFM_Command
             return true;
         }
 
-        String outcommand = "";
-        try
+        final String outCommand = StringUtils.join(args, " ", 1, args.length);
+
+        if (TFM_CommandBlocker.getInstance().isCommandBlocked(outCommand, sender))
         {
-            StringBuilder outcommand_bldr = new StringBuilder();
-            for (int i = 1; i < args.length; i++)
-            {
-                outcommand_bldr.append(args[i]).append(" ");
-            }
-            outcommand = outcommand_bldr.toString().trim();
-        }
-        catch (Throwable ex)
-        {
-            sender.sendMessage(ChatColor.GRAY + "Error building command: " + ex.getMessage());
             return true;
         }
 
         try
         {
-            playerMsg("Sending command as " + player.getName() + ": " + outcommand);
-            if (server.dispatchCommand(player, outcommand))
+            playerMsg("Sending command as " + player.getName() + ": " + outCommand);
+            if (server.dispatchCommand(player, outCommand))
             {
                 playerMsg("Command sent.");
             }
