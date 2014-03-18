@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 public class TFM_CommandBlocker
 {
+    public static final Pattern COMMAND_PATTERN = Pattern.compile("^/?(\\S+)");
     private Map<String, CommandBlockerEntry> blockedCommands = new HashMap<String, CommandBlockerEntry>();
 
     private TFM_CommandBlocker()
@@ -35,19 +36,19 @@ public class TFM_CommandBlocker
         List<String> _blockedCommands = (List<String>) TFM_ConfigEntry.BLOCKED_COMMANDS.getList();
         for (String rawEntry : _blockedCommands)
         {
-            String[] parts = rawEntry.split(":");
+            final String[] parts = rawEntry.split(":");
             if (parts.length < 3 || parts.length > 4)
             {
                 continue;
             }
 
-            CommandBlockerRank rank = CommandBlockerRank.fromToken(parts[0]);
+            final CommandBlockerRank rank = CommandBlockerRank.fromToken(parts[0]);
             if (rank == null)
             {
                 continue;
             }
 
-            CommandBlockerAction action = CommandBlockerAction.fromToken(parts[1]);
+            final CommandBlockerAction action = CommandBlockerAction.fromToken(parts[1]);
             if (action == null)
             {
                 continue;
@@ -58,7 +59,7 @@ public class TFM_CommandBlocker
             {
                 continue;
             }
-            Matcher matcher = Pattern.compile("^/?(\\S+)").matcher(command);
+            final Matcher matcher = COMMAND_PATTERN.matcher(command);
             if (matcher.find())
             {
                 command = matcher.group(1);
@@ -82,9 +83,9 @@ public class TFM_CommandBlocker
                 message = parts[3];
             }
 
-            CommandBlockerEntry blockedCommandEntry = new CommandBlockerEntry(rank, action, command, message);
+            final CommandBlockerEntry blockedCommandEntry = new CommandBlockerEntry(rank, action, command, message);
 
-            Command bukkitCommand = commandMap.getCommand(command);
+            final Command bukkitCommand = commandMap.getCommand(command);
             if (bukkitCommand == null)
             {
                 //TFM_Log.info("Blocking unknown command: " + blockedCommandEntry.getCommand());
@@ -118,7 +119,7 @@ public class TFM_CommandBlocker
             return false;
         }
 
-        Matcher matcher = Pattern.compile("^/?(\\S+)").matcher(command);
+        final Matcher matcher = COMMAND_PATTERN.matcher(command);
         if (matcher.find())
         {
             command = matcher.group(1);
@@ -136,15 +137,21 @@ public class TFM_CommandBlocker
             return false;
         }
 
-        final CommandBlockerEntry blockedCommandEntry = blockedCommands.get(command);
-
-        if (blockedCommandEntry != null)
+        if (command.contains(":"))
         {
-            if (!blockedCommandEntry.getRank().hasPermission(sender))
+            TFM_Util.playerMsg(sender, "Plugin-specific commands are disabled.");
+            return true;
+        }
+
+        final CommandBlockerEntry entry = blockedCommands.get(command);
+
+        if (entry != null)
+        {
+            if (!entry.getRank().hasPermission(sender))
             {
                 if (doAction)
                 {
-                    blockedCommandEntry.doActions(sender);
+                    entry.doActions(sender);
                 }
 
                 return true;
