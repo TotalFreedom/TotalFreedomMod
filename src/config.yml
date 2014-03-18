@@ -1,4 +1,4 @@
-# TotalFreedomMod v3.5 Configuration
+# TotalFreedomMod v3.6 Configuration
 # by Madgeek1450 and DarthSalamon
 
 # Block placement prevention:
@@ -61,7 +61,7 @@ blocked_commands:
   - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
-  
+
   # Superadmin commands
   - 's:b:/kick:_'
   - 's:b:/socialspy:_'
@@ -74,7 +74,7 @@ blocked_commands:
   - 's:b:/tool:_'
   - 's:b://butcher:_'
   - 's:b:/scoreboard:_'
-  
+
   # Superadmin commands - Auto-eject
   - 's:a:/stop'
   - 's:a:/reload'
@@ -185,7 +185,7 @@ pet_protect_enabled: true
 # Logs Registration
 logs_register_password: ''
 logs_register_url: ''
-  
+
 # Mojang service checker
 service_checker_url: http://status.mojang.com/check
 
