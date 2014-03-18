@@ -40,7 +40,8 @@ public class Command_invis extends TFM_Command
                 players.add(player.getName());
                 if (smite && !TFM_SuperadminList.isUserSuperadmin(player))
                 {
-                    Command_smite.smite(player);
+                    TFM_Util.adminAction(sender.getName(), "Smiting all invisible players", true);
+                    player.setHealth(0.0);
                     smites++;
                 }
             }
