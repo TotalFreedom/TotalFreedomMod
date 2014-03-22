@@ -10,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "For the people that are still alive.", usage = "/<command>")
@@ -18,6 +19,7 @@ public class Command_cake extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        
         StringBuilder output = new StringBuilder();
         Random randomGenerator = new Random();
 
@@ -28,9 +30,13 @@ public class Command_cake extends TFM_Command
             output.append(ChatColor.COLOR_CHAR).append(color_code).append(word).append(" ");
         }
 
+        ItemStack heldItem = new ItemStack(Material.CAKE);
+        ItemMeta heldItemMeta = heldItem.getItemMeta();
+        heldItemMeta.setDisplayName((new StringBuilder()).append(ChatColor.WHITE).append("The ").append(ChatColor.BLACK).append("Lie").toString());
+        heldItem.setItemMeta(heldItemMeta);
+
         for (Player player : server.getOnlinePlayers())
         {
-            ItemStack heldItem = new ItemStack(Material.CAKE, 1);
             player.getInventory().setItem(player.getInventory().firstEmpty(), heldItem);
             player.awardAchievement(Achievement.MINE_WOOD);
             player.awardAchievement(Achievement.BUILD_WORKBENCH);
