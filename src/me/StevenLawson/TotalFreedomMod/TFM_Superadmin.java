@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
@@ -71,7 +72,7 @@ public class TFM_Superadmin
 
     public List<String> getIps()
     {
-        return ips;
+        return Collections.unmodifiableList(ips);
     }
 
     public Date getLastLogin()

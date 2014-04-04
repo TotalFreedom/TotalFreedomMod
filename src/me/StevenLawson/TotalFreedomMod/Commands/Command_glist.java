@@ -31,7 +31,7 @@ public class Command_glist extends TFM_Command
                 //Purge does not clear the banlist! This is not for clearing bans! This is for clearing the yaml file that stores the player/IP database!
                 if (TFM_SuperadminList.isSeniorAdmin(sender))
                 {
-                    TFM_UserList.getInstance(plugin).purge();
+                    TFM_UserList.getInstance().purge();
                 }
                 else
                 {
@@ -58,7 +58,7 @@ public class Command_glist extends TFM_Command
             }
             catch (PlayerNotFoundException ex)
             {
-                TFM_UserListEntry entry = TFM_UserList.getInstance(plugin).getEntry(args[1]);
+                TFM_UserListEntry entry = TFM_UserList.getInstance().getEntry(args[1]);
 
                 if (entry == null)
                 {

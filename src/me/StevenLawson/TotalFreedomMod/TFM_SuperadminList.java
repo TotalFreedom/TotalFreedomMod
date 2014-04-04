@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,22 +36,22 @@ public class TFM_SuperadminList
 
     public static List<String> getSuperadminIPs()
     {
-        return superadminIPs;
+        return Collections.unmodifiableList(superadminIPs);
     }
 
     public static List<String> getSuperadminNames()
     {
-        return superadminNames;
+        return Collections.unmodifiableList(superadminNames);
     }
 
     public static List<String> getTelnetadminNames()
     {
-        return telnetadminNames;
+        return Collections.unmodifiableList(telnetadminNames);
     }
 
     public static List<String> getSenioradminNames()
     {
-        return senioradminNames;
+        return Collections.unmodifiableList(senioradminNames);
     }
 
     public static void loadSuperadminList()

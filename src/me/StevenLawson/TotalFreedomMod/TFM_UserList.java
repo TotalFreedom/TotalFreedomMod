@@ -8,31 +8,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class TFM_UserList
 {
+    private static final TFM_UserList INSTANCE = new TFM_UserList();
     private static final String USERLIST_FILENAME = "userlist.yml";
-    private static TFM_UserList instance = null;
     private Map<String, TFM_UserListEntry> userlist = new HashMap<String, TFM_UserListEntry>();
-    private final TotalFreedomMod plugin;
 
-    protected TFM_UserList(TotalFreedomMod plugin)
+    private TFM_UserList()
     {
-        this.plugin = plugin;
-
-        primeList();
     }
 
-    private void primeList()
+    protected void primeList()
     {
         try
         {
             userlist.clear();
 
-            FileConfiguration savedUserlist = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), USERLIST_FILENAME));
+            FileConfiguration savedUserlist = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), USERLIST_FILENAME));
 
             for (String username : savedUserlist.getKeys(false))
             {
@@ -40,7 +37,7 @@ public class TFM_UserList
                 userlist.put(username, entry);
             }
 
-            for (Player player : plugin.getServer().getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers())
             {
                 addUser(player);
             }
@@ -56,7 +53,7 @@ public class TFM_UserList
 
     private void exportList()
     {
-        FileConfiguration newUserlist = new YamlConfiguration();
+        final FileConfiguration newUserlist = new YamlConfiguration();
 
         for (TFM_UserListEntry entry : userlist.values())
         {
@@ -65,7 +62,7 @@ public class TFM_UserList
 
         try
         {
-            newUserlist.save(new File(plugin.getDataFolder(), USERLIST_FILENAME));
+            newUserlist.save(new File(TotalFreedomMod.plugin.getDataFolder(), USERLIST_FILENAME));
         }
         catch (IOException ex)
         {
@@ -73,13 +70,9 @@ public class TFM_UserList
         }
     }
 
-    public static TFM_UserList getInstance(TotalFreedomMod plugin)
+    public static TFM_UserList getInstance()
     {
-        if (instance == null)
-        {
-            instance = new TFM_UserList(plugin);
-        }
-        return instance;
+        return INSTANCE;
     }
 
     public void addUser(Player player)
@@ -119,7 +112,7 @@ public class TFM_UserList
     {
         userlist.clear();
 
-        for (Player player : plugin.getServer().getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             addUser(player);
         }

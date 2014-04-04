@@ -87,7 +87,7 @@ public class TotalFreedomMod extends JavaPlugin
         loadSuperadminConfig();
         loadPermbanConfig();
 
-        TFM_UserList.getInstance(plugin);
+        TFM_UserList.getInstance().primeList();
 
         registerEventHandlers();
 

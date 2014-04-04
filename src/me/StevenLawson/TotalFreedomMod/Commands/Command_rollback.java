@@ -99,7 +99,7 @@ public class Command_rollback extends TFM_Command
 
         if (playerName == null)
         {
-            playerName = TFM_UserList.getInstance(plugin).searchByPartialName(playerNameInput);
+            playerName = TFM_UserList.getInstance().searchByPartialName(playerNameInput);
         }
 
         return playerName;

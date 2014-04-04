@@ -30,7 +30,7 @@ public class Command_findip extends TFM_Command
             return true;
         }
 
-        playerMsg("Player IPs: " + StringUtils.join(TFM_UserList.getInstance(TotalFreedomMod.plugin).getEntry(player).getIpAddresses(), ", "));
+        playerMsg("Player IPs: " + StringUtils.join(TFM_UserList.getInstance().getEntry(player).getIpAddresses(), ", "));
 
         return true;
     }
