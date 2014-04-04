@@ -454,10 +454,10 @@ public class TFM_PlayerListener implements Listener
             final Player player = event.getPlayer();
             String message = event.getMessage().trim();
 
-            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+            final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
             // Check for spam
-            Long lastRan = TFM_Heartbeat.getLastRan();
+            final Long lastRan = TFM_Heartbeat.getLastRan();
             if (lastRan == null || lastRan + TotalFreedomMod.HEARTBEAT_RATE * 1000L < System.currentTimeMillis())
             {
                 //TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
@@ -536,9 +536,6 @@ public class TFM_PlayerListener implements Listener
 
             // Finally, set message
             event.setMessage(message);
-
-            // Broadcast it to console (since 1.7 doesn't do that anymore)
-            TFM_Log.info(String.format(event.getFormat(), player.getDisplayName(), event.getMessage()), true);
 
             // Set the tag
             if (playerdata.getTag() != null)
@@ -680,7 +677,7 @@ public class TFM_PlayerListener implements Listener
             playerdata.regenerateHistory();
             playerdata.clearHistory();
         }
-        
+
         // Log player quitting, because 1.7 doesn't do this
         TFM_Log.info("[EXIT] " + player.getName() + " left the game.", true);
     }
