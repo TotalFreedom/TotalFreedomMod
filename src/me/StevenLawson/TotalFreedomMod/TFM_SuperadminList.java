@@ -495,21 +495,28 @@ public class TFM_SuperadminList
         }
     }
 
-    public static boolean verifyIdentity(String username, String ip) throws Exception
+    public static boolean verifyIdentity(String username, String ip)
     {
-        if (Bukkit.getOnlineMode())
+        try
         {
-            return true;
+            if (Bukkit.getOnlineMode())
+            {
+                return true;
+            }
+
+            TFM_Superadmin entry = getAdminEntry(username);
+            if (entry != null)
+            {
+                return entry.getIps().contains(ip);
+            }
+
+            return false;
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
         }
 
-        TFM_Superadmin entry = getAdminEntry(username);
-        if (entry != null)
-        {
-            return entry.getIps().contains(ip);
-        }
-        else
-        {
-            throw new Exception();
-        }
+        return false;
     }
 }

@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_UserList;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
@@ -30,7 +30,7 @@ public class Command_findip extends TFM_Command
             return true;
         }
 
-        playerMsg("Player IPs: " + StringUtils.join(TFM_UserList.getInstance().getEntry(player).getIpAddresses(), ", "));
+        playerMsg("Player IPs: " + StringUtils.join(TFM_PlayerList.getInstance().getEntry(player).getIps(), ", "));
 
         return true;
     }

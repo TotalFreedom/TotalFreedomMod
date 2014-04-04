@@ -685,67 +685,62 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        try
+        final Player player = event.getPlayer();
+        final String ip = TFM_Util.getIp(player);
+
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        playerdata.setSuperadminIdVerified(null);
+
+        TFM_Log.info("[JOIN] " + player.getName() + " (" + player.getUniqueId() + ") joined the game with IP address: " + ip, true);
+
+        TFM_PlayerList.getInstance().getEntry(player);
+
+        final boolean impostor = TFM_SuperadminList.isSuperadminImpostor(player);
+
+        if (impostor || TFM_SuperadminList.isUserSuperadmin(player))
         {
-            final Player player = event.getPlayer();
-            final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-            playerdata.setSuperadminIdVerified(null);
-            final String IP = player.getAddress().getAddress().getHostAddress().trim();
+            TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
 
-            TFM_Log.info("[JOIN] " + player.getName() + " (" + player.getUniqueId() + ") joined the game with IP address: " + IP, true);
-
-            TFM_UserList.getInstance().addUser(player);
-
-            final boolean impostor = TFM_SuperadminList.isSuperadminImpostor(player);
-
-            if (impostor || TFM_SuperadminList.isUserSuperadmin(player))
+            if (impostor)
             {
-                TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
-
-                if (impostor)
+                player.getInventory().clear();
+                player.setOp(false);
+                player.setGameMode(GameMode.SURVIVAL);
+                TFM_Util.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor!", ChatColor.RED);
+            }
+            else
+            {
+                if (TFM_SuperadminList.verifyIdentity(player.getName(), TFM_Util.getIp(player)))
                 {
-                    player.getInventory().clear();
-                    player.setOp(false);
-                    player.setGameMode(GameMode.SURVIVAL);
-                    TFM_Util.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor!", ChatColor.RED);
+                    playerdata.setSuperadminIdVerified(Boolean.TRUE);
+
+                    TFM_SuperadminList.updateLastLogin(player);
                 }
                 else
                 {
-                    if (TFM_SuperadminList.verifyIdentity(player.getName(), player.getAddress().getAddress().getHostAddress()))
-                    {
-                        playerdata.setSuperadminIdVerified(Boolean.TRUE);
+                    playerdata.setSuperadminIdVerified(Boolean.FALSE);
 
-                        TFM_SuperadminList.updateLastLogin(player);
-                    }
-                    else
-                    {
-                        playerdata.setSuperadminIdVerified(Boolean.FALSE);
-
-                        TFM_Util.bcastMsg("Warning: " + player.getName() + " is an admin, but is using a username not registered to one of their IPs.", ChatColor.RED);
-                    }
-
-                    player.setOp(true);
+                    TFM_Util.bcastMsg("Warning: " + player.getName() + " is an admin, but is using a username not registered to one of their IPs.", ChatColor.RED);
                 }
-            }
-            else if (TFM_Util.DEVELOPERS.contains(player.getName()))
-            {
-                TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
-            }
 
-            if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
-            {
-                new BukkitRunnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        player.sendMessage(ChatColor.RED + "Server is currently closed to non-superadmins.");
-                    }
-                }.runTaskLater(TotalFreedomMod.plugin, 20L * 3L);
+                player.setOp(true);
             }
         }
-        catch (Throwable ex)
+        else if (TFM_Util.DEVELOPERS.contains(player.getName()))
         {
+            TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
+        }
+
+        if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
+        {
+            new BukkitRunnable()
+            {
+                @Override
+                public void run()
+                {
+                    player.sendMessage(ChatColor.RED + "Server is currently closed to non-superadmins.");
+                }
+            }.runTaskLater(TotalFreedomMod.plugin, 20L * 3L);
         }
     }
 

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
-import me.StevenLawson.TotalFreedomMod.TFM_UserList;
-import me.StevenLawson.TotalFreedomMod.TFM_UserList.TFM_UserListEntry;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerList.PlayerEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
@@ -31,7 +31,7 @@ public class Command_glist extends TFM_Command
                 //Purge does not clear the banlist! This is not for clearing bans! This is for clearing the yaml file that stores the player/IP database!
                 if (TFM_SuperadminList.isSeniorAdmin(sender))
                 {
-                    TFM_UserList.getInstance().purge();
+                    TFM_PlayerList.getInstance().purgeAll();
                 }
                 else
                 {
@@ -58,7 +58,7 @@ public class Command_glist extends TFM_Command
             }
             catch (PlayerNotFoundException ex)
             {
-                TFM_UserListEntry entry = TFM_UserList.getInstance().getEntry(args[1]);
+                PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(args[1]);
 
                 if (entry == null)
                 {
@@ -66,8 +66,8 @@ public class Command_glist extends TFM_Command
                     return true;
                 }
 
-                username = entry.getUsername();
-                ip_addresses = entry.getIpAddresses();
+                username = entry.getLastJoinName();
+                ip_addresses = entry.getIps();
             }
 
             String mode = args[0].toLowerCase();

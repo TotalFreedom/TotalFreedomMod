@@ -125,6 +125,11 @@ public class TFM_Util
         TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
     }
 
+    public static String getIp(Player player)
+    {
+        return player.getAddress().getAddress().getHostAddress().trim();
+    }
+
     public static String formatLocation(Location location)
     {
         return String.format("%s: (%d, %d, %d)",
@@ -773,6 +778,11 @@ public class TFM_Util
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
+    public static long getUnixTime()
+    {
+        return System.currentTimeMillis() / 1000L;
+    }
+
     public static class TFM_EntityWiper
     {
         private static final List<Class<? extends Entity>> WIPEABLES = new ArrayList<Class<? extends Entity>>();
@@ -850,7 +860,7 @@ public class TFM_Util
         }
     }
 
-    enum EjectMethod
+    public static enum EjectMethod
     {
         STRIKE_ONE, STRIKE_TWO, STRIKE_THREE;
     }

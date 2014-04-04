@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
-import me.StevenLawson.TotalFreedomMod.TFM_UserList;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -99,7 +99,7 @@ public class Command_rollback extends TFM_Command
 
         if (playerName == null)
         {
-            playerName = TFM_UserList.getInstance().searchByPartialName(playerNameInput);
+            playerName = TFM_PlayerList.getInstance().getEntry(playerNameInput).getLastJoinName();
         }
 
         return playerName;
