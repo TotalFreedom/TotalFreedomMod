@@ -33,7 +33,7 @@ public class Command_creative extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("-a"))
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(sender))
+                if (!TFM_SuperadminList.isSuperAdmin(sender))
                 {
                     sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
@@ -48,7 +48,7 @@ public class Command_creative extends TFM_Command
                 return true;
             }
 
-            if (!(senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender)))
+            if (!(senderIsConsole || TFM_SuperadminList.isSuperAdmin(sender)))
             {
                 playerMsg("Only superadmins can change other user's gamemode.");
                 return true;

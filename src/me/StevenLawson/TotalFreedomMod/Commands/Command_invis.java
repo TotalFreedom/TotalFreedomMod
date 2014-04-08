@@ -38,7 +38,7 @@ public class Command_invis extends TFM_Command
             if (player.hasPotionEffect(PotionEffectType.INVISIBILITY))
             {
                 players.add(player.getName());
-                if (smite && !TFM_SuperadminList.isUserSuperadmin(player))
+                if (smite && !TFM_SuperadminList.isSuperAdmin(player))
                 {
                     TFM_Util.adminAction(sender.getName(), "Smiting all invisible players", true);
                     player.setHealth(0.0);

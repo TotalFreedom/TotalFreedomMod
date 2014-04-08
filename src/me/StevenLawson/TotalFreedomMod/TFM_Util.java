@@ -93,6 +93,20 @@ public class TFM_Util
         throw new AssertionError();
     }
 
+    public static boolean isUniqueId(String uuid)
+    {
+        try
+        {
+            UUID.fromString(uuid);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public static void bcastMsg(String message, ChatColor color)
     {
         TFM_Log.info(message, true);
@@ -137,6 +151,11 @@ public class TFM_Util
                 Math.round(location.getX()),
                 Math.round(location.getY()),
                 Math.round(location.getZ()));
+    }
+
+    public static String formatPlayer(Player player)
+    {
+        return player.getName() + " (" + player.getUniqueId() + ")";
     }
 
     public static void gotoWorld(CommandSender sender, String targetworld)
@@ -737,7 +756,7 @@ public class TFM_Util
 
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            if (TFM_SuperadminList.isUserSuperadmin(player))
+            if (TFM_SuperadminList.isSuperAdmin(player))
             {
                 player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
             }

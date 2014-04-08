@@ -27,7 +27,7 @@ public class Command_tag extends TFM_Command
         {
             if ("clearall".equals(args[0]))
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(sender))
+                if (!TFM_SuperadminList.isSuperAdmin(sender))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
@@ -69,7 +69,7 @@ public class Command_tag extends TFM_Command
                 return true;
             }
 
-            if (!TFM_SuperadminList.isUserSuperadmin(sender))
+            if (!TFM_SuperadminList.isSuperAdmin(sender))
             {
                 for (String word : FORBIDDEN_WORDS)
                 {
@@ -98,7 +98,7 @@ public class Command_tag extends TFM_Command
         {
             if ("clear".equals(args[0]))
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(sender))
+                if (!TFM_SuperadminList.isSuperAdmin(sender))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;

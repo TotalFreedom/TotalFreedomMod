@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
-import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
+import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -23,7 +23,7 @@ public class Command_saconfig extends TFM_Command
         {
             if (args[0].equals("list"))
             {
-                playerMsg("Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminNames(), ", "), ChatColor.GOLD);
+                playerMsg("Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminUUIDs(), ", "), ChatColor.GOLD);
             }
             else
             {
@@ -37,7 +37,7 @@ public class Command_saconfig extends TFM_Command
                 {
                     TFM_Util.adminAction(sender.getName(), "Cleaning superadmin list", true);
                     TFM_SuperadminList.cleanSuperadminList(true);
-                    playerMsg("Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminNames(), ", "), ChatColor.YELLOW);
+                    playerMsg("Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminUUIDs(), ", "), ChatColor.YELLOW);
                 }
                 else
                 {
@@ -53,13 +53,13 @@ public class Command_saconfig extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("info"))
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(sender))
+                if (!TFM_SuperadminList.isSuperAdmin(sender))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
                 }
 
-                TFM_Superadmin superadmin = TFM_SuperadminList.getAdminEntry(args[1].toLowerCase());
+                TFM_Admin superadmin = TFM_SuperadminList.getAdminEntry(args[1].toLowerCase());
 
                 if (superadmin == null)
                 {
@@ -101,7 +101,7 @@ public class Command_saconfig extends TFM_Command
                 }
                 catch (PlayerNotFoundException ex)
                 {
-                    TFM_Superadmin superadmin = TFM_SuperadminList.getAdminEntry(args[1].toLowerCase());
+                    TFM_Admin superadmin = TFM_SuperadminList.getAdminEntry(args[1].toLowerCase());
                     if (superadmin != null)
                     {
                         admin_name = superadmin.getName();
@@ -142,7 +142,7 @@ public class Command_saconfig extends TFM_Command
                 {
                 }
 
-                if (!TFM_SuperadminList.getSuperadminNames().contains(targetName.toLowerCase()))
+                if (!TFM_SuperadminList.getSuperadminUUIDs().contains(targetName.toLowerCase()))
                 {
                     playerMsg("Superadmin not found: " + targetName);
                     return true;

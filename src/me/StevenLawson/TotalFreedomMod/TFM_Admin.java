@@ -6,7 +6,7 @@ import java.util.List;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class TFM_Superadmin
+public class TFM_Admin
 {
     private final String name;
     private final String loginMessage;
@@ -17,7 +17,7 @@ public class TFM_Superadmin
     private Date lastLogin;
     private boolean isActivated;
 
-    public TFM_Superadmin(String name, List<String> ips, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, List<String> consoleAliases, boolean isActivated)
+    public TFM_Admin(String name, List<String> ips, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, List<String> consoleAliases, boolean isActivated)
     {
         this.name = name.toLowerCase();
         this.ips = ips;
@@ -29,7 +29,7 @@ public class TFM_Superadmin
         this.isActivated = isActivated;
     }
 
-    public TFM_Superadmin(String name, ConfigurationSection section)
+    public TFM_Admin(String name, ConfigurationSection section)
     {
         this.name = name.toLowerCase();
         this.ips = section.getStringList("ips");

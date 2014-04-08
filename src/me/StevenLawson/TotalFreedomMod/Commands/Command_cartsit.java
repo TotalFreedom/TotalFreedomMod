@@ -36,7 +36,7 @@ public class Command_cartsit extends TFM_Command
                 return true;
             }
         }
-        else if (targetPlayer != sender_p && !TFM_SuperadminList.isUserSuperadmin(sender))
+        else if (targetPlayer != sender_p && !TFM_SuperadminList.isSuperAdmin(sender))
         {
             sender.sendMessage("Only superadmins can select another player as a /cartsit target.");
             return true;

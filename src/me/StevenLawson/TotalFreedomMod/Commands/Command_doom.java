@@ -39,7 +39,7 @@ public class Command_doom extends TFM_Command
         final String IP = player.getAddress().getAddress().getHostAddress().trim();
 
         // remove from superadmin
-        if (TFM_SuperadminList.isUserSuperadmin(player))
+        if (TFM_SuperadminList.isSuperAdmin(player))
         {
             TFM_Util.adminAction(sender.getName(), "Removing " + player.getName() + " from the superadmin list.", true);
             TFM_SuperadminList.removeSuperadmin(player);

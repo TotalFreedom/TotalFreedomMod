@@ -190,7 +190,7 @@ public class TFM_CommandBlocker
 
         public static CommandBlockerRank getSenderRank(CommandSender sender)
         {
-            if (!TFM_SuperadminList.isUserSuperadmin(sender))
+            if (!TFM_SuperadminList.isSuperAdmin(sender))
             {
                 if (sender.isOp())
                 {

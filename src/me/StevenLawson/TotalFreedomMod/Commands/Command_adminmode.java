@@ -31,7 +31,7 @@ public class Command_adminmode extends TFM_Command
             TFM_Util.adminAction(sender.getName(), "Closing the server to non-superadmins.", true);
             for (Player player : server.getOnlinePlayers())
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(player))
+                if (!TFM_SuperadminList.isSuperAdmin(player))
                 {
                     player.kickPlayer("Server is now closed to non-superadmins.");
                 }

@@ -32,7 +32,7 @@ public enum TFM_PlayerRank
             return fromSender(sender).getLoginMessage();
         }
 
-        final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry((Player) sender);
+        final TFM_Admin entry = TFM_SuperadminList.getAdminEntry((Player) sender);
 
         if (entry == null)
         {
@@ -69,7 +69,7 @@ public enum TFM_PlayerRank
         }
 
 
-        final TFM_Superadmin entry = TFM_SuperadminList.getAdminEntry((Player) sender);
+        final TFM_Admin entry = TFM_SuperadminList.getAdminEntry((Player) sender);
 
         final TFM_PlayerRank rank;
 

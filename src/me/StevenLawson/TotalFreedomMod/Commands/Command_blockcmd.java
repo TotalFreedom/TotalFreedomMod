@@ -47,7 +47,7 @@ public class Command_blockcmd extends TFM_Command
             return true;
         }
 
-        if (TFM_SuperadminList.isUserSuperadmin(player))
+        if (TFM_SuperadminList.isSuperAdmin(player))
         {
             playerMsg(player.getName() + " is a Superadmin, and cannot have their commands blocked.");
             return true;

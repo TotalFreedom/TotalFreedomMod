@@ -18,7 +18,7 @@ public class Command_kicknoob extends TFM_Command
 
         for (Player player : server.getOnlinePlayers())
         {
-            if (!TFM_SuperadminList.isUserSuperadmin(player))
+            if (!TFM_SuperadminList.isSuperAdmin(player))
             {
                 player.kickPlayer(ChatColor.RED + "Disconnected by admin.");
             }

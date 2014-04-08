@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_landmine;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerList.PlayerEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -96,7 +97,7 @@ public class TFM_PlayerListener implements Listener
                 {
                     case STICK:
                     {
-                        if (!TFM_SuperadminList.isUserSuperadmin(player))
+                        if (!TFM_SuperadminList.isSuperAdmin(player))
                         {
                             break;
                         }
@@ -330,7 +331,7 @@ public class TFM_PlayerListener implements Listener
         boolean freeze = false;
         if (TotalFreedomMod.allPlayersFrozen)
         {
-            if (!TFM_SuperadminList.isUserSuperadmin(player))
+            if (!TFM_SuperadminList.isSuperAdmin(player))
             {
                 freeze = true;
             }
@@ -489,7 +490,7 @@ public class TFM_PlayerListener implements Listener
             // Check for muted
             if (playerdata.isMuted())
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(player))
+                if (!TFM_SuperadminList.isSuperAdmin(player))
                 {
                     player.sendMessage(ChatColor.RED + "You are muted, STFU!");
                     event.setCancelled(true);
@@ -554,9 +555,9 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
         String command = event.getMessage();
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
 
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
         playerdata.setLastCommand(command);
 
         if (playerdata.incrementAndGetMsgCount() > MSG_PER_HEARTBEAT)
@@ -582,7 +583,7 @@ public class TFM_PlayerListener implements Listener
         // Block commands if player is muted
         if (playerdata.isMuted())
         {
-            if (!TFM_SuperadminList.isUserSuperadmin(player))
+            if (!TFM_SuperadminList.isSuperAdmin(player))
             {
                 for (String commandName : BLOCKED_MUTED_CMDS)
                 {
@@ -614,11 +615,11 @@ public class TFM_PlayerListener implements Listener
             event.setCancelled(true);
         }
 
-        if (!TFM_SuperadminList.isUserSuperadmin(player))
+        if (!TFM_SuperadminList.isSuperAdmin(player))
         {
             for (Player pl : Bukkit.getOnlinePlayers())
             {
-                if (TFM_SuperadminList.isUserSuperadmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
+                if (TFM_SuperadminList.isSuperAdmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
                 {
                     TFM_Util.playerMsg(pl, player.getName() + ": " + command);
                 }
@@ -658,7 +659,6 @@ public class TFM_PlayerListener implements Listener
             playerdata.clearHistory();
         }
 
-        // Log player quitting, because 1.7 doesn't do this
         TFM_Log.info("[EXIT] " + player.getName() + " left the game.", true);
     }
 
@@ -678,7 +678,6 @@ public class TFM_PlayerListener implements Listener
             playerdata.clearHistory();
         }
 
-        // Log player quitting, because 1.7 doesn't do this
         TFM_Log.info("[EXIT] " + player.getName() + " left the game.", true);
     }
 
@@ -687,17 +686,32 @@ public class TFM_PlayerListener implements Listener
     {
         final Player player = event.getPlayer();
         final String ip = TFM_Util.getIp(player);
+        TFM_Log.info("[JOIN] " + TFM_Util.formatPlayer(player) + " joined the game with IP address: " + ip, true);
+
+        // Update player information
+        if (!TFM_PlayerList.getInstance().existsEntry(player))
+        {
+            TFM_Log.info("Added new player: " + TFM_Util.formatPlayer(player));
+
+            final PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player);
+            entry.setLastJoinUnix(TFM_Util.getUnixTime());
+            entry.setLastJoinName(player.getName());
+            entry.save();
+        }
+        else
+        {
+            // Preload the entry; the login unix is defaulted to the current time
+            final PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player);
+            entry.addIp(ip);
+            entry.save();
+        }
 
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+
         playerdata.setSuperadminIdVerified(null);
-
-        TFM_Log.info("[JOIN] " + player.getName() + " (" + player.getUniqueId() + ") joined the game with IP address: " + ip, true);
-
-        TFM_PlayerList.getInstance().getEntry(player);
-
         final boolean impostor = TFM_SuperadminList.isSuperadminImpostor(player);
 
-        if (impostor || TFM_SuperadminList.isUserSuperadmin(player))
+        if (impostor || TFM_SuperadminList.isSuperAdmin(player))
         {
             TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
 

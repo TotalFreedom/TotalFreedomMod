@@ -62,7 +62,7 @@ public abstract class TFM_Command
         CommandPermissions permissions = commandClass.getAnnotation(CommandPermissions.class);
         if (permissions != null)
         {
-            boolean is_super = TFM_SuperadminList.isUserSuperadmin(this.commandSender);
+            boolean is_super = TFM_SuperadminList.isSuperAdmin(this.commandSender);
             boolean is_senior = false;
             if (is_super)
             {

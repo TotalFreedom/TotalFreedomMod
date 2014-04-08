@@ -26,7 +26,7 @@ public class Module_list extends TFM_HTTPD_Module
         for (Player player : onlinePlayers)
         {
             String prefix = "";
-            if (TFM_SuperadminList.isUserSuperadmin(player))
+            if (TFM_SuperadminList.isSuperAdmin(player))
             {
                 if (TFM_SuperadminList.isSeniorAdmin(player))
                 {

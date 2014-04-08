@@ -35,7 +35,7 @@ public class Command_survival extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("-a"))
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole)
+                if (!TFM_SuperadminList.isSuperAdmin(sender) || senderIsConsole)
                 {
                     sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
@@ -50,7 +50,7 @@ public class Command_survival extends TFM_Command
                 return true;
             }
 
-            if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
+            if (senderIsConsole || TFM_SuperadminList.isSuperAdmin(sender))
             {
                 try
                 {

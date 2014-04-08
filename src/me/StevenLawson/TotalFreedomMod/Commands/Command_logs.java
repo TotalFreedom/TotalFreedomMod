@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
+import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
@@ -109,7 +109,7 @@ public class Command_logs extends TFM_Command
         }.runTaskAsynchronously(TotalFreedomMod.plugin);
     }
 
-    public static void deactivateSuperadmin(TFM_Superadmin superadmin)
+    public static void deactivateSuperadmin(TFM_Admin superadmin)
     {
         for (String ip : superadmin.getIps())
         {

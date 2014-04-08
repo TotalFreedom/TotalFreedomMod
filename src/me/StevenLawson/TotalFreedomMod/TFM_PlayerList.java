@@ -1,22 +1,16 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import net.pravian.bukkitlib.YamlConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -25,13 +19,12 @@ public class TFM_PlayerList
     private static final TFM_PlayerList INSTANCE = new TFM_PlayerList();
     private static final String USERLIST_FILENAME = "playerlist.yml";
     private final Map<UUID, PlayerEntry> playerList;
-    private final YamlConfiguration config;
     private File configFile;
 
     private TFM_PlayerList()
     {
         this.playerList = new HashMap<UUID, PlayerEntry>();
-        this.config = new YamlConfiguration();
+        this.configFile = new File(TotalFreedomMod.plugin.getDataFolder(), USERLIST_FILENAME);
     }
 
     public File getConfigFile()
@@ -43,7 +36,8 @@ public class TFM_PlayerList
     {
         playerList.clear();
 
-        configFile = new File(TotalFreedomMod.plugin.getDataFolder(), USERLIST_FILENAME);
+        configFile = getConfigFile();
+        final YamlConfiguration config = new YamlConfiguration();
 
         if (configFile.exists())
         {
@@ -118,32 +112,41 @@ public class TFM_PlayerList
         return null;
     }
 
+    public boolean existsEntry(Player player)
+    {
+        return playerList.containsKey(player.getUniqueId());
+    }
+
     public PlayerEntry getEntry(Player player)
     {
         final UUID uuid = player.getUniqueId();
 
-        PlayerEntry entry = playerList.get(uuid);
-
-        if (entry == null)
+        if (existsEntry(player))
         {
-            entry = new PlayerEntry(uuid);
-
-            entry.setFirstJoinName(player.getName());
-            entry.setLastJoinName(player.getName());
-
-            final long unix = TFM_Util.getUnixTime();
-            entry.setFirstJoinUnix(unix);
-            entry.setLastJoinUnix(unix);
-
-            entry.save();
-            playerList.put(uuid, entry);
+            return playerList.get(uuid);
         }
+
+        final PlayerEntry entry = new PlayerEntry(uuid);
+
+        entry.setFirstJoinName(player.getName());
+        entry.setLastJoinName(player.getName());
+
+        final long unix = TFM_Util.getUnixTime();
+        entry.setFirstJoinUnix(unix);
+        entry.setLastJoinUnix(unix);
+
+        entry.addIp(TFM_Util.getIp(player));
+
+        entry.save();
+        playerList.put(uuid, entry);
 
         return entry;
     }
 
     public void purgeAll()
     {
+        final YamlConfiguration config = loadConfig();
+
         // Clear the config entries
         for (String key : config.getKeys(false))
         {
@@ -163,6 +166,23 @@ public class TFM_PlayerList
 
         // Load online players
         load();
+    }
+
+    private YamlConfiguration loadConfig()
+    {
+        final YamlConfiguration config = new YamlConfiguration();
+        try
+        {
+            config.load(configFile);
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe("Could not load player config file: " + ex.getMessage());
+            TFM_Log.severe(ex);
+            purgeAll();
+            return null;
+        }
+        return config;
     }
 
     /*public String searchByPartialName(String needle)
@@ -294,6 +314,7 @@ public class TFM_PlayerList
                 throw new IllegalStateException("Entry is not complete");
             }
 
+            final YamlConfiguration config = loadConfig();
             final ConfigurationSection section;
 
             if (config.isConfigurationSection(uuid.toString()))

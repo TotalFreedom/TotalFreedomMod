@@ -44,7 +44,7 @@ public class Command_fr extends TFM_Command
                 playerMsg("Players are now frozen.");
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
-                    if (!TFM_SuperadminList.isUserSuperadmin(player))
+                    if (!TFM_SuperadminList.isSuperAdmin(player))
                     {
                         TFM_Util.playerMsg(player, "You have been frozen due to rule breaker(s), you will be unfrozen very soon.", ChatColor.RED);
                     }

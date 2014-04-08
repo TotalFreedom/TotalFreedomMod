@@ -54,7 +54,7 @@ public class TFM_ServerInterface
     {
         name = name.toLowerCase().trim();
 
-        if (TFM_SuperadminList.getSuperadminNames().contains(name))
+        if (TFM_SuperadminList.getSuperadminUUIDs().contains(name))
         {
             TFM_Log.info("Not banning username " + name + ": is superadmin");
             return;
@@ -164,11 +164,11 @@ public class TFM_ServerInterface
             return;
         }
 
-        // not safe to use TFM_Util.isUserSuperadmin for player logging in because player.getAddress() will return a null until after player login.
+        // not safe to use TFM_Util.isSuperAdmin for player logging in because player.getAddress() will return a null until after player login.
         boolean isSuperadmin;
         if (server.getOnlineMode())
         {
-            isSuperadmin = TFM_SuperadminList.getSuperadminNames().contains(username.toLowerCase());
+            isSuperadmin = TFM_SuperadminList.getSuperadminUUIDs().contains(username.toLowerCase());
         }
         else
         {
@@ -331,7 +331,7 @@ public class TFM_ServerInterface
             {
                 for (Player p : server.getOnlinePlayers())
                 {
-                    if (!TFM_SuperadminList.isUserSuperadmin(p))
+                    if (!TFM_SuperadminList.isSuperAdmin(p))
                     {
                         p.kickPlayer("You have been kicked to free up room for an admin.");
                         count--;

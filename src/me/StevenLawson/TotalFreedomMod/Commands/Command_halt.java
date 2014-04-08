@@ -25,7 +25,7 @@ public class Command_halt extends TFM_Command
             int counter = 0;
             for (Player player : server.getOnlinePlayers())
             {
-                if (!TFM_SuperadminList.isUserSuperadmin(player))
+                if (!TFM_SuperadminList.isSuperAdmin(player))
                 {
                     TFM_PlayerData.getPlayerData(player).setHalted(true);
                     counter++;

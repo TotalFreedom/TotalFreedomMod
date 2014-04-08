@@ -6,10 +6,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_logs;
 import org.bukkit.Bukkit;
@@ -22,36 +25,57 @@ import org.bukkit.util.FileUtil;
 
 public class TFM_SuperadminList
 {
-    private static final Map<String, TFM_Superadmin> superadminList = new HashMap<String, TFM_Superadmin>();
-    private static List<String> superadminNames = new ArrayList<String>();
-    private static List<String> senioradminNames = new ArrayList<String>();
-    private static List<String> telnetadminNames = new ArrayList<String>();
-    private static List<String> superadminIPs = new ArrayList<String>();
+    private static final Map<UUID, TFM_Admin> superadminList;
+    private static final Set<UUID> superadminUUIDs;
+    private static final Set<UUID> telnetadminUUIDs;
+    private static final Set<UUID> senioradminUUIDs;
+    private static final Set<String> senioradminAliases;
+    private static final Set<String> superadminIps;
     private static int cleanThreshold = 24 * 7; // 1 Week in hours
+
+    static
+    {
+        superadminList = new HashMap<UUID, TFM_Admin>();
+        superadminUUIDs = new HashSet<UUID>();
+        telnetadminUUIDs = new HashSet<UUID>();
+        senioradminUUIDs = new HashSet<UUID>();
+        senioradminAliases = new HashSet<String>();
+        superadminIps = new HashSet<String>();
+    }
 
     private TFM_SuperadminList()
     {
         throw new AssertionError();
     }
 
-    public static List<String> getSuperadminIPs()
+    public static Set<UUID> getSuperadminUUIDs()
     {
-        return Collections.unmodifiableList(superadminIPs);
+        return Collections.unmodifiableSet(superadminUUIDs);
     }
 
-    public static List<String> getSuperadminNames()
+    public static Set<UUID> getTelnetadminUUIDs()
     {
-        return Collections.unmodifiableList(superadminNames);
+        return Collections.unmodifiableSet(telnetadminUUIDs);
     }
 
-    public static List<String> getTelnetadminNames()
+    public static Set<UUID> getSenioradminUUIDs()
     {
-        return Collections.unmodifiableList(telnetadminNames);
+        return Collections.unmodifiableSet(senioradminUUIDs);
     }
 
-    public static List<String> getSenioradminNames()
+    public static Set<String> getConsoleAliases()
     {
-        return Collections.unmodifiableList(senioradminNames);
+        return Collections.unmodifiableSet(senioradminAliases);
+    }
+
+    public static Set<String> getSuperadminIps()
+    {
+        return Collections.unmodifiableSet(superadminIps);
+    }
+
+    public File getConfigFile()
+    {
+        return new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE);
     }
 
     public static void loadSuperadminList()
@@ -61,23 +85,36 @@ public class TFM_SuperadminList
             superadminList.clear();
 
             TFM_Util.createDefaultConfiguration(TotalFreedomMod.SUPERADMIN_FILE);
-            FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+
+            final FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
 
             cleanThreshold = config.getInt("clean_threshold_hours", cleanThreshold);
 
             if (config.isConfigurationSection("superadmins"))
             {
-                ConfigurationSection section = config.getConfigurationSection("superadmins");
-
-                for (String admin_name : section.getKeys(false))
-                {
-                    TFM_Superadmin superadmin = new TFM_Superadmin(admin_name, section.getConfigurationSection(admin_name));
-                    superadminList.put(admin_name.toLowerCase(), superadmin);
-                }
+                // TODO: Loading from old
             }
-            else
+
+            if (!config.isConfigurationSection("admins"))
             {
-                TFM_Log.warning("Missing superadmins section in superadmin.yml.");
+                TFM_Log.warning("Missing admins section in superadmin.yml.");
+                return;
+            }
+
+            final ConfigurationSection section = config.getConfigurationSection("superadmins");
+
+            for (String uuidString : section.getKeys(false))
+            {
+                if (!TFM_Util.isUniqueId(uuidString))
+                {
+                    TFM_Log.warning("Invalid Unique ID: " + uuidString + " in superadmin.yml, ignoring");
+                    continue;
+                }
+
+                final UUID uuid = UUID.fromString(uuidString);
+
+                final TFM_Admin superadmin = new TFM_Admin(uuid, section.getConfigurationSection(uuidString));
+                superadminList.put(uuid, superadmin);
             }
 
             updateIndexLists();
@@ -90,56 +127,52 @@ public class TFM_SuperadminList
 
     public static void backupSavedList()
     {
-        File a = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE);
-        File b = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE + ".bak");
-        FileUtil.copy(a, b);
+        final File oldYaml = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE);
+        final File newYaml = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE + ".bak");
+        FileUtil.copy(oldYaml, newYaml);
     }
 
     public static void updateIndexLists()
     {
-        superadminNames.clear();
-        telnetadminNames.clear();
-        senioradminNames.clear();
-        superadminIPs.clear();
+        superadminUUIDs.clear();
+        telnetadminUUIDs.clear();
+        senioradminUUIDs.clear();
+        senioradminAliases.clear();
+        superadminIps.clear();
 
-        Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
+        final Iterator<Entry<UUID, TFM_Admin>> it = superadminList.entrySet().iterator();
         while (it.hasNext())
         {
-            Entry<String, TFM_Superadmin> pair = it.next();
+            final Entry<UUID, TFM_Admin> pair = it.next();
 
-            String name = pair.getKey().toLowerCase();
-            TFM_Superadmin superadmin = pair.getValue();
+            final UUID uuid = pair.getKey();
+            TFM_Admin superadmin = pair.getValue();
 
             if (superadmin.isActivated())
             {
-                superadminNames.add(name);
+                superadminUUIDs.add(uuid);
 
                 for (String ip : superadmin.getIps())
                 {
-                    superadminIPs.add(ip);
+                    superadminIps.add(ip);
                 }
 
                 if (superadmin.isSeniorAdmin())
                 {
-                    senioradminNames.add(name);
+                    senioradminUUIDs.add(uuid);
 
-                    for (String console_alias : superadmin.getConsoleAliases())
+                    for (String alias : superadmin.getConsoleAliases())
                     {
-                        senioradminNames.add(console_alias.toLowerCase());
+                        senioradminAliases.add(alias.toLowerCase());
                     }
                 }
 
                 if (superadmin.isTelnetAdmin())
                 {
-                    telnetadminNames.add(name);
+                    telnetadminUUIDs.add(uuid);
                 }
             }
         }
-
-        superadminNames = TFM_Util.removeDuplicates(superadminNames);
-        telnetadminNames = TFM_Util.removeDuplicates(telnetadminNames);
-        senioradminNames = TFM_Util.removeDuplicates(senioradminNames);
-        superadminIPs = TFM_Util.removeDuplicates(superadminIPs);
 
         TFM_AdminWorld.getInstance().wipeAccessCache();
     }
@@ -154,21 +187,22 @@ public class TFM_SuperadminList
 
             config.set("clean_threshold_hours", cleanThreshold);
 
-            Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
+            Iterator<Entry<UUID, TFM_Admin>> it = superadminList.entrySet().iterator();
             while (it.hasNext())
             {
-                Entry<String, TFM_Superadmin> pair = it.next();
+                Entry<UUID, TFM_Admin> pair = it.next();
 
-                String admin_name = pair.getKey().toLowerCase();
-                TFM_Superadmin superadmin = pair.getValue();
+                UUID uuid = pair.getKey();
+                TFM_Admin superadmin = pair.getValue();
 
-                config.set("superadmins." + admin_name + ".ips", TFM_Util.removeDuplicates(superadmin.getIps()));
-                config.set("superadmins." + admin_name + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
-                config.set("superadmins." + admin_name + ".custom_login_message", superadmin.getCustomLoginMessage());
-                config.set("superadmins." + admin_name + ".is_senior_admin", superadmin.isSeniorAdmin());
-                config.set("superadmins." + admin_name + ".is_telnet_admin", superadmin.isTelnetAdmin());
-                config.set("superadmins." + admin_name + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
-                config.set("superadmins." + admin_name + ".is_activated", superadmin.isActivated());
+                config.set("superadmins." + uuid + ".last_login_name", superadmin.getLastLoginName());
+                config.set("superadmins." + uuid + ".is_activated", superadmin.isActivated());
+                config.set("superadmins." + uuid + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
+                config.set("superadmins." + uuid + ".custom_login_message", superadmin.getCustomLoginMessage());
+                config.set("superadmins." + uuid + ".is_senior_admin", superadmin.isSeniorAdmin());
+                config.set("superadmins." + uuid + ".is_telnet_admin", superadmin.isTelnetAdmin());
+                config.set("superadmins." + uuid + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
+                config.set("superadmins." + uuid + ".ips", TFM_Util.removeDuplicates(superadmin.getIps()));
             }
 
             config.save(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
@@ -179,15 +213,15 @@ public class TFM_SuperadminList
         }
     }
 
-    public static TFM_Superadmin getAdminEntry(Player player)
+    public static TFM_Admin getAdminEntry(Player player)
     {
-        final String name = player.getName().toLowerCase();
+        final UUID uuid = player.getUniqueId();
 
         if (Bukkit.getOnlineMode())
         {
-            if (superadminList.containsKey(name))
+            if (superadminList.containsKey(uuid))
             {
-                return superadminList.get(name);
+                return superadminList.get(uuid);
             }
         }
 
@@ -207,37 +241,35 @@ public class TFM_SuperadminList
     }
 
     @Deprecated
-    public static TFM_Superadmin getAdminEntry(String name)
+    public static TFM_Admin getAdminEntry(String name)
     {
-        name = name.toLowerCase();
-
-        if (superadminList.containsKey(name))
+        for (UUID uuid : superadminList.keySet())
         {
-            return superadminList.get(name);
+            if (superadminList.get(uuid).getLastLoginName().equalsIgnoreCase(name))
+            {
+                return superadminList.get(uuid);
+            }
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
-    public static TFM_Superadmin getAdminEntryByIP(String ip)
+    public static TFM_Admin getAdminEntryByIP(String ip)
     {
         return getAdminEntryByIP(ip, false);
     }
 
-    public static TFM_Superadmin getAdminEntryByIP(String needleIP, boolean fuzzy)
+    public static TFM_Admin getAdminEntryByIP(String needleIp, boolean fuzzy)
     {
-        Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
+        Iterator<Entry<UUID, TFM_Admin>> it = superadminList.entrySet().iterator();
         while (it.hasNext())
         {
-            Entry<String, TFM_Superadmin> pair = it.next();
-            TFM_Superadmin superadmin = pair.getValue();
+            Entry<UUID, TFM_Admin> pair = it.next();
+            TFM_Admin superadmin = pair.getValue();
             if (fuzzy)
             {
                 for (String haystackIP : superadmin.getIps())
                 {
-                    if (TFM_Util.fuzzyIpMatch(needleIP, haystackIP, 3))
+                    if (TFM_Util.fuzzyIpMatch(needleIp, haystackIP, 3))
                     {
                         return superadmin;
                     }
@@ -245,7 +277,7 @@ public class TFM_SuperadminList
             }
             else
             {
-                if (superadmin.getIps().contains(needleIP))
+                if (superadmin.getIps().contains(needleIp))
                 {
                     return superadmin;
                 }
@@ -256,7 +288,7 @@ public class TFM_SuperadminList
 
     public static void updateLastLogin(Player player)
     {
-        TFM_Superadmin admin_entry = getAdminEntry(player);
+        TFM_Admin admin_entry = getAdminEntry(player);
         if (admin_entry != null)
         {
             admin_entry.setLastLogin(new Date());
@@ -269,24 +301,23 @@ public class TFM_SuperadminList
         return isSeniorAdmin(user, false);
     }
 
-    public static boolean isSeniorAdmin(CommandSender user, boolean verifySuperadmin)
+    public static boolean isSeniorAdmin(CommandSender sender, boolean verifySuperadmin)
     {
         if (verifySuperadmin)
         {
-            if (!isUserSuperadmin(user))
+            if (!isSuperAdmin(sender))
             {
                 return false;
             }
         }
 
-        String username = user.getName().toLowerCase();
 
-        if (!(user instanceof Player))
+        if (!(sender instanceof Player))
         {
-            return senioradminNames.contains(username);
+            return senioradminUUIDs.contains(((Player) sender).getUniqueId());
         }
 
-        TFM_Superadmin entry = getAdminEntry((Player) user);
+        final TFM_Admin entry = getAdminEntry((Player) sender);
         if (entry != null)
         {
             return entry.isSeniorAdmin();
@@ -295,16 +326,16 @@ public class TFM_SuperadminList
         return false;
     }
 
-    public static boolean isUserSuperadmin(CommandSender user)
+    public static boolean isSuperAdmin(CommandSender sender)
     {
-        if (!(user instanceof Player))
+        if (!(sender instanceof Player))
         {
             return true;
         }
 
         if (Bukkit.getOnlineMode())
         {
-            if (superadminNames.contains(user.getName().toLowerCase()))
+            if (superadminUUIDs.contains(((Player) sender).getUniqueId()));
             {
                 return true;
             }
@@ -312,16 +343,16 @@ public class TFM_SuperadminList
 
         try
         {
-            String ip = ((Player) user).getAddress().getAddress().getHostAddress();
+            final String ip = TFM_Util.getIp((Player) sender);
             if (ip != null && !ip.isEmpty())
             {
-                if (superadminIPs.contains(ip))
+                if (superadminIps.contains(ip))
                 {
                     return true;
                 }
             }
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
             return false;
         }
@@ -335,14 +366,14 @@ public class TFM_SuperadminList
         {
             ip = ip.trim();
 
-            if (superadminIPs.contains(ip))
+            if (superadminIps.contains(ip))
             {
                 return true;
             }
             else
             {
                 String matchIp = null;
-                for (String testIp : getSuperadminIPs())
+                for (String testIp : getSuperadminIps())
                 {
                     if (TFM_Util.fuzzyIpMatch(ip, testIp, 3))
                     {
@@ -353,7 +384,7 @@ public class TFM_SuperadminList
 
                 if (matchIp != null)
                 {
-                    TFM_Superadmin entry = getAdminEntryByIP(matchIp);
+                    TFM_Admin entry = getAdminEntryByIP(matchIp);
 
                     if (entry != null)
                     {
@@ -386,9 +417,9 @@ public class TFM_SuperadminList
 
         Player player = (Player) user;
 
-        if (superadminNames.contains(player.getName().toLowerCase()))
+        if (superadminUUIDs.contains(player.getName().toLowerCase()))
         {
-            return !isUserSuperadmin(player);
+            return !isSuperAdmin(player);
         }
 
         return false;
@@ -402,14 +433,14 @@ public class TFM_SuperadminList
 
             if (superadminList.containsKey(username))
             {
-                TFM_Superadmin superadmin = superadminList.get(username);
+                TFM_Admin superadmin = superadminList.get(username);
                 superadmin.setActivated(true);
                 superadmin.getIps().addAll(ips);
                 superadmin.setLastLogin(new Date());
             }
             else
             {
-                TFM_Superadmin superadmin = new TFM_Superadmin(username, ips, new Date(), "", false, false, new ArrayList<String>(), true);
+                TFM_Admin superadmin = new TFM_Admin(username, ips, new Date(), "", false, false, new ArrayList<String>(), true);
                 superadminList.put(username.toLowerCase(), superadmin);
             }
 
@@ -442,7 +473,7 @@ public class TFM_SuperadminList
 
             if (superadminList.containsKey(username))
             {
-                TFM_Superadmin superadmin = superadminList.get(username);
+                TFM_Admin superadmin = superadminList.get(username);
                 superadmin.setActivated(false);
                 Command_logs.deactivateSuperadmin(superadmin);
                 saveSuperadminList();
@@ -463,11 +494,11 @@ public class TFM_SuperadminList
     {
         try
         {
-            Iterator<Entry<String, TFM_Superadmin>> it = superadminList.entrySet().iterator();
+            Iterator<Entry<String, TFM_Admin>> it = superadminList.entrySet().iterator();
             while (it.hasNext())
             {
-                Entry<String, TFM_Superadmin> pair = it.next();
-                TFM_Superadmin superadmin = pair.getValue();
+                Entry<String, TFM_Admin> pair = it.next();
+                TFM_Admin superadmin = pair.getValue();
                 if (superadmin.isActivated() && !superadmin.isSeniorAdmin())
                 {
                     Date lastLogin = superadmin.getLastLogin();
@@ -504,7 +535,7 @@ public class TFM_SuperadminList
                 return true;
             }
 
-            TFM_Superadmin entry = getAdminEntry(username);
+            TFM_Admin entry = getAdminEntry(username);
             if (entry != null)
             {
                 return entry.getIps().contains(ip);

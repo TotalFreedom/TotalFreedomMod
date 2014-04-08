@@ -38,7 +38,7 @@ public class Command_potion extends TFM_Command
             }
             else if (args[0].equalsIgnoreCase("clearall"))
             {
-                if (!(TFM_SuperadminList.isUserSuperadmin(sender) || senderIsConsole))
+                if (!(TFM_SuperadminList.isSuperAdmin(sender) || senderIsConsole))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
@@ -71,7 +71,7 @@ public class Command_potion extends TFM_Command
 
                 if (!target.equals(sender_p))
                 {
-                    if (!TFM_SuperadminList.isUserSuperadmin(sender))
+                    if (!TFM_SuperadminList.isSuperAdmin(sender))
                     {
                         playerMsg("Only superadmins can clear potion effects from other players.");
                         return true;
@@ -116,7 +116,7 @@ public class Command_potion extends TFM_Command
 
                 if (!target.equals(sender_p))
                 {
-                    if (!TFM_SuperadminList.isUserSuperadmin(sender))
+                    if (!TFM_SuperadminList.isSuperAdmin(sender))
                     {
                         sender.sendMessage("Only superadmins can apply potion effects to other players.");
                         return true;

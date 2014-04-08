@@ -3,7 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 import me.StevenLawson.BukkitTelnet.api.TelnetCommandEvent;
 import me.StevenLawson.BukkitTelnet.api.TelnetPreLoginEvent;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
-import me.StevenLawson.TotalFreedomMod.TFM_Superadmin;
+import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -23,7 +23,7 @@ public class TFM_TelnetListener implements Listener
             return;
         }
 
-        final TFM_Superadmin admin = TFM_SuperadminList.getAdminEntryByIP(ip, true);
+        final TFM_Admin admin = TFM_SuperadminList.getAdminEntryByIP(ip, true);
 
         if (admin == null || !(admin.isTelnetAdmin() || admin.isSeniorAdmin()))
         {

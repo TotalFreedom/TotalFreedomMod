@@ -57,7 +57,7 @@ public class Command_whohas extends TFM_Command
             if (player.getInventory().contains(material))
             {
                 players.add(player.getName());
-                if (smite & !TFM_SuperadminList.isUserSuperadmin(player))
+                if (smite & !TFM_SuperadminList.isSuperAdmin(player))
                 {
                     Command_smite.smite(player);
                 }

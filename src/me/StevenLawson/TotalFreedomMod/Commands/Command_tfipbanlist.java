@@ -22,7 +22,7 @@ public class Command_tfipbanlist extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("purge"))
             {
-                if (senderIsConsole || TFM_SuperadminList.isUserSuperadmin(sender))
+                if (senderIsConsole || TFM_SuperadminList.isSuperAdmin(sender))
                 {
                     try
                     {

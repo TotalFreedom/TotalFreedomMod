@@ -217,7 +217,7 @@ public class Command_adminworld extends TFM_Command
 
     private void assertCommandPerms(CommandSender sender, Player sender_p) throws PermissionDeniedException
     {
-        if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isUserSuperadmin(sender))
+        if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isSuperAdmin(sender))
         {
             throw new PermissionDeniedException(TotalFreedomMod.MSG_NO_PERMS);
         }
