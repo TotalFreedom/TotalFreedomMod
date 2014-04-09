@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
@@ -47,7 +47,7 @@ public class Command_blockcmd extends TFM_Command
             return true;
         }
 
-        if (TFM_SuperadminList.isSuperAdmin(player))
+        if (TFM_AdminList.isSuperAdmin(player))
         {
             playerMsg(player.getName() + " is a Superadmin, and cannot have their commands blocked.");
             return true;

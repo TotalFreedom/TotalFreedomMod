@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -21,7 +21,7 @@ public class Command_tfbanlist extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("purge"))
             {
-                if (senderIsConsole || TFM_SuperadminList.isSuperAdmin(sender))
+                if (senderIsConsole || TFM_AdminList.isSuperAdmin(sender))
                 {
                     try
                     {

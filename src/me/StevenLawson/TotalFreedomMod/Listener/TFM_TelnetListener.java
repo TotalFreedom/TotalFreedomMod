@@ -4,7 +4,7 @@ import me.StevenLawson.BukkitTelnet.api.TelnetCommandEvent;
 import me.StevenLawson.BukkitTelnet.api.TelnetPreLoginEvent;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
@@ -23,7 +23,7 @@ public class TFM_TelnetListener implements Listener
             return;
         }
 
-        final TFM_Admin admin = TFM_SuperadminList.getAdminEntryByIP(ip, true);
+        final TFM_Admin admin = TFM_AdminList.getAdminEntryByIP(ip, true);
 
         if (admin == null || !(admin.isTelnetAdmin() || admin.isSeniorAdmin()))
         {
@@ -31,9 +31,9 @@ public class TFM_TelnetListener implements Listener
         }
 
         event.setBypassPassword(true);
-        event.setName(admin.getName());
+        event.setName(admin.getLastLoginName());
 
-        final OfflinePlayer player = Bukkit.getOfflinePlayer(admin.getName());
+        final OfflinePlayer player = Bukkit.getOfflinePlayer(admin.getLastLoginName());
         if (player == null)
         {
             return;

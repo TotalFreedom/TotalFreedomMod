@@ -5,7 +5,7 @@ import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerRank;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang.StringUtils;
 
@@ -55,7 +55,7 @@ public class Command_list extends TFM_Command
         final List<String> names = new ArrayList<String>();
         for (Player player : server.getOnlinePlayers())
         {
-            final boolean userSuperadmin = TFM_SuperadminList.isSuperAdmin(player);
+            final boolean userSuperadmin = TFM_AdminList.isSuperAdmin(player);
 
             if (listFilter == Command_list.ListFilter.ADMINS && !userSuperadmin)
             {

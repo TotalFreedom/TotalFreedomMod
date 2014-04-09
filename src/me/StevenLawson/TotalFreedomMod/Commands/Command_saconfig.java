@@ -2,11 +2,12 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,11 +24,11 @@ public class Command_saconfig extends TFM_Command
         {
             if (args[0].equals("list"))
             {
-                playerMsg("Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminUUIDs(), ", "), ChatColor.GOLD);
+                playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperadminUUIDs(), ", "), ChatColor.GOLD);
             }
             else
             {
-                if (!TFM_SuperadminList.isSeniorAdmin(sender, true))
+                if (!TFM_AdminList.isSeniorAdmin(sender, true))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
@@ -36,8 +37,8 @@ public class Command_saconfig extends TFM_Command
                 if (args[0].equals("clean"))
                 {
                     TFM_Util.adminAction(sender.getName(), "Cleaning superadmin list", true);
-                    TFM_SuperadminList.cleanSuperadminList(true);
-                    playerMsg("Superadmins: " + StringUtils.join(TFM_SuperadminList.getSuperadminUUIDs(), ", "), ChatColor.YELLOW);
+                    TFM_AdminList.cleanSuperadminList(true);
+                    playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperadminUUIDs(), ", "), ChatColor.YELLOW);
                 }
                 else
                 {
@@ -53,19 +54,19 @@ public class Command_saconfig extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("info"))
             {
-                if (!TFM_SuperadminList.isSuperAdmin(sender))
+                if (!TFM_AdminList.isSuperAdmin(sender))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
                 }
 
-                TFM_Admin superadmin = TFM_SuperadminList.getAdminEntry(args[1].toLowerCase());
+                TFM_Admin superadmin = TFM_AdminList.getAdminEntry(args[1].toLowerCase());
 
                 if (superadmin == null)
                 {
                     try
                     {
-                        superadmin = TFM_SuperadminList.getAdminEntry(getPlayer(args[1]).getName().toLowerCase());
+                        superadmin = TFM_AdminList.getAdminEntry(getPlayer(args[1]).getName().toLowerCase());
                     }
                     catch (PlayerNotFoundException ex)
                     {
@@ -93,7 +94,7 @@ public class Command_saconfig extends TFM_Command
             if (args[0].equalsIgnoreCase("add"))
             {
                 Player player = null;
-                String admin_name = null;
+                String playername = null;
 
                 try
                 {
@@ -101,10 +102,10 @@ public class Command_saconfig extends TFM_Command
                 }
                 catch (PlayerNotFoundException ex)
                 {
-                    TFM_Admin superadmin = TFM_SuperadminList.getAdminEntry(args[1].toLowerCase());
+                    TFM_Admin superadmin = TFM_AdminList.getAdminEntry(args[1].toLowerCase());
                     if (superadmin != null)
                     {
-                        admin_name = superadmin.getName();
+                        playername = superadmin.getLastLoginName();
                     }
                     else
                     {
@@ -116,17 +117,17 @@ public class Command_saconfig extends TFM_Command
                 if (player != null)
                 {
                     TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list.", true);
-                    TFM_SuperadminList.addSuperadmin(player);
+                    TFM_AdminList.addSuperadmin(player);
                 }
-                else if (admin_name != null)
+                else if (playername != null)
                 {
-                    TFM_Util.adminAction(sender.getName(), "Adding " + admin_name + " to the superadmin list.", true);
-                    TFM_SuperadminList.addSuperadmin(admin_name);
+                    TFM_Util.adminAction(sender.getName(), "Adding " + playername + " to the superadmin list.", true);
+                    TFM_AdminList.addSuperadmin(player);
                 }
             }
             else if (TFM_Util.isRemoveCommand(args[0]))
             {
-                if (!TFM_SuperadminList.isSeniorAdmin(sender))
+                if (!TFM_AdminList.isSeniorAdmin(sender))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
@@ -142,14 +143,14 @@ public class Command_saconfig extends TFM_Command
                 {
                 }
 
-                if (!TFM_SuperadminList.getSuperadminUUIDs().contains(targetName.toLowerCase()))
+                if (!TFM_AdminList.getSuperadminUUIDs().contains(targetName.toLowerCase()))
                 {
                     playerMsg("Superadmin not found: " + targetName);
                     return true;
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Removing " + targetName + " from the superadmin list", true);
-                TFM_SuperadminList.removeSuperadmin(targetName);
+                TFM_AdminList.removeSuperadmin(Bukkit.getOfflinePlayer(targetName));
 
                 // Twitterbot
                 if (TFM_ConfigEntry.TWITTERBOT_ENABLED.getBoolean())

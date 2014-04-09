@@ -113,7 +113,7 @@ public class Command_logs extends TFM_Command
     {
         for (String ip : superadmin.getIps())
         {
-            updateLogsRegistration(null, superadmin.getName(), ip, Command_logs.LogsRegistrationMode.DELETE);
+            updateLogsRegistration(null, superadmin.getLastLoginName(), ip, Command_logs.LogsRegistrationMode.DELETE);
         }
     }
 

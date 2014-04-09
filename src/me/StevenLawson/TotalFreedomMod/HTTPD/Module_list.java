@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -26,9 +26,9 @@ public class Module_list extends TFM_HTTPD_Module
         for (Player player : onlinePlayers)
         {
             String prefix = "";
-            if (TFM_SuperadminList.isSuperAdmin(player))
+            if (TFM_AdminList.isSuperAdmin(player))
             {
-                if (TFM_SuperadminList.isSeniorAdmin(player))
+                if (TFM_AdminList.isSeniorAdmin(player))
                 {
                     prefix = "[SrA]";
                 }

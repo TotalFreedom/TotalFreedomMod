@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminWorld;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.World;
@@ -217,7 +217,7 @@ public class Command_adminworld extends TFM_Command
 
     private void assertCommandPerms(CommandSender sender, Player sender_p) throws PermissionDeniedException
     {
-        if (!(sender instanceof Player) || sender_p == null || !TFM_SuperadminList.isSuperAdmin(sender))
+        if (!(sender instanceof Player) || sender_p == null || !TFM_AdminList.isSuperAdmin(sender))
         {
             throw new PermissionDeniedException(TotalFreedomMod.MSG_NO_PERMS);
         }

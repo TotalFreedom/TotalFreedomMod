@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -26,7 +26,7 @@ public class Command_onlinemode extends TFM_Command
         {
             boolean online_mode;
 
-            if (sender instanceof Player && !TFM_SuperadminList.isSeniorAdmin(sender, true))
+            if (sender instanceof Player && !TFM_AdminList.isSeniorAdmin(sender, true))
             {
                 playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                 return true;

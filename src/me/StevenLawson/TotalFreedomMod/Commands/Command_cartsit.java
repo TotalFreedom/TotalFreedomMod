@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Minecart;
@@ -36,7 +36,7 @@ public class Command_cartsit extends TFM_Command
                 return true;
             }
         }
-        else if (targetPlayer != sender_p && !TFM_SuperadminList.isSuperAdmin(sender))
+        else if (targetPlayer != sender_p && !TFM_AdminList.isSuperAdmin(sender))
         {
             sender.sendMessage("Only superadmins can select another player as a /cartsit target.");
             return true;

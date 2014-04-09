@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,7 +22,7 @@ public class Command_tfipbanlist extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("purge"))
             {
-                if (senderIsConsole || TFM_SuperadminList.isSuperAdmin(sender))
+                if (senderIsConsole || TFM_AdminList.isSuperAdmin(sender))
                 {
                     try
                     {

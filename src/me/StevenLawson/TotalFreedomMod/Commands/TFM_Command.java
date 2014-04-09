@@ -3,7 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -62,11 +62,11 @@ public abstract class TFM_Command
         CommandPermissions permissions = commandClass.getAnnotation(CommandPermissions.class);
         if (permissions != null)
         {
-            boolean is_super = TFM_SuperadminList.isSuperAdmin(this.commandSender);
+            boolean is_super = TFM_AdminList.isSuperAdmin(this.commandSender);
             boolean is_senior = false;
             if (is_super)
             {
-                is_senior = TFM_SuperadminList.isSeniorAdmin(this.commandSender);
+                is_senior = TFM_AdminList.isSeniorAdmin(this.commandSender);
             }
 
             AdminLevel level = permissions.level();

@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import java.util.UUID;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
@@ -34,14 +35,14 @@ public class Module_players extends TFM_HTTPD_Module
         }
 
         // Super admins (non-telnet and non-senior)
-        for (String superadmin : TFM_SuperadminList.getSuperadminUUIDs())
+        for (UUID superadmin : TFM_AdminList.getSuperadminUUIDs())
         {
-            if (TFM_SuperadminList.getSenioradminUUIDs().contains(superadmin))
+            if (TFM_AdminList.getSenioradminUUIDs().contains(superadmin))
             {
                 continue;
             }
 
-            if (TFM_SuperadminList.getTelnetadminUUIDs().contains(superadmin))
+            if (TFM_AdminList.getTelnetadminUUIDs().contains(superadmin))
             {
                 continue;
             }
@@ -50,9 +51,9 @@ public class Module_players extends TFM_HTTPD_Module
         }
 
         // Telnet admins (non-senior)
-        for (String telnetadmin : TFM_SuperadminList.getTelnetadminUUIDs())
+        for (UUID telnetadmin : TFM_AdminList.getTelnetadminUUIDs())
         {
-            if (TFM_SuperadminList.getSenioradminUUIDs().contains(telnetadmin))
+            if (TFM_AdminList.getSenioradminUUIDs().contains(telnetadmin))
             {
                 continue;
             }
@@ -60,7 +61,7 @@ public class Module_players extends TFM_HTTPD_Module
         }
 
         // Senior admins
-        for (String senioradmin : TFM_SuperadminList.getSenioradminUUIDs())
+        for (UUID senioradmin : TFM_AdminList.getSenioradminUUIDs())
         {
             senioradmins.add(getName(senioradmin));
         }
@@ -79,16 +80,8 @@ public class Module_players extends TFM_HTTPD_Module
         return response;
     }
 
-    private String getName(String caseInsensitiveName)
+    private String getName(UUID uuid)
     {
-        final OfflinePlayer player = Bukkit.getOfflinePlayer(caseInsensitiveName);
-        if (player == null)
-        {
-            return caseInsensitiveName;
-        }
-        else
-        {
-            return player.getName();
-        }
+        return TFM_AdminList.getAdminEntry(uuid).getLastLoginName();
     }
 }

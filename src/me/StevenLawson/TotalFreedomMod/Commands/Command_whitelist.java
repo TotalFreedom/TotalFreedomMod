@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.OfflinePlayer;
@@ -56,7 +56,7 @@ public class Command_whitelist extends TFM_Command
         }
 
         // all commands past this line are superadmin-only
-        if (!(senderIsConsole || TFM_SuperadminList.isSuperAdmin(sender)))
+        if (!(senderIsConsole || TFM_AdminList.isSuperAdmin(sender)))
         {
             sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
             return true;

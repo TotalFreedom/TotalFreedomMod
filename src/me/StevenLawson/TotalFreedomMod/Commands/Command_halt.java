@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -25,7 +25,7 @@ public class Command_halt extends TFM_Command
             int counter = 0;
             for (Player player : server.getOnlinePlayers())
             {
-                if (!TFM_SuperadminList.isSuperAdmin(player))
+                if (!TFM_AdminList.isSuperAdmin(player))
                 {
                     TFM_PlayerData.getPlayerData(player).setHalted(true);
                     counter++;

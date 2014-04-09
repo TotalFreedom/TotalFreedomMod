@@ -756,7 +756,7 @@ public class TFM_Util
 
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            if (TFM_SuperadminList.isSuperAdmin(player))
+            if (TFM_AdminList.isSuperAdmin(player))
             {
                 player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
             }

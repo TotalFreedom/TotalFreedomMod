@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -57,7 +57,7 @@ public class Command_whohas extends TFM_Command
             if (player.getInventory().contains(material))
             {
                 players.add(player.getName());
-                if (smite & !TFM_SuperadminList.isSuperAdmin(player))
+                if (smite & !TFM_AdminList.isSuperAdmin(player))
                 {
                     Command_smite.smite(player);
                 }

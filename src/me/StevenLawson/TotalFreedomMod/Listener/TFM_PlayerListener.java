@@ -97,7 +97,7 @@ public class TFM_PlayerListener implements Listener
                 {
                     case STICK:
                     {
-                        if (!TFM_SuperadminList.isSuperAdmin(player))
+                        if (!TFM_AdminList.isSuperAdmin(player))
                         {
                             break;
                         }
@@ -167,7 +167,7 @@ public class TFM_PlayerListener implements Listener
                             break;
                         }
 
-                        if (!TFM_SuperadminList.isSeniorAdmin(player, true))
+                        if (!TFM_AdminList.isSeniorAdmin(player, true))
                         {
                             break;
                         }
@@ -203,7 +203,7 @@ public class TFM_PlayerListener implements Listener
                             break;
                         }
 
-                        if (!TFM_SuperadminList.isSeniorAdmin(player, true))
+                        if (!TFM_AdminList.isSeniorAdmin(player, true))
                         {
                             break;
                         }
@@ -331,7 +331,7 @@ public class TFM_PlayerListener implements Listener
         boolean freeze = false;
         if (TotalFreedomMod.allPlayersFrozen)
         {
-            if (!TFM_SuperadminList.isSuperAdmin(player))
+            if (!TFM_AdminList.isSuperAdmin(player))
             {
                 freeze = true;
             }
@@ -490,7 +490,7 @@ public class TFM_PlayerListener implements Listener
             // Check for muted
             if (playerdata.isMuted())
             {
-                if (!TFM_SuperadminList.isSuperAdmin(player))
+                if (!TFM_AdminList.isSuperAdmin(player))
                 {
                     player.sendMessage(ChatColor.RED + "You are muted, STFU!");
                     event.setCancelled(true);
@@ -583,7 +583,7 @@ public class TFM_PlayerListener implements Listener
         // Block commands if player is muted
         if (playerdata.isMuted())
         {
-            if (!TFM_SuperadminList.isSuperAdmin(player))
+            if (!TFM_AdminList.isSuperAdmin(player))
             {
                 for (String commandName : BLOCKED_MUTED_CMDS)
                 {
@@ -615,11 +615,11 @@ public class TFM_PlayerListener implements Listener
             event.setCancelled(true);
         }
 
-        if (!TFM_SuperadminList.isSuperAdmin(player))
+        if (!TFM_AdminList.isSuperAdmin(player))
         {
             for (Player pl : Bukkit.getOnlinePlayers())
             {
-                if (TFM_SuperadminList.isSuperAdmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
+                if (TFM_AdminList.isSuperAdmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
                 {
                     TFM_Util.playerMsg(pl, player.getName() + ": " + command);
                 }
@@ -709,9 +709,9 @@ public class TFM_PlayerListener implements Listener
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
         playerdata.setSuperadminIdVerified(null);
-        final boolean impostor = TFM_SuperadminList.isSuperadminImpostor(player);
+        final boolean impostor = TFM_AdminList.isAdminImpostor(player);
 
-        if (impostor || TFM_SuperadminList.isSuperAdmin(player))
+        if (impostor || TFM_AdminList.isSuperAdmin(player))
         {
             TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
 
@@ -724,11 +724,11 @@ public class TFM_PlayerListener implements Listener
             }
             else
             {
-                if (TFM_SuperadminList.verifyIdentity(player.getName(), TFM_Util.getIp(player)))
+                if (TFM_AdminList.verifyIdentity(player.getName(), TFM_Util.getIp(player)))
                 {
                     playerdata.setSuperadminIdVerified(Boolean.TRUE);
 
-                    TFM_SuperadminList.updateLastLogin(player);
+                    TFM_AdminList.updateLastLogin(player);
                 }
                 else
                 {

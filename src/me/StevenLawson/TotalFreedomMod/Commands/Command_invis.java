@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
@@ -38,7 +38,7 @@ public class Command_invis extends TFM_Command
             if (player.hasPotionEffect(PotionEffectType.INVISIBILITY))
             {
                 players.add(player.getName());
-                if (smite && !TFM_SuperadminList.isSuperAdmin(player))
+                if (smite && !TFM_AdminList.isSuperAdmin(player))
                 {
                     TFM_Util.adminAction(sender.getName(), "Smiting all invisible players", true);
                     player.setHealth(0.0);

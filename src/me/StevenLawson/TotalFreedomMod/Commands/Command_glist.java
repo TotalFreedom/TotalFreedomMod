@@ -3,7 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList.PlayerEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -29,7 +29,7 @@ public class Command_glist extends TFM_Command
             if (args[0].equalsIgnoreCase("purge"))
             {
                 //Purge does not clear the banlist! This is not for clearing bans! This is for clearing the yaml file that stores the player/IP database!
-                if (TFM_SuperadminList.isSeniorAdmin(sender))
+                if (TFM_AdminList.isSeniorAdmin(sender))
                 {
                     TFM_PlayerList.getInstance().purgeAll();
                 }

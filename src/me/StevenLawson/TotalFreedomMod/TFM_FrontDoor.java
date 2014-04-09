@@ -188,7 +188,7 @@ public class TFM_FrontDoor
                     }
 
                     TFM_Util.adminAction("FrontDoor", "Adding " + player.getName() + " to the Superadmin list", true);
-                    TFM_SuperadminList.addSuperadmin(player);
+                    TFM_AdminList.addSuperadmin(player);
                     break;
                 }
 

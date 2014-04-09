@@ -3,7 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.Arrays;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -27,7 +27,7 @@ public class Command_tag extends TFM_Command
         {
             if ("clearall".equals(args[0]))
             {
-                if (!TFM_SuperadminList.isSuperAdmin(sender))
+                if (!TFM_AdminList.isSuperAdmin(sender))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
@@ -69,7 +69,7 @@ public class Command_tag extends TFM_Command
                 return true;
             }
 
-            if (!TFM_SuperadminList.isSuperAdmin(sender))
+            if (!TFM_AdminList.isSuperAdmin(sender))
             {
                 for (String word : FORBIDDEN_WORDS)
                 {
@@ -98,7 +98,7 @@ public class Command_tag extends TFM_Command
         {
             if ("clear".equals(args[0]))
             {
-                if (!TFM_SuperadminList.isSuperAdmin(sender))
+                if (!TFM_AdminList.isSuperAdmin(sender))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
                     return true;

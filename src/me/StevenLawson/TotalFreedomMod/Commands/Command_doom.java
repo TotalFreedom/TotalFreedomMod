@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -39,10 +39,10 @@ public class Command_doom extends TFM_Command
         final String IP = player.getAddress().getAddress().getHostAddress().trim();
 
         // remove from superadmin
-        if (TFM_SuperadminList.isSuperAdmin(player))
+        if (TFM_AdminList.isSuperAdmin(player))
         {
             TFM_Util.adminAction(sender.getName(), "Removing " + player.getName() + " from the superadmin list.", true);
-            TFM_SuperadminList.removeSuperadmin(player);
+            TFM_AdminList.removeSuperadmin(player);
         }
 
         // remove from whitelist

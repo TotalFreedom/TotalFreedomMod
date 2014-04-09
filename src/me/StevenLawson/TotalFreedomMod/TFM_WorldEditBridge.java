@@ -118,7 +118,7 @@ public class TFM_WorldEditBridge
 
     public void validateSelection(final Player player)
     {
-        if (TFM_SuperadminList.isSuperAdmin(player))
+        if (TFM_AdminList.isSuperAdmin(player))
         {
             return;
         }

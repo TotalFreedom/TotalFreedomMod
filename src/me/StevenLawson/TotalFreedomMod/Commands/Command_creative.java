@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.GameMode;
@@ -33,7 +33,7 @@ public class Command_creative extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("-a"))
             {
-                if (!TFM_SuperadminList.isSuperAdmin(sender))
+                if (!TFM_AdminList.isSuperAdmin(sender))
                 {
                     sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                     return true;
@@ -48,7 +48,7 @@ public class Command_creative extends TFM_Command
                 return true;
             }
 
-            if (!(senderIsConsole || TFM_SuperadminList.isSuperAdmin(sender)))
+            if (!(senderIsConsole || TFM_AdminList.isSuperAdmin(sender)))
             {
                 playerMsg("Only superadmins can change other user's gamemode.");
                 return true;

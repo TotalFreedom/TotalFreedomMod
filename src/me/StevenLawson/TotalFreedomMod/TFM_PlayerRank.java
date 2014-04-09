@@ -32,7 +32,7 @@ public enum TFM_PlayerRank
             return fromSender(sender).getLoginMessage();
         }
 
-        final TFM_Admin entry = TFM_SuperadminList.getAdminEntry((Player) sender);
+        final TFM_Admin entry = TFM_AdminList.getAdminEntry((Player) sender);
 
         if (entry == null)
         {
@@ -58,7 +58,7 @@ public enum TFM_PlayerRank
             return CONSOLE;
         }
 
-        if (TFM_SuperadminList.isSuperadminImpostor(sender))
+        if (sender instanceof Player && TFM_AdminList.isAdminImpostor((Player) sender))
         {
             return IMPOSTOR;
         }
@@ -69,7 +69,7 @@ public enum TFM_PlayerRank
         }
 
 
-        final TFM_Admin entry = TFM_SuperadminList.getAdminEntry((Player) sender);
+        final TFM_Admin entry = TFM_AdminList.getAdminEntry((Player) sender);
 
         final TFM_PlayerRank rank;
 

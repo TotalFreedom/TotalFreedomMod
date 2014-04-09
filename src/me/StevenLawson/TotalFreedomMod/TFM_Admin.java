@@ -3,12 +3,14 @@ package me.StevenLawson.TotalFreedomMod;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import java.util.UUID;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class TFM_Admin
 {
-    private final String name;
+    private final UUID uuid;
+    private String lastLoginName;
     private final String loginMessage;
     private final boolean isSeniorAdmin;
     private final boolean isTelnetAdmin;
@@ -17,9 +19,10 @@ public class TFM_Admin
     private Date lastLogin;
     private boolean isActivated;
 
-    public TFM_Admin(String name, List<String> ips, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, List<String> consoleAliases, boolean isActivated)
+    public TFM_Admin(UUID uuid, String lastLoginName, List<String> ips, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, List<String> consoleAliases, boolean isActivated)
     {
-        this.name = name.toLowerCase();
+        this.uuid = uuid;
+        this.lastLoginName = lastLoginName;
         this.ips = ips;
         this.lastLogin = lastLogin;
         this.loginMessage = loginMessage;
@@ -29,9 +32,10 @@ public class TFM_Admin
         this.isActivated = isActivated;
     }
 
-    public TFM_Admin(String name, ConfigurationSection section)
+    public TFM_Admin(UUID uuid, ConfigurationSection section)
     {
-        this.name = name.toLowerCase();
+        this.uuid = uuid;
+        this.lastLoginName = section.getString("last_login_name");
         this.ips = section.getStringList("ips");
         this.lastLogin = TFM_Util.stringToDate(section.getString("last_login", TFM_Util.dateToString(new Date(0L))));
         this.loginMessage = section.getString("custom_login_message", "");
@@ -44,35 +48,47 @@ public class TFM_Admin
     @Override
     public String toString()
     {
-        StringBuilder output = new StringBuilder();
+        final StringBuilder output = new StringBuilder();
 
-        try
-        {
-            output.append("Name: ").append(this.name).append("\n");
-            output.append("- IPs: ").append(StringUtils.join(this.ips, ", ")).append("\n");
-            output.append("- Last Login: ").append(TFM_Util.dateToString(this.lastLogin)).append("\n");
-            output.append("- Custom Login Message: ").append(this.loginMessage).append("\n");
-            output.append("- Is Senior Admin: ").append(this.isSeniorAdmin).append("\n");
-            output.append("- Is Telnet Admin: ").append(this.isTelnetAdmin).append("\n");
-            output.append("- Console Aliases: ").append(StringUtils.join(this.consoleAliases, ", ")).append("\n");
-            output.append("- Is Activated: ").append(this.isActivated);
-        }
-        catch (Exception ex)
-        {
-            TFM_Log.severe(ex);
-        }
+        output.append("UUID: ").append(uuid.toString()).append("\n");
+        output.append("- Last Login Name: ").append(lastLoginName).append("\n");
+        output.append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n");
+        output.append("- Last Login: ").append(TFM_Util.dateToString(lastLogin)).append("\n");
+        output.append("- Custom Login Message: ").append(loginMessage).append("\n");
+        output.append("- Is Senior Admin: ").append(isSeniorAdmin).append("\n");
+        output.append("- Is Telnet Admin: ").append(isTelnetAdmin).append("\n");
+        output.append("- Console Aliases: ").append(StringUtils.join(consoleAliases, ", ")).append("\n");
+        output.append("- Is Activated: ").append(isActivated);
 
         return output.toString();
     }
 
-    public String getName()
+    public UUID getUniqueId()
     {
-        return name;
+        return uuid;
+    }
+
+    public void setLastLoginName(String lastLoginName)
+    {
+        this.lastLoginName = lastLoginName;
+    }
+
+    public String getLastLoginName()
+    {
+        return lastLoginName;
     }
 
     public List<String> getIps()
     {
         return Collections.unmodifiableList(ips);
+    }
+
+    public void addIp(String ip)
+    {
+        if (!ips.contains(ip))
+        {
+            ips.add(ip);
+        }
     }
 
     public Date getLastLogin()
@@ -97,7 +113,7 @@ public class TFM_Admin
 
     public List<String> getConsoleAliases()
     {
-        return consoleAliases;
+        return Collections.unmodifiableList(consoleAliases);
     }
 
     public void setLastLogin(Date lastLogin)

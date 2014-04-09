@@ -13,7 +13,7 @@ import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Method;
 import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
-import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import net.minecraft.util.org.apache.commons.io.FileUtils;
 import net.minecraft.util.org.apache.commons.lang3.StringEscapeUtils;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
@@ -223,7 +223,7 @@ public class Module_schematic extends TFM_HTTPD_Module
 
     private boolean isAuthorized(String remoteAddress)
     {
-        TFM_Admin entry = TFM_SuperadminList.getAdminEntryByIP(remoteAddress);
+        TFM_Admin entry = TFM_AdminList.getAdminEntryByIP(remoteAddress);
         return entry != null && entry.isActivated();
     }
 

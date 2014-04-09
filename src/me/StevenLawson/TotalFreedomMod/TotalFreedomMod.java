@@ -264,8 +264,8 @@ public class TotalFreedomMod extends JavaPlugin
     {
         try
         {
-            TFM_SuperadminList.backupSavedList();
-            TFM_SuperadminList.loadSuperadminList();
+            TFM_AdminList.backupSavedList();
+            TFM_AdminList.loadSuperadminList();
         }
         catch (Exception ex)
         {

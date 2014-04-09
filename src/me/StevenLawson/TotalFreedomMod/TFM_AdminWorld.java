@@ -79,12 +79,12 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
 
     public boolean addGuest(Player guest, Player supervisor)
     {
-        if (guest == supervisor || TFM_SuperadminList.isSuperAdmin(guest))
+        if (guest == supervisor || TFM_AdminList.isSuperAdmin(guest))
         {
             return false;
         }
 
-        if (TFM_SuperadminList.isSuperAdmin(supervisor))
+        if (TFM_AdminList.isSuperAdmin(supervisor))
         {
             guestList.put(guest, supervisor);
             wipeAccessCache();
@@ -194,11 +194,11 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
         Boolean cached = accessCache.get(player);
         if (cached == null)
         {
-            boolean canAccess = TFM_SuperadminList.isSuperAdmin(player);
+            boolean canAccess = TFM_AdminList.isSuperAdmin(player);
             if (!canAccess)
             {
                 Player supervisor = guestList.get(player);
-                canAccess = supervisor != null && supervisor.isOnline() && TFM_SuperadminList.isSuperAdmin(supervisor);
+                canAccess = supervisor != null && supervisor.isOnline() && TFM_AdminList.isSuperAdmin(supervisor);
                 if (!canAccess)
                 {
                     guestList.remove(player);
