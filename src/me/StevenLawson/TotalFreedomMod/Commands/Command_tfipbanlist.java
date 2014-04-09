@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_SuperadminList;
 import org.bukkit.ChatColor;
@@ -26,6 +27,7 @@ public class Command_tfipbanlist extends TFM_Command
                 {
                     try
                     {
+                        TFM_Util.adminAction(sender.getName(), "Purging the IP ban list", true);
                         TFM_ServerInterface.wipeIpBans();
                         sender.sendMessage(ChatColor.GRAY + "IP ban list has been purged.");
                     }
