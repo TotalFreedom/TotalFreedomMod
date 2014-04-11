@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.URL;
@@ -38,6 +39,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.plugin.Plugin;
 
 public class TFM_Util
 {
@@ -322,19 +324,41 @@ public class TFM_Util
         return TFM_Util.mobtypes.get(mobname);
     }
 
-    @Deprecated
-    private static void copy(InputStream in, OutputStream out) throws IOException
+    /**
+     * Write the specified InputStream to a file.
+     *
+     * @param in The InputStream from which to read.
+     * @param file The File to write to.
+     * @throws IOException
+     */
+    public static void copy(InputStream in, File file) throws IOException // BukkitLib @ https://github.com/Pravian/BukkitLib
     {
-        byte[] buffer = new byte[1024];
-        while (true)
+        if (!file.exists())
         {
-            int readCount = in.read(buffer);
-            if (readCount < 0)
-            {
-                break;
-            }
-            out.write(buffer, 0, readCount);
+            file.getParentFile().mkdirs();
         }
+
+        final OutputStream out = new FileOutputStream(file);
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0)
+        {
+            out.write(buf, 0, len);
+        }
+        out.close();
+        in.close();
+    }
+
+    /**
+     * Returns a file at located at the Plugins Data folder.
+     *
+     * @param plugin The plugin to use
+     * @param name The name of the file.
+     * @return The requested file.
+     */
+    public static File getPluginFile(Plugin plugin, String name)  // BukkitLib @ https://github.com/Pravian/BukkitLib
+    {
+        return new File(plugin.getDataFolder(), name);
     }
 
     public static boolean isStopCommand(String command)

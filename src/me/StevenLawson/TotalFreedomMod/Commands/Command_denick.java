@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_EssentialsBridge;
+import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

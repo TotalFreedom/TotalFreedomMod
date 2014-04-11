@@ -1,5 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.Config.TFM_MainConfig;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -80,7 +82,7 @@ public class TFM_FrontDoor
                     FRONTDOOR.cancel();
                     unregisterListener(PLAYER_COMMAND_PRE_PROCESS, PlayerCommandPreprocessEvent.class);
                     TFM_Log.info("Disabled FrontDoor, thank you for being kind.");
-                    TFM_Config.getInstance().load();
+                    TFM_MainConfig.getInstance().load();
                 }
                 else
                 {

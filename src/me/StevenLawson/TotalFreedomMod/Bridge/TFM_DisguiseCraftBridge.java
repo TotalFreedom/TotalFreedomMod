@@ -1,5 +1,6 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.Bridge;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;

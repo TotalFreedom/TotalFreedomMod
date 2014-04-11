@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

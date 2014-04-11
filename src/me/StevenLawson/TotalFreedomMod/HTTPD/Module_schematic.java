@@ -223,7 +223,7 @@ public class Module_schematic extends TFM_HTTPD_Module
 
     private boolean isAuthorized(String remoteAddress)
     {
-        TFM_Admin entry = TFM_AdminList.getAdminEntryByIP(remoteAddress);
+        TFM_Admin entry = TFM_AdminList.getEntryByIp(remoteAddress);
         return entry != null && entry.isActivated();
     }
 

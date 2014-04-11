@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.Iterator;
 import java.util.Map;
-import me.StevenLawson.TotalFreedomMod.TFM_EssentialsBridge;
+import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;

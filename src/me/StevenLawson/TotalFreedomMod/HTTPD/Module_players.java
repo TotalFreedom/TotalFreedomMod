@@ -82,6 +82,6 @@ public class Module_players extends TFM_HTTPD_Module
 
     private String getName(UUID uuid)
     {
-        return TFM_AdminList.getAdminEntry(uuid).getLastLoginName();
+        return TFM_AdminList.getEntry(uuid).getLastLoginName();
     }
 }

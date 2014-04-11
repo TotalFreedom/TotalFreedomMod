@@ -1,5 +1,8 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
+import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -168,7 +171,6 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_ServiceChecker.getInstance().start();
         TFM_HTTPD_Manager.getInstance().start();
         TFM_FrontDoor.getInstance().start();
-        TFM_LogFile.getInstance().start();
 
         TFM_Log.info("Version " + pluginVersion + " enabled");
 
@@ -265,7 +267,7 @@ public class TotalFreedomMod extends JavaPlugin
         try
         {
             TFM_AdminList.backupSavedList();
-            TFM_AdminList.loadSuperadminList();
+            TFM_AdminList.load();
         }
         catch (Exception ex)
         {

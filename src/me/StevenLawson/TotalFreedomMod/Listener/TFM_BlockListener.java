@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

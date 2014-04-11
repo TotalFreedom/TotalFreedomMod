@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.World;
 
 import static java.lang.System.arraycopy;
 import java.util.ArrayList;

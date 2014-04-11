@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

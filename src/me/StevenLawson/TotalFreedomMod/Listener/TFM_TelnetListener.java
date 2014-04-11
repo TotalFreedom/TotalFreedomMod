@@ -23,7 +23,7 @@ public class TFM_TelnetListener implements Listener
             return;
         }
 
-        final TFM_Admin admin = TFM_AdminList.getAdminEntryByIP(ip, true);
+        final TFM_Admin admin = TFM_AdminList.getEntryByIp(ip, true);
 
         if (admin == null || !(admin.isTelnetAdmin() || admin.isSeniorAdmin()))
         {

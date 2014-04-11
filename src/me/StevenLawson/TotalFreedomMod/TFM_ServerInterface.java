@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -172,7 +173,7 @@ public class TFM_ServerInterface
         }
         else
         {
-            isSuperadmin = TFM_AdminList.checkPartialSuperadminIP(ip, username.toLowerCase());
+            isSuperadmin = TFM_AdminList.checkPartialSuperadminIp(ip, username.toLowerCase());
         }
 
         // Validation below this point

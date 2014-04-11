@@ -1,23 +1,26 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.Config;
 
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumMap;
 import java.util.List;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class TFM_Config
+public class TFM_MainConfig
 {
     public static final String CONFIG_FILENAME = "config.yml";
     public static final File CONFIG_FILE = new File(TotalFreedomMod.plugin.getDataFolder(), CONFIG_FILENAME);
     //
     private final EnumMap<TFM_ConfigEntry, Object> configEntryMap = new EnumMap<TFM_ConfigEntry, Object>(TFM_ConfigEntry.class);
 
-    private TFM_Config()
+    private TFM_MainConfig()
     {
         try
         {
@@ -258,7 +261,7 @@ public class TFM_Config
     {
         private YamlConfiguration defaults = null;
 
-        public TFM_Config_DefaultsLoader(InputStream defaultConfig)
+        private TFM_Config_DefaultsLoader(InputStream defaultConfig)
         {
             try
             {
@@ -281,13 +284,13 @@ public class TFM_Config
         }
     }
 
-    public static TFM_Config getInstance()
+    public static TFM_MainConfig getInstance()
     {
         return TFM_ConfigHolder.INSTANCE;
     }
 
     private static class TFM_ConfigHolder
     {
-        private static final TFM_Config INSTANCE = new TFM_Config();
+        private static final TFM_MainConfig INSTANCE = new TFM_MainConfig();
     }
 }

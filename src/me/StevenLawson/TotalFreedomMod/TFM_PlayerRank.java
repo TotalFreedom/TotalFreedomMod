@@ -27,28 +27,29 @@ public enum TFM_PlayerRank
 
     public static String getLoginMessage(CommandSender sender)
     {
+        // Handle console
         if (!(sender instanceof Player))
         {
             return fromSender(sender).getLoginMessage();
         }
 
-        final TFM_Admin entry = TFM_AdminList.getAdminEntry((Player) sender);
-
+        // Handle admins
+        final TFM_Admin entry = TFM_AdminList.getEntry((Player) sender);
         if (entry == null)
         {
+            // Player is not an admin
             return fromSender(sender).getLoginMessage();
         }
 
+        // Custom login message
         final String loginMessage = entry.getCustomLoginMessage();
 
-        if (loginMessage != null && !loginMessage.isEmpty())
-        {
-            return ChatColor.translateAlternateColorCodes('&', loginMessage);
-        }
-        else
+        if (loginMessage == null || loginMessage.isEmpty())
         {
             return fromSender(sender).getLoginMessage();
         }
+
+        return ChatColor.translateAlternateColorCodes('&', loginMessage);
     }
 
     public static TFM_PlayerRank fromSender(CommandSender sender)
@@ -58,7 +59,7 @@ public enum TFM_PlayerRank
             return CONSOLE;
         }
 
-        if (sender instanceof Player && TFM_AdminList.isAdminImpostor((Player) sender))
+        if (TFM_AdminList.isAdminImpostor((Player) sender))
         {
             return IMPOSTOR;
         }
@@ -69,7 +70,7 @@ public enum TFM_PlayerRank
         }
 
 
-        final TFM_Admin entry = TFM_AdminList.getAdminEntry((Player) sender);
+        final TFM_Admin entry = TFM_AdminList.getEntry((Player) sender);
 
         final TFM_PlayerRank rank;
 

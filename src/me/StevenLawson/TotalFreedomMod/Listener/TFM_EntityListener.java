@@ -1,6 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

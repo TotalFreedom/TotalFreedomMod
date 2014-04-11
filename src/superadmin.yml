@@ -4,13 +4,14 @@ clean_threshold_hours: 168
 admins:
   b3c3b05a-a52d-33a6-a9c6-6e5063e00f0a:
     last_login_name: DarthSalamon
-    - 127.0.0.1
-    last_login: Fri, 9 Nov 2012 03:09:14 -0500
-    custom_login_message: the &5Lead Executive Developer&b.
+    is_activated: true
     is_senior_admin: true
     is_telnet_admin: true
+    last_login: Fri, 9 Nov 2012 03:09:14 -0500
+    custom_login_message: the &5Lead Executive Developer&b.
+    ips:
+      - 127.0.0.1
     console_aliases:
     - darth
-    is_activated: true
 
   # Todo: Add mark and madgeek

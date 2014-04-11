@@ -1,4 +1,4 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.World;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;

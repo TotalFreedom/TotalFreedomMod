@@ -1,11 +1,17 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.World;
 
+import me.StevenLawson.TotalFreedomMod.World.TFM_CustomWorld;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;

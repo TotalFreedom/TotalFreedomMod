@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
-import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.Bukkit;

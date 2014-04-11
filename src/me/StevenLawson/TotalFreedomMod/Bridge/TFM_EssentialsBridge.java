@@ -1,7 +1,9 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.Bridge;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 

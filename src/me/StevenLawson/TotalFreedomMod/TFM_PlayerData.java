@@ -49,7 +49,7 @@ public class TFM_PlayerData
     private String lastMessage = "";
     private boolean inAdminchat = false;
     private boolean allCommandsBlocked = false;
-    private Boolean verifiedSuperadminId = null;
+    private boolean verifiedSuperadminId = false;
     private String lastCommand = "";
     private boolean cmdspyEnabled = false;
     private String tag = null;
@@ -442,14 +442,14 @@ public class TFM_PlayerData
 
     // If someone logs in to telnet or minecraft, and they are an admin, make sure that they are using a username that is associated with their IP.
     // After the check for this is done in TFM_PlayerListener, never change it elsewhere.
-    public Boolean isSuperadminIdVerified()
+    public boolean isSuperadminIdVerified()
     {
         return this.verifiedSuperadminId;
     }
 
     // If someone logs in to telnet or minecraft, and they are an admin, make sure that they are using a username that is associated with their IP.
     // After the check for this is done in TFM_PlayerListener, never change it elsewhere.
-    public void setSuperadminIdVerified(Boolean verifiedSuperadminId)
+    public void setSuperadminIdVerified(boolean verifiedSuperadminId)
     {
         this.verifiedSuperadminId = verifiedSuperadminId;
     }

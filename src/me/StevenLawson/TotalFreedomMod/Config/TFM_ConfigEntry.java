@@ -1,4 +1,4 @@
-package me.StevenLawson.TotalFreedomMod;
+package me.StevenLawson.TotalFreedomMod.Config;
 
 import java.util.List;
 
@@ -79,51 +79,51 @@ public enum TFM_ConfigEntry
 
     public String getString()
     {
-        return TFM_Config.getInstance().getString(this);
+        return TFM_MainConfig.getInstance().getString(this);
     }
 
     public String setString(String value)
     {
-        TFM_Config.getInstance().setString(this, value);
+        TFM_MainConfig.getInstance().setString(this, value);
         return value;
     }
 
     public Double getDouble()
     {
-        return TFM_Config.getInstance().getDouble(this);
+        return TFM_MainConfig.getInstance().getDouble(this);
     }
 
     public Double setDouble(Double value)
     {
-        TFM_Config.getInstance().setDouble(this, value);
+        TFM_MainConfig.getInstance().setDouble(this, value);
         return value;
     }
 
     public Boolean getBoolean()
     {
-        return TFM_Config.getInstance().getBoolean(this);
+        return TFM_MainConfig.getInstance().getBoolean(this);
     }
 
     public Boolean setBoolean(Boolean value)
     {
-        TFM_Config.getInstance().setBoolean(this, value);
+        TFM_MainConfig.getInstance().setBoolean(this, value);
         return value;
     }
 
     public Integer getInteger()
     {
-        return TFM_Config.getInstance().getInteger(this);
+        return TFM_MainConfig.getInstance().getInteger(this);
     }
 
     public Integer setInteger(Integer value)
     {
-        TFM_Config.getInstance().setInteger(this, value);
+        TFM_MainConfig.getInstance().setInteger(this, value);
         return value;
     }
 
     public List<?> getList()
     {
-        return TFM_Config.getInstance().getList(this);
+        return TFM_MainConfig.getInstance().getList(this);
     }
 
     public static TFM_ConfigEntry findConfigEntry(String name)

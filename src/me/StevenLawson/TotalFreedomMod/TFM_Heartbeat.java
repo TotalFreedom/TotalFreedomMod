@@ -1,5 +1,8 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
+import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

@@ -1,5 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
+import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -8,7 +10,6 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_landmine;
-import me.StevenLawson.TotalFreedomMod.TFM_PlayerList.PlayerEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -693,7 +694,7 @@ public class TFM_PlayerListener implements Listener
         {
             TFM_Log.info("Added new player: " + TFM_Util.formatPlayer(player));
 
-            final PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player);
+            final TFM_PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player);
             entry.setLastJoinUnix(TFM_Util.getUnixTime());
             entry.setLastJoinName(player.getName());
             entry.save();
@@ -701,46 +702,42 @@ public class TFM_PlayerListener implements Listener
         else
         {
             // Preload the entry; the login unix is defaulted to the current time
-            final PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player);
+            final TFM_PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player);
             entry.addIp(ip);
             entry.save();
         }
 
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        playerdata.setSuperadminIdVerified(false);
 
-        playerdata.setSuperadminIdVerified(null);
-        final boolean impostor = TFM_AdminList.isAdminImpostor(player);
-
-        if (impostor || TFM_AdminList.isSuperAdmin(player))
+        // Verify strict IP match
+        if (TFM_AdminList.isSuperAdmin(player))
         {
-            TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
+            player.setOp(true);
 
-            if (impostor)
+            if (!TFM_AdminList.isIdentityMatched(player))
             {
-                player.getInventory().clear();
-                player.setOp(false);
-                player.setGameMode(GameMode.SURVIVAL);
-                TFM_Util.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor!", ChatColor.RED);
+                playerdata.setSuperadminIdVerified(false);
+
+                TFM_Util.bcastMsg("Warning: " + player.getName() + " is an admin, but is using a username not registered to one of their ip-list.", ChatColor.RED);
             }
             else
             {
-                if (TFM_AdminList.verifyIdentity(player.getName(), TFM_Util.getIp(player)))
-                {
-                    playerdata.setSuperadminIdVerified(Boolean.TRUE);
-
-                    TFM_AdminList.updateLastLogin(player);
-                }
-                else
-                {
-                    playerdata.setSuperadminIdVerified(Boolean.FALSE);
-
-                    TFM_Util.bcastMsg("Warning: " + player.getName() + " is an admin, but is using a username not registered to one of their IPs.", ChatColor.RED);
-                }
-
-                player.setOp(true);
+                playerdata.setSuperadminIdVerified(true);
+                TFM_AdminList.updateLastLogin(player);
             }
         }
-        else if (TFM_Util.DEVELOPERS.contains(player.getName()))
+
+        // Handle admin impostors
+        if (TFM_AdminList.isAdminImpostor(player))
+        {
+            TFM_Util.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor!", ChatColor.RED);
+            TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
+            player.getInventory().clear();
+            player.setOp(false);
+            player.setGameMode(GameMode.SURVIVAL);
+        }
+        else if (TFM_AdminList.isSuperAdmin(player) || TFM_Util.DEVELOPERS.contains(player.getName()))
         {
             TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
         }

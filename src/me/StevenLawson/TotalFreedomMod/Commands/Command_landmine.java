@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.StevenLawson.TotalFreedomMod.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

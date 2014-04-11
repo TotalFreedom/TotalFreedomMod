@@ -2,24 +2,23 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_logs;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
+import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.FileUtil;
@@ -42,11 +41,6 @@ public class TFM_AdminList
         senioradminUUIDs = new HashSet<UUID>();
         senioradminAliases = new HashSet<String>();
         superadminIps = new HashSet<String>();
-    }
-
-    private TFM_AdminList()
-    {
-        throw new AssertionError();
     }
 
     public static Set<UUID> getSuperadminUUIDs()
@@ -74,20 +68,38 @@ public class TFM_AdminList
         return Collections.unmodifiableSet(superadminIps);
     }
 
-    public File getConfigFile()
+    public static Set<String> getSuperadminNames()
     {
-        return new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE);
+        final Set<String> names = new HashSet<String>();
+
+        for (TFM_Admin admin : adminList.values())
+        {
+            names.add(admin.getLastLoginName());
+        }
+
+        return Collections.unmodifiableSet(names);
     }
 
-    public static void loadSuperadminList()
+    public static Set<String> getLowerSuperadminNames()
+    {
+        final Set<String> names = new HashSet<String>();
+
+        for (TFM_Admin admin : adminList.values())
+        {
+            names.add(admin.getLastLoginName().toLowerCase());
+        }
+
+        return Collections.unmodifiableSet(names);
+    }
+
+    public static void load()
     {
         try
         {
             adminList.clear();
 
-            TFM_Util.createDefaultConfiguration(TotalFreedomMod.SUPERADMIN_FILE);
-
-            final FileConfiguration config = YamlConfiguration.loadConfiguration(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+            final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILE, true);
+            config.load();
 
             cleanThreshold = config.getInt("clean_threshold_hours", cleanThreshold);
 
@@ -102,7 +114,7 @@ public class TFM_AdminList
                 return;
             }
 
-            final ConfigurationSection section = config.getConfigurationSection("superadmins");
+            final ConfigurationSection section = config.getConfigurationSection("admins");
 
             for (String uuidString : section.getKeys(false))
             {
@@ -178,43 +190,37 @@ public class TFM_AdminList
         TFM_AdminWorld.getInstance().wipeAccessCache();
     }
 
-    public static void saveSuperadminList()
+    public static void save()
     {
-        try
+        updateIndexLists();
+
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILE, true);
+        config.load();
+
+        config.set("clean_threshold_hours", cleanThreshold);
+
+        Iterator<Entry<UUID, TFM_Admin>> it = adminList.entrySet().iterator();
+        while (it.hasNext())
         {
-            updateIndexLists();
+            Entry<UUID, TFM_Admin> pair = it.next();
 
-            YamlConfiguration config = new YamlConfiguration();
+            UUID uuid = pair.getKey();
+            TFM_Admin superadmin = pair.getValue();
 
-            config.set("clean_threshold_hours", cleanThreshold);
-
-            Iterator<Entry<UUID, TFM_Admin>> it = adminList.entrySet().iterator();
-            while (it.hasNext())
-            {
-                Entry<UUID, TFM_Admin> pair = it.next();
-
-                UUID uuid = pair.getKey();
-                TFM_Admin superadmin = pair.getValue();
-
-                config.set("superadmins." + uuid + ".last_login_name", superadmin.getLastLoginName());
-                config.set("superadmins." + uuid + ".is_activated", superadmin.isActivated());
-                config.set("superadmins." + uuid + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
-                config.set("superadmins." + uuid + ".custom_login_message", superadmin.getCustomLoginMessage());
-                config.set("superadmins." + uuid + ".is_senior_admin", superadmin.isSeniorAdmin());
-                config.set("superadmins." + uuid + ".is_telnet_admin", superadmin.isTelnetAdmin());
-                config.set("superadmins." + uuid + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
-                config.set("superadmins." + uuid + ".ips", TFM_Util.removeDuplicates(superadmin.getIps()));
-            }
-
-            config.save(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
+            config.set("admins." + uuid + ".last_login_name", superadmin.getLastLoginName());
+            config.set("admins." + uuid + ".is_activated", superadmin.isActivated());
+            config.set("admins." + uuid + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
+            config.set("admins." + uuid + ".custom_login_message", superadmin.getCustomLoginMessage());
+            config.set("admins." + uuid + ".is_senior_admin", superadmin.isSeniorAdmin());
+            config.set("admins." + uuid + ".is_telnet_admin", superadmin.isTelnetAdmin());
+            config.set("admins." + uuid + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
+            config.set("admins." + uuid + ".ips", TFM_Util.removeDuplicates(superadmin.getIps()));
         }
-        catch (Exception ex)
-        {
-            TFM_Log.severe(ex);
-        }
+
+        config.save();
     }
 
-    public static TFM_Admin getAdminEntry(Player player)
+    public static TFM_Admin getEntry(Player player)
     {
         final UUID uuid = player.getUniqueId();
 
@@ -226,16 +232,16 @@ public class TFM_AdminList
             }
         }
 
-        return getAdminEntryByIP(TFM_Util.getIp(player));
+        return getEntryByIp(TFM_Util.getIp(player));
     }
 
-    public static TFM_Admin getAdminEntry(UUID uuid)
+    public static TFM_Admin getEntry(UUID uuid)
     {
         return adminList.get(uuid);
     }
 
     @Deprecated
-    public static TFM_Admin getAdminEntry(String name)
+    public static TFM_Admin getEntry(String name)
     {
         for (UUID uuid : adminList.keySet())
         {
@@ -247,12 +253,12 @@ public class TFM_AdminList
         return null;
     }
 
-    public static TFM_Admin getAdminEntryByIP(String ip)
+    public static TFM_Admin getEntryByIp(String ip)
     {
-        return getAdminEntryByIP(ip, false);
+        return getEntryByIp(ip, false);
     }
 
-    public static TFM_Admin getAdminEntryByIP(String needleIp, boolean fuzzy)
+    public static TFM_Admin getEntryByIp(String needleIp, boolean fuzzy)
     {
         Iterator<Entry<UUID, TFM_Admin>> it = adminList.entrySet().iterator();
         while (it.hasNext())
@@ -283,18 +289,18 @@ public class TFM_AdminList
 
     public static void updateLastLogin(Player player)
     {
-        final TFM_Admin admin = getAdminEntry(player);
+        final TFM_Admin admin = getEntry(player);
         if (admin != null)
         {
             admin.setLastLogin(new Date());
             admin.setLastLoginName(player.getName());
-            saveSuperadminList();
+            save();
         }
     }
 
-    public static boolean isSeniorAdmin(CommandSender user)
+    public static boolean isSeniorAdmin(CommandSender sender)
     {
-        return isSeniorAdmin(user, false);
+        return isSeniorAdmin(sender, false);
     }
 
     public static boolean isSeniorAdmin(CommandSender sender, boolean verifySuperadmin)
@@ -310,10 +316,10 @@ public class TFM_AdminList
 
         if (!(sender instanceof Player))
         {
-            return senioradminUUIDs.contains(((Player) sender).getUniqueId());
+            return senioradminAliases.contains(sender.getName());
         }
 
-        final TFM_Admin entry = getAdminEntry((Player) sender);
+        final TFM_Admin entry = getEntry((Player) sender);
         if (entry != null)
         {
             return entry.isSeniorAdmin();
@@ -329,13 +335,11 @@ public class TFM_AdminList
             return true;
         }
 
-        if (Bukkit.getOnlineMode())
+        if (Bukkit.getOnlineMode() && superadminUUIDs.contains(((Player) sender).getUniqueId()))
         {
-            if (superadminUUIDs.contains(((Player) sender).getUniqueId()));
-            {
-                return true;
-            }
+            return true;
         }
+
 
         if (superadminIps.contains(TFM_Util.getIp((Player) sender)))
         {
@@ -345,8 +349,29 @@ public class TFM_AdminList
         return false;
     }
 
+    public static boolean isIdentityMatched(Player player)
+    {
+        if (!isSuperAdmin(player))
+        {
+            return false;
+        }
+
+        if (Bukkit.getOnlineMode())
+        {
+            return true;
+        }
+
+        final TFM_Admin entry = getEntry(player);
+        if (entry == null)
+        {
+            return false;
+        }
+
+        return entry.getIps().contains(TFM_Util.getIp(player));
+    }
+
     @Deprecated
-    public static boolean checkPartialSuperadminIP(String ip, String name)
+    public static boolean checkPartialSuperadminIp(String ip, String name)
     {
         ip = ip.trim();
 
@@ -369,7 +394,7 @@ public class TFM_AdminList
 
             if (matchIp != null)
             {
-                final TFM_Admin entry = getAdminEntryByIP(matchIp);
+                final TFM_Admin entry = getEntryByIp(matchIp);
 
                 if (entry == null)
                 {
@@ -382,7 +407,7 @@ public class TFM_AdminList
                     {
                         entry.addIp(ip);
                     }
-                    saveSuperadminList();
+                    save();
                 }
                 return true;
 
@@ -406,32 +431,6 @@ public class TFM_AdminList
         return false;
     }
 
-    /*public static void addSuperadmin(String username, List<String> ips)
-     {
-     try
-     {
-     username = username.toLowerCase();
-
-     if (superadminList.containsKey(username))
-     {
-     TFM_Admin superadmin = superadminList.get(username);
-     superadmin.setActivated(true);
-     superadmin.getIps().addAll(ips);
-     superadmin.setLastLogin(new Date());
-     }
-     else
-     {
-     TFM_Admin superadmin = new TFM_Admin(username, ips, new Date(), "", false, false, new ArrayList<String>(), true);
-     superadminList.put(username.toLowerCase(), superadmin);
-     }
-
-     saveSuperadminList();
-     }
-     catch (Exception ex)
-     {
-     TFM_Log.severe(ex);
-     }
-     }*/
     public static void addSuperadmin(Player player)
     {
         try
@@ -462,7 +461,7 @@ public class TFM_AdminList
                 adminList.put(uuid, superadmin);
             }
 
-            saveSuperadminList();
+            save();
         }
         catch (Exception ex)
         {
@@ -480,7 +479,7 @@ public class TFM_AdminList
             TFM_Admin superadmin = adminList.get(uuid);
             superadmin.setActivated(false);
             Command_logs.deactivateSuperadmin(superadmin);
-            saveSuperadminList();
+            save();
         }
     }
 
@@ -512,23 +511,16 @@ public class TFM_AdminList
                 TFM_TwitterHandler.getInstance().delTwitter(superadmin.getLastLoginName());
             }
         }
-        saveSuperadminList();
+        save();
     }
 
-    @Deprecated
-    public static boolean verifyIdentity(String username, String ip)
+    private TFM_AdminList()
     {
-        if (Bukkit.getOnlineMode())
-        {
-            return true;
-        }
+        throw new AssertionError();
+    }
 
-        TFM_Admin entry = getAdminEntry(username);
-        if (entry != null)
-        {
-            return entry.getIps().contains(ip);
-        }
-
-        return false;
+    public File getConfigFile()
+    {
+        return new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE);
     }
 }
