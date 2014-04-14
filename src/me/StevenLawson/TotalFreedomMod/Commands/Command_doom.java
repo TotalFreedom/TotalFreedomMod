@@ -2,6 +2,8 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Ban;
+import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -11,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE)
-@CommandParameters(description = "For the bad Superadmins.", usage = "/<command> <playername>")
+@CommandParameters(description = "For the bad Superadmins", usage = "/<command> <playername>")
 public class Command_doom extends TFM_Command
 {
     @Override
@@ -36,7 +38,7 @@ public class Command_doom extends TFM_Command
         TFM_Util.adminAction(sender.getName(), "Casting oblivion over " + player.getName(), true);
         TFM_Util.bcastMsg(player.getName() + " will be completely obliviated!", ChatColor.RED);
 
-        final String IP = player.getAddress().getAddress().getHostAddress().trim();
+        final String ip = player.getAddress().getAddress().getHostAddress().trim();
 
         // remove from superadmin
         if (TFM_AdminList.isSuperAdmin(player))
@@ -52,10 +54,10 @@ public class Command_doom extends TFM_Command
         player.setOp(false);
 
         // ban IP
-        TFM_ServerInterface.banIP(IP, null, null, null);
+        TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName()));
 
         // ban name
-        TFM_ServerInterface.banUsername(player.getName(), null, null, null);
+        TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
 
         // set gamemode to survival
         player.setGameMode(GameMode.SURVIVAL);
@@ -89,7 +91,7 @@ public class Command_doom extends TFM_Command
             public void run()
             {
                 // message
-                TFM_Util.adminAction(sender.getName(), "Banning " + player.getName() + ", IP: " + IP, true);
+                TFM_Util.adminAction(sender.getName(), "Banning " + player.getName() + ", IP: " + ip, true);
 
                 // generate explosion
                 player.getWorld().createExplosion(player.getLocation(), 4F);

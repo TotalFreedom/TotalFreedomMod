@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.Bukkit;
@@ -50,32 +51,15 @@ public class TFM_ServerListener implements Listener
      }
      }
      }*/
-    @Deprecated // Moved to TFM_TelnetListener
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onRemoteServerCommand(RemoteServerCommandEvent event)
-    {
-        if (TFM_CommandBlocker.getInstance().isCommandBlocked(event.getCommand(), event.getSender()))
-        {
-            event.setCommand("");
-        }
-    }
-
-    @Deprecated // Moved to TFM_TelnetListener
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onServerCommand(ServerCommandEvent event)
-    {
-        if (TFM_CommandBlocker.getInstance().isCommandBlocked(event.getCommand(), event.getSender()))
-        {
-            event.setCommand("");
-        }
-    }
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onServerPing(ServerListPingEvent event)
     {
+        final String ip = event.getAddress().getHostAddress();
         event.setMotd(TFM_Util.randomChatColor() + "Total" + TFM_Util.randomChatColor() + "Freedom " + ChatColor.DARK_GRAY + "-" + TFM_Util.randomChatColor() + " Bukkit v" + TFM_ServerInterface.getVersion());
 
-        if (TFM_ServerInterface.isIPBanned(event.getAddress().getHostAddress()))
+
+
+        if (TFM_BanManager.getInstance().isIpBanned(ip))
         {
             event.setMotd(ChatColor.RED + "You are banned.");
         }

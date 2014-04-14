@@ -742,17 +742,22 @@ public class TFM_PlayerListener implements Listener
             TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
         }
 
-        if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
+        new BukkitRunnable()
         {
-            new BukkitRunnable()
+            @Override
+            public void run()
             {
-                @Override
-                public void run()
+                if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
                 {
                     player.sendMessage(ChatColor.RED + "Server is currently closed to non-superadmins.");
                 }
-            }.runTaskLater(TotalFreedomMod.plugin, 20L * 3L);
-        }
+
+                if (TotalFreedomMod.lockdownEnabled)
+                {
+                    TFM_Util.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
+                }
+            }
+        }.runTaskLater(TotalFreedomMod.plugin, 20L * 3L);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

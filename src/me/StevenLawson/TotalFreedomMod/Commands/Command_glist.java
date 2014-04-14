@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Ban;
+import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -47,14 +50,14 @@ public class Command_glist extends TFM_Command
         else if (args.length == 2)
         {
             String username;
-            List<String> ip_addresses = new ArrayList<String>();
+            List<String> ips = new ArrayList<String>();
 
             try
             {
                 Player player = getPlayer(args[1]);
 
                 username = player.getName();
-                ip_addresses.add(player.getAddress().getAddress().getHostAddress());
+                ips.add(player.getAddress().getAddress().getHostAddress());
             }
             catch (PlayerNotFoundException ex)
             {
@@ -67,43 +70,43 @@ public class Command_glist extends TFM_Command
                 }
 
                 username = entry.getLastJoinName();
-                ip_addresses = entry.getIps();
+                ips = entry.getIps();
             }
 
             String mode = args[0].toLowerCase();
             if (mode.equalsIgnoreCase("ban"))
             {
-                TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
+                TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ","), true);
 
                 Player player = server.getPlayerExact(username);
                 if (player != null)
                 {
-                    TFM_ServerInterface.banUsername(player.getName(), null, null, null);
+                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
                     player.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
                 }
                 else
                 {
-                    TFM_ServerInterface.banUsername(username, null, null, null);
+                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(Bukkit.getOfflinePlayer(username).getUniqueId(), username));
                 }
 
-                for (String ip_address : ip_addresses)
+                for (String ip : ips)
                 {
-                    TFM_ServerInterface.banIP(ip_address, null, null, null);
-                    String[] ip_address_parts = ip_address.split("\\.");
-                    TFM_ServerInterface.banIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", null, null, null);
+                    TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, username));
+                    String[] ip_address_parts = ip.split("\\.");
+                    TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", username));
                 }
             }
             else if (mode.equalsIgnoreCase("unban") || mode.equalsIgnoreCase("pardon"))
             {
-                TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ip_addresses, ","), true);
+                TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ","), true);
 
-                TFM_ServerInterface.unbanUsername(username);
+                TFM_BanManager.getInstance().unbanUuid(Bukkit.getOfflinePlayer(username).getUniqueId());
 
-                for (String ip_address : ip_addresses)
+                for (String ip : ips)
                 {
-                    TFM_ServerInterface.unbanIP(ip_address);
-                    String[] ip_address_parts = ip_address.split("\\.");
-                    TFM_ServerInterface.unbanIP(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*");
+                    TFM_BanManager.getInstance().unbanIp(ip);
+                    String[] ipParts = ip.split("\\.");
+                    TFM_BanManager.getInstance().unbanIp(ipParts[0] + "." + ipParts[1] + ".*.*");
                 }
             }
             else

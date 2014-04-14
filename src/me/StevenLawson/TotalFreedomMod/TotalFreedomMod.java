@@ -91,6 +91,7 @@ public class TotalFreedomMod extends JavaPlugin
         loadPermbanConfig();
 
         TFM_PlayerList.getInstance().load();
+        TFM_BanManager.getInstance().load();
 
         registerEventHandlers();
 

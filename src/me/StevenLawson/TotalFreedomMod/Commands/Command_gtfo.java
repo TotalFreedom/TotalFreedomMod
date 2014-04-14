@@ -1,6 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Bridge.TFM_WorldEditBridge;
+import me.StevenLawson.TotalFreedomMod.TFM_Ban;
+import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -36,10 +38,10 @@ public class Command_gtfo extends TFM_Command
             return true;
         }
 
-        String ban_reason = null;
+        String reason = null;
         if (args.length >= 2)
         {
-            ban_reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         }
 
         TFM_Util.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
@@ -71,20 +73,21 @@ public class Command_gtfo extends TFM_Command
         }
 
         // ban IP address:
-        String user_ip = player.getAddress().getAddress().getHostAddress();
-        String[] ip_parts = user_ip.split("\\.");
-        if (ip_parts.length == 4)
+        String ip = player.getAddress().getAddress().getHostAddress();
+        String[] ipParts = ip.split("\\.");
+        if (ipParts.length == 4)
         {
-            user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+            ip = String.format("%s.%s.*.*", ipParts[0], ipParts[1]);
         }
-        TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", player.getName(), user_ip), ChatColor.RED);
-        TFM_ServerInterface.banIP(user_ip, ban_reason, null, null);
+        TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", player.getName(), ip), ChatColor.RED);
+
+        TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName(), sender.getName(), null, reason));
 
         // ban username:
-        TFM_ServerInterface.banUsername(player.getName(), ban_reason, null, null);
+        TFM_BanManager.getInstance().addIpBan(new TFM_Ban(player.getUniqueId(), player.getName(), sender.getName(), null, reason));
 
         // kick Player:
-        player.kickPlayer(ChatColor.RED + "GTFO" + (ban_reason != null ? ("\nReason: " + ChatColor.YELLOW + ban_reason) : ""));
+        player.kickPlayer(ChatColor.RED + "GTFO" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
 
         return true;
     }

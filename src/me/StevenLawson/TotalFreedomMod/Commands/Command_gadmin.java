@@ -1,5 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Ban;
+import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -49,33 +51,33 @@ public class Command_gadmin extends TFM_Command
                 }
                 else if (mode.equals("nameban"))
                 {
-                    TFM_ServerInterface.banUsername(player.getName(), null, null, null);
+                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
                     TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s.", player.getName()), true);
                     player.kickPlayer("Username banned by Administrator.");
                 }
                 else if (mode.equals("ipban"))
                 {
-                    String user_ip = player.getAddress().getAddress().getHostAddress();
-                    String[] ip_parts = user_ip.split("\\.");
+                    String ip = player.getAddress().getAddress().getHostAddress();
+                    String[] ip_parts = ip.split("\\.");
                     if (ip_parts.length == 4)
                     {
-                        user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+                        ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
-                    TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", player.getName(), user_ip), true);
-                    TFM_ServerInterface.banIP(user_ip, null, null, null);
+                    TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", player.getName(), ip), true);
+                    TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName()));
                     player.kickPlayer("IP address banned by Administrator.");
                 }
                 else if (mode.equals("ban"))
                 {
-                    String user_ip = player.getAddress().getAddress().getHostAddress();
-                    String[] ip_parts = user_ip.split("\\.");
+                    String ip = player.getAddress().getAddress().getHostAddress();
+                    String[] ip_parts = ip.split("\\.");
                     if (ip_parts.length == 4)
                     {
-                        user_ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+                        ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
-                    TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", player.getName(), user_ip), true);
-                    TFM_ServerInterface.banIP(user_ip, null, null, null);
-                    TFM_ServerInterface.banUsername(player.getName(), null, null, null);
+                    TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", player.getName(), ip), true);
+                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
+                    TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName()));
                     player.kickPlayer("IP and username banned by Administrator.");
                 }
                 else if (mode.equals("op"))

@@ -8,7 +8,7 @@ admins:
     is_senior_admin: true
     is_telnet_admin: true
     last_login: Fri, 9 Nov 2012 03:09:14 -0500
-    custom_login_message: the &5Lead Executive Developer&b.
+    custom_login_message: the &5Lead Executive Developer
     ips:
       - 127.0.0.1
     console_aliases:

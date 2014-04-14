@@ -160,6 +160,40 @@ public class TFM_Util
         return player.getName() + " (" + player.getUniqueId() + ")";
     }
 
+    /**
+     * Escapes an IP-address to a config-friendly version.
+     *
+     * <p>Example:
+     * <pre>
+     * IpUtils.toEscapedString("192.168.1.192"); // 192_168_1_192
+     * </pre></p>
+     *
+     * @param ip The IP-address to escape.
+     * @return The config-friendly IP address.
+     * @see #fromEscapedString(String)
+     */
+    public static String toEscapedString(String ip) // BukkitLib
+    {
+        return ip.trim().replaceAll("\\.", "_");
+    }
+
+    /**
+     * Un-escapes a config-friendly Ipv4-address.
+     *
+     * <p>Example:
+     * <pre>
+     * IpUtils.fromEscapedString("192_168_1_192"); // 192.168.1.192
+     * </pre></p>
+     *
+     * @param escapedIp The IP-address to un-escape.
+     * @return The config-friendly IP address.
+     * @see #toEscapedString(String)
+     */
+    public static String fromEscapedString(String escapedIp) // BukkitLib
+    {
+        return escapedIp.trim().replaceAll("_", "\\.");
+    }
+
     public static void gotoWorld(CommandSender sender, String targetworld)
     {
         if (sender instanceof Player)
@@ -374,40 +408,32 @@ public class TFM_Util
     public static void autoEject(Player player, String kickMessage)
     {
         EjectMethod method = EjectMethod.STRIKE_ONE;
-        String ip = null;
+        final String ip = TFM_Util.getIp(player);
 
-        try
+        if (!TFM_Util.ejectTracker.containsKey(ip))
         {
-            ip = player.getAddress().getAddress().getHostAddress();
-
-            Integer kicks = TFM_Util.ejectTracker.get(ip);
-            if (kicks == null)
-            {
-                kicks = new Integer(0);
-            }
-
-            kicks = new Integer(kicks.intValue() + 1);
-
-            TFM_Util.ejectTracker.put(ip, kicks);
-
-            if (kicks.intValue() <= 1)
-            {
-                method = EjectMethod.STRIKE_ONE;
-            }
-            else if (kicks.intValue() == 2)
-            {
-                method = EjectMethod.STRIKE_TWO;
-            }
-            else if (kicks.intValue() >= 3)
-            {
-                method = EjectMethod.STRIKE_THREE;
-            }
-        }
-        catch (Exception ex)
-        {
+            TFM_Util.ejectTracker.put(ip, 0);
         }
 
-        TFM_Log.info("autoEject -> name: " + player.getName() + " - player ip: " + ip + " - method: " + method.toString());
+        int kicks = TFM_Util.ejectTracker.get(ip);
+        kicks += 1;
+
+        TFM_Util.ejectTracker.put(ip, kicks);
+
+        if (kicks <= 1)
+        {
+            method = EjectMethod.STRIKE_ONE;
+        }
+        else if (kicks == 2)
+        {
+            method = EjectMethod.STRIKE_TWO;
+        }
+        else if (kicks >= 3)
+        {
+            method = EjectMethod.STRIKE_THREE;
+        }
+
+        TFM_Log.info("AutoEject -> name: " + player.getName() + " - player ip: " + ip + " - method: " + method.toString());
 
         player.setOp(false);
         player.setGameMode(GameMode.SURVIVAL);
@@ -417,47 +443,44 @@ public class TFM_Util
         {
             case STRIKE_ONE:
             {
-                Calendar c = new GregorianCalendar();
-                c.add(Calendar.MINUTE, 1);
-                Date expires = c.getTime();
+                final Calendar cal = new GregorianCalendar();
+                cal.add(Calendar.MINUTE, 1);
+                final Date expires = cal.getTime();
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 1 minute.");
 
-                TFM_ServerInterface.banIP(ip, kickMessage, "AutoEject", expires);
-                TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", expires);
+                TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
+                TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName(), "AutoEject", expires, kickMessage));
+
                 player.kickPlayer(kickMessage);
 
                 break;
             }
             case STRIKE_TWO:
             {
-                Calendar c = new GregorianCalendar();
+                final Calendar c = new GregorianCalendar();
                 c.add(Calendar.MINUTE, 3);
-                Date expires = c.getTime();
+                final Date expires = c.getTime();
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 3 minutes.");
 
-                TFM_ServerInterface.banIP(ip, kickMessage, "AutoEject", expires);
-                TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", expires);
-                player.kickPlayer(kickMessage);
+                TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
+                TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName(), "AutoEject", expires, kickMessage));
 
+                player.kickPlayer(kickMessage);
                 break;
             }
             case STRIKE_THREE:
             {
-                //Bukkit.banIP(player_ip);
-                TFM_ServerInterface.banIP(ip, kickMessage, "AutoEject", null);
                 String[] ipAddressParts = ip.split("\\.");
-                //Bukkit.banIP();
-                TFM_ServerInterface.banIP(ipAddressParts[0] + "." + ipAddressParts[1] + ".*.*", kickMessage, "AutoEject", null);
 
-                //p.setBanned(true);
-                TFM_ServerInterface.banUsername(player.getName(), kickMessage, "AutoEject", null);
+                TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", null, kickMessage));
+                TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ipAddressParts[0] + "." + ipAddressParts[1] + ".*.*", player.getName(), "AutoEject", null, kickMessage));
+                TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName(), "AutoEject", null, kickMessage));
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned.");
 
                 player.kickPlayer(kickMessage);
-
                 break;
             }
         }
@@ -824,6 +847,21 @@ public class TFM_Util
     public static long getUnixTime()
     {
         return System.currentTimeMillis() / 1000L;
+    }
+
+    public static Date getUnixDate(long unix)
+    {
+        return new Date(unix * 1000);
+    }
+
+    public static long getUnixTime(Date date)
+    {
+        if (date == null)
+        {
+            return 0;
+        }
+
+        return date.getTime() / 1000L;
     }
 
     public static class TFM_EntityWiper
