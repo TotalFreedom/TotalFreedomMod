@@ -2,7 +2,7 @@ name: TotalFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
 version: 3.6
 description: Plugin for the Total Freedom server.
-softdepend: [BukkitTelnet]
+softdepend: [BukkitTelnet, WorldEdit, Essentials]
 authors: [Madgeek1450, DarthSalamon]
 
 # plugin.yml is no longer used to define commands.

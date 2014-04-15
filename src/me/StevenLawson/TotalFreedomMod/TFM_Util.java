@@ -225,6 +225,11 @@ public class TFM_Util
         }
     }
 
+    public static String decolorize(String string)
+    {
+        return string.replaceAll("\\u00A7(?=[0-9a-fk-or])", "&");
+    }
+
     public static void buildHistory(Location location, int length, TFM_PlayerData playerdata)
     {
         Block center = location.getBlock();

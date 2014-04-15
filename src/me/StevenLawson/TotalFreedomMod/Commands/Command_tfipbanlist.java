@@ -44,26 +44,7 @@ public class Command_tfipbanlist extends TFM_Command
             }
         }
 
-        List<String> ip_bans = Arrays.asList(server.getIPBans().toArray(new String[0]));
-        Collections.sort(ip_bans);
-
-        StringBuilder banned_ips = new StringBuilder();
-        banned_ips.append("Banned IPs: ");
-        boolean first = true;
-        for (String ip : ip_bans)
-        {
-            if (!first)
-            {
-                banned_ips.append(", ");
-            }
-            if (ip.matches("^\\d{1,3}\\.\\d{1,3}\\.(\\d{1,3}|\\*)\\.(\\d{1,3}|\\*)$"))
-            {
-                first = false;
-                banned_ips.append(ip.trim());
-            }
-        }
-
-        playerMsg(banned_ips.toString());
+        playerMsg(TFM_BanManager.getInstance().getIpBanList().size() + " IPbans total");
 
         return true;
     }

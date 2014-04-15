@@ -14,11 +14,20 @@ public class TFM_Ban
     static
     {
         // 192.168.1.254:LocalHost:DarthSalamon:0:none
+        // 127.0.*.*:TestUserName:BannedByNotch:123567:Test reason
         IP_BAN_REGEX = Pattern.compile(
-                "^((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])):([\\w\\s]+):([\\w]+):(\\d+):([\\w\\s]+)$");
+                "^((?:(?:\\*|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.){3}(?:\\*|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))"
+                + ":([\\w\\s]+)"
+                + ":([\\w]+)"
+                + ":(\\d+)"
+                + ":([\\s\\S]+)$");
         // 245d2f30-61fb-4840-9cd3-298b3920f4a4:Cobrex:DarthSalamon:0:Example reason
         UUID_BAN_REGEX = Pattern.compile(
-                "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}):([\\w\\s]+):([\\w]+):(\\d+):([\\w\\s]+)$");
+                "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})"
+                + ":([\\w\\s]+)"
+                + ":([\\w]+)"
+                + ":(\\d+)"
+                + ":([\\s\\S]+)$");
     }
     private boolean complete;
     private String subject; // uuid or IP
@@ -47,8 +56,9 @@ public class TFM_Ban
         this.subject = subject;
         this.lastLoginName = (lastLoginName == null ? "none" : lastLoginName);
         this.by = (sender == null ? "none" : sender);
-        this.expireUnix = TFM_Util.getUnixTime(expire);
+        this.expireUnix = (expire == null ? 0 : TFM_Util.getUnixTime(expire));
         this.reason = (reason == null ? "none" : reason);
+        complete = true;
     }
 
     public TFM_Ban(String banString, boolean ip)
@@ -75,7 +85,7 @@ public class TFM_Ban
         lastLoginName = matcher.group(2);
         by = matcher.group(3);
         expireUnix = Long.valueOf(matcher.group(4));
-        reason = matcher.group(5);
+        reason = TFM_Util.colorize(matcher.group(5));
 
         complete = true;
     }
@@ -107,7 +117,7 @@ public class TFM_Ban
 
     public boolean isExpired()
     {
-        return expireUnix < TFM_Util.getUnixTime();
+        return expireUnix != 0 && expireUnix < TFM_Util.getUnixTime();
     }
 
     public boolean isComplete()
@@ -119,6 +129,6 @@ public class TFM_Ban
     @Override
     public String toString()
     {
-        return subject + ":" + lastLoginName + ":" + by + ":" + expireUnix + ":" + reason;
+        return subject + ":" + lastLoginName + ":" + by + ":" + expireUnix + ":" + TFM_Util.decolorize(reason);
     }
 }

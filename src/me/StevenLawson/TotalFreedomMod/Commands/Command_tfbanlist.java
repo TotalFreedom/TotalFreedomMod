@@ -44,20 +44,7 @@ public class Command_tfbanlist extends TFM_Command
             }
         }
 
-        StringBuilder banned_players = new StringBuilder();
-        banned_players.append("Banned Players: ");
-        boolean first = true;
-        for (OfflinePlayer player : server.getBannedPlayers())
-        {
-            if (!first)
-            {
-                banned_players.append(", ");
-            }
-            first = false;
-            banned_players.append(player.getName().trim());
-        }
-
-        playerMsg(banned_players.toString());
+        playerMsg(TFM_BanManager.getInstance().getUuidBanList().size() + " UUID bans total");
 
         return true;
     }

@@ -58,6 +58,8 @@ public class TFM_BanManager
 
         // Save the config
         save();
+
+        TFM_Log.info("Loaded " + ipBans.size() + " IP bans and " + uuidBans.size() + " UUID bans.");
     }
 
     public void save()
@@ -70,12 +72,18 @@ public class TFM_BanManager
 
         for (TFM_Ban savedBan : ipBans)
         {
-            newIpBans.add(savedBan.toString());
+            if (!savedBan.isExpired())
+            {
+                newIpBans.add(savedBan.toString());
+            }
         }
 
         for (TFM_Ban savedBan : uuidBans)
         {
-            newUuidBans.add(savedBan.toString());
+            if (!savedBan.isExpired())
+            {
+                newUuidBans.add(savedBan.toString());
+            }
         }
 
         config.set("ips", newIpBans);
@@ -99,6 +107,28 @@ public class TFM_BanManager
     {
         for (TFM_Ban ban : ipBans)
         {
+            if (ban.isExpired())
+            {
+                continue;
+            }
+
+            wildcardCheck:
+            if (ban.getSubject().contains("*"))
+            {
+                final String[] subjectParts = ban.getSubject().split("\\.");
+                final String[] ipParts = ip.split("\\.");
+
+                for (int i = 0; i < 4; i++)
+                {
+                    if (!(subjectParts[i].equals("*") || subjectParts[i].equals(ipParts[i])))
+                    {
+                        break wildcardCheck;
+                    }
+                }
+
+                return ban;
+            }
+
             if (ban.getSubject().equals(ip))
             {
                 return ban;
@@ -113,6 +143,11 @@ public class TFM_BanManager
         {
             if (ban.getSubject().equalsIgnoreCase(uuid.toString()))
             {
+                if (ban.isExpired())
+                {
+                    continue;
+                }
+
                 return ban;
             }
         }
@@ -125,11 +160,11 @@ public class TFM_BanManager
 
         if (ban == null)
         {
-            TFM_Log.warning("Could not unban IP: " + ip + ", IP is not banned!");
             return;
         }
 
         removeBan(ban);
+        save();
     }
 
     public void unbanUuid(UUID uuid)
@@ -138,7 +173,6 @@ public class TFM_BanManager
 
         if (ban == null)
         {
-            TFM_Log.warning("Could not unban UUID: " + uuid + ", UUID is not banned!");
             return;
         }
 
@@ -159,7 +193,7 @@ public class TFM_BanManager
     {
         if (!ban.isComplete())
         {
-            throw new RuntimeException("Could not load IP ban, Invalid format!");
+            throw new RuntimeException("Could not add UUID ban, Invalid format!");
         }
 
         if (ban.isExpired())
@@ -168,13 +202,14 @@ public class TFM_BanManager
         }
 
         uuidBans.add(ban);
+        save();
     }
 
     public void addIpBan(TFM_Ban ban)
     {
         if (!ban.isComplete())
         {
-            throw new RuntimeException("Could not load UUID ban, Invalid format!");
+            throw new RuntimeException("Could not add IP ban, Invalid format!");
         }
 
         if (ban.isExpired())
@@ -183,6 +218,7 @@ public class TFM_BanManager
         }
 
         ipBans.add(ban);
+        save();
     }
 
     public void removeBan(TFM_Ban ban)
@@ -204,6 +240,8 @@ public class TFM_BanManager
                 uuids.remove();
             }
         }
+
+        save();
     }
 
     public void purgeIpBans()

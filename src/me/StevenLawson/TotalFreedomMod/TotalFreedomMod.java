@@ -193,6 +193,7 @@ public class TotalFreedomMod extends JavaPlugin
         server.getScheduler().cancelTasks(plugin);
 
         TFM_HTTPD_Manager.getInstance().stop();
+        TFM_BanManager.getInstance().save();
 
         TFM_Log.info("Plugin disabled");
     }

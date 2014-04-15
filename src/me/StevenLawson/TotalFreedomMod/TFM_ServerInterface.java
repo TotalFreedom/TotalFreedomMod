@@ -199,16 +199,6 @@ public class TFM_ServerInterface
             // force-allow superadmins to log in
             event.allow();
 
-            if (banManager.isIpBanned(ip))
-            {
-                banManager.unbanIp(ip);
-            }
-
-            if (banManager.isUuidBanned(uuid))
-            {
-                banManager.unbanUuid(uuid);
-            }
-
             for (Player onlinePlayer : server.getOnlinePlayers())
             {
                 if (onlinePlayer.getName().equalsIgnoreCase(username))

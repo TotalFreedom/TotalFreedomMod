@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class TFM_PlayerEntry
@@ -24,7 +25,7 @@ public class TFM_PlayerEntry
         this.lastJoinName = section.getString("lastjoinname");
 
         this.firstJoinUnix = section.getLong("firstjoinunix");
-        this.firstJoinUnix = section.getLong("lastjoinunix");
+        this.lastJoinUnix = section.getLong("lastjoinunix");
 
         this.ips.addAll(section.getStringList("ips"));
     }
