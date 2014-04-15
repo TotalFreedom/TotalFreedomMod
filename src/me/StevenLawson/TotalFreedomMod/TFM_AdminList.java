@@ -29,7 +29,7 @@ public class TFM_AdminList
     private static final Set<UUID> superadminUUIDs;
     private static final Set<UUID> telnetadminUUIDs;
     private static final Set<UUID> senioradminUUIDs;
-    private static final Set<String> senioradminAliases;
+    private static final Set<String> consoleAliases;
     private static final Set<String> superadminIps;
     private static int cleanThreshold = 24 * 7; // 1 Week in hours
 
@@ -39,7 +39,7 @@ public class TFM_AdminList
         superadminUUIDs = new HashSet<UUID>();
         telnetadminUUIDs = new HashSet<UUID>();
         senioradminUUIDs = new HashSet<UUID>();
-        senioradminAliases = new HashSet<String>();
+        consoleAliases = new HashSet<String>();
         superadminIps = new HashSet<String>();
     }
 
@@ -60,7 +60,7 @@ public class TFM_AdminList
 
     public static Set<String> getConsoleAliases()
     {
-        return Collections.unmodifiableSet(senioradminAliases);
+        return Collections.unmodifiableSet(consoleAliases);
     }
 
     public static Set<String> getSuperadminIps()
@@ -103,9 +103,45 @@ public class TFM_AdminList
 
             cleanThreshold = config.getInt("clean_threshold_hours", cleanThreshold);
 
+            // Parse old superadmins
             if (config.isConfigurationSection("superadmins"))
             {
-                // TODO: Loading from old
+                TFM_Log.info("Old superadmin configuration found, parsing...");
+
+                final ConfigurationSection section = config.getConfigurationSection("superadmins");
+
+                int counter = 0;
+                int errors = 0;
+
+                for (String admin : config.getConfigurationSection("superadmins").getKeys(false))
+                {
+                    final OfflinePlayer player = Bukkit.getOfflinePlayer(admin);
+
+                    if (player == null || player.getUniqueId() == null)
+                    {
+                        errors++;
+                        TFM_Log.warning("Could not convert admin " + admin + ", UUID could not be found!");
+                        continue;
+                    }
+
+                    final String uuid = player.getUniqueId().toString();
+
+                    config.set("admins." + uuid + ".last_login_name", player.getName());
+                    config.set("admins." + uuid + ".is_activated", section.getBoolean(admin + ".is_activated"));
+                    config.set("admins." + uuid + ".is_telnet_admin", section.getBoolean(admin + ".is_telnet_admin"));
+                    config.set("admins." + uuid + ".is_senior_admin", section.getBoolean(admin + ".is_senior_admin"));
+                    config.set("admins." + uuid + ".last_login", section.getString(admin + ".last_login"));
+                    config.set("admins." + uuid + ".custom_login_message", section.getString(admin + ".custom_login_message"));
+                    config.set("admins." + uuid + ".console_aliases", section.getStringList(admin + ".console_aliases"));
+                    config.set("admins." + uuid + ".ips", section.getStringList(admin + ".ips"));
+
+                    counter++;
+                }
+
+                config.set("superadmins", null);
+                config.save();
+
+                TFM_Log.info(counter + " admins parsed, " + errors + " errors");
             }
 
             if (!config.isConfigurationSection("admins"))
@@ -150,40 +186,39 @@ public class TFM_AdminList
         superadminUUIDs.clear();
         telnetadminUUIDs.clear();
         senioradminUUIDs.clear();
-        senioradminAliases.clear();
+        consoleAliases.clear();
         superadminIps.clear();
 
-        final Iterator<Entry<UUID, TFM_Admin>> it = adminList.entrySet().iterator();
-        while (it.hasNext())
+        for (TFM_Admin admin : adminList.values())
         {
-            final Entry<UUID, TFM_Admin> pair = it.next();
-
-            final UUID uuid = pair.getKey();
-            TFM_Admin superadmin = pair.getValue();
-
-            if (superadmin.isActivated())
+            if (!admin.isActivated())
             {
-                superadminUUIDs.add(uuid);
+                continue;
+            }
 
-                for (String ip : superadmin.getIps())
+            final UUID uuid = admin.getUniqueId();
+
+            superadminUUIDs.add(uuid);
+
+            for (String ip : admin.getIps())
+            {
+                superadminIps.add(ip);
+            }
+
+            if (admin.isTelnetAdmin())
+            {
+                telnetadminUUIDs.add(uuid);
+
+                for (String alias : admin.getConsoleAliases())
                 {
-                    superadminIps.add(ip);
+                    consoleAliases.add(alias.toLowerCase());
                 }
+            }
 
-                if (superadmin.isSeniorAdmin())
-                {
-                    senioradminUUIDs.add(uuid);
 
-                    for (String alias : superadmin.getConsoleAliases())
-                    {
-                        senioradminAliases.add(alias.toLowerCase());
-                    }
-                }
-
-                if (superadmin.isTelnetAdmin())
-                {
-                    telnetadminUUIDs.add(uuid);
-                }
+            if (admin.isSeniorAdmin())
+            {
+                senioradminUUIDs.add(uuid);
             }
         }
 
@@ -209,10 +244,10 @@ public class TFM_AdminList
 
             config.set("admins." + uuid + ".last_login_name", superadmin.getLastLoginName());
             config.set("admins." + uuid + ".is_activated", superadmin.isActivated());
+            config.set("admins." + uuid + ".is_telnet_admin", superadmin.isTelnetAdmin());
+            config.set("admins." + uuid + ".is_senior_admin", superadmin.isSeniorAdmin());
             config.set("admins." + uuid + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
             config.set("admins." + uuid + ".custom_login_message", superadmin.getCustomLoginMessage());
-            config.set("admins." + uuid + ".is_senior_admin", superadmin.isSeniorAdmin());
-            config.set("admins." + uuid + ".is_telnet_admin", superadmin.isTelnetAdmin());
             config.set("admins." + uuid + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
             config.set("admins." + uuid + ".ips", TFM_Util.removeDuplicates(superadmin.getIps()));
         }
@@ -316,7 +351,7 @@ public class TFM_AdminList
 
         if (!(sender instanceof Player))
         {
-            return senioradminAliases.contains(sender.getName());
+            return consoleAliases.contains(sender.getName());
         }
 
         final TFM_Admin entry = getEntry((Player) sender);
@@ -367,7 +402,7 @@ public class TFM_AdminList
             return false;
         }
 
-        return entry.getIps().contains(TFM_Util.getIp(player));
+        return entry.getUniqueId().equals(player.getUniqueId());
     }
 
     @Deprecated

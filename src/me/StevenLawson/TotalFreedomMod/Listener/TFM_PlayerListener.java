@@ -114,10 +114,15 @@ public class TFM_PlayerListener implements Listener
                             break;
                         }
 
-                        TFM_Util.playerMsg(player, "Block edits at (" + ChatColor.WHITE + "x" + location.getBlockX() + ", y" + location.getBlockY() + ", z" + location.getBlockZ() + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
+                        TFM_Util.playerMsg(player, "Block edits at ("
+                                + ChatColor.WHITE + "x" + location.getBlockX()
+                                + ", y" + location.getBlockY()
+                                + ", z" + location.getBlockZ()
+                                + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
                         for (RollbackEntry entry : entries)
                         {
-                            TFM_Util.playerMsg(player, " - " + ChatColor.BLUE + entry.author + " " + entry.getType() + " " + StringUtils.capitalize(entry.getMaterial().toString().toLowerCase()) + (entry.data == 0 ? "" : ":" + entry.data));
+                            TFM_Util.playerMsg(player, " - " + ChatColor.BLUE + entry.author + " " + entry.getType() + " "
+                                    + StringUtils.capitalize(entry.getMaterial().toString().toLowerCase()) + (entry.data == 0 ? "" : ":" + entry.data));
                         }
 
                         break;
@@ -724,7 +729,7 @@ public class TFM_PlayerListener implements Listener
             {
                 playerdata.setSuperadminIdVerified(false);
 
-                TFM_Util.bcastMsg("Warning: " + player.getName() + " is an admin, but is using a username not registered to one of their ip-list.", ChatColor.RED);
+                TFM_Util.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
             }
             else
             {
