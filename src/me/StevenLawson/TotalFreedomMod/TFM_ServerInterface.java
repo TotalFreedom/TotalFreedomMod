@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.io.IOException;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -34,7 +35,16 @@ public class TFM_ServerInterface
         {
             MinecraftServer.getServer().getPlayerList().getWhitelist().remove(player);
         }
-        MinecraftServer.getServer().getPlayerList().getWhitelist().save();
+
+        try
+        {
+            MinecraftServer.getServer().getPlayerList().getWhitelist().save();
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.warning("Could not purge the whitelist!");
+            TFM_Log.warning(ex);
+        }
         return size;
     }
 
