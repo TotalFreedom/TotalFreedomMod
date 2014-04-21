@@ -94,6 +94,11 @@ public class TFM_PlayerList
         return null;
     }
 
+    public TFM_PlayerEntry getEntry(UUID uuid)
+    {
+        return playerList.get(uuid);
+    }
+
     public boolean existsEntry(Player player)
     {
         return playerList.containsKey(player.getUniqueId());

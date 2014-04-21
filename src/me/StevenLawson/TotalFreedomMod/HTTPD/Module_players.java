@@ -35,14 +35,14 @@ public class Module_players extends TFM_HTTPD_Module
         }
 
         // Super admins (non-telnet and non-senior)
-        for (UUID superadmin : TFM_AdminList.getSuperadminUUIDs())
+        for (UUID superadmin : TFM_AdminList.getSuperUUIDs())
         {
-            if (TFM_AdminList.getSenioradminUUIDs().contains(superadmin))
+            if (TFM_AdminList.getSeniorUUIDs().contains(superadmin))
             {
                 continue;
             }
 
-            if (TFM_AdminList.getTelnetadminUUIDs().contains(superadmin))
+            if (TFM_AdminList.getTelnetUUIDs().contains(superadmin))
             {
                 continue;
             }
@@ -51,9 +51,9 @@ public class Module_players extends TFM_HTTPD_Module
         }
 
         // Telnet admins (non-senior)
-        for (UUID telnetadmin : TFM_AdminList.getTelnetadminUUIDs())
+        for (UUID telnetadmin : TFM_AdminList.getTelnetUUIDs())
         {
-            if (TFM_AdminList.getSenioradminUUIDs().contains(telnetadmin))
+            if (TFM_AdminList.getSeniorUUIDs().contains(telnetadmin))
             {
                 continue;
             }
@@ -61,7 +61,7 @@ public class Module_players extends TFM_HTTPD_Module
         }
 
         // Senior admins
-        for (UUID senioradmin : TFM_AdminList.getSenioradminUUIDs())
+        for (UUID senioradmin : TFM_AdminList.getSeniorUUIDs())
         {
             senioradmins.add(getName(senioradmin));
         }

@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -19,16 +20,16 @@ public class TFM_Admin
     private Date lastLogin;
     private boolean isActivated;
 
-    public TFM_Admin(UUID uuid, String lastLoginName, List<String> ips, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, List<String> consoleAliases, boolean isActivated)
+    public TFM_Admin(UUID uuid, String lastLoginName, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, boolean isActivated)
     {
         this.uuid = uuid;
         this.lastLoginName = lastLoginName;
-        this.ips = ips;
+        this.ips = new ArrayList<String>();
         this.lastLogin = lastLogin;
         this.loginMessage = loginMessage;
         this.isSeniorAdmin = isSeniorAdmin;
         this.isTelnetAdmin = isTelnetAdmin;
-        this.consoleAliases = consoleAliases;
+        this.consoleAliases = new ArrayList<String>();
         this.isActivated = isActivated;
     }
 

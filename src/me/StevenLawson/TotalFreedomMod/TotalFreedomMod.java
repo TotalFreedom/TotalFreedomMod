@@ -270,7 +270,7 @@ public class TotalFreedomMod extends JavaPlugin
     {
         try
         {
-            TFM_AdminList.backupSavedList();
+            TFM_AdminList.createBackup();
             TFM_AdminList.load();
         }
         catch (Exception ex)

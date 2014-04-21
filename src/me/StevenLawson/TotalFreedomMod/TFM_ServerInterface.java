@@ -89,7 +89,7 @@ public class TFM_ServerInterface
         boolean isAdmin;
         if (server.getOnlineMode())
         {
-            isAdmin = TFM_AdminList.getSuperadminUUIDs().contains(uuid);
+            isAdmin = TFM_AdminList.getSuperUUIDs().contains(uuid);
         }
         else
         {

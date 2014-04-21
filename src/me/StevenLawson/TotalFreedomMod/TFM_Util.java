@@ -141,9 +141,21 @@ public class TFM_Util
         TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
     }
 
-    public static String getIp(Player player)
+    public static String getIp(OfflinePlayer player)
     {
-        return player.getAddress().getAddress().getHostAddress().trim();
+        if (player instanceof Player)
+        {
+            return ((Player) player).getAddress().getAddress().getHostAddress().trim();
+        }
+
+        final TFM_PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player.getUniqueId());
+
+        if (entry == null)
+        {
+            return null;
+        }
+
+        return entry.getIps().get(0);
     }
 
     public static String formatLocation(Location location)
@@ -155,7 +167,7 @@ public class TFM_Util
                 Math.round(location.getZ()));
     }
 
-    public static String formatPlayer(Player player)
+    public static String formatPlayer(OfflinePlayer player)
     {
         return player.getName() + " (" + player.getUniqueId() + ")";
     }

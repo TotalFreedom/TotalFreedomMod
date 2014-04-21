@@ -9,6 +9,7 @@ import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,11 +25,12 @@ public class Command_saconfig extends TFM_Command
         {
             return false;
         }
+
         if (args.length == 1)
         {
             if (args[0].equals("list"))
             {
-                playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperadminNames(), ", "), ChatColor.GOLD);
+                playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperNames(), ", "), ChatColor.GOLD);
                 return true;
             }
 
@@ -43,7 +45,7 @@ public class Command_saconfig extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Cleaning superadmin list", true);
                 TFM_AdminList.cleanSuperadminList(true);
-                playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperadminUUIDs(), ", "), ChatColor.YELLOW);
+                playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperUUIDs(), ", "), ChatColor.YELLOW);
                 return true;
             }
 
@@ -91,8 +93,7 @@ public class Command_saconfig extends TFM_Command
 
         if (args[0].equalsIgnoreCase("add"))
         {
-            Player player = null;
-            String playername = null;
+            OfflinePlayer player;
 
             try
             {
@@ -101,27 +102,19 @@ public class Command_saconfig extends TFM_Command
             catch (PlayerNotFoundException ex)
             {
                 final TFM_Admin superadmin = TFM_AdminList.getEntry(args[1]);
-                if (superadmin != null)
-                {
-                    playername = superadmin.getLastLoginName();
-                }
-                else
+
+                if (superadmin == null)
                 {
                     playerMsg(ex.getMessage(), ChatColor.RED);
                     return true;
                 }
+
+                player = Bukkit.getOfflinePlayer(superadmin.getLastLoginName());
             }
 
-            if (player != null)
-            {
-                TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list.", true);
-                TFM_AdminList.addSuperadmin(player);
-            }
-            else if (playername != null)
-            {
-                TFM_Util.adminAction(sender.getName(), "Adding " + playername + " to the superadmin list.", true);
-                TFM_AdminList.addSuperadmin(player);
-            }
+            TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list", true);
+            TFM_AdminList.addSuperadmin(player);
+
             return true;
         }
 
@@ -143,7 +136,7 @@ public class Command_saconfig extends TFM_Command
             {
             }
 
-            if (!TFM_AdminList.getLowerSuperadminNames().contains(targetName.toLowerCase()))
+            if (!TFM_AdminList.getLowerSuperNames().contains(targetName.toLowerCase()))
             {
                 playerMsg("Superadmin not found: " + targetName);
                 return true;
