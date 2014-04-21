@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import java.io.IOException;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;

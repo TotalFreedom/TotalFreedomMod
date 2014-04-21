@@ -51,13 +51,14 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     //
-    public static Server server = null;
-    public static TotalFreedomMod plugin = null;
+    public static String buildNumber = "1";
+    public static String buildDate = TotalFreedomMod.buildDate = TFM_Util.dateToString(new Date());
+    public static String buildCreator = "Unknown";
     //
-    public static String pluginName = "";
-    public static String pluginVersion = "";
-    public static String buildNumber = "";
-    public static String buildDate = "";
+    public static Server server;
+    public static TotalFreedomMod plugin;
+    public static String pluginName;
+    public static String pluginVersion;
     //
     public static boolean allPlayersFrozen = false;
     public static BukkitTask freezePurgeTask = null;
@@ -85,7 +86,8 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onEnable()
     {
-        TFM_Log.info("Version: " + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber + " by Madgeek1450 and DarthSalamon");
+        TFM_Log.info("Starting " + pluginName + " v" + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber);
+        TFM_Log.info("Made by Madgeek1450 and DarthSalamon, Compiled " + buildDate + " by " + buildCreator);
 
         loadSuperadminConfig();
         loadPermbanConfig();
@@ -325,7 +327,7 @@ public class TotalFreedomMod extends JavaPlugin
     {
         try
         {
-            InputStream in = plugin.getResource("appinfo.properties");
+            final InputStream in = plugin.getResource("appinfo.properties");
             Properties props = new Properties();
 
             // in = plugin.getClass().getResourceAsStream("/appinfo.properties");
@@ -334,14 +336,12 @@ public class TotalFreedomMod extends JavaPlugin
 
             TotalFreedomMod.buildNumber = props.getProperty("program.buildnumber");
             TotalFreedomMod.buildDate = props.getProperty("program.builddate");
+            TotalFreedomMod.buildCreator = props.getProperty("program.buildcreator");
         }
         catch (Exception ex)
         {
             TFM_Log.severe("Could not load App properties!");
             TFM_Log.severe(ex);
-
-            TotalFreedomMod.buildNumber = "1";
-            TotalFreedomMod.buildDate = TFM_Util.dateToString(new Date());
         }
     }
 }

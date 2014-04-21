@@ -17,3 +17,6 @@ manifest.mf
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# TFM files
+buildcreator.properties
