@@ -14,6 +14,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_logs;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_MainConfig;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -351,9 +353,10 @@ public class TFM_AdminList
 
         if (!(sender instanceof Player))
         {
-            return consoleAliases.contains(sender.getName()) || sender.getName().equals("CONSOLE");
+            return consoleAliases.contains(sender.getName())
+                    || (TFM_MainConfig.getInstance().getBoolean(TFM_ConfigEntry.CONSOLE_IS_SENIOR) && sender.getName().equals("CONSOLE"));
         }
-        
+
         final TFM_Admin entry = getEntry((Player) sender);
         if (entry != null)
         {
