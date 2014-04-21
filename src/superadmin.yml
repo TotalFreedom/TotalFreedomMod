@@ -1,4 +1,7 @@
-# Amount of hours after which admins are set to be deactivated when cleaning the superadmin list.
+#
+# SuperAdmin List
+#
+
 clean_threshold_hours: 168
 
 admins:

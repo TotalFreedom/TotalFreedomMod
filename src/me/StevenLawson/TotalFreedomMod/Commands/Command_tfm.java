@@ -13,7 +13,7 @@ public class Command_tfm extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        playerMsg(TotalFreedomMod.pluginName + " for 'Total Freedom', the original all-op server.", ChatColor.GOLD);
+        playerMsg("TotalFreedomMod for 'Total Freedom', the original all-op server.", ChatColor.GOLD);
         playerMsg(String.format("Version "
                 + ChatColor.BLUE + "%s.%s" + ChatColor.GOLD + ", built "
                 + ChatColor.BLUE + "%s" + ChatColor.GOLD + " by "

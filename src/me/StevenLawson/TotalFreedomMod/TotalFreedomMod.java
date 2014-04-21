@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
@@ -12,12 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.HTTPD.TFM_HTTPD_Manager;
 import me.StevenLawson.TotalFreedomMod.Listener.*;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
-import net.minecraft.util.org.apache.commons.lang3.exception.ExceptionUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -41,9 +39,6 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String PERMBAN_FILE = "permban.yml";
     public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILE = "savedflags.dat";
-    //
-    public static final String COMMAND_PATH = "me.StevenLawson.TotalFreedomMod.Commands";
-    public static final String COMMAND_PREFIX = "Command_";
     //
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
@@ -89,7 +84,9 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Log.info("Starting " + pluginName + " v" + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber);
         TFM_Log.info("Made by Madgeek1450 and DarthSalamon, Compiled " + buildDate + " by " + buildCreator);
 
-        loadSuperadminConfig();
+        TFM_AdminList.createBackup();
+        TFM_AdminList.load();
+
         loadPermbanConfig();
 
         TFM_PlayerList.getInstance().load();
@@ -203,80 +200,7 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
-        try
-        {
-            Player sender_p = null;
-            boolean senderIsConsole = false;
-            if (sender instanceof Player)
-            {
-                sender_p = (Player) sender;
-                TFM_Log.info(String.format("[PLAYER_COMMAND] %s(%s): /%s %s",
-                        sender_p.getName(),
-                        ChatColor.stripColor(sender_p.getDisplayName()),
-                        commandLabel,
-                        StringUtils.join(args, " ")), true);
-            }
-            else
-            {
-                senderIsConsole = true;
-                TFM_Log.info(String.format("[CONSOLE_COMMAND] %s: /%s %s",
-                        sender.getName(),
-                        commandLabel,
-                        StringUtils.join(args, " ")), true);
-            }
-
-            final TFM_Command dispatcher;
-            try
-            {
-                final ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
-                dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", COMMAND_PATH, COMMAND_PREFIX, cmd.getName().toLowerCase())).newInstance();
-                dispatcher.setup(plugin, sender, dispatcher.getClass());
-            }
-            catch (Throwable ex)
-            {
-                TFM_Log.severe("Command not loaded: " + cmd.getName() + "\n" + ExceptionUtils.getStackTrace(ex));
-                sender.sendMessage(ChatColor.RED + "Command Error: Command not loaded: " + cmd.getName());
-                return true;
-            }
-
-            try
-            {
-                if (dispatcher.senderHasPermission())
-                {
-                    return dispatcher.run(sender, sender_p, cmd, commandLabel, args, senderIsConsole);
-                }
-                else
-                {
-                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-                }
-            }
-            catch (Throwable ex)
-            {
-                TFM_Log.severe("Command Error: " + commandLabel + "\n" + ExceptionUtils.getStackTrace(ex));
-                sender.sendMessage(ChatColor.RED + "Command Error: " + ex.getMessage());
-            }
-
-        }
-        catch (Throwable ex)
-        {
-            TFM_Log.severe("Command Error: " + commandLabel + "\n" + ExceptionUtils.getStackTrace(ex));
-            sender.sendMessage(ChatColor.RED + "Unknown Command Error.");
-        }
-
-        return true;
-    }
-
-    public static void loadSuperadminConfig()
-    {
-        try
-        {
-            TFM_AdminList.createBackup();
-            TFM_AdminList.load();
-        }
-        catch (Exception ex)
-        {
-            TFM_Log.severe("Error loading superadmin list: " + ex.getMessage());
-        }
+        return TFM_CommandHandler.handleCommand(sender, cmd, commandLabel, args);
     }
 
     public static void loadPermbanConfig()

@@ -266,7 +266,7 @@ public class TFM_CommandBlocker
         private String command;
         private final String message;
 
-        public CommandBlockerEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String message)
+        private CommandBlockerEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String message)
         {
             this.rank = rank;
             this.action = action;

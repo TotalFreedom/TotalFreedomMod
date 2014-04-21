@@ -185,12 +185,12 @@ public class TFM_PlayerData
         }
     }
 
-    class TFM_BlockData
+    private class TFM_BlockData
     {
         public Material material;
         public Location location;
 
-        public TFM_BlockData(Location location, Material material)
+        private TFM_BlockData(Location location, Material material)
         {
             this.location = location;
             this.material = material;

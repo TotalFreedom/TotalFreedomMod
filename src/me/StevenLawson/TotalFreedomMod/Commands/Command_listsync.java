@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.io.File;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -20,7 +21,8 @@ public class Command_listsync extends TFM_Command
         try
         {
             TFM_Util.downloadFile("http://madgeekonline.com/apps/get_superadmins_raw.php", new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
-            TotalFreedomMod.loadSuperadminConfig();
+            TFM_AdminList.createBackup();
+            TFM_AdminList.load();
             TFM_Util.adminAction(sender.getName(), TotalFreedomMod.SUPERADMIN_FILE + " downloaded.", false);
         }
         catch (Exception ex)

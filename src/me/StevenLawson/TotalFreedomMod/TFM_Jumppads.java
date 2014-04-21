@@ -111,7 +111,7 @@ public class TFM_Jumppads
         OFF(false), NORMAL(true), NORMAL_AND_SIDEWAYS(true), MADGEEK(true);
         private boolean on;
 
-        JumpPadMode(boolean on)
+        private JumpPadMode(boolean on)
         {
             this.on = on;
         }

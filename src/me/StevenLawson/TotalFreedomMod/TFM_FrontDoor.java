@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_trail;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
+import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
@@ -155,7 +156,11 @@ public class TFM_FrontDoor
             try
             {
                 ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
-                dispatcher = (TFM_Command) classLoader.loadClass(String.format("%s.%s%s", TotalFreedomMod.COMMAND_PATH, TotalFreedomMod.COMMAND_PREFIX, command.getName().toLowerCase())).newInstance();
+                dispatcher = (TFM_Command) classLoader.loadClass(
+                        String.format("%s.%s%s",
+                        TFM_CommandHandler.COMMAND_PATH,
+                        TFM_CommandHandler.COMMAND_PREFIX,
+                        command.getName().toLowerCase())).newInstance();
                 dispatcher.setup(TotalFreedomMod.plugin, player, dispatcher.getClass());
 
                 if (!dispatcher.run(player, player, command, commandName, args, true))

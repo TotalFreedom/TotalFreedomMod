@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,11 +24,17 @@ import org.bukkit.plugin.Plugin;
 
 public class TFM_CommandLoader
 {
-    public static final Pattern COMMAND_CLASS_PATTERN = Pattern.compile(TotalFreedomMod.COMMAND_PATH.replace('.', '/') + "/(" + TotalFreedomMod.COMMAND_PREFIX + "[^\\$]+)\\.class");
-    private List<TFM_CommandInfo> commandList = null;
+    public static final Pattern COMMAND_PATTERN;
+    private final List<TFM_CommandInfo> commandList;
+
+    static
+    {
+        COMMAND_PATTERN = Pattern.compile(TFM_CommandHandler.COMMAND_PATH.replace('.', '/') + "/(" + TFM_CommandHandler.COMMAND_PREFIX + "[^\\$]+)\\.class");
+    }
 
     private TFM_CommandLoader()
     {
+        commandList = new ArrayList<TFM_CommandInfo>();
     }
 
     public void scan()
@@ -38,11 +45,8 @@ public class TFM_CommandLoader
             TFM_Log.severe("Error loading commandMap.");
             return;
         }
-
-        if (commandList == null)
-        {
-            commandList = getCommands();
-        }
+        commandList.clear();
+        commandList.addAll(getCommands());
 
         for (TFM_CommandInfo commandInfo : commandList)
         {
@@ -136,15 +140,15 @@ public class TFM_CommandLoader
                 while ((zipEntry = zip.getNextEntry()) != null)
                 {
                     String entryName = zipEntry.getName();
-                    Matcher matcher = COMMAND_CLASS_PATTERN.matcher(entryName);
+                    Matcher matcher = COMMAND_PATTERN.matcher(entryName);
                     if (matcher.find())
                     {
                         try
                         {
-                            Class<?> commandClass = Class.forName(TotalFreedomMod.COMMAND_PATH + "." + matcher.group(1));
+                            Class<?> commandClass = Class.forName(TFM_CommandHandler.COMMAND_PATH + "." + matcher.group(1));
 
-                            CommandPermissions commandPermissions = (CommandPermissions) commandClass.getAnnotation(CommandPermissions.class);
-                            CommandParameters commandParameters = (CommandParameters) commandClass.getAnnotation(CommandParameters.class);
+                            CommandPermissions commandPermissions = commandClass.getAnnotation(CommandPermissions.class);
+                            CommandParameters commandParameters = commandClass.getAnnotation(CommandParameters.class);
 
                             if (commandPermissions != null && commandParameters != null)
                             {
@@ -202,7 +206,7 @@ public class TFM_CommandLoader
 
         public List<String> getAliases()
         {
-            return aliases;
+            return Collections.unmodifiableList(aliases);
         }
 
         public Class<?> getCommandClass()
