@@ -85,47 +85,52 @@ public abstract class TFM_Command
             {
                 return false;
             }
-            else if (level == AdminLevel.SENIOR && !isSenior)
-            {
-                return false;
-            }
-            else if (blockHostConsole && TFM_Util.isFromHostConsole(commandSender.getName()))
-            {
-                return false;
-            }
-        }
-        else
-        {
-            final Player sender_p = (Player) commandSender;
 
-            if (source == SourceType.ONLY_CONSOLE)
+            if (level == AdminLevel.SENIOR && !isSenior)
             {
                 return false;
             }
-            else if (level == AdminLevel.SENIOR)
-            {
-                if (isSenior)
-                {
-                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender_p);
-                    if (!playerdata.isSuperadminIdVerified())
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else if (level == AdminLevel.SUPER && !isSuper)
+
+            if (blockHostConsole && TFM_Util.isFromHostConsole(commandSender.getName()))
             {
                 return false;
             }
-            else if (level == AdminLevel.OP && !sender_p.isOp())
-            {
-                return false;
-            }
+
+            return true;
         }
+
+        final Player senderPlayer = (Player) commandSender;
+
+        if (source == SourceType.ONLY_CONSOLE)
+        {
+            return false;
+        }
+
+        if (level == AdminLevel.SENIOR)
+        {
+            if (!isSenior)
+            {
+                return false;
+            }
+
+            if (!TFM_PlayerData.getPlayerData(senderPlayer).isSuperadminIdVerified())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        if (level == AdminLevel.SUPER && !isSuper)
+        {
+            return false;
+        }
+
+        if (level == AdminLevel.OP && !senderPlayer.isOp())
+        {
+            return false;
+        }
+
         return true;
     }
 
