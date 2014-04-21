@@ -33,6 +33,7 @@ public enum TFM_ConfigEntry
     TWITTERBOT_ENABLED(Boolean.class, "twitterbot_enabled"),
     HTTPD_ENABLED(Boolean.class, "httpd_enabled"),
     AUTOKICK_ENABLED(Boolean.class, "autokick_enabled"),
+    CONSOLE_IS_SENIOR(Boolean.class, "console_is_senior"),
     //
     AUTO_PROTECT_RADIUS(Double.class, "auto_protect_radius"),
     EXPLOSIVE_RADIUS(Double.class, "explosive_radius"),

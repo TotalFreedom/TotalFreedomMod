@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH, block_host_console = true)
+@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Make some noise.", usage = "/<command>")
 public class Command_deafen extends TFM_Command
 {

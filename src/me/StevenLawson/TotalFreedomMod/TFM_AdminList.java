@@ -351,9 +351,9 @@ public class TFM_AdminList
 
         if (!(sender instanceof Player))
         {
-            return consoleAliases.contains(sender.getName());
+            return consoleAliases.contains(sender.getName()) || sender.getName().equals("CONSOLE");
         }
-
+        
         final TFM_Admin entry = getEntry((Player) sender);
         if (entry != null)
         {

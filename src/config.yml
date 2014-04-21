@@ -129,6 +129,10 @@ protected_areas_enabled: true
 auto_protect_spawnpoints: true
 auto_protect_radius: 25.0
 
+# Give the default CONSOLE senior admin privileges.
+# Handy in development environments.
+console_is_senior: true
+
 # Host Sender Names - Names that indicate automated services or host-based consoles you want to block from using some commands.
 # Make sure these are all lower-case.
 host_sender_names:

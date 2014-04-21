@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH, block_host_console = true)
+@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Kick all non-superadmins on server.", usage = "/<command>")
 public class Command_kicknoob extends TFM_Command
 {

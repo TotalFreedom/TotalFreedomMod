@@ -59,81 +59,72 @@ public abstract class TFM_Command
 
     public boolean senderHasPermission()
     {
-        CommandPermissions permissions = commandClass.getAnnotation(CommandPermissions.class);
-        if (permissions != null)
+        final CommandPermissions permissions = commandClass.getAnnotation(CommandPermissions.class);
+
+        if (permissions == null)
         {
-            boolean is_super = TFM_AdminList.isSuperAdmin(this.commandSender);
-            boolean is_senior = false;
-            if (is_super)
+            TFM_Log.warning(commandClass.getName() + " is missing permissions annotation.");
+            return true;
+        }
+
+        boolean isSuper = TFM_AdminList.isSuperAdmin(commandSender);
+        boolean isSenior = false;
+
+        if (isSuper)
+        {
+            isSenior = TFM_AdminList.isSeniorAdmin(commandSender);
+        }
+
+        final AdminLevel level = permissions.level();
+        final SourceType source = permissions.source();
+        final boolean blockHostConsole = permissions.blockHostConsole();
+
+        if (!(commandSender instanceof Player))
+        {
+            if (source == SourceType.ONLY_IN_GAME)
             {
-                is_senior = TFM_AdminList.isSeniorAdmin(this.commandSender);
+                return false;
             }
-
-            AdminLevel level = permissions.level();
-            SourceType source = permissions.source();
-            boolean block_host_console = permissions.block_host_console();
-
-            Player sender_p = null;
-            if (this.commandSender instanceof Player)
+            else if (level == AdminLevel.SENIOR && !isSenior)
             {
-                sender_p = (Player) this.commandSender;
+                return false;
             }
-
-            if (sender_p == null)
+            else if (blockHostConsole && TFM_Util.isFromHostConsole(commandSender.getName()))
             {
-                if (source == SourceType.ONLY_IN_GAME)
-                {
-                    return false;
-                }
-                else if (level == AdminLevel.SENIOR && !is_senior)
-                {
-                    return false;
-                }
-                else if (block_host_console && TFM_Util.isFromHostConsole(this.commandSender.getName()))
-                {
-                    return false;
-                }
+                return false;
             }
-            else
-            {
-                if (source == SourceType.ONLY_CONSOLE)
-                {
-                    return false;
-                }
-                else if (level == AdminLevel.SENIOR)
-                {
-                    if (is_senior)
-                    {
-                        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender_p);
-                        Boolean superadminIdVerified = playerdata.isSuperadminIdVerified();
+        }
+        else
+        {
+            final Player sender_p = (Player) commandSender;
 
-                        if (superadminIdVerified != null)
-                        {
-                            if (!superadminIdVerified.booleanValue())
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                    else
+            if (source == SourceType.ONLY_CONSOLE)
+            {
+                return false;
+            }
+            else if (level == AdminLevel.SENIOR)
+            {
+                if (isSenior)
+                {
+                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender_p);
+                    if (!playerdata.isSuperadminIdVerified())
                     {
                         return false;
                     }
                 }
-                else if (level == AdminLevel.SUPER && !is_super)
-                {
-                    return false;
-                }
-                else if (level == AdminLevel.OP && !sender_p.isOp())
+                else
                 {
                     return false;
                 }
             }
-            return true;
-        }
-        else
-        {
-            TFM_Log.warning(commandClass.getName() + " is missing permissions annotation.");
+            else if (level == AdminLevel.SUPER && !isSuper)
+            {
+                return false;
+            }
+            else if (level == AdminLevel.OP && !sender_p.isOp())
+            {
+                return false;
+            }
         }
         return true;
     }

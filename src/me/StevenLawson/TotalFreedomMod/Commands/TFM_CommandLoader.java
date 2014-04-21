@@ -153,7 +153,7 @@ public class TFM_CommandLoader
                                         matcher.group(1).split("_")[1],
                                         commandPermissions.level(),
                                         commandPermissions.source(),
-                                        commandPermissions.block_host_console(),
+                                        commandPermissions.blockHostConsole(),
                                         commandParameters.description(),
                                         commandParameters.usage(),
                                         commandParameters.aliases());
