@@ -1,11 +1,11 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import net.minecraft.server.v1_7_R3.MinecraftServer;
 import net.minecraft.server.v1_7_R3.PropertyManager;
 import org.bukkit.ChatColor;
@@ -93,7 +93,8 @@ public class TFM_ServerInterface
         }
         else
         {
-            isAdmin = TFM_AdminList.getEntryByIp(ip) != null;
+            final TFM_Admin admin = TFM_AdminList.getEntryByIp(ip);
+            isAdmin = admin != null && admin.isActivated();
         }
 
         // Validation below this point
@@ -141,7 +142,7 @@ public class TFM_ServerInterface
             }
 
             // Permbanned Ips
-            for (String testIp : TotalFreedomMod.permbannedIps)
+            for (String testIp : TFM_PermbanList.getPermbannedIps())
             {
                 if (TFM_Util.fuzzyIpMatch(testIp, ip, 4))
                 {
@@ -152,7 +153,7 @@ public class TFM_ServerInterface
             }
 
             // Permbanned names
-            for (String testPlayer : TotalFreedomMod.permbannedPlayers)
+            for (String testPlayer : TFM_PermbanList.getPermbannedPlayers())
             {
                 if (testPlayer.equalsIgnoreCase(username))
                 {

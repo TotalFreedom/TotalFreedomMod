@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.io.File;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.TFM_PermbanList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
@@ -20,8 +21,9 @@ public class Command_listsync extends TFM_Command
 
         try
         {
-            TFM_Util.downloadFile("http://madgeekonline.com/apps/get_superadmins_raw.php", new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SUPERADMIN_FILE));
             TFM_AdminList.createBackup();
+            TFM_Util.downloadFile("http://madgeekonline.com/apps/get_superadmins_raw.php", new File(TotalFreedomMod.plugin.getDataFolder(),
+                    TotalFreedomMod.SUPERADMIN_FILE));
             TFM_AdminList.load();
             TFM_Util.adminAction(sender.getName(), TotalFreedomMod.SUPERADMIN_FILE + " downloaded.", false);
         }
@@ -32,8 +34,10 @@ public class Command_listsync extends TFM_Command
 
         try
         {
-            TFM_Util.downloadFile("http://madgeekonline.com/apps/get_permbans_raw.php", new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PERMBAN_FILE));
-            TotalFreedomMod.loadPermbanConfig();
+            TFM_PermbanList.createBackup();
+            TFM_Util.downloadFile("http://madgeekonline.com/apps/get_permbans_raw.php", new File(TotalFreedomMod.plugin.getDataFolder(),
+                    TotalFreedomMod.PERMBAN_FILE));
+            TFM_PermbanList.load();
             TFM_Util.adminAction(sender.getName(), TotalFreedomMod.PERMBAN_FILE + " downloaded.", false);
         }
         catch (Exception ex)

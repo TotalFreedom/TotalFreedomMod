@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_PermbanList;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -31,7 +32,8 @@ public class Command_permban extends TFM_Command
                 return true;
             }
             playerMsg("Reloading permban list...", ChatColor.RED);
-            TotalFreedomMod.loadPermbanConfig();
+            TFM_PermbanList.createBackup();
+            TFM_PermbanList.load();
             dumplist(sender);
         }
         else
@@ -44,24 +46,24 @@ public class Command_permban extends TFM_Command
 
     private void dumplist(CommandSender sender)
     {
-        if (TotalFreedomMod.permbannedPlayers.isEmpty())
+        if (TFM_PermbanList.getPermbannedPlayers().isEmpty())
         {
             playerMsg(sender, "No permanently banned player names.");
         }
         else
         {
-            playerMsg(sender, TotalFreedomMod.permbannedPlayers.size() + " permanently banned players:");
-            playerMsg(sender, StringUtils.join(TotalFreedomMod.permbannedPlayers, ", "));
+            playerMsg(sender, TFM_PermbanList.getPermbannedPlayers().size() + " permanently banned players:");
+            playerMsg(sender, StringUtils.join(TFM_PermbanList.getPermbannedPlayers(), ", "));
         }
 
-        if (TotalFreedomMod.permbannedIps.isEmpty())
+        if (TFM_PermbanList.getPermbannedIps().isEmpty())
         {
             playerMsg(sender, "No permanently banned IPs.");
         }
         else
         {
-            playerMsg(sender, TotalFreedomMod.permbannedIps.size() + " permanently banned IPs:");
-            playerMsg(sender, StringUtils.join(TotalFreedomMod.permbannedIps, ", "));
+            playerMsg(sender, TFM_PermbanList.getPermbannedIps().size() + " permanently banned IPs:");
+            playerMsg(sender, StringUtils.join(TFM_PermbanList.getPermbannedIps(), ", "));
         }
     }
 }

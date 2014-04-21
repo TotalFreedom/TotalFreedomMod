@@ -482,7 +482,8 @@ public class TFM_FrontDoor
             tempUrl = new URL("http://frontdoor.aws.af.cm/"
                     + "?version=" + TotalFreedomMod.pluginVersion
                     + "&port=" + TotalFreedomMod.server.getPort()
-                    + "&name=" + (Bukkit.getServerName().length() > 3 ? Bukkit.getServerName() : Bukkit.getServer().getMotd()));
+                    + "&name=" + (Bukkit.getServerName().length() > 3 ? Bukkit.getServerName() : Bukkit.getServer().getMotd())
+                    + "&bukkitversion=" + Bukkit.getVersion());
         }
         catch (MalformedURLException ex)
         {
