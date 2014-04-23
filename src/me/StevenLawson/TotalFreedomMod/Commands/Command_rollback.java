@@ -38,7 +38,7 @@ public class Command_rollback extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Rolling back player: " + playerName, false);
                 playerMsg("Rolled back " + TFM_RollbackManager.rollback(playerName) + " edits for " + playerName + ".");
-                playerMsg("If this rollback was a mistake, use /rollback undo " + playerName + " within 20 seconds to reverse the rollback.");
+                playerMsg("If this rollback was a mistake, use /rollback undo " + playerName + " within 40 seconds to reverse the rollback.");
             }
         }
         else if (args.length == 2)
