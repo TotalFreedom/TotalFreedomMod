@@ -115,7 +115,7 @@ public class TFM_RollbackManager
                     purgeEntries(playerName);
                 }
             }
-        }.runTaskLater(TotalFreedomMod.plugin, 20L * 20L);
+        }.runTaskLater(TotalFreedomMod.plugin, 60L * 60L);
         return count;
     }
 
