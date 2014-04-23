@@ -1,6 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.ArrayList;
+import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,22 +22,32 @@ public class Command_ro extends TFM_Command
             return false;
         }
 
-        Material from_material = Material.matchMaterial(args[0]);
-        if (from_material == null)
+        final List<Material> materials = new ArrayList<Material>();
+
+        for (String materialName : (args[0].contains(",") ? args[0].split(",") : new String[]
         {
-            try
+            args[0]
+        }))
+        {
+            Material fromMaterial = Material.matchMaterial(materialName);
+            if (fromMaterial == null)
             {
-                from_material = Material.getMaterial(Integer.parseInt(args[0]));
-            }
-            catch (NumberFormatException ex)
-            {
+                try
+                {
+                    fromMaterial = Material.getMaterial(Integer.parseInt(materialName));
+                }
+                catch (NumberFormatException ex)
+                {
+                }
             }
 
-            if (from_material == null)
+            if (fromMaterial == null)
             {
-                playerMsg("Invalid block: " + args[0], ChatColor.RED);
+                playerMsg("Invalid block: " + materialName, ChatColor.RED);
                 return true;
             }
+
+            materials.add(fromMaterial);
         }
 
         int radius = 20;
@@ -51,7 +64,7 @@ public class Command_ro extends TFM_Command
             }
         }
 
-        Player targetPlayer = null;
+        final Player targetPlayer;
         if (args.length == 3)
         {
             try
@@ -64,24 +77,37 @@ public class Command_ro extends TFM_Command
                 return true;
             }
         }
+        else
+        {
+            targetPlayer = null;
+        }
+
+        final String names = StringUtils.join(materials, ", ");
 
         int affected = 0;
-
         if (targetPlayer == null)
         {
-            TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of all players. Brace for lag...", senderIsConsole);
-            for (Player player : server.getOnlinePlayers())
+            TFM_Util.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of all players... Brace for lag!", false);
+
+            for (Material material : materials)
             {
-                affected += TFM_Util.replaceBlocks(player.getLocation(), from_material, Material.AIR, radius);
+                for (Player player : server.getOnlinePlayers())
+                {
+                    affected += TFM_Util.replaceBlocks(player.getLocation(), material, Material.AIR, radius);
+                }
             }
         }
         else
         {
-            TFM_Util.adminAction(sender.getName(), "Removing all " + from_material.name() + " within " + radius + " blocks of " + targetPlayer.getName() + ".", senderIsConsole);
-            affected += TFM_Util.replaceBlocks(targetPlayer.getLocation(), from_material, Material.AIR, radius);
+            for (Material material : materials)
+            {
+                TFM_Util.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
+                affected += TFM_Util.replaceBlocks(targetPlayer.getLocation(), material, Material.AIR, radius);
+            }
         }
 
-        TFM_Util.adminAction(sender.getName(), "Remove complete. " + affected + " blocks removed.", senderIsConsole);
+        TFM_Util.adminAction(sender.getName(), "Remove complete! " + affected + " blocks removed.", false);
+
 
         return true;
     }
