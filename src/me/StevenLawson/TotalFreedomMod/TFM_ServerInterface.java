@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 public class TFM_ServerInterface
 {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
-    public static final Pattern INVALID_CHARS_REGEX = Pattern.compile("[^a-zA-Z0-9\\-\\.\\_]");
+    public static final Pattern USERNAME_REGEX = Pattern.compile("^[\\w\\d_]{3,20}$");
 
     public static void setOnlineMode(boolean mode)
     {
@@ -73,15 +73,15 @@ public class TFM_ServerInterface
         final UUID uuid = player.getUniqueId();
         final String ip = event.getAddress().getHostAddress().trim();
 
-        if (INVALID_CHARS_REGEX.matcher(username).find())
+        if (username.length() < 3 || username.length() > 20)
         {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username contains invalid characters.");
+            event.disallow(Result.KICK_OTHER, "Your username is an invalid length (must be between 3 and 20 characters long).");
             return;
         }
 
-        if (username.length() <= 2)
+        if (!USERNAME_REGEX.matcher(username).find())
         {
-            event.disallow(Result.KICK_OTHER, "Your username is too short (must be at least 3 characters long).");
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username contains invalid characters.");
             return;
         }
 
