@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.util.Vector;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -72,6 +73,10 @@ public class Command_doom extends TFM_Command
 
         // generate explosion
         player.getWorld().createExplosion(player.getLocation(), 4F);
+        
+        
+        // fly the player up to the moon
+        player.setVelocity(new Vector(player.getLocation().getX(), 7000, player.getLocation().getZ()));
 
         // Shoot the player in the sky
         player.setVelocity(player.getVelocity().clone().add(new Vector(0, 20, 0)));
@@ -86,6 +91,9 @@ public class Command_doom extends TFM_Command
 
                 // kill (if not done already)
                 player.setHealth(0.0);
+
+                // fly the player up to the moon
+                player.setVelocity(new Vector(player.getLocation().getX(), 7000, player.getLocation().getZ()));
             }
         }.runTaskLater(plugin, 2L * 20L);
 
