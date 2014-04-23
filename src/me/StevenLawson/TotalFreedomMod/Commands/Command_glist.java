@@ -50,12 +50,11 @@ public class Command_glist extends TFM_Command
         else if (args.length == 2)
         {
             String username;
-            List<String> ips = new ArrayList<String>();
+            final List<String> ips = new ArrayList<String>();
 
             try
             {
-                Player player = getPlayer(args[1]);
-
+                final Player player = getPlayer(args[1]);
                 username = player.getName();
                 ips.add(player.getAddress().getAddress().getHostAddress());
             }
@@ -70,7 +69,7 @@ public class Command_glist extends TFM_Command
                 }
 
                 username = entry.getLastJoinName();
-                ips = entry.getIps();
+                ips.addAll(entry.getIps());
             }
 
             String mode = args[0].toLowerCase();

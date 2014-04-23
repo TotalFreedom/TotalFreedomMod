@@ -79,8 +79,8 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onEnable()
     {
-        TFM_Log.info("Starting " + pluginName + " v" + TotalFreedomMod.pluginVersion + "." + TotalFreedomMod.buildNumber);
-        TFM_Log.info("Made by Madgeek1450 and DarthSalamon, Compiled " + buildDate + " by " + buildCreator);
+        TFM_Log.info("Made by Madgeek1450 and DarthSalamon");
+        TFM_Log.info("Compiled " + buildDate + " by " + buildCreator);
 
         final File[] coreDumps = new File(".").listFiles(new FileFilter()
         {

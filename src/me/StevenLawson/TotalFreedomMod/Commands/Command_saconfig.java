@@ -45,7 +45,7 @@ public class Command_saconfig extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Cleaning superadmin list", true);
                 TFM_AdminList.cleanSuperadminList(true);
-                playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperUUIDs(), ", "), ChatColor.YELLOW);
+                playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperNames(), ", "), ChatColor.YELLOW);
                 return true;
             }
 
