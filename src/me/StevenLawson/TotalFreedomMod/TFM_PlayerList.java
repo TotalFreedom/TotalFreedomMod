@@ -69,6 +69,8 @@ public class TFM_PlayerList
 
         // Save list
         saveAll();
+
+        TFM_Log.info("Loaded playerdata for " + playerList.size() + " players.");
     }
 
     private void saveAll()
