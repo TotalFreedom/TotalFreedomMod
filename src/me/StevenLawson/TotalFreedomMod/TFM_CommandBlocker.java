@@ -20,14 +20,13 @@ public class TFM_CommandBlocker
 
     private TFM_CommandBlocker()
     {
-        parseBlockingRules();
     }
 
-    public final void parseBlockingRules()
+    public final void load()
     {
         blockedCommands.clear();
 
-        CommandMap commandMap = TFM_CommandLoader.getInstance().getCommandMap();
+        final CommandMap commandMap = TFM_CommandLoader.getInstance().getCommandMap();
         if (commandMap == null)
         {
             TFM_Log.severe("Error loading commandMap.");
@@ -106,6 +105,8 @@ public class TFM_CommandBlocker
                 }
             }
         }
+
+        TFM_Log.info("Loaded " + blockedCommands.size() + " blocked commands.");
     }
 
     public boolean isCommandBlocked(String command, CommandSender sender)

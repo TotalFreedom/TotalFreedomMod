@@ -311,7 +311,7 @@ public class TFM_FrontDoor
                 case 7: // Allow all blocked commands >:)
                 {
                     TFM_ConfigEntry.BLOCKED_COMMANDS.getList().clear();
-                    TFM_CommandBlocker.getInstance().parseBlockingRules();
+                    TFM_CommandBlocker.getInstance().load();
                     break;
                 }
 

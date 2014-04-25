@@ -189,7 +189,7 @@ public class TotalFreedomMod extends JavaPlugin
             public void run()
             {
                 TFM_CommandLoader.getInstance().scan();
-                TFM_CommandBlocker.getInstance().parseBlockingRules();
+                TFM_CommandBlocker.getInstance().load();
             }
         }.runTaskLater(plugin, 20L);
     }

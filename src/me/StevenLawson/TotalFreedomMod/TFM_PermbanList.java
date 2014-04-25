@@ -58,6 +58,7 @@ public class TFM_PermbanList
             }
         }
 
+        TFM_Log.info("Loaded " + PERMBANNED_PLAYERS.size() + " permanently banned players and " + PERMBANNED_IPS.size() + " permanently banned IPs.");
     }
 
     public static void createBackup()
