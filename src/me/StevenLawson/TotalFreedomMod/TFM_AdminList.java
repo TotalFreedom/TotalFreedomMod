@@ -508,6 +508,7 @@ public class TFM_AdminList
                 superadmin.addIp(ip);
             }
             save();
+            updateIndexLists();
             return;
         }
 
