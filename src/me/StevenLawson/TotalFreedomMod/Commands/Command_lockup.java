@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -46,14 +47,11 @@ public class Command_lockup extends TFM_Command
         {
             if (args[1].equalsIgnoreCase("on"))
             {
-                final Player player;
-                try
+                final Player player = getPlayer(args[0]);
+                
+                if (player == null)
                 {
-                    player = getPlayer(args[0]);
-                }
-                catch (PlayerNotFoundException ex)
-                {
-                    sender.sendMessage(ex.getMessage());
+                    sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
                     return true;
                 }
 
@@ -63,14 +61,11 @@ public class Command_lockup extends TFM_Command
             }
             else if (TFM_Util.isStopCommand(args[1]))
             {
-                final Player player;
-                try
+                final Player player = getPlayer(args[0]);
+                
+                if (player == null)
                 {
-                    player = getPlayer(args[0]);
-                }
-                catch (PlayerNotFoundException ex)
-                {
-                    sender.sendMessage(ex.getMessage());
+                    sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
                     return true;
                 }
 

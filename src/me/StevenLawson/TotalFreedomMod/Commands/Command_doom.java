@@ -1,10 +1,10 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -25,14 +25,11 @@ public class Command_doom extends TFM_Command
             return false;
         }
 
-        final Player player;
-        try
+        final Player player = getPlayer(args[0]);
+        
+        if (player == null)
         {
-            player = getPlayer(args[0]);
-        }
-        catch (PlayerNotFoundException ex)
-        {
-            sender.sendMessage(ex.getMessage());
+            sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
 

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.FileUtil;
 
 public class TFM_PermbanList

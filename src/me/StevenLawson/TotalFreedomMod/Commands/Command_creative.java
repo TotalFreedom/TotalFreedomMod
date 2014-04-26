@@ -54,13 +54,12 @@ public class Command_creative extends TFM_Command
                 return true;
             }
 
-            try
+
+            player = getPlayer(args[0]);
+
+            if (player == null)
             {
-                player = getPlayer(args[0]);
-            }
-            catch (PlayerNotFoundException ex)
-            {
-                sender.sendMessage(ex.getMessage());
+                sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
                 return true;
             }
 

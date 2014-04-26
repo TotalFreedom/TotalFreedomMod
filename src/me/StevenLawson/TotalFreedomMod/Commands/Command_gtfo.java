@@ -4,8 +4,8 @@ import me.StevenLawson.TotalFreedomMod.Bridge.TFM_WorldEditBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
-import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -27,14 +27,11 @@ public class Command_gtfo extends TFM_Command
             return false;
         }
 
-        Player player;
-        try
+        final Player player = getPlayer(args[0]);
+        
+        if (player == null)
         {
-            player = getPlayer(args[0]);
-        }
-        catch (PlayerNotFoundException ex)
-        {
-            playerMsg(ex.getMessage(), ChatColor.RED);
+            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
             return true;
         }
 

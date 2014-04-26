@@ -113,18 +113,15 @@ public class Command_adminworld extends TFM_Command
 
                         if ("add".equalsIgnoreCase(args[1]))
                         {
-                            Player player;
-                            try
+                            final Player player = getPlayer(args[2]);
+
+                            if (player == null)
                             {
-                                player = getPlayer(args[2]);
-                            }
-                            catch (PlayerNotFoundException ex)
-                            {
-                                sender.sendMessage(ex.getMessage());
+                                sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
                                 return true;
                             }
 
-                            if (player != null && TFM_AdminWorld.getInstance().addGuest(player, sender_p))
+                            if (TFM_AdminWorld.getInstance().addGuest(player, sender_p))
                             {
                                 TFM_Util.adminAction(sender.getName(), "AdminWorld guest added: " + player.getName(), false);
                             }

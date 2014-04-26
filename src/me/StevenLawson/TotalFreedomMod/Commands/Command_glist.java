@@ -52,13 +52,11 @@ public class Command_glist extends TFM_Command
             String username;
             final List<String> ips = new ArrayList<String>();
 
-            try
-            {
-                final Player player = getPlayer(args[1]);
-                username = player.getName();
-                ips.add(player.getAddress().getAddress().getHostAddress());
-            }
-            catch (PlayerNotFoundException ex)
+
+
+            final Player player = getPlayer(args[1]);
+            
+            if (player == null)
             {
                 final TFM_PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(args[1]);
 
@@ -71,17 +69,22 @@ public class Command_glist extends TFM_Command
                 username = entry.getLastJoinName();
                 ips.addAll(entry.getIps());
             }
+            else
+            {
+                username = player.getName();
+                ips.add(player.getAddress().getAddress().getHostAddress());
+            }
 
             String mode = args[0].toLowerCase();
             if (mode.equalsIgnoreCase("ban"))
             {
                 TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ","), true);
 
-                Player player = server.getPlayerExact(username);
-                if (player != null)
+                Player target = server.getPlayerExact(username);
+                if (target != null)
                 {
-                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
-                    player.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
+                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(target.getUniqueId(), target.getName()));
+                    target.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
                 }
                 else
                 {

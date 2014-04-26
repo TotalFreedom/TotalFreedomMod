@@ -58,13 +58,11 @@ public class Command_potion extends TFM_Command
 
                 if (args.length == 2)
                 {
-                    try
+                    target = getPlayer(args[1]);
+
+                    if (target == null)
                     {
-                        target = getPlayer(args[1]);
-                    }
-                    catch (PlayerNotFoundException ex)
-                    {
-                        playerMsg(ex.getMessage(), ChatColor.RED);
+                        playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;
                     }
                 }
@@ -103,13 +101,12 @@ public class Command_potion extends TFM_Command
 
                 if (args.length == 5)
                 {
-                    try
+
+                    target = getPlayer(args[4]);
+
+                    if (target == null)
                     {
-                        target = getPlayer(args[4]);
-                    }
-                    catch (PlayerNotFoundException ex)
-                    {
-                        playerMsg(ex.getMessage(), ChatColor.RED);
+                        playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;
                     }
                 }

@@ -85,16 +85,11 @@ public class Command_rollback extends TFM_Command
     {
         String playerName = null;
 
-        try
+
+        final Player player = getPlayer(playerNameInput);
+        if (player != null)
         {
-            Player player = getPlayer(playerNameInput);
-            if (player != null)
-            {
-                playerName = player.getName();
-            }
-        }
-        catch (PlayerNotFoundException ex)
-        {
+            playerName = player.getName();
         }
 
         if (playerName == null)

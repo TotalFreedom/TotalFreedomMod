@@ -23,17 +23,18 @@ public class Command_premium extends TFM_Command
             return false;
         }
 
-        String name;
-        try
+        final Player player = getPlayer(args[0]);
+        final String name;
+        
+        if (player != null)
         {
-            name = getPlayer(args[0]).getName();
+            name = player.getName();
         }
-        catch (PlayerNotFoundException ex)
+        else
         {
             name = args[0];
         }
 
-        final String playername = name;
         new BukkitRunnable()
         {
             @Override
@@ -41,7 +42,7 @@ public class Command_premium extends TFM_Command
             {
                 try
                 {
-                    final URL getUrl = new URL("https://minecraft.net/haspaid.jsp?user=" + playername);
+                    final URL getUrl = new URL("https://minecraft.net/haspaid.jsp?user=" + name);
                     final URLConnection urlConnection = getUrl.openConnection();
                     // Read the response
                     final BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -53,7 +54,7 @@ public class Command_premium extends TFM_Command
                         @Override
                         public void run()
                         {
-                            playerMsg("Player " + playername + " is premium: " + message);
+                            playerMsg("Player " + name + " is premium: " + message);
                         }
                     }.runTask(plugin);
 
