@@ -38,7 +38,7 @@ public class TFM_BlockListener implements Listener
         Player player = event.getPlayer();
         Location blockLocation = event.getBlock().getLocation();
 
-        if (TFM_ConfigEntry.NUKE_MONITOR.getBoolean())
+        if (TFM_ConfigEntry.NUKE_MONITOR_ENABLED.getBoolean())
         {
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
@@ -108,7 +108,7 @@ public class TFM_BlockListener implements Listener
         Player player = event.getPlayer();
         Location blockLocation = event.getBlock().getLocation();
 
-        if (TFM_ConfigEntry.NUKE_MONITOR.getBoolean())
+        if (TFM_ConfigEntry.NUKE_MONITOR_ENABLED.getBoolean())
         {
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 

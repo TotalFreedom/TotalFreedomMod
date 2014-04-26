@@ -114,9 +114,9 @@ public class Command_toggle extends TFM_Command
                 }
             }
 
-            toggle("Nuke monitor is", TFM_ConfigEntry.NUKE_MONITOR);
+            toggle("Nuke monitor is", TFM_ConfigEntry.NUKE_MONITOR_ENABLED);
 
-            if (TFM_ConfigEntry.NUKE_MONITOR.getBoolean())
+            if (TFM_ConfigEntry.NUKE_MONITOR_ENABLED.getBoolean())
             {
                 playerMsg("Anti-freecam range is set to " + TFM_ConfigEntry.NUKE_MONITOR_RANGE.getDouble() + " blocks.");
                 playerMsg("Block throttle rate is set to " + TFM_ConfigEntry.NUKE_MONITOR_COUNT_BREAK.getInteger() + " blocks destroyed per 5 seconds.");

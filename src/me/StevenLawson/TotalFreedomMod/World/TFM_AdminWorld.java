@@ -25,7 +25,7 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
 {
     private static final long CACHE_CLEAR_FREQUENCY = 30L * 1000L; //30 seconds, milliseconds
     private static final long TP_COOLDOWN_TIME = 500L; //0.5 seconds, milliseconds
-    private static final String GENERATION_PARAMETERS = TFM_ConfigEntry.FLATLANDS_GENERATION_PARAMS.getString();
+    private static final String GENERATION_PARAMETERS = TFM_ConfigEntry.FLATLANDS_GENERATE_PARAMS.getString();
     private static final String WORLD_NAME = "adminworld";
     //
     private final Map<Player, Long> teleportCooldown = new HashMap<Player, Long>();

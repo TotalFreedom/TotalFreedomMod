@@ -18,7 +18,7 @@ import org.bukkit.block.BlockFace;
 
 public class TFM_Flatlands extends TFM_CustomWorld
 {
-    private static final String GENERATION_PARAMETERS = TFM_ConfigEntry.FLATLANDS_GENERATION_PARAMS.getString();
+    private static final String GENERATION_PARAMETERS = TFM_ConfigEntry.FLATLANDS_GENERATE_PARAMS.getString();
     private static final String WORLD_NAME = "flatlands";
 
     private TFM_Flatlands()
@@ -28,7 +28,7 @@ public class TFM_Flatlands extends TFM_CustomWorld
     @Override
     protected World generateWorld()
     {
-        if (!TFM_ConfigEntry.GENERATE_FLATLANDS.getBoolean())
+        if (!TFM_ConfigEntry.FLATLANDS_GENERATE.getBoolean())
         {
             return null;
         }
