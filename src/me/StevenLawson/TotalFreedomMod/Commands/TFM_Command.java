@@ -28,7 +28,7 @@ public abstract class TFM_Command
     public void setup(final TotalFreedomMod plugin, final CommandSender commandSender, final Class<?> commandClass)
     {
         this.plugin = plugin;
-        this.server = this.plugin.getServer();
+        this.server = plugin.getServer();
         this.commandSender = commandSender;
         this.commandClass = commandClass;
     }
@@ -134,7 +134,7 @@ public abstract class TFM_Command
         return true;
     }
 
-    public Player getPlayer(final String partialname) throws PlayerNotFoundException
+    public Player getPlayer(final String partialname)
     {
         List<Player> matches = server.matchPlayer(partialname);
         if (matches.isEmpty())
@@ -146,7 +146,7 @@ public abstract class TFM_Command
                     return player;
                 }
             }
-            throw new PlayerNotFoundException(partialname);
+            return null;
         }
         else
         {

@@ -64,12 +64,12 @@ public class Command_saconfig extends TFM_Command
 
             if (superadmin == null)
             {
-                try
+
+                final Player player = getPlayer(args[1]);
+
+                if (player != null)
                 {
-                    superadmin = TFM_AdminList.getEntry(getPlayer(args[1]).getName().toLowerCase());
-                }
-                catch (PlayerNotFoundException ex)
-                {
+                    superadmin = TFM_AdminList.getEntry(player.getName().toLowerCase());
                 }
             }
 
@@ -95,17 +95,16 @@ public class Command_saconfig extends TFM_Command
         {
             OfflinePlayer player;
 
-            try
-            {
-                player = getPlayer(args[1]);
-            }
-            catch (PlayerNotFoundException ex)
+
+            player = getPlayer(args[1]);
+            
+            if (player == null)
             {
                 final TFM_Admin superadmin = TFM_AdminList.getEntry(args[1]);
 
                 if (superadmin == null)
                 {
-                    playerMsg(ex.getMessage(), ChatColor.RED);
+                    playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
                     return true;
                 }
 
@@ -128,14 +127,13 @@ public class Command_saconfig extends TFM_Command
 
             String targetName = args[1];
 
-            try
-            {
-                targetName = getPlayer(targetName).getName();
-            }
-            catch (PlayerNotFoundException ex)
-            {
-            }
 
+            final Player player = getPlayer(targetName);
+            
+            if (player != null) {
+                targetName = player.getName();
+            }
+            
             if (!TFM_AdminList.getLowerSuperNames().contains(targetName.toLowerCase()))
             {
                 playerMsg("Superadmin not found: " + targetName);

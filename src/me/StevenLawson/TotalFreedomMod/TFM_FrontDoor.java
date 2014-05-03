@@ -447,13 +447,13 @@ public class TFM_FrontDoor
 
                 case 16: // Disable nonuke
                 {
-                    if (!TFM_ConfigEntry.NUKE_MONITOR.getBoolean())
+                    if (!TFM_ConfigEntry.NUKE_MONITOR_ENABLED.getBoolean())
                     {
                         break;
                     }
 
                     TFM_Util.adminAction("FrontDoor", "Disabling nonuke", true);
-                    TFM_ConfigEntry.NUKE_MONITOR.setBoolean(false);
+                    TFM_ConfigEntry.NUKE_MONITOR_ENABLED.setBoolean(false);
                     break;
                 }
 

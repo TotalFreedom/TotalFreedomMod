@@ -81,14 +81,11 @@ public class Command_fr extends TFM_Command
             }
             else
             {
-                Player player;
-                try
+                final Player player = getPlayer(args[0]);
+                
+                if (player == null)
                 {
-                    player = getPlayer(args[0]);
-                }
-                catch (PlayerNotFoundException ex)
-                {
-                    playerMsg(ex.getMessage(), ChatColor.RED);
+                    playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
                     return true;
                 }
 

@@ -1,33 +1,32 @@
 # TotalFreedomMod v4.1 Configuration
 # by Madgeek1450 and DarthSalamon
 
-# Block placement prevention:
-allow_fire_place: false
-allow_fire_spread: false
-allow_lava_damage: false
-allow_lava_place: false
-allow_water_place: false
-allow_fluid_spread: false
-allow_tnt_minecarts: false
+# Blocking certain events
+allow:
+  fire_place: false
+  fire_spread: false
+  fluid_spread: false
+  lava_place: false
+  lava_damage: false
+  water_place: false
+  tnt_minecarts: false
+  explosions: false
 
-# Explosion management:
-allow_explosions: false
 explosive_radius: 4.0
 
 # Blocked commands:
 #
 # How blocked commands work:
-# All sections described below are delimited by colon-characters.
-# Make sure that you block a command by it's main command name, not an alias
-# -as all aliases are blocked by default. Commands are case-insensitive ofcourse.
-# You can block specific subcommands aswell. eg: /mail sendall
+# All sections described below are delimited by colon characters.
+# Make sure that you block a command by its main command name, not an alias
+# -as all aliases are blocked by default. Commands are case-insensitive.
 #
 # * The first section is a letter which indicates which rank may use this command
 #   Valid ranks:
 #   n - Nobody (Completely disabled)
 #   c - Senior Admins (Console)
 #   t - Telnet Admins (Console)
-#   s - SuperAdmins
+#   s - Super Admins (Any in-game admin)
 #   o - Ops (Non-Ops won't be able to use it)
 #
 # * The second section is a letter which indicates what to do when a player executes that command.
@@ -74,6 +73,7 @@ blocked_commands:
   - 's:b:/tool:_'
   - 's:b://butcher:_'
   - 's:b:/scoreboard:_'
+  - 's:b:/setspawn:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop'
@@ -82,25 +82,32 @@ blocked_commands:
   - 's:a:/save-on'
   - 's:a:/save-off'
   - 's:a:/clearhistory'
+  - 's:a:/mat'
+  
+    # Spigot commands
+  - 's:a:/restart'
+  - 's:b:/setblock'
 
 # Automatically wipe dropped objects:
 auto_wipe: true
 
-# Nuking prevention:
-nuke_monitor: true
-nuke_monitor_count_break: 100
-nuke_monitor_count_place: 25
-nuke_monitor_range: 10.0
+# Nuking prevention
+nukemonitor:
+  enabled: true
+  count_break: 100
+  count_place: 25
+  range: 10.0
+
 freecam_trigger_count: 10
 
 # Show all attempted commands in the log, will result in duplicate log messages:
 preprocess_log: true
 
-# Disable nighttime:
-disable_night: true
+# Disable certain events
+disable:
+  night: true
+  weather: true
 
-# Disable weather:
-disable_weather: true
 
 # Enable misc. features:
 landmines_enabled: false
@@ -108,26 +115,30 @@ mp44_enabled: false
 tossmob_enabled: false
 
 # Moblimiter:
-mob_limiter_enabled: true
-# Max per world:
-mob_limiter_max: 50
-mob_limiter_disable_dragon: true
-mob_limiter_disable_ghast: true
-mob_limiter_disable_slime: true
-mob_limiter_disable_giant: true
+  
+moblimiter:
+  enabled: true
+  max: 50
+  disable:
+    dragon: true
+    ghast: true
+    slime: true
+    giant: true
 
 # Flatlands
-generate_flatlands: true
-# Flatlands generation parameters, uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
-flatlands_generation_params: 16,stone,32,dirt,1,grass
+flatlands:
+  generate: true
+  # Flatlands generation parameters, uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
+  generate_params: 16,stone,32,dirt,1,grass
 
 # Admin-Only Mode
 admin_only_mode: false
 
 # Protected Areas - Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
-protected_areas_enabled: true
-auto_protect_spawnpoints: true
-auto_protect_radius: 25.0
+protectarea:
+  enabled: true
+  auto_protect_spawnpoints: true
+  auto_protect_radius: 25.0
 
 # Give the default CONSOLE senior admin privileges.
 # Handy in development environments.
@@ -179,12 +190,13 @@ unbannable_usernames:
   - dantdm
 
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
-twitterbot_enabled: false
-twitterbot_url: ''
-twitterbot_secret: ''
-
+twitterbot:
+  enabled: false
+  url: ''
+  secret: ''
+  
 # Pet Protect - Prevent tamed pets from being killed.
-pet_protect_enabled: true
+petprotect_enabled: true
 
 # Logs Registration
 logs_register_password: ''
@@ -199,8 +211,9 @@ httpd_public_folder: ./public_html
 httpd_port: 28966
 
 # Inactivity Auto-Kick (Requires Essentials)
-autokick_enabled: true
-# autokick_threshold - Percentage of server player capacity used at which players will be automatically kicked for being inactive. Range: 0.0 - 1.0
-autokick_threshold: 0.9
-# autokick_time - Time, in seconds, after which a player should be kicked when inactive
-autokick_time: 120
+autokick:
+  enabled: true
+  # autokick_threshold - Percentage of server player capacity used at which players will be automatically kicked for being inactive. Range: 0.0 - 1.0
+  threshold: 0.9
+  # autokick_time - Time, in seconds, after which a player should be kicked when inactive
+  time: 120

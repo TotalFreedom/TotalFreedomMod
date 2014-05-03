@@ -98,14 +98,11 @@ public class Command_stfu extends TFM_Command
         }
         else
         {
-            Player player;
-            try
+            final Player player = getPlayer(args[0]);
+            
+            if (player == null)
             {
-                player = getPlayer(args[0]);
-            }
-            catch (PlayerNotFoundException ex)
-            {
-                sender.sendMessage(ex.getMessage());
+                sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
                 return true;
             }
 

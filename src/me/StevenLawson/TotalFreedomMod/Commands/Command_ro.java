@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -67,13 +68,10 @@ public class Command_ro extends TFM_Command
         final Player targetPlayer;
         if (args.length == 3)
         {
-            try
+            targetPlayer = getPlayer(args[2]);
+            if (targetPlayer == null)
             {
-                targetPlayer = getPlayer(args[2]);
-            }
-            catch (PlayerNotFoundException ex)
-            {
-                playerMsg(ex.getMessage(), ChatColor.RED);
+                playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
                 return true;
             }
         }

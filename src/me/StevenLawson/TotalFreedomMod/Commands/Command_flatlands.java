@@ -13,7 +13,7 @@ public class Command_flatlands extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (TFM_ConfigEntry.GENERATE_FLATLANDS.getBoolean())
+        if (TFM_ConfigEntry.FLATLANDS_GENERATE.getBoolean())
         {
             TFM_Flatlands.getInstance().sendToWorld(sender_p);
         }

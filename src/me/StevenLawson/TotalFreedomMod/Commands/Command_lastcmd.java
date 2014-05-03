@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,27 +19,24 @@ public class Command_lastcmd extends TFM_Command
             return false;
         }
 
-        Player player;
-        try
+        final Player player = getPlayer(args[0]);
+        
+        if (player == null)
         {
-            player = getPlayer(args[0]);
-        }
-        catch (PlayerNotFoundException ex)
-        {
-            playerMsg(ex.getMessage(), ChatColor.RED);
+            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
 
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
         if (playerdata != null)
         {
-            String last_command = playerdata.getLastCommand();
-            if (last_command.isEmpty())
+            String lastCommand = playerdata.getLastCommand();
+            if (lastCommand.isEmpty())
             {
-                last_command = "(none)";
+                lastCommand = "(none)";
             }
-            playerMsg(player.getName() + " - Last Command: " + last_command, ChatColor.GRAY);
+            playerMsg(player.getName() + " - Last Command: " + lastCommand, ChatColor.GRAY);
         }
 
         return true;

@@ -104,14 +104,11 @@ public class Command_tag extends TFM_Command
                     return true;
                 }
 
-                final Player player;
-                try
+                final Player player = getPlayer(args[1]);
+                
+                if (player == null)
                 {
-                    player = getPlayer(args[1]);
-                }
-                catch (PlayerNotFoundException ex)
-                {
-                    playerMsg(ex.getMessage());
+                    playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
                     return true;
                 }
 

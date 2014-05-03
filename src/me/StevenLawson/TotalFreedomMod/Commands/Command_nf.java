@@ -34,20 +34,14 @@ public class Command_nf extends TFM_Command
                 if (matcher.find())
                 {
                     String displayName = matcher.group(1);
-                    try
-                    {
-                        player = getPlayerByDisplayName(displayName);
-                    }
-                    catch (PlayerNotFoundException ex)
-                    {
-                    }
+
+                    player = getPlayerByDisplayName(displayName);
+
                     if (player == null)
                     {
-                        try
-                        {
-                            player = getPlayerByDisplayNameAlt(displayName);
-                        }
-                        catch (PlayerNotFoundException ex)
+                        player = getPlayerByDisplayNameAlt(displayName);
+
+                        if (player == null)
                         {
                             sender.sendMessage(ChatColor.GRAY + "Can't find player by nickname: " + displayName);
                             return true;
@@ -80,7 +74,7 @@ public class Command_nf extends TFM_Command
         return true;
     }
 
-    private static Player getPlayerByDisplayName(String needle) throws PlayerNotFoundException
+    private static Player getPlayerByDisplayName(String needle)
     {
         needle = needle.toLowerCase().trim();
 
@@ -93,10 +87,10 @@ public class Command_nf extends TFM_Command
             }
         }
 
-        throw new PlayerNotFoundException();
+        return null;
     }
 
-    private static Player getPlayerByDisplayNameAlt(String needle) throws PlayerNotFoundException
+    private static Player getPlayerByDisplayNameAlt(String needle)
     {
         needle = needle.toLowerCase().trim();
 
@@ -113,11 +107,6 @@ public class Command_nf extends TFM_Command
                 minEditDistance = editDistance;
                 minEditMatch = player;
             }
-        }
-
-        if (minEditMatch == null)
-        {
-            throw new PlayerNotFoundException();
         }
 
         return minEditMatch;
