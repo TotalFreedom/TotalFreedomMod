@@ -196,7 +196,8 @@ twitterbot:
   secret: ''
 
 # Pet Protect - Prevent tamed pets from being killed.
-petprotect_enabled: true
+petprotect:
+  enabled: true
 
 # Logs Registration
 logs:
