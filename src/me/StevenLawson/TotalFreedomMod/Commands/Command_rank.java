@@ -35,14 +35,14 @@ public class Command_rank extends TFM_Command
         }
 
         final Player player = getPlayer(args[0]);
-       
+
         if (player == null)
         {
             sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
-        
-        
+
+
         playerMsg(player.getName() + " is " + TFM_PlayerRank.fromSender(player).getLoginMessage(), ChatColor.AQUA);
 
         return true;

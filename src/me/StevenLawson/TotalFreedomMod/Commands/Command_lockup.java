@@ -48,7 +48,7 @@ public class Command_lockup extends TFM_Command
             if (args[1].equalsIgnoreCase("on"))
             {
                 final Player player = getPlayer(args[0]);
-                
+
                 if (player == null)
                 {
                     sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
@@ -62,7 +62,7 @@ public class Command_lockup extends TFM_Command
             else if (TFM_Util.isStopCommand(args[1]))
             {
                 final Player player = getPlayer(args[0]);
-                
+
                 if (player == null)
                 {
                     sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);

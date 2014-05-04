@@ -25,7 +25,7 @@ public class Command_premium extends TFM_Command
 
         final Player player = getPlayer(args[0]);
         final String name;
-        
+
         if (player != null)
         {
             name = player.getName();

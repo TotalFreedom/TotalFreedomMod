@@ -49,7 +49,7 @@ public class Command_cage extends TFM_Command
         }
 
         final Player player = getPlayer(args[0]);
-        
+
         if (player == null)
         {
             sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);

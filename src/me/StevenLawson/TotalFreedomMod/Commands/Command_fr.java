@@ -82,7 +82,7 @@ public class Command_fr extends TFM_Command
             else
             {
                 final Player player = getPlayer(args[0]);
-                
+
                 if (player == null)
                 {
                     playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);

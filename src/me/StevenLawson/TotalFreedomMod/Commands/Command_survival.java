@@ -52,7 +52,7 @@ public class Command_survival extends TFM_Command
             if (senderIsConsole || TFM_AdminList.isSuperAdmin(sender))
             {
                 player = getPlayer(args[0]);
-                
+
                 if (player == null)
                 {
                     playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);

@@ -105,7 +105,7 @@ public class Command_tag extends TFM_Command
                 }
 
                 final Player player = getPlayer(args[1]);
-                
+
                 if (player == null)
                 {
                     playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);

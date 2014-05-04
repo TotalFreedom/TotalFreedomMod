@@ -23,7 +23,7 @@ public class Command_smite extends TFM_Command
         }
 
         final Player player = getPlayer(args[0]);
-       
+
         if (player == null)
         {
             playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);

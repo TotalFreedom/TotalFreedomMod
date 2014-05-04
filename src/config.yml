@@ -83,7 +83,7 @@ blocked_commands:
   - 's:a:/save-off'
   - 's:a:/clearhistory'
   - 's:a:/mat'
-  
+
     # Spigot commands
   - 's:a:/restart'
   - 's:b:/setblock'
@@ -115,7 +115,7 @@ mp44_enabled: false
 tossmob_enabled: false
 
 # Moblimiter:
-  
+
 moblimiter:
   enabled: true
   max: 50
@@ -194,13 +194,14 @@ twitterbot:
   enabled: false
   url: ''
   secret: ''
-  
+
 # Pet Protect - Prevent tamed pets from being killed.
 petprotect_enabled: true
 
 # Logs Registration
-logs_register_password: ''
-logs_register_url: ''
+logs:
+  url: ''
+  secret: ''
 
 # Mojang service checker
 service_checker_url: http://status.mojang.com/check

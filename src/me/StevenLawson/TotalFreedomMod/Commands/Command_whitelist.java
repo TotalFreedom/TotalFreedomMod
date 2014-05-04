@@ -89,7 +89,7 @@ public class Command_whitelist extends TFM_Command
             String search_name = args[1].trim().toLowerCase();
 
             OfflinePlayer player = getPlayer(search_name);
-            
+
             if (player == null)
             {
                 player = server.getOfflinePlayer(search_name);
@@ -111,7 +111,7 @@ public class Command_whitelist extends TFM_Command
             String search_name = args[1].trim().toLowerCase();
 
             OfflinePlayer player = getPlayer(search_name);
-            
+
             if (player == null)
             {
                 player = server.getOfflinePlayer(search_name);

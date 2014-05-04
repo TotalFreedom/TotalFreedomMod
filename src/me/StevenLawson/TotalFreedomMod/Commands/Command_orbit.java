@@ -23,7 +23,7 @@ public class Command_orbit extends TFM_Command
         }
 
         Player player = getPlayer(args[0]);
-        
+
         if (player == null)
         {
             playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);

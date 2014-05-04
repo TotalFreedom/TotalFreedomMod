@@ -99,7 +99,7 @@ public class Command_stfu extends TFM_Command
         else
         {
             final Player player = getPlayer(args[0]);
-            
+
             if (player == null)
             {
                 sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);

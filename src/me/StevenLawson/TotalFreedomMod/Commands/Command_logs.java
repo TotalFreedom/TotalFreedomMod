@@ -47,8 +47,8 @@ public class Command_logs extends TFM_Command
 
     public static void updateLogsRegistration(final CommandSender sender, final String targetName, final String targetIP, final LogsRegistrationMode mode)
     {
-        final String logsRegisterURL = TFM_ConfigEntry.LOGS_REGISTER_URL.getString();
-        final String logsRegisterPassword = TFM_ConfigEntry.LOGS_REGISTER_PASSWORD.getString();
+        final String logsRegisterURL = TFM_ConfigEntry.LOGS_URL.getString();
+        final String logsRegisterPassword = TFM_ConfigEntry.LOGS_SECRET.getString();
 
         if (logsRegisterURL == null || logsRegisterPassword == null || logsRegisterURL.isEmpty() || logsRegisterPassword.isEmpty())
         {

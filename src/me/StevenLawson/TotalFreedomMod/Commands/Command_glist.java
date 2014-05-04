@@ -55,7 +55,7 @@ public class Command_glist extends TFM_Command
 
 
             final Player player = getPlayer(args[1]);
-            
+
             if (player == null)
             {
                 final TFM_PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(args[1]);

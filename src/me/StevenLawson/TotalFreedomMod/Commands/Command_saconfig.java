@@ -97,7 +97,7 @@ public class Command_saconfig extends TFM_Command
 
 
             player = getPlayer(args[1]);
-            
+
             if (player == null)
             {
                 final TFM_Admin superadmin = TFM_AdminList.getEntry(args[1]);
@@ -129,11 +129,12 @@ public class Command_saconfig extends TFM_Command
 
 
             final Player player = getPlayer(targetName);
-            
-            if (player != null) {
+
+            if (player != null)
+            {
                 targetName = player.getName();
             }
-            
+
             if (!TFM_AdminList.getLowerSuperNames().contains(targetName.toLowerCase()))
             {
                 playerMsg("Superadmin not found: " + targetName);
