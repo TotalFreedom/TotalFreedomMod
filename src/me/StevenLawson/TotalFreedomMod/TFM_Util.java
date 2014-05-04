@@ -363,6 +363,24 @@ public class TFM_Util
         return false;
     }
 
+    public static void deleteCoreDumps()
+    {
+        final File[] coreDumps = new File(".").listFiles(new FileFilter()
+        {
+            @Override
+            public boolean accept(File file)
+            {
+                return file.getName().startsWith("java.core");
+            }
+        });
+
+        for (File dump : coreDumps)
+        {
+            TFM_Log.info("Removing core dump file: " + dump.getName());
+            dump.delete();
+        }
+    }
+
     public static EntityType getEntityType(String mobname) throws Exception
     {
         mobname = mobname.toLowerCase().trim();
@@ -879,6 +897,12 @@ public class TFM_Util
         }
 
         return date.getTime() / 1000L;
+    }
+
+    public static String getNmsVersion()
+    {
+        String packageName = Bukkit.getServer().getClass().getPackage().getName();
+        return packageName.substring(packageName.lastIndexOf('.') + 1);
     }
 
     public static class TFM_EntityWiper
