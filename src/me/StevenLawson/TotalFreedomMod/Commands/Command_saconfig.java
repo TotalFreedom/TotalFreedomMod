@@ -15,7 +15,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage superadmins.", usage = "/<command> <list | clean | <add|delete|info> <username>>")
+@CommandParameters(description = "Manage superadmins.",
+        usage = "/<command> <list | clean | clear [ip] | <add | delete | info> <username>>")
 public class Command_saconfig extends TFM_Command
 {
     @Override
@@ -36,7 +37,6 @@ public class Command_saconfig extends TFM_Command
 
             if (args[0].equals("clean"))
             {
-
                 if (!TFM_AdminList.isSeniorAdmin(sender, true))
                 {
                     playerMsg(TotalFreedomMod.MSG_NO_PERMS);
@@ -48,17 +48,75 @@ public class Command_saconfig extends TFM_Command
                 playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperNames(), ", "), ChatColor.YELLOW);
                 return true;
             }
-
-            return false;
         }
 
-        if (args[0].equalsIgnoreCase("info"))
+        // All commands below are superadmin+ commands.
+        if (!TFM_AdminList.isSuperAdmin(sender))
         {
-            if (!TFM_AdminList.isSuperAdmin(sender))
+            playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+            return true;
+        }
+
+        if (args[0].equals("clear"))
+        {
+            if (senderIsConsole)
             {
-                playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                playerMsg(TotalFreedomMod.NOT_FROM_CONSOLE);
                 return true;
             }
+
+            final TFM_Admin admin = TFM_AdminList.getEntry(sender_p);
+
+            TFM_Util.adminAction(sender.getName(), "Cleaning my supered IPs", true);
+
+            final String ip = TFM_Util.getIp(sender_p);
+
+            if (args.length == 1)
+            {
+                int counter = 0;
+                for (String adminIp : (String[]) admin.getIps().toArray())
+                {
+                    if (adminIp.equals(ip))
+                    {
+                        continue;
+                    }
+
+                    admin.removeIp(ip);
+                    counter++;
+                }
+
+                TFM_AdminList.save();
+
+                playerMsg(counter + " IPs removed.");
+                playerMsg(admin.getIps().get(0) + " is now your only IP address");
+
+                return true;
+            }
+
+            // args.length == 2
+            if (!admin.getIps().contains(args[1]))
+            {
+                playerMsg("That IP is not registered to you.");
+                return true;
+            }
+
+            if (ip.equals(args[1]))
+            {
+                playerMsg("You cannot remove your current IP.");
+                return true;
+            }
+
+            admin.removeIp(args[1]);
+            TFM_AdminList.save();
+
+            playerMsg("Removed IP " + args[1]);
+            playerMsg("Current IPs: " + StringUtils.join(admin.getIps(), ", "));
+
+            return true;
+        }
+
+        if (args[0].equals("info"))
+        {
 
             TFM_Admin superadmin = TFM_AdminList.getEntry(args[1].toLowerCase());
 
@@ -76,12 +134,10 @@ public class Command_saconfig extends TFM_Command
             if (superadmin == null)
             {
                 playerMsg("Superadmin not found: " + args[1]);
-            }
-            else
-            {
-                playerMsg(superadmin.toString());
+                return true;
             }
 
+            playerMsg(superadmin.toString());
             return true;
         }
 
@@ -91,12 +147,9 @@ public class Command_saconfig extends TFM_Command
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("add"))
+        if (args[0].equals("add"))
         {
-            OfflinePlayer player;
-
-
-            player = getPlayer(args[1]);
+            OfflinePlayer player = getPlayer(args[1]);
 
             if (player == null)
             {

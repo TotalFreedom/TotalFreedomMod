@@ -92,6 +92,14 @@ public class TFM_Admin
         }
     }
 
+    public void removeIp(String ip)
+    {
+        if (ips.contains(ip))
+        {
+            ips.remove(ip);
+        }
+    }
+
     public Date getLastLogin()
     {
         return lastLogin;
