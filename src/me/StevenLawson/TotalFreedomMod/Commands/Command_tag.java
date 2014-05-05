@@ -6,13 +6,14 @@ import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <<prefix> | off | clear <player> | clearall>")
+@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <set <tag..> | off | clear <player> | clearall>")
 public class Command_tag extends TFM_Command
 {
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
@@ -23,6 +24,11 @@ public class Command_tag extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (args.length < 1)
+        {
+            return false;
+        }
+
         if (args.length == 1)
         {
             if ("clearall".equals(args[0]))
@@ -69,32 +75,10 @@ public class Command_tag extends TFM_Command
                 return true;
             }
 
-            if (!TFM_AdminList.isSuperAdmin(sender))
-            {
-                for (String word : FORBIDDEN_WORDS)
-                {
-                    if (args[0].toLowerCase().contains(word.toLowerCase()))
-                    {
-                        if (word.contains(String.valueOf(ChatColor.COLOR_CHAR)))
-                        {
-                            playerMsg("That tag contains a forbidden color-code.");
-                        }
-                        else
-                        {
-                            playerMsg("That tag contains a forbidden word.");
-                        }
-                        return true;
-                    }
-                }
-
-            }
-
-            TFM_PlayerData.getPlayerData(sender_p).setTag(args[0]);
-            playerMsg("Tag set.");
-
-            return true;
+            return false;
         }
-        else if (args.length == 2)
+
+        if (args.length == 2)
         {
             if ("clear".equals(args[0]))
             {
@@ -116,8 +100,38 @@ public class Command_tag extends TFM_Command
                 playerMsg("Removed " + player.getName() + "'s tag.");
                 return true;
             }
+        }
 
-            return false;
+        if ("set".equals(args[0]))
+        {
+            final String tag = StringUtils.join(args, " ", 1, args.length);
+
+            if (!TFM_AdminList.isSuperAdmin(sender))
+            {
+                for (String word : FORBIDDEN_WORDS)
+                {
+                    if (!tag.toLowerCase().contains(word))
+                    {
+                        continue;
+                    }
+
+                    if (word.contains(String.valueOf(ChatColor.COLOR_CHAR)))
+                    {
+                        playerMsg("That tag contains a forbidden color-code.");
+                    }
+                    else
+                    {
+                        playerMsg("That tag contains a forbidden word.");
+                    }
+                    return true;
+                }
+
+            }
+
+            TFM_PlayerData.getPlayerData(sender_p).setTag(TFM_Util.colorize(tag));
+            playerMsg("Tag set to " + TFM_Util.colorize(tag));
+
+            return true;
         }
 
         return false;
