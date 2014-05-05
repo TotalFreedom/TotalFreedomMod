@@ -35,7 +35,7 @@ public class Command_cage extends TFM_Command
         }
         else if ("purge".equals(args[0]))
         {
-            TFM_Util.adminAction(sender.getName(), "Uncaging all players.", true);
+            TFM_Util.adminAction(sender.getName(), "Uncaging all players", true);
 
             for (Player player : server.getOnlinePlayers())
             {
