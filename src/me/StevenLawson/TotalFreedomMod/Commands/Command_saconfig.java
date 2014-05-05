@@ -67,21 +67,21 @@ public class Command_saconfig extends TFM_Command
 
             final TFM_Admin admin = TFM_AdminList.getEntry(sender_p);
 
-            TFM_Util.adminAction(sender.getName(), "Cleaning my supered IPs", true);
-
             final String ip = TFM_Util.getIp(sender_p);
 
             if (args.length == 1)
             {
+                TFM_Util.adminAction(sender.getName(), "Cleaning my supered IPs", true);
+
                 int counter = 0;
-                for (String adminIp : (String[]) admin.getIps().toArray())
+                for (int i = 0; i < admin.getIps().size(); i++)
                 {
-                    if (adminIp.equals(ip))
+                    if (admin.getIps().get(i).equals(ip))
                     {
                         continue;
                     }
 
-                    admin.removeIp(ip);
+                    admin.removeIp(admin.getIps().get(i));
                     counter++;
                 }
 
@@ -89,7 +89,6 @@ public class Command_saconfig extends TFM_Command
 
                 playerMsg(counter + " IPs removed.");
                 playerMsg(admin.getIps().get(0) + " is now your only IP address");
-
                 return true;
             }
 
@@ -106,12 +105,13 @@ public class Command_saconfig extends TFM_Command
                 return true;
             }
 
+            TFM_Util.adminAction(sender.getName(), "Removing a supered IP", true);
+
             admin.removeIp(args[1]);
             TFM_AdminList.save();
 
             playerMsg("Removed IP " + args[1]);
             playerMsg("Current IPs: " + StringUtils.join(admin.getIps(), ", "));
-
             return true;
         }
 
