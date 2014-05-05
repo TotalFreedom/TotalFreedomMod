@@ -188,6 +188,7 @@ unbannable_usernames:
   - stampylonghead
   - stampylongnose
   - dantdm
+  - gizzy14gazza
 
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot:
@@ -208,9 +209,10 @@ logs:
 service_checker_url: http://status.mojang.com/check
 
 # HTTPD
-httpd_enabled: true
-httpd_public_folder: ./public_html
-httpd_port: 28966
+httpd:
+  enabled: true
+  port: 28966
+  public_folder: ./public_html
 
 # Inactivity Auto-Kick (Requires Essentials)
 autokick:
