@@ -101,7 +101,7 @@ public class Command_whitelist extends TFM_Command
         }
 
         // remove
-        if (TFM_Util.isRemoveCommand(args[0]))
+        if ("remove".equals(args[0]))
         {
             if (args.length < 2)
             {

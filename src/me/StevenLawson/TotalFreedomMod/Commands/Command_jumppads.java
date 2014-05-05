@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Manage jumppads", usage = "/<command> <on | off | info |sideways <on | off> | strength <strength (1-10)>>", aliases = "launchpads,jp")
+@CommandParameters(description = "Manage jumppads", usage = "/<command> <on | off | info | sideways <on | off> | strength <strength (1-10)>>", aliases = "launchpads,jp")
 public class Command_jumppads extends TFM_Command
 {
     @Override
@@ -29,7 +29,7 @@ public class Command_jumppads extends TFM_Command
                 return true;
             }
 
-            if (TFM_Util.isStopCommand(args[0]))
+            if ("off".equals(args[0]))
             {
                 TFM_Util.adminAction(sender.getName(), "Disabling Jumppads", false);
                 TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.OFF);
@@ -50,7 +50,7 @@ public class Command_jumppads extends TFM_Command
 
             if (args[0].equalsIgnoreCase("sideways"))
             {
-                if (TFM_Util.isStopCommand(args[1]))
+                if ("off".equals(args[1]))
                 {
                     TFM_Util.adminAction(sender.getName(), "Setting Jumppads mode to: Madgeek", false);
                     TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.MADGEEK);

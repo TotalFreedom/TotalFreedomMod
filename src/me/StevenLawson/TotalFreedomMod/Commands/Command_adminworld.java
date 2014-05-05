@@ -130,9 +130,9 @@ public class Command_adminworld extends TFM_Command
                                 playerMsg("Could not add player to guest list.");
                             }
                         }
-                        else if (TFM_Util.isRemoveCommand(args[1]))
+                        else if ("remove".equals(args[1]))
                         {
-                            Player player = TFM_AdminWorld.getInstance().removeGuest(args[2]);
+                            final Player player = TFM_AdminWorld.getInstance().removeGuest(args[2]);
                             if (player != null)
                             {
                                 TFM_Util.adminAction(sender.getName(), "AdminWorld guest removed: " + player.getName(), false);

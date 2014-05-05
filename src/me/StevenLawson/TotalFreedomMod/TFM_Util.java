@@ -45,8 +45,6 @@ public class TFM_Util
 {
     private static final Map<String, Integer> ejectTracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
-    public static final List<String> STOP_COMMANDS = Arrays.asList("stop", "off", "end", "halt", "die");
-    public static final List<String> REMOVE_COMMANDS = Arrays.asList("del", "delete", "rem", "remove");
     public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "DarthSalamon", "AcidicCyanide", "wild1145", "WickedGamingUK", "xXWilee999Xx");
     private static final Random RANDOM = new Random();
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
@@ -428,16 +426,6 @@ public class TFM_Util
     public static File getPluginFile(Plugin plugin, String name)  // BukkitLib @ https://github.com/Pravian/BukkitLib
     {
         return new File(plugin.getDataFolder(), name);
-    }
-
-    public static boolean isStopCommand(String command)
-    {
-        return STOP_COMMANDS.contains(command.toLowerCase());
-    }
-
-    public static boolean isRemoveCommand(String command)
-    {
-        return REMOVE_COMMANDS.contains(command.toLowerCase());
     }
 
     public static void autoEject(Player player, String kickMessage)

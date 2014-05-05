@@ -4,6 +4,7 @@ import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler.TFM_GameRule;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ public class Command_toggle extends TFM_Command
             playerMsg("- lavadmg");
             playerMsg("- firespread");
             playerMsg("- prelog");
+            playerMsg("- lockdown");
             playerMsg("- petprotect");
             playerMsg("- droptoggle");
             playerMsg("- nonuke");
@@ -75,6 +77,13 @@ public class Command_toggle extends TFM_Command
         if (args[0].equals("prelog"))
         {
             toggle("Command prelogging is", TFM_ConfigEntry.PREPROCESS_LOG_ENABLED);
+            return true;
+        }
+
+        if (args[0].equals("lockdown"))
+        {
+            TFM_Util.adminAction(sender.getName(), (TotalFreedomMod.lockdownEnabled ? "De-a" : "A") + "ctivating server lockdown", true);
+            TotalFreedomMod.lockdownEnabled = !TotalFreedomMod.lockdownEnabled;
             return true;
         }
 

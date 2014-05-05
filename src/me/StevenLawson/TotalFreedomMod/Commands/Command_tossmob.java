@@ -13,7 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Throw a mob in the direction you are facing when you left click with a stick.", usage = "/<command> <mobtype [speed] | off | list>")
+@CommandParameters(description = "Throw a mob in the direction you are facing when you left click with a stick.",
+        usage = "/<command> <mobtype [speed] | off | list>")
 public class Command_tossmob extends TFM_Command
 {
     @Override
@@ -30,7 +31,7 @@ public class Command_tossmob extends TFM_Command
         EntityType creature = EntityType.PIG;
         if (args.length >= 1)
         {
-            if (TFM_Util.isStopCommand(args[0]))
+            if ("off".equals(args[0]))
             {
                 playerData.disableMobThrower();
                 playerMsg("MobThrower is disabled.", ChatColor.GREEN);
