@@ -44,7 +44,7 @@ public class Command_protectarea extends TFM_Command
         }
         else if (args.length == 2)
         {
-            if (TFM_Util.isRemoveCommand(args[0]))
+            if ("remove".equals(args[0]))
             {
                 TFM_ProtectedArea.removeProtectedArea(args[1]);
 

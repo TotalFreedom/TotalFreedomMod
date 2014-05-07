@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -51,8 +52,11 @@ public class Command_doom extends TFM_Command
         // deop
         player.setOp(false);
 
-        // ban IP
-        TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName()));
+        // ban IPs
+        for (String playerIp : TFM_PlayerList.getInstance().getEntry(player).getIps())
+        {
+            TFM_BanManager.getInstance().addIpBan(new TFM_Ban(playerIp, player.getName()));
+        }
 
         // ban name
         TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));

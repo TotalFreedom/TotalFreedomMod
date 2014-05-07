@@ -170,7 +170,7 @@ public class Command_saconfig extends TFM_Command
             return true;
         }
 
-        if (TFM_Util.isRemoveCommand(args[0]))
+        if ("remove".equals(args[0]))
         {
             if (!TFM_AdminList.isSeniorAdmin(sender))
             {

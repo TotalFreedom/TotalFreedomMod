@@ -28,7 +28,7 @@ public class Command_trail extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length > 0 && TFM_Util.isStopCommand(args[0]))
+        if (args.length > 0 && "off".equals(args[0]))
         {
             trailPlayers.remove(sender_p);
 

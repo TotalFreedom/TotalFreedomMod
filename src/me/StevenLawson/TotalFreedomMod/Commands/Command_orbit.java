@@ -11,7 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "POW!!! Right in the kisser! One of these days Alice, straight to the Moon!", usage = "/<command> <target> [power]")
+@CommandParameters(description = "POW!!! Right in the kisser! One of these days Alice, straight to the Moon!",
+        usage = "/<command> <target> [<<power> | stop>]")
 public class Command_orbit extends TFM_Command
 {
     @Override
@@ -36,7 +37,7 @@ public class Command_orbit extends TFM_Command
 
         if (args.length >= 2)
         {
-            if (TFM_Util.isStopCommand(args[1]))
+            if (args[1].equals("stop"))
             {
                 playerMsg("Stopped orbiting " + player.getName());
                 playerdata.stopOrbiting();
@@ -58,7 +59,7 @@ public class Command_orbit extends TFM_Command
         playerdata.startOrbiting(strength);
 
         player.setVelocity(new Vector(0, strength, 0));
-        TFM_Util.adminAction(sender.getName(), "Orbiting " + player.getName() + ".", false);
+        TFM_Util.adminAction(sender.getName(), "Orbiting " + player.getName(), false);
 
         return true;
     }

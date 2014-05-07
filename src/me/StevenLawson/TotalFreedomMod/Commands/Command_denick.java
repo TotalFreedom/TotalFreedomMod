@@ -13,10 +13,9 @@ public class Command_denick extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        TFM_Util.adminAction(sender.getName(), "Removing all nicknames.", false);
+        TFM_Util.adminAction(sender.getName(), "Removing all nicknames", false);
 
-        Player[] onlinePlayers = server.getOnlinePlayers();
-        for (Player player : onlinePlayers)
+        for (Player player : server.getOnlinePlayers())
         {
             TFM_EssentialsBridge.getInstance().setNickname(player.getName(), null);
         }

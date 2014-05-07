@@ -55,13 +55,6 @@ public class Command_enchant extends TFM_Command
         {
             for (Enchantment ench : Enchantment.values())
             {
-                /*
-                 2013-07-20 23:17:13 [INFO] [TotalFreedomMod]: Command Error: enchant
-                 java.lang.NullPointerException
-                 at net.minecraft.server.v1_6_R2.EnchantmentDurability.canEnchant(SourceFile:33)
-                 at org.bukkit.craftbukkit.v1_6_R2.enchantments.CraftEnchantment.canEnchantItem(CraftEnchantment.java:55)
-                 at me.StevenLawson.TotalFreedomMod.Commands.Command_enchant.run(Command_enchant.java:56)
-                 */
                 try
                 {
                     if (ench.canEnchantItem(itemInHand))
@@ -122,7 +115,7 @@ public class Command_enchant extends TFM_Command
                     playerMsg("Can't use this enchantment on held item.");
                 }
             }
-            else if (TFM_Util.isRemoveCommand(args[0]))
+            else if (args[0].equals("remove"))
             {
                 itemInHand.removeEnchantment(ench);
 
