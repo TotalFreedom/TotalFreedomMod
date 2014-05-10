@@ -405,25 +405,6 @@ public class TFM_AdminList
         return false;
     }
 
-    public static boolean isTelnetAdmin(CommandSender sender, boolean verifySuperadmin)
-    {
-        if (verifySuperadmin)
-        {
-            if (!isSuperAdmin(sender))
-            {
-                return false;
-            }
-        }
-
-        final TFM_Admin entry = getEntry((Player) sender);
-        if (entry != null)
-        {
-            return entry.isTelnetAdmin();
-        }
-
-        return false;
-    }
-    
     public static boolean isIdentityMatched(Player player)
     {
         if (!isSuperAdmin(player))
