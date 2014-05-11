@@ -33,7 +33,6 @@ public class TFM_ServiceChecker
         services.put("sessionserver.mojang.com", new ServiceStatus("Mojang Multiplayer sessions"));
         services.put("skins.minecraft.net", new ServiceStatus("Minecraft Skins"));
         services.put("auth.mojang.com", new ServiceStatus("Mojang Authentiation (Legacy)"));
-        services.put("login.minecraft.net", new ServiceStatus("Minecraft Logins (Legacy)"));
         services.put("session.minecraft.net", new ServiceStatus("Minecraft Sessions (Legacy)"));
     }
 
