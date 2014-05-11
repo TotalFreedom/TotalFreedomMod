@@ -90,11 +90,11 @@ public class TotalFreedomMod extends JavaPlugin
         }
 
         // Admin list
-        TFM_Util.createBackup(SUPERADMIN_FILE);
+        TFM_Util.createBackups(SUPERADMIN_FILE);
         TFM_AdminList.load();
 
         // Permban list
-        TFM_Util.createBackup(PERMBAN_FILE);
+        TFM_Util.createBackups(PERMBAN_FILE);
         TFM_PermbanList.load();
 
         // Playerlist and bans
