@@ -35,23 +35,23 @@ public class TFM_BlockListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockBreak(BlockBreakEvent event)
     {
-        Player player = event.getPlayer();
-        Location blockLocation = event.getBlock().getLocation();
+        final Player player = event.getPlayer();
+        final Location location = event.getBlock().getLocation();
 
         if (TFM_ConfigEntry.NUKE_MONITOR_ENABLED.getBoolean())
         {
-            TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+            final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
-            Location playerLocation = player.getLocation();
+            final Location playerLocation = player.getLocation();
 
             final double nukeMonitorRange = TFM_ConfigEntry.NUKE_MONITOR_RANGE.getDouble().doubleValue();
 
             boolean outOfRange = false;
-            if (!playerLocation.getWorld().equals(blockLocation.getWorld()))
+            if (!playerLocation.getWorld().equals(location.getWorld()))
             {
                 outOfRange = true;
             }
-            else if (playerLocation.distanceSquared(blockLocation) > (nukeMonitorRange * nukeMonitorRange))
+            else if (playerLocation.distanceSquared(location) > (nukeMonitorRange * nukeMonitorRange))
             {
                 outOfRange = true;
             }
@@ -70,7 +70,7 @@ public class TFM_BlockListener implements Listener
                 }
             }
 
-            Long lastRan = TFM_Heartbeat.getLastRan();
+            final Long lastRan = TFM_Heartbeat.getLastRan();
             if (lastRan == null || lastRan + TotalFreedomMod.HEARTBEAT_RATE * 1000L < System.currentTimeMillis())
             {
                 // TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
@@ -94,7 +94,7 @@ public class TFM_BlockListener implements Listener
         {
             if (!TFM_AdminList.isSuperAdmin(player))
             {
-                if (TFM_ProtectedArea.isInProtectedArea(blockLocation))
+                if (TFM_ProtectedArea.isInProtectedArea(location))
                 {
                     event.setCancelled(true);
                 }

@@ -95,7 +95,7 @@ auto_wipe: true
 nukemonitor:
   enabled: true
   count_break: 100
-  count_place: 25
+  count_place: 40
   range: 10.0
 
 freecam_trigger_count: 10
