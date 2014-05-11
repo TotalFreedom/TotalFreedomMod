@@ -30,7 +30,7 @@ import org.mcstats.Metrics;
 
 public class TotalFreedomMod extends JavaPlugin
 {
-    public static final long HEARTBEAT_RATE = 5L; //Seconds
+    public static final long HEARTBEAT_RATE = 5L; // Seconds
     public static final long SERVICE_CHECKER_RATE = 120L;
     //
     public static final String SUPERADMIN_FILE = "superadmin.yml";
@@ -90,11 +90,11 @@ public class TotalFreedomMod extends JavaPlugin
         }
 
         // Admin list
-        TFM_AdminList.createBackup();
+        TFM_Util.createBackup(SUPERADMIN_FILE);
         TFM_AdminList.load();
 
         // Permban list
-        TFM_PermbanList.createBackup();
+        TFM_Util.createBackup(PERMBAN_FILE);
         TFM_PermbanList.load();
 
         // Playerlist and bans

@@ -58,11 +58,4 @@ public class TFM_PermbanList
 
         TFM_Log.info("Loaded " + PERMBANNED_PLAYERS.size() + " permanently banned players and " + PERMBANNED_IPS.size() + " permanently banned IPs.");
     }
-
-    public static void createBackup()
-    {
-        final File oldYaml = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PERMBAN_FILE);
-        final File newYaml = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PERMBAN_FILE + ".bak");
-        FileUtil.copy(oldYaml, newYaml);
-    }
 }

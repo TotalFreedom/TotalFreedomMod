@@ -32,7 +32,6 @@ public class Command_permban extends TFM_Command
                 return true;
             }
             playerMsg("Reloading permban list...", ChatColor.RED);
-            TFM_PermbanList.createBackup();
             TFM_PermbanList.load();
             dumplist(sender);
         }

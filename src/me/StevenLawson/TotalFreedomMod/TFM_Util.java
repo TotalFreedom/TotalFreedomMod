@@ -40,6 +40,7 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.FileUtil;
 
 public class TFM_Util
 {
@@ -182,7 +183,7 @@ public class TFM_Util
      * @return The config-friendly IP address.
      * @see #fromEscapedString(String)
      */
-    public static String toEscapedString(String ip) // BukkitLib
+    public static String toEscapedString(String ip) // BukkitLib @ https://github.com/Pravian/BukkitLib
     {
         return ip.trim().replaceAll("\\.", "_");
     }
@@ -199,7 +200,7 @@ public class TFM_Util
      * @return The config-friendly IP address.
      * @see #toEscapedString(String)
      */
-    public static String fromEscapedString(String escapedIp) // BukkitLib
+    public static String fromEscapedString(String escapedIp) // BukkitLib @ https://github.com/Pravian/BukkitLib
     {
         return escapedIp.trim().replaceAll("_", "\\.");
     }
@@ -242,14 +243,14 @@ public class TFM_Util
 
     public static void buildHistory(Location location, int length, TFM_PlayerData playerdata)
     {
-        Block center = location.getBlock();
+        final Block center = location.getBlock();
         for (int xOffset = -length; xOffset <= length; xOffset++)
         {
             for (int yOffset = -length; yOffset <= length; yOffset++)
             {
                 for (int zOffset = -length; zOffset <= length; zOffset++)
                 {
-                    Block block = center.getRelative(xOffset, yOffset, zOffset);
+                    final Block block = center.getRelative(xOffset, yOffset, zOffset);
                     playerdata.insertHistoryBlock(block.getLocation(), block.getType());
                 }
             }
@@ -258,7 +259,7 @@ public class TFM_Util
 
     public static void generateCube(Location location, int length, Material material)
     {
-        Block center = location.getBlock();
+        final Block center = location.getBlock();
         for (int xOffset = -length; xOffset <= length; xOffset++)
         {
             for (int yOffset = -length; yOffset <= length; yOffset++)
@@ -277,7 +278,7 @@ public class TFM_Util
 
     public static void generateHollowCube(Location location, int length, Material material)
     {
-        Block center = location.getBlock();
+        final Block center = location.getBlock();
         for (int xOffset = -length; xOffset <= length; xOffset++)
         {
             for (int yOffset = -length; yOffset <= length; yOffset++)
@@ -312,7 +313,7 @@ public class TFM_Util
                         }
 
                         block.setType(Material.SKULL);
-                        Skull skull = (Skull) block.getState();
+                        final Skull skull = (Skull) block.getState();
                         skull.setSkullType(SkullType.PLAYER);
                         skull.setOwner("DarthSalamon");
                         skull.update();
@@ -696,6 +697,13 @@ public class TFM_Util
         {
             TFM_Log.severe(ex);
         }
+    }
+
+    public static void createBackup(String file)
+    {
+        final File oldYaml = new File(TotalFreedomMod.plugin.getDataFolder(), file);
+        final File newYaml = new File(TotalFreedomMod.plugin.getDataFolder(), file + ".bak");
+        FileUtil.copy(oldYaml, newYaml);
     }
 
     public static String dateToString(Date date)
