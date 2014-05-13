@@ -107,7 +107,6 @@ public class TFM_ServiceChecker
                         final ServiceStatus service = services.get(pair.getKey());
                         if (service == null)
                         {
-                            TFM_Log.warning("ServiceChecker found unknown service: " + pair.getKey());
                             continue;
                         }
 
