@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -8,122 +9,142 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH)
-@CommandParameters(description = "Enable / disable plugins.", usage = "/<command> < <enable | disable> <pluginname> | list >", aliases = "plc")
+@CommandParameters(description = "Manage plugins", usage = "/<command> <<enable | disable | reload> <pluginname>> | list>", aliases = "plc")
 public class Command_plugincontrol extends TFM_Command
 {
-    private enum CommandMode
-    {
-        ENABLE, DISABLE, LIST, RELOAD
-    }
-
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        CommandMode commandMode = null;
+        if (args.length == 0 || args.length > 2)
+        {
+            return false;
+        }
+
+        final PluginManager pm = server.getPluginManager();
 
         if (args.length == 1)
         {
             if (args[0].equalsIgnoreCase("list"))
             {
-                commandMode = CommandMode.LIST;
-            }
-            else if (args[0].equalsIgnoreCase("reload"))
-            {
-                commandMode = CommandMode.RELOAD;
-            }
-        }
-        else if (args.length >= 2)
-        {
-            if (args[0].equalsIgnoreCase("enable"))
-            {
-                commandMode = CommandMode.ENABLE;
-            }
-            else if (args[0].equalsIgnoreCase("disable"))
-            {
-                commandMode = CommandMode.DISABLE;
-            }
-        }
+                for (Plugin serverPlugin : pm.getPlugins())
+                {
+                    final String version = serverPlugin.getDescription().getVersion();
+                    playerMsg(ChatColor.GRAY + "- " + (serverPlugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + serverPlugin.getName()
+                            + ChatColor.GOLD + (version != null && !version.isEmpty() ? " v" + version : "") + " by "
+                            + StringUtils.join(serverPlugin.getDescription().getAuthors(), ", "));
+                }
 
-        if (commandMode == null)
-        {
+                return true;
+            }
+
             return false;
         }
 
-        PluginManager pluginManager = plugin.getServer().getPluginManager();
-
-        if (commandMode == CommandMode.LIST)
+        if ("enable".equals(args[0]))
         {
-            playerMsg("Plugins: " + StringUtils.join(pluginManager.getPlugins(), ", "));
-        }
-        else if (commandMode == CommandMode.RELOAD)
-        {
-            playerMsg("Disabling all plugins.");
-            for (Plugin targetPlugin : pluginManager.getPlugins())
+            final Plugin target = getPlugin(args[1]);
+            if (target == null)
             {
-                if (!targetPlugin.getName().toLowerCase().startsWith("totalfreedommod"))
-                {
-                    pluginManager.disablePlugin(targetPlugin);
-                }
-            }
-
-            playerMsg("Enabling all plugins.");
-            for (Plugin targetPlugin : pluginManager.getPlugins())
-            {
-                if (!targetPlugin.getName().toLowerCase().startsWith("totalfreedommod"))
-                {
-                    pluginManager.enablePlugin(targetPlugin);
-                }
-            }
-        }
-        else
-        {
-            final String searchPluginName = args[1].toLowerCase().trim();
-
-            Plugin targetPlugin = null;
-
-            for (Plugin serverPlugin : pluginManager.getPlugins())
-            {
-                if (searchPluginName.equalsIgnoreCase(serverPlugin.getName().toLowerCase().trim()))
-                {
-                    targetPlugin = serverPlugin;
-                    break;
-                }
-            }
-
-            if (targetPlugin == null)
-            {
-                playerMsg("Plugin \"" + searchPluginName + "\" is not installed.");
+                playerMsg("Plugin not found!");
                 return true;
             }
-            else
+
+            if (target.isEnabled())
             {
-                if (commandMode == CommandMode.ENABLE)
+                playerMsg("Plugin is already enabled.");
+                return true;
+            }
+
+            pm.enablePlugin(target);
+
+            if (!pm.isPluginEnabled(target))
+            {
+                playerMsg("Error enabling plugin " + target.getName());
+                return true;
+            }
+
+            playerMsg(target.getName() + " is now enabled.");
+            return true;
+        }
+
+        if ("disable".equals(args[0]))
+        {
+            final Plugin target = getPlugin(args[1]);
+            if (target == null)
+            {
+                playerMsg("Plugin not found!");
+                return true;
+            }
+
+            if (!target.isEnabled())
+            {
+                playerMsg("Plugin is already disabled.");
+                return true;
+            }
+
+            if (target.getName().equals(plugin.getName()))
+            {
+                playerMsg("You cannot disable " + plugin.getName());
+                return true;
+            }
+
+            pm.disablePlugin(target);
+
+            if (pm.isPluginEnabled(target))
+            {
+                playerMsg("Error disabling plugin " + target.getName());
+                return true;
+            }
+
+            playerMsg(target.getName() + " is now disabled.");
+            return true;
+        }
+
+        if ("reload".equals(args[0]))
+        {
+            final Plugin target = getPlugin(args[1]);
+            if (target == null)
+            {
+                playerMsg("Plugin not found!");
+                return true;
+            }
+
+            if (target.getName().equals(plugin.getName()))
+            {
+                playerMsg("Use /tfm reload to reload instead.");
+                return true;
+            }
+
+            pm.disablePlugin(target);
+            pm.enablePlugin(target);
+            playerMsg(target.getName() + " reloaded.");
+            return true;
+        }
+
+        return false;
+    }
+
+    public Plugin getPlugin(String name)
+    {
+        for (Plugin serverPlugin : server.getPluginManager().getPlugins())
+        {
+            if (serverPlugin.getName().equalsIgnoreCase(name))
+            {
+                return serverPlugin;
+            }
+        }
+
+        if (name.length() >= 3)
+        {
+            for (Plugin serverPlugin : server.getPluginManager().getPlugins())
+            {
+                if (serverPlugin.getName().toLowerCase().contains(name.toLowerCase()))
                 {
-                    pluginManager.enablePlugin(targetPlugin);
-                    if (targetPlugin.isEnabled())
-                    {
-                        playerMsg("Plugin \"" + targetPlugin.getName() + "\" enabled.");
-                    }
-                    else
-                    {
-                        playerMsg("Error enabling plugin \"" + targetPlugin.getName() + "\".");
-                    }
-                }
-                else
-                {
-                    pluginManager.disablePlugin(targetPlugin);
-                    if (!targetPlugin.isEnabled())
-                    {
-                        playerMsg("Plugin \"" + targetPlugin.getName() + "\" disabled.");
-                    }
-                    else
-                    {
-                        playerMsg("Error disabling plugin \"" + targetPlugin.getName() + "\".");
-                    }
+                    return serverPlugin;
                 }
             }
         }
 
-        return true;
+        return null;
     }
 }
