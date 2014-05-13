@@ -704,6 +704,7 @@ public class TFM_PlayerListener implements Listener
         }
         else
         {
+            TFM_PlayerList.getInstance().getEntry(player);
             TFM_Log.info("Added new player: " + TFM_Util.formatPlayer(player));
         }
 
@@ -775,9 +776,8 @@ public class TFM_PlayerListener implements Listener
     {
         TFM_ServerInterface.handlePlayerLogin(event);
     }
-    
+
     // Player Tab and auto Tags
-    
     @EventHandler(priority = EventPriority.HIGH)
     public static void onPlayerJoinEvent(PlayerJoinEvent event)
     {

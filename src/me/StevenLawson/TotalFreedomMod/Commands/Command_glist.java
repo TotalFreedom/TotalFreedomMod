@@ -35,6 +35,7 @@ public class Command_glist extends TFM_Command
                 if (TFM_AdminList.isSeniorAdmin(sender))
                 {
                     TFM_PlayerList.getInstance().purgeAll();
+                    playerMsg("Purged playerbase");
                 }
                 else
                 {
