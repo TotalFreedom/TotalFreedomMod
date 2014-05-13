@@ -6,12 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 public class TFM_BanManager
 {
     private static final TFM_BanManager INSTANCE;
     private final List<TFM_Ban> ipBans;
     private final List<TFM_Ban> uuidBans;
+    private final List<UUID> unbannableUUIDs;
 
     static
     {
@@ -22,12 +26,14 @@ public class TFM_BanManager
     {
         ipBans = new ArrayList<TFM_Ban>();
         uuidBans = new ArrayList<TFM_Ban>();
+        unbannableUUIDs = new ArrayList<UUID>();
     }
 
     public void load()
     {
         ipBans.clear();
         uuidBans.clear();
+        unbannableUUIDs.clear();
 
         final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, "bans.yml", true);
         config.load();
@@ -58,8 +64,21 @@ public class TFM_BanManager
 
         // Save the config
         save();
+        TFM_Log.info("Loaded " + ipBans.size() + " IP bans and " + uuidBans.size() + " UUID bans");
 
-        TFM_Log.info("Loaded " + ipBans.size() + " IP bans and " + uuidBans.size() + " UUID bans.");
+        for (String username : (List<String>) TFM_ConfigEntry.UNBANNABLE_USERNAMES.getList())
+        {
+            final OfflinePlayer player = Bukkit.getOfflinePlayer(username);
+            if (player == null || player.getUniqueId() == null)
+            {
+                TFM_Log.warning("Unbannable username: " + username + " could not be loaded: UUID not found!");
+                continue;
+            }
+
+            unbannableUUIDs.add(player.getUniqueId());
+        }
+
+        TFM_Log.info("Loaded " + unbannableUUIDs.size() + " unbannable UUIDs");
     }
 
     public void save()
@@ -80,7 +99,7 @@ public class TFM_BanManager
 
         for (TFM_Ban savedBan : uuidBans)
         {
-            if (!savedBan.isExpired())
+            if (!savedBan.isExpired() && !unbannableUUIDs.contains(UUID.fromString(savedBan.getSubject())))
             {
                 newUuidBans.add(savedBan.toString());
             }
@@ -197,6 +216,11 @@ public class TFM_BanManager
         }
 
         if (ban.isExpired())
+        {
+            return;
+        }
+
+        if (unbannableUUIDs.contains(UUID.fromString(ban.getSubject())))
         {
             return;
         }
