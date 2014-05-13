@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Manage superadmins.",
-        usage = "/<command> <list | clean | clear [ip] | <add | delete | info> <username>>")
+        usage = "/<command> <list | clean | clear [ip] | <add | remove | info> <username>>")
 public class Command_saconfig extends TFM_Command
 {
     @Override
