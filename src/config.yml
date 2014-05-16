@@ -1,6 +1,26 @@
 # TotalFreedomMod v4.2 Configuration
 # by Madgeek1450 and DarthSalamon
 
+# Generic server information
+server:
+  # You should change this to your server's name
+  name: TotalFreedom
+
+  # The address your server is located at
+  address: 64.34.165.5:28965
+
+  # Shown at the server list
+  motd: TotalFreedom &8- Minecraft %mcversion%
+
+  # Every word in the MOTD will be a different color unless prefixed by a color code
+  colorful_motd: true
+
+  # URL players should appeal for bans at
+  ban_url: http://totalfreedom.boards.net/
+
+  # URL players should appeal for permanent bans at
+  permban_url: http://bit.ly/TF_PermBan
+
 # Blocking certain events
 allow:
   fire_place: false

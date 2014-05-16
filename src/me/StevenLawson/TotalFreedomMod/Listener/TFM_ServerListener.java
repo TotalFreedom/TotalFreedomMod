@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
@@ -10,8 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.server.RemoteServerCommandEvent;
-import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 public class TFM_ServerListener implements Listener
@@ -55,25 +52,46 @@ public class TFM_ServerListener implements Listener
     public void onServerPing(ServerListPingEvent event)
     {
         final String ip = event.getAddress().getHostAddress();
-        event.setMotd(TFM_Util.randomChatColor() + "Total" + TFM_Util.randomChatColor() + "Freedom " + ChatColor.DARK_GRAY + "-" + TFM_Util.randomChatColor() + " Bukkit v" + TFM_ServerInterface.getVersion());
-
-
 
         if (TFM_BanManager.getInstance().isIpBanned(ip))
         {
             event.setMotd(ChatColor.RED + "You are banned.");
+            return;
         }
-        else if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
+
+        if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
         {
             event.setMotd(ChatColor.RED + "Server is closed.");
+            return;
         }
-        else if (Bukkit.hasWhitelist())
+
+        if (Bukkit.hasWhitelist())
         {
             event.setMotd(ChatColor.RED + "Whitelist enabled.");
+            return;
         }
-        else if (Bukkit.getOnlinePlayers().length >= Bukkit.getMaxPlayers())
+
+        if (Bukkit.getOnlinePlayers().length >= Bukkit.getMaxPlayers())
         {
             event.setMotd(ChatColor.RED + "Server is full.");
+            return;
         }
+
+        if (!TFM_ConfigEntry.SERVER_COLORFUL_MOTD.getBoolean())
+        {
+            event.setMotd(TFM_Util.colorize(TFM_ConfigEntry.SERVER_MOTD.getString()
+                    .replace("%mcversion%", TFM_ServerInterface.getVersion())));
+            return;
+        }
+        // Colorful MOTD
+
+        final StringBuilder motd = new StringBuilder();
+
+        for (String word : TFM_ConfigEntry.SERVER_MOTD.getString().replace("%mcversion%", TFM_ServerInterface.getVersion()).split(" "))
+        {
+            motd.append(TFM_Util.randomChatColor()).append(word).append(" ");
+        }
+
+        event.setMotd(TFM_Util.colorize(motd.toString()));
     }
 }

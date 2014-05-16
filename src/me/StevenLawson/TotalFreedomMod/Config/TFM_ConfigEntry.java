@@ -34,6 +34,7 @@ public enum TFM_ConfigEntry
     HTTPD_ENABLED(Boolean.class, "httpd.enabled"),
     AUTOKICK_ENABLED(Boolean.class, "autokick.enabled"),
     CONSOLE_IS_SENIOR(Boolean.class, "console_is_senior"),
+    SERVER_COLORFUL_MOTD(Boolean.class, "server.colorful_motd"),
     //
     AUTO_PROTECT_RADIUS(Double.class, "protectarea.auto_protect_radius"),
     EXPLOSIVE_RADIUS(Double.class, "explosive_radius"),
@@ -54,6 +55,11 @@ public enum TFM_ConfigEntry
     TWITTERBOT_SECRET(String.class, "twitterbot.secret"),
     TWITTERBOT_URL(String.class, "twitterbot.url"),
     HTTPD_PUBLIC_FOLDER(String.class, "httpd.public_folder"),
+    SERVER_NAME(String.class, "server.name"),
+    SERVER_ADDRESS(String.class, "server.address"),
+    SERVER_MOTD(String.class, "server.motd"),
+    SERVER_BAN_URL(String.class, "server.ban_url"),
+    SERVER_PERMBAN_URL(String.class, "server.permban_url"),
     //
     BLOCKED_COMMANDS(List.class, "blocked_commands"),
     HOST_SENDER_NAMES(List.class, "host_sender_names"),

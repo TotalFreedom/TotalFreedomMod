@@ -106,7 +106,8 @@ public class TFM_ServerInterface
             {
                 final TFM_Ban ban = banManager.getByUuid(uuid);
 
-                String kickMessage = ChatColor.RED + "You are temporarily banned from this server.\nAppeal at http://totalfreedom.boards.net/.";
+                String kickMessage = ChatColor.RED + "You are temporarily banned from this server."
+                        + "\nAppeal at " + ChatColor.GOLD + TFM_ConfigEntry.SERVER_BAN_URL.getString();
 
                 if (!ban.getReason().equals("none"))
                 {
@@ -126,7 +127,8 @@ public class TFM_ServerInterface
             {
                 final TFM_Ban ban = banManager.getByIp(ip);
 
-                String kickMessage = ChatColor.RED + "Your IP address is temporarily banned from this server.\nAppeal at http://totalfreedom.boards.net/.";
+                String kickMessage = ChatColor.RED + "Your IP address is temporarily banned from this server."
+                        + "\nAppeal at " + ChatColor.GOLD + TFM_ConfigEntry.SERVER_BAN_URL.getString();
 
                 if (!ban.getReason().equals("none"))
                 {
@@ -148,7 +150,8 @@ public class TFM_ServerInterface
                 if (TFM_Util.fuzzyIpMatch(testIp, ip, 4))
                 {
                     event.disallow(Result.KICK_OTHER,
-                            ChatColor.RED + "Your IP address is permanently banned from this server.\nRelease procedures are available at http://bit.ly/TF_PermBan");
+                            ChatColor.RED + "Your IP address is permanently banned from this server.\nRelease procedures are available at\n"
+                            + ChatColor.GOLD + TFM_ConfigEntry.SERVER_PERMBAN_URL);
                     return;
                 }
             }
@@ -159,7 +162,8 @@ public class TFM_ServerInterface
                 if (testPlayer.equalsIgnoreCase(username))
                 {
                     event.disallow(Result.KICK_OTHER,
-                            ChatColor.RED + "Your username is permanently banned from this server.\nRelease procedures are available at http://bit.ly/TF_PermBan");
+                            ChatColor.RED + "Your username is permanently banned from this server.\nRelease procedures are available at\n"
+                            + ChatColor.GOLD + TFM_ConfigEntry.SERVER_PERMBAN_URL);
                     return;
                 }
             }
