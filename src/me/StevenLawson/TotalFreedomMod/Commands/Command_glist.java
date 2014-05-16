@@ -108,8 +108,7 @@ public class Command_glist extends TFM_Command
                 for (String ip : ips)
                 {
                     TFM_BanManager.getInstance().unbanIp(ip);
-                    String[] ipParts = ip.split("\\.");
-                    TFM_BanManager.getInstance().unbanIp(ipParts[0] + "." + ipParts[1] + ".*.*");
+                    TFM_BanManager.getInstance().unbanIp(TFM_Util.getFuzzyIp(ip));
                 }
             }
             else

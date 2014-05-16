@@ -714,15 +714,9 @@ public class TFM_PlayerListener implements Listener
         // Verify strict IP match
         if (TFM_AdminList.isSuperAdmin(player))
         {
-            if (TFM_BanManager.getInstance().isIpBanned(ip))
-            {
-                TFM_BanManager.getInstance().unbanIp(ip);
-            }
-
-            if (TFM_BanManager.getInstance().isUuidBanned(player.getUniqueId()))
-            {
-                TFM_BanManager.getInstance().unbanUuid(player.getUniqueId());
-            }
+            TFM_BanManager.getInstance().unbanIp(ip);
+            TFM_BanManager.getInstance().unbanIp(TFM_Util.getFuzzyIp(ip));
+            TFM_BanManager.getInstance().unbanUuid(player.getUniqueId());
 
             player.setOp(true);
 

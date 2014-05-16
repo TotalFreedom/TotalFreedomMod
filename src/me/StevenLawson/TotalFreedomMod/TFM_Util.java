@@ -825,6 +825,17 @@ public class TFM_Util
         return match;
     }
 
+    public static String getFuzzyIp(String ip)
+    {
+        final String[] ipParts = ip.split("\\.");
+        if (ipParts.length == 4)
+        {
+            return String.format("%s.%s.*.*", ipParts[0], ipParts[1]);
+        }
+
+        return ip;
+    }
+
     public static int replaceBlocks(Location center, Material fromMaterial, Material toMaterial, int radius)
     {
         int affected = 0;

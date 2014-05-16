@@ -87,7 +87,7 @@ public class TFM_ServerInterface
         }
 
         // not safe to use TFM_Util.isSuperAdmin for player logging in because player.getAddress() will return a null until after player login.
-        boolean isAdmin;
+        final boolean isAdmin;
         if (server.getOnlineMode())
         {
             isAdmin = TFM_AdminList.getSuperUUIDs().contains(uuid);
