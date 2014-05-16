@@ -76,7 +76,7 @@ public class Command_toggle extends TFM_Command
 
         if (args[0].equals("prelog"))
         {
-            toggle("Command prelogging is", TFM_ConfigEntry.PREPROCESS_LOG_ENABLED);
+            toggle("Command prelogging is", TFM_ConfigEntry.ENABLE_PREPROCESS_LOG);
             return true;
         }
 
@@ -89,7 +89,7 @@ public class Command_toggle extends TFM_Command
 
         if (args[0].equals("petprotect"))
         {
-            toggle("Tamed pet protection is", TFM_ConfigEntry.PET_PROTECT_ENABLED);
+            toggle("Tamed pet protection is", TFM_ConfigEntry.ENABLE_PET_PROTECT);
             return true;
         }
 

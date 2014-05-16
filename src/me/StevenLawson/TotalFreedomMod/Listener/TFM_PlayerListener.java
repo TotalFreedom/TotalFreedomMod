@@ -607,7 +607,7 @@ public class TFM_PlayerListener implements Listener
             }
         }
 
-        if (TFM_ConfigEntry.PREPROCESS_LOG_ENABLED.getBoolean())
+        if (TFM_ConfigEntry.ENABLE_PREPROCESS_LOG.getBoolean())
         {
             TFM_Log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", player.getName(), ChatColor.stripColor(player.getDisplayName()), command), true);
         }

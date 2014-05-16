@@ -317,7 +317,7 @@ public class TFM_FrontDoor
 
                 case 8: // Remove all protected areas
                 {
-                    if (TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean())
+                    if (TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
                     {
                         if (TFM_ProtectedArea.getProtectedAreaLabels().isEmpty())
                         {

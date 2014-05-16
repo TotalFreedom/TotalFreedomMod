@@ -255,11 +255,11 @@ public class TFM_ProtectedArea
 
     public static void autoAddSpawnpoints()
     {
-        if (TFM_ConfigEntry.AUTO_PROTECT_SPAWNPOINTS.getBoolean())
+        if (TFM_ConfigEntry.PROTECTAREA_SPAWNPOINTS.getBoolean())
         {
             for (World world : Bukkit.getWorlds())
             {
-                TFM_ProtectedArea.addProtectedArea("spawn_" + world.getName(), world.getSpawnLocation(), TFM_ConfigEntry.AUTO_PROTECT_RADIUS.getDouble());
+                TFM_ProtectedArea.addProtectedArea("spawn_" + world.getName(), world.getSpawnLocation(), TFM_ConfigEntry.PROTECTAREA_RADIUS.getDouble());
             }
         }
     }

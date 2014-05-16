@@ -4,7 +4,6 @@ import java.util.List;
 
 public enum TFM_ConfigEntry
 {
-    ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
     ALLOW_EXPLOSIONS(Boolean.class, "allow.explosions"),
     ALLOW_FIRE_PLACE(Boolean.class, "allow.fire_place"),
     ALLOW_FIRE_SPREAD(Boolean.class, "allow.fire_spread"),
@@ -13,57 +12,67 @@ public enum TFM_ConfigEntry
     ALLOW_LAVA_PLACE(Boolean.class, "allow.lava_place"),
     ALLOW_TNT_MINECARTS(Boolean.class, "allow.tnt_minecarts"),
     ALLOW_WATER_PLACE(Boolean.class, "allow.water_place"),
-    AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
-    AUTO_PROTECT_SPAWNPOINTS(Boolean.class, "protectarea.auto_protect_spawnpoints"),
-    DISABLE_NIGHT(Boolean.class, "disable.night"),
-    DISABLE_WEATHER(Boolean.class, "disable.weather"),
-    FLATLANDS_GENERATE(Boolean.class, "flatlands.generate"),
-    LANDMINES_ENABLED(Boolean.class, "landmines_enabled"),
+    //
+    MOB_LIMITER_ENABLED(Boolean.class, "moblimiter.enabled"),
+    MOB_LIMITER_MAX(Integer.class, "moblimiter.max"),
     MOB_LIMITER_DISABLE_DRAGON(Boolean.class, "moblimiter.disable.dragon"),
     MOB_LIMITER_DISABLE_GHAST(Boolean.class, "moblimiter.disable.ghast"),
     MOB_LIMITER_DISABLE_GIANT(Boolean.class, "moblimiter.disable.giant"),
     MOB_LIMITER_DISABLE_SLIME(Boolean.class, "moblimiter.disable.slime"),
-    MOB_LIMITER_ENABLED(Boolean.class, "moblimiter.enabled"),
-    MP44_ENABLED(Boolean.class, "mp44_enabled"),
-    NUKE_MONITOR_ENABLED(Boolean.class, "nukemonitor.enabled"),
-    PET_PROTECT_ENABLED(Boolean.class, "petprotect.enabled"),
-    PREPROCESS_LOG_ENABLED(Boolean.class, "preprocess_log"),
-    PROTECTED_AREAS_ENABLED(Boolean.class, "protectarea.enabled"),
-    TOSSMOB_ENABLED(Boolean.class, "tossmob_enabled"),
-    TWITTERBOT_ENABLED(Boolean.class, "twitterbot.enabled"),
+    //
     HTTPD_ENABLED(Boolean.class, "httpd.enabled"),
-    AUTOKICK_ENABLED(Boolean.class, "autokick.enabled"),
-    CONSOLE_IS_SENIOR(Boolean.class, "console_is_senior"),
-    SERVER_COLORFUL_MOTD(Boolean.class, "server.colorful_motd"),
-    //
-    AUTO_PROTECT_RADIUS(Double.class, "protectarea.auto_protect_radius"),
-    EXPLOSIVE_RADIUS(Double.class, "explosive_radius"),
-    NUKE_MONITOR_RANGE(Double.class, "nukemonitor.range"),
-    AUTOKICK_THRESHOLD(Double.class, "autokick.threshold"),
-    //
-    FREECAM_TRIGGER_COUNT(Integer.class, "freecam_trigger_count"),
-    MOB_LIMITER_MAX(Integer.class, "moblimiter.max"),
-    NUKE_MONITOR_COUNT_BREAK(Integer.class, "nukemonitor.count_break"),
-    NUKE_MONITOR_COUNT_PLACE(Integer.class, "nukemonitor.count_place"),
     HTTPD_PORT(Integer.class, "httpd.port"),
-    AUTOKICK_TIME(Integer.class, "autokick.time"),
-    //
-    FLATLANDS_GENERATE_PARAMS(String.class, "flatlands.generate_params"),
-    LOGS_SECRET(String.class, "logs.secret"),
-    LOGS_URL(String.class, "logs.url"),
-    SERVICE_CHECKER_URL(String.class, "service_checker_url"),
-    TWITTERBOT_SECRET(String.class, "twitterbot.secret"),
-    TWITTERBOT_URL(String.class, "twitterbot.url"),
     HTTPD_PUBLIC_FOLDER(String.class, "httpd.public_folder"),
+    //
+    SERVER_COLORFUL_MOTD(Boolean.class, "server.colorful_motd"),
     SERVER_NAME(String.class, "server.name"),
     SERVER_ADDRESS(String.class, "server.address"),
     SERVER_MOTD(String.class, "server.motd"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
     //
+    TWITTERBOT_ENABLED(Boolean.class, "twitterbot.enabled"),
+    TWITTERBOT_SECRET(String.class, "twitterbot.secret"),
+    TWITTERBOT_URL(String.class, "twitterbot.url"),
+    //
+    DISABLE_NIGHT(Boolean.class, "disable.night"),
+    DISABLE_WEATHER(Boolean.class, "disable.weather"),
+    //
+    ENABLE_PREPROCESS_LOG(Boolean.class, "preprocess_log"),
+    ENABLE_PET_PROTECT(Boolean.class, "petprotect.enabled"),
+    //
+    LANDMINES_ENABLED(Boolean.class, "landmines_enabled"),
+    TOSSMOB_ENABLED(Boolean.class, "tossmob_enabled"),
+    AUTOKICK_ENABLED(Boolean.class, "autokick.enabled"),
+    MP44_ENABLED(Boolean.class, "mp44_enabled"),
+    //
+    PROTECTAREA_ENABLED(Boolean.class, "protectarea.enabled"),
+    PROTECTAREA_SPAWNPOINTS(Boolean.class, "protectarea.auto_protect_spawnpoints"),
+    PROTECTAREA_RADIUS(Double.class, "protectarea.auto_protect_radius"),
+    //
+    NUKE_MONITOR_ENABLED(Boolean.class, "nukemonitor.enabled"),
+    NUKE_MONITOR_COUNT_BREAK(Integer.class, "nukemonitor.count_break"),
+    NUKE_MONITOR_COUNT_PLACE(Integer.class, "nukemonitor.count_place"),
+    NUKE_MONITOR_RANGE(Double.class, "nukemonitor.range"),
+    //
+    AUTOKICK_THRESHOLD(Double.class, "autokick.threshold"),
+    AUTOKICK_TIME(Integer.class, "autokick.time"),
+    //
+    LOGS_SECRET(String.class, "logs.secret"),
+    LOGS_URL(String.class, "logs.url"),
+    //
+    FLATLANDS_GENERATE(Boolean.class, "flatlands.generate"),
+    FLATLANDS_GENERATE_PARAMS(String.class, "flatlands.generate_params"),
+    //
+    EXPLOSIVE_RADIUS(Double.class, "explosive_radius"),
+    FREECAM_TRIGGER_COUNT(Integer.class, "freecam_trigger_count"),
+    SERVICE_CHECKER_URL(String.class, "service_checker_url"),
     BLOCKED_COMMANDS(List.class, "blocked_commands"),
     HOST_SENDER_NAMES(List.class, "host_sender_names"),
-    UNBANNABLE_USERNAMES(List.class, "unbannable_usernames");
+    UNBANNABLE_USERNAMES(List.class, "unbannable_usernames"),
+    ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
+    AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
+    CONSOLE_IS_SENIOR(Boolean.class, "console_is_senior");
     //
     private final Class<?> type;
     private final String configName;

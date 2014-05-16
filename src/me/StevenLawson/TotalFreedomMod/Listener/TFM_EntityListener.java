@@ -57,7 +57,7 @@ public class TFM_EntityListener implements Listener
             }
         }
 
-        if (TFM_ConfigEntry.PET_PROTECT_ENABLED.getBoolean())
+        if (TFM_ConfigEntry.ENABLE_PET_PROTECT.getBoolean())
         {
             Entity entity = event.getEntity();
             if (entity instanceof Tameable)

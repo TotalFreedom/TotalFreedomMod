@@ -148,7 +148,7 @@ public class TotalFreedomMod extends JavaPlugin
             }
         }
 
-        if (TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean())
+        if (TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
         {
             TFM_ProtectedArea.loadProtectedAreas();
             TFM_ProtectedArea.autoAddSpawnpoints();

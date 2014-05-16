@@ -17,7 +17,7 @@ public class Command_protectarea extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean())
+        if (!TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
         {
             playerMsg("Protected areas are currently disabled in the TotalFreedomMod configuration.");
             return true;

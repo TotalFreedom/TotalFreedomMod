@@ -90,7 +90,7 @@ public class TFM_BlockListener implements Listener
             }
         }
 
-        if (TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean())
+        if (TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
         {
             if (!TFM_AdminList.isSuperAdmin(player))
             {
@@ -160,7 +160,7 @@ public class TFM_BlockListener implements Listener
             }
         }
 
-        if (TFM_ConfigEntry.PROTECTED_AREAS_ENABLED.getBoolean())
+        if (TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
         {
             if (!TFM_AdminList.isSuperAdmin(player))
             {
