@@ -89,7 +89,6 @@ blocked_commands:
   - 'n:b:/unbanip:_'
   - 'n:b:/jail:_'
   - 'n:b:/unban:_'
-  - 'n:b:/essentials:_'
   - 'n:b:/mail:_'
   - 'n:b:/mute:_'
   - 'n:b:/sudo:_'
@@ -97,7 +96,7 @@ blocked_commands:
   - 'n:b:/lightning:_'
   - 'n:b:/tpall:_'
   - 'n:b:/togglejail:_'
-  - 'n:b:/pt:_'
+  - 'n:b:/powertool:_'
   
 
   # Superadmin commands
