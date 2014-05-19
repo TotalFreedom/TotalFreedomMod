@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Manage superadmins.",
-        usage = "/<command> <list | clean | clear [ip] | <add | delete | info> <username>>")
+        usage = "/<command> <list | clean | clearme [ip] | <add | delete | info> <username>>")
 public class Command_saconfig extends TFM_Command
 {
     @Override
@@ -57,7 +57,7 @@ public class Command_saconfig extends TFM_Command
             return true;
         }
 
-        if (args[0].equals("clear"))
+        if (args[0].equals("clearme"))
         {
             if (senderIsConsole)
             {
