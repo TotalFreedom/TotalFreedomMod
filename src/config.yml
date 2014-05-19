@@ -97,6 +97,7 @@ blocked_commands:
   - 'n:b:/lightning:_'
   - 'n:b:/tpall:_'
   - 'n:b:/togglejail:_'
+  - 'n:b:/pt:_'
   
 
   # Superadmin commands
