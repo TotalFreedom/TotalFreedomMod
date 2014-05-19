@@ -21,7 +21,7 @@ public class Command_nicknyan extends TFM_Command
 
         if ("off".equals(args[0]))
         {
-            TFM_EssentialsBridge.getInstance().setNickname(sender.getName(), null);
+            TFM_EssentialsBridge.setNickname(sender.getName(), null);
             playerMsg("Nickname cleared.");
             return true;
         }
@@ -63,7 +63,7 @@ public class Command_nicknyan extends TFM_Command
 
         newNick.append(ChatColor.WHITE);
 
-        TFM_EssentialsBridge.getInstance().setNickname(sender.getName(), newNick.toString());
+        TFM_EssentialsBridge.setNickname(sender.getName(), newNick.toString());
 
         playerMsg("Your nickname is now: " + newNick.toString());
 

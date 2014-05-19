@@ -59,7 +59,7 @@ public class TFM_ServerListener implements Listener
 
 
 
-        if (TFM_BanManager.getInstance().isIpBanned(ip))
+        if (TFM_BanManager.isIpBanned(ip))
         {
             event.setMotd(ChatColor.RED + "You are banned.");
         }

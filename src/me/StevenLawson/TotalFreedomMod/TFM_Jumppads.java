@@ -10,13 +10,22 @@ import org.bukkit.util.Vector;
 
 public class TFM_Jumppads
 {
-    public static final Material BLOCK_ID = Material.WOOL;
-    public static final double DAMPING_COEFFICIENT = 0.8;
-    public final Map<Player, Boolean> canPushMap = new HashMap<Player, Boolean>();
-    private JumpPadMode mode = JumpPadMode.MADGEEK;
-    private double strength = 0.4;
+    public static final Material BLOCK_ID;
+    public static final double DAMPING_COEFFICIENT;
+    public static final Map<Player, Boolean> PUSH_MAP;
+    private static JumpPadMode mode;
+    private static double strength;
 
-    public void PlayerMoveEvent(PlayerMoveEvent event)
+    static
+    {
+        BLOCK_ID = Material.WOOL;
+        DAMPING_COEFFICIENT = 0.8;
+        PUSH_MAP = new HashMap<Player, Boolean>();
+        mode = JumpPadMode.MADGEEK;
+        strength = 0.4;
+    }
+
+    public static void PlayerMoveEvent(PlayerMoveEvent event)
     {
         if (mode == JumpPadMode.OFF)
         {
@@ -29,7 +38,7 @@ public class TFM_Jumppads
 
         if (mode == JumpPadMode.MADGEEK)
         {
-            Boolean canPush = canPushMap.get(player);
+            Boolean canPush = PUSH_MAP.get(player);
             if (canPush == null)
             {
                 canPush = true;
@@ -46,7 +55,7 @@ public class TFM_Jumppads
             {
                 canPush = true;
             }
-            canPushMap.put(player, canPush);
+            PUSH_MAP.put(player, canPush);
         }
         else
         {
@@ -86,24 +95,24 @@ public class TFM_Jumppads
         }
     }
 
-    public JumpPadMode getMode()
+    public static JumpPadMode getMode()
     {
         return mode;
     }
 
-    public void setMode(JumpPadMode mode)
+    public static void setMode(JumpPadMode mode)
     {
-        this.mode = mode;
+        mode = mode;
     }
 
-    public double getStrength()
+    public static double getStrength()
     {
         return strength;
     }
 
-    public void setStrength(double strength)
+    public static void setStrength(double strength)
     {
-        this.strength = strength;
+        strength = strength;
     }
 
     public static enum JumpPadMode
@@ -120,15 +129,5 @@ public class TFM_Jumppads
         {
             return on;
         }
-    }
-
-    public static TFM_Jumppads getInstance()
-    {
-        return TFM_JumpadsHolder.INSTANCE;
-    }
-
-    private static class TFM_JumpadsHolder
-    {
-        private static final TFM_Jumppads INSTANCE = new TFM_Jumppads();
     }
 }

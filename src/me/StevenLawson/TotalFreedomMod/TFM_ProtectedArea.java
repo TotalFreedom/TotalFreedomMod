@@ -311,6 +311,8 @@ public class TFM_ProtectedArea
 
         public static class CantFindWorldException extends Exception
         {
+            private static final long serialVersionUID = 1L;
+
             public CantFindWorldException(String string)
             {
                 super(string);

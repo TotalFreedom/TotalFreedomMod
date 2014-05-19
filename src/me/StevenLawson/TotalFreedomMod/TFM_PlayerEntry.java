@@ -113,7 +113,7 @@ public class TFM_PlayerEntry
             throw new IllegalStateException("Entry is not complete");
         }
 
-        final TFM_Config config = TFM_PlayerList.getInstance().getConfig();
+        final TFM_Config config = TFM_PlayerList.getConfig();
         final ConfigurationSection section;
 
         if (config.isConfigurationSection(uuid.toString()))

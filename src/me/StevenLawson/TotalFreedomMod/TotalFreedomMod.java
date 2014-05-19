@@ -98,8 +98,8 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_PermbanList.load();
 
         // Playerlist and bans
-        TFM_PlayerList.getInstance().load();
-        TFM_BanManager.getInstance().load();
+        TFM_PlayerList.load();
+        TFM_BanManager.load();
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
@@ -168,9 +168,9 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
 
-        TFM_ServiceChecker.getInstance().start();
-        TFM_HTTPD_Manager.getInstance().start();
-        TFM_FrontDoor.getInstance().start();
+        TFM_ServiceChecker.start();
+        TFM_HTTPD_Manager.start();
+        TFM_FrontDoor.start();
 
         TFM_Log.info("Version " + pluginVersion + " for " + TFM_ServerInterface.COMPILE_NMS_VERSION + " enabled");
 
@@ -180,8 +180,8 @@ public class TotalFreedomMod extends JavaPlugin
             @Override
             public void run()
             {
-                TFM_CommandLoader.getInstance().scan();
-                TFM_CommandBlocker.getInstance().load();
+                TFM_CommandLoader.scan();
+                TFM_CommandBlocker.load();
             }
         }.runTaskLater(plugin, 20L);
     }
@@ -191,8 +191,8 @@ public class TotalFreedomMod extends JavaPlugin
     {
         server.getScheduler().cancelTasks(plugin);
 
-        TFM_HTTPD_Manager.getInstance().stop();
-        TFM_BanManager.getInstance().save();
+        TFM_HTTPD_Manager.stop();
+        TFM_BanManager.save();
 
         TFM_Log.info("Plugin disabled");
     }

@@ -31,10 +31,9 @@ public class TFM_Heartbeat extends BukkitRunnable
     {
         lastRan = System.currentTimeMillis();
 
-        final TFM_EssentialsBridge essentialsBridge = TFM_EssentialsBridge.getInstance();
         final boolean doAwayKickCheck =
                 TFM_ConfigEntry.AUTOKICK_ENABLED.getBoolean()
-                && essentialsBridge.isEssentialsEnabled()
+                && TFM_EssentialsBridge.isEssentialsEnabled()
                 && ((server.getOnlinePlayers().length / server.getMaxPlayers()) > TFM_ConfigEntry.AUTOKICK_THRESHOLD.getDouble());
 
         for (Player player : server.getOnlinePlayers())
@@ -46,7 +45,7 @@ public class TFM_Heartbeat extends BukkitRunnable
 
             if (doAwayKickCheck)
             {
-                final long lastActivity = essentialsBridge.getLastActivity(player.getName());
+                final long lastActivity = TFM_EssentialsBridge.getLastActivity(player.getName());
                 if (lastActivity > 0 && lastActivity + AUTO_KICK_TIME < System.currentTimeMillis())
                 {
                     player.kickPlayer("Automatically kicked by server for inactivity.");

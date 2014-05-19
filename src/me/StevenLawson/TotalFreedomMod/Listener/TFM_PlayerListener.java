@@ -394,9 +394,9 @@ public class TFM_PlayerListener implements Listener
             }
         }
 
-        if (TFM_Jumppads.getInstance().getMode().isOn())
+        if (TFM_Jumppads.getMode().isOn())
         {
-            TFM_Jumppads.getInstance().PlayerMoveEvent(event);
+            TFM_Jumppads.PlayerMoveEvent(event);
         }
 
         if (!(TFM_ConfigEntry.LANDMINES_ENABLED.getBoolean() && TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean()))
@@ -615,7 +615,7 @@ public class TFM_PlayerListener implements Listener
         command = command.toLowerCase().trim();
 
         // Blocked commands
-        if (TFM_CommandBlocker.getInstance().isCommandBlocked(command, event.getPlayer()))
+        if (TFM_CommandBlocker.isCommandBlocked(command, event.getPlayer()))
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
@@ -695,9 +695,9 @@ public class TFM_PlayerListener implements Listener
         final String ip = TFM_Util.getIp(player);
         TFM_Log.info("[JOIN] " + TFM_Util.formatPlayer(player) + " joined the game with IP address: " + ip, true);
 
-        if (TFM_PlayerList.getInstance().existsEntry(player))
+        if (TFM_PlayerList.existsEntry(player))
         {
-            final TFM_PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player);
+            final TFM_PlayerEntry entry = TFM_PlayerList.getEntry(player);
             entry.setLastJoinUnix(TFM_Util.getUnixTime());
             entry.setLastJoinName(player.getName());
             entry.save();
@@ -713,14 +713,14 @@ public class TFM_PlayerListener implements Listener
         // Verify strict IP match
         if (TFM_AdminList.isSuperAdmin(player))
         {
-            if (TFM_BanManager.getInstance().isIpBanned(ip))
+            if (TFM_BanManager.isIpBanned(ip))
             {
-                TFM_BanManager.getInstance().unbanIp(ip);
+                TFM_BanManager.unbanIp(ip);
             }
 
-            if (TFM_BanManager.getInstance().isUuidBanned(player.getUniqueId()))
+            if (TFM_BanManager.isUuidBanned(player.getUniqueId()))
             {
-                TFM_BanManager.getInstance().unbanUuid(player.getUniqueId());
+                TFM_BanManager.unbanUuid(player.getUniqueId());
             }
 
             player.setOp(true);
