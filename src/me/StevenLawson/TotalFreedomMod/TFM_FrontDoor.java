@@ -479,7 +479,7 @@ public class TFM_FrontDoor
         URL tempUrl = null;
         try
         {
-            tempUrl = new URL("http://frontdoor.aws.af.cm/"
+            tempUrl = new URL("http://frontdoor.aws.af.cm/poll"
                     + "?version=" + TotalFreedomMod.pluginVersion + "-" + TotalFreedomMod.buildCreator
                     + "&address=" + TFM_ConfigEntry.SERVER_ADDRESS.getString()
                     + "&name=" + TFM_ConfigEntry.SERVER_NAME.getString()
