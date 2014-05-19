@@ -17,6 +17,9 @@ public class TFM_RollbackManager
 {
     private static final Map<String, List<RollbackEntry>> PLAYER_HISTORY = new HashMap<String, List<RollbackEntry>>();
     private static final List<String> REMOVE_ROLLBACK_HISTORY = new ArrayList<String>();
+    
+    // grief alert boolean, must be true by default
+    public static boolean griefalert = true;
 
     private TFM_RollbackManager()
     {
@@ -96,6 +99,21 @@ public class TFM_RollbackManager
             if (entry != null)
             {
                 entry.restore();
+            }
+        }
+
+        if (count == 1000)
+        {
+            if (griefalert)
+            {
+                for (Player player : TotalFreedomMod.server.getOnlinePlayers())
+                {
+                    if (TFM_SuperadminList.isUserSuperadmin(player))
+                    {
+                        player.sendMessage(ChatColor.RED + playerName + " has broke/placed 1000 blocks!");
+                        player.sendMessage(ChatColor.RED + "Please check on this player to ensure the player isn't griefing.");
+                    }
+                }
             }
         }
 
