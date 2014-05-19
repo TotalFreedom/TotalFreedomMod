@@ -84,6 +84,20 @@ blocked_commands:
   - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
+  - 'n:b:/vanish:_'
+  - 'n:b:/broadcast:_'
+  - 'n:b:/unbanip:_'
+  - 'n:b:/jail:_'
+  - 'n:b:/unban:_'
+  - 'n:b:/essentials:_'
+  - 'n:b:/mail:_'
+  - 'n:b:/mute:_'
+  - 'n:b:/sudo:_'
+  - 'n:b:/thunder:_'
+  - 'n:b:/lightning:_'
+  - 'n:b:/tpall:_'
+  - 'n:b:/togglejail:_'
+  
 
   # Superadmin commands
   - 's:b:/kick:_'
