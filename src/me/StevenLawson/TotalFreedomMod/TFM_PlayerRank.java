@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import static me.StevenLawson.TotalFreedomMod.TFM_Util.DEVELOPERS;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -76,7 +77,7 @@ public enum TFM_PlayerRank
 
         if (entry != null && entry.isActivated())
         {
-            if (sender.getName().equals("markbyron"))
+            if (TFM_ConfigEntry.SERVER_OWNERS.getList().contains(sender.getName()))
             {
                 return OWNER;
             }
