@@ -62,7 +62,7 @@ public class Command_tag extends TFM_Command
                 return true;
             }
 
-            if ("remove".equals(args[0]))
+            if ("off".equals(args[0]))
             {
                 TFM_PlayerData.getPlayerData(sender_p).setTag(null);
                 playerMsg("Your tag has been removed.");
