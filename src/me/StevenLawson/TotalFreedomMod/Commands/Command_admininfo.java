@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "Shows you how to become a admin.", usage = "/<command>")
+@CommandParameters(description = "Shows you how to become a admin.", usage = "/<command>", aliases = "ai")
 public class Command_admininfo extends TFM_Command
 {
 
