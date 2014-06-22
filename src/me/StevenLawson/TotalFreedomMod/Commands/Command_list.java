@@ -15,13 +15,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a]", aliases = "who")
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i]", aliases = "who")
 public class Command_list extends TFM_Command
 {
     private static enum ListFilter
     {
         ALL,
-        ADMINS;
+        ADMINS,
+        IMPOSTORS;
     }
 
     @Override
@@ -43,7 +44,26 @@ public class Command_list extends TFM_Command
             return true;
         }
 
-        final Command_list.ListFilter listFilter = (args.length == 1 && args[0].equals("-a") ? Command_list.ListFilter.ADMINS : Command_list.ListFilter.ALL);
+        final ListFilter listFilter;
+        if (args.length == 1)
+        {
+            if ("-a".equals(args[0]))
+            {
+                listFilter = ListFilter.ADMINS;
+            }
+            else if ("-i".equals(args[0]))
+            {
+                listFilter = ListFilter.IMPOSTORS;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            listFilter = ListFilter.ALL;
+        }
 
         final StringBuilder onlineStats = new StringBuilder();
         final StringBuilder onlineUsers = new StringBuilder();
@@ -55,9 +75,12 @@ public class Command_list extends TFM_Command
         final List<String> names = new ArrayList<String>();
         for (Player player : server.getOnlinePlayers())
         {
-            final boolean userSuperadmin = TFM_AdminList.isSuperAdmin(player);
+            if (listFilter == ListFilter.ADMINS && !TFM_AdminList.isSuperAdmin(player))
+            {
+                continue;
+            }
 
-            if (listFilter == Command_list.ListFilter.ADMINS && !userSuperadmin)
+            if (listFilter == ListFilter.IMPOSTORS && !TFM_AdminList.isAdminImpostor(player))
             {
                 continue;
             }
