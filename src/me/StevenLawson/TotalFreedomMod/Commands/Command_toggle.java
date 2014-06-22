@@ -69,8 +69,8 @@ public class Command_toggle extends TFM_Command
 
         if (args[0].equals("firespread"))
         {
-            TFM_GameRuleHandler.setGameRule(TFM_GameRule.DO_FIRE_TICK, TFM_ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean());
             toggle("Fire spread is", TFM_ConfigEntry.ALLOW_FIRE_SPREAD);
+            TFM_GameRuleHandler.setGameRule(TFM_GameRule.DO_FIRE_TICK, TFM_ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean());
             return true;
         }
 
@@ -187,7 +187,6 @@ public class Command_toggle extends TFM_Command
 
     private void toggle(String name, TFM_ConfigEntry entry)
     {
-        entry.setBoolean(!entry.getBoolean());
         playerMsg(name + " now " + (entry.setBoolean(!entry.getBoolean()) ? "enabled." : "disabled."));
     }
 }
