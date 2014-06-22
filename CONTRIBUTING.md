@@ -32,7 +32,7 @@ For those who wish to contribute, we encourage you to fork the repository and su
 * Do not add yourself to the developer list.
 * Ensure that you use the correct whitespace-style. That is: 4 spaces as indentation.
 * Please make sure your changes are written such as other features would be. Eg: commands have their own class and extend TFM_Command.
-* __Make sure your code is written in the [Allman style](http://en.wikipedia.org/wiki/Indent_style#Allman_style).__
+* __Make sure your code is written in the [Allman style](http://en.wikipedia.org/wiki/Indent_style#Allman_style), and that it follows [Java Code Conventions](http://www.oracle.com/technetwork/java/codeconventions-150003.pdf).__
 * Do not increment the version number.
 * If you want to add multiple changes, please make one pull request per change. This way, it's easier to accept your changes faster and won't block the other changes if there is an issue with a specific line of code.
 * Please make sure there are no bugs in your code.
