@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -166,6 +167,17 @@ public class Command_saconfig extends TFM_Command
 
             TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list", true);
             TFM_AdminList.addSuperadmin(player);
+
+            if (player.isOnline())
+            {
+                final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData((Player) player);
+
+                if (playerdata.isFrozen())
+                {
+                    playerdata.setFrozen(false);
+                    TFM_Util.playerMsg((Player) player, "You have been unfrozen.");
+                }
+            }
 
             return true;
         }
