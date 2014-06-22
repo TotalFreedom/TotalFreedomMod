@@ -741,6 +741,7 @@ public class TFM_PlayerListener implements Listener
             player.getInventory().clear();
             player.setOp(false);
             player.setGameMode(GameMode.SURVIVAL);
+            TFM_PlayerData.getPlayerData().setFrozen(true);
         }
         else if (TFM_AdminList.isSuperAdmin(player) || TFM_Util.DEVELOPERS.contains(player.getName()))
         {
