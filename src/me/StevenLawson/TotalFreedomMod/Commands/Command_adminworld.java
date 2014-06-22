@@ -15,7 +15,7 @@ public class Command_adminworld extends TFM_Command
 {
     private enum CommandMode
     {
-        TELEPORT, GUEST, TIME, WEATHER
+        TELEPORT, GUEST, TIME, WEATHER;
     }
 
     @Override
@@ -222,7 +222,9 @@ public class Command_adminworld extends TFM_Command
 
     private class PermissionDeniedException extends Exception
     {
-        public PermissionDeniedException(String string)
+        private static final long serialVersionUID = 1L;
+
+        private PermissionDeniedException(String string)
         {
             super(string);
         }
