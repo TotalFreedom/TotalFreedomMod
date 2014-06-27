@@ -130,26 +130,32 @@ public class TFM_WorldEditBridge
         try
         {
             final LocalSession session = getPlayerSession(player);
-            if (session != null)
+
+            if (session == null)
             {
-                final World selectionWorld = session.getSelectionWorld();
-                final Region selection = session.getSelection(selectionWorld);
-                if (TFM_ProtectedArea.isInProtectedArea(
-                        getBukkitVector(selection.getMinimumPoint()),
-                        getBukkitVector(selection.getMaximumPoint()),
-                        selectionWorld.getName()))
-                {
-                    new BukkitRunnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            player.sendMessage(ChatColor.RED + "The region that you selected contained a protected area. Selection cleared.");
-                            session.getRegionSelector(selectionWorld).clear();
-                        }
-                    }.runTaskLater(TotalFreedomMod.plugin, 1L);
-                }
+                return;
             }
+
+            final World selectionWorld = session.getSelectionWorld();
+            final Region selection = session.getSelection(selectionWorld);
+
+            if (TFM_ProtectedArea.isInProtectedArea(
+                    getBukkitVector(selection.getMinimumPoint()),
+                    getBukkitVector(selection.getMaximumPoint()),
+                    selectionWorld.getName()))
+            {
+                new BukkitRunnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        player.sendMessage(ChatColor.RED + "The region that you selected contained a protected area. Selection cleared.");
+                        session.getRegionSelector(selectionWorld).clear();
+                    }
+                }.runTask(TotalFreedomMod.plugin);
+            }
+
+
         }
         catch (IncompleteRegionException ex)
         {

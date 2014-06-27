@@ -246,13 +246,13 @@ public class TFM_AdminList
 
         config.set("clean_threshold_hours", cleanThreshold);
 
-        Iterator<Entry<UUID, TFM_Admin>> it = adminList.entrySet().iterator();
+        final Iterator<Entry<UUID, TFM_Admin>> it = adminList.entrySet().iterator();
         while (it.hasNext())
         {
-            Entry<UUID, TFM_Admin> pair = it.next();
+            final Entry<UUID, TFM_Admin> pair = it.next();
 
-            UUID uuid = pair.getKey();
-            TFM_Admin superadmin = pair.getValue();
+            final UUID uuid = pair.getKey();
+            final TFM_Admin superadmin = pair.getValue();
 
             config.set("admins." + uuid + ".last_login_name", superadmin.getLastLoginName());
             config.set("admins." + uuid + ".is_activated", superadmin.isActivated());

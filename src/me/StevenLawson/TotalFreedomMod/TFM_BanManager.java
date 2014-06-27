@@ -271,11 +271,13 @@ public class TFM_BanManager
     public void purgeIpBans()
     {
         ipBans.clear();
+        save();
     }
 
     public void purgeUuidBans()
     {
         uuidBans.clear();
+        save();
     }
 
     public static TFM_BanManager getInstance()

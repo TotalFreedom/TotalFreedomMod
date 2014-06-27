@@ -27,19 +27,12 @@ public class TFM_TelnetListener implements Listener
 
         if (admin == null || !admin.isTelnetAdmin())
         {
+            event.setCancelled(true);
             return;
         }
 
         event.setBypassPassword(true);
         event.setName(admin.getLastLoginName());
-
-        final OfflinePlayer player = Bukkit.getOfflinePlayer(admin.getLastLoginName());
-        if (player == null)
-        {
-            return;
-        }
-
-        event.setName(player.getName());
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
