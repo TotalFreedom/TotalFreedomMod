@@ -1,6 +1,6 @@
 #
 # TotalFreedomMod banning config
-# Warning: modification of this file is not recomended
+# Warning: modification of this file is not recommended
 #
 # Format:
 # Ip: [IP-address / UUID]:[Last login name]:[Expiry unix timestamp (0 = never)][Banned by]:[Reason]

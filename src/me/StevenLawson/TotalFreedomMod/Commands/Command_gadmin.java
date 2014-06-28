@@ -25,7 +25,7 @@ public class Command_gadmin extends TFM_Command
             return false;
         }
 
-        String mode = args[0].toLowerCase();
+        final String mode = args[0].toLowerCase();
 
         if (mode.equals("list"))
         {
@@ -42,7 +42,14 @@ public class Command_gadmin extends TFM_Command
                         ChatColor.stripColor(player.getDisplayName()),
                         hash));
             }
-            else if (hash.equalsIgnoreCase(args[1]))
+
+            if (args.length < 2)
+            {
+                return false;
+            }
+
+
+            if (hash.equalsIgnoreCase(args[1]))
             {
                 if (mode.equals("kick"))
                 {
