@@ -98,6 +98,7 @@ blocked_commands:
   - 's:b://butcher:_'
   - 's:b:/scoreboard:_'
   - 's:b:/setspawn:_'
+  - 's:b://snow'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop'
