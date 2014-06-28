@@ -25,19 +25,20 @@ import org.bukkit.plugin.Plugin;
 public class TFM_CommandLoader
 {
     public static final Pattern COMMAND_PATTERN;
-    private final List<TFM_CommandInfo> commandList;
+    private static final List<TFM_CommandInfo> COMMAND_LIST;
 
     static
     {
         COMMAND_PATTERN = Pattern.compile(TFM_CommandHandler.COMMAND_PATH.replace('.', '/') + "/(" + TFM_CommandHandler.COMMAND_PREFIX + "[^\\$]+)\\.class");
+        COMMAND_LIST = new ArrayList<TFM_CommandInfo>();
     }
 
     private TFM_CommandLoader()
     {
-        commandList = new ArrayList<TFM_CommandInfo>();
+        throw new AssertionError();
     }
 
-    public void scan()
+    public static void scan()
     {
         CommandMap commandMap = getCommandMap();
         if (commandMap == null)
@@ -45,10 +46,10 @@ public class TFM_CommandLoader
             TFM_Log.severe("Error loading commandMap.");
             return;
         }
-        commandList.clear();
-        commandList.addAll(getCommands());
+        COMMAND_LIST.clear();
+        COMMAND_LIST.addAll(getCommands());
 
-        for (TFM_CommandInfo commandInfo : commandList)
+        for (TFM_CommandInfo commandInfo : COMMAND_LIST)
         {
             TFM_DynamicCommand dynamicCommand = new TFM_DynamicCommand(commandInfo);
 
@@ -64,7 +65,7 @@ public class TFM_CommandLoader
         TFM_Log.info("TFM commands loaded.");
     }
 
-    public void unregisterCommand(String commandName)
+    public static void unregisterCommand(String commandName)
     {
         CommandMap commandMap = getCommandMap();
         if (commandMap != null)
@@ -77,7 +78,7 @@ public class TFM_CommandLoader
         }
     }
 
-    public void unregisterCommand(Command command, CommandMap commandMap)
+    public static void unregisterCommand(Command command, CommandMap commandMap)
     {
         try
         {
@@ -99,9 +100,9 @@ public class TFM_CommandLoader
     }
 
     @SuppressWarnings("unchecked")
-    public CommandMap getCommandMap()
+    public static CommandMap getCommandMap()
     {
-        Object commandMap = TFM_Util.getField(Bukkit.getServer().getPluginManager(), "commandMap");
+        final Object commandMap = TFM_Util.getField(Bukkit.getServer().getPluginManager(), "commandMap");
         if (commandMap != null)
         {
             if (commandMap instanceof CommandMap)
@@ -113,7 +114,7 @@ public class TFM_CommandLoader
     }
 
     @SuppressWarnings("unchecked")
-    public HashMap<String, Command> getKnownCommands(CommandMap commandMap)
+    public static HashMap<String, Command> getKnownCommands(CommandMap commandMap)
     {
         Object knownCommands = TFM_Util.getField(commandMap, "knownCommands");
         if (knownCommands != null)
@@ -280,7 +281,7 @@ public class TFM_CommandLoader
         }
     }
 
-    public class TFM_DynamicCommand extends Command implements PluginIdentifiableCommand
+    public static class TFM_DynamicCommand extends Command implements PluginIdentifiableCommand
     {
         private final TFM_CommandInfo commandInfo;
 
@@ -331,15 +332,5 @@ public class TFM_CommandLoader
         {
             return commandInfo;
         }
-    }
-
-    public static TFM_CommandLoader getInstance()
-    {
-        return TFM_CommandScannerHolder.INSTANCE;
-    }
-
-    private static class TFM_CommandScannerHolder
-    {
-        private static final TFM_CommandLoader INSTANCE = new TFM_CommandLoader();
     }
 }

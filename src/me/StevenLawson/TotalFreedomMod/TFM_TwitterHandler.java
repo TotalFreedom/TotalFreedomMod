@@ -12,14 +12,15 @@ public class TFM_TwitterHandler
 {
     private TFM_TwitterHandler()
     {
+        throw new AssertionError();
     }
 
-    public String getTwitter(String player)
+    public static String getTwitter(String player)
     {
         return request("action=gettwitter&player=" + player);
     }
 
-    public String setTwitter(String player, String twitter)
+    public static String setTwitter(String player, String twitter)
     {
         if (twitter.startsWith("@"))
         {
@@ -28,12 +29,12 @@ public class TFM_TwitterHandler
         return request("action=settwitter&player=" + player + "&twitter=" + twitter);
     }
 
-    public String delTwitter(String player)
+    public static String delTwitter(String player)
     {
         return request("action=deltwitter&player=" + player);
     }
 
-    public void delTwitterVerbose(String targetName, CommandSender sender)
+    public static void delTwitterVerbose(String targetName, CommandSender sender)
     {
         final String reply = delTwitter(targetName);
         if ("ok".equals(reply))
@@ -66,17 +67,17 @@ public class TFM_TwitterHandler
         }
     }
 
-    public String isEnabled()
+    public static String isEnabled()
     {
         return request("action=getstatus");
     }
 
-    public String setEnabled(String status)
+    public static String setEnabled(String status)
     {
         return request("action=setstatus&status=" + status);
     }
 
-    private String request(String queryString)
+    private static String request(String queryString)
     {
         String line = "failed";
 
@@ -101,10 +102,5 @@ public class TFM_TwitterHandler
         }
 
         return line;
-    }
-
-    public static TFM_TwitterHandler getInstance()
-    {
-        return new TFM_TwitterHandler();
     }
 }

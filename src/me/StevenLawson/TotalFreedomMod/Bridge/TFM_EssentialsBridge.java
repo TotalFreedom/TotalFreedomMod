@@ -9,15 +9,16 @@ import org.bukkit.plugin.Plugin;
 
 public class TFM_EssentialsBridge
 {
-    private Essentials essentialsPlugin = null;
+    private static Essentials essentialsPlugin = null;
 
     private TFM_EssentialsBridge()
     {
+        throw new AssertionError();
     }
 
-    public Essentials getEssentialsPlugin()
+    public static Essentials getEssentialsPlugin()
     {
-        if (this.essentialsPlugin == null)
+        if (essentialsPlugin == null)
         {
             try
             {
@@ -26,7 +27,7 @@ public class TFM_EssentialsBridge
                 {
                     if (essentials instanceof Essentials)
                     {
-                        this.essentialsPlugin = (Essentials) essentials;
+                        essentialsPlugin = (Essentials) essentials;
                     }
                 }
             }
@@ -35,10 +36,10 @@ public class TFM_EssentialsBridge
                 TFM_Log.severe(ex);
             }
         }
-        return this.essentialsPlugin;
+        return essentialsPlugin;
     }
 
-    public User getEssentialsUser(String username)
+    public static User getEssentialsUser(String username)
     {
         try
         {
@@ -55,7 +56,7 @@ public class TFM_EssentialsBridge
         return null;
     }
 
-    public void setNickname(String username, String nickname)
+    public static void setNickname(String username, String nickname)
     {
         try
         {
@@ -72,7 +73,7 @@ public class TFM_EssentialsBridge
         }
     }
 
-    public long getLastActivity(String username)
+    public static long getLastActivity(String username)
     {
         try
         {
@@ -89,7 +90,7 @@ public class TFM_EssentialsBridge
         return 0L;
     }
 
-    public boolean isEssentialsEnabled()
+    public static boolean isEssentialsEnabled()
     {
         try
         {
@@ -104,15 +105,5 @@ public class TFM_EssentialsBridge
             TFM_Log.severe(ex);
         }
         return false;
-    }
-
-    public static TFM_EssentialsBridge getInstance()
-    {
-        return TFM_EssentialsBridgeHolder.INSTANCE;
-    }
-
-    private static class TFM_EssentialsBridgeHolder
-    {
-        private static final TFM_EssentialsBridge INSTANCE = new TFM_EssentialsBridge();
     }
 }

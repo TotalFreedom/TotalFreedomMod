@@ -20,13 +20,21 @@ import org.json.simple.JSONValue;
 
 public class TFM_ServiceChecker
 {
-    public final Map<String, ServiceStatus> services = new HashMap<String, ServiceStatus>();
-    private URL url;
-    private String lastCheck = "Unknown";
-    private String version = "1.0-Mojang";
+    public static final Map<String, ServiceStatus> services;
+    private static URL url;
+    private static String lastCheck;
+    private static String version;
 
-    public TFM_ServiceChecker()
+    private TFM_ServiceChecker()
     {
+        throw new AssertionError();
+    }
+
+    static
+    {
+        lastCheck = "Unknown";
+        version = "1.0-Mojang";
+        services = new HashMap<String, ServiceStatus>();
         services.put("minecraft.net", new ServiceStatus("Minecraft.net"));
         services.put("account.mojang.com", new ServiceStatus("Mojang Account Website"));
         services.put("authserver.mojang.com", new ServiceStatus("Mojang Authentication"));
@@ -36,7 +44,7 @@ public class TFM_ServiceChecker
         services.put("session.minecraft.net", new ServiceStatus("Minecraft Sessions (Legacy)"));
     }
 
-    public void start()
+    public static void start()
     {
         final String serviceCheckerURL = TFM_ConfigEntry.SERVICE_CHECKER_URL.getString();
 
@@ -58,7 +66,7 @@ public class TFM_ServiceChecker
         getUpdateRunnable().runTaskTimerAsynchronously(TotalFreedomMod.plugin, 40L, TotalFreedomMod.SERVICE_CHECKER_RATE * 20L);
     }
 
-    public BukkitRunnable getUpdateRunnable()
+    public static BukkitRunnable getUpdateRunnable()
     {
         return new BukkitRunnable()
         {
@@ -132,7 +140,7 @@ public class TFM_ServiceChecker
         };
     }
 
-    public List<ServiceStatus> getAllStatuses()
+    public static List<ServiceStatus> getAllStatuses()
     {
         List<ServiceStatus> servicesList = new ArrayList<ServiceStatus>();
         for (String key : services.keySet())
@@ -142,24 +150,14 @@ public class TFM_ServiceChecker
         return servicesList;
     }
 
-    public String getLastCheck()
+    public static String getLastCheck()
     {
         return lastCheck;
     }
 
-    public String getVersion()
+    public static String getVersion()
     {
         return version;
-    }
-
-    public static TFM_ServiceChecker getInstance()
-    {
-        return TFM_ServiceCheckerHolder.INSTANCE;
-    }
-
-    private static class TFM_ServiceCheckerHolder
-    {
-        private static final TFM_ServiceChecker INSTANCE = new TFM_ServiceChecker();
     }
 
     public static class ServiceStatus
@@ -208,7 +206,7 @@ public class TFM_ServiceChecker
         {
             String status = ChatColor.BLUE + "- " + ChatColor.GRAY + name + ChatColor.WHITE + ": " + color + message + ChatColor.WHITE;
 
-            if (!TFM_ServiceChecker.getInstance().version.contains("Mojang"))
+            if (!TFM_ServiceChecker.version.contains("Mojang"))
             {
                 status += " (" + getUptimeColor() + getUptime() + ChatColor.WHITE + "%)";
             }

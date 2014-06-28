@@ -37,7 +37,7 @@ public class TFM_TelnetListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onTelnetCommand(TelnetCommandEvent event)
     {
-        if (TFM_CommandBlocker.getInstance().isCommandBlocked(event.getCommand(), event.getSender()))
+        if (TFM_CommandBlocker.isCommandBlocked(event.getCommand(), event.getSender()))
         {
             event.setCancelled(true);
         }

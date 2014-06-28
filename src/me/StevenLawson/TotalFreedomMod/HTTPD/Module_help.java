@@ -32,8 +32,8 @@ public class Module_help extends TFM_HTTPD_Module
 
         CommandMap commandMap;
         HashMap<String, Command> knownCommands;
-        if ((commandMap = TFM_CommandLoader.getInstance().getCommandMap()) == null
-                || (knownCommands = TFM_CommandLoader.getInstance().getKnownCommands(commandMap)) == null)
+        if ((commandMap = TFM_CommandLoader.getCommandMap()) == null
+                || (knownCommands = TFM_CommandLoader.getKnownCommands(commandMap)) == null)
         {
             return paragraph("Error loading commands.");
         }

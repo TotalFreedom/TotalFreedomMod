@@ -27,8 +27,6 @@ public class Command_twitter extends TFM_Command
             return false;
         }
 
-        TFM_TwitterHandler twitterbot = TFM_TwitterHandler.getInstance();
-
         if ("set".equals(args[0]))
         {
             if (args.length != 2)
@@ -42,7 +40,7 @@ public class Command_twitter extends TFM_Command
                 return true;
             }
 
-            String reply = twitterbot.setTwitter(sender.getName(), args[1]);
+            String reply = TFM_TwitterHandler.setTwitter(sender.getName(), args[1]);
 
             if ("ok".equals(reply))
             {
@@ -79,7 +77,7 @@ public class Command_twitter extends TFM_Command
 
         if ("info".equals(args[0]))
         {
-            String reply = twitterbot.getTwitter(sender.getName());
+            String reply = TFM_TwitterHandler.getTwitter(sender.getName());
             TFM_Util.playerMsg(sender, "-- Twitter Information --", ChatColor.BLUE);
             TFM_Util.playerMsg(sender, "Using this feature, you can re-super yourself using twitter.");
             TFM_Util.playerMsg(sender, "You can set your twitter handle using " + ChatColor.AQUA + "/twitter set [twittername]");
@@ -120,7 +118,7 @@ public class Command_twitter extends TFM_Command
             }
 
             TFM_Util.adminAction(sender.getName(), ("enable".equals(args[0]) ? "Ena" : "Disa") + "bling Twitterbot", true);
-            String reply = twitterbot.setEnabled(args[0] + "d");
+            String reply = TFM_TwitterHandler.setEnabled(args[0] + "d");
             TFM_Util.playerMsg(sender, "Reply: " + reply);
             return true;
         }

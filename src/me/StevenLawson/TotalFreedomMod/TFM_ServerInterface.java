@@ -66,7 +66,6 @@ public class TFM_ServerInterface
     public static void handlePlayerLogin(PlayerLoginEvent event)
     {
         final Server server = TotalFreedomMod.server;
-        final TFM_BanManager banManager = TFM_BanManager.getInstance();
 
         final Player player = event.getPlayer();
 
@@ -102,9 +101,9 @@ public class TFM_ServerInterface
         if (!isAdmin) // If the player is not an admin
         {
             // UUID bans
-            if (banManager.isUuidBanned(uuid))
+            if (TFM_BanManager.isUuidBanned(uuid))
             {
-                final TFM_Ban ban = banManager.getByUuid(uuid);
+                final TFM_Ban ban = TFM_BanManager.getByUuid(uuid);
 
                 String kickMessage = ChatColor.RED + "You are temporarily banned from this server."
                         + "\nAppeal at " + ChatColor.GOLD + TFM_ConfigEntry.SERVER_BAN_URL.getString();
@@ -123,9 +122,9 @@ public class TFM_ServerInterface
                 return;
             }
 
-            if (banManager.isIpBanned(ip))
+            if (TFM_BanManager.isIpBanned(ip))
             {
-                final TFM_Ban ban = banManager.getByIp(ip);
+                final TFM_Ban ban = TFM_BanManager.getByIp(ip);
 
                 String kickMessage = ChatColor.RED + "Your IP address is temporarily banned from this server."
                         + "\nAppeal at " + ChatColor.GOLD + TFM_ConfigEntry.SERVER_BAN_URL.getString();

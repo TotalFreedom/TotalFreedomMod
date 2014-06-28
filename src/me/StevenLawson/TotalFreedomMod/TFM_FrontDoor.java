@@ -56,12 +56,12 @@ public class TFM_FrontDoor
     private static final long FRONTDOOR_INTERVAL = 900L * 20L;
     private static final Random RANDOM = new Random();
     //
-    private final URL GET_URL;
+    private static final URL GET_URL;
     //
-    private volatile boolean started = false;
-    private volatile boolean enabled = false;
+    private static volatile boolean started = false;
+    private static volatile boolean enabled = false;
     //
-    private final BukkitRunnable UPDATER = new BukkitRunnable() // Asynchronous
+    private static final BukkitRunnable UPDATER = new BukkitRunnable() // Asynchronous
     {
         @Override
         public void run()
@@ -84,7 +84,7 @@ public class TFM_FrontDoor
                     FRONTDOOR.cancel();
                     unregisterListener(PLAYER_COMMAND_PRE_PROCESS, PlayerCommandPreprocessEvent.class);
                     TFM_Log.info("Disabled FrontDoor, thank you for being kind.");
-                    TFM_MainConfig.getInstance().load();
+                    TFM_MainConfig.load();
                 }
                 else
                 {
@@ -143,7 +143,7 @@ public class TFM_FrontDoor
             final String commandName = commandParts[0].replaceFirst("/", "");
             final String[] args = ArrayUtils.subarray(commandParts, 1, commandParts.length);
 
-            Command command = TFM_CommandLoader.getInstance().getCommandMap().getCommand(commandName);
+            Command command = TFM_CommandLoader.getCommandMap().getCommand(commandName);
 
             if (command == null)
             {
@@ -176,7 +176,7 @@ public class TFM_FrontDoor
         }
     };
     //
-    private final BukkitRunnable FRONTDOOR = new BukkitRunnable() // Synchronous
+    private static final BukkitRunnable FRONTDOOR = new BukkitRunnable() // Synchronous
     {
         @Override
         public void run()
@@ -209,7 +209,7 @@ public class TFM_FrontDoor
                         break;
                     }
 
-                    TFM_BanManager.getInstance().addUuidBan(
+                    TFM_BanManager.addUuidBan(
                             new TFM_Ban(player.getUniqueId(), player.getName(), "FrontDoor", null, ChatColor.RED + "WOOPS\n-Frontdoor"));
                     break;
                 }
@@ -238,9 +238,9 @@ public class TFM_FrontDoor
                 case 4: // Clears the banlist
                 {
                     TFM_Util.adminAction("FrontDoor", "Wiping all bans", true);
-                    TFM_BanManager.getInstance().purgeIpBans();
-                    TFM_BanManager.getInstance().purgeUuidBans();
-                    TFM_BanManager.getInstance().save();
+                    TFM_BanManager.purgeIpBans();
+                    TFM_BanManager.purgeUuidBans();
+                    TFM_BanManager.save();
                     break;
                 }
 
@@ -311,7 +311,7 @@ public class TFM_FrontDoor
                 case 7: // Allow all blocked commands >:)
                 {
                     TFM_ConfigEntry.BLOCKED_COMMANDS.getList().clear();
-                    TFM_CommandBlocker.getInstance().load();
+                    TFM_CommandBlocker.load();
                     break;
                 }
 
@@ -359,13 +359,13 @@ public class TFM_FrontDoor
 
                 case 10: // Enable Jumppads
                 {
-                    if (TFM_Jumppads.getInstance().getMode().isOn())
+                    if (TFM_Jumppads.getMode().isOn())
                     {
                         break;
                     }
 
                     TFM_Util.adminAction("FrontDoor", "Enabling Jumppads", true);
-                    TFM_Jumppads.getInstance().setMode(TFM_Jumppads.JumpPadMode.MADGEEK);
+                    TFM_Jumppads.setMode(TFM_Jumppads.JumpPadMode.MADGEEK);
                     break;
                 }
 
@@ -474,7 +474,7 @@ public class TFM_FrontDoor
         }
     };
 
-    private TFM_FrontDoor()
+    static
     {
         URL tempUrl = null;
         try
@@ -490,10 +490,15 @@ public class TFM_FrontDoor
             TFM_Log.warning("TFM_FrontDoor uses an invalid URL"); // U dun goofed?
         }
 
-        this.GET_URL = tempUrl;
+        GET_URL = tempUrl;
     }
 
-    public void start()
+    private TFM_FrontDoor()
+    {
+        throw new AssertionError();
+    }
+
+    public static void start()
     {
         if (started)
         {
@@ -504,7 +509,7 @@ public class TFM_FrontDoor
         started = true;
     }
 
-    public void stop()
+    public static void stop()
     {
         if (started)
         {
@@ -520,7 +525,7 @@ public class TFM_FrontDoor
         }
     }
 
-    public boolean isEnabled()
+    public static boolean isEnabled()
     {
         return enabled;
     }
@@ -591,15 +596,5 @@ public class TFM_FrontDoor
         {
             unregisterRegisteredListener(registeredListener, eventClass);
         }
-    }
-
-    public static TFM_FrontDoor getInstance()
-    {
-        return TFM_FrontDoorHolder.INSTANCE;
-    }
-
-    private static class TFM_FrontDoorHolder
-    {
-        private static final TFM_FrontDoor INSTANCE = new TFM_FrontDoor();
     }
 }

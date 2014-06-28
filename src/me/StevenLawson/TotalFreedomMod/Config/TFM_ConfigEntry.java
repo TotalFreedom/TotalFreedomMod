@@ -96,51 +96,51 @@ public enum TFM_ConfigEntry
 
     public String getString()
     {
-        return TFM_MainConfig.getInstance().getString(this);
+        return TFM_MainConfig.getString(this);
     }
 
     public String setString(String value)
     {
-        TFM_MainConfig.getInstance().setString(this, value);
+        TFM_MainConfig.setString(this, value);
         return value;
     }
 
     public Double getDouble()
     {
-        return TFM_MainConfig.getInstance().getDouble(this);
+        return TFM_MainConfig.getDouble(this);
     }
 
     public Double setDouble(Double value)
     {
-        TFM_MainConfig.getInstance().setDouble(this, value);
+        TFM_MainConfig.setDouble(this, value);
         return value;
     }
 
     public Boolean getBoolean()
     {
-        return TFM_MainConfig.getInstance().getBoolean(this);
+        return TFM_MainConfig.getBoolean(this);
     }
 
     public Boolean setBoolean(Boolean value)
     {
-        TFM_MainConfig.getInstance().setBoolean(this, value);
+        TFM_MainConfig.setBoolean(this, value);
         return value;
     }
 
     public Integer getInteger()
     {
-        return TFM_MainConfig.getInstance().getInteger(this);
+        return TFM_MainConfig.getInteger(this);
     }
 
     public Integer setInteger(Integer value)
     {
-        TFM_MainConfig.getInstance().setInteger(this, value);
+        TFM_MainConfig.setInteger(this, value);
         return value;
     }
 
     public List<?> getList()
     {
-        return TFM_MainConfig.getInstance().getList(this);
+        return TFM_MainConfig.getList(this);
     }
 
     public static TFM_ConfigEntry findConfigEntry(String name)

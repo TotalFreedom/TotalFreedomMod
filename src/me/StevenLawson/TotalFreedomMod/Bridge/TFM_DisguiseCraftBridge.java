@@ -10,6 +10,7 @@ public class TFM_DisguiseCraftBridge
 {
     private TFM_DisguiseCraftBridge()
     {
+        throw new AssertionError();
     }
 
     public static boolean undisguisePlayer(Player player)

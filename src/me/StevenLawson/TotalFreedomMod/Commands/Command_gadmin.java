@@ -58,7 +58,7 @@ public class Command_gadmin extends TFM_Command
                 }
                 else if (mode.equals("nameban"))
                 {
-                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
+                    TFM_BanManager.addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
                     TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s.", player.getName()), true);
                     player.kickPlayer("Username banned by Administrator.");
                 }
@@ -71,7 +71,7 @@ public class Command_gadmin extends TFM_Command
                         ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
                     TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", player.getName(), ip), true);
-                    TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName()));
+                    TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName()));
                     player.kickPlayer("IP address banned by Administrator.");
                 }
                 else if (mode.equals("ban"))
@@ -83,8 +83,8 @@ public class Command_gadmin extends TFM_Command
                         ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
                     TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", player.getName(), ip), true);
-                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
-                    TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName()));
+                    TFM_BanManager.addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
+                    TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName()));
                     player.kickPlayer("IP and username banned by Administrator.");
                 }
                 else if (mode.equals("op"))
