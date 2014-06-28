@@ -71,7 +71,7 @@ public class TFM_ServerInterface
         final Player player = event.getPlayer();
 
         final String username = player.getName();
-        final UUID uuid = player.getUniqueId();
+        final UUID uuid = TFM_Util.getUuid(player);
         final String ip = event.getAddress().getHostAddress().trim();
 
         if (username.length() < 3 || username.length() > 20)

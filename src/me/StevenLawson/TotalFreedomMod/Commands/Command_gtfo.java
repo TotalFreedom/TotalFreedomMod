@@ -82,7 +82,7 @@ public class Command_gtfo extends TFM_Command
         TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName(), sender.getName(), null, reason));
 
         // ban username:
-        TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName(), sender.getName(), null, reason));
+        TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), sender.getName(), null, reason));
 
         // kick Player:
         player.kickPlayer(ChatColor.RED + "GTFO" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));

@@ -5,6 +5,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_UuidResolver;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -59,7 +60,7 @@ public class Command_doom extends TFM_Command
         }
 
         // ban name
-        TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
+        TFM_BanManager.getInstance().addUuidBan(player);
 
         // set gamemode to survival
         player.setGameMode(GameMode.SURVIVAL);

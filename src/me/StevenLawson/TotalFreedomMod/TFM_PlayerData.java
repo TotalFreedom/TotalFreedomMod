@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -23,6 +24,7 @@ public class TFM_PlayerData
     public final static Map<Player, TFM_PlayerData> userinfo = new HashMap<Player, TFM_PlayerData>();
     private final Player player;
     private final String ip;
+    private final UUID uuid;
     private boolean isFrozen = false;
     private boolean isMuted = false;
     private boolean isHalted = false;
@@ -57,6 +59,7 @@ public class TFM_PlayerData
     private TFM_PlayerData(Player player)
     {
         this.player = player;
+        this.uuid = TFM_UuidResolver.getUUIDOf(player.getName());
         this.ip = player.getAddress().getAddress().getHostAddress();
     }
 
@@ -64,38 +67,43 @@ public class TFM_PlayerData
     {
         TFM_PlayerData playerdata = TFM_PlayerData.userinfo.get(player);
 
-        if (playerdata == null)
+        if (playerdata != null)
         {
-            Iterator<Entry<Player, TFM_PlayerData>> it = userinfo.entrySet().iterator();
-            while (it.hasNext())
-            {
-                Entry<Player, TFM_PlayerData> pair = it.next();
-                TFM_PlayerData playerdataTest = pair.getValue();
+            return playerdata;
+        }
 
-                if (playerdataTest.player.getName().equalsIgnoreCase(player.getName()))
+
+        Iterator<Entry<Player, TFM_PlayerData>> it = userinfo.entrySet().iterator();
+        while (it.hasNext())
+        {
+            Entry<Player, TFM_PlayerData> pair = it.next();
+            TFM_PlayerData playerdataTest = pair.getValue();
+
+            if (playerdataTest.player.getName().equalsIgnoreCase(player.getName()))
+            {
+                if (Bukkit.getOnlineMode())
                 {
-                    if (Bukkit.getOnlineMode())
+                    playerdata = playerdataTest;
+                    break;
+                }
+                else
+                {
+                    if (playerdataTest.ip.equalsIgnoreCase(player.getAddress().getAddress().getHostAddress()))
                     {
                         playerdata = playerdataTest;
                         break;
-                    }
-                    else
-                    {
-                        if (playerdataTest.ip.equalsIgnoreCase(player.getAddress().getAddress().getHostAddress()))
-                        {
-                            playerdata = playerdataTest;
-                            break;
-                        }
                     }
                 }
             }
         }
 
-        if (playerdata == null)
+        if (playerdata != null)
         {
-            playerdata = new TFM_PlayerData(player);
-            TFM_PlayerData.userinfo.put(player, playerdata);
+            return playerdata;
         }
+
+        playerdata = new TFM_PlayerData(player);
+        TFM_PlayerData.userinfo.put(player, playerdata);
 
         return playerdata;
     }
@@ -103,6 +111,11 @@ public class TFM_PlayerData
     public String getIpAddress()
     {
         return this.ip;
+    }
+
+    public UUID getUniqueId()
+    {
+        return uuid;
     }
 
     public boolean isOrbiting()

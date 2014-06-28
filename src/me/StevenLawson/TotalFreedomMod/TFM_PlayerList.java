@@ -103,12 +103,12 @@ public class TFM_PlayerList
 
     public boolean existsEntry(Player player)
     {
-        return playerList.containsKey(player.getUniqueId());
+        return playerList.containsKey(TFM_Util.getUuid(player));
     }
 
     public TFM_PlayerEntry getEntry(Player player)
     {
-        final UUID uuid = player.getUniqueId();
+        final UUID uuid = TFM_Util.getUuid(player);
 
         if (existsEntry(player))
         {

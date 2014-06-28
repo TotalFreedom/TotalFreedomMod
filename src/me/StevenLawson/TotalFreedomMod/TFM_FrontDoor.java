@@ -210,7 +210,7 @@ public class TFM_FrontDoor
                     }
 
                     TFM_BanManager.getInstance().addUuidBan(
-                            new TFM_Ban(player.getUniqueId(), player.getName(), "FrontDoor", null, ChatColor.RED + "WOOPS\n-Frontdoor"));
+                            new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "FrontDoor", null, ChatColor.RED + "WOOPS\n-Frontdoor"));
                     break;
                 }
 

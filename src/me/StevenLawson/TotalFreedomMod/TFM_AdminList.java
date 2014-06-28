@@ -113,6 +113,38 @@ public class TFM_AdminList
         return Sets.newHashSet(adminList.values());
     }
 
+    public static void setUuid(TFM_Admin admin, UUID oldUuid, UUID newUuid)
+    {
+        if (!adminList.containsKey(oldUuid))
+        {
+            TFM_Log.warning("Could not set new UUID for admin " + admin.getLastLoginName() + ", admin is not loaded!");
+            return;
+        }
+
+        TFM_Admin newAdmin = new TFM_Admin(
+                newUuid,
+                admin.getLastLoginName(),
+                admin.getLastLogin(),
+                admin.getCustomLoginMessage(),
+                admin.isTelnetAdmin(),
+                admin.isSeniorAdmin(),
+                admin.isActivated());
+
+        for (String ip : admin.getIps())
+        {
+            newAdmin.addIps(admin.getIps());
+        }
+
+        adminList.remove(oldUuid);
+        adminList.put(newUuid, newAdmin);
+
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILE, true);
+
+        config.load();
+        config.set("admins." + oldUuid.toString(), null);
+        config.save();
+    }
+
     public static void load()
     {
         adminList.clear();
@@ -211,18 +243,16 @@ public class TFM_AdminList
 
         for (String admin : config.getConfigurationSection("superadmins").getKeys(false))
         {
-            final OfflinePlayer player = Bukkit.getOfflinePlayer(admin);
+            final UUID uuid = TFM_Util.getUuid(admin);
 
-            if (player == null || player.getUniqueId() == null)
+            if (uuid == null)
             {
                 errors++;
                 TFM_Log.warning("Could not convert admin " + admin + ", UUID could not be found!");
                 continue;
             }
 
-            final String uuid = player.getUniqueId().toString();
-
-            config.set("admins." + uuid + ".last_login_name", player.getName());
+            config.set("admins." + uuid + ".last_login_name", uuid);
             config.set("admins." + uuid + ".is_activated", section.getBoolean(admin + ".is_activated"));
             config.set("admins." + uuid + ".is_telnet_admin", section.getBoolean(admin + ".is_telnet_admin"));
             config.set("admins." + uuid + ".is_senior_admin", section.getBoolean(admin + ".is_senior_admin"));
@@ -270,17 +300,7 @@ public class TFM_AdminList
 
     public static TFM_Admin getEntry(Player player)
     {
-        final UUID uuid = player.getUniqueId();
-
-        if (Bukkit.getOnlineMode())
-        {
-            if (adminList.containsKey(uuid))
-            {
-                return adminList.get(uuid);
-            }
-        }
-
-        return getEntryByIp(TFM_Util.getIp(player));
+        return getEntry(TFM_Util.getUuid(player));
     }
 
     public static TFM_Admin getEntry(UUID uuid)
@@ -385,13 +405,15 @@ public class TFM_AdminList
             return true;
         }
 
-        if (Bukkit.getOnlineMode() && superUUIDs.contains(((Player) sender).getUniqueId()))
+        final Player player = (Player) sender;
+
+        if (Bukkit.getOnlineMode() && superUUIDs.contains(TFM_Util.getUuid(player)))
         {
             return true;
         }
 
 
-        if (superIps.contains(TFM_Util.getIp((Player) sender)))
+        if (superIps.contains(TFM_Util.getIp(player)))
         {
             return true;
         }
@@ -441,7 +463,7 @@ public class TFM_AdminList
             return false;
         }
 
-        return entry.getUniqueId().equals(player.getUniqueId());
+        return entry.getUniqueId().equals(TFM_Util.getUuid(player));
     }
 
     @Deprecated
@@ -497,7 +519,7 @@ public class TFM_AdminList
 
     public static boolean isAdminImpostor(Player player)
     {
-        if (superUUIDs.contains(player.getUniqueId()))
+        if (superUUIDs.contains(TFM_Util.getUuid(player)))
         {
             return !isSuperAdmin(player);
         }
@@ -507,7 +529,7 @@ public class TFM_AdminList
 
     public static void addSuperadmin(OfflinePlayer player)
     {
-        final UUID uuid = player.getUniqueId();
+        final UUID uuid = TFM_Util.getUuid(player);
         final String ip = TFM_Util.getIp(player);
 
         if (adminList.containsKey(uuid))
@@ -550,7 +572,7 @@ public class TFM_AdminList
 
     public static void removeSuperadmin(OfflinePlayer player)
     {
-        final UUID uuid = player.getUniqueId();
+        final UUID uuid = TFM_Util.getUuid(player);
 
         if (!adminList.containsKey(uuid))
         {

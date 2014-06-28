@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class TFM_Ban
 {

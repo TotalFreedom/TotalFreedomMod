@@ -31,7 +31,6 @@ public class Command_glist extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("purge"))
             {
-                //Purge does not clear the banlist! This is not for clearing bans! This is for clearing the yaml file that stores the player/IP database!
                 if (TFM_AdminList.isSeniorAdmin(sender))
                 {
                     TFM_PlayerList.getInstance().purgeAll();
@@ -84,12 +83,12 @@ public class Command_glist extends TFM_Command
                 Player target = server.getPlayerExact(username);
                 if (target != null)
                 {
-                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(target.getUniqueId(), target.getName()));
+                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(TFM_Util.getUuid(target), target.getName()));
                     target.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
                 }
                 else
                 {
-                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(Bukkit.getOfflinePlayer(username).getUniqueId(), username));
+                    TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(TFM_Util.getUuid(username), username));
                 }
 
                 for (String ip : ips)
@@ -103,7 +102,7 @@ public class Command_glist extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ","), true);
 
-                TFM_BanManager.getInstance().unbanUuid(Bukkit.getOfflinePlayer(username).getUniqueId());
+                TFM_BanManager.getInstance().unbanUuid(TFM_Util.getUuid(username));
 
                 for (String ip : ips)
                 {

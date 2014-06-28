@@ -109,6 +109,21 @@ public class TFM_Util
         return true;
     }
 
+    public static UUID getUuid(OfflinePlayer offlinePlayer)
+    {
+        if (offlinePlayer instanceof Player)
+        {
+            return TFM_PlayerData.getPlayerData((Player) offlinePlayer).getUniqueId();
+        }
+
+        return getUuid(offlinePlayer.getName());
+    }
+
+    public static UUID getUuid(String offlineplayer)
+    {
+        return TFM_UuidResolver.getUUIDOf(offlineplayer);
+    }
+
     public static void bcastMsg(String message, ChatColor color)
     {
         TFM_Log.info(message, true);
@@ -148,7 +163,7 @@ public class TFM_Util
             return ((Player) player).getAddress().getAddress().getHostAddress().trim();
         }
 
-        final TFM_PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player.getUniqueId());
+        final TFM_PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(TFM_Util.getUuid(player));
 
         if (entry == null)
         {
@@ -169,7 +184,7 @@ public class TFM_Util
 
     public static String formatPlayer(OfflinePlayer player)
     {
-        return player.getName() + " (" + player.getUniqueId() + ")";
+        return player.getName() + " (" + TFM_Util.getUuid(player) + ")";
     }
 
     /**
@@ -475,7 +490,7 @@ public class TFM_Util
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 1 minute.");
 
                 TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
-                TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName(), "AutoEject", expires, kickMessage));
+                TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", expires, kickMessage));
 
                 player.kickPlayer(kickMessage);
 
@@ -490,7 +505,7 @@ public class TFM_Util
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 3 minutes.");
 
                 TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
-                TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName(), "AutoEject", expires, kickMessage));
+                TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", expires, kickMessage));
 
                 player.kickPlayer(kickMessage);
                 break;
@@ -501,7 +516,7 @@ public class TFM_Util
 
                 TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", null, kickMessage));
                 TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ipAddressParts[0] + "." + ipAddressParts[1] + ".*.*", player.getName(), "AutoEject", null, kickMessage));
-                TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName(), "AutoEject", null, kickMessage));
+                TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", null, kickMessage));
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned.");
 

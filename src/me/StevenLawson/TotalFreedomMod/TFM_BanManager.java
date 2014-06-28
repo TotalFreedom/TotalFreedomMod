@@ -9,6 +9,7 @@ import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 public class TFM_BanManager
 {
@@ -66,16 +67,11 @@ public class TFM_BanManager
         save();
         TFM_Log.info("Loaded " + ipBans.size() + " IP bans and " + uuidBans.size() + " UUID bans");
 
-        for (String username : (List<String>) TFM_ConfigEntry.UNBANNABLE_USERNAMES.getList())
-        {
-            final OfflinePlayer player = Bukkit.getOfflinePlayer(username);
-            if (player == null || player.getUniqueId() == null)
-            {
-                TFM_Log.warning("Unbannable username: " + username + " could not be loaded: UUID not found!");
-                continue;
-            }
+        final TFM_UuidResolver resolver = new TFM_UuidResolver((List<String>) TFM_ConfigEntry.UNBANNABLE_USERNAMES.getList());
 
-            unbannableUUIDs.add(player.getUniqueId());
+        for (UUID uuid : resolver.call().values())
+        {
+            unbannableUUIDs.add(uuid);
         }
 
         TFM_Log.info("Loaded " + unbannableUUIDs.size() + " unbannable UUIDs");
@@ -208,6 +204,11 @@ public class TFM_BanManager
         return getByUuid(uuid) != null;
     }
 
+    public void addUuidBan(Player player)
+    {
+        addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName()));
+    }
+
     public void addUuidBan(TFM_Ban ban)
     {
         if (!ban.isComplete())
@@ -227,6 +228,11 @@ public class TFM_BanManager
 
         uuidBans.add(ban);
         save();
+    }
+
+    public void addIpBan(Player player)
+    {
+        addIpBan(new TFM_Ban(TFM_Util.getIp(player), player.getName()));
     }
 
     public void addIpBan(TFM_Ban ban)

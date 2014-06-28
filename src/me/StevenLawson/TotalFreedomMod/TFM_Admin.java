@@ -92,6 +92,14 @@ public class TFM_Admin
         }
     }
 
+    public void addIps(List<String> ips)
+    {
+        for (String ip : ips)
+        {
+            addIp(ip);
+        }
+    }
+
     public void removeIp(String ip)
     {
         if (ips.contains(ip))
