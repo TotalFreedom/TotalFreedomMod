@@ -585,6 +585,12 @@ public class TFM_PlayerListener implements Listener
             event.setCancelled(true);
             return;
         }
+        if (command.contains("175:"))
+        {
+            event.setCancelled(true);
+            p.sendMessage(ChatColor.RED + "That command is disalowed.");
+            return;
+        
 
         // Block commands if player is muted
         if (playerdata.isMuted())
