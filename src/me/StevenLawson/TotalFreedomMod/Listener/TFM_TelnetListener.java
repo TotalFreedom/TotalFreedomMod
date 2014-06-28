@@ -27,7 +27,6 @@ public class TFM_TelnetListener implements Listener
 
         if (admin == null || !admin.isTelnetAdmin())
         {
-            event.setCancelled(true);
             return;
         }
 

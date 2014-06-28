@@ -30,7 +30,7 @@ public class TFM_AdminList
     private static final Set<UUID> superUUIDs;
     private static final Set<UUID> telnetUUIDs;
     private static final Set<UUID> seniorUUIDs;
-    private static final Set<String> seniorConsoleAliases;
+    private static final Set<String> seniorConsoleNames;
     private static final Set<String> superIps;
     private static int cleanThreshold = 24 * 7; // 1 Week in hours
 
@@ -40,7 +40,7 @@ public class TFM_AdminList
         superUUIDs = new HashSet<UUID>();
         telnetUUIDs = new HashSet<UUID>();
         seniorUUIDs = new HashSet<UUID>();
-        seniorConsoleAliases = new HashSet<String>();
+        seniorConsoleNames = new HashSet<String>();
         superIps = new HashSet<String>();
     }
 
@@ -64,9 +64,9 @@ public class TFM_AdminList
         return Collections.unmodifiableSet(seniorUUIDs);
     }
 
-    public static Set<String> getSeniorConsoleAliases()
+    public static Set<String> getSeniorConsoleNames()
     {
-        return Collections.unmodifiableSet(seniorConsoleAliases);
+        return Collections.unmodifiableSet(seniorConsoleNames);
     }
 
     public static Set<String> getSuperadminIps()
@@ -160,7 +160,7 @@ public class TFM_AdminList
         superUUIDs.clear();
         telnetUUIDs.clear();
         seniorUUIDs.clear();
-        seniorConsoleAliases.clear();
+        seniorConsoleNames.clear();
         superIps.clear();
 
         for (TFM_Admin admin : adminList.values())
@@ -182,17 +182,18 @@ public class TFM_AdminList
             if (admin.isTelnetAdmin())
             {
                 telnetUUIDs.add(uuid);
-
-                for (String alias : admin.getConsoleAliases())
-                {
-                    seniorConsoleAliases.add(alias.toLowerCase());
-                }
             }
 
 
             if (admin.isSeniorAdmin())
             {
                 seniorUUIDs.add(uuid);
+
+                seniorConsoleNames.add(admin.getLastLoginName());
+                for (String alias : admin.getConsoleAliases())
+                {
+                    seniorConsoleNames.add(alias.toLowerCase());
+                }
             }
         }
 
@@ -364,7 +365,7 @@ public class TFM_AdminList
 
         if (!(sender instanceof Player))
         {
-            return seniorConsoleAliases.contains(sender.getName())
+            return seniorConsoleNames.contains(sender.getName())
                     || (TFM_MainConfig.getInstance().getBoolean(TFM_ConfigEntry.CONSOLE_IS_SENIOR) && sender.getName().equals("CONSOLE"));
         }
 
@@ -406,6 +407,11 @@ public class TFM_AdminList
             {
                 return false;
             }
+        }
+
+        if (!(sender instanceof Player))
+        {
+            return true;
         }
 
         final TFM_Admin entry = getEntry((Player) sender);
