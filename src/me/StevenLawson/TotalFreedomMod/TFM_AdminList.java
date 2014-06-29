@@ -386,7 +386,7 @@ public class TFM_AdminList
         if (!(sender instanceof Player))
         {
             return seniorConsoleNames.contains(sender.getName())
-                    || (TFM_MainConfig.getInstance().getBoolean(TFM_ConfigEntry.CONSOLE_IS_SENIOR) && sender.getName().equals("CONSOLE"));
+                    || (TFM_MainConfig.getBoolean(TFM_ConfigEntry.CONSOLE_IS_SENIOR) && sender.getName().equals("CONSOLE"));
         }
 
         final TFM_Admin entry = getEntry((Player) sender);
@@ -614,7 +614,7 @@ public class TFM_AdminList
 
                 superadmin.setActivated(false);
                 Command_logs.deactivateSuperadmin(superadmin);
-                TFM_TwitterHandler.getInstance().delTwitter(superadmin.getLastLoginName());
+                TFM_TwitterHandler.delTwitter(superadmin.getLastLoginName());
             }
         }
 

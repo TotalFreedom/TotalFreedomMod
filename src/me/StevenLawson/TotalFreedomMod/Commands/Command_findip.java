@@ -28,7 +28,7 @@ public class Command_findip extends TFM_Command
             return true;
         }
 
-        playerMsg("Player IPs: " + StringUtils.join(TFM_PlayerList.getInstance().getEntry(player).getIps(), ", "));
+        playerMsg("Player IPs: " + StringUtils.join(TFM_PlayerList.getEntry(player).getIps(), ", "));
 
         return true;
     }

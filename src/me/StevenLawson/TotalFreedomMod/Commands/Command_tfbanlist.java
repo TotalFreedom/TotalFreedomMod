@@ -27,7 +27,7 @@ public class Command_tfbanlist extends TFM_Command
                     try
                     {
                         TFM_Util.adminAction(sender.getName(), "Purging the ban list", true);
-                        TFM_BanManager.getInstance().purgeUuidBans();
+                        TFM_BanManager.purgeUuidBans();
                         sender.sendMessage(ChatColor.GRAY + "Ban list has been purged.");
                     }
                     catch (Exception ex)
@@ -44,7 +44,7 @@ public class Command_tfbanlist extends TFM_Command
             }
         }
 
-        playerMsg(TFM_BanManager.getInstance().getUuidBanList().size() + " UUID bans total");
+        playerMsg(TFM_BanManager.getUuidBanList().size() + " UUID bans total");
 
         return true;
     }

@@ -49,7 +49,7 @@ public class Command_colorme extends TFM_Command
 
         final String newNick = color + ChatColor.stripColor(sender_p.getDisplayName()).trim() + ChatColor.WHITE;
 
-        TFM_EssentialsBridge.getInstance().setNickname(sender.getName(), newNick);
+        TFM_EssentialsBridge.setNickname(sender.getName(), newNick);
 
         playerMsg("Your nickname is now: " + newNick);
 

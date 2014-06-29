@@ -18,10 +18,11 @@ public class TFM_MainConfig
     public static final String CONFIG_FILENAME = "config.yml";
     public static final File CONFIG_FILE = new File(TotalFreedomMod.plugin.getDataFolder(), CONFIG_FILENAME);
     //
-    private final EnumMap<TFM_ConfigEntry, Object> configEntryMap = new EnumMap<TFM_ConfigEntry, Object>(TFM_ConfigEntry.class);
+    private static final EnumMap<TFM_ConfigEntry, Object> ENTRY_MAP;
 
-    private TFM_MainConfig()
+    static
     {
+        ENTRY_MAP = new EnumMap<TFM_ConfigEntry, Object>(TFM_ConfigEntry.class);
         try
         {
             try
@@ -30,7 +31,7 @@ public class TFM_MainConfig
                 TFM_Config_DefaultsLoader defaultsLoader = new TFM_Config_DefaultsLoader(defaultConfig);
                 for (TFM_ConfigEntry entry : TFM_ConfigEntry.values())
                 {
-                    configEntryMap.put(entry, defaultsLoader.get(entry.getConfigName()));
+                    ENTRY_MAP.put(entry, defaultsLoader.get(entry.getConfigName()));
                 }
                 defaultConfig.close();
             }
@@ -49,7 +50,12 @@ public class TFM_MainConfig
         }
     }
 
-    public final void load()
+    private TFM_MainConfig()
+    {
+        throw new AssertionError();
+    }
+
+    public static final void load()
     {
         try
         {
@@ -65,7 +71,7 @@ public class TFM_MainConfig
                     Object value = config.get(path);
                     if (value == null || entry.getType().isAssignableFrom(value.getClass()))
                     {
-                        configEntryMap.put(entry, value);
+                        ENTRY_MAP.put(entry, value);
                     }
                     else
                     {
@@ -92,7 +98,7 @@ public class TFM_MainConfig
         }
     }
 
-    public String getString(TFM_ConfigEntry entry)
+    public static String getString(TFM_ConfigEntry entry)
     {
         try
         {
@@ -105,7 +111,7 @@ public class TFM_MainConfig
         return null;
     }
 
-    public void setString(TFM_ConfigEntry entry, String value)
+    public static void setString(TFM_ConfigEntry entry, String value)
     {
         try
         {
@@ -117,7 +123,7 @@ public class TFM_MainConfig
         }
     }
 
-    public Double getDouble(TFM_ConfigEntry entry)
+    public static Double getDouble(TFM_ConfigEntry entry)
     {
         try
         {
@@ -130,7 +136,7 @@ public class TFM_MainConfig
         return null;
     }
 
-    public void setDouble(TFM_ConfigEntry entry, Double value)
+    public static void setDouble(TFM_ConfigEntry entry, Double value)
     {
         try
         {
@@ -142,7 +148,7 @@ public class TFM_MainConfig
         }
     }
 
-    public Boolean getBoolean(TFM_ConfigEntry entry)
+    public static Boolean getBoolean(TFM_ConfigEntry entry)
     {
         try
         {
@@ -155,7 +161,7 @@ public class TFM_MainConfig
         return null;
     }
 
-    public void setBoolean(TFM_ConfigEntry entry, Boolean value)
+    public static void setBoolean(TFM_ConfigEntry entry, Boolean value)
     {
         try
         {
@@ -167,7 +173,7 @@ public class TFM_MainConfig
         }
     }
 
-    public Integer getInteger(TFM_ConfigEntry entry)
+    public static Integer getInteger(TFM_ConfigEntry entry)
     {
         try
         {
@@ -180,7 +186,7 @@ public class TFM_MainConfig
         return null;
     }
 
-    public void setInteger(TFM_ConfigEntry entry, Integer value)
+    public static void setInteger(TFM_ConfigEntry entry, Integer value)
     {
         try
         {
@@ -192,7 +198,7 @@ public class TFM_MainConfig
         }
     }
 
-    public List getList(TFM_ConfigEntry entry)
+    public static List getList(TFM_ConfigEntry entry)
     {
         try
         {
@@ -205,9 +211,9 @@ public class TFM_MainConfig
         return null;
     }
 
-    public <T> T get(TFM_ConfigEntry entry, Class<T> type) throws IllegalArgumentException
+    public static <T> T get(TFM_ConfigEntry entry, Class<T> type) throws IllegalArgumentException
     {
-        Object value = configEntryMap.get(entry);
+        Object value = ENTRY_MAP.get(entry);
         try
         {
             return type.cast(value);
@@ -218,7 +224,7 @@ public class TFM_MainConfig
         }
     }
 
-    public <T> void set(TFM_ConfigEntry entry, T value, Class<T> type) throws IllegalArgumentException
+    public static <T> void set(TFM_ConfigEntry entry, T value, Class<T> type) throws IllegalArgumentException
     {
         if (!type.isAssignableFrom(entry.getType()))
         {
@@ -228,7 +234,7 @@ public class TFM_MainConfig
         {
             throw new IllegalArgumentException("Value is not of type " + type.getSimpleName());
         }
-        configEntryMap.put(entry, value);
+        ENTRY_MAP.put(entry, value);
     }
 
     private static void copyDefaultConfig(File targetFile)
@@ -282,15 +288,5 @@ public class TFM_MainConfig
         {
             return defaults.get(path);
         }
-    }
-
-    public static TFM_MainConfig getInstance()
-    {
-        return TFM_ConfigHolder.INSTANCE;
-    }
-
-    private static class TFM_ConfigHolder
-    {
-        private static final TFM_MainConfig INSTANCE = new TFM_MainConfig();
     }
 }

@@ -9,34 +9,28 @@ import org.bukkit.entity.Player;
 
 public class TFM_PlayerList
 {
-    private static final TFM_PlayerList INSTANCE;
-    private final Map<UUID, TFM_PlayerEntry> playerList;
-    private TFM_Config config;
+    private static final Map<UUID, TFM_PlayerEntry> playerList;
+    private final static TFM_Config config;
 
     static
     {
-        INSTANCE = new TFM_PlayerList();
+        playerList = new HashMap<UUID, TFM_PlayerEntry>();
+        config = new TFM_Config(TotalFreedomMod.plugin, "playerlist.yml", false);
     }
 
     private TFM_PlayerList()
     {
-        this.playerList = new HashMap<UUID, TFM_PlayerEntry>();
+        throw new AssertionError();
     }
 
-    public TFM_Config getConfig()
+    public static TFM_Config getConfig()
     {
         return config;
     }
 
-    public void load()
+    public static void load()
     {
         playerList.clear();
-
-        if (config == null)
-        {
-            config = new TFM_Config(TotalFreedomMod.plugin, "playerlist.yml", false);
-        }
-
         config.load();
 
         // Load players from config
@@ -73,7 +67,7 @@ public class TFM_PlayerList
         TFM_Log.info("Loaded playerdata for " + playerList.size() + " players.");
     }
 
-    private void saveAll()
+    private static void saveAll()
     {
         // Put entries
         for (TFM_PlayerEntry entry : playerList.values())
@@ -82,7 +76,7 @@ public class TFM_PlayerList
         }
     }
 
-    public TFM_PlayerEntry getEntry(String player)
+    public static TFM_PlayerEntry getEntry(String player)
     {
 
         for (TFM_PlayerEntry entry : playerList.values())
@@ -96,17 +90,17 @@ public class TFM_PlayerList
         return null;
     }
 
-    public TFM_PlayerEntry getEntry(UUID uuid)
+    public static TFM_PlayerEntry getEntry(UUID uuid)
     {
         return playerList.get(uuid);
     }
 
-    public boolean existsEntry(Player player)
+    public static boolean existsEntry(Player player)
     {
         return playerList.containsKey(TFM_Util.getUuid(player));
     }
 
-    public TFM_PlayerEntry getEntry(Player player)
+    public static TFM_PlayerEntry getEntry(Player player)
     {
         final UUID uuid = TFM_Util.getUuid(player);
 
@@ -132,7 +126,7 @@ public class TFM_PlayerList
         return entry;
     }
 
-    public void purgeAll()
+    public static void purgeAll()
     {
         // Clear the config entries
         for (String key : config.getKeys(false))
@@ -144,10 +138,5 @@ public class TFM_PlayerList
 
         // Load online players
         load();
-    }
-
-    public static TFM_PlayerList getInstance()
-    {
-        return INSTANCE;
     }
 }

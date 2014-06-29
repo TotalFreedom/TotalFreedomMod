@@ -10,10 +10,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.Callable;
-import org.bukkit.entity.Player;
 
 // Credits to evilmidget38
 public class TFM_UuidResolver implements Callable<Map<String, UUID>>

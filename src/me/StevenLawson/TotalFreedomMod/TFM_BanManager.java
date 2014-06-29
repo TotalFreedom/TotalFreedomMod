@@ -13,24 +13,23 @@ import org.bukkit.entity.Player;
 
 public class TFM_BanManager
 {
-    private static final TFM_BanManager INSTANCE;
-    private final List<TFM_Ban> ipBans;
-    private final List<TFM_Ban> uuidBans;
-    private final List<UUID> unbannableUUIDs;
+    private static final List<TFM_Ban> ipBans;
+    private static final List<TFM_Ban> uuidBans;
+    private static final List<UUID> unbannableUUIDs;
 
     static
-    {
-        INSTANCE = new TFM_BanManager();
-    }
-
-    private TFM_BanManager()
     {
         ipBans = new ArrayList<TFM_Ban>();
         uuidBans = new ArrayList<TFM_Ban>();
         unbannableUUIDs = new ArrayList<UUID>();
     }
 
-    public void load()
+    private TFM_BanManager()
+    {
+        throw new AssertionError();
+    }
+
+    public static void load()
     {
         ipBans.clear();
         uuidBans.clear();
@@ -77,7 +76,7 @@ public class TFM_BanManager
         TFM_Log.info("Loaded " + unbannableUUIDs.size() + " unbannable UUIDs");
     }
 
-    public void save()
+    public static void save()
     {
         final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, "bans.yml", true);
         config.load();
@@ -108,17 +107,17 @@ public class TFM_BanManager
         config.save();
     }
 
-    public List<TFM_Ban> getIpBanList()
+    public static List<TFM_Ban> getIpBanList()
     {
         return Collections.unmodifiableList(uuidBans);
     }
 
-    public List<TFM_Ban> getUuidBanList()
+    public static List<TFM_Ban> getUuidBanList()
     {
         return Collections.unmodifiableList(uuidBans);
     }
 
-    public TFM_Ban getByIp(String ip)
+    public static TFM_Ban getByIp(String ip)
     {
         for (TFM_Ban ban : ipBans)
         {
@@ -152,7 +151,7 @@ public class TFM_BanManager
         return null;
     }
 
-    public TFM_Ban getByUuid(UUID uuid)
+    public static TFM_Ban getByUuid(UUID uuid)
     {
         for (TFM_Ban ban : uuidBans)
         {
@@ -169,7 +168,7 @@ public class TFM_BanManager
         return null;
     }
 
-    public void unbanIp(String ip)
+    public static void unbanIp(String ip)
     {
         final TFM_Ban ban = getByIp(ip);
 
@@ -182,7 +181,7 @@ public class TFM_BanManager
         save();
     }
 
-    public void unbanUuid(UUID uuid)
+    public static void unbanUuid(UUID uuid)
     {
         final TFM_Ban ban = getByUuid(uuid);
 
@@ -194,22 +193,22 @@ public class TFM_BanManager
         removeBan(ban);
     }
 
-    public boolean isIpBanned(String ip)
+    public static boolean isIpBanned(String ip)
     {
         return getByIp(ip) != null;
     }
 
-    public boolean isUuidBanned(UUID uuid)
+    public static boolean isUuidBanned(UUID uuid)
     {
         return getByUuid(uuid) != null;
     }
 
-    public void addUuidBan(Player player)
+    public static void addUuidBan(Player player)
     {
         addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName()));
     }
 
-    public void addUuidBan(TFM_Ban ban)
+    public static void addUuidBan(TFM_Ban ban)
     {
         if (!ban.isComplete())
         {
@@ -230,12 +229,12 @@ public class TFM_BanManager
         save();
     }
 
-    public void addIpBan(Player player)
+    public static void addIpBan(Player player)
     {
         addIpBan(new TFM_Ban(TFM_Util.getIp(player), player.getName()));
     }
 
-    public void addIpBan(TFM_Ban ban)
+    public static void addIpBan(TFM_Ban ban)
     {
         if (!ban.isComplete())
         {
@@ -251,7 +250,7 @@ public class TFM_BanManager
         save();
     }
 
-    public void removeBan(TFM_Ban ban)
+    public static void removeBan(TFM_Ban ban)
     {
         final Iterator<TFM_Ban> ips = ipBans.iterator();
         while (ips.hasNext())
@@ -274,20 +273,15 @@ public class TFM_BanManager
         save();
     }
 
-    public void purgeIpBans()
+    public static void purgeIpBans()
     {
         ipBans.clear();
         save();
     }
 
-    public void purgeUuidBans()
+    public static void purgeUuidBans()
     {
         uuidBans.clear();
         save();
-    }
-
-    public static TFM_BanManager getInstance()
-    {
-        return INSTANCE;
     }
 }

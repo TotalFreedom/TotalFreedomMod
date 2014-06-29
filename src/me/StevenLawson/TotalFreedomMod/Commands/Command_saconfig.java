@@ -212,7 +212,7 @@ public class Command_saconfig extends TFM_Command
             // Twitterbot
             if (TFM_ConfigEntry.TWITTERBOT_ENABLED.getBoolean())
             {
-                TFM_TwitterHandler.getInstance().delTwitterVerbose(targetName, sender);
+                TFM_TwitterHandler.delTwitterVerbose(targetName, sender);
             }
             return true;
         }

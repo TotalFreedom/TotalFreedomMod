@@ -59,7 +59,8 @@ public class Command_gadmin extends TFM_Command
                 }
                 else if (mode.equals("nameban"))
                 {
-                    TFM_BanManager.getInstance().addUuidBan(player);
+                    TFM_BanManager.addUuidBan(player);
+
                     TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s.", player.getName()), true);
                     player.kickPlayer("Username banned by Administrator.");
                 }
@@ -72,7 +73,8 @@ public class Command_gadmin extends TFM_Command
                         ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
                     TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", player.getName(), ip), true);
-                    TFM_BanManager.getInstance().addIpBan(player);
+                    TFM_BanManager.addIpBan(player);
+
                     player.kickPlayer("IP address banned by Administrator.");
                 }
                 else if (mode.equals("ban"))
@@ -84,8 +86,10 @@ public class Command_gadmin extends TFM_Command
                         ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                     }
                     TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", player.getName(), ip), true);
-                    TFM_BanManager.getInstance().addUuidBan(player);
-                    TFM_BanManager.getInstance().addIpBan(player);
+
+                    TFM_BanManager.addUuidBan(player);
+                    TFM_BanManager.addIpBan(player);
+
                     player.kickPlayer("IP and username banned by Administrator.");
                 }
                 else if (mode.equals("op"))
