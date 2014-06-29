@@ -163,7 +163,7 @@ public class TFM_Util
             return ((Player) player).getAddress().getAddress().getHostAddress().trim();
         }
 
-        final TFM_PlayerEntry entry = TFM_PlayerList.getEntry(TFM_Util.getUuid(player));
+        final TFM_Player entry = TFM_PlayerList.getEntry(TFM_Util.getUuid(player));
 
         if (entry == null)
         {

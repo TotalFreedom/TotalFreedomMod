@@ -8,29 +8,42 @@ import java.util.UUID;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class TFM_PlayerEntry
+public class TFM_Player
 {
     private final UUID uuid;
     private String firstJoinName;
     private String lastJoinName;
-    private long firstJoinUnix;
-    private long lastJoinUnix;
+    private long firstLoginUnix;
+    private long lastLoginUnix;
     private final List<String> ips;
 
-    protected TFM_PlayerEntry(UUID uuid, ConfigurationSection section)
+    protected TFM_Player(UUID uuid, ConfigurationSection section)
     {
         this(uuid);
 
         this.firstJoinName = section.getString("firstjoinname");
         this.lastJoinName = section.getString("lastjoinname");
 
-        this.firstJoinUnix = section.getLong("firstjoinunix");
-        this.lastJoinUnix = section.getLong("lastjoinunix");
+        this.firstLoginUnix = section.getLong("firstjoinunix");
+        this.lastLoginUnix = section.getLong("lastjoinunix");
 
         this.ips.addAll(section.getStringList("ips"));
     }
 
-    protected TFM_PlayerEntry(UUID uuid)
+    protected TFM_Player(UUID uuid, String firstJoinName, String lastJoinName, long firstJoinUnix, long lastJoinUnix, List<String> ips)
+    {
+        this(uuid);
+
+        this.firstJoinName = firstJoinName;
+        this.lastJoinName = lastJoinName;
+
+        this.firstLoginUnix = firstJoinUnix;
+        this.lastLoginUnix = lastJoinUnix;
+
+        this.ips.addAll(ips);
+    }
+
+    protected TFM_Player(UUID uuid)
     {
         this.uuid = uuid;
         this.ips = new ArrayList<String>();
@@ -47,44 +60,44 @@ public class TFM_PlayerEntry
         return Collections.unmodifiableList(ips);
     }
 
-    public String getFirstJoinName()
+    public String getFirstLoginName()
     {
         return firstJoinName;
     }
 
-    public void setFirstJoinName(String firstJoinName)
+    public void setFirstLoginName(String firstJoinName)
     {
         this.firstJoinName = firstJoinName;
     }
 
-    public String getLastJoinName()
+    public String getLastLoginName()
     {
         return lastJoinName;
     }
 
-    public void setLastJoinName(String lastJoinName)
+    public void setLastLoginName(String lastJoinName)
     {
         this.lastJoinName = lastJoinName;
     }
 
-    public long getFirstJoinUnix()
+    public long getFirstLoginUnix()
     {
-        return firstJoinUnix;
+        return firstLoginUnix;
     }
 
-    public void setFirstJoinUnix(long firstJoinUnix)
+    public void setFirstLoginUnix(long firstJoinUnix)
     {
-        this.firstJoinUnix = firstJoinUnix;
+        this.firstLoginUnix = firstJoinUnix;
     }
 
-    public long getLastJoinUnix()
+    public long getLastLoginUnix()
     {
-        return lastJoinUnix;
+        return lastLoginUnix;
     }
 
-    public void setLastJoinUnix(long lastJoinUnix)
+    public void setLastLoginUnix(long lastJoinUnix)
     {
-        this.lastJoinUnix = lastJoinUnix;
+        this.lastLoginUnix = lastJoinUnix;
     }
 
     public boolean addIp(String ip)
@@ -101,8 +114,8 @@ public class TFM_PlayerEntry
     {
         return firstJoinName != null
                 && lastJoinName != null
-                && firstJoinUnix != 0
-                && lastJoinUnix != 0
+                && firstLoginUnix != 0
+                && lastLoginUnix != 0
                 && !ips.isEmpty();
     }
 
@@ -127,8 +140,8 @@ public class TFM_PlayerEntry
 
         section.set("firstjoinname", firstJoinName);
         section.set("lastjoinname", lastJoinName);
-        section.set("firstjoinunix", firstJoinUnix);
-        section.set("lastjoinunix", lastJoinUnix);
+        section.set("firstjoinunix", firstLoginUnix);
+        section.set("lastjoinunix", lastLoginUnix);
         section.set("ips", ips);
 
         config.save();

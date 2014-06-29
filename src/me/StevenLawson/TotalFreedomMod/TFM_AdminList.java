@@ -121,7 +121,13 @@ public class TFM_AdminList
             return;
         }
 
-        TFM_Admin newAdmin = new TFM_Admin(
+        if (oldUuid.equals(newUuid))
+        {
+            TFM_Log.warning("could not set new UUID for admin " + admin.getLastLoginName() + ", UUIDs match.");
+            return;
+        }
+
+        final TFM_Admin newAdmin = new TFM_Admin(
                 newUuid,
                 admin.getLastLoginName(),
                 admin.getLastLogin(),
@@ -130,10 +136,8 @@ public class TFM_AdminList
                 admin.isSeniorAdmin(),
                 admin.isActivated());
 
-        for (String ip : admin.getIps())
-        {
-            newAdmin.addIps(admin.getIps());
-        }
+
+        newAdmin.addIps(admin.getIps());
 
         adminList.remove(oldUuid);
         adminList.put(newUuid, newAdmin);
@@ -143,6 +147,8 @@ public class TFM_AdminList
         config.load();
         config.set("admins." + oldUuid.toString(), null);
         config.save();
+
+        save(newAdmin);
     }
 
     public static void load()
@@ -270,7 +276,7 @@ public class TFM_AdminList
         TFM_Log.info("Done! " + counter + " admins parsed, " + errors + " errors");
     }
 
-    public static void save()
+    public static void saveAll()
     {
         final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILE, true);
         config.load();
@@ -294,6 +300,31 @@ public class TFM_AdminList
             config.set("admins." + uuid + ".console_aliases", TFM_Util.removeDuplicates(superadmin.getConsoleAliases()));
             config.set("admins." + uuid + ".ips", TFM_Util.removeDuplicates(superadmin.getIps()));
         }
+
+        config.save();
+    }
+
+    public static void save(TFM_Admin admin)
+    {
+        if (!adminList.containsValue(admin))
+        {
+            TFM_Log.warning("Could not save admin " + admin.getLastLoginName() + ", admin is not loaded!");
+            return;
+        }
+
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILE, true);
+        config.load();
+
+        final UUID uuid = admin.getUniqueId();
+
+        config.set("admins." + uuid + ".last_login_name", admin.getLastLoginName());
+        config.set("admins." + uuid + ".is_activated", admin.isActivated());
+        config.set("admins." + uuid + ".is_telnet_admin", admin.isTelnetAdmin());
+        config.set("admins." + uuid + ".is_senior_admin", admin.isSeniorAdmin());
+        config.set("admins." + uuid + ".last_login", TFM_Util.dateToString(admin.getLastLogin()));
+        config.set("admins." + uuid + ".custom_login_message", admin.getCustomLoginMessage());
+        config.set("admins." + uuid + ".console_aliases", TFM_Util.removeDuplicates(admin.getConsoleAliases()));
+        config.set("admins." + uuid + ".ips", TFM_Util.removeDuplicates(admin.getIps()));
 
         config.save();
     }
@@ -364,7 +395,7 @@ public class TFM_AdminList
         }
         admin.setLastLogin(new Date());
         admin.setLastLoginName(player.getName());
-        save();
+        saveAll();
     }
 
     public static boolean isSeniorAdmin(CommandSender sender)
@@ -503,7 +534,7 @@ public class TFM_AdminList
                     {
                         entry.addIp(ip);
                     }
-                    save();
+                    saveAll();
                 }
                 return true;
 
@@ -542,7 +573,7 @@ public class TFM_AdminList
                 superadmin.setLastLogin(new Date());
                 superadmin.addIp(ip);
             }
-            save();
+            saveAll();
             updateIndexLists();
             return;
         }
@@ -566,7 +597,7 @@ public class TFM_AdminList
 
         adminList.put(uuid, superadmin);
 
-        save();
+        saveAll();
         updateIndexLists();
     }
 
@@ -585,7 +616,7 @@ public class TFM_AdminList
         superadmin.setActivated(false);
         Command_logs.deactivateSuperadmin(superadmin);
 
-        save();
+        saveAll();
         updateIndexLists();
     }
 
@@ -618,7 +649,7 @@ public class TFM_AdminList
             }
         }
 
-        save();
+        saveAll();
         updateIndexLists();
     }
 }

@@ -697,9 +697,9 @@ public class TFM_PlayerListener implements Listener
 
         if (TFM_PlayerList.existsEntry(player))
         {
-            final TFM_PlayerEntry entry = TFM_PlayerList.getEntry(player);
-            entry.setLastJoinUnix(TFM_Util.getUnixTime());
-            entry.setLastJoinName(player.getName());
+            final TFM_Player entry = TFM_PlayerList.getEntry(player);
+            entry.setLastLoginUnix(TFM_Util.getUnixTime());
+            entry.setLastLoginName(player.getName());
             entry.save();
         }
         else

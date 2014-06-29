@@ -86,7 +86,7 @@ public class Command_saconfig extends TFM_Command
                     counter++;
                 }
 
-                TFM_AdminList.save();
+                TFM_AdminList.saveAll();
 
                 playerMsg(counter + " IPs removed.");
                 playerMsg(admin.getIps().get(0) + " is now your only IP address");
@@ -109,7 +109,7 @@ public class Command_saconfig extends TFM_Command
             TFM_Util.adminAction(sender.getName(), "Removing a supered IP", true);
 
             admin.removeIp(args[1]);
-            TFM_AdminList.save();
+            TFM_AdminList.saveAll();
 
             playerMsg("Removed IP " + args[1]);
             playerMsg("Current IPs: " + StringUtils.join(admin.getIps(), ", "));
