@@ -45,6 +45,11 @@ public class TFM_Player
 
     protected TFM_Player(UUID uuid)
     {
+        if (uuid == null)
+        {
+            throw new IllegalArgumentException("UUID can not be null!");
+        }
+
         this.uuid = uuid;
         this.ips = new ArrayList<String>();
     }

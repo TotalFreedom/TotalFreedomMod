@@ -6,6 +6,8 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -121,7 +123,43 @@ public class TFM_Util
 
     public static UUID getUuid(String offlineplayer)
     {
-        return TFM_UuidResolver.getUUIDOf(offlineplayer);
+        final UUID uuid = TFM_UuidResolver.getUUIDOf(offlineplayer);
+
+        if (uuid == null)
+        {
+            return generateUuidForName(offlineplayer);
+        }
+
+        return uuid;
+    }
+
+    public static UUID generateUuidForName(String name)
+    {
+        TFM_Log.info("Generating spoof UUID for " + name);
+        name = name.toLowerCase();
+        try
+        {
+            final MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+            byte[] result = mDigest.digest(name.getBytes());
+            final StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < result.length; i++)
+            {
+                sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+            }
+
+            return UUID.fromString(
+                    sb.substring(0, 8)
+                    + "-" + sb.substring(8, 12)
+                    + "-" + sb.substring(12, 16)
+                    + "-" + sb.substring(16, 20)
+                    + "-" + sb.substring(20, 32));
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
+            TFM_Log.severe(ex);
+        }
+
+        return UUID.randomUUID();
     }
 
     public static void bcastMsg(String message, ChatColor color)
