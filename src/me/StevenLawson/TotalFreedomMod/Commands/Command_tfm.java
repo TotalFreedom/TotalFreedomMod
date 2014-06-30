@@ -30,6 +30,7 @@ public class Command_tfm extends TFM_Command
             if (!TFM_AdminList.isSuperAdmin(sender))
             {
                 playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                return true;
             }
 
             TFM_AdminList.load();
