@@ -150,7 +150,7 @@ public class TFM_ServerInterface
                 {
                     event.disallow(Result.KICK_OTHER,
                             ChatColor.RED + "Your IP address is permanently banned from this server.\nRelease procedures are available at\n"
-                            + ChatColor.GOLD + TFM_ConfigEntry.SERVER_PERMBAN_URL);
+                            + ChatColor.GOLD + TFM_ConfigEntry.SERVER_PERMBAN_URL.getString());
                     return;
                 }
             }
@@ -162,7 +162,7 @@ public class TFM_ServerInterface
                 {
                     event.disallow(Result.KICK_OTHER,
                             ChatColor.RED + "Your username is permanently banned from this server.\nRelease procedures are available at\n"
-                            + ChatColor.GOLD + TFM_ConfigEntry.SERVER_PERMBAN_URL);
+                            + ChatColor.GOLD + TFM_ConfigEntry.SERVER_PERMBAN_URL.getString());
                     return;
                 }
             }
