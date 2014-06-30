@@ -102,7 +102,7 @@ public class TFM_Jumppads
 
     public static void setMode(JumpPadMode mode)
     {
-        mode = mode;
+        TFM_Jumppads.mode = mode;
     }
 
     public static double getStrength()
@@ -112,7 +112,7 @@ public class TFM_Jumppads
 
     public static void setStrength(double strength)
     {
-        strength = strength;
+        TFM_Jumppads.strength = strength;
     }
 
     public static enum JumpPadMode
