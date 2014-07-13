@@ -134,6 +134,14 @@ public class TFM_HTTPD_Manager
             {
                 return new Module_players(session).getResponse();
             }
+        }),
+        LOGS(new ModuleExecutable(false, "logs")
+        {
+            @Override
+            public Response getResponse(HTTPSession session)
+            {
+                return new Module_logs(session).getResponse();
+            }
         });
         //
         private final ModuleExecutable moduleExecutable;

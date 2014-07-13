@@ -93,7 +93,7 @@ public class Module_file extends TFM_HTTPD_Module
         return newUri;
     }
 
-    private Response serveFile(String uri, Map<String, String> header, File homeDir)
+    public Response serveFile(String uri, Map<String, String> params, File homeDir)
     {
         Response res = null;
 
@@ -180,32 +180,53 @@ public class Module_file extends TFM_HTTPD_Module
                 // Calculate etag
                 String etag = Integer.toHexString((f.getAbsolutePath() + f.lastModified() + "" + f.length()).hashCode());
 
-                // Support (simple) skipping:
+                final long fileLen = f.length();
+
                 long startFrom = 0;
                 long endAt = -1;
-                String range = header.get("range");
+                final String range = params.get("range");
                 if (range != null)
                 {
-                    if (range.startsWith("bytes="))
+                    final String[] rangeParams = net.minecraft.util.org.apache.commons.lang3.StringUtils.split(range, "=");
+                    if (rangeParams.length >= 2)
                     {
-                        range = range.substring("bytes=".length());
-                        int minus = range.indexOf('-');
-                        try
+                        if ("bytes".equalsIgnoreCase(rangeParams[0]))
                         {
-                            if (minus > 0)
+                            try
                             {
-                                startFrom = Long.parseLong(range.substring(0, minus));
-                                endAt = Long.parseLong(range.substring(minus + 1));
+                                int minus = rangeParams[1].indexOf('-');
+                                if (minus > 0)
+                                {
+                                    startFrom = Long.parseLong(rangeParams[1].substring(0, minus));
+                                    endAt = Long.parseLong(rangeParams[1].substring(minus + 1));
+                                }
+                            }
+                            catch (NumberFormatException ignored)
+                            {
                             }
                         }
-                        catch (NumberFormatException ignored)
+                        else if ("tail".equalsIgnoreCase(rangeParams[0]))
                         {
+                            try
+                            {
+                                final long tailLen = Long.parseLong(rangeParams[1]);
+                                if (tailLen < fileLen)
+                                {
+                                    startFrom = fileLen - tailLen - 2;
+                                    if (startFrom < 0)
+                                    {
+                                        startFrom = 0;
+                                    }
+                                }
+                            }
+                            catch (NumberFormatException ignored)
+                            {
+                            }
                         }
                     }
                 }
 
                 // Change return code and add Content-Range header when skipping is requested
-                long fileLen = f.length();
                 if (range != null && startFrom >= 0)
                 {
                     if (startFrom >= fileLen)
@@ -245,16 +266,9 @@ public class Module_file extends TFM_HTTPD_Module
                 }
                 else
                 {
-                    if (etag.equals(header.get("if-none-match")))
-                    {
-                        res = new Response(Response.Status.NOT_MODIFIED, mime, "");
-                    }
-                    else
-                    {
-                        res = new Response(Response.Status.OK, mime, new FileInputStream(f));
-                        res.addHeader("Content-Length", "" + fileLen);
-                        res.addHeader("ETag", etag);
-                    }
+                    res = new Response(Response.Status.OK, mime, new FileInputStream(f));
+                    res.addHeader("Content-Length", "" + fileLen);
+                    res.addHeader("ETag", etag);
                 }
             }
         }
@@ -359,6 +373,6 @@ public class Module_file extends TFM_HTTPD_Module
     @Override
     public Response getResponse()
     {
-        return serveFile(uri, headers, getRootDir());
+        return serveFile(uri, params, getRootDir());
     }
 }
