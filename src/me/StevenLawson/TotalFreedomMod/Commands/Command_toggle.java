@@ -9,7 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Toggles TotalFreedomMod settings", usage = "/<command> [option] [value] [value]")
@@ -57,7 +56,7 @@ public class Command_toggle extends TFM_Command
 
         if (args[0].equals("fluidspread"))
         {
-            toggle("Fire placement is", TFM_ConfigEntry.ALLOW_FLUID_SPREAD);
+            toggle("Fluid spread is", TFM_ConfigEntry.ALLOW_FLUID_SPREAD);
             return true;
         }
 
@@ -148,7 +147,6 @@ public class Command_toggle extends TFM_Command
                 }
             }
 
-
             toggle("Explosions are", TFM_ConfigEntry.ALLOW_EXPLOSIONS);
 
             if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
@@ -169,7 +167,6 @@ public class Command_toggle extends TFM_Command
 
             boolean enabled = disguiseCraft.isEnabled();
             TFM_Util.adminAction(sender.getName(), (enabled ? "disa" : "ena") + "bling DisguiseCraft", true);
-
 
             if (enabled)
             {
