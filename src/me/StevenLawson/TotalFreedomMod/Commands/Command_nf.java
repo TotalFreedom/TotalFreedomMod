@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -68,6 +69,13 @@ public class Command_nf extends TFM_Command
         }
 
         String newCommand = StringUtils.join(outputCommand, " ");
+
+        if (TFM_CommandBlocker.isCommandBlocked(newCommand, sender))
+        {
+            // CommandBlocker handles messages and broadcasts
+            return true;
+        }
+
         sender.sendMessage("Sending command: \"" + newCommand + "\".");
         server.dispatchCommand(sender, newCommand);
 

@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
@@ -43,6 +44,11 @@ public class Command_cbtool extends TFM_Command
                 matcher.appendReplacement(generatedCommand, processSubCommand(matcher.group(1)));
             }
             matcher.appendTail(generatedCommand);
+
+            if (TFM_CommandBlocker.isCommandBlocked(generatedCommand.toString(), sender, false))
+            {
+                return true;
+            }
 
             server.dispatchCommand(sender, generatedCommand.toString());
         }
