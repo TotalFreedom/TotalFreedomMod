@@ -55,7 +55,7 @@ public class Command_ops extends TFM_Command
                 player.setOp(false);
                 if (player.isOnline())
                 {
-                    playerMsg((Player) player, TotalFreedomMod.YOU_ARE_NOT_OP);
+                    playerMsg(player.getPlayer(), TotalFreedomMod.YOU_ARE_NOT_OP);
                 }
             }
             return true;
