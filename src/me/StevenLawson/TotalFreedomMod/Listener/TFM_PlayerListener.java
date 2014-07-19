@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_landmine;
@@ -17,6 +18,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -266,10 +268,92 @@ public class TFM_PlayerListener implements Listener
                         event.setCancelled(true);
                         break;
                     }
+
+                    case RAW_FISH:
+                    {
+                        final int RADIUS_HIT = 5;
+                        final int STRENGTH = 4;
+
+                        // Clownfish
+                        if (event.getItem().getData().getData() == 2)
+                        {
+                            if (TFM_AdminList.isSeniorAdmin(player, true) || TFM_AdminList.isTelnetAdmin(player, true))
+                            {
+                                boolean didHit = false;
+
+                                final Location playerLoc = player.getLocation();
+                                final Vector playerLocVec = playerLoc.toVector();
+
+                                final List<Player> players = player.getWorld().getPlayers();
+                                for (final Player target : players)
+                                {
+                                    if (target == player)
+                                    {
+                                        continue;
+                                    }
+
+                                    final Location targetPos = target.getLocation();
+                                    final Vector targetPosVec = targetPos.toVector();
+
+                                    try
+                                    {
+                                        if (targetPosVec.distanceSquared(playerLocVec) < (RADIUS_HIT * RADIUS_HIT))
+                                        {
+                                            player.setFlying(false);
+                                            player.setVelocity(targetPosVec.subtract(playerLocVec).normalize().multiply(STRENGTH));
+                                            didHit = true;
+                                        }
+                                    }
+                                    catch (IllegalArgumentException ex)
+                                    {
+                                    }
+                                }
+
+                                if (didHit)
+                                {
+                                    final Sound[] sounds = Sound.values();
+                                    for (Sound sound : sounds)
+                                    {
+                                        if (sound.toString().contains("HIT"))
+                                        {
+                                            playerLoc.getWorld().playSound(randomOffset(playerLoc, 5.0), sound, 100.0f, randomDoubleRange(0.5, 2.0).floatValue());
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                final StringBuilder msg = new StringBuilder();
+                                final char[] chars = (player.getName() + " is a clown.").toCharArray();
+                                for (char c : chars)
+                                {
+                                    msg.append(TFM_Util.randomChatColor()).append(c);
+                                }
+                                TFM_Util.bcastMsg(msg.toString());
+
+                                player.getInventory().getItemInHand().setType(Material.POTATO_ITEM);
+                            }
+                        }
+
+                        event.setCancelled(true);
+                        break;
+                    }
                 }
                 break;
             }
         }
+    }
+
+    private static final Random RANDOM = new Random();
+
+    private static Location randomOffset(Location a, double magnitude)
+    {
+        return a.clone().add(randomDoubleRange(-1.0, 1.0) * magnitude, randomDoubleRange(-1.0, 1.0) * magnitude, randomDoubleRange(-1.0, 1.0) * magnitude);
+    }
+
+    private static Double randomDoubleRange(double min, double max)
+    {
+        return min + (RANDOM.nextDouble() * ((max - min) + 1.0));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -404,6 +488,7 @@ public class TFM_PlayerListener implements Listener
             return;
         }
 
+        //TODO: Fix landmines
         Iterator<Command_landmine.TFM_LandmineData> landmines = Command_landmine.TFM_LandmineData.landmines.iterator();
         while (landmines.hasNext())
         {
