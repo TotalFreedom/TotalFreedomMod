@@ -488,13 +488,12 @@ public class TFM_PlayerListener implements Listener
             return;
         }
 
-        //TODO: Fix landmines
-        Iterator<Command_landmine.TFM_LandmineData> landmines = Command_landmine.TFM_LandmineData.landmines.iterator();
+        final Iterator<Command_landmine.TFM_LandmineData> landmines = Command_landmine.TFM_LandmineData.landmines.iterator();
         while (landmines.hasNext())
         {
-            Command_landmine.TFM_LandmineData landmine = landmines.next();
+            final Command_landmine.TFM_LandmineData landmine = landmines.next();
 
-            Location location = landmine.location;
+            final Location location = landmine.location;
             if (location.getBlock().getType() != Material.TNT)
             {
                 landmines.remove();
@@ -508,7 +507,7 @@ public class TFM_PlayerListener implements Listener
 
             if (!player.getWorld().equals(location.getWorld()))
             {
-                break;
+                continue;
             }
 
             if (!(player.getLocation().distanceSquared(location) <= (landmine.radius * landmine.radius)))
@@ -518,18 +517,17 @@ public class TFM_PlayerListener implements Listener
 
             landmine.location.getBlock().setType(Material.AIR);
 
-            TNTPrimed tnt1 = location.getWorld().spawn(location, TNTPrimed.class);
+            final TNTPrimed tnt1 = location.getWorld().spawn(location, TNTPrimed.class);
             tnt1.setFuseTicks(40);
             tnt1.setPassenger(player);
             tnt1.setVelocity(new Vector(0.0, 2.0, 0.0));
 
-            TNTPrimed tnt2 = location.getWorld().spawn(player.getLocation(), TNTPrimed.class);
+            final TNTPrimed tnt2 = location.getWorld().spawn(player.getLocation(), TNTPrimed.class);
             tnt2.setFuseTicks(1);
 
             player.setGameMode(GameMode.SURVIVAL);
             landmines.remove();
         }
-
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
