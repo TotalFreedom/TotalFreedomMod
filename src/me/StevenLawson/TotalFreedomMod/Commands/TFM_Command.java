@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
@@ -134,23 +133,42 @@ public abstract class TFM_Command
         return true;
     }
 
-    public Player getPlayer(final String partialname)
+    public Player getPlayer(final String partialName)
     {
-        List<Player> matches = server.matchPlayer(partialname);
-        if (matches.isEmpty())
+        if (partialName == null || partialName.isEmpty())
         {
-            for (Player player : server.getOnlinePlayers())
-            {
-                if (player.getDisplayName().toLowerCase().contains(partialname.toLowerCase()))
-                {
-                    return player;
-                }
-            }
             return null;
         }
-        else
+
+        final Player[] players = server.getOnlinePlayers();
+
+        // Check exact matches first.
+        for (Player player : players)
         {
-            return matches.get(0);
+            if (partialName.equalsIgnoreCase(player.getName()))
+            {
+                return player;
+            }
         }
+
+        // Then check partial matches in name.
+        for (Player player : players)
+        {
+            if (player.getName().toLowerCase().contains(partialName.toLowerCase()))
+            {
+                return player;
+            }
+        }
+
+        // Then check partial matches in display name.
+        for (Player player : players)
+        {
+            if (player.getDisplayName().toLowerCase().contains(partialName.toLowerCase()))
+            {
+                return player;
+            }
+        }
+
+        return null;
     }
 }

@@ -4,8 +4,6 @@ import java.util.UUID;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,6 +16,7 @@ public class Module_players extends TFM_HTTPD_Module
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public NanoHTTPD.Response getResponse()
     {
         final JSONObject responseObject = new JSONObject();
