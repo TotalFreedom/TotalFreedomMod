@@ -299,8 +299,8 @@ public class TFM_PlayerListener implements Listener
                                     {
                                         if (targetPosVec.distanceSquared(playerLocVec) < (RADIUS_HIT * RADIUS_HIT))
                                         {
-                                            player.setFlying(false);
-                                            player.setVelocity(targetPosVec.subtract(playerLocVec).normalize().multiply(STRENGTH));
+                                            target.setFlying(false);
+                                            target.setVelocity(targetPosVec.subtract(playerLocVec).normalize().multiply(STRENGTH));
                                             didHit = true;
                                         }
                                     }
@@ -333,10 +333,10 @@ public class TFM_PlayerListener implements Listener
 
                                 player.getInventory().getItemInHand().setType(Material.POTATO_ITEM);
                             }
-                        }
 
-                        event.setCancelled(true);
-                        break;
+                            event.setCancelled(true);
+                            break;
+                        }
                     }
                 }
                 break;
