@@ -32,7 +32,6 @@ public class Command_toggle extends TFM_Command
             playerMsg("- droptoggle");
             playerMsg("- nonuke");
             playerMsg("- explosives");
-            playerMsg("- disguisecraft");
             return false;
         }
 
@@ -152,29 +151,6 @@ public class Command_toggle extends TFM_Command
             if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
             {
                 playerMsg("Radius set to " + TFM_ConfigEntry.EXPLOSIVE_RADIUS.getDouble());
-            }
-            return true;
-        }
-
-        if (args[0].equals("disguisecraft"))
-        {
-            final Plugin disguiseCraft = server.getPluginManager().getPlugin("DisguiseCraft");
-            if (disguiseCraft == null)
-            {
-                playerMsg("DisguiseCraft is not installed on this server.");
-                return true;
-            }
-
-            boolean enabled = disguiseCraft.isEnabled();
-            TFM_Util.adminAction(sender.getName(), (enabled ? "disa" : "ena") + "bling DisguiseCraft", true);
-
-            if (enabled)
-            {
-                plugin.getServer().getPluginManager().disablePlugin(disguiseCraft);
-            }
-            else
-            {
-                plugin.getServer().getPluginManager().enablePlugin(disguiseCraft);
             }
             return true;
         }

@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.Bridge.TFM_DisguiseCraftBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -20,9 +19,6 @@ public class Command_purgeall extends TFM_Command
 
         // Purge entities
         TFM_Util.TFM_EntityWiper.wipeEntities(true, true);
-
-        // Undisguise all players
-        TFM_DisguiseCraftBridge.undisguiseAllPlayers();
 
         for (Player player : server.getOnlinePlayers())
         {

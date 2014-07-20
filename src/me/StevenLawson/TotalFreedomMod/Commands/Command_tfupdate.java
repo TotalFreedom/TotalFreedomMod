@@ -15,19 +15,17 @@ public class Command_tfupdate extends TFM_Command
 {
     public static final String[] FILES =
     {
-        "http://s3.madgeekonline.com/totalfreedom/BukkitHttpd.jar",
-        "http://s3.madgeekonline.com/totalfreedom/BukkitTelnet.jar",
-        "http://s3.madgeekonline.com/totalfreedom/DisguiseCraft.jar",
-        "http://s3.madgeekonline.com/totalfreedom/Essentials.jar",
-        "http://s3.madgeekonline.com/totalfreedom/EssentialsSpawn.jar",
-        "http://s3.madgeekonline.com/totalfreedom/TotalFreedomMod.jar",
-        "http://s3.madgeekonline.com/totalfreedom/craftbukkit.jar",
-        "http://s3.madgeekonline.com/totalfreedom/worldedit.jar"
     };
 
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (FILES.length == 0)
+        {
+            playerMsg("This command is disabled.");
+            return true;
+        }
+
         if (!sender.getName().equalsIgnoreCase("madgeek1450"))
         {
             playerMsg(TotalFreedomMod.MSG_NO_PERMS);
