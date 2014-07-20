@@ -209,7 +209,7 @@ public class TFM_RollbackManager
         public final short y;
         public final int z;
         public final byte data;
-        public final short blockId;
+        public final Material blockMaterial;
         private final boolean isBreak;
 
         private RollbackEntry(String author, Block block, EntryType entryType)
@@ -224,14 +224,14 @@ public class TFM_RollbackManager
 
             if (entryType == EntryType.BLOCK_BREAK)
             {
-                this.blockId = (short) block.getTypeId();
-                this.data = block.getData();
+                this.blockMaterial = block.getType();
+                this.data = TFM_DepreciationAggregator.getData_Block(block);
                 this.isBreak = true;
             }
             else
             {
-                this.blockId = (short) block.getTypeId();
-                this.data = block.getData();
+                this.blockMaterial = block.getType();
+                this.data = TFM_DepreciationAggregator.getData_Block(block);
                 this.isBreak = false;
             }
         }
@@ -251,7 +251,7 @@ public class TFM_RollbackManager
 
         public Material getMaterial()
         {
-            return Material.getMaterial(blockId);
+            return blockMaterial;
         }
 
         public EntryType getType()
@@ -265,7 +265,7 @@ public class TFM_RollbackManager
             if (isBreak)
             {
                 block.setType(getMaterial());
-                block.setData(data);
+                TFM_DepreciationAggregator.setData_Block(block, data);
             }
             else
             {
@@ -284,7 +284,7 @@ public class TFM_RollbackManager
             else
             {
                 block.setType(getMaterial());
-                block.setData(data);
+                TFM_DepreciationAggregator.setData_Block(block, data);
             }
         }
     }

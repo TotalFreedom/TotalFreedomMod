@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -75,7 +74,7 @@ public class Command_trail extends TFM_Command
                             if (!fromBlock.equals(toBlock))
                             {
                                 fromBlock.setType(Material.WOOL);
-                                fromBlock.setData((byte) RANDOM.nextInt(16));
+                                me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.setData_Block(fromBlock, (byte) RANDOM.nextInt(16));
                             }
                         }
                     }

@@ -22,6 +22,7 @@ import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
+@SuppressWarnings("deprecation")
 public class CleanroomBlockPopulator extends BlockPopulator
 {
     byte[] layerDataValues;

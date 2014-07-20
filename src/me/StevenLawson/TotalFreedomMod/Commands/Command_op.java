@@ -40,7 +40,7 @@ public class Command_op extends TFM_Command
         {
             if (TFM_AdminList.isSuperAdmin(sender) || senderIsConsole)
             {
-                player = server.getOfflinePlayer(args[0]);
+                player = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getOfflinePlayer(server, args[0]);
             }
             else
             {

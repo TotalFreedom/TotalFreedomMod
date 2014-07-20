@@ -73,11 +73,11 @@ public class TFM_Util
         {
             try
             {
-                if (type.getName() != null)
+                if (TFM_DepreciationAggregator.getName_EntityType(type) != null)
                 {
                     if (Creature.class.isAssignableFrom(type.getEntityClass()))
                     {
-                        mobtypes.put(type.getName().toLowerCase(), type);
+                        mobtypes.put(TFM_DepreciationAggregator.getName_EntityType(type).toLowerCase(), type);
                     }
                 }
             }
@@ -527,7 +527,6 @@ public class TFM_Util
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 1 minute.");
 
-
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
                 TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", expires, kickMessage));
                 player.kickPlayer(kickMessage);
@@ -541,7 +540,6 @@ public class TFM_Util
                 final Date expires = c.getTime();
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 3 minutes.");
-
 
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
                 TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", expires, kickMessage));
@@ -963,7 +961,6 @@ public class TFM_Util
                 field.setAccessible(true);
                 return (T) field.get(from);
 
-
             }
             catch (NoSuchFieldException ex)
             {
@@ -1012,7 +1009,6 @@ public class TFM_Util
     {
         String packageName = Bukkit.getServer().getClass().getPackage().getName();
         return packageName.substring(packageName.lastIndexOf('.') + 1);
-
 
     }
 

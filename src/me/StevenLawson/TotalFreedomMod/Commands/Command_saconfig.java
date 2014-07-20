@@ -162,7 +162,7 @@ public class Command_saconfig extends TFM_Command
                     return true;
                 }
 
-                player = Bukkit.getOfflinePlayer(superadmin.getLastLoginName());
+                player = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getOfflinePlayer(server, superadmin.getLastLoginName());
             }
 
             TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list", true);
@@ -192,7 +192,6 @@ public class Command_saconfig extends TFM_Command
 
             String targetName = args[1];
 
-
             final Player player = getPlayer(targetName);
 
             if (player != null)
@@ -207,7 +206,7 @@ public class Command_saconfig extends TFM_Command
             }
 
             TFM_Util.adminAction(sender.getName(), "Removing " + targetName + " from the superadmin list", true);
-            TFM_AdminList.removeSuperadmin(Bukkit.getOfflinePlayer(targetName));
+            TFM_AdminList.removeSuperadmin(me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getOfflinePlayer(server, targetName));
 
             // Twitterbot
             if (TFM_ConfigEntry.TWITTERBOT_ENABLED.getBoolean())

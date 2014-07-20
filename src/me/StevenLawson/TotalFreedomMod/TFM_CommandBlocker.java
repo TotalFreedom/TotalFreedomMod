@@ -40,6 +40,7 @@ public class TFM_CommandBlocker
             return;
         }
 
+        @SuppressWarnings("unchecked")
         List<String> _blockedCommands = (List<String>) TFM_ConfigEntry.BLOCKED_COMMANDS.getList();
         for (String rawEntry : _blockedCommands)
         {

@@ -158,7 +158,7 @@ public class TFM_EntityListener implements Listener
         if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             Projectile entity = event.getEntity();
-            if (event.getEntityType() == EntityType.ARROW && entity.getShooter() instanceof Player)
+            if (event.getEntityType() == EntityType.ARROW)
             {
                 entity.getWorld().createExplosion(entity.getLocation(), 2F);
             }

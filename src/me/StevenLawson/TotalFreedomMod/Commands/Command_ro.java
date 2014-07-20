@@ -35,7 +35,7 @@ public class Command_ro extends TFM_Command
             {
                 try
                 {
-                    fromMaterial = Material.getMaterial(Integer.parseInt(materialName));
+                    fromMaterial = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getMaterial(Integer.parseInt(materialName));
                 }
                 catch (NumberFormatException ex)
                 {
@@ -105,7 +105,6 @@ public class Command_ro extends TFM_Command
         }
 
         TFM_Util.adminAction(sender.getName(), "Remove complete! " + affected + " blocks removed.", false);
-
 
         return true;
     }

@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "See who has a block and optionally smite", usage = "/<command> <item> [smite]", aliases = "wh")
+@CommandParameters(description = "See who has a block and optionally smite.", usage = "/<command> <item> [smite]", aliases = "wh")
 public class Command_whohas extends TFM_Command
 {
     @Override
@@ -31,28 +31,29 @@ public class Command_whohas extends TFM_Command
             }
         }
 
-        Material material = Material.matchMaterial(args[0]);
+        final String materialName = args[0];
 
+        Material material = Material.matchMaterial(materialName);
         if (material == null)
         {
             try
             {
-                material = Material.getMaterial(Integer.parseInt(args[0]));
+                material = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getMaterial(Integer.parseInt(materialName));
             }
             catch (NumberFormatException ex)
             {
             }
-
-            if (material == null)
-            {
-                playerMsg("Invalid block: " + args[0], ChatColor.RED);
-                return true;
-            }
         }
 
-        List<String> players = new ArrayList<String>();
+        if (material == null)
+        {
+            playerMsg("Invalid block: " + materialName, ChatColor.RED);
+            return true;
+        }
 
-        for (Player player : server.getOnlinePlayers())
+        final List<String> players = new ArrayList<String>();
+
+        for (final Player player : server.getOnlinePlayers())
         {
             if (player.getInventory().contains(material))
             {

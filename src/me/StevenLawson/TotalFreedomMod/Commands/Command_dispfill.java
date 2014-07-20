@@ -35,52 +35,51 @@ public class Command_dispfill extends TFM_Command
                 return true;
             }
 
-            String[] items_raw = StringUtils.split(args[1], ",");
-            List<ItemStack> items = new ArrayList<ItemStack>();
-            for (String search_item : items_raw)
+            final List<ItemStack> items = new ArrayList<ItemStack>();
+
+            final String[] itemsRaw = StringUtils.split(args[1], ",");
+            for (final String searchItem : itemsRaw)
             {
-                ItemStack is = null;
-
-                is = new ItemStack(Material.matchMaterial(search_item), 64);
-
-                if (is == null)
+                Material material = Material.matchMaterial(searchItem);
+                if (material == null)
                 {
                     try
                     {
-                        is = new ItemStack(Integer.parseInt(search_item), 64);
+                        material = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getMaterial(Integer.parseInt(searchItem));
                     }
                     catch (NumberFormatException ex)
                     {
                     }
                 }
 
-                if (is != null)
+                if (material != null)
                 {
-                    items.add(is);
+                    items.add(new ItemStack(material, 64));
                 }
                 else
                 {
-                    sender.sendMessage("Skipping invalid item: " + search_item);
+                    sender.sendMessage("Skipping invalid item: " + searchItem);
                 }
             }
-            ItemStack[] items_array = items.toArray(new ItemStack[items.size()]);
+
+            final ItemStack[] itemsArray = items.toArray(new ItemStack[items.size()]);
 
             int affected = 0;
-            Location center_location = sender_p.getLocation();
-            Block center_block = center_location.getBlock();
-            for (int x_offset = -radius; x_offset <= radius; x_offset++)
+            final Location centerLocation = sender_p.getLocation();
+            final Block centerBlock = centerLocation.getBlock();
+            for (int xOffset = -radius; xOffset <= radius; xOffset++)
             {
-                for (int y_offset = -radius; y_offset <= radius; y_offset++)
+                for (int yOffset = -radius; yOffset <= radius; yOffset++)
                 {
-                    for (int z_offset = -radius; z_offset <= radius; z_offset++)
+                    for (int zOffset = -radius; zOffset <= radius; zOffset++)
                     {
-                        Block targetBlock = center_block.getRelative(x_offset, y_offset, z_offset);
-                        if (targetBlock.getLocation().distanceSquared(center_location) < (radius * radius))
+                        final Block targetBlock = centerBlock.getRelative(xOffset, yOffset, zOffset);
+                        if (targetBlock.getLocation().distanceSquared(centerLocation) < (radius * radius))
                         {
                             if (targetBlock.getType().equals(Material.DISPENSER))
                             {
                                 sender.sendMessage("Filling dispenser @ " + TFM_Util.formatLocation(targetBlock.getLocation()));
-                                setDispenserContents(targetBlock, items_array);
+                                setDispenserContents(targetBlock, itemsArray);
                                 affected++;
                             }
                         }
@@ -98,11 +97,13 @@ public class Command_dispfill extends TFM_Command
         return true;
     }
 
-    private static void setDispenserContents(Block targetBlock, ItemStack[] items)
+    private static void setDispenserContents(final Block targetBlock, final ItemStack[] items)
     {
-        Dispenser dispenser = (Dispenser) targetBlock.getState();
-        Inventory disp_inv = dispenser.getInventory();
-        disp_inv.clear();
-        disp_inv.addItem(items);
+        if (targetBlock.getType() == Material.DISPENSER)
+        {
+            final Inventory dispenserInv = ((Dispenser) targetBlock.getState()).getInventory();
+            dispenserInv.clear();
+            dispenserInv.addItem(items);
+        }
     }
 }

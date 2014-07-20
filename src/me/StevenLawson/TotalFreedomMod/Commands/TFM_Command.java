@@ -135,6 +135,11 @@ public abstract class TFM_Command
 
     public Player getPlayer(final String partialName)
     {
+        return getPlayer(partialName, false);
+    }
+
+    public Player getPlayer(final String partialName, final boolean exact)
+    {
         if (partialName == null || partialName.isEmpty())
         {
             return null;
@@ -143,7 +148,7 @@ public abstract class TFM_Command
         final Player[] players = server.getOnlinePlayers();
 
         // Check exact matches first.
-        for (Player player : players)
+        for (final Player player : players)
         {
             if (partialName.equalsIgnoreCase(player.getName()))
             {
@@ -151,8 +156,13 @@ public abstract class TFM_Command
             }
         }
 
+        if (exact)
+        {
+            return null;
+        }
+
         // Then check partial matches in name.
-        for (Player player : players)
+        for (final Player player : players)
         {
             if (player.getName().toLowerCase().contains(partialName.toLowerCase()))
             {
@@ -161,7 +171,7 @@ public abstract class TFM_Command
         }
 
         // Then check partial matches in display name.
-        for (Player player : players)
+        for (final Player player : players)
         {
             if (player.getDisplayName().toLowerCase().contains(partialName.toLowerCase()))
             {

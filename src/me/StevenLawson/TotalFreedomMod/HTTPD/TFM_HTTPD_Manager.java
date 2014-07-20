@@ -17,7 +17,6 @@ import org.bukkit.Bukkit;
 
 public class TFM_HTTPD_Manager
 {
-    @Deprecated
     public static String MIME_DEFAULT_BINARY;
     //
     private static final Pattern EXT_REGEX;

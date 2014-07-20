@@ -98,6 +98,7 @@ public class TFM_ServiceChecker
                     final Iterator serviceIt = ((JSONObject) status.next()).entrySet().iterator();
                     while (serviceIt.hasNext())
                     {
+                        @SuppressWarnings("unchecked")
                         final Entry<String, String> pair = (Entry<String, String>) serviceIt.next();
 
                         if ("lastcheck".equals(pair.getKey()))

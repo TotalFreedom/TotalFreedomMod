@@ -66,6 +66,7 @@ public class TFM_BanManager
         save();
         TFM_Log.info("Loaded " + ipBans.size() + " IP bans and " + uuidBans.size() + " UUID bans");
 
+        @SuppressWarnings("unchecked")
         final TFM_UuidResolver resolver = new TFM_UuidResolver((List<String>) TFM_ConfigEntry.UNBANNABLE_USERNAMES.getList());
 
         for (UUID uuid : resolver.call().values())

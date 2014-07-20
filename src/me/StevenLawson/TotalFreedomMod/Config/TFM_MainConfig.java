@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.EnumMap;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
@@ -272,7 +273,9 @@ public class TFM_MainConfig
             try
             {
                 defaults = new YamlConfiguration();
-                defaults.load(defaultConfig);
+                final InputStreamReader isr = new InputStreamReader(defaultConfig);
+                defaults.load(isr);
+                isr.close();
             }
             catch (IOException ex)
             {

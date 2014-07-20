@@ -29,7 +29,7 @@ public class Command_cbtool extends TFM_Command
 
         if ("targetblock".equalsIgnoreCase(args[0]) && sender instanceof Player)
         {
-            Block targetBlock = sender_p.getTargetBlock(null, 100);
+            Block targetBlock = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getTargetBlock(sender_p, null, 100);
             playerMsg("Your target block: " + targetBlock.getLocation().toString());
             return true;
         }
