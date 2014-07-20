@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import com.earth2me.essentials.utils.StringUtil;
 import com.google.common.collect.ImmutableList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,6 +11,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Callable;
+
+import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 
 // Credits to evilmidget38
 public class TFM_UuidResolver implements Callable<Map<String, UUID>>
@@ -75,7 +76,7 @@ public class TFM_UuidResolver implements Callable<Map<String, UUID>>
             catch (Exception ex)
             {
                 TFM_Log.severe("Could not resolve UUID(s) of "
-                        + StringUtil.joinList(", ", names.subList(i * 100, Math.min((i + 1) * 100, names.size()))));
+                        + StringUtils.join(names.subList(i * 100, Math.min((i + 1) * 100, names.size())), ", "));
                 TFM_Log.severe(ex);
             }
         }
