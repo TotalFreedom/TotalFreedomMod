@@ -136,6 +136,7 @@ public class Command_potion extends TFM_Command
                 try
                 {
                     duration = Integer.parseInt(args[2]);
+                    duration = Math.min(duration, 100000);
                 }
                 catch (NumberFormatException ex)
                 {
@@ -147,6 +148,7 @@ public class Command_potion extends TFM_Command
                 try
                 {
                     amplifier = Integer.parseInt(args[3]);
+                    amplifier = Math.min(amplifier, 100000);
                 }
                 catch (NumberFormatException ex)
                 {
