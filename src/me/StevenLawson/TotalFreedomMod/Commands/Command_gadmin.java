@@ -1,11 +1,10 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_Ban;
+import java.util.Arrays;
+import java.util.Iterator;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
-import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TFM_UuidResolver;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,10 +13,48 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(
-        description = "Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci",
-        usage = "/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci | fr> <targethash>] ]")
+        description = "Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci, fr, smite.",
+        usage = "/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci | fr | smite> <targethash>] ]")
 public class Command_gadmin extends TFM_Command
 {
+    private enum GadminMode
+    {
+        LIST("list"),
+        KICK("kick"),
+        NAMEBAN("nameban"),
+        IPBAN("ipban"),
+        BAN("ban"),
+        OP("op"),
+        DEOP("deop"),
+        CI("ci"),
+        FR("fr"),
+        SMITE("smite");
+
+        private final String modeName;
+
+        private GadminMode(String command)
+        {
+            this.modeName = command;
+        }
+
+        public String getModeName()
+        {
+            return modeName;
+        }
+
+        public static GadminMode findMode(String needle)
+        {
+            for (final GadminMode mode : GadminMode.values())
+            {
+                if (needle.equalsIgnoreCase(mode.getModeName()))
+                {
+                    return mode;
+                }
+            }
+            return null;
+        }
+    }
+
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -26,104 +63,142 @@ public class Command_gadmin extends TFM_Command
             return false;
         }
 
-        final String mode = args[0].toLowerCase();
-
-        if (mode.equals("list"))
+        final GadminMode mode = GadminMode.findMode(args[0].toLowerCase());
+        if (mode == null)
         {
-            playerMsg("[ Real Name ] : [ Display Name ] - Hash:");
+            playerMsg("Invalid mode: " + args[0], ChatColor.RED);
+            return true;
         }
 
-        for (Player player : server.getOnlinePlayers())
+        final Iterator<Player> it = Arrays.asList(server.getOnlinePlayers()).iterator();
+
+        if (mode == GadminMode.LIST)
         {
-            String hash = TFM_Util.getUuid(player).toString().substring(0, 4);
-            if (mode.equals("list"))
+            playerMsg("[ Real Name ] : [ Display Name ] - Hash:");
+            while (it.hasNext())
             {
+                final Player player = it.next();
+                final String hash = TFM_Util.getUuid(player).toString().substring(0, 4);
                 sender.sendMessage(ChatColor.GRAY + String.format("[ %s ] : [ %s ] - %s",
                         player.getName(),
                         ChatColor.stripColor(player.getDisplayName()),
-                        hash));
+                        hash
+                ));
             }
+            return true;
+        }
 
-            if (args.length < 2)
-            {
-                return false;
-            }
+        if (args.length < 2)
+        {
+            return false;
+        }
 
+        Player target = null;
+        while (it.hasNext() && target == null)
+        {
+            final Player player = it.next();
+            final String hash = TFM_Util.getUuid(player).toString().substring(0, 4);
 
             if (hash.equalsIgnoreCase(args[1]))
             {
-                if (mode.equals("kick"))
-                {
-                    TFM_Util.adminAction(sender.getName(), String.format("Kicking: %s.", player.getName()), false);
-                    player.kickPlayer("Kicked by Administrator");
-                }
-                else if (mode.equals("nameban"))
-                {
-                    TFM_BanManager.addUuidBan(player);
-
-                    TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s.", player.getName()), true);
-                    player.kickPlayer("Username banned by Administrator.");
-                }
-                else if (mode.equals("ipban"))
-                {
-                    String ip = player.getAddress().getAddress().getHostAddress();
-                    String[] ip_parts = ip.split("\\.");
-                    if (ip_parts.length == 4)
-                    {
-                        ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
-                    }
-                    TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", player.getName(), ip), true);
-                    TFM_BanManager.addIpBan(player);
-
-                    player.kickPlayer("IP address banned by Administrator.");
-                }
-                else if (mode.equals("ban"))
-                {
-                    String ip = player.getAddress().getAddress().getHostAddress();
-                    String[] ip_parts = ip.split("\\.");
-                    if (ip_parts.length == 4)
-                    {
-                        ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
-                    }
-                    TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", player.getName(), ip), true);
-
-                    TFM_BanManager.addUuidBan(player);
-                    TFM_BanManager.addIpBan(player);
-
-                    player.kickPlayer("IP and username banned by Administrator.");
-                }
-                else if (mode.equals("op"))
-                {
-                    TFM_Util.adminAction(sender.getName(), String.format("Opping %s.", player.getName()), false);
-                    player.setOp(false);
-                    player.sendMessage(TotalFreedomMod.YOU_ARE_OP);
-                }
-                else if (mode.equals("deop"))
-                {
-                    TFM_Util.adminAction(sender.getName(), String.format("Deopping %s.", player.getName()), false);
-                    player.setOp(false);
-                    player.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
-                }
-                else if (mode.equals("ci"))
-                {
-                    player.getInventory().clear();
-                }
-                else if (mode.equals("fr"))
-                {
-                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-                    playerdata.setFrozen(!playerdata.isFrozen());
-
-                    playerMsg(player.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
-                    player.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
-                }
-
-                return true;
+                target = player;
             }
         }
 
-        if (!mode.equals("list"))
+        if (target == null)
         {
-            playerMsg("Invalid hash.", ChatColor.RED);
+            playerMsg("Invalid player hash: " + args[1], ChatColor.RED);
+            return true;
+        }
+
+        switch (mode)
+        {
+            case KICK:
+            {
+                TFM_Util.adminAction(sender.getName(), String.format("Kicking: %s.", target.getName()), false);
+                target.kickPlayer("Kicked by Administrator");
+
+                break;
+            }
+            case NAMEBAN:
+            {
+                TFM_BanManager.addUuidBan(target);
+
+                TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s.", target.getName()), true);
+                target.kickPlayer("Username banned by Administrator.");
+
+                break;
+            }
+            case IPBAN:
+            {
+                String ip = target.getAddress().getAddress().getHostAddress();
+                String[] ip_parts = ip.split("\\.");
+                if (ip_parts.length == 4)
+                {
+                    ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+                }
+                TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", target.getName(), ip), true);
+                TFM_BanManager.addIpBan(target);
+
+                target.kickPlayer("IP address banned by Administrator.");
+
+                break;
+            }
+            case BAN:
+            {
+                String ip = target.getAddress().getAddress().getHostAddress();
+                String[] ip_parts = ip.split("\\.");
+                if (ip_parts.length == 4)
+                {
+                    ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+                }
+                TFM_Util.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", target.getName(), ip), true);
+
+                TFM_BanManager.addUuidBan(target);
+                TFM_BanManager.addIpBan(target);
+
+                target.kickPlayer("IP and username banned by Administrator.");
+
+                break;
+            }
+            case OP:
+            {
+                TFM_Util.adminAction(sender.getName(), String.format("Opping %s.", target.getName()), false);
+                target.setOp(false);
+                target.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+
+                break;
+            }
+            case DEOP:
+            {
+                TFM_Util.adminAction(sender.getName(), String.format("Deopping %s.", target.getName()), false);
+                target.setOp(false);
+                target.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+
+                break;
+            }
+            case CI:
+            {
+                target.getInventory().clear();
+
+                break;
+            }
+            case FR:
+            {
+                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(target);
+                playerdata.setFrozen(!playerdata.isFrozen());
+
+                playerMsg(target.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                target.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+
+                break;
+            }
+            case SMITE:
+            {
+                Command_smite.smite(target);
+
+                break;
+            }
         }
 
         return true;
