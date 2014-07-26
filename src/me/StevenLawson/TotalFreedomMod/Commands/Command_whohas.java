@@ -17,22 +17,14 @@ public class Command_whohas extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        boolean smite = false;
-
-        if (args.length != 1)
+        if (args.length < 1)
         {
-            if (args.length == 2 && args[1].equals("smite"))
-            {
-                smite = true;
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
-        final String materialName = args[0];
+        final boolean doSmite = args.length >= 2 && "smite".equalsIgnoreCase(args[1]);
 
+        final String materialName = args[0];
         Material material = Material.matchMaterial(materialName);
         if (material == null)
         {
@@ -58,7 +50,7 @@ public class Command_whohas extends TFM_Command
             if (player.getInventory().contains(material))
             {
                 players.add(player.getName());
-                if (smite & !TFM_AdminList.isSuperAdmin(player))
+                if (doSmite && !TFM_AdminList.isSuperAdmin(player))
                 {
                     Command_smite.smite(player);
                 }
@@ -75,6 +67,5 @@ public class Command_whohas extends TFM_Command
         }
 
         return true;
-
     }
 }
