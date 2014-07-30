@@ -97,7 +97,8 @@ blocked_commands:
   - 's:b://butcher:_'
   - 's:b:/scoreboard:_'
   - 's:b:/setspawn:_'
-  - 's:b://snow'
+  - 's:b://snow:_'
+  - 's:b:/tellraw:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop'
@@ -110,7 +111,7 @@ blocked_commands:
 
     # Spigot commands
   - 's:a:/restart'
-  - 's:b:/setblock'
+  - 's:b:/setblock:_'
 
 # Automatically wipe dropped objects:
 auto_wipe: true
