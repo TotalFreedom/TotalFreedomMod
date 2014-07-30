@@ -1093,4 +1093,34 @@ public class TFM_Util
     {
         STRIKE_ONE, STRIKE_TWO, STRIKE_THREE;
     }
+
+    public static class TFMethodTimer
+    {
+        private long lastStart;
+        private long total = 0;
+
+        public TFMethodTimer()
+        {
+        }
+
+        public void start()
+        {
+            this.lastStart = System.currentTimeMillis();
+        }
+
+        public void update()
+        {
+            this.total += (System.currentTimeMillis() - this.lastStart);
+        }
+
+        public long getTotal()
+        {
+            return this.total;
+        }
+
+        public void printTotalToLog(String timerName)
+        {
+            TFM_Log.info("DEBUG: " + timerName + " used " + this.getTotal() + " ms.");
+        }
+    }
 }
