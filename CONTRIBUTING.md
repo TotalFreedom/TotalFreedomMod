@@ -67,8 +67,12 @@ As a rough guideline, ask yourself the following questions to determine if your 
   * "#issue" is the issue number number you based your work on.
 
 #### Example commit message ####
-> Fixed bugs with /saconfig clear. Resolves #167
-> Admins can now use /saconfig clear [ip] to remove the designated IP (only their own IPs can be removed. > They can also simply use /saconfig clear to remove all IPs but the current one. /saconfig clear is safe, > meaning you can't remove your current IP or an IP that doesn't belong to you.
+```
+Fixed bugs with /saconfig clear. Resolves #167
+Admins can now use /saconfig clear [ip] to remove the designated IP (only their own IPs can be removed. 
+They can also simply use /saconfig clear to remove all IPs but the current one. /saconfig clear is safe, 
+meaning you can't remove your current IP or an IP that doesn't belong to you.
+```
 
 ## Submitting Your Changes ##
 * Push your changes to the topic branch in your fork of the repository.
