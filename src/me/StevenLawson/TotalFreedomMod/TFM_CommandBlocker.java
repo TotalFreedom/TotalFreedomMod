@@ -321,11 +321,11 @@ public class TFM_CommandBlocker
 
                 if (this.action == CommandBlockerAction.BLOCK_UNKNOWN)
                 {
-                    response = "Unknown command. Type \"help\" for help.";
+                    response = "Unknown command. Type \"/help\" for help.";
                 }
                 else if (this.message == null || "_".equals(this.message))
                 {
-                    response = ChatColor.GRAY + "That command is blocked.";
+                    response = ChatColor.GRAY + "[" + ChatColor.GREEN + "Rcon" + ChatColor.GRAY + "] \"" + ChatColor.GOLD + this.command + ChatColor.GRAY + "\"" + ChatColor.BLUE + " is blocked!";
                 }
                 else
                 {
