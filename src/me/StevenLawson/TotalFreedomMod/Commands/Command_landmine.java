@@ -67,7 +67,6 @@ public class Command_landmine extends TFM_Command
     public static class TFM_LandmineData
     {
         public static final List<TFM_LandmineData> landmines = new ArrayList<TFM_LandmineData>();
-
         public final Location location;
         public final Player player;
         public final double radius;

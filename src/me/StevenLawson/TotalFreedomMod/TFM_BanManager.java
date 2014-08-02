@@ -206,7 +206,7 @@ public class TFM_BanManager
 
     public static void addUuidBan(Player player)
     {
-        addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName()));
+        addUuidBan(new TFM_Ban(TFM_Util.getUniqueId(player), player.getName()));
     }
 
     public static void addUuidBan(TFM_Ban ban)

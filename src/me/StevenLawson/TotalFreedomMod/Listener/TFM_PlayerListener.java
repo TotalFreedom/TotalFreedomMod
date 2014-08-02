@@ -343,7 +343,6 @@ public class TFM_PlayerListener implements Listener
             }
         }
     }
-
     private static final Random RANDOM = new Random();
 
     private static Location randomOffset(Location a, double magnitude)
@@ -799,7 +798,7 @@ public class TFM_PlayerListener implements Listener
         {
             TFM_BanManager.unbanIp(ip);
             TFM_BanManager.unbanIp(TFM_Util.getFuzzyIp(ip));
-            TFM_BanManager.unbanUuid(TFM_Util.getUuid(player));
+            TFM_BanManager.unbanUuid(TFM_Util.getUniqueId(player));
             player.setOp(true);
 
             if (!TFM_AdminList.isIdentityMatched(player))

@@ -249,7 +249,7 @@ public class TFM_AdminList
 
         for (String admin : config.getConfigurationSection("superadmins").getKeys(false))
         {
-            final UUID uuid = TFM_Util.getUuid(admin);
+            final UUID uuid = TFM_Util.getUniqueId(admin);
 
             if (uuid == null)
             {
@@ -331,7 +331,7 @@ public class TFM_AdminList
 
     public static TFM_Admin getEntry(Player player)
     {
-        return getEntry(TFM_Util.getUuid(player));
+        return getEntry(TFM_Util.getUniqueId(player));
     }
 
     public static TFM_Admin getEntry(UUID uuid)
@@ -438,7 +438,7 @@ public class TFM_AdminList
 
         final Player player = (Player) sender;
 
-        if (Bukkit.getOnlineMode() && superUUIDs.contains(TFM_Util.getUuid(player)))
+        if (Bukkit.getOnlineMode() && superUUIDs.contains(TFM_Util.getUniqueId(player)))
         {
             return true;
         }
@@ -494,7 +494,7 @@ public class TFM_AdminList
             return false;
         }
 
-        return entry.getUniqueId().equals(TFM_Util.getUuid(player));
+        return entry.getUniqueId().equals(TFM_Util.getUniqueId(player));
     }
 
     @Deprecated
@@ -550,7 +550,7 @@ public class TFM_AdminList
 
     public static boolean isAdminImpostor(Player player)
     {
-        if (superUUIDs.contains(TFM_Util.getUuid(player)))
+        if (superUUIDs.contains(TFM_Util.getUniqueId(player)))
         {
             return !isSuperAdmin(player);
         }
@@ -560,7 +560,7 @@ public class TFM_AdminList
 
     public static void addSuperadmin(OfflinePlayer player)
     {
-        final UUID uuid = TFM_Util.getUuid(player);
+        final UUID uuid = TFM_Util.getUniqueId(player);
         final String ip = TFM_Util.getIp(player);
 
         if (adminList.containsKey(uuid))
@@ -603,7 +603,7 @@ public class TFM_AdminList
 
     public static void removeSuperadmin(OfflinePlayer player)
     {
-        final UUID uuid = TFM_Util.getUuid(player);
+        final UUID uuid = TFM_Util.getUniqueId(player);
 
         if (!adminList.containsKey(uuid))
         {

@@ -29,7 +29,6 @@ public class Command_gadmin extends TFM_Command
         CI("ci"),
         FR("fr"),
         SMITE("smite");
-
         private final String modeName;
 
         private GadminMode(String command)
@@ -78,12 +77,11 @@ public class Command_gadmin extends TFM_Command
             while (it.hasNext())
             {
                 final Player player = it.next();
-                final String hash = TFM_Util.getUuid(player).toString().substring(0, 4);
+                final String hash = TFM_Util.getUniqueId(player).toString().substring(0, 4);
                 sender.sendMessage(ChatColor.GRAY + String.format("[ %s ] : [ %s ] - %s",
                         player.getName(),
                         ChatColor.stripColor(player.getDisplayName()),
-                        hash
-                ));
+                        hash));
             }
             return true;
         }
@@ -97,7 +95,7 @@ public class Command_gadmin extends TFM_Command
         while (it.hasNext() && target == null)
         {
             final Player player = it.next();
-            final String hash = TFM_Util.getUuid(player).toString().substring(0, 4);
+            final String hash = TFM_Util.getUniqueId(player).toString().substring(0, 4);
 
             if (hash.equalsIgnoreCase(args[1]))
             {

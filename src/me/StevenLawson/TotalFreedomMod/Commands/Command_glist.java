@@ -54,7 +54,7 @@ public class Command_glist extends TFM_Command
 
             if (player == null)
             {
-                final TFM_Player entry = TFM_PlayerList.getEntry(args[1]);
+                final TFM_Player entry = TFM_PlayerList.getEntry(TFM_Util.getUniqueId(args[1]));
 
                 if (entry == null)
                 {
@@ -79,12 +79,12 @@ public class Command_glist extends TFM_Command
                 Player target = getPlayer(username, true);
                 if (target != null)
                 {
-                    TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(target), target.getName()));
+                    TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUniqueId(target), target.getName()));
                     target.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
                 }
                 else
                 {
-                    TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(username), username));
+                    TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUniqueId(username), username));
                 }
 
                 for (String ip : ips)
@@ -97,7 +97,7 @@ public class Command_glist extends TFM_Command
             else if (mode.equalsIgnoreCase("unban") || mode.equalsIgnoreCase("pardon"))
             {
                 TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ","), true);
-                TFM_BanManager.unbanUuid(TFM_Util.getUuid(username));
+                TFM_BanManager.unbanUuid(TFM_Util.getUniqueId(username));
                 for (String ip : ips)
                 {
 

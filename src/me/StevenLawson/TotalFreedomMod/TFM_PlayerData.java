@@ -59,7 +59,7 @@ public class TFM_PlayerData
     private TFM_PlayerData(Player player)
     {
         this.player = player;
-        this.uuid = TFM_Util.getUuid(player.getName());
+        this.uuid = TFM_Util.getUniqueId(player.getName());
         this.ip = player.getAddress().getAddress().getHostAddress();
     }
 

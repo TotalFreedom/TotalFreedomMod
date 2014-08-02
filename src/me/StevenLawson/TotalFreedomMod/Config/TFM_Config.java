@@ -59,6 +59,16 @@ public class TFM_Config extends YamlConfiguration // BukkitLib @ https://github.
     }
 
     /**
+     * Validates if the configuration exists.
+     *
+     * @return True if the configuration exists.
+     */
+    public boolean exists()
+    {
+        return configFile.exists();
+    }
+
+    /**
      * Saves the configuration to the predefined file.
      *
      * @see #YamlConfig(Plugin, String, boolean)

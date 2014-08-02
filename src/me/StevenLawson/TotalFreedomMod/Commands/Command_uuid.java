@@ -98,7 +98,7 @@ public class Command_uuid extends TFM_Command
                             continue;
                         }
 
-                        TFM_PlayerList.setUuid(player, player.getUniqueId(), uuids.get(name));
+                        TFM_PlayerList.setUniqueId(player, uuids.get(name));
                         updated++;
                         break;
                     }
