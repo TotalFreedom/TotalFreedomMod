@@ -9,7 +9,7 @@ For those who wish to contribute, we encourage you to fork the repository and su
 3. Fork TotalFreedomMod if you haven't done so already.
 4. Make a branch dedicated to your change.
 5. Make your change.
-6. Commit your change according to the committing guidelines.
+6. Commit your change according to the [committing guidelines](#committing-your-changes).
 7. Push your branch and submit a pull request.
 
 ## Getting Started ##
@@ -40,7 +40,7 @@ As a rough guideline, ask yourself the following questions to determine if your 
   * This is usually the master branch.
   * Name your branch something relevant to the change you are going to make.
   * To quickly create a topic branch based on master, use `git checkout master` followed by `git checkout -b <name>`. Avoid working directly on the `master` branch.
-* Make sure your change meets our code requirements.
+* Make sure your change meets our [code requirements](#code-requirements).
 
 ### Code requirements ###
 * Code must be written in [Allman style](http://en.wikipedia.org/wiki/Indent_style#Allman_style), and that it follows [Java Code Conventions](http://www.oracle.com/technetwork/java/codeconventions-150003.pdf).__
@@ -62,8 +62,8 @@ As a rough guideline, ask yourself the following questions to determine if your 
 * For a prolonged description, continue on a new line.
 * The first description line should be once sentence and should not exceed 10 words.
 * The first description line should contain either:
-  * For a bug-related issue: "Resolves #issue".
-  * For a feature request: "Fixes #issue".
+  * For a bug-related issue: "Resolves _#issue_".
+  * For a feature request: "Fixes _#issue_".
   * "#issue" is the issue number number you based your work on.
 
 #### Example commit message ####
