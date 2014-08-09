@@ -882,6 +882,11 @@ public class TFM_PlayerListener implements Listener
             name = ChatColor.AQUA + name;
             TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
         }
+        if (TFM_AdminList.isAdminImpostor((Player) player))
+        {
+            name = ChatColor.YELLOW + name;
+            TFM_PlayerData.getPlayerData(player).setTag("&8[&eImposter&8]");
+        }
 
         try
         {
