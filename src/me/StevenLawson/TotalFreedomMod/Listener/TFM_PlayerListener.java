@@ -630,9 +630,8 @@ public class TFM_PlayerListener implements Listener
             // Set the tag
             if (playerdata.getTag() != null)
             {
-                player.setDisplayName((playerdata.getTag() + " " + player.getDisplayName().replaceAll(" ", "")));
+                event.setFormat("<" + playerdata.getTag().replaceAll("%", "%%") + " %1$s> %2$s");
             }
-
         }
         catch (Exception ex)
         {
