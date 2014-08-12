@@ -5,8 +5,6 @@ import me.StevenLawson.BukkitTelnet.api.TelnetPreLoginEvent;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -25,7 +23,7 @@ public class TFM_TelnetListener implements Listener
 
         final TFM_Admin admin = TFM_AdminList.getEntryByIp(ip, true);
 
-        if (admin == null || !admin.isTelnetAdmin())
+        if (admin == null || !admin.isActivated() || !admin.isTelnetAdmin())
         {
             return;
         }
