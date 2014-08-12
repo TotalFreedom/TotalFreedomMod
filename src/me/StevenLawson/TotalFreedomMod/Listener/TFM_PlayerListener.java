@@ -885,7 +885,7 @@ public class TFM_PlayerListener implements Listener
 
         try
         {
-            player.setPlayerListName(name.substring(0, 16));
+            player.setPlayerListName(StringUtils.substring(name, 0, 16));
         }
         catch (IllegalArgumentException ex)
         {
