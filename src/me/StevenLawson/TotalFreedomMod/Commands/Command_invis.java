@@ -49,17 +49,17 @@ public class Command_invis extends TFM_Command
 
         if (players.isEmpty())
         {
-            playerMsg(sender, "There are no invisible players");
+            playerMsg("There are no invisible players");
             return true;
         }
 
         if (smite)
         {
-            playerMsg(sender, "Smitten " + smites + " players");
+            playerMsg("Smitten " + smites + " players");
         }
         else
         {
-            playerMsg(sender, "Invisble players (" + players.size() + "): " + StringUtils.join(players, ", "));
+            playerMsg("Invisble players (" + players.size() + "): " + StringUtils.join(players, ", "));
         }
 
         return true;
