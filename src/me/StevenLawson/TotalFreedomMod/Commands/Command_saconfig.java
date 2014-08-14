@@ -8,7 +8,6 @@ import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -175,7 +174,7 @@ public class Command_saconfig extends TFM_Command
                 if (playerdata.isFrozen())
                 {
                     playerdata.setFrozen(false);
-                    TFM_Util.playerMsg((Player) player, "You have been unfrozen.");
+                    playerMsg((Player) player, "You have been unfrozen.");
                 }
             }
 

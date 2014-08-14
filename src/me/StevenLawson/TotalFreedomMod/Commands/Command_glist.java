@@ -58,7 +58,7 @@ public class Command_glist extends TFM_Command
 
                 if (entry == null)
                 {
-                    TFM_Util.playerMsg(sender, "Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
+                    playerMsg(sender, "Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
                     return true;
                 }
 
