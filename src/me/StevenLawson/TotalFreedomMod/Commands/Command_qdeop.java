@@ -34,9 +34,12 @@ public class Command_qdeop extends TFM_Command
         {
             if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName))
             {
-                matchedPlayerNames.add(player.getName());
-                player.setOp(false);
-                player.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+                if (player.isOp())
+                {
+                    matchedPlayerNames.add(player.getName());
+                    player.setOp(false);
+                    player.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+                }
             }
         }
 
