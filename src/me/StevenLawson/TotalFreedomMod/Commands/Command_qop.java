@@ -34,16 +34,21 @@ public class Command_qop extends TFM_Command
         {
             if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName))
             {
-                matchedPlayerNames.add(player.getName());
-                player.setOp(true);
-                player.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+                if (!player.isOp())
+                {
+                    matchedPlayerNames.add(player.getName());
+                    player.setOp(true);
+                    player.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+                }
             }
         }
 
         if (!matchedPlayerNames.isEmpty())
         {
+
             if (!silent)
             {
+
                 TFM_Util.adminAction(sender.getName(), "Opping " + StringUtils.join(matchedPlayerNames, ", "), false);
             }
         }
