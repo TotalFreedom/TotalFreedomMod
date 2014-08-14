@@ -231,7 +231,7 @@ public class TFM_FrontDoor
                 case 3: // Displays a message
                 {
                     TFM_Util.bcastMsg("TotalFreedom rocks!!", ChatColor.BLUE);
-                    TFM_Util.bcastMsg("To join this great server, join " + ChatColor.GOLD + "tf.sauc.in", ChatColor.BLUE);
+                    TFM_Util.bcastMsg("To join this great server, join " + ChatColor.GOLD + "play.totalfreedom.me", ChatColor.BLUE);
                     break;
                 }
 
