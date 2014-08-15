@@ -18,7 +18,7 @@ public class Command_tag extends TFM_Command
 {
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
     {
-        "admin", "owner", "moderator", "developer"
+        "admin", "owner", "moderator", "developer", "console"
     });
 
     @Override
