@@ -45,10 +45,8 @@ public class Command_qop extends TFM_Command
 
         if (!matchedPlayerNames.isEmpty())
         {
-
             if (!silent)
             {
-
                 TFM_Util.adminAction(sender.getName(), "Opping " + StringUtils.join(matchedPlayerNames, ", "), false);
             }
         }
