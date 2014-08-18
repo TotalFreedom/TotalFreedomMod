@@ -18,7 +18,6 @@ public class Command_nickclean extends TFM_Command
     {
         ChatColor.MAGIC,
         ChatColor.STRIKETHROUGH,
-        ChatColor.BOLD,
         ChatColor.ITALIC,
         ChatColor.UNDERLINE,
         ChatColor.BLACK
