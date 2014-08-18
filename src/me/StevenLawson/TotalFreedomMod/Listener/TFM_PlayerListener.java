@@ -253,7 +253,6 @@ public class TFM_PlayerListener implements Listener
 
                         new BukkitRunnable()
                         {
-                            @Override
                             public void run()
                             {
                                 for (Block tntBlock : affected)
@@ -709,7 +708,11 @@ public class TFM_PlayerListener implements Listener
             {
                 if (TFM_AdminList.isSuperAdmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
                 {
-                    TFM_Util.playerMsg(pl, player.getName() + ": " + command);
+                	if(command.contains("//") == false){
+                		TFM_Util.playerMsg(pl, player.getName() + ": " + command);
+                	}else if(command.contains("//")){
+                    	TFM_Util.playerMsg(pl, ChatColor.GREEN+player.getName() + ": " + command);
+                    }
                 }
             }
         }
@@ -831,7 +834,6 @@ public class TFM_PlayerListener implements Listener
 
         new BukkitRunnable()
         {
-            @Override
             public void run()
             {
                 if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
