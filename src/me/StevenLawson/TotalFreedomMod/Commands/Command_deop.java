@@ -33,7 +33,11 @@ public class Command_deop extends TFM_Command
         {
             player = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getOfflinePlayer(server, args[0]);
         }
-
+        if (!player.isOp())
+        {
+            playerMsg("That player not op.", ChatColor.YELLOW);
+            return true;
+        }
         TFM_Util.adminAction(sender.getName(), "De-opping " + player.getName(), false);
 
         player.setOp(false);
