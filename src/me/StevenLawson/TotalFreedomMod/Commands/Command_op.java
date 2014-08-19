@@ -49,7 +49,11 @@ public class Command_op extends TFM_Command
                 return true;
             }
         }
-
+        if (player.isOp())
+        {
+            playerMsg("That player is already op.", ChatColor.YELLOW);
+            return true;
+        }
         TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
         player.setOp(true);
 
