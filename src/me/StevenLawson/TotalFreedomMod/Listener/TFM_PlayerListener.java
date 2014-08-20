@@ -630,8 +630,9 @@ public class TFM_PlayerListener implements Listener
             // Set the tag
             if (playerdata.getTag() != null)
             {
-                event.setFormat("<" + playerdata.getTag().replaceAll("%", "%%") + " %1$s> %2$s");
+                player.setDisplayName((playerdata.getTag() + " " + player.getDisplayName().replaceAll(" ", "")));
             }
+
         }
         catch (Exception ex)
         {
@@ -857,37 +858,28 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public static void onPlayerJoinEvent(PlayerJoinEvent event)
     {
-        final Player player = event.getPlayer();
-
-        String name = player.getName();
-
+        Player player = event.getPlayer();
         if (TFM_Util.DEVELOPERS.contains(player.getName()))
         {
-            name = ChatColor.DARK_PURPLE + name;
+            player.setPlayerListName(ChatColor.DARK_PURPLE + player.getName());
             TFM_PlayerData.getPlayerData(player).setTag("&8[&5Developer&8]");
         }
         else if (TFM_AdminList.isSeniorAdmin(player))
         {
-            name = ChatColor.LIGHT_PURPLE + name;
+            player.setPlayerListName(ChatColor.LIGHT_PURPLE + player.getName());
             TFM_PlayerData.getPlayerData(player).setTag("&8[&dSenior Admin&8]");
         }
         else if (TFM_AdminList.isTelnetAdmin(player, true))
         {
-            name = ChatColor.DARK_GREEN + name;
+            player.setPlayerListName(ChatColor.DARK_GREEN + player.getName());
             TFM_PlayerData.getPlayerData(player).setTag("&8[&2Telnet Admin&8]");
         }
         else if (TFM_AdminList.isSuperAdmin(player))
         {
-            name = ChatColor.AQUA + name;
+            player.setPlayerListName(ChatColor.AQUA + player.getName());
             TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
         }
-
-        try
-        {
-            player.setPlayerListName(StringUtils.substring(name, 0, 16));
-        }
-        catch (IllegalArgumentException ex)
-        {
-        }
     }
+    
+    player.sendMessage(ChatColor.GOLD + TFM_ConfigEntry.SERVER_NAME.getString() + " - Running TotalFreedomMod v" + TotalFreedomMod.pluginVersion);
 }
