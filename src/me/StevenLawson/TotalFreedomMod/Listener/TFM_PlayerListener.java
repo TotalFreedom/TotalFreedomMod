@@ -890,5 +890,4 @@ public class TFM_PlayerListener implements Listener
         {
         }
 }
-    player.sendMessage(ChatColor.GOLD + TFM_ConfigEntry.SERVER_NAME.getString() + " - Running TotalFreedomMod v" + TotalFreedomMod.pluginVersion);
 }
