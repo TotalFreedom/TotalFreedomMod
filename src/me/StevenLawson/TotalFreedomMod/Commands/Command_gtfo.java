@@ -77,7 +77,13 @@ public class Command_gtfo extends TFM_Command
 
         // ban IP address:
         String ip = TFM_Util.getFuzzyIp(player.getAddress().getAddress().getHostAddress());
-        TFM_Util.bcastMsg(String.format("Banning: %s, IP: %s.", player.getName(), ip), ChatColor.RED);
+
+        final StringBuilder bcast = new StringBuilder("Banning: ").append(player.getName()).append(", IP: ").append(ip);
+        if (reason != null)
+        {
+            bcast.append(ChatColor.RED).append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
+        }
+        TFM_Util.bcastMsg(bcast.toString());
 
         TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), sender.getName(), null, reason));
 

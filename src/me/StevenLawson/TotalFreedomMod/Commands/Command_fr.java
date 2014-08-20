@@ -46,7 +46,7 @@ public class Command_fr extends TFM_Command
                 {
                     if (!TFM_AdminList.isSuperAdmin(player))
                     {
-                        TFM_Util.playerMsg(player, "You have been frozen due to rule breaker(s), you will be unfrozen very soon.", ChatColor.RED);
+                        playerMsg(player, "You have been frozen due to rule breaker(s), you will be unfrozen very soon.", ChatColor.RED);
                     }
                 }
             }

@@ -49,6 +49,7 @@ public class TFM_Util
 {
     private static final Map<String, Integer> ejectTracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
+    // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
     public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "DarthSalamon", "AcidicCyanide", "wild1145", "WickedGamingUK");
     private static final Random RANDOM = new Random();
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
@@ -1092,5 +1093,35 @@ public class TFM_Util
     public static enum EjectMethod
     {
         STRIKE_ONE, STRIKE_TWO, STRIKE_THREE;
+    }
+
+    public static class TFMethodTimer
+    {
+        private long lastStart;
+        private long total = 0;
+
+        public TFMethodTimer()
+        {
+        }
+
+        public void start()
+        {
+            this.lastStart = System.currentTimeMillis();
+        }
+
+        public void update()
+        {
+            this.total += (System.currentTimeMillis() - this.lastStart);
+        }
+
+        public long getTotal()
+        {
+            return this.total;
+        }
+
+        public void printTotalToLog(String timerName)
+        {
+            TFM_Log.info("DEBUG: " + timerName + " used " + this.getTotal() + " ms.");
+        }
     }
 }

@@ -73,6 +73,23 @@ public class TFM_EssentialsBridge
         }
     }
 
+    public static String getNickname(String username)
+    {
+        try
+        {
+            final User user = getEssentialsUser(username);
+            if (user != null)
+            {
+                return user.getNickname();
+            }
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.severe(ex);
+        }
+        return null;
+    }
+
     public static long getLastActivity(String username)
     {
         try

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import static me.StevenLawson.TotalFreedomMod.TFM_AdminList.save;
 import net.minecraft.util.com.google.common.collect.Sets;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -38,6 +37,9 @@ public class TFM_PlayerList
 
     public static void load()
     {
+        TFM_Util.TFMethodTimer timer = new TFM_Util.TFMethodTimer();
+        timer.start();
+
         playerList.clear();
         config.load();
 
@@ -72,7 +74,9 @@ public class TFM_PlayerList
         // Save list
         saveAll();
 
-        TFM_Log.info("Loaded playerdata for " + playerList.size() + " players.");
+        timer.update();
+
+        TFM_Log.info("Loaded playerdata for " + playerList.size() + " players in " + timer.getTotal() + " ms.");
     }
 
     private static void saveAll()
@@ -80,8 +84,10 @@ public class TFM_PlayerList
         // Put entries
         for (TFM_Player entry : playerList.values())
         {
-            entry.save();
+            entry.save(false);
         }
+
+        getConfig().save();
     }
 
     public static TFM_Player getEntry(String player)

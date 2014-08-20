@@ -64,7 +64,7 @@ public class Command_halt extends TFM_Command
                 {
                     if (count == 0)
                     {
-                        playerMsg(sender, "Halted players:");
+                        playerMsg("Halted players:");
                     }
                     playerMsg("- " + hp.getName());
                     count++;

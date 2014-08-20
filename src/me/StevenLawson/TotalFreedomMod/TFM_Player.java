@@ -126,6 +126,11 @@ public class TFM_Player
 
     public void save()
     {
+        save(true);
+    }
+
+    public void save(boolean doConfigSave)
+    {
         if (!isComplete())
         {
             throw new IllegalStateException("Entry is not complete");
@@ -149,6 +154,9 @@ public class TFM_Player
         section.set("lastjoinunix", lastLoginUnix);
         section.set("ips", ips);
 
-        config.save();
+        if (doConfigSave)
+        {
+            config.save();
+        }
     }
 }

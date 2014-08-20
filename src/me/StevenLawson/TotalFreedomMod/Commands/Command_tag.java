@@ -18,20 +18,30 @@ public class Command_tag extends TFM_Command
 {
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
     {
-        "admin", "owner", "moderator", "developer", "&k"
+        "admin", "owner", "moderator", "developer", "console"
     });
 
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length < 1)
-        {
-            return false;
-        }
-
         if (args.length == 1)
         {
-            if ("clearall".equals(args[0]))
+            if ("list".equalsIgnoreCase(args[0]))
+            {
+                playerMsg("Tags for all online players:");
+
+                for (final Player player : server.getOnlinePlayers())
+                {
+                    final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+                    if (playerdata.getTag() != null)
+                    {
+                        playerMsg(player.getName() + ": " + playerdata.getTag());
+                    }
+                }
+
+                return true;
+            }
+            else if ("clearall".equalsIgnoreCase(args[0]))
             {
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {
@@ -40,47 +50,44 @@ public class Command_tag extends TFM_Command
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Removing all tags", false);
-                int count = 0;
-                for (Player player : server.getOnlinePlayers())
-                {
-                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
+                int count = 0;
+                for (final Player player : server.getOnlinePlayers())
+                {
+                    final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
                     if (playerdata.getTag() != null)
                     {
                         count++;
-                        TFM_PlayerData.getPlayerData(player).setTag(null);
+                        playerdata.setTag(null);
                     }
                 }
 
                 playerMsg(count + " tag(s) removed.");
+
                 return true;
             }
-
-            if (senderIsConsole)
+            else if ("off".equalsIgnoreCase(args[0]))
             {
-                playerMsg("Only in-game players can set tags. Use \"/tag clearall\" to reset all tags.");
+                if (senderIsConsole)
+                {
+                    playerMsg("\"/tag off\" can't be used from the console. Use \"/tag clear <player>\" or \"/tag clearall\" instead.");
+                }
+                else
+                {
+                    TFM_PlayerData.getPlayerData(sender_p).setTag(null);
+                    playerMsg("Your tag has been removed.");
+                }
+
                 return true;
             }
-
-            if ("off".equals(args[0]))
+            else
             {
-                TFM_PlayerData.getPlayerData(sender_p).setTag(null);
-                playerMsg("Your tag has been removed.");
-                return true;
+                return false;
             }
-
-            if (ChatColor.stripColor(TFM_Util.colorize(args[0])).length() > 20)
-            {
-                playerMsg("That tag is too long [Max = 20 characters, not including color codes].");
-                return true;
-            }
-
-            return false;
         }
-
-        if (args.length == 2)
+        else if (args.length >= 2)
         {
-            if ("clear".equals(args[0]))
+            if ("clear".equalsIgnoreCase(args[0]))
             {
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {
@@ -98,42 +105,56 @@ public class Command_tag extends TFM_Command
 
                 TFM_PlayerData.getPlayerData(player).setTag(null);
                 playerMsg("Removed " + player.getName() + "'s tag.");
+
                 return true;
             }
-        }
-
-        if ("set".equals(args[0]))
-        {
-            final String tag = StringUtils.join(args, " ", 1, args.length);
-
-            if (!TFM_AdminList.isSuperAdmin(sender))
+            else if ("set".equalsIgnoreCase(args[0]))
             {
-                for (String word : FORBIDDEN_WORDS)
+                final String inputTag = StringUtils.join(args, " ", 1, args.length);
+                final String outputTag = TFM_Util.colorize(StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
+                        new String[]
+                        {
+                            "" + ChatColor.COLOR_CHAR, "&k"
+                        },
+                        new String[]
+                        {
+                            "", ""
+                        }
+                )) + ChatColor.RESET;
+
+                if (!TFM_AdminList.isSuperAdmin(sender))
                 {
-                    if (!tag.toLowerCase().contains(word))
+                    final String rawTag = ChatColor.stripColor(outputTag).toLowerCase();
+
+                    if (rawTag.length() > 20)
                     {
-                        continue;
+                        playerMsg("That tag is too long (Max is 20 characters).");
+                        return true;
                     }
 
-                    if (word.contains(String.valueOf(ChatColor.COLOR_CHAR)))
+                    for (String word : FORBIDDEN_WORDS)
                     {
-                        playerMsg("That tag contains a forbidden color-code.");
+                        if (rawTag.contains(word))
+                        {
+                            playerMsg("That tag contains a forbidden word.");
+                            return true;
+                        }
                     }
-                    else
-                    {
-                        playerMsg("That tag contains a forbidden word.");
-                    }
-                    return true;
                 }
 
+                TFM_PlayerData.getPlayerData(sender_p).setTag(outputTag);
+                playerMsg("Tag set to '" + outputTag + "'.");
+
+                return true;
             }
-
-            TFM_PlayerData.getPlayerData(sender_p).setTag(TFM_Util.colorize(tag));
-            playerMsg("Tag set to " + TFM_Util.colorize(tag));
-
-            return true;
+            else
+            {
+                return false;
+            }
         }
-
-        return false;
+        else
+        {
+            return false;
+        }
     }
 }

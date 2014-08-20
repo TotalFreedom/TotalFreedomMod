@@ -141,7 +141,7 @@ public class Command_toggle extends TFM_Command
                 }
                 catch (NumberFormatException ex)
                 {
-                    TFM_Util.playerMsg(sender, ex.getMessage());
+                    playerMsg(ex.getMessage());
                     return true;
                 }
             }

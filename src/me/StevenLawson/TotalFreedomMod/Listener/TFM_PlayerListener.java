@@ -630,9 +630,8 @@ public class TFM_PlayerListener implements Listener
             // Set the tag
             if (playerdata.getTag() != null)
             {
-                player.setDisplayName((playerdata.getTag() + " " + player.getDisplayName().replaceAll(" ", "")));
+                event.setFormat("<" + playerdata.getTag().replaceAll("%", "%%") + " %1$s> %2$s");
             }
-
         }
         catch (Exception ex)
         {
@@ -858,26 +857,37 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public static void onPlayerJoinEvent(PlayerJoinEvent event)
     {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
+
+        String name = player.getName();
+
         if (TFM_Util.DEVELOPERS.contains(player.getName()))
         {
-            player.setPlayerListName(ChatColor.DARK_PURPLE + player.getName());
+            name = ChatColor.DARK_PURPLE + name;
             TFM_PlayerData.getPlayerData(player).setTag("&8[&5Developer&8]");
         }
         else if (TFM_AdminList.isSeniorAdmin(player))
         {
-            player.setPlayerListName(ChatColor.LIGHT_PURPLE + player.getName());
+            name = ChatColor.LIGHT_PURPLE + name;
             TFM_PlayerData.getPlayerData(player).setTag("&8[&dSenior Admin&8]");
         }
         else if (TFM_AdminList.isTelnetAdmin(player, true))
         {
-            player.setPlayerListName(ChatColor.DARK_GREEN + player.getName());
+            name = ChatColor.DARK_GREEN + name;
             TFM_PlayerData.getPlayerData(player).setTag("&8[&2Telnet Admin&8]");
         }
         else if (TFM_AdminList.isSuperAdmin(player))
         {
-            player.setPlayerListName(ChatColor.AQUA + player.getName());
+            name = ChatColor.AQUA + name;
             TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
+        }
+
+        try
+        {
+            player.setPlayerListName(StringUtils.substring(name, 0, 16));
+        }
+        catch (IllegalArgumentException ex)
+        {
         }
     }
 }

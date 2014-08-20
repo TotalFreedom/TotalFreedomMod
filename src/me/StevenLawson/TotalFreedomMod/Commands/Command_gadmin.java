@@ -137,7 +137,7 @@ public class Command_gadmin extends TFM_Command
                 {
                     ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                 }
-                TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", target.getName(), ip), true);
+                TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", ip), true);
                 TFM_BanManager.addIpBan(target);
 
                 target.kickPlayer("IP address banned by Administrator.");
