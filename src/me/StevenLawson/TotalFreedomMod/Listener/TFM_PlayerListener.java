@@ -889,5 +889,6 @@ public class TFM_PlayerListener implements Listener
         catch (IllegalArgumentException ex)
         {
         }
-    }
+}
+    player.sendMessage(ChatColor.GOLD + TFM_ConfigEntry.SERVER_NAME.getString() + " - Running TotalFreedomMod v" + TotalFreedomMod.pluginVersion);
 }
