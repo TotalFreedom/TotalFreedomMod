@@ -2,8 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -13,13 +11,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> [playername] <reason>")
+@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> [playername]")
 public class Command_smite extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length == 0)
+        if (args.length != 1)
         {
             return false;
         }
@@ -28,10 +26,9 @@ public class Command_smite extends TFM_Command
 
         if (player == null)
         {
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
-
         String reason = null;
         if (args.length >= 2)
         {
@@ -44,11 +41,11 @@ public class Command_smite extends TFM_Command
 
         return true;
     }
-    
 
     public static void smite(final Player player)
     {
         TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
+
         //Deop
         player.setOp(false);
 
