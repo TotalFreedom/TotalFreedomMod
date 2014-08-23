@@ -5,8 +5,6 @@ import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TFM_UuidResolver;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -31,7 +29,7 @@ public class Command_doom extends TFM_Command
 
         if (player == null)
         {
-            sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
+            sender.sendMessage(TFM_Command.PLAYER_NOT_FOUND);
             return true;
         }
 

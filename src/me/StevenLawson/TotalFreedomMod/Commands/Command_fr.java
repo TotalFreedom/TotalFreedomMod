@@ -85,7 +85,7 @@ public class Command_fr extends TFM_Command
 
                 if (player == null)
                 {
-                    playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+                    playerMsg(TFM_Command.PLAYER_NOT_FOUND, ChatColor.RED);
                     return true;
                 }
 

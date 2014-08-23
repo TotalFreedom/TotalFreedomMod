@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -36,7 +35,7 @@ public class Command_survival extends TFM_Command
             {
                 if (!TFM_AdminList.isSuperAdmin(sender) || senderIsConsole)
                 {
-                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                    sender.sendMessage(TFM_Command.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -55,7 +54,7 @@ public class Command_survival extends TFM_Command
 
                 if (player == null)
                 {
-                    playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+                    playerMsg(TFM_Command.PLAYER_NOT_FOUND);
                     return true;
                 }
             }

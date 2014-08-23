@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,7 +34,7 @@ public class Command_opall extends TFM_Command
         for (Player player : server.getOnlinePlayers())
         {
             player.setOp(true);
-            player.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+            player.sendMessage(TFM_Command.YOU_ARE_OP);
 
             if (doSetGamemode)
             {

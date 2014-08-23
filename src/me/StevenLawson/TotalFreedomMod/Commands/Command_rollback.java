@@ -85,7 +85,6 @@ public class Command_rollback extends TFM_Command
     {
         String playerName = null;
 
-
         final Player player = getPlayer(playerNameInput);
         if (player != null)
         {

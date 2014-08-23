@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -40,7 +39,7 @@ public class Command_potion extends TFM_Command
             {
                 if (!(TFM_AdminList.isSuperAdmin(sender) || senderIsConsole))
                 {
-                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                    playerMsg(TFM_Command.MSG_NO_PERMS);
                     return true;
                 }
                 TFM_Util.adminAction(sender.getName(), "Cleared all potion effects from all players", true);
@@ -62,7 +61,7 @@ public class Command_potion extends TFM_Command
 
                     if (target == null)
                     {
-                        playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+                        playerMsg(TFM_Command.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;
                     }
                 }
@@ -106,7 +105,7 @@ public class Command_potion extends TFM_Command
 
                     if (target == null)
                     {
-                        playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+                        playerMsg(TFM_Command.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;
                     }
                 }

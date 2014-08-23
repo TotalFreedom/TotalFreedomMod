@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -113,7 +112,7 @@ public class Command_twitter extends TFM_Command
         {
             if (!sender.getName().equalsIgnoreCase("DarthSalamon"))
             {
-                sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                sender.sendMessage(TFM_Command.MSG_NO_PERMS);
                 return true;
             }
 

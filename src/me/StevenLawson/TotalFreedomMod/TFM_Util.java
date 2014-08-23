@@ -1,7 +1,14 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.channels.Channels;
@@ -10,12 +17,24 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import net.minecraft.util.org.apache.commons.io.FileUtils;
-
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -260,35 +279,31 @@ public class TFM_Util
         return escapedIp.trim().replaceAll("_", "\\.");
     }
 
-    public static void gotoWorld(CommandSender sender, String targetworld)
+    public static void gotoWorld(Player player, String targetWorld)
     {
-        if (sender instanceof Player)
+        if (player == null)
         {
-            Player player = (Player) sender;
+            return;
+        }
 
-            if (player.getWorld().getName().equalsIgnoreCase(targetworld))
+        if (player.getWorld().getName().equalsIgnoreCase(targetWorld))
+        {
+            playerMsg(player, "Going to main world.", ChatColor.GRAY);
+            player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+            return;
+        }
+
+        for (World world : Bukkit.getWorlds())
+        {
+            if (world.getName().equalsIgnoreCase(targetWorld))
             {
-                sender.sendMessage(ChatColor.GRAY + "Going to main world.");
-                player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+                playerMsg(player, "Going to world: " + targetWorld, ChatColor.GRAY);
+                player.teleport(world.getSpawnLocation());
                 return;
             }
-
-            for (World world : Bukkit.getWorlds())
-            {
-                if (world.getName().equalsIgnoreCase(targetworld))
-                {
-                    sender.sendMessage(ChatColor.GRAY + "Going to world: " + targetworld);
-                    player.teleport(world.getSpawnLocation());
-                    return;
-                }
-            }
-
-            sender.sendMessage(ChatColor.GRAY + "World " + targetworld + " not found.");
         }
-        else
-        {
-            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-        }
+
+        playerMsg(player, "World " + targetWorld + " not found.", ChatColor.GRAY);
     }
 
     public static String decolorize(String string)
