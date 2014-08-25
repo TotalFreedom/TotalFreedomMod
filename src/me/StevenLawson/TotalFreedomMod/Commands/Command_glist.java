@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
@@ -80,7 +81,7 @@ public class Command_glist extends TFM_Command
                 if (target != null)
                 {
                     TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(target), target.getName()));
-                    target.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
+                    target.kickPlayer("You have been banned by '" + sender.getName() + "'\n If you think you have been banned wrongly, appeal here " + TFM_ConfigEntry.SERVER_BAN_URL.getString());
                 }
                 else
                 {
@@ -96,11 +97,11 @@ public class Command_glist extends TFM_Command
             }
             else if (mode.equalsIgnoreCase("unban") || mode.equalsIgnoreCase("pardon"))
             {
-                TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ","), true);
+                TFM_Util.adminAction(sender.getName(), "Unbanning " + username, true);
                 TFM_BanManager.unbanUuid(TFM_Util.getUuid(username));
                 for (String ip : ips)
                 {
-
+                    
                     TFM_BanManager.unbanIp(ip);
                     TFM_BanManager.unbanIp(TFM_Util.getFuzzyIp(ip));
                 }
