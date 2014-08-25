@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -13,6 +13,31 @@ public class TFM_Announcer
     private static long interval;
     private static String prefix;
     private static BukkitRunnable announcer;
+
+    private TFM_Announcer()
+    {
+        throw new AssertionError();
+    }
+
+    public static boolean isEnabled()
+    {
+        return enabled;
+    }
+
+    public static List<String> getAnnouncements()
+    {
+        return Collections.unmodifiableList(ANNOUNCEMENTS);
+    }
+
+    public static long getTickInterval()
+    {
+        return interval;
+    }
+
+    public static String getPrefix()
+    {
+        return prefix;
+    }
 
     public static void load()
     {
