@@ -343,7 +343,6 @@ public class TFM_PlayerListener implements Listener
             }
         }
     }
-
     private static final Random RANDOM = new Random();
 
     private static Location randomOffset(Location a, double magnitude)

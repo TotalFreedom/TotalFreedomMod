@@ -16,7 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Command_cake extends TFM_Command
 {
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
-
     private final Random random = new Random();
 
     @Override
