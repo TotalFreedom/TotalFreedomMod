@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.TFM_Ban.BanType;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class TFM_BanManager
         {
             try
             {
-                addIpBan(new TFM_Ban(banString, true));
+                addIpBan(new TFM_Ban(banString, BanType.IP));
             }
             catch (RuntimeException ex)
             {
@@ -54,7 +55,7 @@ public class TFM_BanManager
         {
             try
             {
-                addUuidBan(new TFM_Ban(banString, false));
+                addUuidBan(new TFM_Ban(banString, BanType.UUID));
             }
             catch (RuntimeException ex)
             {

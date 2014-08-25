@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class TFM_PlayerList
 {
-    private static final Map<UUID, TFM_Player> playerList;
+    private static final Map<UUID, TFM_Player> playerList = new HashMap<UUID, TFM_Player>();
 
     private TFM_PlayerList()
     {
@@ -40,7 +40,7 @@ public class TFM_PlayerList
 
         timer.update();
 
-        TFM_Log.info("Loaded playerdata for " + playerList.size() + " players in " + timer.getTotal() + " ms.");
+        TFM_Log.info("Loaded playerdata for " + playerList.size() + " players in " + timer.getTotal() + " ms");
     }
 
     public static void saveAll()
@@ -49,20 +49,6 @@ public class TFM_PlayerList
         {
             save(entry);
         }
-    }
-
-    @Deprecated
-    private static TFM_Player getEntry(String player)
-    {
-        for (TFM_Player entry : playerList.values())
-        {
-            if (entry.getLastLoginName().equalsIgnoreCase(player))
-            {
-                return entry;
-            }
-        }
-
-        return null;
     }
 
     // May return null

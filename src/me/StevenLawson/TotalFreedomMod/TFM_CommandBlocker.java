@@ -114,7 +114,7 @@ public class TFM_CommandBlocker
             }
         }
 
-        TFM_Log.info("Loaded " + BLOCKED_COMMANDS.size() + " blocked commands.");
+        TFM_Log.info("Loaded " + BLOCKED_COMMANDS.size() + " blocked commands");
     }
 
     public static boolean isCommandBlocked(String command, CommandSender sender)
