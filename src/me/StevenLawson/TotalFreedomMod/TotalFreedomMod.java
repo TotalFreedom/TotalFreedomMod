@@ -5,7 +5,6 @@ import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -15,8 +14,6 @@ import java.util.Properties;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.HTTPD.TFM_HTTPD_Manager;
 import me.StevenLawson.TotalFreedomMod.Listener.*;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -37,13 +34,6 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String PERMBAN_FILE = "permban.yml";
     public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILE = "savedflags.dat";
-    //
-    public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
-    public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
-    public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
-    public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
-    public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
-    public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found!";
     //
     public static String buildNumber = "1";
     public static String buildDate = TotalFreedomMod.buildDate = TFM_Util.dateToString(new Date());

@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PermbanList;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,7 +27,7 @@ public class Command_permban extends TFM_Command
         {
             if (!senderIsConsole)
             {
-                sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                sender.sendMessage(TFM_Command.MSG_NO_PERMS);
                 return true;
             }
             playerMsg("Reloading permban list...", ChatColor.RED);
@@ -47,22 +46,22 @@ public class Command_permban extends TFM_Command
     {
         if (TFM_PermbanList.getPermbannedPlayers().isEmpty())
         {
-            playerMsg(sender, "No permanently banned player names.");
+            playerMsg("No permanently banned player names.");
         }
         else
         {
-            playerMsg(sender, TFM_PermbanList.getPermbannedPlayers().size() + " permanently banned players:");
-            playerMsg(sender, StringUtils.join(TFM_PermbanList.getPermbannedPlayers(), ", "));
+            playerMsg(TFM_PermbanList.getPermbannedPlayers().size() + " permanently banned players:");
+            playerMsg(StringUtils.join(TFM_PermbanList.getPermbannedPlayers(), ", "));
         }
 
         if (TFM_PermbanList.getPermbannedIps().isEmpty())
         {
-            playerMsg(sender, "No permanently banned IPs.");
+            playerMsg("No permanently banned IPs.");
         }
         else
         {
-            playerMsg(sender, TFM_PermbanList.getPermbannedIps().size() + " permanently banned IPs:");
-            playerMsg(sender, StringUtils.join(TFM_PermbanList.getPermbannedIps(), ", "));
+            playerMsg(TFM_PermbanList.getPermbannedIps().size() + " permanently banned IPs:");
+            playerMsg(StringUtils.join(TFM_PermbanList.getPermbannedIps(), ", "));
         }
     }
 }

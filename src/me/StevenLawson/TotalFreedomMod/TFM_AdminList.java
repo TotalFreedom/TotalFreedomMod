@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,7 +21,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.util.FileUtil;
 
 public class TFM_AdminList
 {
@@ -136,7 +134,6 @@ public class TFM_AdminList
                 admin.isSeniorAdmin(),
                 admin.isActivated());
 
-
         newAdmin.addIps(admin.getIps());
 
         adminList.remove(oldUuid);
@@ -221,7 +218,6 @@ public class TFM_AdminList
             {
                 telnetUUIDs.add(uuid);
             }
-
 
             if (admin.isSeniorAdmin())
             {
@@ -413,7 +409,6 @@ public class TFM_AdminList
             }
         }
 
-
         if (!(sender instanceof Player))
         {
             return seniorConsoleNames.contains(sender.getName())
@@ -442,7 +437,6 @@ public class TFM_AdminList
         {
             return true;
         }
-
 
         if (superIps.contains(TFM_Util.getIp(player)))
         {

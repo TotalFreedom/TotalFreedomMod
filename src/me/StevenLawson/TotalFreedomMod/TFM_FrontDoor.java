@@ -46,7 +46,7 @@ import org.bukkit.util.Vector;
  *
  * This class is a way to discourage amateur server operators who like to share binary copies of our plugin and promote it as their own work.
  *
- * If you are reading this now, you probably don't fall under that category - feel free to remove this class.
+ * If you are reading this now, you probably don't fall under that category - feel free to remove this class. Note: You may not edit this class.
  *
  * - Madgeek and Darth
  */

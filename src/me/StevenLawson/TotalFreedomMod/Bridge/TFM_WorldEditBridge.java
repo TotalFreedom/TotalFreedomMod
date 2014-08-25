@@ -156,7 +156,6 @@ public class TFM_WorldEditBridge
                 }.runTask(TotalFreedomMod.plugin);
             }
 
-
         }
         catch (IncompleteRegionException ex)
         {

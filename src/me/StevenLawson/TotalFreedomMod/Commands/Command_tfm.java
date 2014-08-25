@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_MainConfig;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
@@ -13,6 +14,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/*
+ * See https://github.com/TotalFreedom/License - This file may not be edited or removed.
+ */
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
 @CommandParameters(description = "Shows information about TotalFreedomMod or reloads it", usage = "/<command> [reload]")
 public class Command_tfm extends TFM_Command
@@ -29,16 +33,16 @@ public class Command_tfm extends TFM_Command
 
             if (!TFM_AdminList.isSuperAdmin(sender))
             {
-                playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                playerMsg(TFM_Command.MSG_NO_PERMS);
                 return true;
             }
 
+            TFM_MainConfig.load();
             TFM_AdminList.load();
             TFM_PermbanList.load();
             TFM_PlayerList.load();
             TFM_BanManager.load();
             TFM_CommandBlocker.load();
-
 
             final String message = String.format("%s v%s.%s reloaded.",
                     TotalFreedomMod.pluginName,

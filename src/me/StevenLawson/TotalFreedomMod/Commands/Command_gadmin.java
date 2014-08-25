@@ -5,7 +5,6 @@ import java.util.Iterator;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -135,7 +134,7 @@ public class Command_gadmin extends TFM_Command
                 {
                     ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                 }
-                TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", target.getName(), ip), true);
+                TFM_Util.adminAction(sender.getName(), String.format("Banning IP: %s.", ip), true);
                 TFM_BanManager.addIpBan(target);
 
                 target.kickPlayer("IP address banned by Administrator.");
@@ -163,7 +162,7 @@ public class Command_gadmin extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), String.format("Opping %s.", target.getName()), false);
                 target.setOp(false);
-                target.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+                target.sendMessage(TFM_Command.YOU_ARE_OP);
 
                 break;
             }
@@ -171,7 +170,7 @@ public class Command_gadmin extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), String.format("Deopping %s.", target.getName()), false);
                 target.setOp(false);
-                target.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+                target.sendMessage(TFM_Command.YOU_ARE_NOT_OP);
 
                 break;
             }

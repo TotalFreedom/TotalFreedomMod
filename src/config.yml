@@ -99,6 +99,7 @@ blocked_commands:
   - 's:b:/setspawn:_'
   - 's:b://snow:_'
   - 's:b:/tellraw:_'
+  - 's:b:/forestgen:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop'

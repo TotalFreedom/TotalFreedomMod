@@ -70,7 +70,6 @@ public enum TFM_PlayerRank
             return DEVELOPER;
         }
 
-
         final TFM_Admin entry = TFM_AdminList.getEntry((Player) sender);
 
         final TFM_PlayerRank rank;

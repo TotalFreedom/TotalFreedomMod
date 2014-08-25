@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,7 +14,7 @@ public class Command_opme extends TFM_Command
     {
         TFM_Util.adminAction(sender.getName(), "Opping " + sender.getName(), false);
         sender.setOp(true);
-        sender.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+        sender.sendMessage(TFM_Command.YOU_ARE_OP);
 
         return true;
     }
