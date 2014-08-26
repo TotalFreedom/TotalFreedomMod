@@ -600,7 +600,12 @@ public class TFM_AdminList
         saveAll();
         updateIndexLists();
     }
-
+    
+    public static void custommessage(Player player)
+    {
+        final TFM_Admin superadmin = pair.getValue();
+        superadmin.setloginmessage();
+    }
     public static void removeSuperadmin(OfflinePlayer player)
     {
         final UUID uuid = TFM_Util.getUuid(player);
