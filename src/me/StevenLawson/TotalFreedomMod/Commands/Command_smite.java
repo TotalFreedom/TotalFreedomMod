@@ -28,6 +28,13 @@ public class Command_smite extends TFM_Command
             playerMsg(TFM_Command.PLAYER_NOT_FOUND);
             return true;
         }
+        String reason = null;
+        if (args.length >= 2)
+        {
+            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+        }
+
+        TFM_Util.adminAction(sender.getName(), " Smiting " + player.getName() + " for " + reason, true);
 
         smite(player);
 

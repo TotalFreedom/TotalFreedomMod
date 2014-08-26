@@ -888,5 +888,5 @@ public class TFM_PlayerListener implements Listener
         catch (IllegalArgumentException ex)
         {
         }
-    }
+}
 }
