@@ -65,6 +65,11 @@ public enum TFM_ConfigEntry
     FLATLANDS_GENERATE(Boolean.class, "flatlands.generate"),
     FLATLANDS_GENERATE_PARAMS(String.class, "flatlands.generate_params"),
     //
+    ANNOUNCER_ENABLED(Boolean.class, "announcer.enabled"),
+    ANNOUNCER_INTERVAL(Integer.class, "announcer.interval"),
+    ANNOUNCER_PREFIX(String.class, "announcer.prefix"),
+    ANNOUNCER_ANNOUNCEMENTS(List.class, "announcer.announcements"),
+    //
     EXPLOSIVE_RADIUS(Double.class, "explosive_radius"),
     FREECAM_TRIGGER_COUNT(Integer.class, "freecam_trigger_count"),
     SERVICE_CHECKER_URL(String.class, "service_checker_url"),
