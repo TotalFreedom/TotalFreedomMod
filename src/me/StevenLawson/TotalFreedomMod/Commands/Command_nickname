@@ -29,29 +29,29 @@ public class Command_nickname extends TFM_Command{
 	    }
             else
             {
-                if(TFM_AdminList.isSuperAdmin(sender)  && args[0].equalsIgnoreCase("remove") && args.length == 2)
-                {
-	            String user = args[1];
-    	            TFM_EssentialsBridge.setNickname(user, user);
-	            sender.sendMessage(ChatColor.GREEN+"Nickname Removed for: "+ args[1]);
-	        }
-		else
-                {
-                    if(TFM_AdminList.isSuperAdmin(sender) || sender.isOp() && args[0].contains("remove") && args.length == 1)
-                    {
-	    	        String user = sender.getName();
-		        TFM_EssentialsBridge.setNickname(user, user);
-	                sender.sendMessage(ChatColor.GREEN+"Nickname Removed for: "+ user);
-	            }
-                    else
-                    {
-		        if(args.length > 2 && TFM_AdminList.isSuperAdmin(sender) && !sender.isOp() || args.length < 1 )
-	                {
-                            return false;
-	                }
-                    }
-                }
-            }
+            if(TFM_AdminList.isSuperAdmin(sender)  && args[0].equalsIgnoreCase("remove") && args.length == 2)
+            {
+	        String user = args[1];
+    	        TFM_EssentialsBridge.setNickname(user, user);
+	        sender.sendMessage(ChatColor.GREEN+"Nickname Removed for: "+ args[1]);
+	    }
+	    else
+            {
+            if(TFM_AdminList.isSuperAdmin(sender) || sender.isOp() && args[0].contains("remove") && args.length == 1)
+            {
+	        String user = sender.getName();
+	        TFM_EssentialsBridge.setNickname(user, user);
+                sender.sendMessage(ChatColor.GREEN+"Nickname Removed for: "+ user);
+	    }
+            else
+            {
+            if(args.length > 2 && TFM_AdminList.isSuperAdmin(sender) || args.length < 1 )
+	    {
+                return false;
+	    }
+        }
+     }
+ }
         return true;
     }
 }
