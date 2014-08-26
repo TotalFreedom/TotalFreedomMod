@@ -166,4 +166,47 @@ public class TFM_Ban
     {
         return subject + ":" + lastLoginName + ":" + by + ":" + expireUnix + ":" + TFM_Util.decolorize(reason);
     }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        if (object == null)
+        {
+            return false;
+        }
+
+        if (!(object instanceof TFM_Ban))
+        {
+            return false;
+        }
+
+        final TFM_Ban ban = (TFM_Ban) object;
+
+        if (toString().equals(ban.toString()))
+        {
+            return true;
+        }
+
+        if (getType() != ban.getType())
+        {
+            return false;
+        }
+
+        if (!getSubject().equals(ban.getSubject()))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 37;
+        int result = 1;
+        result = prime * result + getType().hashCode();
+        result = prime * result + getSubject().hashCode();
+        return result;
+    }
 }

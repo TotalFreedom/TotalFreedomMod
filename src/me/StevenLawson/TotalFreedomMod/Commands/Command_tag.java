@@ -112,14 +112,13 @@ public class Command_tag extends TFM_Command
                 final String inputTag = StringUtils.join(args, " ", 1, args.length);
                 final String outputTag = TFM_Util.colorize(StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
                         new String[]
-                        {
-                            "" + ChatColor.COLOR_CHAR, "&k"
-                        },
+                {
+                    "" + ChatColor.COLOR_CHAR, "&k"
+                },
                         new String[]
-                        {
-                            "", ""
-                        }
-                )) + ChatColor.RESET;
+                {
+                    "", ""
+                })) + ChatColor.RESET;
 
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {

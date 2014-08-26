@@ -222,6 +222,11 @@ public class TFM_BanManager
             return;
         }
 
+        if (uuidBans.contains(ban))
+        {
+            return;
+        }
+
         if (unbannableUUIDs.contains(UUID.fromString(ban.getSubject())))
         {
             return;
@@ -244,6 +249,11 @@ public class TFM_BanManager
         }
 
         if (ban.isExpired())
+        {
+            return;
+        }
+
+        if (ipBans.contains(ban))
         {
             return;
         }

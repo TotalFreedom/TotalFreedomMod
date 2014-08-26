@@ -733,7 +733,8 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerKick(PlayerKickEvent event)
     {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
+
         if (TotalFreedomMod.fuckoffEnabledFor.containsKey(player))
         {
             TotalFreedomMod.fuckoffEnabledFor.remove(player);
@@ -752,7 +753,8 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
+
         if (TotalFreedomMod.fuckoffEnabledFor.containsKey(player))
         {
             TotalFreedomMod.fuckoffEnabledFor.remove(player);
@@ -774,36 +776,45 @@ public class TFM_PlayerListener implements Listener
     {
         final Player player = event.getPlayer();
         final String ip = TFM_Util.getIp(player);
+        final TFM_Player playerEntry;
+
         TFM_Log.info("[JOIN] " + TFM_Util.formatPlayer(player) + " joined the game with IP address: " + ip, true);
 
+        // Handle PlayerList entry (persistent)
         if (TFM_PlayerList.existsEntry(player))
         {
-            final TFM_Player entry = TFM_PlayerList.getEntry(player);
-            entry.setLastLoginUnix(TFM_Util.getUnixTime());
-            entry.setLastLoginName(player.getName());
-            entry.save();
+            playerEntry = TFM_PlayerList.getEntry(player);
+            playerEntry.setLastLoginUnix(TFM_Util.getUnixTime());
+            playerEntry.setLastLoginName(player.getName());
+            playerEntry.addIp(ip);
+            playerEntry.save();
         }
         else
         {
-            TFM_PlayerList.getEntry(player);
+            playerEntry = TFM_PlayerList.getEntry(player);
             TFM_Log.info("Added new player: " + TFM_Util.formatPlayer(player));
         }
 
+        // GGenerate PlayerData (non-persistent)
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
         playerdata.setSuperadminIdVerified(false);
 
-        // Verify strict IP match
         if (TFM_AdminList.isSuperAdmin(player))
         {
-            TFM_BanManager.unbanIp(ip);
-            TFM_BanManager.unbanIp(TFM_Util.getFuzzyIp(ip));
+            for (String storedIp : playerEntry.getIps())
+            {
+                TFM_BanManager.unbanIp(storedIp);
+                TFM_BanManager.unbanIp(TFM_Util.getFuzzyIp(storedIp));
+            }
+
             TFM_BanManager.unbanUuid(TFM_Util.getUniqueId(player));
+
             player.setOp(true);
 
+            // Verify strict IP match
             if (!TFM_AdminList.isIdentityMatched(player))
             {
                 playerdata.setSuperadminIdVerified(false);
-
                 TFM_Util.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
             }
             else

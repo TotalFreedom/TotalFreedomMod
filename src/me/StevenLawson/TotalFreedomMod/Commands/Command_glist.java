@@ -68,15 +68,16 @@ public class Command_glist extends TFM_Command
             else
             {
                 username = player.getName();
-                ips.add(player.getAddress().getAddress().getHostAddress());
+                final TFM_Player entry = TFM_PlayerList.getEntry(TFM_Util.getUniqueId(player));
+                ips.addAll(entry.getIps());
             }
 
             String mode = args[0].toLowerCase();
             if (mode.equalsIgnoreCase("ban"))
             {
-                TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ","), true);
+                TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
 
-                Player target = getPlayer(username, true);
+                final Player target = getPlayer(username, true);
                 if (target != null)
                 {
                     TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUniqueId(target), target.getName()));
@@ -90,13 +91,12 @@ public class Command_glist extends TFM_Command
                 for (String ip : ips)
                 {
                     TFM_BanManager.addIpBan(new TFM_Ban(ip, username));
-                    String[] ip_address_parts = ip.split("\\.");
-                    TFM_BanManager.addIpBan(new TFM_Ban(ip_address_parts[0] + "." + ip_address_parts[1] + ".*.*", username));
+                    TFM_BanManager.addIpBan(new TFM_Ban(TFM_Util.getFuzzyIp(ip), username));
                 }
             }
-            else if (mode.equalsIgnoreCase("unban") || mode.equalsIgnoreCase("pardon"))
+            else if (mode.equalsIgnoreCase("unban"))
             {
-                TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ","), true);
+                TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
                 TFM_BanManager.unbanUuid(TFM_Util.getUniqueId(username));
                 for (String ip : ips)
                 {

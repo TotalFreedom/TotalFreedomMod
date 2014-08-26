@@ -22,7 +22,6 @@ public class Command_nickclean extends TFM_Command
         ChatColor.UNDERLINE,
         ChatColor.BLACK
     };
-
     private static final Pattern REGEX = Pattern.compile("\\u00A7[" + StringUtils.join(BLOCKED, "") + "]");
 
     @Override
