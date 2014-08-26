@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -391,7 +390,6 @@ public class TFM_PlayerData
             player.setOp(false);
             player.setGameMode(GameMode.SURVIVAL);
             player.setFlying(false);
-            TFM_EssentialsBridge.setNickname(player.getName(), player.getName());
             player.closeInventory();
             player.setTotalExperience(0);
 
