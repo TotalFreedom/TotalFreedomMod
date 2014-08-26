@@ -70,6 +70,9 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Log.info("Made by Madgeek1450 and DarthSalamon");
         TFM_Log.info("Compiled " + buildDate + " by " + buildCreator);
 
+        final TFM_Util.MethodTimer timer = new TFM_Util.MethodTimer();
+        timer.start();
+
         if (!TFM_ServerInterface.COMPILE_NMS_VERSION.equals(TFM_Util.getNmsVersion()))
         {
             TFM_Log.warning(pluginName + " is compiled for " + TFM_ServerInterface.COMPILE_NMS_VERSION + " but the server is running "
@@ -155,7 +158,9 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_HTTPD_Manager.start();
         TFM_FrontDoor.start();
 
-        TFM_Log.info("Version " + pluginVersion + " for " + TFM_ServerInterface.COMPILE_NMS_VERSION + " enabled");
+        timer.update();
+
+        TFM_Log.info("Version " + pluginVersion + " for " + TFM_ServerInterface.COMPILE_NMS_VERSION + " enabled in " + timer.getTotal() + "ms");
 
         // Metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try

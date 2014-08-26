@@ -733,41 +733,33 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerKick(PlayerKickEvent event)
     {
-        final Player player = event.getPlayer();
-
-        if (TotalFreedomMod.fuckoffEnabledFor.containsKey(player))
-        {
-            TotalFreedomMod.fuckoffEnabledFor.remove(player);
-        }
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-        playerdata.disarmMP44();
-        if (playerdata.isCaged())
-        {
-            playerdata.regenerateHistory();
-            playerdata.clearHistory();
-        }
-
-        TFM_Log.info("[EXIT] " + player.getName() + " left the game.", true);
+        playerLeave(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-        final Player player = event.getPlayer();
+        playerLeave(event.getPlayer());
+    }
 
+    private void playerLeave(Player player)
+    {
         if (TotalFreedomMod.fuckoffEnabledFor.containsKey(player))
         {
             TotalFreedomMod.fuckoffEnabledFor.remove(player);
         }
 
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+
         playerdata.disarmMP44();
+
         if (playerdata.isCaged())
         {
             playerdata.regenerateHistory();
             playerdata.clearHistory();
         }
 
+        TFM_PlayerList.removeEntry(player);
         TFM_Log.info("[EXIT] " + player.getName() + " left the game.", true);
     }
 

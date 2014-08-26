@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class TFM_PlayerList
 {
-    private static final Map<UUID, TFM_Player> playerList = new HashMap<UUID, TFM_Player>();
+    private static final Map<UUID, TFM_Player> PLAYER_LIST = new HashMap<UUID, TFM_Player>();
 
     private TFM_PlayerList()
     {
@@ -22,15 +22,12 @@ public class TFM_PlayerList
 
     public static Set<TFM_Player> getAllPlayers()
     {
-        return Collections.unmodifiableSet(Sets.newHashSet(playerList.values()));
+        return Collections.unmodifiableSet(Sets.newHashSet(PLAYER_LIST.values()));
     }
 
     public static void load()
     {
-        final TFM_Util.MethodTimer timer = new TFM_Util.MethodTimer();
-        timer.start();
-
-        playerList.clear();
+        PLAYER_LIST.clear();
 
         // Load online players
         for (Player player : Bukkit.getOnlinePlayers())
@@ -38,14 +35,12 @@ public class TFM_PlayerList
             getEntry(player);
         }
 
-        timer.update();
-
-        TFM_Log.info("Loaded playerdata for " + playerList.size() + " players in " + timer.getTotal() + " ms");
+        TFM_Log.info("Loaded playerdata for " + PLAYER_LIST.size() + " players");
     }
 
     public static void saveAll()
     {
-        for (TFM_Player entry : playerList.values())
+        for (TFM_Player entry : PLAYER_LIST.values())
         {
             save(entry);
         }
@@ -54,9 +49,9 @@ public class TFM_PlayerList
     // May return null
     public static TFM_Player getEntry(UUID uuid)
     {
-        if (playerList.containsKey(uuid))
+        if (PLAYER_LIST.containsKey(uuid))
         {
-            return playerList.get(uuid);
+            return PLAYER_LIST.get(uuid);
         }
 
         final File configFile = getConfigFile(uuid);
@@ -70,7 +65,7 @@ public class TFM_PlayerList
 
         if (entry.isComplete())
         {
-            playerList.put(uuid, entry);
+            PLAYER_LIST.put(uuid, entry);
             return entry;
         }
         else
@@ -101,9 +96,23 @@ public class TFM_PlayerList
         entry.addIp(TFM_Util.getIp(player));
 
         save(entry);
-        playerList.put(uuid, entry);
+        PLAYER_LIST.put(uuid, entry);
 
         return entry;
+    }
+
+    public static void removeEntry(Player player)
+    {
+        final UUID uuid = TFM_Util.getUniqueId(player);
+
+        if (!PLAYER_LIST.containsKey(uuid))
+        {
+            return;
+        }
+
+        save(PLAYER_LIST.get(uuid));
+
+        PLAYER_LIST.remove(uuid);
     }
 
     public static boolean existsEntry(Player player)
@@ -123,10 +132,10 @@ public class TFM_PlayerList
             throw new IllegalArgumentException("Cannot set new UUID: UUIDs match");
         }
 
-        final boolean reAdd = playerList.containsKey(entry.getUniqueId());
-        playerList.remove(entry.getUniqueId());
+        final boolean reAdd = PLAYER_LIST.containsKey(entry.getUniqueId());
+        PLAYER_LIST.remove(entry.getUniqueId());
 
-        final TFM_Player newPlayer = new TFM_Player(
+        final TFM_Player newEntry = new TFM_Player(
                 newUuid,
                 entry.getFirstLoginName(),
                 entry.getLastLoginName(),
@@ -136,10 +145,10 @@ public class TFM_PlayerList
 
         if (reAdd)
         {
-            playerList.put(newUuid, newPlayer);
+            PLAYER_LIST.put(newUuid, newEntry);
         }
 
-        newPlayer.save();
+        newEntry.save();
 
         if (!getConfigFile(entry.getUniqueId()).delete())
         {
