@@ -28,7 +28,7 @@ public class Command_rollback extends TFM_Command
             }
             else
             {
-                final String playerName = TFM_RollbackManager.findPlayer(args[1]);
+                final String playerName = TFM_RollbackManager.findPlayer(args[0]);
 
                 if (playerName == null)
                 {
