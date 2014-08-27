@@ -139,7 +139,7 @@ public class TFM_AdminList
         adminList.remove(oldUuid);
         adminList.put(newUuid, newAdmin);
 
-        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILE, true);
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILENAME, true);
 
         config.load();
         config.set("admins." + oldUuid.toString(), null);
@@ -152,7 +152,7 @@ public class TFM_AdminList
     {
         adminList.clear();
 
-        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILE, true);
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILENAME, true);
         config.load();
 
         cleanThreshold = config.getInt("clean_threshold_hours", cleanThreshold);
@@ -274,7 +274,7 @@ public class TFM_AdminList
 
     public static void saveAll()
     {
-        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILE, true);
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILENAME, true);
         config.load();
 
         config.set("clean_threshold_hours", cleanThreshold);
@@ -308,7 +308,7 @@ public class TFM_AdminList
             return;
         }
 
-        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILE, true);
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILENAME, true);
         config.load();
 
         final UUID uuid = admin.getUniqueId();

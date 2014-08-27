@@ -700,7 +700,7 @@ public class TFM_Util
     {
         Map<String, Boolean> flags = null;
 
-        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILE);
+        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILENAME);
         if (input.exists())
         {
             try
@@ -757,7 +757,7 @@ public class TFM_Util
 
         try
         {
-            final FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILE));
+            final FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILENAME));
             final ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(flags);
             oos.close();
@@ -771,26 +771,14 @@ public class TFM_Util
 
     public static void createBackups(String file)
     {
+        createBackups(file, false);
+    }
+
+    public static void createBackups(String file, boolean onlyWeekly)
+    {
         final String save = file.split("\\.")[0];
-        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, "backup.yml", false);
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, "backup/backup.yml", false);
         config.load();
-
-        // Daily
-        if (!config.isInt(save + ".daily"))
-        {
-            performBackup(file, "daily");
-            config.set(save + ".daily", TFM_Util.getUnixTime());
-        }
-        else
-        {
-            int lastBackupDaily = config.getInt(save + ".daily");
-
-            if (lastBackupDaily + 3600 * 24 < TFM_Util.getUnixTime())
-            {
-                performBackup(file, "daily");
-                config.set(save + ".daily", TFM_Util.getUnixTime());
-            }
-        }
 
         // Weekly
         if (!config.isInt(save + ".weekly"))
@@ -809,14 +797,44 @@ public class TFM_Util
             }
         }
 
+        if (onlyWeekly)
+        {
+            config.save();
+            return;
+        }
+
+        // Daily
+        if (!config.isInt(save + ".daily"))
+        {
+            performBackup(file, "daily");
+            config.set(save + ".daily", TFM_Util.getUnixTime());
+        }
+        else
+        {
+            int lastBackupDaily = config.getInt(save + ".daily");
+
+            if (lastBackupDaily + 3600 * 24 < TFM_Util.getUnixTime())
+            {
+                performBackup(file, "daily");
+                config.set(save + ".daily", TFM_Util.getUnixTime());
+            }
+        }
+
         config.save();
     }
 
     private static void performBackup(String file, String type)
     {
         TFM_Log.info("Backing up " + file + " to " + file + "." + type + ".bak");
+        final File backupFolder = new File(TotalFreedomMod.plugin.getDataFolder(), "backup");
+
+        if (!backupFolder.exists())
+        {
+            backupFolder.mkdirs();
+        }
+
         final File oldYaml = new File(TotalFreedomMod.plugin.getDataFolder(), file);
-        final File newYaml = new File(TotalFreedomMod.plugin.getDataFolder(), file + "." + type + ".bak");
+        final File newYaml = new File(backupFolder, file + "." + type + ".bak");
         FileUtil.copy(oldYaml, newYaml);
     }
 

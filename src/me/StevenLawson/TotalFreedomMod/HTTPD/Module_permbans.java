@@ -13,10 +13,10 @@ public class Module_permbans extends TFM_HTTPD_Module
     @Override
     public NanoHTTPD.Response getResponse()
     {
-        File permbanFile = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PERMBAN_FILE);
+        File permbanFile = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PERMBAN_FILENAME);
         if (permbanFile.exists())
         {
-            return TFM_HTTPD_Manager.serveFileBasic(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PERMBAN_FILE));
+            return TFM_HTTPD_Manager.serveFileBasic(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PERMBAN_FILENAME));
         }
         else
         {

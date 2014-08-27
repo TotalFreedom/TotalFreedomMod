@@ -30,10 +30,11 @@ public class TotalFreedomMod extends JavaPlugin
     public static final long HEARTBEAT_RATE = 5L; // Seconds
     public static final long SERVICE_CHECKER_RATE = 120L;
     //
-    public static final String SUPERADMIN_FILE = "superadmin.yml";
-    public static final String PERMBAN_FILE = "permban.yml";
-    public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
-    public static final String SAVED_FLAGS_FILE = "savedflags.dat";
+    public static final String CONFIG_FILENAME = "config.yml";
+    public static final String SUPERADMIN_FILENAME = "superadmin.yml";
+    public static final String PERMBAN_FILENAME = "permban.yml";
+    public static final String PROTECTED_AREA_FILENAME = "protectedareas.dat";
+    public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     //
     public static String buildNumber = "1";
     public static String buildDate = TotalFreedomMod.buildDate = TFM_Util.dateToString(new Date());
@@ -84,8 +85,9 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
         // Create backups
-        TFM_Util.createBackups(SUPERADMIN_FILE);
-        TFM_Util.createBackups(PERMBAN_FILE);
+        TFM_Util.createBackups(CONFIG_FILENAME, true);
+        TFM_Util.createBackups(SUPERADMIN_FILENAME);
+        TFM_Util.createBackups(PERMBAN_FILENAME);
 
         // Load services
         TFM_AdminList.load();
