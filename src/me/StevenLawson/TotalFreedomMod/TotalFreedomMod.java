@@ -90,6 +90,7 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Util.createBackups(PERMBAN_FILENAME);
 
         // Load services
+        TFM_UuidManager.load();
         TFM_AdminList.load();
         TFM_PermbanList.load();
         TFM_PlayerList.load();

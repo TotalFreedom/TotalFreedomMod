@@ -799,7 +799,7 @@ public class TFM_PlayerListener implements Listener
                 TFM_BanManager.unbanIp(TFM_Util.getFuzzyIp(storedIp));
             }
 
-            TFM_BanManager.unbanUuid(TFM_Util.getUniqueId(player));
+            TFM_BanManager.unbanUuid(TFM_UuidManager.getUniqueId(player));
 
             player.setOp(true);
 

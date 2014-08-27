@@ -173,7 +173,7 @@ public class TFM_AdminList
 
         for (String uuidString : section.getKeys(false))
         {
-            if (!TFM_Util.isUniqueId(uuidString))
+            if (!TFM_UuidManager.isUniqueId(uuidString))
             {
                 TFM_Log.warning("Invalid Unique ID: " + uuidString + " in superadmin.yml, ignoring");
                 continue;
@@ -245,7 +245,7 @@ public class TFM_AdminList
 
         for (String admin : config.getConfigurationSection("superadmins").getKeys(false))
         {
-            final UUID uuid = TFM_Util.getUniqueId(admin);
+            final UUID uuid = TFM_UuidManager.getUniqueId(admin);
 
             if (uuid == null)
             {
@@ -327,7 +327,7 @@ public class TFM_AdminList
 
     public static TFM_Admin getEntry(Player player)
     {
-        return getEntry(TFM_Util.getUniqueId(player));
+        return getEntry(TFM_UuidManager.getUniqueId(player));
     }
 
     public static TFM_Admin getEntry(UUID uuid)
@@ -433,7 +433,7 @@ public class TFM_AdminList
 
         final Player player = (Player) sender;
 
-        if (Bukkit.getOnlineMode() && superUUIDs.contains(TFM_Util.getUniqueId(player)))
+        if (Bukkit.getOnlineMode() && superUUIDs.contains(TFM_UuidManager.getUniqueId(player)))
         {
             return true;
         }
@@ -488,7 +488,7 @@ public class TFM_AdminList
             return false;
         }
 
-        return entry.getUniqueId().equals(TFM_Util.getUniqueId(player));
+        return entry.getUniqueId().equals(TFM_UuidManager.getUniqueId(player));
     }
 
     @Deprecated
@@ -544,7 +544,7 @@ public class TFM_AdminList
 
     public static boolean isAdminImpostor(Player player)
     {
-        if (superUUIDs.contains(TFM_Util.getUniqueId(player)))
+        if (superUUIDs.contains(TFM_UuidManager.getUniqueId(player)))
         {
             return !isSuperAdmin(player);
         }
@@ -554,7 +554,7 @@ public class TFM_AdminList
 
     public static void addSuperadmin(OfflinePlayer player)
     {
-        final UUID uuid = TFM_Util.getUniqueId(player);
+        final UUID uuid = TFM_UuidManager.getUniqueId(player);
         final String ip = TFM_Util.getIp(player);
 
         if (adminList.containsKey(uuid))
@@ -597,7 +597,7 @@ public class TFM_AdminList
 
     public static void removeSuperadmin(OfflinePlayer player)
     {
-        final UUID uuid = TFM_Util.getUniqueId(player);
+        final UUID uuid = TFM_UuidManager.getUniqueId(player);
 
         if (!adminList.containsKey(uuid))
         {

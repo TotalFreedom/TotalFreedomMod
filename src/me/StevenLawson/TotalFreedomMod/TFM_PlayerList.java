@@ -79,7 +79,7 @@ public class TFM_PlayerList
 
     public static TFM_Player getEntry(Player player)
     {
-        final UUID uuid = TFM_Util.getUniqueId(player);
+        final UUID uuid = TFM_UuidManager.getUniqueId(player);
         TFM_Player entry = getEntry(uuid);
 
         if (entry != null)
@@ -103,7 +103,7 @@ public class TFM_PlayerList
 
     public static void removeEntry(Player player)
     {
-        final UUID uuid = TFM_Util.getUniqueId(player);
+        final UUID uuid = TFM_UuidManager.getUniqueId(player);
 
         if (!PLAYER_LIST.containsKey(uuid))
         {
@@ -117,7 +117,7 @@ public class TFM_PlayerList
 
     public static boolean existsEntry(Player player)
     {
-        return existsEntry(TFM_Util.getUniqueId(player));
+        return existsEntry(TFM_UuidManager.getUniqueId(player));
     }
 
     public static boolean existsEntry(UUID uuid)

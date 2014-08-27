@@ -5,6 +5,7 @@ import java.util.Date;
 import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
@@ -69,7 +70,7 @@ public class Command_tempban extends TFM_Command
         TFM_Util.adminAction(sender.getName(), message.toString(), true);
 
         TFM_BanManager.addIpBan(new TFM_Ban(TFM_Util.getIp(player), player.getName(), sender.getName(), expires, reason));
-        TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUniqueId(player), player.getName(), sender.getName(), expires, reason));
+        TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), sender.getName(), expires, reason));
 
         player.kickPlayer(sender.getName() + " - " + message.toString());
 

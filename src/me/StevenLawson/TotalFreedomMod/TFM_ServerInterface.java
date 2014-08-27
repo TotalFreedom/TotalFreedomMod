@@ -66,7 +66,7 @@ public class TFM_ServerInterface
         final Server server = TotalFreedomMod.server;
         final Player player = event.getPlayer();
         final String username = player.getName();
-        final UUID uuid = TFM_Util.getUniqueId(username);
+        final UUID uuid = TFM_UuidManager.getUniqueId(username);
         final String ip = event.getAddress().getHostAddress().trim();
 
         // Perform username checks
