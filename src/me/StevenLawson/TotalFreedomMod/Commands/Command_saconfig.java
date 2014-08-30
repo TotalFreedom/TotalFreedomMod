@@ -168,12 +168,12 @@ public class Command_saconfig extends TFM_Command
 
             if (player.isOnline())
             {
-                final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData((Player) player);
+                final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player.getPlayer());
 
                 if (playerdata.isFrozen())
                 {
                     playerdata.setFrozen(false);
-                    playerMsg((Player) player, "You have been unfrozen.");
+                    playerMsg(player.getPlayer(), "You have been unfrozen.");
                 }
             }
 

@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.UUID;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 public class TFM_UuidManager
 {
@@ -52,6 +51,11 @@ public class TFM_UuidManager
                 continue;
             }
 
+            if (uuidString.startsWith("deadbeef"))
+            {
+                continue;
+            }
+
             UUID_CACHE.put(playerName.toLowerCase(), UUID.fromString(uuidString));
         }
 
@@ -67,7 +71,14 @@ public class TFM_UuidManager
 
         for (String playerName : UUID_CACHE.keySet())
         {
-            uuids.add(playerName + ":" + UUID_CACHE.get(playerName));
+            final UUID uuid = UUID_CACHE.get(playerName);
+
+            if (uuid.toString().startsWith("deadbeef"))
+            {
+                continue;
+            }
+
+            uuids.add(playerName + ":" + uuid);
         }
 
         config.set("cache", uuids);

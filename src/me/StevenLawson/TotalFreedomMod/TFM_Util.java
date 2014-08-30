@@ -151,7 +151,7 @@ public class TFM_Util
 
     public static String getIp(OfflinePlayer player)
     {
-        if (player instanceof Player)
+        if (player.isOnline())
         {
             return player.getPlayer().getAddress().getAddress().getHostAddress().trim();
         }

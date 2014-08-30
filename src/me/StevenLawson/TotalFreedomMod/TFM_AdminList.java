@@ -562,11 +562,16 @@ public class TFM_AdminList
             final TFM_Admin superadmin = adminList.get(uuid);
             superadmin.setActivated(true);
 
-            if (player instanceof Player)
+            if (player.isOnline())
             {
                 superadmin.setLastLogin(new Date());
-                superadmin.addIp(ip);
+
+                if (ip != null)
+                {
+                    superadmin.addIp(ip);
+                }
             }
+
             saveAll();
             updateIndexLists();
             return;
@@ -578,6 +583,7 @@ public class TFM_AdminList
             TFM_Log.severe("Could not retrieve IP!");
             return;
         }
+
 
         final TFM_Admin superadmin = new TFM_Admin(
                 uuid,
