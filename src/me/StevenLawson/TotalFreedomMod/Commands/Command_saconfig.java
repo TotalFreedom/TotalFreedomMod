@@ -165,6 +165,7 @@ public class Command_saconfig extends TFM_Command
 
             TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list", true);
             TFM_AdminList.addSuperadmin(player);
+            server.dispatchCommand(player.getPlayer(), "reset");
 
             if (player.isOnline())
             {
