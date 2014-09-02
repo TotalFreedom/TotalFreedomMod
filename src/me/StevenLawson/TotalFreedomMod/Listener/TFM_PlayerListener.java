@@ -863,7 +863,12 @@ public class TFM_PlayerListener implements Listener
 
         String name = player.getName();
 
-        if (TFM_Util.DEVELOPERS.contains(player.getName()))
+        if (TFM_AdminList.isAdminImpostor(player))
+        {
+            name = ChatColor.YELLOW + name;
+            TFM_PlayerData.getPlayerData(player).setTag("&8[&eIMPOSTER&8]");
+        }
+        else if (TFM_Util.DEVELOPERS.contains(player.getName()))
         {
             name = ChatColor.DARK_PURPLE + name;
             TFM_PlayerData.getPlayerData(player).setTag("&8[&5Developer&8]");
