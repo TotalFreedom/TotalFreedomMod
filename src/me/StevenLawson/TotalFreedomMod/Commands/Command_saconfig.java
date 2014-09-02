@@ -167,6 +167,8 @@ public class Command_saconfig extends TFM_Command
 
             TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list", true);
             TFM_AdminList.addSuperadmin(player);
+            // There probably is a better way to do this, im sure of it. I just cant think of it, and it does the job.
+            server.dispatchCommand(player.getPlayer(), "reset");
 
             if (player.isOnline())
             {

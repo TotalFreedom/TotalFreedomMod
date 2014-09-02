@@ -824,6 +824,8 @@ public class TFM_PlayerListener implements Listener
             player.setOp(false);
             player.setGameMode(GameMode.SURVIVAL);
             TFM_PlayerData.getPlayerData(player).setFrozen(true);
+            player.setPlayerListName(ChatColor.YELLOW + player.getName());
+            TFM_PlayerData.getPlayerData(player).setTag("&8[&eIMPOSTER&8]");
         }
         else if (TFM_AdminList.isSuperAdmin(player) || TFM_Util.DEVELOPERS.contains(player.getName()))
         {
