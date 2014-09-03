@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.Bridge.TFM_WorldEditBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
@@ -42,15 +41,6 @@ public class Command_gtfo extends TFM_Command
         }
 
         TFM_Util.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
-
-        // Undo WorldEdits:
-        try
-        {
-            TFM_WorldEditBridge.undo(player, 15);
-        }
-        catch (NoClassDefFoundError ex)
-        {
-        }
 
         // rollback
         TFM_RollbackManager.rollback(player.getName());
