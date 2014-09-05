@@ -704,7 +704,7 @@ public class TFM_PlayerListener implements Listener
 
         if (!TFM_AdminList.isSuperAdmin(player))
         {
-            for (Player pl : Bukkit.getOnlinePlayers())
+            for (final Player pl : server.getOnlinePlayers())
             {
                 if (TFM_AdminList.isSuperAdmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
                 {
