@@ -5,7 +5,7 @@ import java.util.Iterator;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -29,7 +29,6 @@ public class Command_gadmin extends TFM_Command
         CI("ci"),
         FR("fr"),
         SMITE("smite");
-
         private final String modeName;
 
         private GadminMode(String command)
@@ -78,12 +77,11 @@ public class Command_gadmin extends TFM_Command
             while (it.hasNext())
             {
                 final Player player = it.next();
-                final String hash = TFM_Util.getUuid(player).toString().substring(0, 4);
+                final String hash = TFM_UuidManager.getUniqueId(player).toString().substring(0, 4);
                 sender.sendMessage(ChatColor.GRAY + String.format("[ %s ] : [ %s ] - %s",
                         player.getName(),
                         ChatColor.stripColor(player.getDisplayName()),
-                        hash
-                ));
+                        hash));
             }
             return true;
         }
@@ -97,7 +95,7 @@ public class Command_gadmin extends TFM_Command
         while (it.hasNext() && target == null)
         {
             final Player player = it.next();
-            final String hash = TFM_Util.getUuid(player).toString().substring(0, 4);
+            final String hash = TFM_UuidManager.getUniqueId(player).toString().substring(0, 4);
 
             if (hash.equalsIgnoreCase(args[1]))
             {
@@ -165,7 +163,7 @@ public class Command_gadmin extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), String.format("Opping %s.", target.getName()), false);
                 target.setOp(false);
-                target.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+                target.sendMessage(TFM_Command.YOU_ARE_OP);
 
                 break;
             }
@@ -173,7 +171,7 @@ public class Command_gadmin extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), String.format("Deopping %s.", target.getName()), false);
                 target.setOp(false);
-                target.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+                target.sendMessage(TFM_Command.YOU_ARE_NOT_OP);
 
                 break;
             }

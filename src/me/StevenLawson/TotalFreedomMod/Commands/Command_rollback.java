@@ -14,18 +14,23 @@ public class Command_rollback extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (args.length == 0 || args.length > 2)
+        {
+            return false;
+        }
+
         if (args.length == 1)
         {
-            if ("purgeall".equalsIgnoreCase(args[0]))
+            if ("purgeall".equals(args[0]))
             {
                 TFM_Util.adminAction(sender.getName(), "Purging all rollback history", false);
                 playerMsg("Purged all rollback history for " + TFM_RollbackManager.purgeEntries() + " players.");
             }
             else
             {
-                String playerName = getPlayerName(args[0]);
+                final String playerName = TFM_RollbackManager.findPlayer(args[0]);
 
-                if (!TFM_RollbackManager.canRollback(playerName))
+                if (playerName == null)
                 {
                     playerMsg("That player has no entries stored.");
                     return true;
@@ -40,26 +45,30 @@ public class Command_rollback extends TFM_Command
                 playerMsg("Rolled back " + TFM_RollbackManager.rollback(playerName) + " edits for " + playerName + ".");
                 playerMsg("If this rollback was a mistake, use /rollback undo " + playerName + " within 40 seconds to reverse the rollback.");
             }
+            return true;
         }
-        else if (args.length == 2)
+
+        if (args.length == 2)
         {
             if ("purge".equalsIgnoreCase(args[0]))
             {
-                String playerName = getPlayerName(args[1]);
+                final String playerName = TFM_RollbackManager.findPlayer(args[1]);
 
-                if (!TFM_RollbackManager.canRollback(playerName))
+                if (playerName == null)
                 {
                     playerMsg("That player has no entries stored.");
                     return true;
                 }
 
                 playerMsg("Purged " + TFM_RollbackManager.purgeEntries(playerName) + " rollback history entries for " + playerName + ".");
+                return true;
             }
-            else if ("undo".equalsIgnoreCase(args[0]))
-            {
-                String playerName = getPlayerName(args[1]);
 
-                if (!TFM_RollbackManager.canUndoRollback(playerName))
+            if ("undo".equalsIgnoreCase(args[0]))
+            {
+                final String playerName = TFM_RollbackManager.findPlayer(args[1]);
+
+                if (playerName == null)
                 {
                     playerMsg("That player hasn't been rolled back recently.");
                     return true;
@@ -67,36 +76,10 @@ public class Command_rollback extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Reverting rollback for player: " + playerName, false);
                 playerMsg("Reverted " + TFM_RollbackManager.undoRollback(playerName) + " edits for " + playerName + ".");
-            }
-            else
-            {
-                return false;
+                return true;
             }
         }
-        else
-        {
-            return false;
-        }
 
-        return true;
-    }
-
-    private String getPlayerName(String playerNameInput)
-    {
-        String playerName = null;
-
-
-        final Player player = getPlayer(playerNameInput);
-        if (player != null)
-        {
-            playerName = player.getName();
-        }
-
-        if (playerName == null)
-        {
-            playerName = TFM_PlayerList.getEntry(playerNameInput).getLastLoginName();
-        }
-
-        return playerName;
+        return false;
     }
 }

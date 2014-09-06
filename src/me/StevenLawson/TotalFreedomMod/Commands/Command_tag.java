@@ -5,7 +5,6 @@ import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -45,7 +44,7 @@ public class Command_tag extends TFM_Command
             {
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {
-                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                    playerMsg(TFM_Command.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -91,7 +90,7 @@ public class Command_tag extends TFM_Command
             {
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {
-                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                    playerMsg(TFM_Command.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -99,7 +98,7 @@ public class Command_tag extends TFM_Command
 
                 if (player == null)
                 {
-                    playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+                    playerMsg(TFM_Command.PLAYER_NOT_FOUND);
                     return true;
                 }
 
@@ -113,14 +112,13 @@ public class Command_tag extends TFM_Command
                 final String inputTag = StringUtils.join(args, " ", 1, args.length);
                 final String outputTag = TFM_Util.colorize(StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
                         new String[]
-                        {
-                            "" + ChatColor.COLOR_CHAR, "&k"
-                        },
+                {
+                    "" + ChatColor.COLOR_CHAR, "&k"
+                },
                         new String[]
-                        {
-                            "", ""
-                        }
-                )) + ChatColor.RESET;
+                {
+                    "", ""
+                })) + ChatColor.RESET;
 
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {

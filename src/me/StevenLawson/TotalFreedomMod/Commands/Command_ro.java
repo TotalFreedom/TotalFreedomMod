@@ -3,10 +3,11 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,10 +26,7 @@ public class Command_ro extends TFM_Command
 
         final List<Material> materials = new ArrayList<Material>();
 
-        for (String materialName : (args[0].contains(",") ? args[0].split(",") : new String[]
-        {
-            args[0]
-        }))
+        for (String materialName : StringUtils.split(args[0], ","))
         {
             Material fromMaterial = Material.matchMaterial(materialName);
             if (fromMaterial == null)
@@ -71,7 +69,7 @@ public class Command_ro extends TFM_Command
             targetPlayer = getPlayer(args[2]);
             if (targetPlayer == null)
             {
-                playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+                playerMsg(TFM_Command.PLAYER_NOT_FOUND);
                 return true;
             }
         }
@@ -82,14 +80,28 @@ public class Command_ro extends TFM_Command
 
         final String names = StringUtils.join(materials, ", ");
 
+        World adminWorld = null;
+        try
+        {
+            adminWorld = TFM_AdminWorld.getInstance().getWorld();
+        }
+        catch (Exception ex)
+        {
+        }
+
         int affected = 0;
         if (targetPlayer == null)
         {
             TFM_Util.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of all players... Brace for lag!", false);
 
-            for (Material material : materials)
+            for (final Player player : server.getOnlinePlayers())
             {
-                for (Player player : server.getOnlinePlayers())
+                if (player.getWorld() == adminWorld)
+                {
+                    continue;
+                }
+
+                for (final Material material : materials)
                 {
                     affected += TFM_Util.replaceBlocks(player.getLocation(), material, Material.AIR, radius);
                 }
@@ -97,10 +109,13 @@ public class Command_ro extends TFM_Command
         }
         else
         {
-            for (Material material : materials)
+            if (targetPlayer.getWorld() != adminWorld)
             {
-                TFM_Util.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
-                affected += TFM_Util.replaceBlocks(targetPlayer.getLocation(), material, Material.AIR, radius);
+                for (Material material : materials)
+                {
+                    TFM_Util.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
+                    affected += TFM_Util.replaceBlocks(targetPlayer.getLocation(), material, Material.AIR, radius);
+                }
             }
         }
 

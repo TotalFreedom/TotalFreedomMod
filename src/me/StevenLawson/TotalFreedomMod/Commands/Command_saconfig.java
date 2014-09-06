@@ -6,7 +6,6 @@ import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -39,7 +38,7 @@ public class Command_saconfig extends TFM_Command
             {
                 if (!TFM_AdminList.isSeniorAdmin(sender, true))
                 {
-                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                    playerMsg(TFM_Command.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -53,7 +52,7 @@ public class Command_saconfig extends TFM_Command
         // All commands below are superadmin+ commands.
         if (!TFM_AdminList.isSuperAdmin(sender))
         {
-            playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+            playerMsg(TFM_Command.MSG_NO_PERMS);
             return true;
         }
 
@@ -61,7 +60,7 @@ public class Command_saconfig extends TFM_Command
         {
             if (senderIsConsole)
             {
-                playerMsg(TotalFreedomMod.NOT_FROM_CONSOLE);
+                playerMsg(TFM_Command.NOT_FROM_CONSOLE);
                 return true;
             }
 
@@ -157,7 +156,7 @@ public class Command_saconfig extends TFM_Command
 
                 if (superadmin == null)
                 {
-                    playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+                    playerMsg(TFM_Command.PLAYER_NOT_FOUND);
                     return true;
                 }
 
@@ -169,12 +168,12 @@ public class Command_saconfig extends TFM_Command
 
             if (player.isOnline())
             {
-                final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData((Player) player);
+                final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player.getPlayer());
 
                 if (playerdata.isFrozen())
                 {
                     playerdata.setFrozen(false);
-                    playerMsg((Player) player, "You have been unfrozen.");
+                    playerMsg(player.getPlayer(), "You have been unfrozen.");
                 }
             }
 
@@ -185,7 +184,7 @@ public class Command_saconfig extends TFM_Command
         {
             if (!TFM_AdminList.isSeniorAdmin(sender))
             {
-                playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                playerMsg(TFM_Command.MSG_NO_PERMS);
                 return true;
             }
 

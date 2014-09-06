@@ -216,7 +216,7 @@ public class TFM_ProtectedArea
     {
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILE));
+            FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILENAME));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(TFM_ProtectedArea.PROTECTED_AREAS);
             oos.close();
@@ -231,7 +231,7 @@ public class TFM_ProtectedArea
     @SuppressWarnings("unchecked")
     public static void loadProtectedAreas()
     {
-        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILE);
+        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILENAME);
         try
         {
             if (input.exists())

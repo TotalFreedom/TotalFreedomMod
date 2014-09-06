@@ -36,8 +36,6 @@ allow:
   tnt_minecarts: false
   explosions: false
 
-explosive_radius: 4.0
-
 # Blocked commands:
 #
 # How blocked commands work:
@@ -114,7 +112,7 @@ blocked_commands:
   - 's:a:/restart'
   - 's:b:/setblock:_'
 
-# Automatically wipe dropped objects:
+# Automatically wipe dropped objects
 auto_wipe: true
 
 # Nuking prevention
@@ -125,8 +123,9 @@ nukemonitor:
   range: 10.0
 
 freecam_trigger_count: 10
+explosive_radius: 4.0
 
-# Show all attempted commands in the log, will result in duplicate log messages:
+# Show all attempted commands in the log, will result in duplicate log messages
 preprocess_log: true
 
 # Disable certain events
@@ -135,13 +134,12 @@ disable:
   weather: true
 
 
-# Enable misc. features:
+# Enable misc. features
 landmines_enabled: false
 mp44_enabled: false
 tossmob_enabled: false
 
-# Moblimiter:
-
+# Moblimiter
 moblimiter:
   enabled: true
   max: 50
@@ -154,7 +152,8 @@ moblimiter:
 # Flatlands
 flatlands:
   generate: true
-  # Flatlands generation parameters, uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
+
+  # Flatlands generation parameters - Uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
   generate_params: 16,stone,32,dirt,1,grass
 
 # Admin-Only Mode
@@ -175,6 +174,21 @@ console_is_senior: true
 host_sender_names:
   - rcon
   - remotebukkit
+
+# Announcer
+announcer:
+  enabled: true
+
+  # Interval between announcements, in seconds.
+  interval: 600
+
+  # Prefix for all announcements
+  prefix: '&5[&eTotalFreedom&5] &b'
+
+  announcements:
+    - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
+    - 'You can always review the server rules here: &6http://totalfreedom.me/'
+    - 'If you aren''t OP, be sure to ask!'
 
 # Players who cannot be banned by username
 unbannable_usernames:
@@ -226,7 +240,7 @@ twitterbot:
 petprotect:
   enabled: true
 
-# Logs Registration
+# Logviewer
 logs:
   url: ''
   secret: ''
@@ -234,7 +248,7 @@ logs:
 # Mojang service checker
 service_checker_url: http://status.mojang.com/check
 
-# HTTPD
+# HTTPD server
 httpd:
   enabled: true
   port: 28966
@@ -243,7 +257,9 @@ httpd:
 # Inactivity Auto-Kick (Requires Essentials)
 autokick:
   enabled: true
+
   # autokick_threshold - Percentage of server player capacity used at which players will be automatically kicked for being inactive. Range: 0.0 - 1.0
   threshold: 0.9
+
   # autokick_time - Time, in seconds, after which a player should be kicked when inactive
   time: 120

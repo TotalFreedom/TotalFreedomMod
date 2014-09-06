@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,7 +23,7 @@ public class Command_findip extends TFM_Command
         if (player == null)
         {
 
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+            playerMsg(TFM_Command.PLAYER_NOT_FOUND);
             return true;
         }
 

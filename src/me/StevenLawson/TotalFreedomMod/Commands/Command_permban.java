@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PermbanList;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,7 +27,7 @@ public class Command_permban extends TFM_Command
         {
             if (!senderIsConsole)
             {
-                sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
+                sender.sendMessage(TFM_Command.MSG_NO_PERMS);
                 return true;
             }
             playerMsg("Reloading permban list...", ChatColor.RED);

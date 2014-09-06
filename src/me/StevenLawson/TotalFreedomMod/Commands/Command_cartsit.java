@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Minecart;
@@ -23,7 +22,7 @@ public class Command_cartsit extends TFM_Command
 
             if (targetPlayer == null)
             {
-                sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
+                sender.sendMessage(TFM_Command.PLAYER_NOT_FOUND);
                 return true;
             }
         }

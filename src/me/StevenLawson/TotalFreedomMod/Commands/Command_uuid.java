@@ -9,21 +9,34 @@ import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Player;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
+import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidResolver;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE)
-@CommandParameters(description = "Provides uuid tools", usage = "/<command> recalculate <admin | player>")
+@CommandParameters(description = "Provides uuid tools", usage = "/<command> <purge | recalculate <admin | player>>")
 public class Command_uuid extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length < 2)
+        if (args.length == 0 || args.length > 2)
         {
             return false;
+        }
+
+        if (args.length == 1)
+        {
+
+            if (!"purge".equals(args[0]))
+            {
+                return false;
+            }
+
+            playerMsg("Purged " + TFM_UuidManager.purge() + " cached UUIDs.");
+            return true;
         }
 
         if ("recalculate".equals(args[0]))
@@ -98,7 +111,7 @@ public class Command_uuid extends TFM_Command
                             continue;
                         }
 
-                        TFM_PlayerList.setUuid(player, player.getUniqueId(), uuids.get(name));
+                        TFM_PlayerList.setUniqueId(player, uuids.get(name));
                         updated++;
                         break;
                     }
@@ -108,7 +121,6 @@ public class Command_uuid extends TFM_Command
                 return true;
 
             }
-
 
             return false;
         }

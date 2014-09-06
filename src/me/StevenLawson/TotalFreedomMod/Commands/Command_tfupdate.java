@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.io.File;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,7 +27,7 @@ public class Command_tfupdate extends TFM_Command
 
         if (!sender.getName().equalsIgnoreCase("madgeek1450"))
         {
-            playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+            playerMsg(TFM_Command.MSG_NO_PERMS);
             return true;
         }
 

@@ -5,7 +5,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -31,7 +31,7 @@ public class Command_gtfo extends TFM_Command
 
         if (player == null)
         {
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+            playerMsg(TFM_Command.PLAYER_NOT_FOUND, ChatColor.RED);
             return true;
         }
 
@@ -78,17 +78,24 @@ public class Command_gtfo extends TFM_Command
         // ban IP address:
         String ip = TFM_Util.getFuzzyIp(player.getAddress().getAddress().getHostAddress());
 
-        final StringBuilder bcast = new StringBuilder("Banning: ").append(player.getName()).append(", IP: ").append(ip);
+        final StringBuilder bcast = new StringBuilder()
+                .append(ChatColor.RED)
+                .append("Banning: ")
+                .append(player.getName())
+                .append(", IP: ")
+                .append(ip);
+
         if (reason != null)
         {
-            bcast.append(ChatColor.RED).append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
+            bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
         }
+
         TFM_Util.bcastMsg(bcast.toString());
 
         TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), sender.getName(), null, reason));
 
         // ban username:
-        TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), sender.getName(), null, reason));
+        TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), sender.getName(), null, reason));
 
         // kick Player:
         player.kickPlayer(ChatColor.RED + "GTFO" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));

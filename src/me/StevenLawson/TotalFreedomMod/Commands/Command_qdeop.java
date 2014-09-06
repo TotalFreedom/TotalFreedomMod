@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,7 +37,7 @@ public class Command_qdeop extends TFM_Command
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(false);
-                    player.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+                    player.sendMessage(TFM_Command.YOU_ARE_NOT_OP);
                 }
             }
         }
