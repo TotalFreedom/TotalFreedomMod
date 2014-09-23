@@ -108,6 +108,11 @@ public class TFM_Admin
         }
     }
 
+    public void clearIPs()
+    {
+        ips.clear();
+    }
+
     public Date getLastLogin()
     {
         return lastLogin;
