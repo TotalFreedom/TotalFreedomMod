@@ -60,7 +60,7 @@ public class TFM_MainConfig
         {
             YamlConfiguration config = new YamlConfiguration();
 
-            config.load(CONFIG_FILE);
+            config.loadFromString(new TFM_YamlPreprocessor(CONFIG_FILE).toString());
 
             for (TFM_ConfigEntry entry : TFM_ConfigEntry.values())
             {
@@ -82,10 +82,6 @@ public class TFM_MainConfig
                     TFM_Log.warning("Missing configuration entry " + entry.getConfigName() + ". Using default value.");
                 }
             }
-        }
-        catch (FileNotFoundException ex)
-        {
-            TFM_Log.severe(ex);
         }
         catch (IOException ex)
         {
