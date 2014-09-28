@@ -16,7 +16,7 @@ public class Command_stfu extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length != 1)
+        if (args.length == 0 || args.length > 2)
         {
             return false;
         }
@@ -98,6 +98,7 @@ public class Command_stfu extends TFM_Command
         }
         else
         {
+
             final Player player = getPlayer(args[0]);
 
             if (player == null)
@@ -115,10 +116,16 @@ public class Command_stfu extends TFM_Command
             }
             else
             {
+
                 if (!TFM_AdminList.isSuperAdmin(player))
                 {
                     TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
                     playerdata.setMuted(true);
+                    if (args.length == 2 && args[1].equalsIgnoreCase("-s"))
+                    {
+                        Command_smite.smite(player);
+                    }
+                    
                     playerMsg("Muted " + player.getName());
                 }
                 else
