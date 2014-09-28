@@ -81,6 +81,8 @@ blocked_commands:
   - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
+  - 'n:b:/etpall:_'
+  - 'n:b:/tpall:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
