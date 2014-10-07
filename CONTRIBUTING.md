@@ -33,7 +33,7 @@ As a rough guideline, ask yourself the following questions to determine if your 
   Pull requests that involve adding a micromanagement feature will likely not be accepted. This includes shorthands for multiple commands.
 
 * Is a similar feature already present?
-  Features that have very similar alternatives fill not be added. For example: A command that temporarily bans a player from the server is very similar to the _/tban_ command and thus will likely not be accepted.
+  Features that have very similar alternatives will not be added. For example: A command that temporarily bans a player from the server is very similar to the _/tban_ command and thus will likely not be accepted.
 
 ## Making Changes ##
 * Create a topic branch from where you want to base your work.
@@ -88,6 +88,7 @@ meaning you can't remove your current IP or an IP that doesn't belong to you.
 * Please avoid having to add files in the main namespace where possible.
 * Please refrain from using an excessive amount of commits. As few as possible is generally the best.
 * Please do not spread your contribution over several pull-requests.
+* Please do not remove any names or add any name from the credis in the code.
 
 ## Additional Resources ##
 * [TotalFreedom information](http://totalfreedom.me)
