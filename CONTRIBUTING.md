@@ -53,6 +53,7 @@ As a rough guideline, ask yourself the following questions to determine if your 
 * No 80 character line limit or 'weird' midstatement newlines.
 * Additions should be compiled, complete and tested before committing.
 * Avoid using `org.bukkit.Server.dispatchCommand()`. Commits that make use of it will likely be rejected.
+* Avoid using website links only specific to TotalFreedom, though it may be appropriate to the project its self it will make it more difficult for people to use outside of the TotalFreedom server. Try to link it into the config file or create a config option for it if you need.
 * Files must always end with a newline.
 * Avoid nested code structures.
 
