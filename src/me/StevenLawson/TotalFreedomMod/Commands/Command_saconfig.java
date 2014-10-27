@@ -194,7 +194,6 @@ public class Command_saconfig extends TFM_Command
         INFO("info", AdminLevel.SUPER, SourceType.BOTH, 2, 2),
         ADD("add", AdminLevel.SUPER, SourceType.ONLY_CONSOLE, 2, 2),
         DELETE("delete", AdminLevel.SENIOR, SourceType.ONLY_CONSOLE, 2, 2);
-
         private final String modeName;
         private final AdminLevel adminLevel;
         private final SourceType sourceType;
