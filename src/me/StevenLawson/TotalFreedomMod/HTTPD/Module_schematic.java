@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Method;
 import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
-import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import net.minecraft.util.org.apache.commons.io.FileUtils;
 import net.minecraft.util.org.apache.commons.lang3.StringEscapeUtils;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
@@ -27,8 +27,7 @@ public class Module_schematic extends TFM_HTTPD_Module
     {
         "schematic"
     };
-    private static final String UPLOAD_FORM
-            = "<form method=\"post\" name=\"schematicForm\" id=\"schematicForm\" action=\"/schematic/upload/\" enctype=\"multipart/form-data\">\n"
+    private static final String UPLOAD_FORM = "<form method=\"post\" name=\"schematicForm\" id=\"schematicForm\" action=\"/schematic/upload/\" enctype=\"multipart/form-data\">\n"
             + "<p>Select a schematic file to upload. Filenames must be alphanumeric, between 1 and 30 characters long (inclusive), and have a .schematic extension.</p>\n"
             + "<input type=\"file\" id=\"schematicFile\" name=\"schematicFile\" />\n"
             + "<br />\n"

@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_TwitterHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
@@ -134,7 +135,7 @@ public class Command_saconfig extends TFM_Command
                         return true;
                     }
 
-                    player = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getOfflinePlayer(server, superadmin.getLastLoginName());
+                    player = TFM_DepreciationAggregator.getOfflinePlayer(server, superadmin.getLastLoginName());
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list", true);
@@ -171,7 +172,7 @@ public class Command_saconfig extends TFM_Command
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Removing " + targetName + " from the superadmin list", true);
-                TFM_AdminList.removeSuperadmin(me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getOfflinePlayer(server, targetName));
+                TFM_AdminList.removeSuperadmin(TFM_DepreciationAggregator.getOfflinePlayer(server, targetName));
 
                 // Twitterbot
                 if (TFM_ConfigEntry.TWITTERBOT_ENABLED.getBoolean())
@@ -194,7 +195,6 @@ public class Command_saconfig extends TFM_Command
         INFO("info", AdminLevel.SUPER, SourceType.BOTH, 2, 2),
         ADD("add", AdminLevel.SUPER, SourceType.ONLY_CONSOLE, 2, 2),
         DELETE("delete", AdminLevel.SENIOR, SourceType.ONLY_CONSOLE, 2, 2);
-
         private final String modeName;
         private final AdminLevel adminLevel;
         private final SourceType sourceType;

@@ -566,7 +566,7 @@ public class TFM_AdminList
             {
                 superadmin.setLastLogin(new Date());
 
-                if (ip != null)
+                if (ip != null && !TFM_MainConfig.getList(TFM_ConfigEntry.NOADMIN_IPS).contains(ip))
                 {
                     superadmin.addIp(ip);
                 }

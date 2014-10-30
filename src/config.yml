@@ -233,6 +233,10 @@ unbannable_usernames:
   - dantdm
   - gizzy14gazza
 
+# IPs that can not be supered
+noadmin_ips:
+  - 127.0.0.1
+
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot:
   enabled: false
