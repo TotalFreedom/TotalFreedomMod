@@ -766,6 +766,7 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
+        
         final Player player = event.getPlayer();
         final String ip = TFM_Util.getIp(player);
         final TFM_Player playerEntry;
@@ -853,6 +854,14 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         TFM_ServerInterface.handlePlayerLogin(event);
+        
+        // Force IP Setup
+        if(TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean()){
+            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_HOSTNAME.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger())){
+                        event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString());
+            }
+        }
+        
     }
 
     // Player Tab and auto Tags

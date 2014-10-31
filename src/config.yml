@@ -1,6 +1,8 @@
 # TotalFreedomMod v4.3 Configuration
 # by Madgeek1450 and DarthSalamon
 
+
+
 # Generic server information
 server:
   # You should change this to your server's name
@@ -24,6 +26,22 @@ server:
 
   # URL players should appeal for permanent bans at
   permban_url: http://bit.ly/TF_PermBan
+  
+  # Your Servers Host Name - Used for ForceIP
+  hostname: play.totalfreedom.me
+  
+  # Server Port - Used for ForceIP
+  port: 25565
+  
+# ForceIP Configuration
+forceip:
+    
+  # Please state if you wish to enable the ForceIP system.
+  enabled: true
+
+  # Please enter the kick message you wish for people to see if they are not connecting on the servers hostname
+  kickmsg: You have been kicked from the server - Please connect using play.totalfreedom.me  
+
 
 # Blocking certain events
 allow:

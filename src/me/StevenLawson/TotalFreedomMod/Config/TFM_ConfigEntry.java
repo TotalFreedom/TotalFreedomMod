@@ -4,6 +4,9 @@ import java.util.List;
 
 public enum TFM_ConfigEntry
 {
+    FORCE_IP_ENABLED(Boolean.class, "forceip.enabled"),
+    FORCE_IP_KICKMSG(String.class, "forceip.kickmsg"),
+    //
     ALLOW_EXPLOSIONS(Boolean.class, "allow.explosions"),
     ALLOW_FIRE_PLACE(Boolean.class, "allow.fire_place"),
     ALLOW_FIRE_SPREAD(Boolean.class, "allow.fire_spread"),
@@ -31,6 +34,8 @@ public enum TFM_ConfigEntry
     SERVER_OWNERS(List.class, "server.owners"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
+    SERVER_HOSTNAME(String.class, "server.hostname"),
+    SERVER_PORT(Integer.class, "server.port"),
     //
     TWITTERBOT_ENABLED(Boolean.class, "twitterbot.enabled"),
     TWITTERBOT_SECRET(String.class, "twitterbot.secret"),
