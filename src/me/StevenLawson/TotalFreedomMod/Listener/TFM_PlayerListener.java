@@ -860,10 +860,9 @@ public class TFM_PlayerListener implements Listener
         {
             if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_HOSTNAME.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()))
             {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString());
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString());
             }
-        }
-        
+        }        
     }
 
     // Player Tab and auto Tags
