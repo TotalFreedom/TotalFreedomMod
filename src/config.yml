@@ -25,10 +25,10 @@ server:
   # URL players should appeal for permanent bans at
   permban_url: http://bit.ly/TF_PermBan
   
-  # Your Servers Host Name - Used for ForceIP
+  # Your Servers Host Name - This can be your servers's IP or your servers DNS Record. Please ensure its what you want players to use to connect using. 
   hostname: play.totalfreedom.me
   
-  # Server Port - Used for ForceIP
+  # Server Port - If your using a domain SRV record (eg play.totalfreedom.me) this MUST be 25565 else use the port you need to type at the end of the address.
   port: 25565
   
 # ForceIP Configuration
