@@ -6,8 +6,8 @@ server:
   # You should change this to your server's name
   name: TotalFreedom
 
-  # The address your server is located at. Please do not include the port.
-  address: play.totalfreedom.me
+  # The address your server is located at. Please do not include the port. Due to the way TotalFreedom is hosted we require the . at the end, you may not. 
+  address: play.totalfreedom.me.
   
   # Please indicate your server port. This should be 25565 unless otherwise indicated by your host
   port: 25565
@@ -34,8 +34,8 @@ forceip:
   # Please state if you wish to enable the ForceIP system.
   enabled: false
 
-  # Please enter the kick message you wish for people to see if they are not connecting on the servers hostname
-  kickmsg: You have been kicked from the server - Please connect using %address%  
+  # Please enter the kick message you wish for people to see if they are not connecting on the servers hostname (You can use %hostname% if the hostname is the same as what you want them to be connecting with)
+  kickmsg: You have been kicked from the server - Please connect using play.totalfreedom.me
   
   # Please state if you wish to include the port with the kick message - This MUST be set to false when using an SRV Record. 
   include_port: false

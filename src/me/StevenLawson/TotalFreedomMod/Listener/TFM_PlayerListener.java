@@ -853,12 +853,12 @@ public class TFM_PlayerListener implements Listener
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLogin(PlayerLoginEvent event)
-    {
+    {        
         TFM_ServerInterface.handlePlayerLogin(event);
         
         // Force IP Setup        
         if(TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean()) 
-        {
+        {          
             if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()))
             {                
                 final int port = TFM_ConfigEntry.SERVER_PORT.getInteger();
