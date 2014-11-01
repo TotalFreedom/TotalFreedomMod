@@ -6,8 +6,8 @@ server:
   # You should change this to your server's name
   name: TotalFreedom
 
-  # The address your server is located at - Please Note: The port MUST be included, even if it is default port (DNS Records included)
-  address: play.totalfreedom.me:25565
+  # The address your server is located at - Please include the port if required.
+  address: play.totalfreedom.me
 
   # Shown at the server list
   motd: TotalFreedom &8- Minecraft %mcversion%
