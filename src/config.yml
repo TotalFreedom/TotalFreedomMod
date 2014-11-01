@@ -7,7 +7,7 @@ server:
   name: TotalFreedom
 
   # The address your server is located at - Please Note: The port MUST be included, even if it is default port (DNS Records included)
-  address: 64.34.165.5:28965
+  address: play.totalfreedom.me:25565
 
   # Shown at the server list
   motd: TotalFreedom &8- Minecraft %mcversion%
@@ -32,7 +32,7 @@ forceip:
   enabled: true
 
   # Please enter the kick message you wish for people to see if they are not connecting on the servers hostname
-  kickmsg: You have been kicked from the server - Please connect using play.totalfreedom.me  
+  kickmsg: You have been kicked from the server - Please connect using %address%  
 
 
 # Blocking certain events
