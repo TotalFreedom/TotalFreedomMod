@@ -4,6 +4,9 @@ import java.util.List;
 
 public enum TFM_ConfigEntry
 {
+    FORCE_IP_ENABLED(Boolean.class, "forceip.enabled"),
+    FORCE_IP_KICKMSG(String.class, "forceip.kickmsg"),
+    //
     ALLOW_EXPLOSIONS(Boolean.class, "allow.explosions"),
     ALLOW_FIRE_PLACE(Boolean.class, "allow.fire_place"),
     ALLOW_FIRE_SPREAD(Boolean.class, "allow.fire_spread"),

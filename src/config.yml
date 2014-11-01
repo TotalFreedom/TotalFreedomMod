@@ -6,8 +6,8 @@ server:
   # You should change this to your server's name
   name: TotalFreedom
 
-  # The address your server is located at
-  address: 64.34.165.5:28965
+  # The address your server is located at - Please include the port if required.
+  address: play.totalfreedom.me
 
   # Shown at the server list
   motd: TotalFreedom &8- Minecraft %mcversion%
@@ -24,6 +24,16 @@ server:
 
   # URL players should appeal for permanent bans at
   permban_url: http://bit.ly/TF_PermBan
+  
+# ForceIP Configuration
+forceip:
+    
+  # Please state if you wish to enable the ForceIP system.
+  enabled: true
+
+  # Please enter the kick message you wish for people to see if they are not connecting on the servers hostname
+  kickmsg: You have been kicked from the server - Please connect using %address%  
+
 
 # Blocking certain events
 allow:
