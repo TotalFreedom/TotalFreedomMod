@@ -37,6 +37,7 @@ public class TFM_PlayerListener implements Listener
 {
     private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
     private static final int MSG_PER_HEARTBEAT = 10;
+    public static int DEFAULT_PORT = 25565;
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -858,9 +859,18 @@ public class TFM_PlayerListener implements Listener
         // Force IP Setup
         if(TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean()) 
         {
-            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString()))
+            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()))
             {
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString()));
+                if (TFM_ConfigEntry.SERVER_PORT.getInteger() != DEFAULT_PORT)
+                {
+                    event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString()) + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger());
+                }
+                else
+                {
+                    event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString()));
+
+                }
+               
             }
         }        
     }
