@@ -853,18 +853,18 @@ public class TFM_PlayerListener implements Listener
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLogin(PlayerLoginEvent event)
-    {
+    {        
         TFM_ServerInterface.handlePlayerLogin(event);
         
         // Force IP Setup        
         if(TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean()) 
-        {
-            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()))
+        {          
+            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()) || !event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString() + ".:" + TFM_ConfigEntry.SERVER_PORT.getInteger()))
             {                
                 final int port = TFM_ConfigEntry.SERVER_PORT.getInteger();
                 
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString())  + (port == DEFAULT_PORT ? "" : ":" + port));
-                               
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString())  + (port == DEFAULT_PORT || !TFM_ConfigEntry.FORCE_IP_PORTMSG.getBoolean() ? "" : ":" + port));
+                  
             }
         }        
     }
