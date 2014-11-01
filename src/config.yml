@@ -6,7 +6,7 @@ server:
   # You should change this to your server's name
   name: TotalFreedom
 
-  # The address your server is located at
+  # The address your server is located at - Please Note: The port MUST be included, even if it is default port (DNS Records included)
   address: 64.34.165.5:28965
 
   # Shown at the server list
@@ -24,12 +24,6 @@ server:
 
   # URL players should appeal for permanent bans at
   permban_url: http://bit.ly/TF_PermBan
-  
-  # Your Servers Host Name - This can be your servers's IP or your servers DNS Record. Please ensure its what you want players to use to connect using. 
-  hostname: play.totalfreedom.me
-  
-  # Server Port - If your using a domain SRV record (eg play.totalfreedom.me) this MUST be 25565 else use the port you need to type at the end of the address.
-  port: 25565
   
 # ForceIP Configuration
 forceip:

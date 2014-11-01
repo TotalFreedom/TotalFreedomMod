@@ -858,7 +858,7 @@ public class TFM_PlayerListener implements Listener
         // Force IP Setup
         if(TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean()) 
         {
-            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_HOSTNAME.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()))
+            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString()))
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString());
             }

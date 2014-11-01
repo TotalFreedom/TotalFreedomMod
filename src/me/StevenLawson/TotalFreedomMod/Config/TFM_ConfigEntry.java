@@ -34,8 +34,6 @@ public enum TFM_ConfigEntry
     SERVER_OWNERS(List.class, "server.owners"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
-    SERVER_HOSTNAME(String.class, "server.hostname"),
-    SERVER_PORT(Integer.class, "server.port"),
     //
     TWITTERBOT_ENABLED(Boolean.class, "twitterbot.enabled"),
     TWITTERBOT_SECRET(String.class, "twitterbot.secret"),
