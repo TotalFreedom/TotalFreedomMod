@@ -35,9 +35,9 @@ import org.bukkit.util.Vector;
 
 public class TFM_PlayerListener implements Listener
 {
-    private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
-    private static final int MSG_PER_HEARTBEAT = 10;
-    public static int DEFAULT_PORT = 25565;
+    public static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
+    public static final int MSG_PER_HEARTBEAT = 10;
+    public static final int DEFAULT_PORT = 25565;
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
