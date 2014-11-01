@@ -38,7 +38,7 @@ forceip:
   kickmsg: You have been kicked from the server - Please connect using %address%  
   
   # Please state if you wish to include the port with the kick message - This MUST be set to false when using an SRV Record. 
-  include_port: true
+  include_port: false
 
 
 # Blocking certain events
