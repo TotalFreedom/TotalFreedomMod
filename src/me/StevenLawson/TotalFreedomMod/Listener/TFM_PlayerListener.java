@@ -856,21 +856,15 @@ public class TFM_PlayerListener implements Listener
     {
         TFM_ServerInterface.handlePlayerLogin(event);
         
-        // Force IP Setup
+        // Force IP Setup        
         if(TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean()) 
         {
             if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()))
-            {
-                if (TFM_ConfigEntry.SERVER_PORT.getInteger() != DEFAULT_PORT)
-                {
-                    event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString()) + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger());
-                }
-                else
-                {
-                    event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString()));
-
-                }
-               
+            {                
+                final int port = TFM_ConfigEntry.SERVER_PORT.getInteger();
+                
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString())  + (port == DEFAULT_PORT ? "" : ":" + port));
+                               
             }
         }        
     }
