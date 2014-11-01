@@ -982,6 +982,17 @@ public class TFM_Util
         return packageName.substring(packageName.lastIndexOf('.') + 1);
 
     }
+    
+    public static void reportAction(Player reporter, Player reported, String report)
+    {
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
+            if (TFM_AdminList.isSuperAdmin(player))
+            {
+                playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
+            }
+        }
+    }
 
     public static class TFM_EntityWiper
     {
