@@ -35,8 +35,9 @@ import org.bukkit.util.Vector;
 
 public class TFM_PlayerListener implements Listener
 {
-    private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
-    private static final int MSG_PER_HEARTBEAT = 10;
+    public static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
+    public static final int MSG_PER_HEARTBEAT = 10;
+    public static final int DEFAULT_PORT = 25565;
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -855,12 +856,15 @@ public class TFM_PlayerListener implements Listener
     {
         TFM_ServerInterface.handlePlayerLogin(event);
         
-        // Force IP Setup
+        // Force IP Setup        
         if(TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean()) 
         {
-            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString()))
-            {
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString()));
+            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()))
+            {                
+                final int port = TFM_ConfigEntry.SERVER_PORT.getInteger();
+                
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString())  + (port == DEFAULT_PORT ? "" : ":" + port));
+                               
             }
         }        
     }
