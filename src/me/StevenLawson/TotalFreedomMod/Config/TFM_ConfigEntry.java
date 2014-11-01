@@ -6,6 +6,7 @@ public enum TFM_ConfigEntry
 {
     FORCE_IP_ENABLED(Boolean.class, "forceip.enabled"),
     FORCE_IP_KICKMSG(String.class, "forceip.kickmsg"),
+    FORCE_IP_PORTMSG(Boolean.class, "forceip.include_port"),
     //
     ALLOW_EXPLOSIONS(Boolean.class, "allow.explosions"),
     ALLOW_FIRE_PLACE(Boolean.class, "allow.fire_place"),

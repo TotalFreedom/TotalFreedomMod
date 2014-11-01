@@ -863,8 +863,8 @@ public class TFM_PlayerListener implements Listener
             {                
                 final int port = TFM_ConfigEntry.SERVER_PORT.getInteger();
                 
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString())  + (port == DEFAULT_PORT ? "" : ":" + port));
-                               
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString())  + (port == DEFAULT_PORT || !TFM_ConfigEntry.FORCE_IP_PORTMSG.getBoolean() ? "" : ":" + port));
+                  
             }
         }        
     }
