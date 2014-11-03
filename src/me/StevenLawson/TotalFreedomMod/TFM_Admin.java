@@ -91,6 +91,11 @@ public class TFM_Admin
             ips.add(ip);
         }
     }
+    
+    public void setloginmessage(String msg)
+    {
+        loginMessage.add(msg);
+    }
 
     public void addIps(List<String> ips)
     {

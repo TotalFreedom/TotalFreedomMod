@@ -254,7 +254,6 @@ public class TFM_PlayerListener implements Listener
 
                         new BukkitRunnable()
                         {
-                            @Override
                             public void run()
                             {
                                 for (Block tntBlock : affected)
@@ -705,16 +704,25 @@ public class TFM_PlayerListener implements Listener
 
         if (!TFM_AdminList.isSuperAdmin(player))
         {
-            for (Player pl : Bukkit.getOnlinePlayers())
-            {
-                if (TFM_AdminList.isSuperAdmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
+                for (Player pl : Bukkit.getOnlinePlayers())
                 {
-                    TFM_Util.playerMsg(pl, player.getName() + ": " + command);
+            if (TFM_AdminList.isSuperAdmin(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
+            {
+                if(!command.contains("//"))
+                {
+           	        TFM_Util.playerMsg(pl, player.getName() + ": " + command);
+   	            }
+                else
+                {
+   		            if(command.contains("//"))
+   		            {
+                        TFM_Util.playerMsg(pl, ChatColor.GREEN+player.getName() + ": " + command);
+                    }
                 }
             }
         }
     }
-
+}
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
@@ -835,7 +843,6 @@ public class TFM_PlayerListener implements Listener
 
         new BukkitRunnable()
         {
-            @Override
             public void run()
             {
                 if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
