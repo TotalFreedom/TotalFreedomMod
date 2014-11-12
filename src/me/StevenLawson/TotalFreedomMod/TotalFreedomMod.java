@@ -33,6 +33,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CONFIG_FILENAME = "config.yml";
     public static final String SUPERADMIN_FILENAME = "superadmin.yml";
     public static final String PERMBAN_FILENAME = "permban.yml";
+    public static final String BANS_FILENAME = "bans.yml";
     public static final String PROTECTED_AREA_FILENAME = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     //
