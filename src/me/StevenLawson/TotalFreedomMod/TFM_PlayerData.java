@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -56,6 +57,7 @@ public class TFM_PlayerData
     private String lastCommand = "";
     private boolean cmdspyEnabled = false;
     private String tag = null;
+    private int warningCount = 0;
 
     private TFM_PlayerData(Player player)
     {
@@ -502,5 +504,21 @@ public class TFM_PlayerData
     public String getTag()
     {
         return this.tag;
+    }
+
+    public int getWarningCount()
+    {
+        return this.warningCount;
+    }
+
+    public void incrementWarnings()
+    {
+        this.warningCount++;
+
+        if (this.warningCount % 2 == 0)
+        {
+            this.player.getWorld().strikeLightning(this.player.getLocation());
+            TFM_Util.playerMsg(this.player, ChatColor.RED + "You have been warned at least twice now, make sure to read the rules at " + TFM_ConfigEntry.SERVER_BAN_URL.getString());
+        }
     }
 }
