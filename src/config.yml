@@ -8,9 +8,6 @@ server:
 
   # The address your server is located at. Please do not include the port.
   address: play.totalfreedom.me
-  
-  # Please indicate your port. This should be 25565 unless otherwise indicated by your host
-  port: 25565
 
   # Shown at the server list
   motd: TotalFreedom &8- Minecraft %mcversion%
@@ -27,15 +24,16 @@ server:
 
   # URL players should appeal for permanent bans at
   permban_url: http://bit.ly/TF_PermBan
-  
-# ForceIP Configuration
-forceip:
-    
-  # Please state if you wish to enable the ForceIP system.
-  enabled: true
 
-  # Please enter the kick message you wish for people to see if they are not connecting on the servers hostname
-  kickmsg: You have been kicked from the server - Please connect using %address%  
+# ForceIP configuration
+forceip:
+  enabled: false
+
+  # The port players should use to connect to your server; only applies to forceip
+  port: 25565
+
+  # The kick message sent to players when logging in with the wrong hostname
+  kickmsg: You have been kicked from the server - Please connect using %address%
 
 
 # Blocking certain events

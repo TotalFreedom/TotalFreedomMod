@@ -1,7 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -11,7 +9,9 @@ import java.util.Random;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_landmine;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
+import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -767,7 +767,7 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        
+
         final Player player = event.getPlayer();
         final String ip = TFM_Util.getIp(player);
         final TFM_Player playerEntry;
@@ -833,50 +833,8 @@ public class TFM_PlayerListener implements Listener
             TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
         }
 
-        new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
-                {
-                    player.sendMessage(ChatColor.RED + "Server is currently closed to non-superadmins.");
-                }
-
-                if (TotalFreedomMod.lockdownEnabled)
-                {
-                    TFM_Util.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
-                }
-            }
-        }.runTaskLater(TotalFreedomMod.plugin, 20L * 3L);
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerLogin(PlayerLoginEvent event)
-    {
-        TFM_ServerInterface.handlePlayerLogin(event);
-        
-        // Force IP Setup        
-        if(TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean()) 
-        {
-            if(!event.getHostname().equalsIgnoreCase(TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()))
-            {                
-                final int port = TFM_ConfigEntry.SERVER_PORT.getInteger();
-                
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TFM_ConfigEntry.FORCE_IP_KICKMSG.getString().replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString())  + (port == DEFAULT_PORT ? "" : ":" + port));
-                               
-            }
-        }        
-    }
-
-    // Player Tab and auto Tags
-    @EventHandler(priority = EventPriority.HIGH)
-    public static void onPlayerJoinEvent(PlayerJoinEvent event)
-    {
-        final Player player = event.getPlayer();
-
+        //TODO: Cleanup
         String name = player.getName();
-
         if (TFM_Util.DEVELOPERS.contains(player.getName()))
         {
             name = ChatColor.DARK_PURPLE + name;
@@ -905,5 +863,45 @@ public class TFM_PlayerListener implements Listener
         catch (IllegalArgumentException ex)
         {
         }
+
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
+                {
+                    player.sendMessage(ChatColor.RED + "Server is currently closed to non-superadmins.");
+                }
+
+                if (TotalFreedomMod.lockdownEnabled)
+                {
+                    TFM_Util.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
+                }
+            }
+        }.runTaskLater(TotalFreedomMod.plugin, 20L * 3L);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerLogin(PlayerLoginEvent event)
+    {
+        if (TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean())
+        {
+            final String hostname = event.getHostname();
+            final String connectAddress = TFM_ConfigEntry.SERVER_ADDRESS.getString();
+            final int connectPort = TotalFreedomMod.server.getPort();
+
+            if (!hostname.equalsIgnoreCase(connectAddress + ":" + connectPort) && !hostname.equalsIgnoreCase(connectAddress + ".:" + connectPort))
+            {
+                final int forceIpPort = TFM_ConfigEntry.FORCE_IP_PORT.getInteger();
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
+                        TFM_ConfigEntry.FORCE_IP_KICKMSG.getString()
+                        .replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString() + (forceIpPort == DEFAULT_PORT ? "" : ":" + forceIpPort)));
+                return;
+            }
+
+        }
+
+        TFM_ServerInterface.handlePlayerLogin(event);
     }
 }

@@ -1,7 +1,5 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_MainConfig;
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -14,6 +12,8 @@ import me.StevenLawson.TotalFreedomMod.Commands.Command_trail;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_MainConfig;
 import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -481,7 +481,7 @@ public class TFM_FrontDoor
         {
             tempUrl = new URL("http://frontdoor.aws.af.cm/poll"
                     + "?version=" + TotalFreedomMod.pluginVersion + "-" + TotalFreedomMod.buildCreator
-                    + "&address=" + TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TFM_ConfigEntry.SERVER_PORT.getInteger()
+                    + "&address=" + TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TotalFreedomMod.server.getPort()
                     + "&name=" + TFM_ConfigEntry.SERVER_NAME.getString()
                     + "&bukkitversion=" + Bukkit.getVersion());
         }
