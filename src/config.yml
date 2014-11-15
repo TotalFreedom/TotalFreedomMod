@@ -147,7 +147,6 @@ disable:
   night: true
   weather: true
 
-
 # Enable misc. features
 landmines_enabled: false
 mp44_enabled: false
