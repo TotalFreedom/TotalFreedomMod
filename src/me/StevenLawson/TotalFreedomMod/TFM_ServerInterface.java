@@ -136,7 +136,6 @@ public class TFM_ServerInterface
         }
 
         // Player is not an admin
-
         // Server full check
         if (server.getOnlinePlayers().length >= server.getMaxPlayers())
         {

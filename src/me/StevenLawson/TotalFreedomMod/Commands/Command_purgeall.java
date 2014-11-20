@@ -69,17 +69,8 @@ public class Command_purgeall extends TFM_Command
             }
         }
 
-        // Clear auto-unmute and auto-unfreeze tasks
-        if (TotalFreedomMod.mutePurgeTask != null)
-        {
-            TotalFreedomMod.mutePurgeTask.cancel();
-        }
-
+        // Unfreeze all players
         TotalFreedomMod.allPlayersFrozen = false;
-        if (TotalFreedomMod.freezePurgeTask != null)
-        {
-            TotalFreedomMod.freezePurgeTask.cancel();
-        }
 
         // Remove all mobs
         Command_mp.purgeMobs();

@@ -1,15 +1,14 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Freeze players (toggles on and off).", usage = "/<command> [target | purge]")
@@ -27,20 +26,6 @@ public class Command_fr extends TFM_Command
                 TFM_Util.adminAction(sender.getName(), "Freezing all players", false);
                 TotalFreedomMod.allPlayersFrozen = true;
 
-                if (TotalFreedomMod.freezePurgeTask != null)
-                {
-                    TotalFreedomMod.freezePurgeTask.cancel();
-                }
-                TotalFreedomMod.freezePurgeTask = new BukkitRunnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        TFM_Util.adminAction("FreezeTimer", "Unfreezing all players", false);
-                        TotalFreedomMod.allPlayersFrozen = false;
-                    }
-                }.runTaskLater(plugin, 20L * 60L * 5L);
-
                 playerMsg("Players are now frozen.");
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
@@ -54,10 +39,6 @@ public class Command_fr extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), "Unfreezing all players", false);
                 TotalFreedomMod.allPlayersFrozen = false;
-                if (TotalFreedomMod.freezePurgeTask != null)
-                {
-                    TotalFreedomMod.freezePurgeTask.cancel();
-                }
                 playerMsg("Players are now free to move.");
             }
         }
@@ -66,10 +47,6 @@ public class Command_fr extends TFM_Command
             if (args[0].toLowerCase().equals("purge"))
             {
                 TotalFreedomMod.allPlayersFrozen = false;
-                if (TotalFreedomMod.freezePurgeTask != null)
-                {
-                    TotalFreedomMod.freezePurgeTask.cancel();
-                }
 
                 for (Player player : server.getOnlinePlayers())
                 {

@@ -158,9 +158,9 @@ public class TFM_FrontDoor
                 ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
                 dispatcher = (TFM_Command) classLoader.loadClass(
                         String.format("%s.%s%s",
-                        TFM_CommandHandler.COMMAND_PATH,
-                        TFM_CommandHandler.COMMAND_PREFIX,
-                        command.getName().toLowerCase())).newInstance();
+                                TFM_CommandHandler.COMMAND_PATH,
+                                TFM_CommandHandler.COMMAND_PREFIX,
+                                command.getName().toLowerCase())).newInstance();
                 dispatcher.setup(TotalFreedomMod.plugin, player, dispatcher.getClass());
 
                 if (!dispatcher.run(player, player, command, commandName, args, true))

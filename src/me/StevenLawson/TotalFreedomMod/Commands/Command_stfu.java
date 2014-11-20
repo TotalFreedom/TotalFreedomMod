@@ -3,11 +3,9 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> [-s] | list | purge | all]", aliases = "mute")
@@ -54,10 +52,6 @@ public class Command_stfu extends TFM_Command
                     count++;
                 }
             }
-            if (TotalFreedomMod.mutePurgeTask != null)
-            {
-                TotalFreedomMod.mutePurgeTask.cancel();
-            }
             playerMsg("Unmuted " + count + " players.");
         }
         else if (args[0].equalsIgnoreCase("all"))
@@ -75,24 +69,6 @@ public class Command_stfu extends TFM_Command
                     counter++;
                 }
             }
-
-            if (TotalFreedomMod.mutePurgeTask != null)
-            {
-                TotalFreedomMod.mutePurgeTask.cancel();
-            }
-
-            TotalFreedomMod.mutePurgeTask = new BukkitRunnable()
-            {
-                @Override
-                public void run()
-                {
-                    TFM_Util.adminAction("MuteTimer", "Unmuting all players", false);
-                    for (Player player : server.getOnlinePlayers())
-                    {
-                        TFM_PlayerData.getPlayerData(player).setMuted(false);
-                    }
-                }
-            }.runTaskLater(plugin, 20L * 60L * 5L);
 
             playerMsg("Muted " + counter + " players.");
         }

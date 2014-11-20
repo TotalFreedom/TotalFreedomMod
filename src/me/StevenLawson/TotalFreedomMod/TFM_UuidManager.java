@@ -12,6 +12,7 @@ import org.bukkit.OfflinePlayer;
 
 public class TFM_UuidManager
 {
+
     private static final Map<String, UUID> UUID_CACHE = new HashMap<String, UUID>();
 
     private TFM_UuidManager()
