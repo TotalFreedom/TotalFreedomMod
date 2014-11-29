@@ -187,7 +187,7 @@ public class Module_file extends TFM_HTTPD_Module
                 final String range = params.get("range");
                 if (range != null)
                 {
-                    final String[] rangeParams = net.minecraft.util.org.apache.commons.lang3.StringUtils.split(range, "=");
+                    final String[] rangeParams = org.apache.commons.lang3.StringUtils.split(range, "=");
                     if (rangeParams.length >= 2)
                     {
                         if ("bytes".equalsIgnoreCase(rangeParams[0]))

@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Callable;
 
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 // Credits to evilmidget38
 public class TFM_UuidResolver implements Callable<Map<String, UUID>>
