@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 public class TFM_ServerInterface
 {
-    public static final String COMPILE_NMS_VERSION = "v1_*_R1";
+    public static final String COMPILE_NMS_VERSION = "v1_8_R1";
     public static final Pattern USERNAME_REGEX = Pattern.compile("^[\\w\\d_]{3,20}$");
 
     public static void setOnlineMode(boolean mode)
