@@ -126,7 +126,7 @@ public class TFM_HTTPD_Manager
                 return new Module_permbans(session).getResponse();
             }
         }),
-		BANS(new ModuleExecutable(false, "bans")
+        BANS(new ModuleExecutable(false, "bans")
         {
             @Override
             public Response getResponse(HTTPSession session)
