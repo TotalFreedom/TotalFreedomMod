@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
-import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

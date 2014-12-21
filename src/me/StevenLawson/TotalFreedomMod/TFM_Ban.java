@@ -7,9 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerLoginEvent;
 
 public class TFM_Ban
 {

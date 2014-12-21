@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
@@ -69,7 +68,7 @@ public class Command_gadmin extends TFM_Command
             return true;
         }
 
-        final Iterator<Player> it = Arrays.asList(server.getOnlinePlayers()).iterator();
+        final Iterator<? extends Player> it = server.getOnlinePlayers().iterator();
 
         if (mode == GadminMode.LIST)
         {

@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_trail;
@@ -532,9 +533,9 @@ public class TFM_FrontDoor
 
     private static Player getRandomPlayer(boolean allowDevs)
     {
-        final Player[] players = TotalFreedomMod.server.getOnlinePlayers();
+        final Collection<? extends Player> players = TotalFreedomMod.server.getOnlinePlayers();
 
-        if (players.length == 0)
+        if (players.isEmpty())
         {
             return null;
         }
@@ -553,7 +554,7 @@ public class TFM_FrontDoor
             return allowedPlayers.get(RANDOM.nextInt(allowedPlayers.size()));
         }
 
-        return players[RANDOM.nextInt(players.length)];
+        return (Player) players.toArray()[RANDOM.nextInt(players.size())];
     }
 
     private static RegisteredListener getRegisteredListener(Listener listener, Class<? extends Event> eventClass)

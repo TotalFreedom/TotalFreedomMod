@@ -86,8 +86,7 @@ public class Command_nf extends TFM_Command
     {
         needle = needle.toLowerCase().trim();
 
-        Player[] onlinePlayers = Bukkit.getOnlinePlayers();
-        for (Player player : onlinePlayers)
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             if (player.getDisplayName().toLowerCase().trim().contains(needle))
             {
@@ -105,8 +104,7 @@ public class Command_nf extends TFM_Command
         Integer minEditDistance = null;
         Player minEditMatch = null;
 
-        Player[] onlinePlayers = Bukkit.getOnlinePlayers();
-        for (Player player : onlinePlayers)
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             String haystack = player.getDisplayName().toLowerCase().trim();
             int editDistance = StringUtils.getLevenshteinDistance(needle, haystack.toLowerCase());
