@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.World;
 
-import me.StevenLawson.TotalFreedomMod.World.TFM_CustomWorld;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.File;
 import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler;
