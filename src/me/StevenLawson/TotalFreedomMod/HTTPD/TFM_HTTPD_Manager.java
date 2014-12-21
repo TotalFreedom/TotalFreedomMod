@@ -126,6 +126,14 @@ public class TFM_HTTPD_Manager
                 return new Module_permbans(session).getResponse();
             }
         }),
+		BANS(new ModuleExecutable(false, "bans")
+        {
+            @Override
+            public Response getResponse(HTTPSession session)
+            {
+                return new Module_bans(session).getResponse();
+            }
+        }),
         PLAYERS(new ModuleExecutable(true, "players")
         {
             @Override
