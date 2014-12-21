@@ -132,7 +132,7 @@ public class TFM_PlayerListener implements Listener
 
                         event.setCancelled(true);
 
-                        final Location location = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getTargetBlock(player, null, 5).getLocation();
+                        final Location location = TFM_DepreciationAggregator.getTargetBlock(player, null, 5).getLocation();
                         final List<RollbackEntry> entries = TFM_RollbackManager.getEntriesAtLocation(location);
 
                         if (entries.isEmpty())
@@ -210,7 +210,7 @@ public class TFM_PlayerListener implements Listener
 
                         if (event.getAction().equals(Action.LEFT_CLICK_AIR))
                         {
-                            targetBlock = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getTargetBlock(player, null, 120);
+                            targetBlock = TFM_DepreciationAggregator.getTargetBlock(player, null, 120);
                         }
                         else
                         {
@@ -247,7 +247,7 @@ public class TFM_PlayerListener implements Listener
                         Vector playerDirection = location.getDirection().normalize();
 
                         double distance = 150.0;
-                        Block targetBlock = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getTargetBlock(player, null, Math.round((float) distance));
+                        Block targetBlock = TFM_DepreciationAggregator.getTargetBlock(player, null, Math.round((float) distance));
                         if (targetBlock != null)
                         {
                             distance = location.distance(targetBlock.getLocation());
