@@ -813,7 +813,7 @@ public class TFM_PlayerListener implements Listener
             TFM_Log.info("Added new player: " + TFM_Util.formatPlayer(player));
         }
 
-        // GGenerate PlayerData (non-persistent)
+        // Generate PlayerData (non-persistent)
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
         playerdata.setSuperadminIdVerified(false);
 
