@@ -80,8 +80,7 @@ public class Command_gtfo extends TFM_Command
 
         final StringBuilder bcast = new StringBuilder()
                 .append(ChatColor.RED)
-                .append(sender.getName())
-                .append(" - Banning: ")
+                .append("Banning: ")
                 .append(player.getName())
                 .append(", IP: ")
                 .append(ip);
@@ -99,7 +98,7 @@ public class Command_gtfo extends TFM_Command
         TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), sender.getName(), null, reason));
 
         // kick Player:
-        player.kickPlayer(ChatColor.RED + "GTFO \nBanned By: " + ChatColor.WHITE + sender.getName() + ChatColor.RED + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
+        player.kickPlayer(ChatColor.RED + "GTFO" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
 
         return true;
     }
