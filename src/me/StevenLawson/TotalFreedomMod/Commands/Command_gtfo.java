@@ -79,12 +79,7 @@ public class Command_gtfo extends TFM_Command
         String ip = TFM_Util.getFuzzyIp(player.getAddress().getAddress().getHostAddress());
 
         final StringBuilder bcast = new StringBuilder()
-                .append(ChatColor.RED)
-                .append(sender.getName())
-                .append(" - Banning: ")
-                .append(player.getName())
-                .append(", IP: ")
-                .append(ip);
+         TFM_Util.adminAction(sender.getName(), "- Banning: " + player.getName() + ", IP: " + ip, true);
 
         if (reason != null)
         {
@@ -99,7 +94,7 @@ public class Command_gtfo extends TFM_Command
         TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), sender.getName(), null, reason));
 
         // kick Player:
-        player.kickPlayer(ChatColor.RED + "GTFO \nBanned By:" + sender.getName() + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
+        player.kickPlayer(ChatColor.RED + "GTFO \nBanned By: " + sender.getName() + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
 
         return true;
     }
