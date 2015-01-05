@@ -411,7 +411,7 @@ public class TFM_PlayerData
             @Override
             public void run()
             {
-                TFM_Util.adminAction("TotalFreedom", "Unmutinging " + player.getName(), false);
+                TFM_Util.adminAction("TotalFreedom", "Unmuting " + player.getName(), false);
                 setMuted(false);
             }
 
