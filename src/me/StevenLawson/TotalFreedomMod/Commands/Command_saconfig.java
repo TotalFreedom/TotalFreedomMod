@@ -165,7 +165,7 @@ public class Command_saconfig extends TFM_Command
                     targetName = player.getName();
                 }
 
-                if (!TFM_AdminList.getLowerSuperNames().contains(targetName.toLowerCase()))
+                if (!TFM_AdminList.getLowercaseSuperNames().contains(targetName.toLowerCase()))
                 {
                     playerMsg("Superadmin not found: " + targetName);
                     return true;

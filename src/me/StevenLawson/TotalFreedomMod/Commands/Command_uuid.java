@@ -10,7 +10,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Player;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
-import me.StevenLawson.TotalFreedomMod.TFM_UuidResolver;
+import me.StevenLawson.TotalFreedomMod.TFM_UuidManager.TFM_UuidResolver;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

@@ -66,11 +66,11 @@ public class TFM_ServerInterface
         final Server server = TotalFreedomMod.server;
         final Player player = event.getPlayer();
         final String username = player.getName();
-        final UUID uuid = TFM_UuidManager.getUniqueId(username);
         final String ip = event.getAddress().getHostAddress().trim();
+        final UUID uuid = TFM_UuidManager.newPlayer(player, ip);
 
         // Perform username checks
-        if (username.length() < 3 || username.length() > 20)
+        if (username.length() < 3 || username.length() > TotalFreedomMod.MAX_USERNAME_LENGTH)
         {
             event.disallow(Result.KICK_OTHER, "Your username is an invalid length (must be between 3 and 20 characters long).");
             return;
@@ -83,24 +83,16 @@ public class TFM_ServerInterface
         }
 
         // Check if player is admin
-        // Not safe to use TFM_Util.isSuperAdmin for player logging in because player.getAddress() will return a null until after player login.
-        final boolean isAdmin;
-        if (server.getOnlineMode())
-        {
-            isAdmin = TFM_AdminList.getSuperUUIDs().contains(uuid);
-        }
-        else
-        {
-            final TFM_Admin admin = TFM_AdminList.getEntryByIp(ip);
-            isAdmin = admin != null && admin.isActivated();
-        }
+        // Not safe to use TFM_Util.isSuperAdmin(player) because player.getAddress() will return a null until after player login.
+        final boolean isAdmin = TFM_AdminList.isSuperAdminSafe(uuid, ip);
 
         // Validation below this point
         if (isAdmin) // Player is superadmin
         {
-            // force-allow log in
+            // Force-allow log in
             event.allow();
 
+            // Kick players with the same name
             for (Player onlinePlayer : server.getOnlinePlayers())
             {
                 if (onlinePlayer.getName().equalsIgnoreCase(username))
@@ -132,6 +124,7 @@ public class TFM_ServerInterface
                 event.disallow(Result.KICK_OTHER, "The server is full and a player could not be kicked, sorry!");
                 return;
             }
+
             return;
         }
 

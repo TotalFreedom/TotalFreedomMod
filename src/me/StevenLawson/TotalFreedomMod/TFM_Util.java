@@ -6,15 +6,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -116,7 +117,7 @@ public class TFM_Util
     {
         throw new AssertionError();
     }
-
+    
     public static void bcastMsg(String message, ChatColor color)
     {
         TFM_Log.info(message, true);
@@ -156,16 +157,22 @@ public class TFM_Util
             return player.getPlayer().getAddress().getAddress().getHostAddress().trim();
         }
 
-        final UUID uuid = TFM_UuidManager.getUniqueId(player);
+        final TFM_Player entry = TFM_PlayerList.getEntry(TFM_UuidManager.getUniqueId(player));
 
-        final TFM_Player entry = TFM_PlayerList.getEntry(uuid);
+        return (entry == null ? null : entry.getIps().get(0));
+    }
 
-        if (entry == null)
+    public static boolean isUniqueId(String uuid)
+    {
+        try
         {
-            return null;
+            UUID.fromString(uuid);
+            return true;
         }
-
-        return entry.getIps().get(0);
+        catch (IllegalArgumentException ex)
+        {
+            return false;
+        }
     }
 
     public static String formatLocation(Location location)

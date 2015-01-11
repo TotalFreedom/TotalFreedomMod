@@ -2,10 +2,8 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
@@ -23,7 +21,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class TFM_PlayerData
 {
-    public static final Map<Player, TFM_PlayerData> USER_INFO = new HashMap<Player, TFM_PlayerData>();
+    public static final Map<String, TFM_PlayerData> PLAYER_DATA = new HashMap<String, TFM_PlayerData>(); // ip,data
     public static final long AUTO_PURGE = 20L * 60L * 5L;
     //
     private final Player player;
@@ -62,55 +60,46 @@ public class TFM_PlayerData
     private String tag = null;
     private int warningCount = 0;
 
-    private TFM_PlayerData(Player player)
+    private TFM_PlayerData(Player player, UUID uuid, String ip)
     {
         this.player = player;
-        this.uuid = TFM_UuidManager.getUniqueId(player.getName());
-        this.ip = player.getAddress().getAddress().getHostAddress();
+        this.uuid = uuid;
+        this.ip = ip;
+    }
+
+    public static boolean hasPlayerData(Player player) {
+        return PLAYER_DATA.containsKey(TFM_Util.getIp(player));
     }
 
     public static TFM_PlayerData getPlayerData(Player player)
     {
-        TFM_PlayerData playerdata = TFM_PlayerData.USER_INFO.get(player);
+        final String ip = TFM_Util.getIp(player);
 
-        if (playerdata != null)
+        TFM_PlayerData data = TFM_PlayerData.PLAYER_DATA.get(ip);
+
+        if (data != null)
         {
-            return playerdata;
+            return data;
         }
 
-        Iterator<Entry<Player, TFM_PlayerData>> it = USER_INFO.entrySet().iterator();
-        while (it.hasNext())
-        {
-            Entry<Player, TFM_PlayerData> pair = it.next();
-            TFM_PlayerData playerdataTest = pair.getValue();
-
-            if (playerdataTest.player.getName().equalsIgnoreCase(player.getName()))
-            {
-                if (Bukkit.getOnlineMode())
-                {
-                    playerdata = playerdataTest;
+        if (Bukkit.getOnlineMode()) {
+            for (TFM_PlayerData dataTest : PLAYER_DATA.values()) {
+                if (dataTest.player.getName().equalsIgnoreCase(player.getName())) {
+                    data = dataTest;
                     break;
-                }
-                else
-                {
-                    if (playerdataTest.ip.equalsIgnoreCase(player.getAddress().getAddress().getHostAddress()))
-                    {
-                        playerdata = playerdataTest;
-                        break;
-                    }
                 }
             }
         }
 
-        if (playerdata != null)
+        if (data != null)
         {
-            return playerdata;
+            return data;
         }
 
-        playerdata = new TFM_PlayerData(player);
-        TFM_PlayerData.USER_INFO.put(player, playerdata);
+        data = new TFM_PlayerData(player, TFM_UuidManager.getUniqueId(player), ip);
+        TFM_PlayerData.PLAYER_DATA.put(ip, data);
 
-        return playerdata;
+        return data;
     }
 
     public String getIpAddress()
@@ -125,7 +114,7 @@ public class TFM_PlayerData
 
     public boolean isOrbiting()
     {
-        return this.isOrbiting;
+        return isOrbiting;
     }
 
     public void startOrbiting(double strength)
@@ -141,7 +130,7 @@ public class TFM_PlayerData
 
     public double orbitStrength()
     {
-        return this.orbitStrength;
+        return orbitStrength;
     }
 
     public void setCaged(boolean state)
@@ -159,7 +148,7 @@ public class TFM_PlayerData
 
     public boolean isCaged()
     {
-        return this.isCaged;
+        return isCaged;
     }
 
     public enum CageLayer
@@ -182,17 +171,17 @@ public class TFM_PlayerData
 
     public Location getCagePos()
     {
-        return this.cagePosition;
+        return cagePosition;
     }
 
     public void clearHistory()
     {
-        this.cageHistory.clear();
+        cageHistory.clear();
     }
 
     public void insertHistoryBlock(Location location, Material material)
     {
-        this.cageHistory.add(new TFM_BlockData(location, material));
+        cageHistory.add(new TFM_BlockData(location, material));
     }
 
     public void regenerateHistory()
@@ -232,14 +221,12 @@ public class TFM_PlayerData
 
         unfreezeTask = new BukkitRunnable()
         {
-
             @Override
             public void run()
             {
                 TFM_Util.adminAction("TotalFreedom", "Unfreezing " + player.getName(), false);
                 setFrozen(false);
             }
-
         }.runTaskLater(TotalFreedomMod.plugin, AUTO_PURGE);
     }
 
@@ -407,14 +394,12 @@ public class TFM_PlayerData
 
         unmuteTask = new BukkitRunnable()
         {
-
             @Override
             public void run()
             {
                 TFM_Util.adminAction("TotalFreedom", "Unmuting " + player.getName(), false);
                 setMuted(false);
             }
-
         }.runTaskLater(TotalFreedomMod.plugin, AUTO_PURGE);
     }
 

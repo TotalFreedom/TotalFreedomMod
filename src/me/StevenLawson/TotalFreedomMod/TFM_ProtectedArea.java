@@ -19,7 +19,6 @@ import org.bukkit.util.Vector;
 
 public class TFM_ProtectedArea
 {
-
     public static final double MAX_RADIUS = 50.0;
     private static final Map<String, SerializableProtectedRegion> PROTECTED_AREAS = new HashMap<String, SerializableProtectedRegion>();
 
@@ -267,7 +266,6 @@ public class TFM_ProtectedArea
 
     public static class SerializableProtectedRegion implements Serializable
     {
-
         private final double x, y, z;
         private final double radius;
         private final String worldName;
@@ -313,7 +311,6 @@ public class TFM_ProtectedArea
 
         public static class CantFindWorldException extends Exception
         {
-
             private static final long serialVersionUID = 1L;
 
             public CantFindWorldException(String string)
@@ -321,7 +318,5 @@ public class TFM_ProtectedArea
                 super(string);
             }
         }
-
     }
-
 }
