@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.World;
 
-import me.StevenLawson.TotalFreedomMod.World.TFM_CustomWorld;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
