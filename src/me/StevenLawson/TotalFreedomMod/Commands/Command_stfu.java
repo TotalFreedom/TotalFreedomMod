@@ -1,8 +1,11 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.ArrayList;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -76,6 +79,14 @@ public class Command_stfu extends TFM_Command
         {
             final Player player = getPlayer(args[0]);
 
+            final ArrayList<Player> cooldown = new ArrayList<Player>();
+        
+            if (cooldown.contains(player))
+            {
+                playerMsg("That player has been muted recently. If you actually wished to unmute the player, please wait a few seconds.");
+                return true;
+            }
+            
             if (player == null)
             {
                 sender.sendMessage(TFM_Command.PLAYER_NOT_FOUND);
@@ -107,6 +118,15 @@ public class Command_stfu extends TFM_Command
                 {
                     playerMsg(player.getName() + " is a superadmin, and can't be muted.");
                 }
+                cooldown.add(player);
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(TotalFreedomMod.plugin, new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                       cooldown.remove(player);
+                    }
+                }, 100);
             }
         }
 
