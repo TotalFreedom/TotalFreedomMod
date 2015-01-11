@@ -109,7 +109,7 @@ public class TFM_ServerInterface
                 }
             }
 
-            int count = server.getOnlinePlayers().length;
+            int count = server.getOnlinePlayers().size();
             if (count >= server.getMaxPlayers())
             {
                 for (Player onlinePlayer : server.getOnlinePlayers())
@@ -137,7 +137,7 @@ public class TFM_ServerInterface
 
         // Player is not an admin
         // Server full check
-        if (server.getOnlinePlayers().length >= server.getMaxPlayers())
+        if (server.getOnlinePlayers().size() >= server.getMaxPlayers())
         {
             event.disallow(Result.KICK_FULL, "Sorry, but this server is full.");
             return;
