@@ -383,6 +383,15 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerTeleport(PlayerTeleportEvent event)
     {
+        final Player player = event.getPlayer();
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+
+        if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen()) {
+            player.setFlying(true);
+            event.setTo(playerdata.getFreezeLocation());
+            return; // Don't process adminworld validation
+        }
+
         TFM_AdminWorld.getInstance().validateMovement(event);
     }
 
@@ -408,8 +417,8 @@ public class TFM_PlayerListener implements Listener
             return;
         }
 
-        Player player = event.getPlayer();
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        final Player player = event.getPlayer();
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
         for (Entry<Player, Double> fuckoff : TotalFreedomMod.fuckoffEnabledFor.entrySet())
         {
@@ -420,7 +429,7 @@ public class TFM_PlayerListener implements Listener
                 continue;
             }
 
-            double fuckoffRange = fuckoff.getValue().doubleValue();
+            double fuckoffRange = fuckoff.getValue();
 
             Location playerLocation = player.getLocation();
             Location fuckoffLocation = fuckoffPlayer.getLocation();
@@ -442,31 +451,10 @@ public class TFM_PlayerListener implements Listener
             }
         }
 
-        boolean freeze = false;
-        if (TotalFreedomMod.allPlayersFrozen)
-        {
-            if (!TFM_AdminList.isSuperAdmin(player))
-            {
-                freeze = true;
-            }
-        }
-        else
-        {
-            if (playerdata.isFrozen())
-            {
-                freeze = true;
-            }
-        }
-
-        if (freeze)
-        {
-            Location freezeTo = to.clone();
-
-            freezeTo.setX(from.getX());
-            freezeTo.setY(from.getY());
-            freezeTo.setZ(from.getZ());
-
-            event.setTo(freezeTo);
+        // Freeze
+        if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen()) {
+            player.setFlying(true);
+            event.setTo(playerdata.getFreezeLocation());
         }
 
         if (playerdata.isCaged())
