@@ -1,13 +1,13 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import com.google.common.collect.Sets;
 import java.io.File;
 import java.util.Collections;
-import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import com.google.common.collect.Sets;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

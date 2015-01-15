@@ -1,7 +1,7 @@
 # Contributing to TotalFreedomMod #
 TotalFreedomMod is a CraftBukkit server plugin designed primarily to support the [Official TotalFreedom Minecraft Server](http://totalfreedom.me/). However, it can be used in a variety of other configurations with minimal fuss.
 
-For those who wish to contribute, we encourage you to fork the repository and submit pull requests. Below you will find guidelines that will explain this process in further detail.
+For those who wish to contribute, we encourage you to fork the repository and submit pull requests. Below you will find guidelines that explain this process in further detail.
 
 ## Quick Guide ##
 1. Create or find an issue on our [Issue Tracker](https://github.com/TotalFreedom/TotalFreedomMod/issues).
@@ -33,7 +33,7 @@ As a rough guideline, ask yourself the following questions to determine if your 
   Pull requests that involve adding a micromanagement feature will likely not be accepted. This includes shorthands for multiple commands.
 
 * Is a similar feature already present?
-  Features that have very similar alternatives fill not be added. For example: A command that temporarily bans a player from the server is very similar to the _/tban_ command and thus will likely not be accepted.
+  Features that have very similar alternatives will not be added. For example: A command that temporarily bans a player from the server is very similar to the _/tban_ command and thus will likely not be accepted.
 
 ## Making Changes ##
 * Create a topic branch from where you want to base your work.

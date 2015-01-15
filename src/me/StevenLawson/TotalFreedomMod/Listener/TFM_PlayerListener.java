@@ -132,7 +132,7 @@ public class TFM_PlayerListener implements Listener
 
                         event.setCancelled(true);
 
-                        final Location location = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getTargetBlock(player, null, 5).getLocation();
+                        final Location location = TFM_DepreciationAggregator.getTargetBlock(player, null, 5).getLocation();
                         final List<RollbackEntry> entries = TFM_RollbackManager.getEntriesAtLocation(location);
 
                         if (entries.isEmpty())
@@ -210,7 +210,7 @@ public class TFM_PlayerListener implements Listener
 
                         if (event.getAction().equals(Action.LEFT_CLICK_AIR))
                         {
-                            targetBlock = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getTargetBlock(player, null, 120);
+                            targetBlock = TFM_DepreciationAggregator.getTargetBlock(player, null, 120);
                         }
                         else
                         {
@@ -247,7 +247,7 @@ public class TFM_PlayerListener implements Listener
                         Vector playerDirection = location.getDirection().normalize();
 
                         double distance = 150.0;
-                        Block targetBlock = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getTargetBlock(player, null, Math.round((float) distance));
+                        Block targetBlock = TFM_DepreciationAggregator.getTargetBlock(player, null, Math.round((float) distance));
                         if (targetBlock != null)
                         {
                             distance = location.distance(targetBlock.getLocation());
@@ -383,6 +383,16 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerTeleport(PlayerTeleportEvent event)
     {
+        final Player player = event.getPlayer();
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+
+        if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen())
+        {
+            player.setFlying(true);
+            event.setTo(playerdata.getFreezeLocation());
+            return; // Don't process adminworld validation
+        }
+
         TFM_AdminWorld.getInstance().validateMovement(event);
     }
 
@@ -408,8 +418,8 @@ public class TFM_PlayerListener implements Listener
             return;
         }
 
-        Player player = event.getPlayer();
-        TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        final Player player = event.getPlayer();
+        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 
         for (Entry<Player, Double> fuckoff : TotalFreedomMod.fuckoffEnabledFor.entrySet())
         {
@@ -420,7 +430,7 @@ public class TFM_PlayerListener implements Listener
                 continue;
             }
 
-            double fuckoffRange = fuckoff.getValue().doubleValue();
+            double fuckoffRange = fuckoff.getValue();
 
             Location playerLocation = player.getLocation();
             Location fuckoffLocation = fuckoffPlayer.getLocation();
@@ -442,31 +452,11 @@ public class TFM_PlayerListener implements Listener
             }
         }
 
-        boolean freeze = false;
-        if (TotalFreedomMod.allPlayersFrozen)
+        // Freeze
+        if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen())
         {
-            if (!TFM_AdminList.isSuperAdmin(player))
-            {
-                freeze = true;
-            }
-        }
-        else
-        {
-            if (playerdata.isFrozen())
-            {
-                freeze = true;
-            }
-        }
-
-        if (freeze)
-        {
-            Location freezeTo = to.clone();
-
-            freezeTo.setX(from.getX());
-            freezeTo.setY(from.getY());
-            freezeTo.setZ(from.getZ());
-
-            event.setTo(freezeTo);
+            player.setFlying(true);
+            event.setTo(playerdata.getFreezeLocation());
         }
 
         if (playerdata.isCaged())

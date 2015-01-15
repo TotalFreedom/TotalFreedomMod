@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import com.google.common.collect.Sets;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +16,6 @@ import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_MainConfig;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
-import com.google.common.collect.Sets;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;

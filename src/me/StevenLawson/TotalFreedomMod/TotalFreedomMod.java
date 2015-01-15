@@ -54,7 +54,6 @@ public class TotalFreedomMod extends JavaPlugin
     public static String pluginName;
     public static String pluginVersion;
     //
-    public static boolean allPlayersFrozen = false;
     public static boolean lockdownEnabled = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
 

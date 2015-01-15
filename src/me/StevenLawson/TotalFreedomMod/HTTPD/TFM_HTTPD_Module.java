@@ -3,7 +3,9 @@ package me.StevenLawson.TotalFreedomMod.HTTPD;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.*;
+import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.HTTPSession;
+import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Method;
+import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 
 public abstract class TFM_HTTPD_Module

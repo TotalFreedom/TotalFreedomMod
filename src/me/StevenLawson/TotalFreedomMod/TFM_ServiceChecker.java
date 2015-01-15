@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -12,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONArray;
