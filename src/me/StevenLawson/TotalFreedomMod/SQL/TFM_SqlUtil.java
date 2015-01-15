@@ -24,29 +24,41 @@ public class TFM_SqlUtil
         }
     }
 
-    public static ResultSet executeQuery(Connection con, String query) {
-        try {
+    public static ResultSet executeQuery(Connection con, String query)
+    {
+        try
+        {
             return con.createStatement().executeQuery(query);
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             TFM_Log.severe(ex);
             return null;
         }
     }
 
-    public static int updateQuery(Connection con, String query) {
-        try {
+    public static int updateQuery(Connection con, String query)
+    {
+        try
+        {
             return con.createStatement().executeUpdate(query);
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             TFM_Log.severe(ex);
             return -1;
         }
     }
 
-    public static boolean createTable(Connection con, String name, String fields) {
-        try {
+    public static boolean createTable(Connection con, String name, String fields)
+    {
+        try
+        {
             con.createStatement().execute("CREATE TABLE " + name + " (" + fields + ");");
             return true;
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             TFM_Log.severe(ex);
             return false;
         }
@@ -86,6 +98,5 @@ public class TFM_SqlUtil
             return false;
         }
     }
-
 
 }

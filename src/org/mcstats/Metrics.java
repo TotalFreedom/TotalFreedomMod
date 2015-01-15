@@ -55,6 +55,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class Metrics
 {
+
     /**
      * The current revision number
      */
@@ -695,6 +696,7 @@ public class Metrics
      */
     public static class Graph
     {
+
         /**
          * The graph's name, alphanumeric and spaces only :) If it does not comply to the above when submitted, it is
          * rejected
@@ -781,6 +783,7 @@ public class Metrics
      */
     public static abstract class Plotter
     {
+
         /**
          * The plot's name
          */
@@ -848,4 +851,5 @@ public class Metrics
             return plotter.name.equals(name) && plotter.getValue() == getValue();
         }
     }
+
 }

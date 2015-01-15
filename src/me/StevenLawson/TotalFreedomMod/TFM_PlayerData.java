@@ -67,7 +67,8 @@ public class TFM_PlayerData
         this.ip = ip;
     }
 
-    public static boolean hasPlayerData(Player player) {
+    public static boolean hasPlayerData(Player player)
+    {
         return PLAYER_DATA.containsKey(TFM_Util.getIp(player));
     }
 
@@ -82,9 +83,12 @@ public class TFM_PlayerData
             return data;
         }
 
-        if (Bukkit.getOnlineMode()) {
-            for (TFM_PlayerData dataTest : PLAYER_DATA.values()) {
-                if (dataTest.player.getName().equalsIgnoreCase(player.getName())) {
+        if (Bukkit.getOnlineMode())
+        {
+            for (TFM_PlayerData dataTest : PLAYER_DATA.values())
+            {
+                if (dataTest.player.getName().equalsIgnoreCase(player.getName()))
+                {
                     data = dataTest;
                     break;
                 }

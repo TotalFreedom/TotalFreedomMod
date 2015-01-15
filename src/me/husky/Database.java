@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
  * @author tips48
  */
 public abstract class Database
-    {
+{
 
     /**
      * Plugin instance, use for plugin.getDataFolder() and plugin.getLogger()
@@ -24,9 +24,9 @@ public abstract class Database
      * @param plugin Plugin instance
      */
     protected Database(Plugin plugin)
-        {
+    {
         this.plugin = plugin;
-        }
+    }
 
     /**
      * Opens a connection with the database
@@ -53,4 +53,4 @@ public abstract class Database
      * Closes the connection with the database
      */
     public abstract void closeConnection();
-    }
+}

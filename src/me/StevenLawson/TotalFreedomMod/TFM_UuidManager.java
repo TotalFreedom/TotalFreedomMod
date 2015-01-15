@@ -37,7 +37,8 @@ public class TFM_UuidManager
         throw new AssertionError();
     }
 
-    static {
+    static
+    {
         SQL = new TFM_SqliteDatabase(
                 "uuids.db",
                 TABLE_NAME,
@@ -49,7 +50,7 @@ public class TFM_UuidManager
 
     public static void load()
     {
-        // Init db
+        // Init DB
         SQL.connect();
     }
 
@@ -123,7 +124,8 @@ public class TFM_UuidManager
 
     private static UUID find(String searchName)
     {
-        if (!SQL.connect()) {
+        if (!SQL.connect())
+        {
             return null;
         }
 
@@ -166,7 +168,8 @@ public class TFM_UuidManager
 
     private static boolean update(String username, UUID uuid)
     {
-        if (!SQL.connect()) {
+        if (!SQL.connect())
+        {
             return false;
         }
 

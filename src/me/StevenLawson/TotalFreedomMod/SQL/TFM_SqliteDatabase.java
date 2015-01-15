@@ -61,7 +61,8 @@ public class TFM_SqliteDatabase
         {
             TFM_Log.info("Creating table: " + table);
 
-            if (!TFM_SqlUtil.createTable(con, table, fields)) {
+            if (!TFM_SqlUtil.createTable(con, table, fields))
+            {
                 TFM_Log.severe("Could not create table: " + table);
                 return false;
             }
