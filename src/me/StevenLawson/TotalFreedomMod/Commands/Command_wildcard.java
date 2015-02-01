@@ -39,6 +39,17 @@ public class Command_wildcard extends TFM_Command
             playerMsg("WOA, WTF are you trying to do???", ChatColor.RED);
             return true;
         }
+        // new args below - to prevent rogue admins
+        if (args[0].equals("glist"))
+        {
+            playerMsg(ChatColor.RED + "Don't even think about it.");
+            return true;
+        }
+        if (args[0].equals("smite"))
+        {
+            playerMsg(ChatColor.RED + "Why are you trying to wildcard a smite?");
+            return true;
+        }
 
         String baseCommand = StringUtils.join(args, " ");
 
