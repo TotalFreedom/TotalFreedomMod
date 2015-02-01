@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,7 +26,28 @@ public class Command_gcmd extends TFM_Command
             sender.sendMessage(TFM_Command.PLAYER_NOT_FOUND);
             return true;
         }
-
+        // new args - same with wildcard
+        if (args[1].equals("mat")
+        {
+            sender.sendMessage(ChatColor.RED + "Please don't gcmd someone do a auto-eject command.");
+            return true;
+        }
+        if (args[1].equals("reload")
+        {
+            sender.sendMessage(ChatColor.RED + "Please don't gcmd someone do a auto-eject command.");
+            return true;
+        }
+        if (args[1].equals("stop")
+        {
+            sender.sendMessage(ChatColor.RED + "Please don't gcmd someone do a auto-eject command.");
+            return true;
+        }
+        if (args[1].equals("save-all")
+        {
+            sender.sendMessage(ChatColor.RED + "Please don't gcmd someone do a auto-eject command.");
+            return true;
+        }        
+        
         final String outCommand = StringUtils.join(args, " ", 1, args.length);
 
         if (TFM_CommandBlocker.isCommandBlocked(outCommand, sender))
