@@ -89,6 +89,14 @@ public class TFM_PlayerListener implements Listener
                         break;
                     }
 
+                    case BONE_MEAL:
+                    {
+                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                        player.sendMessage(ChatColor.GRAY + "Bonemeal is currently disabled because of tree griefers.");
+                        event.setCancelled(true);
+                        break;
+                    }
+
                     case LAVA_BUCKET:
                     {
                         if (TFM_ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
