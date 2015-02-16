@@ -94,4 +94,14 @@ public class TFM_Log
             return pluginLogger;
         }
     }
+
+    public static Logger getPluginLogger()
+    {
+        return (pluginLogger != null ? pluginLogger : FALLBACK_LOGGER);
+    }
+
+    public static Logger getServerLogger()
+    {
+        return (serverLogger != null ? serverLogger : FALLBACK_LOGGER);
+    }
 }

@@ -75,7 +75,7 @@ public class Command_fr extends TFM_Command
     public static void setAllFrozen(boolean freeze)
     {
         allFrozen = freeze;
-        for (TFM_PlayerData data : TFM_PlayerData.USER_INFO.values())
+        for (TFM_PlayerData data : TFM_PlayerData.PLAYER_DATA.values())
         {
             data.setFrozen(freeze);
         }

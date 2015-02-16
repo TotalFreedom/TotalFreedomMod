@@ -33,10 +33,12 @@ public class TotalFreedomMod extends JavaPlugin
 {
     public static final long HEARTBEAT_RATE = 5L; // Seconds
     public static final long SERVICE_CHECKER_RATE = 120L;
+    public static final int MAX_USERNAME_LENGTH = 20;
     //
     public static final String CONFIG_FILENAME = "config.yml";
     public static final String SUPERADMIN_FILENAME = "superadmin.yml";
     public static final String PERMBAN_FILENAME = "permban.yml";
+    public static final String UUID_FILENAME = "uuids.db";
     public static final String PROTECTED_AREA_FILENAME = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     //
@@ -195,10 +197,12 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onDisable()
     {
-        server.getScheduler().cancelTasks(plugin);
-
         TFM_HTTPD_Manager.stop();
         TFM_BanManager.save();
+        TFM_UuidManager.close();
+        TFM_FrontDoor.stop();
+
+        server.getScheduler().cancelTasks(plugin);
 
         TFM_Log.info("Plugin disabled");
     }

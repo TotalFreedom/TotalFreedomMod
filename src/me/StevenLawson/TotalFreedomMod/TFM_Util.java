@@ -154,16 +154,22 @@ public class TFM_Util
             return player.getPlayer().getAddress().getAddress().getHostAddress().trim();
         }
 
-        final UUID uuid = TFM_UuidManager.getUniqueId(player);
+        final TFM_Player entry = TFM_PlayerList.getEntry(TFM_UuidManager.getUniqueId(player));
 
-        final TFM_Player entry = TFM_PlayerList.getEntry(uuid);
+        return (entry == null ? null : entry.getIps().get(0));
+    }
 
-        if (entry == null)
+    public static boolean isUniqueId(String uuid)
+    {
+        try
         {
-            return null;
+            UUID.fromString(uuid);
+            return true;
         }
-
-        return entry.getIps().get(0);
+        catch (IllegalArgumentException ex)
+        {
+            return false;
+        }
     }
 
     public static String formatLocation(Location location)
