@@ -129,12 +129,11 @@ public class TFM_PlayerList
     {
         if (entry.getUniqueId().equals(newUuid))
         {
-            throw new IllegalArgumentException("Cannot set new UUID: UUIDs match");
+            TFM_Log.warning("Not setting new UUID: UUIDs match!");
+            return;
         }
 
-        final boolean reAdd = PLAYER_LIST.containsKey(entry.getUniqueId());
-        PLAYER_LIST.remove(entry.getUniqueId());
-
+        // Add new entry
         final TFM_Player newEntry = new TFM_Player(
                 newUuid,
                 entry.getFirstLoginName(),
@@ -142,15 +141,13 @@ public class TFM_PlayerList
                 entry.getFirstLoginUnix(),
                 entry.getLastLoginUnix(),
                 entry.getIps());
-
-        if (reAdd)
-        {
-            PLAYER_LIST.put(newUuid, newEntry);
-        }
-
         newEntry.save();
+        PLAYER_LIST.put(newUuid, newEntry);
 
-        if (!getConfigFile(entry.getUniqueId()).delete())
+        // Remove old entry
+        PLAYER_LIST.remove(entry.getUniqueId());
+        final File oldFile = getConfigFile(entry.getUniqueId());
+        if (oldFile.exists() && !oldFile.delete())
         {
             TFM_Log.warning("Could not delete config: " + getConfigFile(entry.getUniqueId()).getName());
         }

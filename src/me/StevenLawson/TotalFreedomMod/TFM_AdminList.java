@@ -125,6 +125,7 @@ public class TFM_AdminList
             return;
         }
 
+        // Add new entry
         final TFM_Admin newAdmin = new TFM_Admin(
                 newUuid,
                 admin.getLastLoginName(),
@@ -133,19 +134,16 @@ public class TFM_AdminList
                 admin.isTelnetAdmin(),
                 admin.isSeniorAdmin(),
                 admin.isActivated());
-
         newAdmin.addIps(admin.getIps());
-
-        adminList.remove(oldUuid);
         adminList.put(newUuid, newAdmin);
+        save(newAdmin);
 
+        // Remove old entry
+        adminList.remove(oldUuid);
         final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILENAME, true);
-
         config.load();
         config.set("admins." + oldUuid.toString(), null);
         config.save();
-
-        save(newAdmin);
     }
 
     public static void load()

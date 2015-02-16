@@ -122,6 +122,15 @@ public class TFM_UuidManager
         return generateSpoofUuid(username);
     }
 
+    public static void rawSetUUID(String name, UUID uuid) {
+        if (name == null || uuid == null || name.isEmpty()) {
+            TFM_Log.warning("Not setting raw UUID: name and uuid may not be null!");
+            return;
+        }
+
+        update(name.toLowerCase().trim(), uuid);
+    }
+
     private static UUID find(String searchName)
     {
         if (!SQL.connect())

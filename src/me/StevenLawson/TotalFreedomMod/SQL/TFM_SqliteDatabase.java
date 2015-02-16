@@ -94,7 +94,7 @@ public class TFM_SqliteDatabase
 
         TFM_Log.warning("Truncating table: " + table);
 
-        int result = TFM_SqlUtil.updateQuery(sql.getConnection(), "TRUNCATE TABLE " + table + ";");
+        final int result = TFM_SqlUtil.updateQuery(sql.getConnection(), "DELETE FROM " + table + ";");
 
         if (result == -1)
         {
