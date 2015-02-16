@@ -113,18 +113,19 @@ blocked_commands:
   - 's:b:/tellraw:_'
   - 's:b:/forestgen:_'
   - 's:b:/setidletimeout:_'
+  - 's:b:/mail sendall:_'
+  - 's:b:/eco reset:_'
 
   # Superadmin commands - Auto-eject
-  - 's:a:/stop'
-  - 's:a:/reload'
-  - 's:a:/save-all'
-  - 's:a:/save-on'
-  - 's:a:/save-off'
-  - 's:a:/clearhistory'
-  - 's:a:/mat'
+  - 's:a:/stop:_'
+  - 's:a:/reload:_'
+  - 's:a:/save-all:_'
+  - 's:a:/save-on:_'
+  - 's:a:/save-off:_'
+  - 's:a:/clearhistory:_'
 
     # Spigot commands
-  - 's:a:/restart'
+  - 's:a:/restart:_'
   - 's:b:/setblock:_'
 
 # Automatically wipe dropped objects
