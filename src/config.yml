@@ -117,6 +117,12 @@ blocked_commands:
   - 's:b:/setidletimeout:_'
   - 's:b:/mail sendall:_'
   - 's:b:/eco reset:_'
+  - 's:b:/mask:_'
+  - 's:b:/gmask:_'
+  - 's:b:/tool:_'
+  - 's:b:/lrbuild:_'
+  - 's:b:/defaultgamemode:_'
+  
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
