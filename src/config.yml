@@ -119,8 +119,6 @@ blocked_commands:
   - 's:b:/eco reset:_'
   - 's:b:/mask:_'
   - 's:b:/gmask:_'
-  - 's:b:/setworldspawn:_'
-  - 's:b:/br:_'
   - 's:b:/tool:_'
   - 's:b:/lrbuild:_'
 
