@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import me.StevenLawson.TotalFreedomMod.Bridge.TFM_BukkitTelnetListener;
+import me.StevenLawson.TotalFreedomMod.Bridge.TFM_WorldEditListener;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
@@ -16,7 +18,6 @@ import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_ServerListener;
-import me.StevenLawson.TotalFreedomMod.Listener.TFM_TelnetListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
@@ -122,7 +123,10 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_PlayerListener(), plugin);
         pm.registerEvents(new TFM_WeatherListener(), plugin);
         pm.registerEvents(new TFM_ServerListener(), plugin);
-        pm.registerEvents(new TFM_TelnetListener(), plugin);
+
+        // Bridge
+        pm.registerEvents(new TFM_BukkitTelnetListener(), plugin);
+        pm.registerEvents(new TFM_WorldEditListener(), plugin);
 
         try
         {
