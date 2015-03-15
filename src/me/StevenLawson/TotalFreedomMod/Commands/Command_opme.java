@@ -2,10 +2,11 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
+import me.StevenLawson.TotalFreedomMod.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Automatically ops user.", usage = "/<command>")
 public class Command_opme extends TFM_Command
 {
@@ -14,8 +15,13 @@ public class Command_opme extends TFM_Command
     {
         TFM_Util.adminAction(sender.getName(), "Opping " + sender.getName(), false);
         sender.setOp(true);
-        sender.sendMessage(TFM_Command.YOU_ARE_OP);
-
+            sender.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+               if (!TFM_AdminList.isAdminImpostor(sender_p))
+               {
+               sender.sendMessage("You are a Imposter, You need to verify first");
+                sender.setOp(false);
+            sender.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
+               }
         return true;
     }
 }
