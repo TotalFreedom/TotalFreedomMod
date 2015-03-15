@@ -40,8 +40,10 @@ public class Command_tban extends TFM_Command
                 targetPos.getWorld().strikeLightning(strike_pos);
             }
         }
-
+        //tempbanning username and ip
         TFM_Util.adminAction(sender.getName(), "Tempbanning: " + player.getName() + " for 5 minutes.", true);
+        TFM_BanManager.addIpBan(
+                new TFM_Ban(playerIp, player.getName(), sender.getName(), TFM_Util.parseDateOffset("5m"), ChatColor.RED + "You have been temporarily banned for 5 minutes."));
         TFM_BanManager.addUuidBan(
                 new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), sender.getName(), TFM_Util.parseDateOffset("5m"), ChatColor.RED + "You have been temporarily banned for 5 minutes."));
 
