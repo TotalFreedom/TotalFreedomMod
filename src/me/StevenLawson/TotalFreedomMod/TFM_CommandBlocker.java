@@ -117,7 +117,7 @@ public class TFM_CommandBlocker
             TFM_Util.playerMsg(sender, "Plugin-specific commands are disabled.");
             return true;
         }
-        if (command.contains("**"))
+        else if (command.contains("**"))
         {
             TFM_Util.playerMsg(sender, "'**' is prohibited.");
             return true;
