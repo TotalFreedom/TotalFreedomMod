@@ -212,7 +212,11 @@ announcer:
   announcements:
     - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
     - 'You can always review the server rules here: &6http://totalfreedom.me/'
-    - 'If you aren''t OP, be sure to ask!'
+    - 'If you are not OP, be sure to ask!'
+    - 'Somebody breaking the rules?  Report it!  /report <user> <reason>'
+    - 'Griefing is not allowed!'
+    - 'Hacking is allowed!'
+    - 'Interested in becoming admin? Do "/ai" for more information!'
 
 # Players who cannot be banned by username
 unbannable_usernames:
