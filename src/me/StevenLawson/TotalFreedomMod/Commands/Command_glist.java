@@ -77,8 +77,9 @@ public class Command_glist extends TFM_Command
             if (mode.equalsIgnoreCase("ban"))
             {
                 TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
+                Object reason = null;
                 
-                if (reason !== null)
+                if (reason != null)
                 {
                     bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
                 }
