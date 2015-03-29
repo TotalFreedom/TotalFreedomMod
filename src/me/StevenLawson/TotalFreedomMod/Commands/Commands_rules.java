@@ -18,7 +18,7 @@ public class Command_rules extends TFM_Command
         playerMsg(ChatColor.RED + "1. You may not grief.);
         playerMsg(ChatColor.RED + "2. You may not Spawn Kill.);
         playerMsg(ChatColor.RED + "3. You may not be invisable or in creative, god during pvping);
-        playerMsg(ChatColor.RED + "4. Yoy may not Imposter Admins or Ops. );
+        playerMsg(ChatColor.RED + "4. Yoy may not Impostor Admins or Ops. );
         playerMsg(ChatColor.GOLD + "Green is what you can do );
         playerMsg(ChatColor.GREEN + "1. Players can OP other players.");
         playerMsg(ChatColor.GREEN + "2. Players can use client mods, hacks, or cheats, but not harmful ones like nucker");
@@ -31,7 +31,7 @@ public class Command_rules extends TFM_Command
         playerMsg(ChatColor.GRAY + "here are some funny jokes");
         playerMsg(ChatColor.GRAY + "7x3 = 21");
         playerMsg(ChatColor.GRAY + "If apple made a car would it have Windows?");
-        playerMsg(ChatColor.GREEN + "If you want somehthing to be added mail it to Alex33856Xd@Gmail.com or in game mail Alex33856);
+        playerMsg(ChatColor.GREEN + "If you want something to be added mail it to Alex33856Xd@Gmail.com or in game mail Alex33856);
         playerMsg(ChatColor.GRAY + "Visit the TotalFreedom Forum for more info");
             
             return true;
