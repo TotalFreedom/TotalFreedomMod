@@ -20,7 +20,6 @@ public class Command_rules extends TFM_Command
         playerMsg(ChatColor.RED + "3. You may not be invisable or in creative, god during pvping);
         playerMsg(ChatColor.RED + "4. Yoy may not Imposter Admins or Ops. );
         playerMsg(ChatColor.GOLD + "Green is what you can do );
-        
         playerMsg(ChatColor.GREEN + "1. Players can OP other players.");
         playerMsg(ChatColor.GREEN + "2. Players can use client mods, hacks, or cheats, but not harmful ones like nucker");
         playerMsg(ChatColor.GREEN + "3. Players can login with a non-premium account provided they’re not posing as other regular players, admins, or owner.");
