@@ -30,7 +30,7 @@ public class Command_rules extends TFM_Command
         playerMsg(ChatColor.GREEN + "8. Players or admins can advertise other servers (or a legitimate service) provided it’s done once in any given 10 minute period.");
         playerMsg(ChatColor.GRAY + "here are some funny jokes");
         playerMsg(ChatColor.GRAY + "7x3 = 21");
-        playerMsg(ChatColor.GRAY + "If apple made a car would it have Windows?"
+        playerMsg(ChatColor.GRAY + "If apple made a car would it have Windows?");
         playerMsg(ChatColor.GREEN + "If you want somehthing to be added mail it to Alex33856Xd@Gmail.com or in game mail Alex33856);
         playerMsg(ChatColor.GRAY + "Visit the TotalFreedom Forum for more info");
             
