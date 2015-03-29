@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Ban/Unban any player, even those who are not logged in anymore.", usage = "/<command> <purge | <ban | unban> <username>>")
+@CommandParameters(description = "Ban/Unban any player, even those who are not logged in anymore.", usage = "/<command> <purge | <ban <username> <reason> | <unban <username>>")
 public class Command_glist extends TFM_Command
 {
     @Override
@@ -77,12 +77,18 @@ public class Command_glist extends TFM_Command
             if (mode.equalsIgnoreCase("ban"))
             {
                 TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
+                Object reason = null;
+                
+                if (reason == null)
+                {
+                    bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
+                }
 
                 final Player target = getPlayer(username, true);
                 if (target != null)
                 {
                     TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(target), target.getName()));
-                    target.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: http://www.totalfreedom.boards.net");
+                    target.kickPlayer("You have been banned by " + sender.getName() + (reason == null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
                 }
                 else
                 {
