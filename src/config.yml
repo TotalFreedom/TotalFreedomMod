@@ -120,9 +120,9 @@ blocked_commands:
   - 's:b:/mask:_'
   - 's:b:/gmask:_'
   - 's:b:/tool:_'
-  - 's:b:/lrbuild:_'
+  - 's:b://lrbuild:_'
   - 's:b:/defaultgamemode:_'
-  
+  - 's:b://regen:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
