@@ -6,14 +6,14 @@ clean_threshold_hours: 168
 
 admins:
   b3c3b05a-a52d-33a6-a9c6-6e5063e00f0a:
-    last_login_name: DarthSalamon
+    last_login_name: Prozza
     is_activated: true
     is_senior_admin: true
     is_telnet_admin: true
     ips:
     - 127.0.0.1
     console_aliases:
-    - darth
+    - Prozza
     last_login: Tue, 15 Apr 2014 16:08:39 +0200
     custom_login_message: the &5Lead Developer&b!
   1156a81a-23fb-435e-9aff-fe9c2ea7e82d:
