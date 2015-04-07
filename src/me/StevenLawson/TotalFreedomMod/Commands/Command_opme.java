@@ -2,7 +2,8 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
-import me.StevenLawson.TotalFreedomMod.*;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -20,7 +21,6 @@ public class Command_opme extends TFM_Command
                {
                sender.sendMessage("You are a Imposter, You need to verify first");
                 sender.setOp(false);
-            sender.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                }
         return true;
     }
