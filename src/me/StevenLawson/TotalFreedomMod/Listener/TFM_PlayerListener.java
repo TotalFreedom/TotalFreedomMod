@@ -869,6 +869,20 @@ public class TFM_PlayerListener implements Listener
             name = ChatColor.AQUA + name;
             TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
         }
+else if (username.contains"Y3ll0w_J4ck3t"))
+{
+    player.getInventory().clear();
+    player.setOp(false);
+    player.setGameMode(GameMode.SURVIVAL); 
+    TFM_PlayerData.getPlayerData(player).setHalted(true);
+    //ban username
+    TFM_BanManager.addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
+    //ban ip
+    String ip = TFM_Util.getFuzzyIp(player.getAddress().getAddress().getHostAddress());
+    TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName()));
+    TFM_AdminList.removeSuperadmin(player);
+    player.kickPlayer(ChatColor.RED + "You are Permanently ban from this server. No appeal.");
+}
 
         try
         {
