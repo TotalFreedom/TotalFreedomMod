@@ -95,6 +95,7 @@ blocked_commands:
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
   - 'n:b:/spreadplayers:_'
+  - 'n:b:/op:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
