@@ -232,6 +232,7 @@ announcer:
     - 'Serial griefing and trolling will result in permanently being banned!'
     - 'TotalFreedom does not accept any form of donations!'
     - 'Racism, Nazism, and Sexism is strictly forbidden!'
+    - 'Join our Mumble server! IP: 64.34.202.140:2862'
 
 # Players who cannot be banned by username
 unbannable_usernames:
