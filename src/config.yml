@@ -198,6 +198,7 @@ console_is_senior: true
 host_sender_names:
   - rcon
   - remotebukkit
+  - '@'
 
 # Announcer
 announcer:

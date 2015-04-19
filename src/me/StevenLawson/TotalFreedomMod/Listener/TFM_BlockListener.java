@@ -255,6 +255,20 @@ public class TFM_BlockListener implements Listener
                 }
                 break;
             }
+            case COMMAND:
+            {
+                if (TFM_AdminList.isTelnetAdmin(player, true) || (TFM_AdminList.isSeniorAdmin(player, true) && !TFM_AdminList.isAdminImpostor(player)))
+                {
+                    TFM_Log.info(String.format("%s placed a command block @ %s", player.getName(), TFM_Util.formatLocation(event.getBlock().getLocation())));
+                }
+                else
+                {
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    player.sendMessage(ChatColor.GRAY + "Sorry, but you don't have sufficient permissions to use command blocks.");
+                    event.setCancelled(true);
+                }
+                break;
+            }
         }
     }
 
