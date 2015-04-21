@@ -123,6 +123,7 @@ blocked_commands:
   - 's:b:/lrbuild:_'
   - 's:b:/defaultgamemode:_'
   - 's:b:/tpo:_'
+  - 's:b:/tpohere:_'
   
 
   # Superadmin commands - Auto-eject
