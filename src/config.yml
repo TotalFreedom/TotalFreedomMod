@@ -124,6 +124,8 @@ blocked_commands:
   - 's:b:/defaultgamemode:_'
   - 's:b:/tpo:_'
   - 's:b:/tpohere:_'
+  - 's:b:/etpo:Why did you even try!'
+  - 's:b:/etpohere:Don't even try!'
   
 
   # Superadmin commands - Auto-eject
