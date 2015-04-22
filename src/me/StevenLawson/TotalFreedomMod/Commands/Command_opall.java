@@ -13,8 +13,6 @@ public class Command_opall extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        TFM_Util.adminAction(sender.getName(), "Opping all players on the server", false);
-
         boolean doSetGamemode = false;
         GameMode targetGamemode = GameMode.CREATIVE;
         if (args.length != 0)
@@ -30,11 +28,21 @@ public class Command_opall extends TFM_Command
                 targetGamemode = GameMode.SURVIVAL;
             }
         }
-
+        
         for (Player player : server.getOnlinePlayers())
         {
-            player.setOp(true);
-            player.sendMessage(TFM_Command.YOU_ARE_OP);
+        	if (!player.isOp())
+        	{
+                TFM_Util.adminAction(sender.getName(), "Opping all players on the server", false);
+                
+        		player.setOp(true);
+        		player.sendMessage(TFM_Command.YOU_ARE_OP);
+        	}
+        	else 
+        	{
+        		playerMsg("All players are OP.");
+        		return false;
+        	}
 
             if (doSetGamemode)
             {
