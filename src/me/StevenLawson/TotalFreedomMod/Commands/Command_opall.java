@@ -40,7 +40,7 @@ public class Command_opall extends TFM_Command
         	}
         	else 
         	{
-        		playerMsg("All players are OP.");
+        		playerMsg("All players are currently Op.");
         		return false;
         	}
 
