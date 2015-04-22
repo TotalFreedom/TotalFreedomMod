@@ -213,6 +213,7 @@ announcer:
     - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
     - 'You can always review the server rules here: &6http://totalfreedom.me/'
     - 'If you are not OP, be sure to ask!'
+    - 'Players with their prefix/tag as '[Helper]' aren't staff and it isn't a rank, you can set your own tag by doing /tag set <tag>'
     - 'Somebody breaking the rules?  Report it!  /report <user> <reason>'
     - 'Griefing is not allowed!'
     - 'Spamming is not allowed!'
