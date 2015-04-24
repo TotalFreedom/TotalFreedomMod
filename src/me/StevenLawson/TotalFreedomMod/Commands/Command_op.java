@@ -50,15 +50,15 @@ public class Command_op extends TFM_Command
                 return true;
             }
         }
-        
+
         if (!player.isOp())
         {
         	TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
-        	player.setOp(true);
+            player.setOp(true);
         }
         else
         {
-        	playerMsg("That user is already an Op.");
+        	playerMsg("That player is already an Op.");
         }
         return true;
     }

@@ -28,20 +28,19 @@ public class Command_opall extends TFM_Command
                 targetGamemode = GameMode.SURVIVAL;
             }
         }
-        
+
         for (Player player : server.getOnlinePlayers())
-        {
+        {	
         	if (!player.isOp())
         	{
-                TFM_Util.adminAction(sender.getName(), "Opping all players on the server", false);
+        		TFM_Util.adminAction(sender.getName(), "Opping all players on the server", false);
                 
-        		player.setOp(true);
+                player.setOp(true);
         		player.sendMessage(TFM_Command.YOU_ARE_OP);
         	}
         	else 
         	{
         		playerMsg("All players are currently Op.");
-        		return false;
         	}
 
             if (doSetGamemode)
@@ -49,7 +48,6 @@ public class Command_opall extends TFM_Command
                 player.setGameMode(targetGamemode);
             }
         }
-
         return true;
     }
 }
