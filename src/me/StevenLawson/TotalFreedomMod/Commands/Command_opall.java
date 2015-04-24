@@ -34,7 +34,6 @@ public class Command_opall extends TFM_Command
         	if (!player.isOp())
         	{
         		TFM_Util.adminAction(sender.getName(), "Opping all players on the server", false);
-                
                 player.setOp(true);
         		player.sendMessage(TFM_Command.YOU_ARE_OP);
         	}

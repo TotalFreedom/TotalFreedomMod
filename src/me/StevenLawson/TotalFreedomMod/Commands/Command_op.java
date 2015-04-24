@@ -58,7 +58,7 @@ public class Command_op extends TFM_Command
         }
         else
         {
-        	playerMsg("That player is already an Op.");
+            playerMsg("That player is not online.");
         }
         return true;
     }
