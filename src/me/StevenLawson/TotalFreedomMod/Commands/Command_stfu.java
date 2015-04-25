@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> [-s] | list | purge | all]", aliases = "mute")
+@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> [-s] | list | purge | all]", aliases = "")
 public class Command_stfu extends TFM_Command
 {
     @Override
@@ -93,7 +93,7 @@ public class Command_stfu extends TFM_Command
             {
                 if (!TFM_AdminList.isSuperAdmin(player))
                 {
-                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
+                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName() + " with brute force", true);
                     playerdata.setMuted(true);
 
                     if (args.length == 2 && args[1].equalsIgnoreCase("-s"))
@@ -101,7 +101,7 @@ public class Command_stfu extends TFM_Command
                         Command_smite.smite(player);
                     }
 
-                    playerMsg("Muted " + player.getName());
+                    playerMsg("Muted " + player.getName()) + " with brute force.";
                 }
                 else
                 {
