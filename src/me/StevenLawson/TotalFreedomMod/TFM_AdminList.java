@@ -415,7 +415,8 @@ public class TFM_AdminList
         return admin != null && admin.isActivated();
     }
 
-    public static synchronized boolean isSuperAdminSync(CommandSender sender) {
+    public static synchronized boolean isSuperAdminSync(CommandSender sender)
+    {
         return isSuperAdmin(sender);
     }
 

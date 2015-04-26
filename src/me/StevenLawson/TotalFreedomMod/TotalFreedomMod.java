@@ -105,14 +105,7 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_PlayerList.load();
         TFM_BanManager.load();
         TFM_Announcer.load();
-
-        // Protect area
-        // TODO: Refractor to single .load() method
-        if (TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
-        {
-            TFM_ProtectedArea.loadProtectedAreas();
-            TFM_ProtectedArea.autoAddSpawnpoints();
-        }
+        TFM_ProtectedArea.load();
 
         // Start SuperAdmin service
         server.getServicesManager().register(Function.class, TFM_AdminList.SUPERADMIN_SERVICE, plugin, ServicePriority.Normal);
@@ -191,7 +184,6 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
 
-        // Load commands later
         new BukkitRunnable()
         {
             @Override
@@ -199,6 +191,9 @@ public class TotalFreedomMod extends JavaPlugin
             {
                 TFM_CommandLoader.scan();
                 TFM_CommandBlocker.load();
+
+                // Add spawnpoints later - https://github.com/TotalFreedom/TotalFreedomMod/issues/438
+                TFM_ProtectedArea.autoAddSpawnpoints();
             }
         }.runTaskLater(plugin, 20L);
     }
