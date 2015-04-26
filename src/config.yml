@@ -122,7 +122,7 @@ blocked_commands:
   - 's:b:/tool:_'
   - 's:b:/lrbuild:_'
   - 's:b:/defaultgamemode:_'
-  
+
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
@@ -275,7 +275,7 @@ unbannable_usernames:
 
 # IPs that can not be supered
 noadmin_ips:
-  - 127.0.0.1
+  - 167.114.97.16
 
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot:

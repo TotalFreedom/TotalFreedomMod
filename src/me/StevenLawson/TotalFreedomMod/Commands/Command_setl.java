@@ -13,10 +13,10 @@ public class Command_setl extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        TFM_Util.adminAction(sender.getName(), "Setting everyone's Worldedit block modification limit to 500.", true);
+        TFM_Util.adminAction(sender.getName(), "Setting everyone's Worldedit block modification limit to 2500.", true);
         for (final Player player : server.getOnlinePlayers())
         {
-            TFM_WorldEditBridge.setLimit(player, 500);
+            TFM_WorldEditBridge.setLimit(player, 2500);
         }
         return true;
     }

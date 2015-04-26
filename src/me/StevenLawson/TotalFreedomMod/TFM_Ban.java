@@ -16,7 +16,7 @@ public class TFM_Ban
 
     static
     {
-        // 192.168.1.254:LocalHost:DarthSalamon:0:none
+        // 192.168.1.254:LocalHost:Prozza:0:none
         // 127.0.*.*:TestUserName:BannedByNotch:123567:Test reason
         IP_BAN_REGEX = Pattern.compile(
                 "^((?:(?:\\*|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.){3}(?:\\*|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))"
@@ -24,7 +24,7 @@ public class TFM_Ban
                 + ":([\\w]+)"
                 + ":(\\d+)"
                 + ":([\\s\\S]+)$");
-        // 245d2f30-61fb-4840-9cd3-298b3920f4a4:Cobrex:DarthSalamon:0:Example reason
+        // 245d2f30-61fb-4840-9cd3-298b3920f4a4:Cobrex:Prozza:0:Example reason
         UUID_BAN_REGEX = Pattern.compile(
                 "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})"
                 + ":([\\w\\s]+)"
