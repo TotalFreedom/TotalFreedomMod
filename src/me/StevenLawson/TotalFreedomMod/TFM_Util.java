@@ -144,7 +144,7 @@ public class TFM_Util
 
     public static void adminAction(String adminName, String action, boolean isRed)
     {
-        TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
+        TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.YELLOW : ChatColor.GOLD));
     }
 
     public static String getIp(OfflinePlayer player)
@@ -482,7 +482,7 @@ public class TFM_Util
                 cal.add(Calendar.MINUTE, 1);
                 final Date expires = cal.getTime();
 
-                TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 1 minute.");
+                TFM_Util.bcastMsg(ChatColor.YELLOW + player.getName() + " has been banned for 1 minute.");
 
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
                 TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "AutoEject", expires, kickMessage));
@@ -496,7 +496,7 @@ public class TFM_Util
                 c.add(Calendar.MINUTE, 3);
                 final Date expires = c.getTime();
 
-                TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 3 minutes.");
+                TFM_Util.bcastMsg(ChatColor.YELLOW + player.getName() + " has been banned for 3 minutes.");
 
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
                 TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "AutoEject", expires, kickMessage));
@@ -511,7 +511,7 @@ public class TFM_Util
                 TFM_BanManager.addIpBan(new TFM_Ban(ipAddressParts[0] + "." + ipAddressParts[1] + ".*.*", player.getName(), "AutoEject", null, kickMessage));
                 TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "AutoEject", null, kickMessage));
 
-                TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned.");
+                TFM_Util.bcastMsg(ChatColor.YELLOW + player.getName() + " has been banned.");
 
                 player.kickPlayer(kickMessage);
                 break;
@@ -918,7 +918,7 @@ public class TFM_Util
         {
             if (TFM_AdminList.isSuperAdmin(player))
             {
-                player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
+                player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.GOLD + message);
             }
         }
     }
@@ -993,7 +993,7 @@ public class TFM_Util
         {
             if (TFM_AdminList.isSuperAdmin(player))
             {
-                playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
+                playerMsg(player, ChatColor.DARK_RED + "[REPORTS] " + ChatColor.RED + reporter.getName() + " has reported " + reported.getName() + " for " + report);
             }
         }
     }
