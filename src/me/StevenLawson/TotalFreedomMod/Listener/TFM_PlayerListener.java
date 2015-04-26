@@ -690,7 +690,7 @@ public class TFM_PlayerListener implements Listener
             {
                 for (String commandName : BLOCKED_MUTED_CMDS)
                 {
-                    if (Pattern.compile("^/" + commandName.toLowerCase() + " ").matcher(command).find())
+                    if (Pattern.compile("^/" + commandName.toLowerCase() + " ").matcher(command.toLowerCase()).find())
                     {
                         player.sendMessage(ChatColor.RED + "That command is blocked while you are muted.");
                         event.setCancelled(true);
