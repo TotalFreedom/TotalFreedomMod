@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import com.google.common.base.Function;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import me.StevenLawson.TotalFreedomMod.Bridge.TFM_BukkitTelnetListener;
+import me.StevenLawson.TotalFreedomMod.Bridge.TFM_WorldEditListener;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
@@ -15,7 +18,6 @@ import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_ServerListener;
-import me.StevenLawson.TotalFreedomMod.Listener.TFM_TelnetListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
@@ -25,6 +27,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mcstats.Metrics;
@@ -74,7 +77,7 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onEnable()
     {
-        TFM_Log.info("Made by Madgeek1450 and DarthSalamon");
+        TFM_Log.info("Made by Madgeek1450 and Prozza");
         TFM_Log.info("Compiled " + buildDate + " by " + buildCreator);
 
         final TFM_Util.MethodTimer timer = new TFM_Util.MethodTimer();
@@ -111,13 +114,19 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_ProtectedArea.autoAddSpawnpoints();
         }
 
+        // Start SuperAdmin service
+        server.getServicesManager().register(Function.class, TFM_AdminList.SUPERADMIN_SERVICE, plugin, ServicePriority.Normal);
+
         final PluginManager pm = server.getPluginManager();
         pm.registerEvents(new TFM_EntityListener(), plugin);
         pm.registerEvents(new TFM_BlockListener(), plugin);
         pm.registerEvents(new TFM_PlayerListener(), plugin);
         pm.registerEvents(new TFM_WeatherListener(), plugin);
         pm.registerEvents(new TFM_ServerListener(), plugin);
-        pm.registerEvents(new TFM_TelnetListener(), plugin);
+
+        // Bridge
+        pm.registerEvents(new TFM_BukkitTelnetListener(), plugin);
+        pm.registerEvents(new TFM_WorldEditListener(), plugin);
 
         try
         {
