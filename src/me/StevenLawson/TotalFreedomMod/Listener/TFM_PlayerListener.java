@@ -908,7 +908,7 @@ public class TFM_PlayerListener implements Listener
     {
         if (TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean())
         {
-            final String hostname = event.getHostname();
+            final String hostname = event.getHostname().replace("FML", ""); // Forge fix - https://github.com/TotalFreedom/TotalFreedomMod/issues/493
             final String connectAddress = TFM_ConfigEntry.SERVER_ADDRESS.getString();
             final int connectPort = TotalFreedomMod.server.getPort();
 
