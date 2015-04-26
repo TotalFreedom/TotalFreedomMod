@@ -5,8 +5,8 @@
 clean_threshold_hours: 168
 
 admins:
-  b3c3b05a-a52d-33a6-a9c6-6e5063e00f0a:
-    last_login_name: DarthSalamon
+  f9a1982e-252e-4ed3-92ed-52b0506a39c9:
+    last_login_name: Prozza
     is_activated: true
     is_senior_admin: true
     is_telnet_admin: true
