@@ -29,6 +29,14 @@ public class TFM_PlayerData
         return PLAYER_DATA.containsKey(TFM_Util.getIp(player));
     }
 
+    public static TFM_PlayerData getPlayerDataSync(Player player)
+    {
+        synchronized (PLAYER_DATA)
+        {
+            return getPlayerData(player);
+        }
+    }
+
     public static TFM_PlayerData getPlayerData(Player player)
     {
         final String ip = TFM_Util.getIp(player);

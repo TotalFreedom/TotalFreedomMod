@@ -43,7 +43,8 @@ public class TFM_AdminList
         seniorConsoleNames = new HashSet<String>();
         superIps = new HashSet<String>();
 
-        SUPERADMIN_SERVICE = new Function<Player, Boolean>() {
+        SUPERADMIN_SERVICE = new Function<Player, Boolean>()
+        {
 
             @Override
             public Boolean apply(Player f)
@@ -412,6 +413,10 @@ public class TFM_AdminList
 
         final TFM_Admin admin = TFM_AdminList.getEntryByIp(ip);
         return admin != null && admin.isActivated();
+    }
+
+    public static synchronized boolean isSuperAdminSync(CommandSender sender) {
+        return isSuperAdmin(sender);
     }
 
     public static boolean isSuperAdmin(CommandSender sender)

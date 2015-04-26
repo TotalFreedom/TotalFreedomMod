@@ -27,7 +27,8 @@ public class Command_uuid extends TFM_Command
             return false;
         }
 
-        if ("purge".equals(args[0])) {
+        if ("purge".equals(args[0]))
+        {
             playerMsg("Purged " + TFM_UuidManager.purge() + " cached UUIDs.");
             return true;
         }

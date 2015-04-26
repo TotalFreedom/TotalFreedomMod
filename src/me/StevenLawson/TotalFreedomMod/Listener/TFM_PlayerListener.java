@@ -23,6 +23,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_PlayerRank;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
+import me.StevenLawson.TotalFreedomMod.TFM_Sync;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
@@ -558,7 +559,7 @@ public class TFM_PlayerListener implements Listener
             final Player player = event.getPlayer();
             String message = event.getMessage().trim();
 
-            final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+            final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerDataSync(player);
 
             // Check for spam
             final Long lastRan = TFM_Heartbeat.getLastRan();
@@ -570,8 +571,8 @@ public class TFM_PlayerListener implements Listener
             {
                 if (playerdata.incrementAndGetMsgCount() > MSG_PER_HEARTBEAT)
                 {
-                    TFM_Util.bcastMsg(player.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
-                    TFM_Util.autoEject(player, "Kicked for spamming chat.");
+                    TFM_Sync.bcastMsg(player.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+                    TFM_Sync.autoEject(player, "Kicked for spamming chat.");
 
                     playerdata.resetMsgCount();
 
@@ -583,7 +584,7 @@ public class TFM_PlayerListener implements Listener
             // Check for message repeat
             if (playerdata.getLastMessage().equalsIgnoreCase(message))
             {
-                TFM_Util.playerMsg(player, "Please do not repeat messages.");
+                TFM_Sync.playerMsg(player, "Please do not repeat messages.");
                 event.setCancelled(true);
                 return;
             }
@@ -593,9 +594,9 @@ public class TFM_PlayerListener implements Listener
             // Check for muted
             if (playerdata.isMuted())
             {
-                if (!TFM_AdminList.isSuperAdmin(player))
+                if (!TFM_AdminList.isSuperAdminSync(player))
                 {
-                    player.sendMessage(ChatColor.RED + "You are muted, STFU! - You will be unmuted in 5 minutes.");
+                    TFM_Sync.playerMsg(player, ChatColor.RED + "You are muted, STFU! - You will be unmuted in 5 minutes.");
                     event.setCancelled(true);
                     return;
                 }
@@ -610,7 +611,7 @@ public class TFM_PlayerListener implements Listener
             if (message.length() > 100)
             {
                 message = message.substring(0, 100);
-                TFM_Util.playerMsg(player, "Message was shortened because it was too long to send.");
+                TFM_Sync.playerMsg(player, "Message was shortened because it was too long to send.");
             }
 
             // Check for caps
@@ -633,7 +634,7 @@ public class TFM_PlayerListener implements Listener
             // Check for adminchat
             if (playerdata.inAdminChat())
             {
-                TFM_Util.adminChatMessage(player, message, false);
+                TFM_Sync.adminChatMessage(player, message, false);
                 event.setCancelled(true);
                 return;
             }

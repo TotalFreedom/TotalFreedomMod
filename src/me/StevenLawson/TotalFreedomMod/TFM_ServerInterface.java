@@ -30,7 +30,8 @@ public class TFM_ServerInterface
     {
         String[] whitelisted = MinecraftServer.getServer().getPlayerList().getWhitelisted();
         int size = whitelisted.length;
-        for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+        for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players)
+        {
             MinecraftServer.getServer().getPlayerList().getWhitelist().remove(player.getProfile());
         }
 
