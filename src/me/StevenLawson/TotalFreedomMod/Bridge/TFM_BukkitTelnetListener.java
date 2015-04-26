@@ -1,11 +1,10 @@
-package me.StevenLawson.TotalFreedomMod.Listener;
+package me.StevenLawson.TotalFreedomMod.Bridge;
 
 import java.util.Iterator;
 import java.util.Map;
 import me.StevenLawson.BukkitTelnet.api.TelnetCommandEvent;
 import me.StevenLawson.BukkitTelnet.api.TelnetPreLoginEvent;
 import me.StevenLawson.BukkitTelnet.api.TelnetRequestDataTagsEvent;
-import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
@@ -15,7 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-public class TFM_TelnetListener implements Listener
+public class TFM_BukkitTelnetListener implements Listener
 {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onTelnetPreLogin(TelnetPreLoginEvent event)

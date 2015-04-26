@@ -43,7 +43,7 @@ public class TFM_Config extends YamlConfiguration // BukkitLib @ https://github.
      *
      * <p>Example:
      * <pre>
-     * YamlConfig config = new YamlConfig(this, new File(plugin.getDataFolder() + "/players", "DarthSalamon.yml"), false);
+     * YamlConfig config = new YamlConfig(this, new File(plugin.getDataFolder() + "/players", "Prozza.yml"), false);
      * config.load();
      * </pre></p>
      *

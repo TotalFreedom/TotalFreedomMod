@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
-import net.minecraft.server.v1_8_R1.MinecraftServer;
-import net.minecraft.server.v1_8_R1.PropertyManager;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.MinecraftServer;
+import net.minecraft.server.v1_8_R2.PropertyManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 public class TFM_ServerInterface
 {
-    public static final String COMPILE_NMS_VERSION = "v1_8_R1";
+    public static final String COMPILE_NMS_VERSION = "v1_8_R2";
     public static final Pattern USERNAME_REGEX = Pattern.compile("^[\\w\\d_]{3,20}$");
 
     public static void setOnlineMode(boolean mode)
@@ -29,9 +30,8 @@ public class TFM_ServerInterface
     {
         String[] whitelisted = MinecraftServer.getServer().getPlayerList().getWhitelisted();
         int size = whitelisted.length;
-        for (String player : MinecraftServer.getServer().getPlayerList().getWhitelist().getEntries())
-        {
-            MinecraftServer.getServer().getPlayerList().getWhitelist().remove(player);
+        for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+            MinecraftServer.getServer().getPlayerList().getWhitelist().remove(player.getProfile());
         }
 
         try
@@ -48,7 +48,7 @@ public class TFM_ServerInterface
 
     public static boolean isWhitelisted()
     {
-        return MinecraftServer.getServer().getPlayerList().hasWhitelist;
+        return MinecraftServer.getServer().getPlayerList().getHasWhitelist();
     }
 
     public static List<?> getWhitelisted()
