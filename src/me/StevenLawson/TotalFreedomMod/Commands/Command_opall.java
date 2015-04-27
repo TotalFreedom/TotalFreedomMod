@@ -30,17 +30,17 @@ public class Command_opall extends TFM_Command
         }
 
         for (Player player : server.getOnlinePlayers())
-        {	
-        	if (!player.isOp())
-        	{
-        		TFM_Util.adminAction(sender.getName(), "Opping all players on the server", false);
+        {
+            if (!player.isOp())
+            {
+                TFM_Util.adminAction(sender.getName(), "Opping all players on the server", false);
                 player.setOp(true);
-        		player.sendMessage(TFM_Command.YOU_ARE_OP);
-        	}
-        	else 
-        	{
-        		playerMsg("All players are currently Op.");
-        	}
+                player.sendMessage(TFM_Command.YOU_ARE_OP);
+            }
+            else
+            {
+                playerMsg("All players are currently Op.");
+            }
 
             if (doSetGamemode)
             {

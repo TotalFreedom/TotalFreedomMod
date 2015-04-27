@@ -53,12 +53,12 @@ public class Command_op extends TFM_Command
 
         if (!player.isOp())
         {
-        	TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
+            TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
             player.setOp(true);
         }
         else
         {
-            playerMsg("That player is not online.");
+            playerMsg("That player is already an Op.");
         }
         return true;
     }
