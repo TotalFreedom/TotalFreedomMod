@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Give yourself a nickname.", usage = "/<command> <nickname>")
+@CommandParameters(description = "Give yourself a nickname.", usage = "/<command> <nickname>", aliases = "nickname")
 public class Command_nick extends TFM_Command
 {
     @Override
