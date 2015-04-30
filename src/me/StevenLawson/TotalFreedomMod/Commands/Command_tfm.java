@@ -65,7 +65,7 @@ public class Command_tfm extends TFM_Command
                 TotalFreedomMod.buildCreator), ChatColor.GOLD);
         playerMsg("Running on " + TFM_ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
         playerMsg("Created by Madgeek1450 and Prozza.", ChatColor.GOLD);
-        playerMsg("If you wish to contribute to the development of this plugin, go to " + ChatColor.GREEN + "http://github.com/TotalFreedom/TotalFreedomMod.", ChatColor.GOLD);
+        playerMsg("If you wish to contribute to the development of this plugin, go to " + ChatColor.AQUA + "http://github.com/TotalFreedom/TotalFreedomMod.", ChatColor.GREEN);
         playerMsg("Visit " + ChatColor.AQUA + "http://totalfreedom.me/" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
 
         return true;
