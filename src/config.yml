@@ -121,6 +121,7 @@ blocked_commands:
   - 's:b:/gmask:_'
   - 's:b:/tool:_'
   - 's:b:/lrbuild:_'
+  - 's:b:/green:_'
   - 's:b:/defaultgamemode:_'
   - 's:b:/reload:_'
 
