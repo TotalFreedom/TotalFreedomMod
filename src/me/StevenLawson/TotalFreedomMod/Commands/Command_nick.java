@@ -8,20 +8,47 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Give yourself a nickname.", usage = "/<command> <nickname>", aliases = "nickname")
 public class Command_nick extends TFM_Command
 {
+    public static String NICKNAME_PATTERN = "^[a-zA-Z_0-9\\u00a7]+$";
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 1)
         {
             playerMsg(ChatColor.RED + "You didn't provide a nickname!");
+            return true;
         }
         if (args.length > 1)
         {
-            playerMsg(ChatColor.RED + "Too many command arguments!");
+            final Player player = getPlayer(args[0]);            
+            final String nickname = args[1];
+            final String nickPlain = ChatColor.stripColor(TFM_Util.colorize(nickname.trim()));
+            String newNickname = nickname.replace("&k", "").replace("&n", "").replace("&m", "").replace("&o", "").replace("&0", "").replace("&", "§");
+            
+            if (!nickPlain.matches(NICKNAME_PATTERN))
+            {
+                playerMsg(ChatColor.RED + "That nickname contains invalid characters.");
+                return true;
+            }
+            if (nickPlain.matches("off"))
+            {
+                TFM_EssentialsBridge.setNickname(player.getName(), null);
+                playerMsg(ChatColor.GOLD + "Removed " + player.getName() + "'s nickname.");
+                player.sendMessage(ChatColor.GOLD + "Your nickname has been removed by " + sender.getName() + ".");
+                return true;
+            }
+            if (player == null)
+            {
+                playerMsg(TFM_Command.PLAYER_NOT_FOUND, ChatColor.RED);
+                return true;
+            }            
+            TFM_EssentialsBridge.setNickname(player.getName(), newNickname);
+            playerMsg(ChatColor.GOLD + "Set " + player.getName() + "'s nickname to " + newNickname + ChatColor.GOLD + ".");
+            player.sendMessage(ChatColor.GOLD + "Your nickname has been changed to " + newNickname + ChatColor.GOLD + " by " + sender.getName() + ".");
+            return true;
         }
         if ("off".equals(args[0]))
         {
@@ -31,8 +58,7 @@ public class Command_nick extends TFM_Command
         }        
         final String nickPlain = ChatColor.stripColor(TFM_Util.colorize(args[0].trim()));
         final String nickInput = args[0];
-
-        if (!nickPlain.matches("^[a-zA-Z_0-9\u00a7]+$"))
+        if (!nickPlain.matches(NICKNAME_PATTERN))
         {
             playerMsg(ChatColor.RED + "Your nickname contains invalid characters.");
             return true;
@@ -59,10 +85,8 @@ public class Command_nick extends TFM_Command
             }
         } 
         String newNickname = nickInput.replace("&k", "").replace("&n", "").replace("&m", "").replace("&o", "").replace("&0", "").replace("&", "§");
-        
             
-        TFM_EssentialsBridge.setNickname(sender.getName(), newNickname);
-        
+        TFM_EssentialsBridge.setNickname(sender.getName(), newNickname);      
         playerMsg(ChatColor.GOLD + "Your nickname is now " + newNickname + ChatColor.GOLD + ".");
         
         return true;
