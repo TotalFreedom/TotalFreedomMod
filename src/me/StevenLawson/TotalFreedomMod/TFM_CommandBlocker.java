@@ -112,17 +112,22 @@ public class TFM_CommandBlocker
             return false;
         }
 
+        command = command.toLowerCase().trim();
+
         if (command.split(" ")[0].contains(":"))
         {
             TFM_Util.playerMsg(sender, "Plugin-specific commands are disabled.");
             return true;
         }
 
+        if (command.startsWith("/")) {
+            command = command.substring(1);
+        }
+
         final String[] commandParts = command.split(" ");
         String subCommand = null;
         if (commandParts.length > 1)
         {
-            command = commandParts[0].substring(1);
             subCommand = StringUtils.join(commandParts, " ", 1, commandParts.length).toLowerCase();
         }
 

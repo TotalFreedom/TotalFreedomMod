@@ -709,8 +709,6 @@ public class TFM_PlayerListener implements Listener
             TFM_Log.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", player.getName(), ChatColor.stripColor(player.getDisplayName()), command), true);
         }
 
-        command = command.toLowerCase().trim();
-
         // Blocked commands
         if (TFM_CommandBlocker.isCommandBlocked(command, event.getPlayer(), true))
         {
