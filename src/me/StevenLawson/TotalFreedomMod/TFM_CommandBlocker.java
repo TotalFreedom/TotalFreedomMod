@@ -102,7 +102,7 @@ public class TFM_CommandBlocker
 
     public static boolean isCommandBlocked(String command, CommandSender sender)
     {
-        return isCommandBlocked(command, sender, true);
+        return isCommandBlocked(command, sender, false);
     }
 
     public static boolean isCommandBlocked(String command, CommandSender sender, boolean doAction)
@@ -112,7 +112,7 @@ public class TFM_CommandBlocker
             return false;
         }
 
-        if (command.contains(":"))
+        if (command.split(" ")[0].contains(":"))
         {
             TFM_Util.playerMsg(sender, "Plugin-specific commands are disabled.");
             return true;
