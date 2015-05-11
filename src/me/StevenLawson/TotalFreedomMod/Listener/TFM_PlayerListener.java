@@ -870,9 +870,11 @@ public class TFM_PlayerListener implements Listener
                 name = ChatColor.BLUE + name;
                 TFM_PlayerData.getPlayerData(player).setTag("&8[&9Owner&8]");
             }
-
-            name = ChatColor.AQUA + name;
-            TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
+            else
+            {
+                name = ChatColor.AQUA + name;
+                TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
+            }
         }
 
         try
