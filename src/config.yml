@@ -99,8 +99,9 @@ blocked_commands:
   - 'n:b:/border:You are not allowed to edit the world border!.'
   - 'n:b:/weather:Its always sunny here!'
   - 'n:b:/eweather:TotalFreedom is sunny not rainy!'
+  - 'n:b:/summon:Disabled in PR 618 Of TFM'
 
-  # Superadmin commands - Disabled to ops
+  # Superadmin commands
   - 's:b:/kick:_'
   - 's:b:/socialspy:_'
   - 's:b:/kill:_'
@@ -127,11 +128,6 @@ blocked_commands:
   - 's:b:/lrbuild:_'
   - 's:b:/defaultgamemode:_'
   - 's:b:/reload:_'
-  # Soon to be blocked TFM Command i think!
-  - 's:b:/spectator:_' 
-  # Idk if i should put this here
-  - 's:b:/summon PrimedTNT:Eh, Might as well blow your self up'
-  - 's:b:/summon LightingBolt:Smiting Your self i see!'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
