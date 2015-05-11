@@ -85,6 +85,7 @@ allow:
 blocked_commands:
   # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
+  - 'n:b:/etime:Server-Side Time changing is disabled please use /ptime instead!'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
   - 'n:b:/gamerule:_'
   - 'n:b:/ban:_'
@@ -95,8 +96,10 @@ blocked_commands:
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
   - 'n:b:/spreadplayers:_'
+  - 'n:b:/border:You are not allowed to edit the world border!.'
+  - 'n:b:/weather:Its always sunny here!'
 
-  # Superadmin commands
+  # Superadmin commands - Disabled to ops
   - 's:b:/kick:_'
   - 's:b:/socialspy:_'
   - 's:b:/kill:_'
@@ -123,6 +126,8 @@ blocked_commands:
   - 's:b:/lrbuild:_'
   - 's:b:/defaultgamemode:_'
   - 's:b:/reload:_'
+  # Soon to be blocked TFM Command i think!
+  - 's:b:/spectator:_' 
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
