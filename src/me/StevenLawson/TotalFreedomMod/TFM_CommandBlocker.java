@@ -157,7 +157,6 @@ public class TFM_CommandBlocker
         }
 
         return true;
-
     }
 
     public static enum CommandBlockerRank

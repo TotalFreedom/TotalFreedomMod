@@ -654,7 +654,7 @@ public class TFM_PlayerListener implements Listener
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
         String command = event.getMessage();
@@ -714,6 +714,7 @@ public class TFM_PlayerListener implements Listener
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
+            event.setMessage("");
         }
 
         if (!TFM_AdminList.isSuperAdmin(player))
