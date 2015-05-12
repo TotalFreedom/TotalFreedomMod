@@ -96,10 +96,10 @@ blocked_commands:
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
   - 'n:b:/spreadplayers:_'
-  - 'n:b:/border:You are not allowed to edit the world border!.'
-  - 'n:b:/weather:Its always sunny here!'
-  - 'n:b:/eweather:TotalFreedom is sunny not rainy!'
-  - 'n:b:/summon:Disabled in PR 618 Of TFM'
+  - 'n:b:/border:_'
+  - 'n:b:/weather:_'
+  - 'n:b:/eweather:_'
+  - 'n:b:/summon:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
