@@ -124,6 +124,7 @@ blocked_commands:
   - 's:b:/defaultgamemode:_'
   - 's:b:/reload:_'
   - 's:b:/title:_'
+  - 's:b:/worldborder:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/save-all:_'
