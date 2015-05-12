@@ -885,6 +885,8 @@ public class TFM_PlayerListener implements Listener
         {
         }
 
+        player.setAllowFlight(true);
+
         new BukkitRunnable()
         {
             @Override
@@ -900,7 +902,7 @@ public class TFM_PlayerListener implements Listener
                     TFM_Util.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
                 }
             }
-        }.runTaskLater(TotalFreedomMod.plugin, 20L * 3L);
+        }.runTaskLater(TotalFreedomMod.plugin, 20L * 1L);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
