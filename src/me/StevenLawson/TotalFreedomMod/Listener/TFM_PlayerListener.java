@@ -714,7 +714,6 @@ public class TFM_PlayerListener implements Listener
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
-            event.setMessage("");
         }
 
         if (!TFM_AdminList.isSuperAdmin(player))
