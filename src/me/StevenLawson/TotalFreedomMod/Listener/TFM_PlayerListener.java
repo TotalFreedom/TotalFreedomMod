@@ -325,7 +325,7 @@ public class TFM_PlayerListener implements Listener
                                     {
                                         if (targetPosVec.distanceSquared(playerLocVec) < (RADIUS_HIT * RADIUS_HIT))
                                         {
-                                            target.setFlying(false);
+                                            TFM_Util.setFlying(player, false);
                                             target.setVelocity(targetPosVec.subtract(playerLocVec).normalize().multiply(STRENGTH));
                                             didHit = true;
                                         }
@@ -389,7 +389,7 @@ public class TFM_PlayerListener implements Listener
 
         if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen())
         {
-            player.setFlying(true);
+            TFM_Util.setFlying(player, true);
             event.setTo(playerdata.getFreezeLocation());
             return; // Don't process adminworld validation
         }
@@ -456,7 +456,7 @@ public class TFM_PlayerListener implements Listener
         // Freeze
         if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen())
         {
-            player.setFlying(true);
+            TFM_Util.setFlying(player, true);
             event.setTo(playerdata.getFreezeLocation());
         }
 
@@ -710,7 +710,7 @@ public class TFM_PlayerListener implements Listener
         }
 
         // Blocked commands
-        if (TFM_CommandBlocker.isCommandBlocked(command, event.getPlayer(), true))
+        if (TFM_CommandBlocker.isCommandBlocked(command, player, true))
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
@@ -884,8 +884,6 @@ public class TFM_PlayerListener implements Listener
         catch (IllegalArgumentException ex)
         {
         }
-
-        player.setAllowFlight(true);
 
         new BukkitRunnable()
         {

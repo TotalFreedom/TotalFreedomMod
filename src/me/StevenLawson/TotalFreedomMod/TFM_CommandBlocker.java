@@ -223,27 +223,27 @@ public class TFM_CommandBlocker
 
         public static CommandBlockerRank fromSender(CommandSender sender)
         {
-            if (!TFM_AdminList.isSuperAdmin(sender))
-            {
-                if (sender.isOp())
-                {
-                    return OP;
-                }
-
-                return ANYONE;
-            }
-
-            if (TFM_AdminList.isSeniorAdmin(sender))
-            {
-                return SENIOR;
-            }
-
             if (!(sender instanceof Player))
             {
                 return TELNET;
             }
 
-            return SUPER;
+            if (TFM_AdminList.isSuperAdmin(sender))
+            {
+                if (TFM_AdminList.isSeniorAdmin(sender))
+                {
+                    return SENIOR;
+                }
+                return SUPER;
+            }
+
+            if (sender.isOp())
+            {
+                return OP;
+            }
+
+            return ANYONE;
+
         }
 
         public static CommandBlockerRank fromToken(String token)

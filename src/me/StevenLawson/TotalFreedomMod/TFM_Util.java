@@ -142,6 +142,11 @@ public class TFM_Util
         TFM_Util.playerMsg(sender, message, ChatColor.GRAY);
     }
 
+    public static void setFlying(Player player, boolean flying) {
+        player.setAllowFlight(true);
+        player.setFlying(flying);
+    }
+
     public static void adminAction(String adminName, String action, boolean isRed)
     {
         TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
