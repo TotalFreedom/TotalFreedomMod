@@ -128,6 +128,7 @@ blocked_commands:
   - 's:b:/lrbuild:_'
   - 's:b:/defaultgamemode:_'
   - 's:b:/reload:_'
+  - 's:b:/title:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
