@@ -125,7 +125,6 @@ blocked_commands:
   - 's:b:/reload:_'
 
   # Superadmin commands - Auto-eject
-  - 's:a:/stop:_'
   - 's:a:/save-all:_'
   - 's:a:/save-on:_'
   - 's:a:/save-off:_'

@@ -1,8 +1,11 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
 
 public class TFM_CommandBlocker
@@ -90,6 +94,35 @@ public class TFM_CommandBlocker
 
             if (command != null)
             {
+                // Temporarily workaround: Remove blocked command from the CommandMap
+                // In Spigot 1.8.3, cancelling PlayerCommandPreprocessEvent will have no effect
+                // This results in TFM failing to block player commands: The player will get a message,
+                // but the command will still execute. Removing the command from the CommandMap is a
+                // temporary workaround untill the related Spigot issue has been fixed.
+                // https://hub.spigotmc.org/jira/browse/SPIGOT-879
+                try
+                {
+                    Field field = SimpleCommandMap.class.getDeclaredField("knownCommands");
+                    field.setAccessible(true);
+                    Map<?, ?> knownCommands = (Map) field.get(commandMap);
+
+                    Iterator<?> it = knownCommands.entrySet().iterator();
+                    while (it.hasNext())
+                    {
+                        final Object e = it.next();
+                        if (command.equals(((Entry) e).getValue()))
+                        {
+                            it.remove();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TFM_Log.severe("Could not nullify command: " + command.getName());
+                    TFM_Log.severe(ex);
+                }
+                // End Temporary workaround
+
                 for (String alias : command.getAliases())
                 {
                     BLOCKED_COMMANDS.put(alias.toLowerCase(), blockedCommandEntry);
@@ -120,7 +153,8 @@ public class TFM_CommandBlocker
             return true;
         }
 
-        if (command.startsWith("/")) {
+        if (command.startsWith("/"))
+        {
             command = command.substring(1);
         }
 
