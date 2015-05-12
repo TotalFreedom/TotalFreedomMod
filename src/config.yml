@@ -125,6 +125,7 @@ blocked_commands:
   - 's:b:/reload:_'
   - 's:b:/title:_'
   - 's:b:/worldborder:_'
+  - 's:b:/weather:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/save-all:_'
