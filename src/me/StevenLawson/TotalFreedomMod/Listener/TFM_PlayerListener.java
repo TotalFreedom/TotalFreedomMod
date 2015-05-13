@@ -53,7 +53,7 @@ public class TFM_PlayerListener implements Listener
                 {
                     case WATER_BUCKET:
                     {
-                        if (TFM_ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
+                        if (TFM_AdminList.isSuperAdmin(player) || TFM_ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
                         {
                             break;
                         }
@@ -66,7 +66,7 @@ public class TFM_PlayerListener implements Listener
 
                     case LAVA_BUCKET:
                     {
-                        if (TFM_ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
+                        if (TFM_AdminList.isSuperAdmin(player) || TFM_ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
                         {
                             break;
                         }
