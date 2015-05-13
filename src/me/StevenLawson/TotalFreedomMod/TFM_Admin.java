@@ -23,15 +23,15 @@ public class TFM_Admin
     private Date lastLogin;
     private boolean isActivated;
 
-    public TFM_Admin(UUID uuid, String lastLoginName, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, boolean isActivated)
+    public TFM_Admin(UUID uuid, String lastLoginName, Date lastLogin, String loginMessage, boolean isTelnetAdmin, boolean isSeniorAdmin, boolean isActivated)
     {
         this.uuid = uuid;
         this.lastLoginName = lastLoginName;
         this.ips = new ArrayList<String>();
         this.lastLogin = lastLogin;
         this.loginMessage = loginMessage;
-        this.isSeniorAdmin = isSeniorAdmin;
         this.isTelnetAdmin = isTelnetAdmin;
+        this.isSeniorAdmin = isSeniorAdmin;
         this.consoleAliases = new ArrayList<String>();
         this.isActivated = isActivated;
     }
