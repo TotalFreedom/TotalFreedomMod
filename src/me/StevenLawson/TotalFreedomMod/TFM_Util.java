@@ -142,7 +142,8 @@ public class TFM_Util
         TFM_Util.playerMsg(sender, message, ChatColor.GRAY);
     }
 
-    public static void setFlying(Player player, boolean flying) {
+    public static void setFlying(Player player, boolean flying)
+    {
         player.setAllowFlight(true);
         player.setFlying(flying);
     }

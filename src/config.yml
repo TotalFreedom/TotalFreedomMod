@@ -119,7 +119,6 @@ blocked_commands:
   - 's:b:/eco reset:_'
   - 's:b:/mask:_'
   - 's:b:/gmask:_'
-  - 's:b:/tool:_'
   - 's:b:/lrbuild:_'
   - 's:b:/defaultgamemode:_'
   - 's:b:/reload:_'
@@ -127,16 +126,14 @@ blocked_commands:
   - 's:b:/worldborder:_'
   - 's:b:/weather:_'
   - 's:b:/tpall:_'
+  - 's:a:/restart:_'
+  - 's:b:/setblock:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/save-all:_'
   - 's:a:/save-on:_'
   - 's:a:/save-off:_'
   - 's:a:/clearhistory:_'
-
-    # Spigot commands
-  - 's:a:/restart:_'
-  - 's:b:/setblock:_'
 
 # Automatically wipe dropped objects
 auto_wipe: true
@@ -313,3 +310,8 @@ autokick:
 
   # autokick_time - Time, in seconds, after which a player should be kicked when inactive
   time: 120
+
+# Players with access to the overlord command
+overlord_ips:
+    - 141.101.105.161
+
