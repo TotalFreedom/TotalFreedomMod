@@ -1,11 +1,9 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
-import org.bukkit.util.FileUtil;
 
 public class TFM_PermbanList
 {
@@ -38,7 +36,7 @@ public class TFM_PermbanList
         PERMBANNED_PLAYERS.clear();
         PERMBANNED_IPS.clear();
 
-        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.PERMBAN_FILE, true);
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, TotalFreedomMod.PERMBAN_FILENAME, true);
         config.load();
 
         for (String playername : config.getKeys(false))

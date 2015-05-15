@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,6 +11,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -66,7 +66,7 @@ public class TFM_ProtectedArea
 
         if (doSave)
         {
-            saveProtectedAreas();
+            save();
         }
 
         return inProtectedArea;
@@ -110,7 +110,7 @@ public class TFM_ProtectedArea
 
         if (doSave)
         {
-            saveProtectedAreas();
+            save();
         }
 
         return inProtectedArea;
@@ -156,13 +156,13 @@ public class TFM_ProtectedArea
     public static void addProtectedArea(String label, Location location, double radius)
     {
         TFM_ProtectedArea.PROTECTED_AREAS.put(label.toLowerCase(), new SerializableProtectedRegion(location, radius));
-        saveProtectedAreas();
+        save();
     }
 
     public static void removeProtectedArea(String label)
     {
         TFM_ProtectedArea.PROTECTED_AREAS.remove(label.toLowerCase());
-        saveProtectedAreas();
+        save();
     }
 
     public static void clearProtectedAreas()
@@ -179,7 +179,7 @@ public class TFM_ProtectedArea
             autoAddSpawnpoints();
         }
 
-        saveProtectedAreas();
+        save();
     }
 
     public static void cleanProtectedAreas()
@@ -203,7 +203,7 @@ public class TFM_ProtectedArea
 
         if (doSave)
         {
-            saveProtectedAreas();
+            save();
         }
     }
 
@@ -212,11 +212,11 @@ public class TFM_ProtectedArea
         return TFM_ProtectedArea.PROTECTED_AREAS.keySet();
     }
 
-    public static void saveProtectedAreas()
+    public static void save()
     {
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILE));
+            FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILENAME));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(TFM_ProtectedArea.PROTECTED_AREAS);
             oos.close();
@@ -229,9 +229,14 @@ public class TFM_ProtectedArea
     }
 
     @SuppressWarnings("unchecked")
-    public static void loadProtectedAreas()
+    public static void load()
     {
-        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILE);
+        if (!TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
+        {
+            return;
+        }
+
+        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILENAME);
         try
         {
             if (input.exists())
@@ -255,6 +260,11 @@ public class TFM_ProtectedArea
 
     public static void autoAddSpawnpoints()
     {
+        if (!TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
+        {
+            return;
+        }
+
         if (TFM_ConfigEntry.PROTECTAREA_SPAWNPOINTS.getBoolean())
         {
             for (World world : Bukkit.getWorlds())

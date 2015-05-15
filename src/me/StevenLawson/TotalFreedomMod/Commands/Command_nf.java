@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -86,8 +86,7 @@ public class Command_nf extends TFM_Command
     {
         needle = needle.toLowerCase().trim();
 
-        Player[] onlinePlayers = Bukkit.getOnlinePlayers();
-        for (Player player : onlinePlayers)
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             if (player.getDisplayName().toLowerCase().trim().contains(needle))
             {
@@ -105,8 +104,7 @@ public class Command_nf extends TFM_Command
         Integer minEditDistance = null;
         Player minEditMatch = null;
 
-        Player[] onlinePlayers = Bukkit.getOnlinePlayers();
-        for (Player player : onlinePlayers)
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             String haystack = player.getDisplayName().toLowerCase().trim();
             int editDistance = StringUtils.getLevenshteinDistance(needle, haystack.toLowerCase());

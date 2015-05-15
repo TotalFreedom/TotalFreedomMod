@@ -1,22 +1,39 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
-import net.minecraft.util.org.apache.commons.io.FileUtils;
-
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -50,7 +67,7 @@ public class TFM_Util
     private static final Map<String, Integer> ejectTracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "DarthSalamon", "AcidicCyanide", "wild1145", "WickedGamingUK");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "DarthSalmon", "AcidicCyanide", "Wild1145", "WickedGamingUK");
     private static final Random RANDOM = new Random();
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<String, ChatColor>();
@@ -98,71 +115,6 @@ public class TFM_Util
         throw new AssertionError();
     }
 
-    public static boolean isUniqueId(String uuid)
-    {
-        try
-        {
-            UUID.fromString(uuid);
-        }
-        catch (IllegalArgumentException ex)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static UUID getUuid(OfflinePlayer offlinePlayer)
-    {
-        if (offlinePlayer instanceof Player)
-        {
-            return TFM_PlayerData.getPlayerData((Player) offlinePlayer).getUniqueId();
-        }
-
-        return getUuid(offlinePlayer.getName());
-    }
-
-    public static UUID getUuid(String offlineplayer)
-    {
-        final UUID uuid = TFM_UuidResolver.getUUIDOf(offlineplayer);
-
-        if (uuid == null)
-        {
-            return generateUuidForName(offlineplayer);
-        }
-
-        return uuid;
-    }
-
-    public static UUID generateUuidForName(String name)
-    {
-        TFM_Log.info("Generating spoof UUID for " + name);
-        name = name.toLowerCase();
-        try
-        {
-            final MessageDigest mDigest = MessageDigest.getInstance("SHA1");
-            byte[] result = mDigest.digest(name.getBytes());
-            final StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < result.length; i++)
-            {
-                sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
-            }
-
-            return UUID.fromString(
-                    sb.substring(0, 8)
-                    + "-" + sb.substring(8, 12)
-                    + "-" + sb.substring(12, 16)
-                    + "-" + sb.substring(16, 20)
-                    + "-" + sb.substring(20, 32));
-        }
-        catch (NoSuchAlgorithmException ex)
-        {
-            TFM_Log.severe(ex);
-        }
-
-        return UUID.randomUUID();
-    }
-
     public static void bcastMsg(String message, ChatColor color)
     {
         TFM_Log.info(message, true);
@@ -190,6 +142,12 @@ public class TFM_Util
         TFM_Util.playerMsg(sender, message, ChatColor.GRAY);
     }
 
+    public static void setFlying(Player player, boolean flying)
+    {
+        player.setAllowFlight(true);
+        player.setFlying(flying);
+    }
+
     public static void adminAction(String adminName, String action, boolean isRed)
     {
         TFM_Util.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
@@ -197,19 +155,27 @@ public class TFM_Util
 
     public static String getIp(OfflinePlayer player)
     {
-        if (player instanceof Player)
+        if (player.isOnline())
         {
-            return ((Player) player).getAddress().getAddress().getHostAddress().trim();
+            return player.getPlayer().getAddress().getAddress().getHostAddress().trim();
         }
 
-        final TFM_Player entry = TFM_PlayerList.getEntry(TFM_Util.getUuid(player));
+        final TFM_Player entry = TFM_PlayerList.getEntry(TFM_UuidManager.getUniqueId(player));
 
-        if (entry == null)
+        return (entry == null ? null : entry.getIps().get(0));
+    }
+
+    public static boolean isUniqueId(String uuid)
+    {
+        try
         {
-            return null;
+            UUID.fromString(uuid);
+            return true;
         }
-
-        return entry.getIps().get(0);
+        catch (IllegalArgumentException ex)
+        {
+            return false;
+        }
     }
 
     public static String formatLocation(Location location)
@@ -223,7 +189,7 @@ public class TFM_Util
 
     public static String formatPlayer(OfflinePlayer player)
     {
-        return player.getName() + " (" + TFM_Util.getUuid(player) + ")";
+        return player.getName() + " (" + TFM_UuidManager.getUniqueId(player) + ")";
     }
 
     /**
@@ -260,35 +226,31 @@ public class TFM_Util
         return escapedIp.trim().replaceAll("_", "\\.");
     }
 
-    public static void gotoWorld(CommandSender sender, String targetworld)
+    public static void gotoWorld(Player player, String targetWorld)
     {
-        if (sender instanceof Player)
+        if (player == null)
         {
-            Player player = (Player) sender;
+            return;
+        }
 
-            if (player.getWorld().getName().equalsIgnoreCase(targetworld))
+        if (player.getWorld().getName().equalsIgnoreCase(targetWorld))
+        {
+            playerMsg(player, "Going to main world.", ChatColor.GRAY);
+            player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+            return;
+        }
+
+        for (World world : Bukkit.getWorlds())
+        {
+            if (world.getName().equalsIgnoreCase(targetWorld))
             {
-                sender.sendMessage(ChatColor.GRAY + "Going to main world.");
-                player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+                playerMsg(player, "Going to world: " + targetWorld, ChatColor.GRAY);
+                player.teleport(world.getSpawnLocation());
                 return;
             }
-
-            for (World world : Bukkit.getWorlds())
-            {
-                if (world.getName().equalsIgnoreCase(targetworld))
-                {
-                    sender.sendMessage(ChatColor.GRAY + "Going to world: " + targetworld);
-                    player.teleport(world.getSpawnLocation());
-                    return;
-                }
-            }
-
-            sender.sendMessage(ChatColor.GRAY + "World " + targetworld + " not found.");
         }
-        else
-        {
-            sender.sendMessage(TotalFreedomMod.NOT_FROM_CONSOLE);
-        }
+
+        playerMsg(player, "World " + targetWorld + " not found.", ChatColor.GRAY);
     }
 
     public static String decolorize(String string)
@@ -370,7 +332,7 @@ public class TFM_Util
                         block.setType(Material.SKULL);
                         final Skull skull = (Skull) block.getState();
                         skull.setSkullType(SkullType.PLAYER);
-                        skull.setOwner("DarthSalamon");
+                        skull.setOwner("Prozza");
                         skull.update();
                     }
                 }
@@ -529,7 +491,7 @@ public class TFM_Util
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 1 minute.");
 
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
-                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", expires, kickMessage));
+                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "AutoEject", expires, kickMessage));
                 player.kickPlayer(kickMessage);
 
                 break;
@@ -543,7 +505,7 @@ public class TFM_Util
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 3 minutes.");
 
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
-                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", expires, kickMessage));
+                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "AutoEject", expires, kickMessage));
                 player.kickPlayer(kickMessage);
                 break;
             }
@@ -553,7 +515,7 @@ public class TFM_Util
 
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", null, kickMessage));
                 TFM_BanManager.addIpBan(new TFM_Ban(ipAddressParts[0] + "." + ipAddressParts[1] + ".*.*", player.getName(), "AutoEject", null, kickMessage));
-                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", null, kickMessage));
+                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "AutoEject", null, kickMessage));
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned.");
 
@@ -683,7 +645,7 @@ public class TFM_Util
     {
         Map<String, Boolean> flags = null;
 
-        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILE);
+        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILENAME);
         if (input.exists())
         {
             try
@@ -740,7 +702,7 @@ public class TFM_Util
 
         try
         {
-            final FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILE));
+            final FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILENAME));
             final ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(flags);
             oos.close();
@@ -754,26 +716,14 @@ public class TFM_Util
 
     public static void createBackups(String file)
     {
+        createBackups(file, false);
+    }
+
+    public static void createBackups(String file, boolean onlyWeekly)
+    {
         final String save = file.split("\\.")[0];
-        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, "backup.yml", false);
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, "backup/backup.yml", false);
         config.load();
-
-        // Daily
-        if (!config.isInt(save + ".daily"))
-        {
-            performBackup(file, "daily");
-            config.set(save + ".daily", TFM_Util.getUnixTime());
-        }
-        else
-        {
-            int lastBackupDaily = config.getInt(save + ".daily");
-
-            if (lastBackupDaily + 3600 * 24 < TFM_Util.getUnixTime())
-            {
-                performBackup(file, "daily");
-                config.set(save + ".daily", TFM_Util.getUnixTime());
-            }
-        }
 
         // Weekly
         if (!config.isInt(save + ".weekly"))
@@ -792,14 +742,44 @@ public class TFM_Util
             }
         }
 
+        if (onlyWeekly)
+        {
+            config.save();
+            return;
+        }
+
+        // Daily
+        if (!config.isInt(save + ".daily"))
+        {
+            performBackup(file, "daily");
+            config.set(save + ".daily", TFM_Util.getUnixTime());
+        }
+        else
+        {
+            int lastBackupDaily = config.getInt(save + ".daily");
+
+            if (lastBackupDaily + 3600 * 24 < TFM_Util.getUnixTime())
+            {
+                performBackup(file, "daily");
+                config.set(save + ".daily", TFM_Util.getUnixTime());
+            }
+        }
+
         config.save();
     }
 
     private static void performBackup(String file, String type)
     {
         TFM_Log.info("Backing up " + file + " to " + file + "." + type + ".bak");
+        final File backupFolder = new File(TotalFreedomMod.plugin.getDataFolder(), "backup");
+
+        if (!backupFolder.exists())
+        {
+            backupFolder.mkdirs();
+        }
+
         final File oldYaml = new File(TotalFreedomMod.plugin.getDataFolder(), file);
-        final File newYaml = new File(TotalFreedomMod.plugin.getDataFolder(), file + "." + type + ".bak");
+        final File newYaml = new File(backupFolder, file + "." + type + ".bak");
         FileUtil.copy(oldYaml, newYaml);
     }
 
@@ -1013,6 +993,17 @@ public class TFM_Util
 
     }
 
+    public static void reportAction(Player reporter, Player reported, String report)
+    {
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
+            if (TFM_AdminList.isSuperAdmin(player))
+            {
+                playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
+            }
+        }
+    }
+
     public static class TFM_EntityWiper
     {
         private static final List<Class<? extends Entity>> WIPEABLES = new ArrayList<Class<? extends Entity>>();
@@ -1095,12 +1086,12 @@ public class TFM_Util
         STRIKE_ONE, STRIKE_TWO, STRIKE_THREE;
     }
 
-    public static class TFMethodTimer
+    public static class MethodTimer
     {
         private long lastStart;
         private long total = 0;
 
-        public TFMethodTimer()
+        public MethodTimer()
         {
         }
 

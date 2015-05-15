@@ -2,11 +2,10 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.Arrays;
 import java.util.List;
-import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -45,7 +44,7 @@ public class Command_tag extends TFM_Command
             {
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {
-                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                    playerMsg(TFM_Command.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -91,7 +90,7 @@ public class Command_tag extends TFM_Command
             {
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {
-                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                    playerMsg(TFM_Command.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -99,7 +98,7 @@ public class Command_tag extends TFM_Command
 
                 if (player == null)
                 {
-                    playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+                    playerMsg(TFM_Command.PLAYER_NOT_FOUND);
                     return true;
                 }
 
@@ -119,8 +118,7 @@ public class Command_tag extends TFM_Command
                         new String[]
                         {
                             "", ""
-                        }
-                )) + ChatColor.RESET;
+                        })) + ChatColor.RESET;
 
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {

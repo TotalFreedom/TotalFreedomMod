@@ -13,41 +13,6 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 public class TFM_ServerListener implements Listener
 {
-    // CommandBlockSetEvent does not exist in "vanilla" Bukkit/CraftBukkit.
-    // Comment this method out if you want to compile this without a custom CraftBukkit.
-    // Just make sure that enable-command-block=false in server.properties.
-    // -Madgeek
-    /* Temporary: Until we get a custom CB build out
-     @EventHandler(priority = EventPriority.NORMAL)
-     public void onCommandBlockSet(org.bukkit.event.server.CommandBlockSetEvent event)
-     {
-     Player player = event.getPlayer();
-     String newCommandRaw = event.getNewCommand();
-
-     if (!TFM_SuperadminList.isSeniorAdmin(player, true))
-     {
-     player.sendMessage(ChatColor.GRAY + "Only senior admins may set command block commands.");
-     event.setCancelled(true);
-     return;
-     }
-
-     Matcher matcher = Pattern.compile("^/?(\\S+)").matcher(newCommandRaw);
-     if (matcher.find())
-     {
-     String topLevelCommand = matcher.group(1);
-     if (topLevelCommand != null)
-     {
-     topLevelCommand = topLevelCommand.toLowerCase().trim();
-
-     // We need to make it look like the command is coming from the console, so keep the player's name without the Player instance via dummy:
-     if (TFM_CommandBlocker.getInstance().isCommandBlocked(topLevelCommand, new TFM_ServerListener_DummyCommandSender(player.getName()), false))
-     {
-     player.sendMessage(ChatColor.GRAY + "That command is blocked.");
-     event.setCancelled(true);
-     }
-     }
-     }
-     }*/
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onServerPing(ServerListPingEvent event)
     {
@@ -71,7 +36,7 @@ public class TFM_ServerListener implements Listener
             return;
         }
 
-        if (Bukkit.getOnlinePlayers().length >= Bukkit.getMaxPlayers())
+        if (Bukkit.getOnlinePlayers().size() >= Bukkit.getMaxPlayers())
         {
             event.setMotd(ChatColor.RED + "Server is full.");
             return;

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import net.minecraft.util.org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -43,7 +43,7 @@ public class TFM_Config extends YamlConfiguration // BukkitLib @ https://github.
      *
      * <p>Example:
      * <pre>
-     * YamlConfig config = new YamlConfig(this, new File(plugin.getDataFolder() + "/players", "DarthSalamon.yml"), false);
+     * YamlConfig config = new YamlConfig(this, new File(plugin.getDataFolder() + "/players", "Prozza.yml"), false);
      * config.load();
      * </pre></p>
      *
@@ -56,6 +56,16 @@ public class TFM_Config extends YamlConfiguration // BukkitLib @ https://github.
         this.plugin = plugin;
         this.configFile = file;
         this.copyDefaults = copyDefaults;
+    }
+
+    /**
+     * Validates if the configuration exists.
+     *
+     * @return True if the configuration exists.
+     */
+    public boolean exists()
+    {
+        return configFile.exists();
     }
 
     /**

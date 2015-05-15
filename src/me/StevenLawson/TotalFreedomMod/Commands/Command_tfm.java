@@ -33,7 +33,7 @@ public class Command_tfm extends TFM_Command
 
             if (!TFM_AdminList.isSuperAdmin(sender))
             {
-                playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                playerMsg(TFM_Command.MSG_NO_PERMS);
                 return true;
             }
 
@@ -64,7 +64,7 @@ public class Command_tfm extends TFM_Command
                 TotalFreedomMod.buildDate,
                 TotalFreedomMod.buildCreator), ChatColor.GOLD);
         playerMsg("Running on " + TFM_ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
-        playerMsg("Created by Madgeek1450 and DarthSalamon.", ChatColor.GOLD);
+        playerMsg("Created by Madgeek1450 and Prozza.", ChatColor.GOLD);
         playerMsg("Visit " + ChatColor.AQUA + "http://totalfreedom.me/" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
 
         return true;

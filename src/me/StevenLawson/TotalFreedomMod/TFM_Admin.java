@@ -3,9 +3,12 @@ package me.StevenLawson.TotalFreedomMod;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_MainConfig;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class TFM_Admin
@@ -20,15 +23,15 @@ public class TFM_Admin
     private Date lastLogin;
     private boolean isActivated;
 
-    public TFM_Admin(UUID uuid, String lastLoginName, Date lastLogin, String loginMessage, boolean isSeniorAdmin, boolean isTelnetAdmin, boolean isActivated)
+    public TFM_Admin(UUID uuid, String lastLoginName, Date lastLogin, String loginMessage, boolean isTelnetAdmin, boolean isSeniorAdmin, boolean isActivated)
     {
         this.uuid = uuid;
         this.lastLoginName = lastLoginName;
         this.ips = new ArrayList<String>();
         this.lastLogin = lastLogin;
         this.loginMessage = loginMessage;
-        this.isSeniorAdmin = isSeniorAdmin;
         this.isTelnetAdmin = isTelnetAdmin;
+        this.isSeniorAdmin = isSeniorAdmin;
         this.consoleAliases = new ArrayList<String>();
         this.isActivated = isActivated;
     }
@@ -44,6 +47,11 @@ public class TFM_Admin
         this.isTelnetAdmin = section.getBoolean("is_telnet_admin", false);
         this.consoleAliases = section.getStringList("console_aliases");
         this.isActivated = section.getBoolean("is_activated", true);
+
+        for (Iterator<?> it = TFM_MainConfig.getList(TFM_ConfigEntry.NOADMIN_IPS).iterator(); it.hasNext();)
+        {
+            ips.remove((String) it.next());
+        }
     }
 
     @Override
@@ -106,6 +114,11 @@ public class TFM_Admin
         {
             ips.remove(ip);
         }
+    }
+
+    public void clearIPs()
+    {
+        ips.clear();
     }
 
     public Date getLastLogin()

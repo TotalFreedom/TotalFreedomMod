@@ -1,8 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -23,7 +22,7 @@ public class Command_gcmd extends TFM_Command
 
         if (player == null)
         {
-            sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
+            sender.sendMessage(TFM_Command.PLAYER_NOT_FOUND);
             return true;
         }
 

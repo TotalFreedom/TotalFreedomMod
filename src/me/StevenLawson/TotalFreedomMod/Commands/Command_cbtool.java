@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
+import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -29,7 +30,7 @@ public class Command_cbtool extends TFM_Command
 
         if ("targetblock".equalsIgnoreCase(args[0]) && sender instanceof Player)
         {
-            Block targetBlock = me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator.getTargetBlock(sender_p, null, 100);
+            Block targetBlock = TFM_DepreciationAggregator.getTargetBlock(sender_p, null, 100);
             playerMsg("Your target block: " + targetBlock.getLocation().toString());
             return true;
         }

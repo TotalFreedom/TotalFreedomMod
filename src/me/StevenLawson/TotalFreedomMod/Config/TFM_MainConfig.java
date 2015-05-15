@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Config;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,29 +9,31 @@ import java.util.EnumMap;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import net.minecraft.util.org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class TFM_MainConfig
 {
-    public static final String CONFIG_FILENAME = "config.yml";
-    public static final File CONFIG_FILE = new File(TotalFreedomMod.plugin.getDataFolder(), CONFIG_FILENAME);
+    public static final File CONFIG_FILE = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.CONFIG_FILENAME);
     //
     private static final EnumMap<TFM_ConfigEntry, Object> ENTRY_MAP;
+    private static final TFM_Defaults DEFAULTS;
 
     static
     {
         ENTRY_MAP = new EnumMap<TFM_ConfigEntry, Object>(TFM_ConfigEntry.class);
+
+        TFM_Defaults tempDefaults = null;
         try
         {
             try
             {
                 InputStream defaultConfig = getDefaultConfig();
-                TFM_Config_DefaultsLoader defaultsLoader = new TFM_Config_DefaultsLoader(defaultConfig);
+                tempDefaults = new TFM_Defaults(defaultConfig);
                 for (TFM_ConfigEntry entry : TFM_ConfigEntry.values())
                 {
-                    ENTRY_MAP.put(entry, defaultsLoader.get(entry.getConfigName()));
+                    ENTRY_MAP.put(entry, tempDefaults.get(entry.getConfigName()));
                 }
                 defaultConfig.close();
             }
@@ -49,6 +50,8 @@ public class TFM_MainConfig
         {
             TFM_Log.severe(ex);
         }
+
+        DEFAULTS = tempDefaults;
     }
 
     private TFM_MainConfig()
@@ -56,7 +59,7 @@ public class TFM_MainConfig
         throw new AssertionError();
     }
 
-    public static final void load()
+    public static void load()
     {
         try
         {
@@ -261,14 +264,19 @@ public class TFM_MainConfig
 
     private static InputStream getDefaultConfig()
     {
-        return TotalFreedomMod.plugin.getResource(CONFIG_FILENAME);
+        return TotalFreedomMod.plugin.getResource(TotalFreedomMod.CONFIG_FILENAME);
     }
 
-    private static class TFM_Config_DefaultsLoader
+    public static TFM_Defaults getDefaults()
+    {
+        return DEFAULTS;
+    }
+
+    public static class TFM_Defaults
     {
         private YamlConfiguration defaults = null;
 
-        private TFM_Config_DefaultsLoader(InputStream defaultConfig)
+        private TFM_Defaults(InputStream defaultConfig)
         {
             try
             {

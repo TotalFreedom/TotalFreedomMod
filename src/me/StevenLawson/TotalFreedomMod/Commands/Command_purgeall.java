@@ -2,7 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -69,17 +68,8 @@ public class Command_purgeall extends TFM_Command
             }
         }
 
-        // Clear auto-unmute and auto-unfreeze tasks
-        if (TotalFreedomMod.mutePurgeTask != null)
-        {
-            TotalFreedomMod.mutePurgeTask.cancel();
-        }
-
-        TotalFreedomMod.allPlayersFrozen = false;
-        if (TotalFreedomMod.freezePurgeTask != null)
-        {
-            TotalFreedomMod.freezePurgeTask.cancel();
-        }
+        // Unfreeze all players
+        Command_fr.setAllFrozen(false);
 
         // Remove all mobs
         Command_mp.purgeMobs();

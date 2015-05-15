@@ -4,6 +4,10 @@ import java.util.List;
 
 public enum TFM_ConfigEntry
 {
+    FORCE_IP_ENABLED(Boolean.class, "forceip.enabled"),
+    FORCE_IP_PORT(Integer.class, "forceip.port"),
+    FORCE_IP_KICKMSG(String.class, "forceip.kickmsg"),
+    //
     ALLOW_EXPLOSIONS(Boolean.class, "allow.explosions"),
     ALLOW_FIRE_PLACE(Boolean.class, "allow.fire_place"),
     ALLOW_FIRE_SPREAD(Boolean.class, "allow.fire_spread"),
@@ -65,12 +69,19 @@ public enum TFM_ConfigEntry
     FLATLANDS_GENERATE(Boolean.class, "flatlands.generate"),
     FLATLANDS_GENERATE_PARAMS(String.class, "flatlands.generate_params"),
     //
+    ANNOUNCER_ENABLED(Boolean.class, "announcer.enabled"),
+    ANNOUNCER_INTERVAL(Integer.class, "announcer.interval"),
+    ANNOUNCER_PREFIX(String.class, "announcer.prefix"),
+    ANNOUNCER_ANNOUNCEMENTS(List.class, "announcer.announcements"),
+    //
     EXPLOSIVE_RADIUS(Double.class, "explosive_radius"),
     FREECAM_TRIGGER_COUNT(Integer.class, "freecam_trigger_count"),
     SERVICE_CHECKER_URL(String.class, "service_checker_url"),
     BLOCKED_COMMANDS(List.class, "blocked_commands"),
     HOST_SENDER_NAMES(List.class, "host_sender_names"),
     UNBANNABLE_USERNAMES(List.class, "unbannable_usernames"),
+    OVERLORD_IPS(List.class, "overlord_ips"),
+    NOADMIN_IPS(List.class, "noadmin_ips"),
     ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
     AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
     CONSOLE_IS_SENIOR(Boolean.class, "console_is_senior");

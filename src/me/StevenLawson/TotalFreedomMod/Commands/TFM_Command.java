@@ -1,8 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.Collection;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
-import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -13,6 +14,11 @@ import org.bukkit.entity.Player;
 
 public abstract class TFM_Command
 {
+    public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
+    public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
+    public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
+    public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
+    public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found!";
     protected TotalFreedomMod plugin;
     protected Server server;
     private CommandSender commandSender;
@@ -145,7 +151,7 @@ public abstract class TFM_Command
             return null;
         }
 
-        final Player[] players = server.getOnlinePlayers();
+        final Collection<? extends Player> players = server.getOnlinePlayers();
 
         // Check exact matches first.
         for (final Player player : players)

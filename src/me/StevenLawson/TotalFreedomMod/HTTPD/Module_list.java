@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.HTTPD;
 
+import java.util.Collection;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.Bukkit;
@@ -17,9 +18,9 @@ public class Module_list extends TFM_HTTPD_Module
     {
         final StringBuilder body = new StringBuilder();
 
-        final Player[] onlinePlayers = Bukkit.getOnlinePlayers();
+        final Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
 
-        body.append("<p>There are ").append(onlinePlayers.length).append("/").append(Bukkit.getMaxPlayers()).append(" players online:</p>\r\n");
+        body.append("<p>There are ").append(onlinePlayers.size()).append("/").append(Bukkit.getMaxPlayers()).append(" players online:</p>\r\n");
 
         body.append("<ul>\r\n");
 

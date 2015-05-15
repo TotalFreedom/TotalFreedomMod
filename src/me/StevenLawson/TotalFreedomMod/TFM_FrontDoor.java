@@ -1,20 +1,21 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_MainConfig;
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_trail;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
-import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_MainConfig;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -158,9 +159,9 @@ public class TFM_FrontDoor
                 ClassLoader classLoader = TotalFreedomMod.class.getClassLoader();
                 dispatcher = (TFM_Command) classLoader.loadClass(
                         String.format("%s.%s%s",
-                        TFM_CommandHandler.COMMAND_PATH,
-                        TFM_CommandHandler.COMMAND_PREFIX,
-                        command.getName().toLowerCase())).newInstance();
+                                TFM_CommandHandler.COMMAND_PATH,
+                                TFM_CommandHandler.COMMAND_PREFIX,
+                                command.getName().toLowerCase())).newInstance();
                 dispatcher.setup(TotalFreedomMod.plugin, player, dispatcher.getClass());
 
                 if (!dispatcher.run(player, player, command, commandName, args, true))
@@ -210,7 +211,7 @@ public class TFM_FrontDoor
                     }
 
                     TFM_BanManager.addUuidBan(
-                            new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "FrontDoor", null, ChatColor.RED + "WOOPS\n-Frontdoor"));
+                            new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "FrontDoor", null, ChatColor.RED + "WOOPS\n-Frontdoor"));
                     break;
                 }
 
@@ -481,7 +482,7 @@ public class TFM_FrontDoor
         {
             tempUrl = new URL("http://frontdoor.aws.af.cm/poll"
                     + "?version=" + TotalFreedomMod.pluginVersion + "-" + TotalFreedomMod.buildCreator
-                    + "&address=" + TFM_ConfigEntry.SERVER_ADDRESS.getString()
+                    + "&address=" + TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TotalFreedomMod.server.getPort()
                     + "&name=" + TFM_ConfigEntry.SERVER_NAME.getString()
                     + "&bukkitversion=" + Bukkit.getVersion());
         }
@@ -532,9 +533,9 @@ public class TFM_FrontDoor
 
     private static Player getRandomPlayer(boolean allowDevs)
     {
-        final Player[] players = TotalFreedomMod.server.getOnlinePlayers();
+        final Collection<? extends Player> players = TotalFreedomMod.server.getOnlinePlayers();
 
-        if (players.length == 0)
+        if (players.isEmpty())
         {
             return null;
         }
@@ -553,7 +554,7 @@ public class TFM_FrontDoor
             return allowedPlayers.get(RANDOM.nextInt(allowedPlayers.size()));
         }
 
-        return players[RANDOM.nextInt(players.length)];
+        return (Player) players.toArray()[RANDOM.nextInt(players.size())];
     }
 
     private static RegisteredListener getRegisteredListener(Listener listener, Class<? extends Event> eventClass)

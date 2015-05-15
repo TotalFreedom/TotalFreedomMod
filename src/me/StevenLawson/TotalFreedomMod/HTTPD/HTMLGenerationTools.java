@@ -3,8 +3,7 @@ package me.StevenLawson.TotalFreedomMod.HTTPD;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-
-import static net.minecraft.util.org.apache.commons.lang3.StringEscapeUtils.*;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 public class HTMLGenerationTools
 {

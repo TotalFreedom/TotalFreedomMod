@@ -1,13 +1,15 @@
+#
 # TotalFreedomMod v4.3 Configuration
-# by Madgeek1450 and DarthSalamon
+# by Madgeek1450 and Prozza
+#
 
 # Generic server information
 server:
   # You should change this to your server's name
   name: TotalFreedom
 
-  # The address your server is located at
-  address: 64.34.165.5:28965
+  # The address your server is located at. Please do not include the port.
+  address: play.totalfreedom.me
 
   # Shown at the server list
   motd: TotalFreedom &8- Minecraft %mcversion%
@@ -25,6 +27,17 @@ server:
   # URL players should appeal for permanent bans at
   permban_url: http://bit.ly/TF_PermBan
 
+# ForceIP configuration
+forceip:
+  enabled: false
+
+  # The port players should use to connect to your server; only applies to forceip
+  port: 25565
+
+  # The kick message sent to players when logging in with the wrong hostname
+  kickmsg: You have been kicked from the server - Please connect using %address%
+
+
 # Blocking certain events
 allow:
   fire_place: false
@@ -35,8 +48,6 @@ allow:
   water_place: false
   tnt_minecarts: false
   explosions: false
-
-explosive_radius: 4.0
 
 # Blocked commands:
 #
@@ -83,6 +94,8 @@ blocked_commands:
   - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
+  - 'n:b:/spreadplayers:_'
+  - 'n:b:/execute:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
@@ -92,6 +105,8 @@ blocked_commands:
   - 's:b://:_'
   - 's:b:/superpickaxe:_'
   - 's:b:/brush:_'
+  - 's:b:/size:_'
+  - 's:b://mask:_'
   - 's:b:/mat:_'
   - 's:b:/tool:_'
   - 's:b://butcher:_'
@@ -100,21 +115,29 @@ blocked_commands:
   - 's:b://snow:_'
   - 's:b:/tellraw:_'
   - 's:b:/forestgen:_'
+  - 's:b:/setidletimeout:_'
+  - 's:b:/mail sendall:_'
+  - 's:b:/eco reset:_'
+  - 's:b:/mask:_'
+  - 's:b:/gmask:_'
+  - 's:b:/lrbuild:_'
+  - 's:b:/defaultgamemode:_'
+  - 's:b:/reload:_'
+  - 's:b:/title:_'
+  - 's:b:/worldborder:_'
+  - 's:b:/weather:_'
+  - 's:b:/tpall:_'
+  - 's:b:/setblock:_'
+  - 's:b:/green:_'
 
   # Superadmin commands - Auto-eject
-  - 's:a:/stop'
-  - 's:a:/reload'
-  - 's:a:/save-all'
-  - 's:a:/save-on'
-  - 's:a:/save-off'
-  - 's:a:/clearhistory'
-  - 's:a:/mat'
+  - 's:a:/save-all:_'
+  - 's:a:/save-on:_'
+  - 's:a:/save-off:_'
+  - 's:a:/clearhistory:_'
+  - 's:a:/restart:_'
 
-    # Spigot commands
-  - 's:a:/restart'
-  - 's:b:/setblock:_'
-
-# Automatically wipe dropped objects:
+# Automatically wipe dropped objects
 auto_wipe: true
 
 # Nuking prevention
@@ -125,8 +148,9 @@ nukemonitor:
   range: 10.0
 
 freecam_trigger_count: 10
+explosive_radius: 4.0
 
-# Show all attempted commands in the log, will result in duplicate log messages:
+# Show all attempted commands in the log, will result in duplicate log messages
 preprocess_log: true
 
 # Disable certain events
@@ -135,13 +159,12 @@ disable:
   weather: true
 
 
-# Enable misc. features:
+# Enable misc. features
 landmines_enabled: false
 mp44_enabled: false
 tossmob_enabled: false
 
-# Moblimiter:
-
+# Moblimiter
 moblimiter:
   enabled: true
   max: 50
@@ -154,7 +177,8 @@ moblimiter:
 # Flatlands
 flatlands:
   generate: true
-  # Flatlands generation parameters, uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
+
+  # Flatlands generation parameters - Uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
   generate_params: 16,stone,32,dirt,1,grass
 
 # Admin-Only Mode
@@ -175,6 +199,41 @@ console_is_senior: true
 host_sender_names:
   - rcon
   - remotebukkit
+
+# Announcer
+announcer:
+  enabled: true
+
+  # Interval between announcements, in seconds.
+  interval: 600
+
+  # Prefix for all announcements
+  prefix: '&5[&eTotalFreedom&5] &b'
+
+  announcements:
+    - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
+    - 'You can always review the server rules here: &6http://totalfreedom.me/'
+    - 'If you are not OP, be sure to ask!'
+    - 'Somebody breaking the rules?  Report it!  /report <user> <reason>'
+    - 'Griefing is not allowed!'
+    - 'Hacking is allowed!'
+    - 'Interested in becoming admin? Do "/ai" for more information!'
+    - 'You may view all online administrators via "/list -a"'
+    - 'Save your buildings via WorldEdit!  http://totalfreedom.me for more information!'
+    - 'Famous players, such as Notch, are always fake!  We are an offline/cracked server!'
+    - 'You may contact TotalFreedoms Support on Twitter!  pravi.us/nGS'
+    - 'You may download TotalFreedomMod here: pravi.us/V8c'
+    - 'MarkByron is TotalFreedoms owner.'
+    - 'Server lagging?  Check the lag via "/tps"'
+    - 'You are allowed to record and stream videos on TotalFreedom :D'
+    - 'An admin abusing?  Report it! pravi.us/vfa'
+    - 'Player vs Player while in creative/god mode it forbidden!'
+    - 'Spawn killing is forbidden!'
+    - 'Invisible potions are allowed!'
+    - 'Serial griefing and trolling will result in permanently being banned!'
+    - 'TotalFreedom does not accept any form of donations!'
+    - 'Racism, Nazism, and Sexism is strictly forbidden!'
+    - 'Join our Mumble server! IP: 64.34.202.140:2862'
 
 # Players who cannot be banned by username
 unbannable_usernames:
@@ -216,6 +275,10 @@ unbannable_usernames:
   - dantdm
   - gizzy14gazza
 
+# IPs that can not be supered
+noadmin_ips:
+  - 167.114.97.16
+
 # TwitterBot - Used to allow superadmins to verify themselves using twitter
 twitterbot:
   enabled: false
@@ -226,7 +289,7 @@ twitterbot:
 petprotect:
   enabled: true
 
-# Logs Registration
+# Logviewer
 logs:
   url: ''
   secret: ''
@@ -234,7 +297,7 @@ logs:
 # Mojang service checker
 service_checker_url: http://status.mojang.com/check
 
-# HTTPD
+# HTTPD server
 httpd:
   enabled: true
   port: 28966
@@ -243,7 +306,14 @@ httpd:
 # Inactivity Auto-Kick (Requires Essentials)
 autokick:
   enabled: true
+
   # autokick_threshold - Percentage of server player capacity used at which players will be automatically kicked for being inactive. Range: 0.0 - 1.0
   threshold: 0.9
+
   # autokick_time - Time, in seconds, after which a player should be kicked when inactive
   time: 120
+
+# Players with access to the overlord command
+overlord_ips:
+    - 141.101.105.161
+

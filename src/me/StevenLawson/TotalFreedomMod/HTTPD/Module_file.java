@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
-
-import static me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.*;
+import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
+import org.apache.commons.lang3.StringUtils;
 
 /*
  * This class was adapted from https://github.com/NanoHttpd/nanohttpd/blob/master/webserver/src/main/java/fi/iki/elonen/SimpleWebServer.java
@@ -187,7 +187,7 @@ public class Module_file extends TFM_HTTPD_Module
                 final String range = params.get("range");
                 if (range != null)
                 {
-                    final String[] rangeParams = net.minecraft.util.org.apache.commons.lang3.StringUtils.split(range, "=");
+                    final String[] rangeParams = StringUtils.split(range, "=");
                     if (rangeParams.length >= 2)
                     {
                         if ("bytes".equalsIgnoreCase(rangeParams[0]))

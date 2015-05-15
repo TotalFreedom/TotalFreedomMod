@@ -17,8 +17,8 @@ public enum TFM_PlayerRank
     SENIOR("a " + ChatColor.LIGHT_PURPLE + "Senior Admin", ChatColor.LIGHT_PURPLE + "[SrA]"),
     OWNER("the " + ChatColor.BLUE + "Owner", ChatColor.BLUE + "[Owner]"),
     CONSOLE("The " + ChatColor.DARK_PURPLE + "Console", ChatColor.DARK_PURPLE + "[Console]");
-    private String loginMessage;
-    private String prefix;
+    private final String loginMessage;
+    private final String prefix;
 
     private TFM_PlayerRank(String loginMessage, String prefix)
     {
@@ -70,8 +70,7 @@ public enum TFM_PlayerRank
             return DEVELOPER;
         }
 
-
-        final TFM_Admin entry = TFM_AdminList.getEntry((Player) sender);
+        final TFM_Admin entry = TFM_AdminList.getEntryByIp(TFM_Util.getIp((Player) sender));
 
         final TFM_PlayerRank rank;
 

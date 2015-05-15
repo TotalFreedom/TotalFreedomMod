@@ -1,9 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -117,7 +116,7 @@ public class Command_adminworld extends TFM_Command
 
                             if (player == null)
                             {
-                                sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
+                                sender.sendMessage(TFM_Command.PLAYER_NOT_FOUND);
                                 return true;
                             }
 
@@ -216,7 +215,7 @@ public class Command_adminworld extends TFM_Command
     {
         if (!(sender instanceof Player) || sender_p == null || !TFM_AdminList.isSuperAdmin(sender))
         {
-            throw new PermissionDeniedException(TotalFreedomMod.MSG_NO_PERMS);
+            throw new PermissionDeniedException(TFM_Command.MSG_NO_PERMS);
         }
     }
 

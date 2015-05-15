@@ -25,6 +25,7 @@ import org.bukkit.generator.BlockPopulator;
 @SuppressWarnings("deprecation")
 public class CleanroomBlockPopulator extends BlockPopulator
 {
+
     byte[] layerDataValues;
 
     protected CleanroomBlockPopulator(byte[] layerDataValues)
@@ -32,6 +33,7 @@ public class CleanroomBlockPopulator extends BlockPopulator
         this.layerDataValues = layerDataValues;
     }
 
+    @Override
     public void populate(World world, Random random, Chunk chunk)
     {
         if (layerDataValues != null)

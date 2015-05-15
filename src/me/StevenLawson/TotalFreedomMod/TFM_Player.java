@@ -1,11 +1,9 @@
 package me.StevenLawson.TotalFreedomMod;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class TFM_Player
@@ -13,8 +11,8 @@ public class TFM_Player
     private final UUID uuid;
     private String firstJoinName;
     private String lastJoinName;
-    private long firstLoginUnix;
-    private long lastLoginUnix;
+    private long firstJoinUnix;
+    private long lastJoinUnix;
     private final List<String> ips;
 
     protected TFM_Player(UUID uuid, ConfigurationSection section)
@@ -24,8 +22,8 @@ public class TFM_Player
         this.firstJoinName = section.getString("firstjoinname");
         this.lastJoinName = section.getString("lastjoinname");
 
-        this.firstLoginUnix = section.getLong("firstjoinunix");
-        this.lastLoginUnix = section.getLong("lastjoinunix");
+        this.firstJoinUnix = section.getLong("firstjoinunix");
+        this.lastJoinUnix = section.getLong("lastjoinunix");
 
         this.ips.addAll(section.getStringList("ips"));
     }
@@ -37,8 +35,8 @@ public class TFM_Player
         this.firstJoinName = firstJoinName;
         this.lastJoinName = lastJoinName;
 
-        this.firstLoginUnix = firstJoinUnix;
-        this.lastLoginUnix = lastJoinUnix;
+        this.firstJoinUnix = firstJoinUnix;
+        this.lastJoinUnix = lastJoinUnix;
 
         this.ips.addAll(ips);
     }
@@ -87,22 +85,22 @@ public class TFM_Player
 
     public long getFirstLoginUnix()
     {
-        return firstLoginUnix;
+        return firstJoinUnix;
     }
 
     public void setFirstLoginUnix(long firstJoinUnix)
     {
-        this.firstLoginUnix = firstJoinUnix;
+        this.firstJoinUnix = firstJoinUnix;
     }
 
     public long getLastLoginUnix()
     {
-        return lastLoginUnix;
+        return lastJoinUnix;
     }
 
     public void setLastLoginUnix(long lastJoinUnix)
     {
-        this.lastLoginUnix = lastJoinUnix;
+        this.lastJoinUnix = lastJoinUnix;
     }
 
     public boolean addIp(String ip)
@@ -115,48 +113,17 @@ public class TFM_Player
         return false;
     }
 
-    public boolean isComplete()
+    public final boolean isComplete()
     {
         return firstJoinName != null
                 && lastJoinName != null
-                && firstLoginUnix != 0
-                && lastLoginUnix != 0
+                && firstJoinUnix != 0
+                && lastJoinUnix != 0
                 && !ips.isEmpty();
     }
 
     public void save()
     {
-        save(true);
-    }
-
-    public void save(boolean doConfigSave)
-    {
-        if (!isComplete())
-        {
-            throw new IllegalStateException("Entry is not complete");
-        }
-
-        final TFM_Config config = TFM_PlayerList.getConfig();
-        final ConfigurationSection section;
-
-        if (config.isConfigurationSection(uuid.toString()))
-        {
-            section = config.getConfigurationSection(uuid.toString());
-        }
-        else
-        {
-            section = config.createSection(uuid.toString());
-        }
-
-        section.set("firstjoinname", firstJoinName);
-        section.set("lastjoinname", lastJoinName);
-        section.set("firstjoinunix", firstLoginUnix);
-        section.set("lastjoinunix", lastLoginUnix);
-        section.set("ips", ips);
-
-        if (doConfigSave)
-        {
-            config.save();
-        }
+        TFM_PlayerList.save(this);
     }
 }

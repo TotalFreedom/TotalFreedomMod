@@ -27,13 +27,6 @@
  */
 package org.mcstats;
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.scheduler.BukkitTask;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,9 +46,16 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.scheduler.BukkitTask;
 
 public class Metrics
 {
+
     /**
      * The current revision number
      */
@@ -202,6 +202,7 @@ public class Metrics
             {
                 private boolean firstPost = true;
 
+                @Override
                 public void run()
                 {
                     try
@@ -359,10 +360,9 @@ public class Metrics
         boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if online mode is enabled
         String pluginVersion = description.getVersion();
         String serverVersion = Bukkit.getVersion();
-        int playersOnline = Bukkit.getServer().getOnlinePlayers().length;
+        int playersOnline = Bukkit.getServer().getOnlinePlayers().size();
 
         // END server software specific section -- all code below does not use any code outside of this class / Java
-
         // Construct the post data
         StringBuilder json = new StringBuilder(1024);
         json.append('{');
@@ -463,7 +463,6 @@ public class Metrics
         {
             connection = url.openConnection();
         }
-
 
         byte[] uncompressed = json.toString().getBytes();
         byte[] compressed = gzip(json.toString());
@@ -698,6 +697,7 @@ public class Metrics
      */
     public static class Graph
     {
+
         /**
          * The graph's name, alphanumeric and spaces only :) If it does not comply to the above when submitted, it is
          * rejected
@@ -784,6 +784,7 @@ public class Metrics
      */
     public static abstract class Plotter
     {
+
         /**
          * The plot's name
          */
@@ -851,4 +852,5 @@ public class Metrics
             return plotter.name.equals(name) && plotter.getValue() == getValue();
         }
     }
+
 }
