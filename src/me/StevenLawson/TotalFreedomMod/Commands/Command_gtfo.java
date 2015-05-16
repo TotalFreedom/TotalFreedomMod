@@ -98,7 +98,7 @@ public class Command_gtfo extends TFM_Command
         TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), sender.getName(), null, reason));
 
         // kick Player:
-        player.kickPlayer(ChatColor.RED + "You have been banned, GTFO!" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : "") + " - " + sender.getName());
+        player.kickPlayer(ChatColor.RED + "GTFO!" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : "") + " \nBanned by: " + sender.getName());
         return true;
     }
 }
