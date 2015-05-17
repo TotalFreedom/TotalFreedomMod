@@ -325,7 +325,7 @@ public class TFM_PlayerListener implements Listener
                                     {
                                         if (targetPosVec.distanceSquared(playerLocVec) < (RADIUS_HIT * RADIUS_HIT))
                                         {
-                                            target.setFlying(false);
+                                            TFM_Util.setFlying(player, false);
                                             target.setVelocity(targetPosVec.subtract(playerLocVec).normalize().multiply(STRENGTH));
                                             didHit = true;
                                         }
@@ -389,7 +389,7 @@ public class TFM_PlayerListener implements Listener
 
         if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen())
         {
-            player.setFlying(true);
+            TFM_Util.setFlying(player, true);
             event.setTo(playerdata.getFreezeLocation());
             return; // Don't process adminworld validation
         }
@@ -456,7 +456,7 @@ public class TFM_PlayerListener implements Listener
         // Freeze
         if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen())
         {
-            player.setFlying(true);
+            TFM_Util.setFlying(player, true);
             event.setTo(playerdata.getFreezeLocation());
         }
 
@@ -654,7 +654,7 @@ public class TFM_PlayerListener implements Listener
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
         String command = event.getMessage();
@@ -710,7 +710,7 @@ public class TFM_PlayerListener implements Listener
         }
 
         // Blocked commands
-        if (TFM_CommandBlocker.isCommandBlocked(command, event.getPlayer(), true))
+        if (TFM_CommandBlocker.isCommandBlocked(command, player, true))
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
@@ -855,24 +855,26 @@ public class TFM_PlayerListener implements Listener
         }
         else if (TFM_AdminList.isSuperAdmin(player))
         {
-            if (TFM_AdminList.isTelnetAdmin(player, true))
+            if (TFM_ConfigEntry.SERVER_OWNERS.getList().contains(name))
             {
-                name = ChatColor.DARK_GREEN + name;
-                TFM_PlayerData.getPlayerData(player).setTag("&8[&2Telnet Admin&8]");
+                name = ChatColor.BLUE + name;
+                TFM_PlayerData.getPlayerData(player).setTag("&8[&9Owner&8]");
             }
             else if (TFM_AdminList.isSeniorAdmin(player))
             {
                 name = ChatColor.LIGHT_PURPLE + name;
                 TFM_PlayerData.getPlayerData(player).setTag("&8[&dSenior Admin&8]");
             }
-            else if (TFM_ConfigEntry.SERVER_OWNERS.getList().contains(name))
+            else if (TFM_AdminList.isTelnetAdmin(player, true))
             {
-                name = ChatColor.BLUE + name;
-                TFM_PlayerData.getPlayerData(player).setTag("&8[&9Owner&8]");
+                name = ChatColor.DARK_GREEN + name;
+                TFM_PlayerData.getPlayerData(player).setTag("&8[&2Telnet Admin&8]");
             }
-
-            name = ChatColor.AQUA + name;
-            TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
+            else
+            {
+                name = ChatColor.AQUA + name;
+                TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
+            }
         }
 
         try
@@ -898,7 +900,7 @@ public class TFM_PlayerListener implements Listener
                     TFM_Util.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
                 }
             }
-        }.runTaskLater(TotalFreedomMod.plugin, 20L * 3L);
+        }.runTaskLater(TotalFreedomMod.plugin, 20L * 1L);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

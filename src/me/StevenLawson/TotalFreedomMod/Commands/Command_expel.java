@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -67,7 +68,7 @@ public class Command_expel extends TFM_Command
             if (inRange)
             {
                 player.getWorld().createExplosion(targetPos, 0.0f, false);
-                player.setFlying(false);
+                TFM_Util.setFlying(player, false);
                 player.setVelocity(targetPosVec.subtract(senderPos).normalize().multiply(strength));
                 pushedPlayers.add(player.getName());
             }

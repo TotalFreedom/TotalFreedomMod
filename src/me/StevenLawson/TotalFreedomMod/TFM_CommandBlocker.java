@@ -120,7 +120,8 @@ public class TFM_CommandBlocker
             return true;
         }
 
-        if (command.startsWith("/")) {
+        if (command.startsWith("/"))
+        {
             command = command.substring(1);
         }
 
@@ -131,7 +132,7 @@ public class TFM_CommandBlocker
             subCommand = StringUtils.join(commandParts, " ", 1, commandParts.length).toLowerCase();
         }
 
-        final CommandBlockerEntry entry = BLOCKED_COMMANDS.get(command);
+        final CommandBlockerEntry entry = BLOCKED_COMMANDS.get(commandParts[0]);
 
         if (entry == null)
         {
@@ -157,7 +158,6 @@ public class TFM_CommandBlocker
         }
 
         return true;
-
     }
 
     public static enum CommandBlockerRank
@@ -190,27 +190,27 @@ public class TFM_CommandBlocker
 
         public static CommandBlockerRank fromSender(CommandSender sender)
         {
-            if (!TFM_AdminList.isSuperAdmin(sender))
-            {
-                if (sender.isOp())
-                {
-                    return OP;
-                }
-
-                return ANYONE;
-            }
-
-            if (TFM_AdminList.isSeniorAdmin(sender))
-            {
-                return SENIOR;
-            }
-
             if (!(sender instanceof Player))
             {
                 return TELNET;
             }
 
-            return SUPER;
+            if (TFM_AdminList.isSuperAdmin(sender))
+            {
+                if (TFM_AdminList.isSeniorAdmin(sender))
+                {
+                    return SENIOR;
+                }
+                return SUPER;
+            }
+
+            if (sender.isOp())
+            {
+                return OP;
+            }
+
+            return ANYONE;
+
         }
 
         public static CommandBlockerRank fromToken(String token)

@@ -25,6 +25,7 @@ import org.bukkit.generator.BlockPopulator;
 @SuppressWarnings("deprecation")
 public class CleanroomBlockPopulator extends BlockPopulator
 {
+
     byte[] layerDataValues;
 
     protected CleanroomBlockPopulator(byte[] layerDataValues)
