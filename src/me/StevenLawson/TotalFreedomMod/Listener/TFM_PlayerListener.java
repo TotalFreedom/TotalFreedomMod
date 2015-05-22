@@ -386,12 +386,10 @@ public class TFM_PlayerListener implements Listener
     {
         final Player player = event.getPlayer();
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-        
         // Check absolute value to account for negatives
         if(Math.abs(event.getTo().getX()) >= 30000000 || Math.abs(event.getTo().getZ()) >= 30000000)
         {
-            // Player teleported to illegal position, cancel it
-            event.setCancelled(true);
+            event.setCancelled(true); // illegal position, cancel it
         }
 
         if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen())
@@ -792,15 +790,11 @@ public class TFM_PlayerListener implements Listener
         final TFM_Player playerEntry;
         
         TFM_Log.info("[JOIN] " + TFM_Util.formatPlayer(player) + " joined the game with IP address: " + ip, true);
-        // Get the spawn location
-        Location spawnLocation = player.getWorld().getSpawnLocation();
         // Check absolute value to account for negatives
         if(Math.abs(player.getLocation().getX()) >= 30000000 || Math.abs(player.getLocation().getZ()) >= 30000000)
         {
-            // Illegal position, teleport to spawn
-            player.teleport(spawnLocation);
+            player.teleport(player.getWorld().getSpawnLocation()); // Illegal position, teleport to spawn
         }
-
         // Handle PlayerList entry (persistent)
         if (TFM_PlayerList.existsEntry(player))
         {
