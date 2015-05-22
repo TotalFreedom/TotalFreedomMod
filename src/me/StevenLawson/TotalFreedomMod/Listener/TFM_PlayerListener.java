@@ -788,7 +788,6 @@ public class TFM_PlayerListener implements Listener
         final Player player = event.getPlayer();
         final String ip = TFM_Util.getIp(player);
         final TFM_Player playerEntry;
-        
         TFM_Log.info("[JOIN] " + TFM_Util.formatPlayer(player) + " joined the game with IP address: " + ip, true);
         // Check absolute value to account for negatives
         if(Math.abs(player.getLocation().getX()) >= 30000000 || Math.abs(player.getLocation().getZ()) >= 30000000)
