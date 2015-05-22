@@ -71,7 +71,7 @@ public class TFM_ServerInterface
         final UUID uuid = TFM_UuidManager.newPlayer(player, ip);
 
         // Perform username checks
-        if (username.length() < 3 || username.length() > TotalFreedomMod.MAX_USERNAME_LENGTH)
+        if (username.length() < 2 || username.length() > TotalFreedomMod.MAX_USERNAME_LENGTH)
         {
             event.disallow(Result.KICK_OTHER, "Your username is an invalid length (must be between 3 and 20 characters long).");
             return;
