@@ -387,15 +387,8 @@ public class TFM_PlayerListener implements Listener
         final Player player = event.getPlayer();
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
         
-        final Player player = event.getPlayer();
-        final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-        
-        // Get coordinates of where the player is teleporting to
-        double teleportX = event.getTo().getX();
-        double teleportZ = event.getTo().getZ();
-        
         // Check absolute value to account for negatives
-        if(Math.abs(teleportX) >= 30000000 || Math.abs(teleportZ) >= 30000000)
+        if(Math.abs(event.getTo().getX()) >= 30000000 || Math.abs(event.getTo().getZ()) >= 30000000)
         {
             // Player teleported to illegal position, cancel it
             event.setCancelled(true);
@@ -794,22 +787,15 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-
         final Player player = event.getPlayer();
         final String ip = TFM_Util.getIp(player);
         final TFM_Player playerEntry;
         
         TFM_Log.info("[JOIN] " + TFM_Util.formatPlayer(player) + " joined the game with IP address: " + ip, true);
-
-        // Get coordinates of player
-        double playerX = player.getLocation().getX();
-        double playerZ = player.getLocation().getZ();
-        
         // Get the spawn location
         Location spawnLocation = player.getWorld().getSpawnLocation();
-        
         // Check absolute value to account for negatives
-        if(Math.abs(playerX) >= 30000000 || Math.abs(playerZ) >= 30000000)
+        if(Math.abs(player.getLocation().getX()) >= 30000000 || Math.abs(player.getLocation().getZ()) >= 30000000)
         {
             // Illegal position, teleport to spawn
             player.teleport(spawnLocation);
