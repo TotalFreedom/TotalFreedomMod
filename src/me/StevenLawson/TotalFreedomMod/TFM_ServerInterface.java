@@ -73,7 +73,7 @@ public class TFM_ServerInterface
         // Perform username checks
         if (username.length() < 2 || username.length() > TotalFreedomMod.MAX_USERNAME_LENGTH)
         {
-            event.disallow(Result.KICK_OTHER, "Your username is an invalid length (must be between 3 and 20 characters long).");
+            event.disallow(Result.KICK_OTHER, "Your username is an invalid length (must be between 2 and 20 characters long).");
             return;
         }
 
