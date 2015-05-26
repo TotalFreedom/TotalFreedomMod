@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
 @CommandParameters( description = "Request help", usage = "/<command>", aliases = "ineedhelp") {
 
     @Override
