@@ -1,5 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,10 +19,10 @@ public class Command_nightvision extends TFM_Command {
 		if (commandLabel.equalsIgnoreCase("nightvision")) {
 			if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
 				player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-				player.sendMessage("NightVision Disabled!");
+				player.sendMessage(ChatColor.RED + "NightVision Disabled!");
 
 			} else {
-				player.sendMessage("Nightvision Enabled");
+				player.sendMessage(ChatColor.AQUA + "Nightvision Enabled");
 				player.addPotionEffect(new PotionEffect(
 						PotionEffectType.NIGHT_VISION, 9999999, 1));
 				return false;
