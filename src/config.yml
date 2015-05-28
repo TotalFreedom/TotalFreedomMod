@@ -96,6 +96,8 @@ blocked_commands:
   - 'n:b:/enderchest:_'
   - 'n:b:/spreadplayers:_'
   - 'n:b:/execute:_'
+  - 'n:b:/jail:_'
+  - 'n:b:/unjail:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
