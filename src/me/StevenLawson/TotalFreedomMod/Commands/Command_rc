@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,7 +19,9 @@ public class Command_rc extends TFM_Command
         for(World world : server.getWorlds())
             numChunks += unloadUnusedChunks(world);
         TFM_Util.adminAction(sender.getName(), "unloading unused chunks.", true);
-        sender_p.sendMessage(numChunks + " chunks unloaded.");
+        if(!senderIsConsole)
+            sender_p.sendMessage(numChunks + " chunks unloaded.");
+        TFM_Log.info(numChunks + " chunks unloaded.");
         return true;
     }
     
