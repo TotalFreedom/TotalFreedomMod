@@ -133,8 +133,7 @@ blocked_commands:
   - 's:b:/setblock:_'
   - 's:b:/green:_'
   - 'n:b:/gamerule:_'
-  - 'n:b:/jail:_'
-  - 'n:b:/unjail:_'
+  - 'n:b:/togglejail:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
