@@ -406,7 +406,7 @@ public class TFM_AdminList
 
     public static boolean isSuperAdminSafe(UUID uuid, String ip)
     {
-        if (TotalFreedomMod.server.getOnlineMode())
+        if (TotalFreedomMod.server.getOnlineMode() && uuid != null)
         {
             return TFM_AdminList.getSuperUUIDs().contains(uuid);
         }
