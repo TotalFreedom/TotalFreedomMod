@@ -7,12 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-/**
- *
- * @author Will
- */
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Enables/Disables nightvision.", usage = "/<command>",  aliases = "nv")
+@CommandParameters(description = "Enables/Disables nightvision.", usage = "/<command>")
 public class Command_nightvision extends TFM_Command {
 
     @Override
@@ -22,10 +18,10 @@ public class Command_nightvision extends TFM_Command {
 		if (commandLabel.equalsIgnoreCase("nightvision")) {
 			if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
 				player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-				player.sendMessage(ChatColor.RED + "Night vision Disabled!");
+				player.sendMessage(ChatColor.GRAY + "Night vision Disabled!");
 
 			} else {
-				player.sendMessage(ChatColor.AQUA + "Night vision Enabled");
+				player.sendMessage(ChatColor.GRAY + "Night vision Enabled");
 				player.addPotionEffect(new PotionEffect(
 						PotionEffectType.NIGHT_VISION, 9999999, 1));
 				return false;
