@@ -112,11 +112,11 @@ public class TFM_ServerInterface
         // Check force-IP match
         if (TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean())
         {
-            final String hostname = event.getHostname().replace("FML", ""); // Forge fix - https://github.com/TotalFreedom/TotalFreedomMod/issues/493
-            final String connectAddress = TFM_ConfigEntry.SERVER_ADDRESS.getString();
+            final String hostname = event.getHostname().toLowerCase();
+            final String connectAddress = TFM_ConfigEntry.SERVER_ADDRESS.getString().toLowerCase();
             final int connectPort = TotalFreedomMod.server.getPort();
 
-            if (!hostname.equalsIgnoreCase(connectAddress + ":" + connectPort) && !hostname.equalsIgnoreCase(connectAddress + ".:" + connectPort))
+            if (!hostname.contains(connectAddress + ":" + connectPort) && !hostname.equalsIgnoreCase(connectAddress + ".:" + connectPort))
             {
                 final int forceIpPort = TFM_ConfigEntry.FORCE_IP_PORT.getInteger();
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
