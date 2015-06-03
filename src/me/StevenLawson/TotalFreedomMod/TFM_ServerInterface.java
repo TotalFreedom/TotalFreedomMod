@@ -112,7 +112,7 @@ public class TFM_ServerInterface
         // Check force-IP match
         if (TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean())
         {
-            final String hostname = event.getHostname().replace("FML", null); // Forge fix - https://github.com/TotalFreedom/TotalFreedomMod/issues/493
+            final String hostname = event.getHostname().replace("FML", "").replace("\u0000", ""); // Forge fix - https://github.com/TotalFreedom/TotalFreedomMod/issues/493
             final String connectAddress = TFM_ConfigEntry.SERVER_ADDRESS.getString();
             final int connectPort = TotalFreedomMod.server.getPort();
 
