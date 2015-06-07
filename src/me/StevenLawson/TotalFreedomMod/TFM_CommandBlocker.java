@@ -102,7 +102,7 @@ public class TFM_CommandBlocker
 
     public static boolean isCommandBlocked(String command, CommandSender sender)
     {
-        return isCommandBlocked(command, sender, true);
+        return isCommandBlocked(command, sender, false);
     }
 
     public static boolean isCommandBlocked(String command, CommandSender sender, boolean doAction)
@@ -112,21 +112,27 @@ public class TFM_CommandBlocker
             return false;
         }
 
-        if (command.contains(":"))
+        command = command.toLowerCase().trim();
+
+        if (command.split(" ")[0].contains(":"))
         {
             TFM_Util.playerMsg(sender, "Plugin-specific commands are disabled.");
             return true;
+        }
+
+        if (command.startsWith("/"))
+        {
+            command = command.substring(1);
         }
 
         final String[] commandParts = command.split(" ");
         String subCommand = null;
         if (commandParts.length > 1)
         {
-            command = commandParts[0].substring(1);
             subCommand = StringUtils.join(commandParts, " ", 1, commandParts.length).toLowerCase();
         }
 
-        final CommandBlockerEntry entry = BLOCKED_COMMANDS.get(command);
+        final CommandBlockerEntry entry = BLOCKED_COMMANDS.get(commandParts[0]);
 
         if (entry == null)
         {
@@ -152,7 +158,6 @@ public class TFM_CommandBlocker
         }
 
         return true;
-
     }
 
     public static enum CommandBlockerRank
@@ -185,27 +190,27 @@ public class TFM_CommandBlocker
 
         public static CommandBlockerRank fromSender(CommandSender sender)
         {
-            if (!TFM_AdminList.isSuperAdmin(sender))
-            {
-                if (sender.isOp())
-                {
-                    return OP;
-                }
-
-                return ANYONE;
-            }
-
-            if (TFM_AdminList.isSeniorAdmin(sender))
-            {
-                return SENIOR;
-            }
-
             if (!(sender instanceof Player))
             {
                 return TELNET;
             }
 
-            return SUPER;
+            if (TFM_AdminList.isSuperAdmin(sender))
+            {
+                if (TFM_AdminList.isSeniorAdmin(sender))
+                {
+                    return SENIOR;
+                }
+                return SUPER;
+            }
+
+            if (sender.isOp())
+            {
+                return OP;
+            }
+
+            return ANYONE;
+
         }
 
         public static CommandBlockerRank fromToken(String token)
