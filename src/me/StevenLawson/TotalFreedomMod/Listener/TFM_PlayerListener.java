@@ -45,6 +45,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -63,6 +64,7 @@ public class TFM_PlayerListener implements Listener
     public static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
     public static final int MSG_PER_HEARTBEAT = 10;
     public static final int DEFAULT_PORT = 25565;
+    public static final int MAX_XY_COORD = 30000000;
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -386,6 +388,11 @@ public class TFM_PlayerListener implements Listener
     {
         final Player player = event.getPlayer();
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+        // Check absolute value to account for negatives
+        if (Math.abs(event.getTo().getX()) >= MAX_XY_COORD || Math.abs(event.getTo().getZ()) >= MAX_XY_COORD)
+        {
+            event.setCancelled(true); // illegal position, cancel it
+        }
 
         if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen())
         {
@@ -780,13 +787,15 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-
         final Player player = event.getPlayer();
         final String ip = TFM_Util.getIp(player);
         final TFM_Player playerEntry;
-
         TFM_Log.info("[JOIN] " + TFM_Util.formatPlayer(player) + " joined the game with IP address: " + ip, true);
-
+        // Check absolute value to account for negatives
+        if (Math.abs(player.getLocation().getX()) >= MAX_XY_COORD || Math.abs(player.getLocation().getZ()) >= MAX_XY_COORD)
+        {
+            player.teleport(player.getWorld().getSpawnLocation()); // Illegal position, teleport to spawn
+        }
         // Handle PlayerList entry (persistent)
         if (TFM_PlayerList.existsEntry(player))
         {
@@ -904,25 +913,14 @@ public class TFM_PlayerListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event)
+    {
+        TFM_ServerInterface.handlePlayerPreLogin(event);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLogin(PlayerLoginEvent event)
     {
-        if (TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean())
-        {
-            final String hostname = event.getHostname().replace("FML", ""); // Forge fix - https://github.com/TotalFreedom/TotalFreedomMod/issues/493
-            final String connectAddress = TFM_ConfigEntry.SERVER_ADDRESS.getString();
-            final int connectPort = TotalFreedomMod.server.getPort();
-
-            if (!hostname.equalsIgnoreCase(connectAddress + ":" + connectPort) && !hostname.equalsIgnoreCase(connectAddress + ".:" + connectPort))
-            {
-                final int forceIpPort = TFM_ConfigEntry.FORCE_IP_PORT.getInteger();
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
-                        TFM_ConfigEntry.FORCE_IP_KICKMSG.getString()
-                        .replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString() + (forceIpPort == DEFAULT_PORT ? "" : ":" + forceIpPort)));
-                return;
-            }
-
-        }
-
         TFM_ServerInterface.handlePlayerLogin(event);
     }
 }

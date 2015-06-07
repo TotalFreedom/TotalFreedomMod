@@ -57,6 +57,12 @@ public class Command_saconfig extends TFM_Command
             {
                 final TFM_Admin admin = TFM_AdminList.getEntry(sender_p);
 
+                if (admin == null)
+                {
+                    playerMsg("Could not find your admin entry! Please notify a developer.", ChatColor.RED);
+                    return true;
+                }
+
                 final String ip = TFM_Util.getIp(sender_p);
 
                 if (args.length == 1)

@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import static me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener.DEFAULT_PORT;
 import net.minecraft.server.v1_8_R2.EntityPlayer;
 import net.minecraft.server.v1_8_R2.MinecraftServer;
 import net.minecraft.server.v1_8_R2.PropertyManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 
@@ -62,6 +64,29 @@ public class TFM_ServerInterface
         return MinecraftServer.getServer().getVersion();
     }
 
+    public static void handlePlayerPreLogin(AsyncPlayerPreLoginEvent event)
+    {
+        final String ip = event.getAddress().getHostAddress().trim();
+        final boolean isAdmin = TFM_AdminList.isSuperAdminSafe(null, ip);
+
+        // Check if the player is already online
+        for (Player onlinePlayer : TotalFreedomMod.server.getOnlinePlayers())
+        {
+            if (!onlinePlayer.getName().equalsIgnoreCase(event.getName()))
+            {
+                continue;
+            }
+
+            if (!isAdmin) {
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Your username is already logged into this server.");
+            } else {
+                event.allow();
+                TFM_Sync.playerKick(onlinePlayer, "An admin just logged in with the username you are using.");
+            }
+            return;
+        }
+    }
+
     public static void handlePlayerLogin(PlayerLoginEvent event)
     {
         final Server server = TotalFreedomMod.server;
@@ -70,17 +95,36 @@ public class TFM_ServerInterface
         final String ip = event.getAddress().getHostAddress().trim();
         final UUID uuid = TFM_UuidManager.newPlayer(player, ip);
 
-        // Perform username checks
+        // Check username length
         if (username.length() < 3 || username.length() > TotalFreedomMod.MAX_USERNAME_LENGTH)
         {
             event.disallow(Result.KICK_OTHER, "Your username is an invalid length (must be between 3 and 20 characters long).");
             return;
         }
 
+        // Check username characters
         if (!USERNAME_REGEX.matcher(username).find())
         {
             event.disallow(Result.KICK_OTHER, "Your username contains invalid characters.");
             return;
+        }
+
+        // Check force-IP match
+        if (TFM_ConfigEntry.FORCE_IP_ENABLED.getBoolean())
+        {
+            final String hostname = event.getHostname().replace("FML", ""); // Forge fix - https://github.com/TotalFreedom/TotalFreedomMod/issues/493
+            final String connectAddress = TFM_ConfigEntry.SERVER_ADDRESS.getString();
+            final int connectPort = TotalFreedomMod.server.getPort();
+
+            if (!hostname.equalsIgnoreCase(connectAddress + ":" + connectPort) && !hostname.equalsIgnoreCase(connectAddress + ".:" + connectPort))
+            {
+                final int forceIpPort = TFM_ConfigEntry.FORCE_IP_PORT.getInteger();
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
+                        TFM_ConfigEntry.FORCE_IP_KICKMSG.getString()
+                        .replace("%address%", TFM_ConfigEntry.SERVER_ADDRESS.getString() + (forceIpPort == DEFAULT_PORT ? "" : ":" + forceIpPort)));
+                return;
+            }
+
         }
 
         // Check if player is admin
@@ -92,15 +136,6 @@ public class TFM_ServerInterface
         {
             // Force-allow log in
             event.allow();
-
-            // Kick players with the same name
-            for (Player onlinePlayer : server.getOnlinePlayers())
-            {
-                if (onlinePlayer.getName().equalsIgnoreCase(username))
-                {
-                    onlinePlayer.kickPlayer("An admin just logged in with the username you are using.");
-                }
-            }
 
             int count = server.getOnlinePlayers().size();
             if (count >= server.getMaxPlayers())
@@ -149,16 +184,6 @@ public class TFM_ServerInterface
         {
             event.disallow(Result.KICK_OTHER, "Server is currently in lockdown mode.");
             return;
-        }
-
-        // Username already logged in
-        for (Player onlinePlayer : server.getOnlinePlayers())
-        {
-            if (onlinePlayer.getName().equalsIgnoreCase(username))
-            {
-                event.disallow(Result.KICK_OTHER, "Your username is already logged into this server.");
-                return;
-            }
         }
 
         // Whitelist

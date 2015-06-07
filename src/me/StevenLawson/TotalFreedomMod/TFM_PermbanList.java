@@ -7,6 +7,7 @@ import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 
 public class TFM_PermbanList
 {
+
     private static final List<String> PERMBANNED_PLAYERS;
     private static final List<String> PERMBANNED_IPS;
 

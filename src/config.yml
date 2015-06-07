@@ -86,7 +86,6 @@ blocked_commands:
   # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
-  - 'n:b:/gamerule:_'
   - 'n:b:/ban:_'
   - 'n:b:/pardon:_'
   - 'n:b:/ban-ip:_'
@@ -96,6 +95,11 @@ blocked_commands:
   - 'n:b:/enderchest:_'
   - 'n:b:/spreadplayers:_'
   - 'n:b:/execute:_'
+  - 'n:b:/blockdata:_'
+  - 'n:b:/clearhistory:_'
+  - 'n:b:/save-all:_'
+  - 'n:b:/save-on:_'
+  - 'n:b:/save-off:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
@@ -108,7 +112,6 @@ blocked_commands:
   - 's:b:/size:_'
   - 's:b://mask:_'
   - 's:b:/mat:_'
-  - 's:b:/tool:_'
   - 's:b://butcher:_'
   - 's:b:/scoreboard:_'
   - 's:b:/setspawn:_'
@@ -127,14 +130,14 @@ blocked_commands:
   - 's:b:/worldborder:_'
   - 's:b:/weather:_'
   - 's:b:/tpall:_'
-  - 's:a:/restart:_'
   - 's:b:/setblock:_'
+  - 's:b:/green:_'
+  - 'n:b:/gamerule:_'
+  - 'n:b:/togglejail:_'
 
   # Superadmin commands - Auto-eject
-  - 's:a:/save-all:_'
-  - 's:a:/save-on:_'
-  - 's:a:/save-off:_'
-  - 's:a:/clearhistory:_'
+  - 's:a:/stop:_'
+  - 's:a:/restart:_'
 
 # Automatically wipe dropped objects
 auto_wipe: true
