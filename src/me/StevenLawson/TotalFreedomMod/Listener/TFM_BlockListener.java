@@ -91,7 +91,7 @@ public class TFM_BlockListener implements Listener
                 if (playerdata.incrementAndGetBlockDestroyCount() > TFM_ConfigEntry.NUKE_MONITOR_COUNT_BREAK.getInteger())
                 {
                     TFM_Util.bcastMsg(player.getName() + " is breaking blocks too fast!", ChatColor.RED);
-                    TFM_Util.autoEject(player, "You are breaking blocks too fast. Nukers are not permitted on this server.");
+                    TFM_Util.autoEject(player, "You were breaking blocks too fast. Nuker is not permitted on this server.");
 
                     playerdata.resetBlockDestroyCount();
 
@@ -161,7 +161,7 @@ public class TFM_BlockListener implements Listener
                 if (playerdata.incrementAndGetBlockPlaceCount() > TFM_ConfigEntry.NUKE_MONITOR_COUNT_PLACE.getInteger())
                 {
                     TFM_Util.bcastMsg(player.getName() + " is placing blocks too fast!", ChatColor.RED);
-                    TFM_Util.autoEject(player, "You are placing blocks too fast.");
+                    TFM_Util.autoEject(player, "You were placing blocks too fast.");
 
                     playerdata.resetBlockPlaceCount();
 
