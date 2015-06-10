@@ -175,6 +175,14 @@ public class TFM_PlayerListener implements Listener
                         event.setCancelled(true);
                         break;
                     }
+                    
+                    case SIGN:
+                    {
+                        if (TFM_AdminList.isSuperAdmin(player, false)
+                        player.sendMessage(ChatColor.GRAY + "Signs are currently disabled for non-admins")
+                        event.setCancelled(true);
+                        break;
+                    }
 
                     case SULPHUR:
                     {
