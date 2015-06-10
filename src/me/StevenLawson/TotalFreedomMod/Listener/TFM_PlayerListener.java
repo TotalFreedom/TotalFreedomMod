@@ -175,6 +175,17 @@ public class TFM_PlayerListener implements Listener
                         event.setCancelled(true);
                         break;
                     }
+                    
+                    case SIGN:
+                    {
+                        if (TFM_AdminList.isSuperAdmin(player)) {
+                        event.setCancelled(false);    
+                        }
+                        else {
+                        event.setCancelled(true);
+                        }
+                        break;
+                    }
 
                     case SULPHUR:
                     {
