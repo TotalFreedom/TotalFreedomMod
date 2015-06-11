@@ -20,7 +20,7 @@ public class Command_kicknoob extends TFM_Command
         {
             if (!TFM_AdminList.isSuperAdmin(player))
             {
-                player.kickPlayer(ChatColor.RED + "Disconnected by admin.");
+                player.kickPlayer(ChatColor.RED + "All non-superadmins were kicked by " + sender.getName() + ".");
             }
         }
 
