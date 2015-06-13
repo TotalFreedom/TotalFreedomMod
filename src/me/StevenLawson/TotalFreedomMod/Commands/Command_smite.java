@@ -18,7 +18,7 @@ public class Command_smite extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length != 2)
+        if (args.length != 1)
         {
             return false;
         }
@@ -36,11 +36,11 @@ public class Command_smite extends TFM_Command
         return true;
     }
     
-    String smiteReason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+    String smiteReason = StringUtils.join(args, 1, args.length), " ");
 
     public static void smite(final Player player)
     {
-        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy.\nThey have thus been smitten/nReason - " + smiteReason, ChatColor.RED);
+        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy. Reason - " + smiteReason, ChatColor.RED);
 
         //Deop
         player.setOp(false);
