@@ -44,6 +44,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -682,6 +683,15 @@ public class TFM_PlayerListener implements Listener
             event.setCancelled(true);
             return;
         }
+        
+        // Makes it so that imposters can't jump when frozen
+        if (!TFM_AdminList.isSuperAdmin(player) && playerdata.isFrozen())
+        {
+            if (command.contains("jump"))
+            {
+                event.setCancelled(true);
+            }
+        }
 
         if (playerdata.allCommandsBlocked())
         {
@@ -910,6 +920,26 @@ public class TFM_PlayerListener implements Listener
                 }
             }
         }.runTaskLater(TotalFreedomMod.plugin, 20L * 1L);
+    }
+    
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+    {
+        // Makes it so that players cannot kill imposters
+        if (event.getEntity() instanceof Player)
+        {
+            if (event.getDamager() instanceof Player)
+            {
+                Player player = (Player) event.getDamager();
+                Player sender = (Player) event.getEntity();
+                final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender);
+                if (!TFM_AdminList.isSuperAdmin(sender) && playerdata.isFrozen())
+                {
+                    TFM_Util.playerMsg(player, "You may not kill an admin that is imposed.", ChatColor.DARK_RED);
+                    event.setCancelled(true);
+                }
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
