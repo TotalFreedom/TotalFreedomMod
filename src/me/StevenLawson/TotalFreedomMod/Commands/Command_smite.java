@@ -36,11 +36,20 @@ public class Command_smite extends TFM_Command
         return true;
     }
     
-    String smiteReason = StringUtils.join(args, 1, args.length), " ");
+    final String smiteReason = StringUtils.join(args, 1, args.length), " ");
+     
 
     public static void smite(final Player player)
     {
+
+        if (smiteReason == null)
+        {
+        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy. Reason - Not provided", ChatColor.RED);
+        }
+        
+        else {
         TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy. Reason - " + smiteReason, ChatColor.RED);
+        }
 
         //Deop
         player.setOp(false);
