@@ -4,7 +4,6 @@ import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.World;
 import org.bukkit.command.Command;
