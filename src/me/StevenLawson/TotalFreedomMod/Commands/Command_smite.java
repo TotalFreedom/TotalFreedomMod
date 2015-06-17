@@ -30,7 +30,7 @@ public class Command_smite extends TFM_Command
             return true;
         }
 
-        smite(player);
+        smite(player, reason);
 
         return true;
     }
@@ -38,7 +38,7 @@ public class Command_smite extends TFM_Command
     final String smiteReason = StringUtils.join(args, 1, args.length), " ");
      
 
-    public static void smite(final Player player)
+    public static void smite(final Player player, String reason)
     {
 
         if (smiteReason == null)
