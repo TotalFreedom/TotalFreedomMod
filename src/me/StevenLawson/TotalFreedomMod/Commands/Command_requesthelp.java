@@ -14,9 +14,9 @@ import org.bukkit.ChatColor;
     @Override
     public boolean run(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         TFM_Util.adminAction(sender.getName() + "Requesting help");
-        if (TFM_AdminList.isSuperAdmin())
+        if (TFM_AdminList.isSuperAdmin(player))
 {
-    player.sendMessage(sender.getName() + " has requested help.");
+    player.sendMessage(sender.getName() + ChatColor.RED + " has requested help.");
 }
         sender.sendMessage(ChatColor.RED + "You have requested help, a staff member will be with your shortly");
         return true;
