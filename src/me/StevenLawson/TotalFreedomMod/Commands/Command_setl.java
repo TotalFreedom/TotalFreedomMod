@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Sets everyone's Worldedit block modification limit to 500.", usage = "/<command>")
+@CommandParameters(description = "Sets everyone's Worldedit block modification limit to 2500.", usage = "/<command>")
 public class Command_setl extends TFM_Command
 {
     @Override
