@@ -134,6 +134,8 @@ blocked_commands:
   - 's:b:/green:_'
   - 'n:b:/gamerule:_'
   - 'n:b:/togglejail:_'
+  - 'n:b:/regen:_'
+  - 'n:b:/replacenear:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
