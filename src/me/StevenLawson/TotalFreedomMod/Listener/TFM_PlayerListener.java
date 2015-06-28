@@ -924,3 +924,32 @@ public class TFM_PlayerListener implements Listener
         TFM_ServerInterface.handlePlayerLogin(event);
     }
 }
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+    {
+        if (event.getEntity() instanceof Player)
+        {
+            if (event.getDamager() instanceof Player)
+            {
+                Player player = (Player) event.getDamager();
+                if (player.getGameMode() == GameMode.CREATIVE)
+                {
+                    TFM_Util.playerMsg(player, "NO GM / GOD PVP!", ChatColor.DARK_RED);
+                    event.setCancelled(true);
+                }
+            }
+            if (event.getDamager() instanceof Arrow)
+            {
+                Arrow arrow = (Arrow) event.getDamager();
+                if (arrow.getShooter() instanceof Player)
+                {
+                    Player player = (Player) arrow.getShooter();
+                    if (player.getGameMode() == GameMode.CREATIVE)
+                    {
+                        TFM_Util.playerMsg(player, "NO GM / GOD PVP!", ChatColor.DARK_RED);
+                        event.setCancelled(true);
+                    }
+                }
+            }
+        }
+    }
