@@ -9,31 +9,39 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Super admin command - unloads chunks not currently in use.", usage = "/<command>")
+@CommandParameters(description = "Unloads chunks not currently in use.", usage = "/<command>")
 public class Command_rc extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         int numChunks = 0;
-        for(World world : server.getWorlds())
+        for (World world : server.getWorlds())
+        {
             numChunks += unloadUnusedChunks(world);
+        }
         TFM_Util.adminAction(sender.getName(), "unloading unused chunks.", true);
-        if(!senderIsConsole)
+        if (!senderIsConsole)
+        {
             sender_p.sendMessage(numChunks + " chunks unloaded.");
+        }
         TFM_Log.info(numChunks + " chunks unloaded.");
         return true;
     }
-    
+
     private int unloadUnusedChunks(World world)
     {
         int numChunks = 0;
-        for(Chunk loadedChunk : world.getLoadedChunks())
+        for (Chunk loadedChunk : world.getLoadedChunks())
         {
-            if(!world.isChunkInUse(loadedChunk.getX(), loadedChunk.getZ()))
-                if(world.unloadChunk(loadedChunk))
-                    numChunks++; 
-         }
+            if (!world.isChunkInUse(loadedChunk.getX(), loadedChunk.getZ()))
+            {
+                if (world.unloadChunk(loadedChunk))
+                {
+                    numChunks++;
+                }
+            }
+        }
         return numChunks;
     }
 }
