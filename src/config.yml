@@ -132,6 +132,7 @@ blocked_commands:
   - 's:b:/tpall:_'
   - 's:b:/setblock:_'
   - 's:b:/green:_'
+  - 's:b://regen:_'
   - 'n:b:/gamerule:_'
   - 'n:b:/togglejail:_'
 
