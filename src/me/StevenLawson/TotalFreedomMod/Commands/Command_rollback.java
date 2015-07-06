@@ -81,6 +81,15 @@ public class Command_rollback extends TFM_Command
                     playerMsg("That player hasn't been rolled back recently.");
                     return true;
                 }
+                
+                 try
+                {
+                    TFM_WorldEditBridge.redo(playerName, 15);
+                }
+                    catch (NoClassDefFoundError ex)
+                {
+                }
+
 
                 TFM_Util.adminAction(sender.getName(), "Reverting rollback for player: " + playerName, false);
                 playerMsg("Reverted " + TFM_RollbackManager.undoRollback(playerName) + " edits for " + playerName + ".");
