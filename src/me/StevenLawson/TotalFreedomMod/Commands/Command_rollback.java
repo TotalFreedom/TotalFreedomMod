@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
+import me.StevenLawson.TotalFreedomMod.Bridge.TFM_WorldEditBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,6 +39,14 @@ public class Command_rollback extends TFM_Command
                 if (TFM_RollbackManager.canUndoRollback(playerName))
                 {
                     playerMsg("That player has just been rolled back.");
+                }
+                
+                try
+                {
+                    TFM_WorldEditBridge.undo(playerName, 15);
+                }
+                    catch (NoClassDefFoundError ex)
+                {
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Rolling back player: " + playerName, false);
