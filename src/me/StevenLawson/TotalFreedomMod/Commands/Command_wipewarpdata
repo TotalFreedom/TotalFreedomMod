@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH)
-@CommandParameters(description = "Removes essentials playerdata", usage = "/<command>")
-public class Command_wipeuserdata extends TFM_Command
+@CommandParameters(description = "Removes essentials warps", usage = "/<command>")
+public class Command_wipewarpdata extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -19,11 +19,11 @@ public class Command_wipeuserdata extends TFM_Command
             return true;
         }
 
-        TFM_Util.adminAction(sender.getName(), "Wiping Essentials playerdata", true);
+        TFM_Util.adminAction(sender.getName(), "Wiping Essentials Warps", true);
 
         TFM_Util.deleteFolder(new File(server.getPluginManager().getPlugin("Essentials").getDataFolder(), "warps"));
 
-        playerMsg("All playerdata deleted.");
+        playerMsg("All Warps deleted.");
         return true;
     }
 }
