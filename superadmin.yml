@@ -1,0 +1,45 @@
+clean_threshold_hours: 168
+admins:
+  b0933ae9-b8da-30d7-84d6-fef1ec48cd8e:
+    last_login_name: janosbananos
+    is_activated: true
+    is_telnet_admin: true
+    is_senior_admin: true
+    last_login: Fri, 15 May 2015 14:16:00 -0400
+    custom_login_message: the &4Owner&b and a &eBanana
+    console_aliases: []
+    ips:
+    - 83.248.157.197
+  58a6ea8a-3ac3-4033-80e3-41bf9caa634b:
+    last_login_name: markbyron
+    is_activated: true
+    is_telnet_admin: true
+    is_senior_admin: true
+    last_login: Sat, 10 Nov 2012 02:09:14 -0500
+    custom_login_message: the &4Owner&b of &4TotalFreedom&b.
+    console_aliases: []
+    ips:
+    - 8.8.4.4
+  1156a81a-23fb-435e-9aff-fe9c2ea7e82d:
+    last_login_name: Madgeek1450
+    is_activated: true
+    is_telnet_admin: true
+    is_senior_admin: true
+    last_login: Tue, 15 Apr 2014 10:01:24 -0400
+    custom_login_message: the &4Co-Founder&b of &4TotalFreedom&b and a &6Master-ass-kicker&b.
+    console_aliases:
+    - madgeek
+    ips:
+    - 1.2.3.4
+    - 8.8.8.8
+  b3c3b05a-a52d-33a6-a9c6-6e5063e00f0a:
+    last_login_name: DarthSalamon
+    is_activated: true
+    is_telnet_admin: true
+    is_senior_admin: true
+    last_login: Tue, 15 Apr 2014 10:08:39 -0400
+    custom_login_message: the &5Lead Developer&b of &4TotalFreedom&b!
+    console_aliases:
+    - darth
+    ips:
+    - 127.0.0.1
