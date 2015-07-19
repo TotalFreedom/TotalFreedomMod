@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage superadmins.", usage = "/<command> <list | clean | clearme [ip] | <add | delete | info> <username>>")
+@CommandParameters(description = "Manage superadmins.", usage = "/<command> <list | clean | clearme [ip] | <add | delete | verify | info> <username>>")
 public class Command_saconfig extends TFM_Command
 {
     @Override
@@ -188,6 +188,24 @@ public class Command_saconfig extends TFM_Command
 
                 break;
             }
+            case VERIFY:
+            {
+                String targetName = args[1];
+
+                final Player player = getPlayer(targetName, true); // Exact case-insensitive match.
+
+                if (player != null)
+                {
+                    targetName = player.getName();
+                }
+
+                if (!TFM_AdminList.getLowercaseSuperNames().contains(targetName.toLowerCase()))
+                {
+                    playerMsg("Superadmin not found: " + targetName);
+                    return true;
+                }
+                TFM_PlayerData.getPlayerData(player).setTag("&8[&2Verified&8]");
+            }
         }
 
         return true;
@@ -200,6 +218,7 @@ public class Command_saconfig extends TFM_Command
         CLEARME("clearme", AdminLevel.SUPER, SourceType.ONLY_IN_GAME, 1, 2),
         INFO("info", AdminLevel.SUPER, SourceType.BOTH, 2, 2),
         ADD("add", AdminLevel.SUPER, SourceType.ONLY_CONSOLE, 2, 2),
+        VERIFY("verify", AdminLevel.SENIOR, SourceType.BOTH, 1, 1),
         DELETE("delete", AdminLevel.SENIOR, SourceType.ONLY_CONSOLE, 2, 2);
         private final String modeName;
         private final AdminLevel adminLevel;
