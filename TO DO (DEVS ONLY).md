@@ -17,16 +17,20 @@ Developer Rank:
   Prefix:&8[&dDeveloper&8]
   Permissions: Same as SrA
   Players:LucazDaKing
+  Unsure about this as you said that I took Lucaz's spot
 
 Lead-Developer Rank:
   Prefix:&8[&dLead-Developer&8]
   Permissions: Same as SrA
   Players:ImALuckyGuy
+Done by PacksGamingHD
+
 
 Co-Owner Rank:
   Prefix:&8[&9Co-Owner&8]
   Permissions:Same as SrA
-  Players:SilentSilence,_DiamondFox_
+  Players: SilentSilence, _DiamondFox_
+  Done by PacksGamingHD
 
 Custom Join Sound:
   Usage:CONFIG_FILE
