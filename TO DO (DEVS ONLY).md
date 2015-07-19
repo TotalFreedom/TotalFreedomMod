@@ -12,6 +12,7 @@ Banana Command:
       name:&e&lBanana
     execute:DISPLAY_TEXT
       text:&6Banana is Love, Banana is Life|Give it your Hope, and I will be nice.
+Done by PacksGamingHD (UNTESTED)
 
 Developer Rank:
   Prefix:&8[&dDeveloper&8]
