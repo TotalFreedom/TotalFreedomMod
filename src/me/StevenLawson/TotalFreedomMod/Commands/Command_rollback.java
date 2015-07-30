@@ -41,13 +41,7 @@ public class Command_rollback extends TFM_Command
                     playerMsg("That player has just been rolled back.");
                 }
                 
-                try
-                {
-                    TFM_WorldEditBridge.undo(playerName, 15);
-                }
-                    catch (NoClassDefFoundError ex)
-                {
-                }
+                server.dispatchCommand(sender.getName(); + "undo " + player.getName(); + " 15");
 
                 TFM_Util.adminAction(sender.getName(), "Rolling back player: " + playerName, false);
                 playerMsg("Rolled back " + TFM_RollbackManager.rollback(playerName) + " edits for " + playerName + ".");
@@ -82,14 +76,7 @@ public class Command_rollback extends TFM_Command
                     return true;
                 }
                 
-                 try
-                {
-                    TFM_WorldEditBridge.redo(playerName, 15);
-                }
-                    catch (NoClassDefFoundError ex)
-                {
-                }
-
+                server.dispatchCommand(sender.getName(); + "redo " + player.getName(); + " 15");
 
                 TFM_Util.adminAction(sender.getName(), "Reverting rollback for player: " + playerName, false);
                 playerMsg("Reverted " + TFM_RollbackManager.undoRollback(playerName) + " edits for " + playerName + ".");
