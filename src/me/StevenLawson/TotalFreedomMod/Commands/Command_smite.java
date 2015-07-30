@@ -4,7 +4,6 @@ import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,25 +29,18 @@ public class Command_smite extends TFM_Command
             return true;
         }
 
-        smite(player, reason);
+        smite(player);
 
         return true;
     }
     
-    final String smiteReason = StringUtils.join(args, 1, args.length), " ");
      
 
-    public static void smite(final Player player, String reason)
+    public static void smite(final Player player,)
     {
 
-        if (smiteReason == null)
-        {
-        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy. Reason - Not provided", ChatColor.RED);
-        }
-        
-        else {
-        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy. Reason - " + smiteReason, ChatColor.RED);
-        }
+        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy. Reason - " + args[1], ChatColor.RED);
+    
 
         //Deop
         player.setOp(false);
