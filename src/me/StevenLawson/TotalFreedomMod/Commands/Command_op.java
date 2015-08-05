@@ -57,7 +57,6 @@ public class Command_op extends TFM_Command
 +        	TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
 +        	player.setOp(true);
 +        }
-        //Checks if the player is already op.
 +        else
 +        {
 +        	playerMsg("The player you are trying to OP is already OP!");
