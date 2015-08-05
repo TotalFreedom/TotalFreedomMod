@@ -25,6 +25,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_Sync;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import static me.StevenLawson.TotalFreedomMod.TFM_Util.playerMsg;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
@@ -36,6 +37,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -44,6 +46,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -56,6 +59,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import static org.bukkit.potion.PotionEffectType.INVISIBILITY;
+import static org.bukkit.potion.PotionEffectType.HEAL;
+import static org.bukkit.potion.PotionEffectType.HEALTH_BOOST;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -922,5 +929,46 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         TFM_ServerInterface.handlePlayerLogin(event);
+    }
+        
+    @EventHandler    
+    public void onSplashPotion(PotionSplashEvent event)
+    {
+        for(PotionEffect effect : event.getPotion().getEffects())
+        {
+            if (effect.getType() == INVISIBILITY)
+            {
+                Entity e = event.getEntity();
+                if (e instanceof Player)
+                {
+                    Player player = (Player) e;
+                    playerMsg(player, "You are not permitted to use splash invisibility potions!", ChatColor.RED);
+                    event.setCancelled(true);
+                }
+            }
+            if (effect.getType() == HEAL)
+                //I beileve that Instant Health is called Heal in effect type??
+            {
+                Entity e = event.getEntity();
+                if (e instanceof Player)
+                {
+                    Player player = (Player) e;
+                    playerMsg(player, "You are not permitted to use Instant Death potions!", ChatColor.RED);
+                    event.setCancelled(true);
+                }
+            }
+            if (effect.getType() == HEALTH_BOOST)
+                //Health Boost prevents player from respawning, Instant Health just instant kill
+            {
+                Entity e = event.getEntity();
+                if (e instanceof Player)
+                {
+                    Player player = (Player) e;
+                    playerMsg(player, "You are not permitted to use Death potions!", ChatColor.RED);
+                    event.setCancelled(true);
+                }
+            }
+      
+        }
     }
 }
