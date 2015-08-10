@@ -938,10 +938,10 @@ public class TFM_PlayerListener implements Listener
         {
             if (effect.getType() == INVISIBILITY)
             {
-                Entity e = event.getEntity();
-                if (e instanceof Player)
+                Entity i = event.getEntity();
+                if (i instanceof Player)
                 {
-                    Player player = (Player) e;
+                    Player player = (Player) i;
                     playerMsg(player, "You are not permitted to use splash invisibility potions!", ChatColor.RED);
                     event.setCancelled(true);
                 }
@@ -949,10 +949,10 @@ public class TFM_PlayerListener implements Listener
             if (effect.getType() == HEAL)
                 //I beileve that Instant Health is called Heal in effect type??
             {
-                Entity e = event.getEntity();
-                if (e instanceof Player)
+                Entity d = event.getEntity();
+                if (d instanceof Player)
                 {
-                    Player player = (Player) e;
+                    Player player = (Player) d;
                     playerMsg(player, "You are not permitted to use Instant Death potions!", ChatColor.RED);
                     event.setCancelled(true);
                 }
@@ -960,15 +960,14 @@ public class TFM_PlayerListener implements Listener
             if (effect.getType() == HEALTH_BOOST)
                 //Health Boost prevents player from respawning, Instant Health just instant kill
             {
-                Entity e = event.getEntity();
-                if (e instanceof Player)
+                Entity d = event.getEntity();
+                if (d instanceof Player)
                 {
-                    Player player = (Player) e;
+                    Player player = (Player) d;
                     playerMsg(player, "You are not permitted to use Death potions!", ChatColor.RED);
                     event.setCancelled(true);
                 }
             }
-      
         }
     }
 }
