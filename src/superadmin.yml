@@ -8,6 +8,7 @@ admins:
   f9a1982e-252e-4ed3-92ed-52b0506a39c9:
     last_login_name: Prozza
     is_activated: true
+    cmdspy_is_on: false
     is_senior_admin: true
     is_telnet_admin: true
     ips:
@@ -19,6 +20,7 @@ admins:
   1156a81a-23fb-435e-9aff-fe9c2ea7e82d:
     last_login_name: Madgeek1450
     is_activated: true
+    cmdspy_is_on: false
     is_telnet_admin: true
     is_senior_admin: true
     console_aliases:
@@ -31,6 +33,7 @@ admins:
   58a6ea8a-3ac3-4033-80e3-41bf9caa634b:
     last_login_name: markbyron
     is_activated: true
+    cmdspy_is_on: false
     is_telnet_admin: true
     is_senior_admin: true
     console_aliases: []
