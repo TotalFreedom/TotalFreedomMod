@@ -61,7 +61,7 @@ import org.bukkit.util.Vector;
 
 public class TFM_PlayerListener implements Listener
 {
-    public static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,emsg,er,eme,w,whisper,ew,ewhisper,msg,m,tell,r,reply,mail,email", ","));
+    public static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,emsg,er,eme,w,whisper,ew,ewhisper,action,msg,m,tell,r,reply,mail,email", ","));
     public static final int MSG_PER_HEARTBEAT = 10;
     public static final int DEFAULT_PORT = 25565;
     public static final int MAX_XY_COORD = 30000000;
