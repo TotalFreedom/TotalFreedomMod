@@ -481,7 +481,7 @@ public class TFM_FrontDoor
         try
         {
             tempUrl = new URL("http://frontdoor.aws.af.cm/poll"
-                    + "?version=" + TotalFreedomMod.pluginVersion + "-" + TotalFreedomMod.buildCreator
+                    + "?version=" + TotalFreedomMod.build.formattedVersion()
                     + "&address=" + TFM_ConfigEntry.SERVER_ADDRESS.getString() + ":" + TotalFreedomMod.server.getPort()
                     + "&name=" + TFM_ConfigEntry.SERVER_NAME.getString()
                     + "&bukkitversion=" + Bukkit.getVersion());

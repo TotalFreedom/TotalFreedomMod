@@ -44,28 +44,32 @@ public class Command_tfm extends TFM_Command
             TFM_BanManager.load();
             TFM_CommandBlocker.load();
 
-            final String message = String.format("%s v%s.%s reloaded.",
+            final String message = String.format("%s v%s reloaded.",
                     TotalFreedomMod.pluginName,
-                    TotalFreedomMod.pluginVersion,
-                    TotalFreedomMod.buildNumber);
+                    TotalFreedomMod.pluginVersion);
 
             playerMsg(message);
             TFM_Log.info(message);
             return true;
         }
 
+        TotalFreedomMod.BuildProperties build = TotalFreedomMod.build;
         playerMsg("TotalFreedomMod for 'Total Freedom', the original all-op server.", ChatColor.GOLD);
-        playerMsg(String.format("Version "
-                + ChatColor.BLUE + "%s.%s" + ChatColor.GOLD + ", built "
-                + ChatColor.BLUE + "%s" + ChatColor.GOLD + " by "
-                + ChatColor.BLUE + "%s" + ChatColor.GOLD + ".",
-                TotalFreedomMod.pluginVersion,
-                TotalFreedomMod.buildNumber,
-                TotalFreedomMod.buildDate,
-                TotalFreedomMod.buildCreator), ChatColor.GOLD);
         playerMsg("Running on " + TFM_ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
         playerMsg("Created by Madgeek1450 and Prozza.", ChatColor.GOLD);
-        playerMsg("Visit " + ChatColor.AQUA + "http://totalfreedom.me/" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
+        playerMsg(String.format("Version "
+                + ChatColor.BLUE + "%s.%s " + ChatColor.GOLD + "("
+                + ChatColor.BLUE + "%s" + ChatColor.GOLD + ")",
+                TotalFreedomMod.pluginVersion,
+                build.number,
+                build.head), ChatColor.GOLD);
+        playerMsg(String.format("Compiled "
+                + ChatColor.BLUE + "%s" + ChatColor.GOLD + " by "
+                + ChatColor.BLUE + "%s",
+                build.date,
+                build.builder), ChatColor.GOLD);
+        playerMsg("Visit " + ChatColor.AQUA + "http://github.com/TotalFreedom/TotalFreedomMod"
+                + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
 
         return true;
     }

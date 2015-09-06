@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -45,12 +44,9 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String PROTECTED_AREA_FILENAME = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     //
+    public static final BuildProperties build = new BuildProperties();
     @Deprecated
     public static final String YOU_ARE_NOT_OP = me.StevenLawson.TotalFreedomMod.Commands.TFM_Command.YOU_ARE_NOT_OP;
-    //
-    public static String buildNumber = "1";
-    public static String buildDate = TotalFreedomMod.buildDate = TFM_Util.dateToString(new Date());
-    public static String buildCreator = "Unknown";
     //
     public static Server server;
     public static TotalFreedomMod plugin;
@@ -71,14 +67,15 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Log.setPluginLogger(plugin.getLogger());
         TFM_Log.setServerLogger(server.getLogger());
 
-        setAppProperties();
+        build.load();
     }
 
     @Override
     public void onEnable()
     {
-        TFM_Log.info("Made by Madgeek1450 and Prozza");
-        TFM_Log.info("Compiled " + buildDate + " by " + buildCreator);
+        TFM_Log.info("Created by Madgeek1450 and Prozza");
+        TFM_Log.info("Version " + build.formattedVersion());
+        TFM_Log.info("Compiled " + build.date + " by " + build.builder);
 
         final TFM_Util.MethodTimer timer = new TFM_Util.MethodTimer();
         timer.start();
@@ -217,25 +214,37 @@ public class TotalFreedomMod extends JavaPlugin
         return TFM_CommandHandler.handleCommand(sender, cmd, commandLabel, args);
     }
 
-    private static void setAppProperties()
-    {
-        try
-        {
-            final InputStream in = plugin.getResource("appinfo.properties");
-            Properties props = new Properties();
+    public static class BuildProperties {
+        public String builder;
+        public String number;
+        public String head;
+        public String date;
 
-            // in = plugin.getClass().getResourceAsStream("/appinfo.properties");
-            props.load(in);
-            in.close();
+        public void load() {
+            try
+            {
+                final InputStream in = plugin.getResource("build.properties");
 
-            TotalFreedomMod.buildNumber = props.getProperty("program.buildnumber");
-            TotalFreedomMod.buildDate = props.getProperty("program.builddate");
-            TotalFreedomMod.buildCreator = props.getProperty("program.buildcreator");
+                final Properties props = new Properties();
+                props.load(in);
+                in.close();
+
+                builder = props.getProperty("program.builder", "unknown");
+                number = props.getProperty("program.buildnumber", "1");
+                head = props.getProperty("program.buildhead", "unknown");
+                date = props.getProperty("program.builddate", "unknown");
+
+            }
+            catch (Exception ex)
+            {
+                TFM_Log.severe("Could not load build properties! Did you compile with Netbeans/ANT?");
+                TFM_Log.severe(ex);
+            }
         }
-        catch (Exception ex)
-        {
-            TFM_Log.severe("Could not load App properties!");
-            TFM_Log.severe(ex);
+
+        public String formattedVersion() {
+            return pluginVersion + "." + number + " (" + head + ")";
         }
     }
+
 }
