@@ -7,8 +7,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Manage permanently banned players and IPs.", usage = "/<command> <list | reload>")
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandParameters(description = "Manage permanently banned players and IPs.", usage = "/<command> reload")
 public class Command_permban extends TFM_Command
 {
     @Override
@@ -19,49 +19,17 @@ public class Command_permban extends TFM_Command
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("list"))
-        {
-            dumplist(sender);
-        }
-        else if (args[0].equalsIgnoreCase("reload"))
-        {
-            if (!senderIsConsole)
-            {
-                sender.sendMessage(TFM_Command.MSG_NO_PERMS);
-                return true;
-            }
-            playerMsg("Reloading permban list...", ChatColor.RED);
-            TFM_PermbanList.load();
-            dumplist(sender);
-        }
-        else
+        if (!args[0].equalsIgnoreCase("reload"))
         {
             return false;
         }
 
+        playerMsg("Reloading permban list...", ChatColor.RED);
+        TFM_PermbanList.load();
+        playerMsg("Reloaded permban list.");
+        playerMsg(TFM_PermbanList.getPermbannedIps().size() + " IPs and "
+                + TFM_PermbanList.getPermbannedPlayers().size() + " usernames loaded.");
         return true;
     }
 
-    private void dumplist(CommandSender sender)
-    {
-        if (TFM_PermbanList.getPermbannedPlayers().isEmpty())
-        {
-            playerMsg("No permanently banned player names.");
-        }
-        else
-        {
-            playerMsg(TFM_PermbanList.getPermbannedPlayers().size() + " permanently banned players:");
-            playerMsg(StringUtils.join(TFM_PermbanList.getPermbannedPlayers(), ", "));
-        }
-
-        if (TFM_PermbanList.getPermbannedIps().isEmpty())
-        {
-            playerMsg("No permanently banned IPs.");
-        }
-        else
-        {
-            playerMsg(TFM_PermbanList.getPermbannedIps().size() + " permanently banned IPs:");
-            playerMsg(StringUtils.join(TFM_PermbanList.getPermbannedIps(), ", "));
-        }
-    }
 }
