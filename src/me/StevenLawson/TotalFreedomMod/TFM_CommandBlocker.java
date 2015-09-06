@@ -3,6 +3,8 @@ package me.StevenLawson.TotalFreedomMod;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import org.apache.commons.lang3.StringUtils;
@@ -14,12 +16,8 @@ import org.bukkit.entity.Player;
 
 public class TFM_CommandBlocker
 {
-    private static final Map<String, CommandBlockerEntry> BLOCKED_COMMANDS;
-
-    static
-    {
-        BLOCKED_COMMANDS = new HashMap<String, CommandBlockerEntry>();
-    }
+    public static Pattern NUMBER_FLAG_PATTERN = Pattern.compile("(:([0-9]){5,})");
+    private static final Map<String, CommandBlockerEntry> BLOCKED_COMMANDS = new HashMap<String, CommandBlockerEntry>();
 
     private TFM_CommandBlocker()
     {
@@ -112,33 +110,50 @@ public class TFM_CommandBlocker
             return false;
         }
 
+        // Format
         command = command.toLowerCase().trim();
+        command = command.startsWith("/") ? command.substring(1) : command;
 
-        if (command.split(" ")[0].contains(":"))
+        // Check for plugin specific commands
+        final String[] commandParts = command.split(" ");
+        if (commandParts[0].contains(":"))
         {
-            TFM_Util.playerMsg(sender, "Plugin-specific commands are disabled.");
+            if (doAction)
+            {
+                TFM_Util.playerMsg(sender, "Plugin specific commands are disabled.");
+            }
             return true;
         }
 
-        if (command.startsWith("/"))
+        for (String part : commandParts)
         {
-            command = command.substring(1);
+            Matcher matcher = NUMBER_FLAG_PATTERN.matcher(part);
+            if (!matcher.matches())
+            {
+                continue;
+            }
+            if (doAction)
+            {
+                TFM_Util.playerMsg(sender, "That command contains an illegal number: " + matcher.group(1));
+            }
+            return true;
         }
 
-        final String[] commandParts = command.split(" ");
+        // Obtain sub command, if it exists
         String subCommand = null;
         if (commandParts.length > 1)
         {
             subCommand = StringUtils.join(commandParts, " ", 1, commandParts.length).toLowerCase();
         }
 
+        // Obtain entry
         final CommandBlockerEntry entry = BLOCKED_COMMANDS.get(commandParts[0]);
-
         if (entry == null)
         {
             return false;
         }
 
+        // Validate sub command
         if (entry.getSubCommand() != null)
         {
             if (subCommand == null || !subCommand.startsWith(entry.getSubCommand()))

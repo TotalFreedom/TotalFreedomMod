@@ -11,53 +11,66 @@ import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class TFM_PlayerList {
+public class TFM_PlayerList
+{
 
     private static final Map<UUID, TFM_Player> PLAYER_LIST = new HashMap<UUID, TFM_Player>();
 
-    private TFM_PlayerList() {
+    private TFM_PlayerList()
+    {
         throw new AssertionError();
     }
 
-    public static Set<TFM_Player> getAllPlayers() {
+    public static Set<TFM_Player> getAllPlayers()
+    {
         return Collections.unmodifiableSet(Sets.newHashSet(PLAYER_LIST.values()));
     }
 
-    public static void load() {
+    public static void load()
+    {
         PLAYER_LIST.clear();
 
         // Load online players
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
             getEntry(player);
         }
 
         TFM_Log.info("Loaded playerdata for " + PLAYER_LIST.size() + " players");
     }
 
-    public static void saveAll() {
-        for (TFM_Player entry : PLAYER_LIST.values()) {
+    public static void saveAll()
+    {
+        for (TFM_Player entry : PLAYER_LIST.values())
+        {
             save(entry);
         }
     }
 
     // May return null
-    public static TFM_Player getEntry(UUID uuid) {
-        if (PLAYER_LIST.containsKey(uuid)) {
+    public static TFM_Player getEntry(UUID uuid)
+    {
+        if (PLAYER_LIST.containsKey(uuid))
+        {
             return PLAYER_LIST.get(uuid);
         }
 
         final File configFile = getConfigFile(uuid);
 
-        if (!configFile.exists()) {
+        if (!configFile.exists())
+        {
             return null;
         }
 
         final TFM_Player entry = new TFM_Player(uuid, getConfig(uuid));
 
-        if (entry.isComplete()) {
+        if (entry.isComplete())
+        {
             PLAYER_LIST.put(uuid, entry);
             return entry;
-        } else {
+        }
+        else
+        {
             TFM_Log.warning("Could not load entry: Entry is not complete!");
             configFile.delete();
         }
@@ -65,11 +78,13 @@ public class TFM_PlayerList {
         return null;
     }
 
-    public static TFM_Player getEntry(Player player) {
+    public static TFM_Player getEntry(Player player)
+    {
         final UUID uuid = TFM_UuidManager.getUniqueId(player);
         TFM_Player entry = getEntry(uuid);
 
-        if (entry != null) {
+        if (entry != null)
+        {
             return entry;
         }
 
@@ -87,10 +102,12 @@ public class TFM_PlayerList {
         return entry;
     }
 
-    public static void removeEntry(Player player) {
+    public static void removeEntry(Player player)
+    {
         final UUID uuid = TFM_UuidManager.getUniqueId(player);
 
-        if (!PLAYER_LIST.containsKey(uuid)) {
+        if (!PLAYER_LIST.containsKey(uuid))
+        {
             return;
         }
 
@@ -99,16 +116,20 @@ public class TFM_PlayerList {
         PLAYER_LIST.remove(uuid);
     }
 
-    public static boolean existsEntry(Player player) {
+    public static boolean existsEntry(Player player)
+    {
         return existsEntry(TFM_UuidManager.getUniqueId(player));
     }
 
-    public static boolean existsEntry(UUID uuid) {
+    public static boolean existsEntry(UUID uuid)
+    {
         return getConfigFile(uuid).exists();
     }
 
-    public static void setUniqueId(TFM_Player entry, UUID newUuid) {
-        if (entry.getUniqueId().equals(newUuid)) {
+    public static void setUniqueId(TFM_Player entry, UUID newUuid)
+    {
+        if (entry.getUniqueId().equals(newUuid))
+        {
             TFM_Log.warning("Not setting new UUID: UUIDs match!");
             return;
         }
@@ -127,13 +148,16 @@ public class TFM_PlayerList {
         // Remove old entry
         PLAYER_LIST.remove(entry.getUniqueId());
         final File oldFile = getConfigFile(entry.getUniqueId());
-        if (oldFile.exists() && !oldFile.delete()) {
+        if (oldFile.exists() && !oldFile.delete())
+        {
             TFM_Log.warning("Could not delete config: " + getConfigFile(entry.getUniqueId()).getName());
         }
     }
 
-    public static void purgeAll() {
-        for (File file : getConfigFolder().listFiles()) {
+    public static void purgeAll()
+    {
+        for (File file : getConfigFolder().listFiles())
+        {
             file.delete();
         }
 
@@ -141,22 +165,27 @@ public class TFM_PlayerList {
         load();
     }
 
-    public static File getConfigFolder() {
+    public static File getConfigFolder()
+    {
         return new File(TotalFreedomMod.plugin.getDataFolder(), "players");
     }
 
-    public static File getConfigFile(UUID uuid) {
+    public static File getConfigFile(UUID uuid)
+    {
         return new File(getConfigFolder(), uuid + ".yml");
     }
 
-    public static TFM_Config getConfig(UUID uuid) {
+    public static TFM_Config getConfig(UUID uuid)
+    {
         final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, getConfigFile(uuid), false);
         config.load();
         return config;
     }
 
-    public static void save(TFM_Player entry) {
-        if (!entry.isComplete()) {
+    public static void save(TFM_Player entry)
+    {
+        if (!entry.isComplete())
+        {
             throw new IllegalArgumentException("Entry is not complete!");
         }
 

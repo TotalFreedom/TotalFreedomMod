@@ -25,18 +25,21 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class TFM_UuidManager {
+public class TFM_UuidManager
+{
 
     public static final String TABLE_NAME = "uuids";
     private static final TFM_SqliteDatabase SQL;
     private static final Statement FIND;
     private static final Statement UPDATE;
 
-    private TFM_UuidManager() {
+    private TFM_UuidManager()
+    {
         throw new AssertionError();
     }
 
-    static {
+    static
+    {
         SQL = new TFM_SqliteDatabase(
                 "uuids.db",
                 TABLE_NAME,
@@ -46,34 +49,40 @@ public class TFM_UuidManager {
         UPDATE = SQL.addPreparedStatement("REPLACE INTO " + TABLE_NAME + " (username, uuid) VALUES (?, ?);");
     }
 
-    public static void load() {
+    public static void load()
+    {
         // Init DB
         SQL.connect();
     }
 
-    public static void close() {
+    public static void close()
+    {
         SQL.close();
     }
 
-    public static int purge() {
+    public static int purge()
+    {
         return SQL.purge();
     }
 
-    public static UUID newPlayer(Player player, String ip) {
+    public static UUID newPlayer(Player player, String ip)
+    {
         TFM_Log.info("Obtaining UUID for new player: " + player.getName());
 
         final String username = player.getName().toLowerCase();
 
         // Look in DB
         final UUID dbUuid = find(username);
-        if (dbUuid != null) {
+        if (dbUuid != null)
+        {
             return dbUuid;
         }
 
         // Find UUID and update in DB if not found
         // Try API
         UUID uuid = TFM_UuidResolver.getUUIDOf(username);
-        if (uuid == null) {
+        if (uuid == null)
+        {
             // Spoof
             uuid = generateSpoofUuid(username);
         }
@@ -82,9 +91,11 @@ public class TFM_UuidManager {
         return uuid;
     }
 
-    public static UUID getUniqueId(OfflinePlayer offlinePlayer) {
+    public static UUID getUniqueId(OfflinePlayer offlinePlayer)
+    {
         // Online check first
-        if (offlinePlayer.isOnline() && TFM_PlayerData.hasPlayerData(offlinePlayer.getPlayer())) {
+        if (offlinePlayer.isOnline() && TFM_PlayerData.hasPlayerData(offlinePlayer.getPlayer()))
+        {
             return TFM_PlayerData.getPlayerData(offlinePlayer.getPlayer()).getUniqueId();
         }
 
@@ -92,16 +103,19 @@ public class TFM_UuidManager {
         return getUniqueId(offlinePlayer.getName());
     }
 
-    public static UUID getUniqueId(String username) {
+    public static UUID getUniqueId(String username)
+    {
         // Look in DB
         final UUID dbUuid = find(username);
-        if (dbUuid != null) {
+        if (dbUuid != null)
+        {
             return dbUuid;
         }
 
         // Try API
         final UUID apiUuid = TFM_UuidResolver.getUUIDOf(username);
-        if (apiUuid != null) {
+        if (apiUuid != null)
+        {
             return apiUuid;
         }
 
@@ -109,8 +123,10 @@ public class TFM_UuidManager {
         return generateSpoofUuid(username);
     }
 
-    public static void rawSetUUID(String name, UUID uuid) {
-        if (name == null || uuid == null || name.isEmpty()) {
+    public static void rawSetUUID(String name, UUID uuid)
+    {
+        if (name == null || uuid == null || name.isEmpty())
+        {
             TFM_Log.warning("Not setting raw UUID: name and uuid may not be null!");
             return;
         }
@@ -118,67 +134,86 @@ public class TFM_UuidManager {
         update(name.toLowerCase().trim(), uuid);
     }
 
-    private static UUID find(String searchName) {
-        if (!SQL.connect()) {
+    private static UUID find(String searchName)
+    {
+        if (!SQL.connect())
+        {
             return null;
         }
 
         final ResultSet result;
-        try {
+        try
+        {
             final PreparedStatement statement = FIND.getStatement();
             statement.clearParameters();
             statement.setString(1, searchName.toLowerCase());
             result = statement.executeQuery();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             TFM_Log.severe("Could not execute find statement!");
             TFM_Log.severe(ex);
             return null;
         }
 
-        if (!TFM_SqlUtil.hasData(result)) {
+        if (!TFM_SqlUtil.hasData(result))
+        {
             TFM_SqlUtil.close(result);
             return null;
         }
 
-        try {
+        try
+        {
             final String uuidString = result.getString("uuid");
             return UUID.fromString(uuidString);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             TFM_Log.severe(ex);
             return null;
-        } finally {
+        }
+        finally
+        {
             TFM_SqlUtil.close(result);
         }
     }
 
-    private static boolean update(String username, UUID uuid) {
-        if (!SQL.connect()) {
+    private static boolean update(String username, UUID uuid)
+    {
+        if (!SQL.connect())
+        {
             return false;
         }
 
-        try {
+        try
+        {
             final PreparedStatement statement = UPDATE.getStatement();
             statement.clearParameters();
             statement.setString(1, username.toLowerCase());
             statement.setString(2, uuid.toString());
             statement.executeUpdate();
             return true;
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             TFM_Log.severe("Could not execute update statement!");
             TFM_Log.severe(ex);
             return false;
         }
     }
 
-    private static UUID generateSpoofUuid(String name) {
+    private static UUID generateSpoofUuid(String name)
+    {
         name = name.toLowerCase();
         TFM_Log.info("Generating spoof UUID for " + name);
 
-        try {
+        try
+        {
             final MessageDigest digest = MessageDigest.getInstance("SHA1");
             final byte[] result = digest.digest(name.getBytes());
             final StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < result.length; i++) {
+            for (int i = 0; i < result.length; i++)
+            {
                 builder.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
             }
 
@@ -188,30 +223,37 @@ public class TFM_UuidManager {
                     + "-" + builder.substring(12, 16)
                     + "-" + builder.substring(16, 20)
                     + "-" + builder.substring(20, 32));
-        } catch (NoSuchAlgorithmException ex) {
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
             TFM_Log.warning("Could not generate spoof UUID: SHA1 algorithm not found!");
         }
 
         return UUID.randomUUID();
     }
 
-    public static class TFM_UuidResolver implements Callable<Map<String, UUID>> {
+    public static class TFM_UuidResolver implements Callable<Map<String, UUID>>
+    {
 
         private static final double PROFILES_PER_REQUEST = 100;
         private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
         private final JSONParser jsonParser = new JSONParser();
         private final List<String> names;
 
-        public TFM_UuidResolver(List<String> names) {
+        public TFM_UuidResolver(List<String> names)
+        {
             this.names = ImmutableList.copyOf(names);
         }
 
         @Override
-        public Map<String, UUID> call() {
+        public Map<String, UUID> call()
+        {
             final Map<String, UUID> uuidMap = new HashMap<String, UUID>();
             int requests = (int) Math.ceil(names.size() / PROFILES_PER_REQUEST);
-            for (int i = 0; i < requests; i++) {
-                try {
+            for (int i = 0; i < requests; i++)
+            {
+                try
+                {
                     final URL url = new URL(PROFILE_URL);
                     final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -230,7 +272,8 @@ public class TFM_UuidManager {
 
                     final JSONArray array = (JSONArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
 
-                    for (Object profile : array) {
+                    for (Object profile : array)
+                    {
                         final JSONObject jsonProfile = (JSONObject) profile;
                         final String id = (String) jsonProfile.get("id");
                         final String name = (String) jsonProfile.get("name");
@@ -243,10 +286,13 @@ public class TFM_UuidManager {
                         uuidMap.put(name, uuid);
                     }
 
-                    if (i != requests - 1) {
+                    if (i != requests - 1)
+                    {
                         Thread.sleep(100L);
                     }
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     TFM_Log.severe("Could not resolve UUID(s) of "
                             + StringUtils.join(names.subList(i * 100, Math.min((i + 1) * 100, names.size())), ", "));
                     //TFM_Log.severe(ex);
@@ -255,7 +301,8 @@ public class TFM_UuidManager {
             return uuidMap;
         }
 
-        public static UUID getUUIDOf(String name) {
+        public static UUID getUUIDOf(String name)
+        {
             return new TFM_UuidResolver(Arrays.asList(name)).call().get(name);
         }
     }
