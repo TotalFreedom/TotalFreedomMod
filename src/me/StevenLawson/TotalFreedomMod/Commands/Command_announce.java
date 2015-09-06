@@ -18,7 +18,7 @@ public class Command_announce extends TFM_Command
         
         String announcement = StringUtils.join(args, " ");
         
-        TFM_Util.bcastMsg(String.format("[Announcement:%s] %s", sender.getName(), ChatColor.BLUE + announcement), ChatColor.GREEN);
+        TFM_Util.bcastMsg(String.format(ChatColor.DARK_PURPLE + "[" + ChatColor.YELLOW + "Announcement:%s" + ChatColor.DARK_PURPLE + "] %s", sender.getName(), ChatColor.BLUE + announcement), ChatColor.GREEN);
 
         return true;
     }
