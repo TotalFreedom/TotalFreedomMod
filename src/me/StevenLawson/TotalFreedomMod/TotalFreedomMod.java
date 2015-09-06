@@ -168,6 +168,7 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_ServiceChecker.start();
         TFM_HTTPD_Manager.start();
         TFM_FrontDoor.start();
+        TFM_CommandBlocker.load();
 
         timer.update();
 
@@ -190,7 +191,6 @@ public class TotalFreedomMod extends JavaPlugin
             public void run()
             {
                 TFM_CommandLoader.scan();
-                TFM_CommandBlocker.load();
 
                 // Add spawnpoints later - https://github.com/TotalFreedom/TotalFreedomMod/issues/438
                 TFM_ProtectedArea.autoAddSpawnpoints();
