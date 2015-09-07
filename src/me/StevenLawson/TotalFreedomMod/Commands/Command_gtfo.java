@@ -80,7 +80,8 @@ public class Command_gtfo extends TFM_Command
 
         final StringBuilder bcast = new StringBuilder()
                 .append(ChatColor.RED)
-                .append("Banning: ")
+                .append(sender_p)
+                .append(" - Banning: ")
                 .append(player.getName())
                 .append(", IP: ")
                 .append(ip);
