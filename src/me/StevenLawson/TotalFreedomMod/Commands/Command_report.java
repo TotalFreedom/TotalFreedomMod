@@ -40,7 +40,7 @@ public class Command_report extends TFM_Command
 
         if (TFM_AdminList.isSuperAdmin(player))
         {
-            playerMsg(ChatColor.RED + "You can not report an admin.");
+            playerMsg(ChatColor.RED + "You may report admin abuse on the forums, however, please include screenshots!  https://pravi.us/vfa");
             return true;
         }
 
