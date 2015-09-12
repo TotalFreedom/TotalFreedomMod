@@ -64,6 +64,7 @@ public class Command_tfm extends TFM_Command
                 TotalFreedomMod.buildDate,
                 TotalFreedomMod.buildCreator), ChatColor.GOLD);
         playerMsg("Running on " + TFM_ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
+        playerMsg("This plugin is opensource: " + ChatColor.AQUA + "http://github.com/TotalFreedom/TotalFreedomMod.", ChatColor.GREEN);
         playerMsg("Created by Madgeek1450 and Prozza.", ChatColor.GOLD);
         playerMsg("Visit " + ChatColor.AQUA + "http://totalfreedom.me/" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
 
