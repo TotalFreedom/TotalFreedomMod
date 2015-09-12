@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -32,13 +33,17 @@ public class Command_freezenear extends TFM_Command
             }
         }
 
-        List<String> freezedPlayers = new ArrayList<String>();
+        List<String> frozenPlayers = new ArrayList<String>();
 
         final Vector senderPos = sender_p.getLocation().toVector();
         final List<Player> players = sender_p.getWorld().getPlayers();
         for (final Player player : players)
         {
             if (player.equals(sender_p))
+            {
+                continue;
+            }
+            if (TFM_AdminList.isSuperAdmin(sender_p))
             {
                 continue;
             }
@@ -58,19 +63,19 @@ public class Command_freezenear extends TFM_Command
             if (inRange)
             {
                 final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-                playerdata.setFrozen(!playerdata.isFrozen());
+                playerdata.setFrozen(true);
                 player.sendMessage(ChatColor.RED + "You have been frozen due to rulebreakers. You will be unfrozen shortly.");
             }
         }
 
-        if (freezedPlayers.isEmpty())
+        if (frozenPlayers.isEmpty())
         {
-            playerMsg("No players frozen.");
+            playerMsg("There are no nearby players.");
         }
         else
         {
             Bukkit.broadcastMessage(ChatColor.AQUA + "Freezing all players within " + radius + " blocks of " + sender.getName());
-            playerMsg("Froze " + freezedPlayers.size() + " players: " + StringUtils.join(freezedPlayers, ", "));
+            playerMsg("Froze " + frozenPlayers.size() + " players: " + StringUtils.join(frozenPlayers, ", "));
         }
 
         return true;
