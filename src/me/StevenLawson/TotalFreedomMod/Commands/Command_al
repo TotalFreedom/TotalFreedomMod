@@ -1,0 +1,40 @@
+package me.StevenLawson.TotalFreedomMod.Commands;
+
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+@CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
+@CommandParameters(description = "Shows all admins", usage = "/<command>", aliases = "adminlist")
+public class Command_al extends TFM_Command
+{
+    @Override
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
+        sender.sendMessage(ChatColor.AQUA + "- Super Admins -");
+        sender.sendMessage(ChatColor.AQUA + StringUtils.join(TFM_AdminList.getSuperAdminNames(), ", "));
+        sender.sendMessage(ChatColor.DARK_GREEN + "- Telnet Admins -");
+        sender.sendMessage(ChatColor.DARK_GREEN + StringUtils.join(TFM_AdminList.getTelnetAdminNames(), ", "));
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "- Senior Admins -");
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + StringUtils.join(TFM_AdminList.getSeniorAdminNames(), ", "));
+        sender.sendMessage(ChatColor.DARK_PURPLE + "- Developers -");
+        sender.sendMessage(ChatColor.DARK_PURPLE + "TFM Creator: Madgeek1450 (Steven Lawson)");
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Lead Dev: Darth Salamon (Prozza)");
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Developers: WickedGamingUK, Wild1145 and AcidicCyanide");
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Chief Forum Dev and forum Owner: Finest95");
+        sender.sendMessage(ChatColor.DARK_PURPLE + "- Executive Seniors -");
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Lead Dev: Darth Salamon (Prozza)");
+        sender.sendMessage(ChatColor.RED + "Admin Manager: lolz3842");
+        sender.sendMessage(ChatColor.RED + "Creative Designer: DarkLynx108");
+        sender.sendMessage(ChatColor.RED + "Security Officer: OliverDatGuy");
+        sender.sendMessage(ChatColor.RED + "TotalFreedom Evangelist: ethanmort");
+        sender.sendMessage(ChatColor.RED + "Associated Server Lawson: WickedGamingUK");
+        sender.sendMessage(ChatColor.BLUE + "The Co-Owner is Madgeek1450");
+        sender.sendMessage(ChatColor.BLUE + "The Owner is markbyron");
+
+        return true;
+    }
+}
