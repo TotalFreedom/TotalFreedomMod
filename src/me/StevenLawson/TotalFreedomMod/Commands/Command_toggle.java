@@ -19,18 +19,18 @@ public class Command_toggle extends TFM_Command
         if (args.length == 0)
         {
             playerMsg("Available toggles: ");
-            playerMsg("- waterplace");
-            playerMsg("- fireplace");
-            playerMsg("- lavaplace");
-            playerMsg("- fluidspread");
-            playerMsg("- lavadmg");
-            playerMsg("- firespread");
-            playerMsg("- prelog");
+            playerMsg("- waterplace = " + TFM_ConfigEntry.ALLOW_WATER_PLACE);
+            playerMsg("- fireplace = " + TFM_ConfigEntry.ALLOW_FIRE_PLACE);
+            playerMsg("- lavaplace = " + TFM_ConfigEntry.ALLOW_LAVA_PLACE);
+            playerMsg("- fluidspread = " + TFM_ConfigEntry.ALLOW_FLUID_SPREAD);
+            playerMsg("- lavadmg = " + TFM_ConfigEntry.ALLOW_LAVA_DAMAGE);
+            playerMsg("- firespread = " + TFM_ConfigEntry.ALLOW_FIRE_SPREAD);
+            playerMsg("- prelog = " + TFM_ConfigEntry.ENABLE_PREPROCESS_LOG);
             playerMsg("- lockdown");
-            playerMsg("- petprotect");
-            playerMsg("- droptoggle");
-            playerMsg("- nonuke");
-            playerMsg("- explosives");
+            playerMsg("- petprotect = " + TFM_ConfigEntry.ENABLE_PET_PROTECT);
+            playerMsg("- droptoggle = " + TFM_ConfigEntry.AUTO_ENTITY_WIPE);
+            playerMsg("- nonuke = " + TFM_ConfigEntry.NUKE_MONITOR_ENABLED);
+            playerMsg("- explosives = " + TFM_ConfigEntry.ALLOW_EXPLOSIONS);
             return false;
         }
 
