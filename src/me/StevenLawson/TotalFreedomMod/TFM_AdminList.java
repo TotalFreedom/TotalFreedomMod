@@ -267,7 +267,7 @@ public class TFM_AdminList
 
             config.set("admins." + uuid + ".last_login_name", uuid);
             config.set("admins." + uuid + ".is_activated", section.getBoolean(admin + ".is_activated"));
-            config.set("admins." + uuid + ".cmdspy_is_on", section.getBoolean(admin + ".cmdspy_is_on"));
+            config.set("admins." + uuid + ".cmdspy", section.getBoolean(admin + ".cmdspy"));
             config.set("admins." + uuid + ".is_telnet_admin", section.getBoolean(admin + ".is_telnet_admin"));
             config.set("admins." + uuid + ".is_senior_admin", section.getBoolean(admin + ".is_senior_admin"));
             config.set("admins." + uuid + ".last_login", section.getString(admin + ".last_login"));
@@ -301,7 +301,7 @@ public class TFM_AdminList
 
             config.set("admins." + uuid + ".last_login_name", superadmin.getLastLoginName());
             config.set("admins." + uuid + ".is_activated", superadmin.isActivated());
-            config.set("admins." + uuid + ".cmdspy_is_on", superadmin.cmdSpyEnabled());
+            config.set("admins." + uuid + ".cmdspy", superadmin.cmdSpyEnabled());
             config.set("admins." + uuid + ".is_telnet_admin", superadmin.isTelnetAdmin());
             config.set("admins." + uuid + ".is_senior_admin", superadmin.isSeniorAdmin());
             config.set("admins." + uuid + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
@@ -328,7 +328,7 @@ public class TFM_AdminList
 
         config.set("admins." + uuid + ".last_login_name", admin.getLastLoginName());
         config.set("admins." + uuid + ".is_activated", admin.isActivated());
-        config.set("admins." + uuid + ".cmdspy_is_on", admin.cmdSpyEnabled());
+        config.set("admins." + uuid + ".cmdspy", admin.cmdSpyEnabled());
         config.set("admins." + uuid + ".is_telnet_admin", admin.isTelnetAdmin());
         config.set("admins." + uuid + ".is_senior_admin", admin.isSeniorAdmin());
         config.set("admins." + uuid + ".last_login", TFM_Util.dateToString(admin.getLastLogin()));
@@ -407,7 +407,7 @@ public class TFM_AdminList
         admin.setLastLoginName(player.getName());
         saveAll();
     }
-
+    
     public static boolean isSuperAdminSafe(UUID uuid, String ip)
     {
         if (TotalFreedomMod.server.getOnlineMode() && uuid != null)
@@ -423,7 +423,7 @@ public class TFM_AdminList
     {
         return isSuperAdmin(sender);
     }
-
+    
     public static boolean isSuperAdmin(CommandSender sender)
     {
         if (!(sender instanceof Player))

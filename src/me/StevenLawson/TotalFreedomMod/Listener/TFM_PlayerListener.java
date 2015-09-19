@@ -724,14 +724,11 @@ public class TFM_PlayerListener implements Listener
             event.setCancelled(true);
         }
         
-        // Grab adminlist values
-        TFM_Admin admin = TFM_AdminList.getEntry(player);
-        
         if (!TFM_AdminList.isSuperAdmin(player))
         {
             for (Player pl : Bukkit.getOnlinePlayers())
             {
-                if (TFM_AdminList.isSuperAdmin(pl) && admin.cmdSpyEnabled())
+                if (TFM_AdminList.isSuperAdmin(pl) && TFM_AdminList.getEntry(pl).cmdSpyEnabled())
                 {
                     TFM_Util.playerMsg(pl, player.getName() + ": " + command);
                 }

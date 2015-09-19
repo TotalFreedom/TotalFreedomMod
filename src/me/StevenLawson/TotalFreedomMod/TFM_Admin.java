@@ -48,7 +48,7 @@ public class TFM_Admin
         this.isSeniorAdmin = section.getBoolean("is_senior_admin", false);
         this.isTelnetAdmin = section.getBoolean("is_telnet_admin", false);
         this.consoleAliases = section.getStringList("console_aliases");
-        this.cmdSpyEnabled = section.getBoolean("cmdspy_is_on", false);
+        this.cmdSpyEnabled = section.getBoolean("cmdspy", false);
         this.isActivated = section.getBoolean("is_activated", true);
 
         for (Iterator<?> it = TFM_MainConfig.getList(TFM_ConfigEntry.NOADMIN_IPS).iterator(); it.hasNext();)
