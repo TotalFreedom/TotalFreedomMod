@@ -407,7 +407,7 @@ public class TFM_AdminList
         admin.setLastLoginName(player.getName());
         saveAll();
     }
-    
+
     public static boolean isSuperAdminSafe(UUID uuid, String ip)
     {
         if (TotalFreedomMod.server.getOnlineMode() && uuid != null)
@@ -423,7 +423,7 @@ public class TFM_AdminList
     {
         return isSuperAdmin(sender);
     }
-    
+
     public static boolean isSuperAdmin(CommandSender sender)
     {
         if (!(sender instanceof Player))

@@ -163,7 +163,7 @@ public class TFM_Admin
     {
         this.isActivated = isActivated;
     }
-    
+
     public void setCommandSpy(boolean cmdSpyEnabled)
     {
         this.cmdSpyEnabled = cmdSpyEnabled;

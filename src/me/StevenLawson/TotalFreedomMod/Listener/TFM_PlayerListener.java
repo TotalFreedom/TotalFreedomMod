@@ -723,7 +723,7 @@ public class TFM_PlayerListener implements Listener
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
         }
-        
+
         if (!TFM_AdminList.isSuperAdmin(player))
         {
             for (Player pl : Bukkit.getOnlinePlayers())
