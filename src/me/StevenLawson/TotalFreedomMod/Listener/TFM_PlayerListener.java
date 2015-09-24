@@ -944,7 +944,7 @@ public class TFM_PlayerListener implements Listener
                     Player player = (Player) arrow.getShooter();
                     if (player.getGameMode() == GameMode.CREATIVE)
                     {
-                        TFM_Util.playerMsg(player, "Creative/Godmode pvp is prohibited.", ChatColor.DARK_RED);
+                        TFM_Util.playerMsg(player, "Creative mode pvp is prohibited.", ChatColor.DARK_RED);
                         event.setCancelled(true);
                     }
                 }
