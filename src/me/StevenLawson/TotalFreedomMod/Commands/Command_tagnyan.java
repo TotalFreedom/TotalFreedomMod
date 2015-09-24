@@ -42,7 +42,7 @@ public class Command_tagnyan extends TFM_Command
         {
             for (String word : FORBIDDEN_WORDS)
             {
-                if (args[0].contains(word))
+                if (args[0].toLowerCase().contains(word))
                 {
                     playerMsg("That tag contains a forbidden word.");
                     return true;
