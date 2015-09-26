@@ -925,7 +925,8 @@ public class TFM_PlayerListener implements Listener
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
-    {        if (event.getEntity() instanceof Player)
+    {        
+        if (event.getEntity() instanceof Player)
         {
             if (event.getDamager() instanceof Player)
             {
