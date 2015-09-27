@@ -2,6 +2,9 @@ package me.StevenLawson.TotalFreedomMod;
 
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import static me.StevenLawson.TotalFreedomMod.TFM_Util.DEVELOPERS;
+import static me.StevenLawson.TotalFreedomMod.TFM_Util.IFDEVS;
+import static me.StevenLawson.TotalFreedomMod.TFM_Util.EXECUTIVES;
+import static me.StevenLawson.TotalFreedomMod.TFM_Util.SYSADMINS;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -71,6 +74,21 @@ public enum TFM_PlayerRank
         if (DEVELOPERS.contains(sender.getName()))
         {
             return DEVELOPER;
+        }
+        
+        if (EXECUTIVES.contains(sender.getName()))
+        {
+            return EXEC;
+        }
+        
+        if (IFDEVS.contains(sender.getName()))
+        {
+            return IFDEV;
+        }
+        
+        if (SYSADMINS.contains(sender.getName()))
+        {
+            return SYS;
         }
 
         final TFM_Admin entry = TFM_AdminList.getEntryByIp(TFM_Util.getIp((Player) sender));
