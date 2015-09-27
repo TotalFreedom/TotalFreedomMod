@@ -21,6 +21,7 @@ public class Command_rc extends TFM_Command
             numChunks += unloadUnusedChunks(world);
         }
         TFM_Util.adminAction(sender.getName(), "unloading unused chunks.", true);
+        
         if (!senderIsConsole)
         {
             sender_p.sendMessage(numChunks + " chunks unloaded.");
