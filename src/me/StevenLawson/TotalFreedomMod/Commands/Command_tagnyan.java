@@ -12,6 +12,11 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Gives you a tag with random colors", usage = "/<command> <tag>", aliases = "tn")
 public class Command_tagnyan extends TFM_Command
 {
+    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
+    {
+        "admin", "owner", "moderator", "developer", "console, super admin, superadmin, sa, sta, sra"
+    });
+{
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
