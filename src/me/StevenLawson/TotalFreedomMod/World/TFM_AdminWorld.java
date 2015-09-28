@@ -80,7 +80,7 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
         welcomeSign.setLine(0, ChatColor.AQUA + "ImmaFreedom");
         welcomeSign.setLine(1, ChatColor.DARK_GRAY + "---");
         welcomeSign.setLine(2, ChatColor.YELLOW + "Adminworld");
-        welcomeSign.setLine(3, ChatColor.YELLOW + "SpawnPoint");
+        welcomeSign.setLine(3, ChatColor.YELLOW + "Spawnpoint");
         welcomeSign.update();
 
         TFM_GameRuleHandler.commitGameRules();
