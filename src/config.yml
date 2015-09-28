@@ -210,11 +210,11 @@ announcer:
   interval: 600
 
   # Prefix for all announcements
-  prefix: '&5[&eTotalFreedom&5] &b'
+  prefix: '&5[&9TotalFreedom&5] &b'
 
-  announcements:
-    - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
-    - 'You can always review the server rules here: &6http://totalfreedom.me/'
+announcements:
+    - 'Be sure to visit our forums at &6http://immafreedom.site88.net/'
+    - 'You can always review the server rules here: &6http://immafreedom.site88.net/website'
     - 'If you are not OP, be sure to ask!'
     - 'Somebody breaking the rules?  Report it!  /report <user> <reason>'
     - 'Griefing is not allowed!'
@@ -222,10 +222,9 @@ announcer:
     - 'Interested in becoming admin? Do "/ai" for more information!'
     - 'You may view all online administrators via "/list -a"'
     - 'Save your buildings via WorldEdit!  http://totalfreedom.me for more information!'
-    - 'Famous players, such as Notch, are always fake!  We are an offline/cracked server!'
-    - 'You may contact TotalFreedoms Support on Twitter!  pravi.us/nGS'
+    - 'Famous players, such as Notch, are always fake!  We are an offline/cracked server! 
     - 'You may download TotalFreedomMod here: pravi.us/V8c'
-    - 'MarkByron is TotalFreedoms owner.'
+    - 'aggelosQQ is the server owner!'
     - 'Server lagging?  Check the lag via "/tps"'
     - 'You are allowed to record and stream videos on TotalFreedom :D'
     - 'An admin abusing?  Report it! pravi.us/vfa'
@@ -233,9 +232,7 @@ announcer:
     - 'Spawn killing is forbidden!'
     - 'Invisible potions are allowed!'
     - 'Serial griefing and trolling will result in permanently being banned!'
-    - 'TotalFreedom does not accept any form of donations!'
     - 'Racism, Nazism, and Sexism is strictly forbidden!'
-    - 'Join our Mumble server! IP: 64.34.202.140:2862'
 
 # Players who cannot be banned by username
 unbannable_usernames:
@@ -317,9 +314,3 @@ autokick:
 
 # Players with access to the overlord command
 overlord_ips:
-  - 176.56.237.227
-  - 192.184.86.138
-  - 107.191.101.27
-  - 178.62.117.94
-  - 141.101.104.243
-
