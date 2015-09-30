@@ -29,6 +29,16 @@ public class Command_opall extends TFM_Command
                 doSetGamemode = true;
                 targetGamemode = GameMode.SURVIVAL;
             }
+            else if (args[0].equals("-a"))
+            {
+                doSetGamemode = true;
+                targetGamemode = GameMode.ADVENTURE;
+            }
+            else if (args[0].equals("-spectate"))
+            {
+                doSetGamemode = true;
+                targetGamemode = GameMode.SPECTATOR;
+            }
         }
 
         for (Player player : server.getOnlinePlayers())
