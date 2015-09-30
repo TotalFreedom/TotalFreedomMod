@@ -932,7 +932,7 @@ public class TFM_PlayerListener implements Listener
                 Player player = (Player) event.getDamager();
                 if (player.getGameMode() == GameMode.CREATIVE)
                 {
-                    TFM_Util.playerMsg(player, "Creative mode pvp is prohibited.", ChatColor.DARK_RED);
+                    TFM_Util.playerMsg(player, "Fighting while in creative gamemode is not allowed, please change your gamemode!", ChatColor.RED);
                     event.setCancelled(true);
                 }
             }
@@ -944,7 +944,7 @@ public class TFM_PlayerListener implements Listener
                     Player player = (Player) arrow.getShooter();
                     if (player.getGameMode() == GameMode.CREATIVE)
                     {
-                        TFM_Util.playerMsg(player, "Creative/Godmode pvp is prohibited.", ChatColor.DARK_RED);
+                        TFM_Util.playerMsg(player, "Fighting while in creative gamemode is not allowed, please change your gamemode!", ChatColor.RED);
                         event.setCancelled(true);
                     }
                 }
