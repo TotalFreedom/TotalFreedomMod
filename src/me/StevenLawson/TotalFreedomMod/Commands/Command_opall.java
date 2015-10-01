@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Op everyone on the server, optionally change everyone's gamemode at the same time.", usage = "/<command> [-c | -s]")
+@CommandParameters(description = "Op everyone on the server, optionally change everyone's gamemode at the same time.", usage = "/<command> [-c | -s] [-a]")
 public class Command_opall extends TFM_Command
 {
     @Override
@@ -29,6 +29,12 @@ public class Command_opall extends TFM_Command
                 doSetGamemode = true;
                 targetGamemode = GameMode.SURVIVAL;
             }
+            else if (args[0].equals("-a"))
+            {
+                doSetGamemode = true;
+                targetGamemode = GameMode.ADVENTURE;
+            }
+        
         }
 
         for (Player player : server.getOnlinePlayers())
