@@ -51,15 +51,15 @@ public class Command_op extends TFM_Command
             }
         }
 
-+        if (!player.isOp())
-+        {
-+        	TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
-+        	player.setOp(true);
-+        }
-+        else
-+        {
-+        	playerMsg("That player is already OP.");
-+        }
+        if (!player.isOp())
+        {
+        	TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
+        	player.setOp(true);
+        }
+        else
+        {
+        	playerMsg("That player is already OP.");
+        }
 
         return true;
     }
