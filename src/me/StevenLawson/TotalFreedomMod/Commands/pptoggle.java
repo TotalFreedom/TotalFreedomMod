@@ -21,7 +21,7 @@ public class Command_pptoggle extends TFM_Command
         
     	for (Plugin playerparticles : TotalFreedomMod.server.getPluginManager().getPlugins()) {
     		if (playerparticles.getName().equalsIgnoreCase("playerparticles")) {
-    			if(playerparticles.isEnabled()) {
+    			if (playerparticles.isEnabled()) {
     				playerparticles.getPluginLoader().disablePlugin(playerparticles);
     				enabled = false;
     			} else {
@@ -31,8 +31,8 @@ public class Command_pptoggle extends TFM_Command
     			toggled = true;
     		}
     	}
-    	if(toggled) {
-    		if(!enabled) {
+    	if (toggled) {
+    		if (!enabled) {
                 TFM_Util.adminAction(sender.getName(), "Disabling PlayerParticles", true);
     		} else {
     			TFM_Util.adminAction(sender.getName(), "Enabling PlayerParticles", false);
