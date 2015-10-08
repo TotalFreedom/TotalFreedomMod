@@ -486,7 +486,7 @@ public class TFM_PlayerListener implements Listener
             if (outOfCage)
             {
                 playerdata.setCaged(true, targetPos, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER), playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
-                playerdata.regenerateHistory();
+                playerdata.regenerateHistory();s
                 playerdata.clearHistory();
                 TFM_Util.buildHistory(targetPos, 2, playerdata);
                 TFM_Util.generateHollowCube(targetPos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
@@ -605,7 +605,7 @@ public class TFM_PlayerListener implements Listener
             {
                 if (!TFM_AdminList.isSuperAdminSync(player))
                 {
-                    TFM_Sync.playerMsg(player, ChatColor.RED + "You are muted, STFU! - You will be unmuted in 5 minutes.");
+                    TFM_Sync.playerMsg(player, ChatColor.RED + "You are muted! You will be unmuted in max 5 minutes!");
                     event.setCancelled(true);
                     return;
                 }
