@@ -26,7 +26,7 @@ public class TFM_ServerListener implements Listener
 
         if (TFM_ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
         {
-            event.setMotd(ChatColor.RED + "Server is closed.");
+            event.setMotd(ChatColor.RED + "Server is closed to admins only.");
             return;
         }
 
@@ -38,7 +38,7 @@ public class TFM_ServerListener implements Listener
 
         if (Bukkit.getOnlinePlayers().size() >= Bukkit.getMaxPlayers())
         {
-            event.setMotd(ChatColor.RED + "Server is full, pleae wait!");
+            event.setMotd(ChatColor.RED + "Server is full, please wait!");
             return;
         }
 
