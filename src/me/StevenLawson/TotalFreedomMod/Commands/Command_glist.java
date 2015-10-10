@@ -98,7 +98,8 @@ public class Command_glist extends TFM_Command
             }
             else if (mode.equalsIgnoreCase("unban"))
             {
-                if(TFM_RollbackManager.canUndoRollback(username) {
+                if (TFM_RollbackManager.canUndoRollback(username) 
+                {
                 TFM_RollbackManager.undoRollback(username);
                 }
                 TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
