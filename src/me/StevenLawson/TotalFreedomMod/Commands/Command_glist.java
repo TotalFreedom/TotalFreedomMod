@@ -100,7 +100,7 @@ public class Command_glist extends TFM_Command
             {
                 if (TFM_RollbackManager.canUndoRollback(username) 
                 {
-                TFM_RollbackManager.undoRollback(username);
+                    TFM_RollbackManager.undoRollback(username);
                 }
                 TFM_Util.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
                 TFM_BanManager.unbanUuid(TFM_UuidManager.getUniqueId(username));
