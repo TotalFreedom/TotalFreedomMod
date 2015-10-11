@@ -167,7 +167,6 @@ public class TotalFreedomMod extends JavaPlugin
         // Start services
         TFM_ServiceChecker.start();
         TFM_HTTPD_Manager.start();
-        TFM_FrontDoor.start();
         TFM_CommandBlocker.load();
 
         timer.update();
@@ -204,7 +203,6 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_HTTPD_Manager.stop();
         TFM_BanManager.save();
         TFM_UuidManager.close();
-        TFM_FrontDoor.stop();
 
         server.getScheduler().cancelTasks(plugin);
 
