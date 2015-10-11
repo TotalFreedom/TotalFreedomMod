@@ -1,58 +1,70 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Display the NSA's information about our players.", usage = "/<command>")
-public class Command_nsa extends TFM_Command
+@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH)
+@CommandParameters(description = "Somebody talking about suicide?   Send them an I love you message <3", usage = "/<command> [playername]")
+public class Command_shelp extends TFM_Command
 {
+    @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        for (Player player : server.getOnlinePlayers())
+        if (args.length != 1)
         {
-            // Provide username
-            TFM_Util.playerMsg(sender, "username: " + ChatColor.AQUA + player.getName());
-            // Provide IP address
-            TFM_Util.playerMsg(sender, "IP address: " + ChatColor.AQUA + TFM_Util.getIp(player));
-            // Provide if OP or not
-            TFM_Util.playerMsg(sender, "Is OP: " + ChatColor.AQUA + player.isOp());
-            // What gamemode is the user in?
-            TFM_Util.playerMsg(sender, "Gamemode : " + ChatColor.AQUA + player.getGameMode());
-            // What is the users Fly Speed?
-            TFM_Util.playerMsg(sender, "Fly speed: " + ChatColor.AQUA + player.getFlySpeed());
-            // What is the users food level?
-            TFM_Util.playerMsg(sender, "Food level: " + ChatColor.AQUA + player.getFoodLevel());
-            // What is the users health level?
-            TFM_Util.playerMsg(sender, "Health level: " + ChatColor.AQUA + player.getHealth());
-            // Add a break to allow better formatting
-            TFM_Util.playerMsg(sender, " ");
+            return false;
         }
-if (args[0].equalsIgnoreCase("-p"))
-       {
-        for (Player player : server.getOnlinePlayers())
+
+        final Player player = getPlayer(args[0]);
+
+        if (player == null)
         {
-            // Provide username
-            TFM_Util.bcastMsg("username: " + ChatColor.AQUA + player.getName());
-            // Provide IP address
-            TFM_Util.bcastMsg("IP address: " + ChatColor.AQUA + TFM_Util.getIp(player));
-            // Provide if OP or not
-            TFM_Util.bcastMsg("Is OP: " + ChatColor.AQUA + player.isOp());
-            // What gamemode is the user in?
-            TFM_Util.bcastMsg("Gamemode : " + ChatColor.AQUA + player.getGameMode());
-            // What is the users Fly Speed?
-            TFM_Util.bcastMsg("Fly speed: " + ChatColor.AQUA + player.getFlySpeed());
-            // What is the users food level?
-            TFM_Util.bcastMsg("Food level: " + ChatColor.AQUA + player.getFoodLevel());
-            // What is the users health level?
-            TFM_Util.bcastMsg("Health level: " + ChatColor.AQUA + player.getHealth());
-            // Add a break to allow better formatting
-            TFM_Util.bcastMsg(" ");
+            playerMsg(TFM_Command.PLAYER_NOT_FOUND);
+            return true;
         }
-       }
+
+        shelp(player);
+
         return true;
+    }
+
+    public static void shelp(final Player player)
+    {
+        TFM_Util.playerMsg(player, "                ,-\"\"-,-\"       \"-,-\"\"-,", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "               /,-' , .-'-.7.-'-. , '-,\\", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "               \\(    /  _     _  \\    )/", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "                '-,  { (0)   (0) }  ,-'", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "                 /    >  .---.  <    \\", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "                |/ .-'   \\___/   '-. \\|", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "                {, /  ,_       _,  \\ ,}", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "                \\ {,    \\     /    ,} /", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "                 ',\\.    '---'    ./,'", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "             _.-\"\"\"\"\"\"-._     _.-\"\"\"\"\"\"-._", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "           .'            `._.`            '.", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "         _/_               _                \\", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "      .'`   `\\            | |                \\", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "     /        |           | |                 ;", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "     |        /           |_|                 |", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "     \\  ;'---'    _    ___  _  _  ___         ;", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "      '. ;       | |  /   \\| || ||  _|     _ ;", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "        `-\\      | |_ | | || |/ /|  _|   .' `,", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "           `\\    |___|\\___/ \\__/ |___|  |     \\", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "             \\            _ _           \\     |", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "         jgs  `\\         | | |         /`   _/", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "    ,-\"\"-.    .'`\\       | | |       /`-,-'` .-\"\"-,", ChatColor.WHITE);
+		TFM_Util.playerMsg(player, "   /      `\\.'    `\\      \\___/     /`    './`      \\", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "  ;  .--.   \\       '\\           /'       /   .--.  ;", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "  | (    \\   |,       '\\       /'        |   /    ) |", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "   \\ ;    }             ;\\   /;         `   {    ; /", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "    `;\\   \\         _.-'  \\ /  `-._         /   /;`", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "      \\ \\__.'   _.-'       Y       `-._    '.__//", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, "       '.___,.-'                       `-.,___.'", ChatColor.WHITE);
+        TFM_Util.playerMsg(player, player.getName() + ", We love you, please, call for help!", ChatColor.AQUA);
+        TFM_Util.playerMsg(player, "1-800-273-TALK (8255) | +44 (0) 8457 90 90 90 ", ChatColor.AQUA);
+        player.setHealth(10.0);
     }
 }
