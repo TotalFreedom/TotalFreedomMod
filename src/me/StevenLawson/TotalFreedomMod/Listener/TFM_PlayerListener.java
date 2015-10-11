@@ -28,6 +28,8 @@ import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
+import static net.minecraft.server.v1_8_R3.AchievementList.s;
+import static net.minecraft.server.v1_8_R3.StatisticList.s;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -486,7 +488,7 @@ public class TFM_PlayerListener implements Listener
             if (outOfCage)
             {
                 playerdata.setCaged(true, targetPos, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER), playerdata.getCageMaterial(TFM_PlayerData.CageLayer.INNER));
-                playerdata.regenerateHistory();s
+                playerdata.regenerateHistory();
                 playerdata.clearHistory();
                 TFM_Util.buildHistory(targetPos, 2, playerdata);
                 TFM_Util.generateHollowCube(targetPos, 2, playerdata.getCageMaterial(TFM_PlayerData.CageLayer.OUTER));
@@ -967,6 +969,11 @@ public class TFM_PlayerListener implements Listener
                 }
             }
         }
+    }
+
+    private void clearHistory()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
