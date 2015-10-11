@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER source = SourceType.BOTH)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Display the NSA's information about our players.", usage = "/<command>")
 public class Command_nsa extends TFM_Command
 {
