@@ -34,7 +34,7 @@ public class Command_adminmode extends TFM_Command
             {
                 if (!TFM_AdminList.isSuperAdmin(player))
                 {
-                    player.kickPlayer(ChatColor.RED + "You have been disconnected from adminmode by " + sender.getName() + ".");
+                    player.kickPlayer(ChatColor.RED + "You have been disconnected because " + sender.getName() + " enabled adminmode!");
                 }
             }
             return true;
