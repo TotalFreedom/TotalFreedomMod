@@ -23,7 +23,7 @@ public class Command_shelp extends TFM_Command
 
         if (player == null)
         {
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+            playerMsg(TFM_Command.PLAYER_NOT_FOUND);
             return true;
         }
 
@@ -67,3 +67,4 @@ public class Command_shelp extends TFM_Command
         TFM_Util.playerMsg(player, "1-800-273-TALK (8255) | +44 (0) 8457 90 90 90 ", ChatColor.AQUA);
         player.setHealth(10.0);
     }
+}
