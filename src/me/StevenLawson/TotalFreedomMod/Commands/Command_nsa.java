@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH)
 @CommandParameters(description = "Somebody talking about suicide?   Send them an I love you message <3", usage = "/<command> [playername]")
-public class Command_shelp extends TFM_Command
+public class Command_nsa extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
