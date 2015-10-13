@@ -847,7 +847,7 @@ public class TFM_PlayerListener implements Listener
             TFM_Util.bcastMsg(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.getLoginMessage(player));
             player.getInventory().clear();
             player.setOp(false);
-            player.setGameMode(GameMode.SURVIVAL);
+            player.setGameMode(GameMode.ADVENTURE);
             TFM_PlayerData.getPlayerData(player).setFrozen(true);
         }
         else if (TFM_AdminList.isSuperAdmin(player) || TFM_Util.DEVELOPERS.contains(player.getName()))
