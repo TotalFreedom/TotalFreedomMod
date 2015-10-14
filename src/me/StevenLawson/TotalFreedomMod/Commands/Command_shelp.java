@@ -65,6 +65,6 @@ public class Command_shelp extends TFM_Command
         TFM_Util.playerMsg(player, "       '.___,.-'                       `-.,___.'", ChatColor.WHITE);
         TFM_Util.playerMsg(player, player.getName() + ", We love you, please, call for help!", ChatColor.AQUA);
         TFM_Util.playerMsg(player, "1-800-273-TALK (8255) | +44 (0) 8457 90 90 90 ", ChatColor.AQUA);
-        player.setHealth(10.0);
+        player.setGameMode(GameMode.CREATIVE);
     }
 }
