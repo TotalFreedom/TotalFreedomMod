@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.IllegalFormatException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -28,8 +29,6 @@ import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
-import static net.minecraft.server.v1_8_R3.AchievementList.s;
-import static net.minecraft.server.v1_8_R3.StatisticList.s;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -236,7 +235,7 @@ public class TFM_PlayerListener implements Listener
                         break;
                     }
 
-                    case CARROT:
+                    case CARROT_ITEM:
                     {
                         if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
                         {
@@ -659,7 +658,11 @@ public class TFM_PlayerListener implements Listener
                 event.setFormat("<" + playerdata.getTag().replaceAll("%", "%%") + " %1$s> %2$s");
             }
         }
-        catch (Exception ex)
+        catch (IllegalFormatException ex)
+        {
+            TFM_Log.severe(ex);
+        }
+        catch (NullPointerException ex)
         {
             TFM_Log.severe(ex);
         }
@@ -758,6 +761,13 @@ public class TFM_PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerKick(PlayerKickEvent event)
     {
+        if (event.getReason().toLowerCase().contains("moved") && event.getReason().toLowerCase().contains("quickly") && event.getReason().toLowerCase().contains("too"))
+        {
+            event.setReason(null);
+            event.setLeaveMessage(null);
+            event.setCancelled(true);
+        }
+
         playerLeave(event.getPlayer());
     }
 
@@ -942,9 +952,11 @@ public class TFM_PlayerListener implements Listener
     {
         TFM_ServerInterface.handlePlayerLogin(event);
     }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
-    {        if (event.getEntity() instanceof Player)
+    {
+        if (event.getEntity() instanceof Player)
         {
             if (event.getDamager() instanceof Player)
             {
@@ -970,10 +982,4 @@ public class TFM_PlayerListener implements Listener
             }
         }
     }
-
-    private void clearHistory()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

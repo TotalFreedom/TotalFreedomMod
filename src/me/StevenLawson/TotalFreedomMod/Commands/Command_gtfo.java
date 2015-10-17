@@ -8,6 +8,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -43,17 +44,21 @@ public class Command_gtfo extends TFM_Command
 
         TFM_Util.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
 
-        // Undo WorldEdits:
-        try
-        {
-            TFM_WorldEditBridge.undo(player, 15);
-        }
-        catch (NoClassDefFoundError ex)
-        {
-        }
-
-        // rollback
-        TFM_RollbackManager.rollback(player.getName());
+        // Use coreprotect as the rollback interface
+        Bukkit.dispatchCommand(sender, "co rb u:" + player.getName() + " t:24h r:global #silent");
+        
+        
+//        // Undo WorldEdits:
+//        try
+//        {
+//            TFM_WorldEditBridge.undo(player, 15);
+//        }
+//        catch (NoClassDefFoundError ex)
+//        {
+//        }
+//
+//        // rollback
+//        TFM_RollbackManager.rollback(player.getName());
 
         // deop
         player.setOp(false);
@@ -80,6 +85,8 @@ public class Command_gtfo extends TFM_Command
 
         final StringBuilder bcast = new StringBuilder()
                 .append(ChatColor.RED)
+                .append(sender.getName())
+                .append(" - ")
                 .append("Banning: ")
                 .append(player.getName())
                 .append(", IP: ")
@@ -98,7 +105,7 @@ public class Command_gtfo extends TFM_Command
         TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), sender.getName(), null, reason));
 
         // kick Player:
-        player.kickPlayer(ChatColor.RED + "You are banned!" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
+        player.kickPlayer(ChatColor.RED + "You have been banned (GTFO)" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
 
         return true;
     }
