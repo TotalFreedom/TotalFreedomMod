@@ -20,7 +20,7 @@ public class Command_pptoggle extends TFM_Command
     		    if (p.isEnabled()) {
                     p.getPluginLoader().disablePlugin(p);
     	            TFM_Util.adminAction(sender.getName(), "Disabling PlayerParticles", true);
-    	    } else {
+    	        } else {
     		  p.getPluginLoader().enablePlugin(p);
     		  TFM_Util.adminAction(sender.getName(), "Enabled PlayerParticles", false);
     			    }
