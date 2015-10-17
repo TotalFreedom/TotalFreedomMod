@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,28 +15,19 @@ public class Command_pptoggle extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {	
-    	boolean toggled = false;
-    	boolean enabled = true;
         
-    	for (Plugin playerparticles : TotalFreedomMod.server.getPluginManager().getPlugins()) {
-    		if (playerparticles.getName().equalsIgnoreCase("playerparticles")) {
-    			if (playerparticles.isEnabled()) {
-    				playerparticles.getPluginLoader().disablePlugin(playerparticles);
-    				enabled = false;
-    			} else {
-    				playerparticles.getPluginLoader().enablePlugin(playerparticles);
-    				enabled = true;
-    			}
-    			toggled = true;
-    		}
-    	}
-    	if (toggled) {
-    		if (!enabled) {
+    	for (Plugin p : TotalFreedomMod.server.getPluginManager().getPlugins()) {
+    		if (p.getName().equalsIgnoreCase("playerparticles")) {
+    			if (p.isEnabled()) {
+    	        p.getPluginLoader().disablePlugin(p);
                 TFM_Util.adminAction(sender.getName(), "Disabling PlayerParticles", true);
-    		} else {
-    			TFM_Util.adminAction(sender.getName(), "Enabling PlayerParticles", false);
+                } else {
+    		    p.getPluginLoader().enablePlugin(p);
+                TFM_Util.adminAction(sender.getName(), "Enabled PlayerParticles", false);
+    			}
     		}
-    	}
-        return true;
+        }
+       return true;
     }
 }
+            
