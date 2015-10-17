@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Listener;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.Iterator;
@@ -232,71 +231,6 @@ public class TFM_PlayerListener implements Listener
                         player.getWorld().createExplosion(targetBlock.getLocation(), 4F, true);
                         player.getWorld().strikeLightning(targetBlock.getLocation());
 
-                        break;
-                    }
-
-                    case CARROT_ITEM:
-                    {
-                        if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
-                        {
-                            break;
-                        }
-
-                        if (!TFM_AdminList.isSeniorAdmin(player, true))
-                        {
-                            break;
-                        }
-
-                        Location location = player.getLocation().clone();
-
-                        Vector playerPostion = location.toVector().add(new Vector(0.0, 1.65, 0.0));
-                        Vector playerDirection = location.getDirection().normalize();
-
-                        double distance = 150.0;
-                        Block targetBlock = TFM_DepreciationAggregator.getTargetBlock(player, null, Math.round((float) distance));
-                        if (targetBlock != null)
-                        {
-                            distance = location.distance(targetBlock.getLocation());
-                        }
-
-                        final List<Block> affected = new ArrayList<Block>();
-
-                        Block lastBlock = null;
-                        for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))
-                        {
-                            Block block = playerPostion.clone().add(playerDirection.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
-
-                            if (!block.equals(lastBlock))
-                            {
-                                if (block.isEmpty())
-                                {
-                                    affected.add(block);
-                                    block.setType(Material.TNT);
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-
-                            lastBlock = block;
-                        }
-
-                        new BukkitRunnable()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                for (Block tntBlock : affected)
-                                {
-                                    TNTPrimed tnt = tntBlock.getWorld().spawn(tntBlock.getLocation(), TNTPrimed.class);
-                                    tnt.setFuseTicks(5);
-                                    tntBlock.setType(Material.AIR);
-                                }
-                            }
-                        }.runTaskLater(TotalFreedomMod.plugin, 30L);
-
-                        event.setCancelled(true);
                         break;
                     }
 
