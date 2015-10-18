@@ -5,6 +5,8 @@ import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -41,6 +43,13 @@ public class Command_tban extends TFM_Command
                 targetPos.getWorld().strikeLightning(strike_pos);
             }
         }
+        
+        String reason = "Unknown";
+        
+        if (args.length >= 2)
+        {
+            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+        }
 
         TFM_Util.adminAction(sender.getName(), "Tempbanning: " + player.getName() + " for 5 minutes.", true);
         TFM_BanManager.addUuidBan(
@@ -48,7 +57,7 @@ public class Command_tban extends TFM_Command
         TFM_BanManager.addIpBan(
                 new TFM_Ban(TFM_Util.getIp(player), player.getName(), sender.getName(), TFM_Util.parseDateOffset("5m"), ChatColor.RED + "You have been temporarily banned for 5 minutes."));
 
-        player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
+        player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. \nReason " + reason);
 
         return true;
     }
