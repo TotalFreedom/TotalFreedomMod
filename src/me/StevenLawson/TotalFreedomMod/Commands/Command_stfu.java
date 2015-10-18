@@ -93,7 +93,7 @@ public class Command_stfu extends TFM_Command
             }
             else
             {
-                String reason;
+                String reason = "Unknown";
                 if (args.length >= 2)
                 {
                     reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
