@@ -18,8 +18,8 @@ public class Command_pptoggle extends TFM_Command
     	for (Plugin p : TotalFreedomMod.server.getPluginManager().getPlugins()) {
     	    if (p.getName().equalsIgnoreCase("PlayerParticles")) {
     		    if (p.isEnabled()) {
-                    p.getPluginLoader().disablePlugin(p);
-    	            TFM_Util.adminAction(sender.getName(), "Disabling PlayerParticles", true);
+               p.getPluginLoader().disablePlugin(p);
+    	       TFM_Util.adminAction(sender.getName(), "Disabling PlayerParticles", true);
     	          } else {
     		  p.getPluginLoader().enablePlugin(p);
     		  TFM_Util.adminAction(sender.getName(), "Enabled PlayerParticles", false);
