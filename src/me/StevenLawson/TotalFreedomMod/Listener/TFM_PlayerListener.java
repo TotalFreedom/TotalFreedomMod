@@ -582,6 +582,13 @@ public class TFM_PlayerListener implements Listener
                 event.setCancelled(true);
                 return;
             }
+            
+            if (playerdata.adminHelpEnabled())
+            {
+                TFM_Sync.adminMessengerMsg(player, message, false);
+                event.setCancelled(true);
+                return;
+            }
 
             // Finally, set message
             event.setMessage(message);
@@ -592,11 +599,7 @@ public class TFM_PlayerListener implements Listener
                 event.setFormat("<" + playerdata.getTag().replaceAll("%", "%%") + " %1$s> %2$s");
             }
         }
-        catch (IllegalFormatException ex)
-        {
-            TFM_Log.severe(ex);
-        }
-        catch (NullPointerException ex)
+        catch (IllegalFormatException | NullPointerException ex)
         {
             TFM_Log.severe(ex);
         }
@@ -848,7 +851,6 @@ public class TFM_PlayerListener implements Listener
                 TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
             }
         }
-
         try
         {
             player.setPlayerListName(StringUtils.substring(name, 0, 16));

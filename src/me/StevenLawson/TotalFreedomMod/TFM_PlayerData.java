@@ -105,6 +105,7 @@ public class TFM_PlayerData
     private boolean verifiedSuperadminId = false;
     private String lastCommand = "";
     private boolean cmdspyEnabled = false;
+    private boolean didNeedHelp = false;
     private String tag = null;
     private int warningCount = 0;
 
@@ -495,6 +496,16 @@ public class TFM_PlayerData
     public void setLastCommand(String lastCommand)
     {
         this.lastCommand = lastCommand;
+    }
+    
+    public void setAdminHelpNeeded(boolean enabled)
+    {
+        this.didNeedHelp = enabled;
+    }
+
+    public boolean adminHelpEnabled()
+    {
+        return didNeedHelp;
     }
 
     public void setCommandSpy(boolean enabled)
