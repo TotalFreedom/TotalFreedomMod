@@ -90,7 +90,7 @@ public class Command_glist extends TFM_Command
                 if (target != null)
                 {
                     TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(target), target.getName()));
-                    target.kickPlayer("You have been banned by " + sender.getName() + "for " + reason + ""\n If you think you have been banned wrongly, appeal here: " + TFM_ConfigEntry.SERVER_BAN_URL.getString());
+                    target.kickPlayer("You have been banned by " + sender.getName() + "\nReason: " + reason + "\n If you think you have been banned wrongly, appeal here: " + TFM_ConfigEntry.SERVER_BAN_URL.getString());
                 }
                 else
                 {
