@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Block all commands for a specific player.", usage = "/<command> <purge | <partialname>>", aliases = "blockcommands,blockcommand")
+@CommandParameters(description = "Block all command input for a specific player.", usage = "/<command> <purge | <partialname>>", aliases = "blockcommands,blockcommand")
 public class Command_blockcmd extends TFM_Command
 {
     @Override
@@ -21,7 +21,7 @@ public class Command_blockcmd extends TFM_Command
 
         if (args[0].equalsIgnoreCase("purge"))
         {
-            TFM_Util.adminAction(sender.getName(), "Unblocking commands for all players", true);
+            TFM_Util.adminAction(sender.getName(), "Unblocking command input for all players", true);
             int counter = 0;
             for (Player player : server.getOnlinePlayers())
             {
@@ -32,7 +32,7 @@ public class Command_blockcmd extends TFM_Command
                     playerdata.setCommandsBlocked(false);
                 }
             }
-            playerMsg("Unblocked commands for " + counter + " players.");
+            playerMsg("Unblocked command input for " + counter + " players.");
             return true;
         }
 
@@ -46,7 +46,7 @@ public class Command_blockcmd extends TFM_Command
 
         if (TFM_AdminList.isSuperAdmin(player))
         {
-            playerMsg(player.getName() + " is a Superadmin, and cannot have their commands blocked.");
+            playerMsg(player.getName() + " is a Superadmin, and cannot have their command input blocked.");
             return true;
         }
 
@@ -54,8 +54,8 @@ public class Command_blockcmd extends TFM_Command
 
         playerdata.setCommandsBlocked(!playerdata.allCommandsBlocked());
 
-        TFM_Util.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all commands for " + player.getName(), true);
-        playerMsg((playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
+        TFM_Util.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all command input for " + player.getName(), true);
+        playerMsg((playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all command input.");
 
         return true;
     }
