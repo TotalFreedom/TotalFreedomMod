@@ -3,6 +3,8 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -91,9 +93,15 @@ public class Command_stfu extends TFM_Command
             }
             else
             {
+                String reason;
+                if (args.length >= 2)
+                {
+                    reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+                }
+
                 if (!TFM_AdminList.isSuperAdmin(player))
                 {
-                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
+                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName() + "\nReason: " + reason, true);
                     playerdata.setMuted(true);
 
                     if (args.length == 2 && args[1].equalsIgnoreCase("-s"))
