@@ -1,6 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -10,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> [playername]")
+@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> [playername] <reason>")
 public class Command_smite extends TFM_Command
 {
     @Override
@@ -28,7 +30,15 @@ public class Command_smite extends TFM_Command
             playerMsg(TFM_Command.PLAYER_NOT_FOUND);
             return true;
         }
+        
+        String reason = "Unknown";
+        if (args.length >= 2)
+        {
+            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+        }
 
+        TFM_Util.bcastMsg(ChatColor.RED + sender.getName() + " - Smiting " + player.getName() + " Reason: " + reason);
+        
         smite(player);
 
         return true;
