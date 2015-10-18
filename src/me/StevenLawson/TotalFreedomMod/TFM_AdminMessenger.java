@@ -16,10 +16,7 @@ public class TFM_AdminMessenger
         for (Player player : Bukkit.getOnlinePlayers())
         {
             final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
-            if (TFM_AdminList.isSuperAdmin(player) || playerdata.adminHelpEnabled())
-            {
-                player.sendMessage("[" + ChatColor.AQUA + "Admin Support" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
-            }
+            player.sendMessage("[" + ChatColor.AQUA + "Admin Support" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
         }
     }
 }

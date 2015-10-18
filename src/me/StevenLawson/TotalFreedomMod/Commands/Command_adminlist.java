@@ -21,7 +21,6 @@ public class Command_adminlist extends TFM_Command
         sender.sendMessage(ChatColor.DARK_PURPLE + "Developers: AwesomePinch, AndySixx");
         sender.sendMessage(ChatColor.BLUE + "Owner: aggelosQQ");
         sender.sendMessage(ChatColor.GOLD + "===============( + )===============");
-         return true;
+        return true;
     }
-} 
-    
+}

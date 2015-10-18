@@ -77,7 +77,7 @@ public class TFM_Sync
 
         }.runTask(TotalFreedomMod.plugin);
     }
-    
+
     public static void adminMessengerMsg(final CommandSender sender, final String message, final boolean isRed)
     {
         new BukkitRunnable()

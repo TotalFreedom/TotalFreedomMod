@@ -46,8 +46,7 @@ public class Command_gtfo extends TFM_Command
 
         // Use coreprotect as the rollback interface
         Bukkit.dispatchCommand(sender, "co rb u:" + player.getName() + " t:24h r:global #silent");
-        
-        
+
 //        // Undo WorldEdits:
 //        try
 //        {
@@ -59,7 +58,6 @@ public class Command_gtfo extends TFM_Command
 //
 //        // rollback
 //        TFM_RollbackManager.rollback(player.getName());
-
         // deop
         player.setOp(false);
 

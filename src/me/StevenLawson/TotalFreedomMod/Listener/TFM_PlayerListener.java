@@ -582,7 +582,7 @@ public class TFM_PlayerListener implements Listener
                 event.setCancelled(true);
                 return;
             }
-            
+
             if (playerdata.adminHelpEnabled())
             {
                 TFM_Sync.adminMessengerMsg(player, message, false);

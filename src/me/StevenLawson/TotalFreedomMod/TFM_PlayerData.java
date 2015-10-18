@@ -497,7 +497,7 @@ public class TFM_PlayerData
     {
         this.lastCommand = lastCommand;
     }
-    
+
     public void setAdminHelpNeeded(boolean enabled)
     {
         this.didNeedHelp = enabled;

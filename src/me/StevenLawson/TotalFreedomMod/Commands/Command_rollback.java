@@ -8,18 +8,23 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Issues a rollback on a player", usage = "/<command> <[partialname] | undo [partialname] purge [partialname] | purgeall>", aliases = "rb")
-public class Command_rollback extends TFM_Command {
+public class Command_rollback extends TFM_Command
+{
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
-        if (args.length == 0 || args.length > 2) {
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
+        if (args.length == 0 || args.length > 2)
+        {
             return false;
         }
 
-        if (args.length == 1) {
+        if (args.length == 1)
+        {
             String name = args[0];
             Player player = Bukkit.getPlayer(name);
-            if (player != null) {
+            if (player != null)
+            {
                 name = player.getName();
             }
             TFM_Util.adminAction(sender.getName(), "Rolling back " + name + ".", true);
@@ -28,11 +33,14 @@ public class Command_rollback extends TFM_Command {
             return true;
         }
 
-        if (args.length == 2) {
-            if ("undo".equalsIgnoreCase(args[0])) {
+        if (args.length == 2)
+        {
+            if ("undo".equalsIgnoreCase(args[0]))
+            {
                 String name = args[1];
                 Player player = Bukkit.getPlayer(name);
-                if (player != null) {
+                if (player != null)
+                {
                     name = player.getName();
                 }
                 TFM_Util.adminAction(sender.getName(), "Reverting rollback of " + name + ".", true);

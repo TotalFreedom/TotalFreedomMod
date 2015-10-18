@@ -29,7 +29,7 @@ public class Command_lemonade extends TFM_Command
             output.append(ChatColor.COLOR_CHAR).append(Integer.toHexString(1 + random.nextInt(14))).append(word).append(" ");
         }
 
-        final ItemStack heldItem = new ItemStack(Material.POTION, 1, (byte)0);
+        final ItemStack heldItem = new ItemStack(Material.POTION, 1, (byte) 0);
         final ItemMeta heldItemMeta = heldItem.getItemMeta();
         heldItemMeta.setDisplayName((new StringBuilder()).append(ChatColor.WHITE).append("The ").append(ChatColor.DARK_GRAY).append("Lie").toString());
         heldItem.setItemMeta(heldItemMeta);

@@ -4,6 +4,7 @@ import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
 
 public class TFM_HTTPD_PageBuilder
 {
+
     private static final String TEMPLATE = "<!DOCTYPE html>\r\n"
             + "<html>\r\n"
             + "<head>\r\n"

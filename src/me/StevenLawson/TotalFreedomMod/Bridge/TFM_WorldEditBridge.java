@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 public class TFM_WorldEditBridge
 {
+
     private static WorldEditPlugin worldEditPlugin = null;
 
     private TFM_WorldEditBridge()

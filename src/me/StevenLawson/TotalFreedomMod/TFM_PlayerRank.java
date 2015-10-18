@@ -75,17 +75,17 @@ public enum TFM_PlayerRank
         {
             return DEVELOPER;
         }
-        
+
         if (EXECUTIVES.contains(sender.getName()))
         {
             return EXEC;
         }
-        
+
         if (IFDEVS.contains(sender.getName()))
         {
             return IFDEV;
         }
-        
+
         if (SYSADMINS.contains(sender.getName()))
         {
             return SYS;

@@ -34,7 +34,7 @@ public class Command_opall extends TFM_Command
                 doSetGamemode = true;
                 targetGamemode = GameMode.ADVENTURE;
             }
-        
+
         }
 
         for (Player player : server.getOnlinePlayers())

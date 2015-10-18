@@ -12,7 +12,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "TFM Interface Command - Remove distracting things from tags of all players on server.", usage = "/<command>", aliases = "tc")
 public class Command_tagclean extends TFM_Command
@@ -25,7 +24,7 @@ public class Command_tagclean extends TFM_Command
         ChatColor.UNDERLINE,
         ChatColor.BLACK
     };
-    
+
     private static final String[] BLOCKED_WORDS = new String[]
     {
         "super admin",
@@ -37,11 +36,12 @@ public class Command_tagclean extends TFM_Command
     };
     private static final Pattern REGEX = Pattern.compile("\\u00A7[" + StringUtils.join(BLOCKED_WORDS, "") + "]");
     private static final Pattern TWOREGEX = Pattern.compile("\\u00A7[" + StringUtils.join(BLOCKED, "") + "]");
+
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         TFM_Util.adminAction(sender.getName(), "Cleaning all tags.", false);
-        
+
         for (final Player player : Bukkit.getOnlinePlayers())
         {
             final String playerName = player.getName();
@@ -50,7 +50,7 @@ public class Command_tagclean extends TFM_Command
             {
                 final Matcher matcher = REGEX.matcher(playerdata.getTag());
                 final Matcher matchertwo = TWOREGEX.matcher(playerdata.getTag());
-                
+
                 if (matcher.find())
                 {
                     final String newTag = matcher.replaceAll("");
@@ -65,7 +65,7 @@ public class Command_tagclean extends TFM_Command
                 }
 
             }
-            
+
         }
         return true;
     }
