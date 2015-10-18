@@ -10,6 +10,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_Player;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -77,13 +78,19 @@ public class Command_glist extends TFM_Command
             String mode = args[0].toLowerCase();
             if (mode.equalsIgnoreCase("ban"))
             {
+                String reason = "Unknown";
+                if (args.length >= 2)
+                {
+                    reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+                }
+                
                 TFM_Util.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
 
                 final Player target = getPlayer(username, true);
                 if (target != null)
                 {
                     TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(target), target.getName()));
-                    target.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: " + TFM_ConfigEntry.SERVER_BAN_URL.getString());
+                    target.kickPlayer("You have been banned by " + sender.getName() + "\nReason: " + reason + "\n If you think you have been banned wrongly, appeal here: " + TFM_ConfigEntry.SERVER_BAN_URL.getString());
                 }
                 else
                 {
