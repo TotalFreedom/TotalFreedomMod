@@ -103,11 +103,11 @@ blocked_commands:
 
   # Superadmin commands
   - 's:b:/kick:_'
-  - 's:b:/flood:_'
   - 's:b:/socialspy:_'
   - 's:b:/kill:_'
   - 's:b://generate:_'
   - 's:b://:_'
+  - 's:b://flood:_'
   - 's:b:/superpickaxe:_'
   - 's:b:/brush:_'
   - 's:b:/size:_'
