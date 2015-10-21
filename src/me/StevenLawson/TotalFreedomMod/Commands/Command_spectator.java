@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Change yours or another players gamemode to Spectator Mode.", usage = "/<command> [partialname] | [-a]", aliases = "spec")
+@CommandParameters(description = "Change yours or another players gamemode to Spectator Mode.", usage = "/<command> [partialname] | [-a]", aliases = "gmsp")
 public class Command_spectator extends TFM_Command
 {
 
@@ -41,7 +41,7 @@ public class Command_spectator extends TFM_Command
 
                 for (Player targetPlayer : server.getOnlinePlayers())
                 {
-                    targetPlayer.setGameMode(GameMode.CREATIVE);
+                    targetPlayer.setGameMode(GameMode.SPECTATOR);
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to spectator mode.", false);
