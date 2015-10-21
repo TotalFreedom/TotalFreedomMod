@@ -14,11 +14,11 @@ import org.bukkit.entity.Player;
 
 public abstract class TFM_Command
 {
-    public static final String MSG_NO_PERMS = ChatColor.RED + "I'm sorry, but I may not allow you to use this command. If you believe you should have access, contact aggelosQQ or AwesomePinch and the issue will be resolved.";
-    public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op! Don't break the rules!";
-    public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op! Stop breaking the rules!";
-    public static final String NOT_FROM_CONSOLE = "[PanelBot] I apologize, but you can't use this command on the panel.";
-    public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found! Did you spell their name wrong, or are they offline?";
+    public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You don't have permission to use this command.";
+    public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
+    public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
+    public static final String NOT_FROM_CONSOLE = "You must be in-game to use this command.";
+    public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found!";
     protected TotalFreedomMod plugin;
     protected Server server;
     private CommandSender commandSender;
