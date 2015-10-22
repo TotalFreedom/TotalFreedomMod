@@ -37,6 +37,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String loginMessage = null;
+    @Getter
+    private final Verify verify = new Verify();
 
     public Admin(Player player)
     {
@@ -84,6 +86,10 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         ips.addAll(cs.getStringList("ips"));
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         loginMessage = cs.getString("login_message", null);
+        if (!cs.isConfigurationSection("verify")) {
+            cs.createSection("verify");
+        }
+        verify.loadFrom(cs.getConfigurationSection("verify"));
     }
 
     @Override
@@ -96,6 +102,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", ips);
         cs.set("last_login", lastLogin);
         cs.set("login_message", null);
+        verify.saveTo(cs.createSection("verify"));
+
     }
 
     public boolean isMinimum(PlayerRank pRank)

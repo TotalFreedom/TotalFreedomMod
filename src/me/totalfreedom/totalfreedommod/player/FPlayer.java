@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -64,6 +64,13 @@ public class FPlayer
     private boolean cmdspyEnabled = false;
     private String tag = null;
     private int warningCount = 0;
+    //
+    @Getter
+    @Setter
+    private VerifyStage verifyStage = VerifyStage.NONE;
+    @Getter
+    @Setter
+    private String newVerifyPassword = null;
 
     public FPlayer(Player player)
     {

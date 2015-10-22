@@ -1,16 +1,5 @@
 package me.totalfreedom.totalfreedommod;
 
-import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.PermbanList;
-import me.totalfreedom.totalfreedommod.ProtectArea;
-import me.totalfreedom.totalfreedommod.ServiceChecker;
-import me.totalfreedom.totalfreedommod.ServerInterface;
-import me.totalfreedom.totalfreedommod.Jumppads;
-import me.totalfreedom.totalfreedommod.GameRuleHandler;
-import me.totalfreedom.totalfreedommod.Heartbeat;
-import me.totalfreedom.totalfreedommod.util.FLog;
-import me.totalfreedom.totalfreedommod.FrontDoor;
-import me.totalfreedom.totalfreedommod.Announcer;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +23,8 @@ import me.totalfreedom.totalfreedommod.listener.WeatherListener;
 import me.totalfreedom.totalfreedommod.permission.RankManager;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
 import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.world.TFM_WorldManager;
 import net.pravian.aero.component.service.ServiceManager;
 import net.pravian.aero.plugin.AeroPlugin;
@@ -71,6 +62,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public RankManager rm;
     public BanManager bm;
     public PlayerList pl;
+    public VerificationManager vm;
     public CommandLoader cl;
     public CommandBlocker cb;
     public Announcer an;
@@ -109,6 +101,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         rm = services.registerService(RankManager.class);
         bm = services.registerService(BanManager.class);
         pl = services.registerService(PlayerList.class);
+        vm = services.registerService(VerificationManager.class);
         cl = services.registerService(CommandLoader.class);
         cb = services.registerService(CommandBlocker.class);
         an = services.registerService(Announcer.class);

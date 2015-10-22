@@ -1,10 +1,11 @@
 package me.totalfreedom.totalfreedommod.commands;
 
 import lombok.Getter;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import net.pravian.aero.command.AbstractCommandBase;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -113,6 +114,11 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
         }
 
         return super.getPlayer(label);
+    }
+
+    public FPlayer getFPlayer(Player player)
+    {
+        return plugin.pl.getPlayer(player);
     }
 
     public static FreedomCommand getCommand(Command command)
