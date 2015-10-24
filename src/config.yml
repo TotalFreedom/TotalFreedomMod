@@ -11,7 +11,7 @@ server:
   address: 167.114.36.167
 
   # Shown at the server list
-  motd: ImmaFreedom &8- Minecraft %mcversion%
+  motd: &l--> ImmaFreedom &lFree OP &8- Minecraft %mcversion% &l<--
 
   # Every word in the MOTD will be a different color unless prefixed by a color code
   colorful_motd: true
