@@ -677,6 +677,19 @@ public class TFM_PlayerListener implements Listener
                 }
             }
         }
+        if (!TFM_ConfigEntry.SERVER_OWNERS.getList().contains(player)) 
+        {
+            for (Player pl : Bukkit.getOnlinePlayers()) 
+            {
+                if (TFM_ConfigEntry.SERVER_OWNERS.getList().contains(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
+                {
+                    if(TFM_AdminList.isSuperAdmin(player.getName()))
+                    {
+                       TFM_Util.playerMsg(pl, player.getName() + ": " + command, ChatColor.RED);
+                    }
+                }
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
