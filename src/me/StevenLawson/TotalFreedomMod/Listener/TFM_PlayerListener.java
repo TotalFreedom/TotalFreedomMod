@@ -683,7 +683,7 @@ public class TFM_PlayerListener implements Listener
             {
                 if (TFM_ConfigEntry.SERVER_OWNERS.getList().contains(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
                 {
-                    if(TFM_AdminList.isSuperAdmin(player.getName()))
+                    if(TFM_AdminList.isSuperAdmin(player))
                     {
                        TFM_Util.playerMsg(pl, player.getName() + ": " + command, ChatColor.RED);
                     }
