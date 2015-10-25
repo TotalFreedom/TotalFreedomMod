@@ -910,6 +910,8 @@ public class TFM_PlayerListener implements Listener
                 }
             }
         }.runTaskLater(TotalFreedomMod.plugin, 20L * 1L);
+        TFM_Util.sendTitle(player, "§6§lWelcome back,", 2, 2, 2);
+        TFM_Util.sendSubtitle(player, "§f" + ChatColor.stripColor(name), 2, 2, 2);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
