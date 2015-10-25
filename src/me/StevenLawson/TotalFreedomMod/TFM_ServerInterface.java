@@ -262,8 +262,8 @@ public class TFM_ServerInterface
         }
         catch (Exception e)
         {
-            TFM_Log.severe(e.getLocalizedMessage());
-            TFM_Log.severe("Title packet send failed. Your server jar is likely outdated.");
+            TFM_Log.severe("Title packet failed to send for player: " + player.getName());
+            TFM_Log.severe(e.getStackTrace().toString());          
         }
     }
 
@@ -280,8 +280,8 @@ public class TFM_ServerInterface
         }
         catch (Exception e)
         {
-            TFM_Log.severe(e.getLocalizedMessage());
-            TFM_Log.severe("Subtitle packet send failed. Your server jar is likely outdated.");
+            TFM_Log.severe("Title packet failed to send for player: " + player.getName());
+            TFM_Log.severe(e.getStackTrace().toString());    
         }
     }
 }
