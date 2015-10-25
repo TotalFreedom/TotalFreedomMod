@@ -32,6 +32,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -45,6 +50,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EnderCrystal;
@@ -1002,6 +1008,27 @@ public class TFM_Util
                 playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
             }
         }
+    }
+    
+    //Note that in order for the titles to work properly, the sub-title must follow the title packet.
+    public static void sendTitle(Player player, String message, int fadein, int stay, int fadeout)
+    {
+        CraftPlayer craftplayer = (CraftPlayer) player;
+        PlayerConnection connection = craftplayer.getHandle().playerConnection;
+        String finalmessage = message.replaceAll("&", "§");
+        IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + finalmessage + "\"}");
+        PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle, fadein, stay, fadeout);
+        connection.sendPacket(title);
+    }
+
+    public static void sendSubtitle(Player player, String message, int fadein, int stay, int fadeout)
+    {
+        CraftPlayer craftplayer = (CraftPlayer) player;
+        PlayerConnection connection = craftplayer.getHandle().playerConnection;
+        String finalmessage = message.replaceAll("&", "§");
+        IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + finalmessage + "\"}");
+        PacketPlayOutTitle subtitle = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, chatTitle, fadein, stay, fadeout);
+        connection.sendPacket(subtitle);
     }
 
     public static class TFM_EntityWiper
