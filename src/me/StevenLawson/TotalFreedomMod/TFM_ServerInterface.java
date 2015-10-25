@@ -7,10 +7,16 @@ import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import net.minecraft.server.v1_8_R3.PropertyManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -239,6 +245,43 @@ public class TFM_ServerInterface
                         + ChatColor.GOLD + TFM_ConfigEntry.SERVER_PERMBAN_URL.getString());
                 return;
             }
+        }
+    }
+    
+     //Please note that with titles, you must ALWAYS send the title first, and the subtitle second.
+    public static void sendTitle(Player player, String message, int fadein, int stay, int fadeout)
+    {
+        try
+        {
+            CraftPlayer craftplayer = (CraftPlayer) player;
+            PlayerConnection connection = craftplayer.getHandle().playerConnection;
+            String finalmessage = message.replaceAll("&", "§");
+            IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + finalmessage + "\"}");
+            PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle, fadein, stay, fadeout);
+            connection.sendPacket(title);
+        }
+        catch (Exception e)
+        {
+            TFM_Log.severe("Title packet failed to send for player: " + player.getName());
+            TFM_Log.severe(e.getStackTrace().toString());          
+        }
+    }
+
+    public static void sendSubtitle(Player player, String message, int fadein, int stay, int fadeout)
+    {
+        try
+        {
+            CraftPlayer craftplayer = (CraftPlayer) player;
+            PlayerConnection connection = craftplayer.getHandle().playerConnection;
+            String finalmessage = message.replaceAll("&", "§");
+            IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + finalmessage + "\"}");
+            PacketPlayOutTitle subtitle = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, chatTitle, fadein, stay, fadeout);
+            connection.sendPacket(subtitle);
+        }
+        catch (Exception e)
+        {
+            TFM_Log.severe("Title packet failed to send for player: " + player.getName());
+            TFM_Log.severe(e.getStackTrace().toString());    
         }
     }
 }
