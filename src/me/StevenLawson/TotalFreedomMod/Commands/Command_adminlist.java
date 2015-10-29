@@ -24,3 +24,4 @@ public class Command_adminlist extends TFM_Command
         sender.sendMessage(ChatColor.GOLD + "===============( + )===============");
         return true;
     }
+}
