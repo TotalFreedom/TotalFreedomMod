@@ -44,15 +44,14 @@ public class TFM_ServerListener implements Listener
 
         if (!TFM_ConfigEntry.SERVER_COLORFUL_MOTD.getBoolean())
         {
-            event.setMotd(TFM_Util.colorize(TFM_ConfigEntry.SERVER_MOTD.getString()
-                    .replace("%mcversion%", TFM_ServerInterface.getVersion())));
+            event.setMotd(TFM_Util.colorize("&l--> ImmaFreedom &lFree &lOP &8- Minecraft %mcversion% &l<--".replace("%mcversion%", TFM_ServerInterface.getVersion())));
             return;
         }
         // Colorful MOTD
 
         final StringBuilder motd = new StringBuilder();
 
-        for (String word : TFM_ConfigEntry.SERVER_MOTD.getString().replace("%mcversion%", TFM_ServerInterface.getVersion()).split(" "))
+        for (String word : "&l--> ImmaFreedom &lFree &lOP &8- Minecraft %mcversion% &l<--".replace("%mcversion%", TFM_ServerInterface.getVersion()).split(" "))
         {
             motd.append(TFM_Util.randomChatColor()).append(word).append(" ");
         }

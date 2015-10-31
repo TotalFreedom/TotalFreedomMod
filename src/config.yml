@@ -10,8 +10,7 @@ server:
   # The address your server is located at. Please do not include the port.
   address: 167.114.36.167
 
-  # Shown at the server list
-  motd: &l--> ImmaFreedom &lFree &lOP &8- Minecraft %mcversion% &l<--
+  # MOTD moved to hardcode
 
   # Every word in the MOTD will be a different color unless prefixed by a color code
   colorful_motd: true
