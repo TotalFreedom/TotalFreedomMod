@@ -1,5 +1,5 @@
 # Contributing to ImmaFreedomMod #
-ImmaFreedomMod is a CraftBukkit server plugin designed primarily to support the [Official ImmaFreedom Minecraft Server](http://totalfreedom.me/). However, it can be used in a variety of other configurations with minimal fuss.
+ImmaFreedomMod is a CraftBukkit server plugin designed primarily to support the [Official ImmaFreedom Minecraft Server](http://immafreedom.eu/website). However, it can be used in a variety of other configurations with minimal fuss.
 
 For those who wish to contribute, we encourage you to fork the repository and submit pull requests. Below you will find guidelines that explain this process in further detail.
 
