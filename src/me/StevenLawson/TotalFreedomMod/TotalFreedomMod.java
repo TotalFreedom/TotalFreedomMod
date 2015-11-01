@@ -18,9 +18,11 @@ import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_ServerListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_VerifyListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
+import net.camtech.verification.SocketServer;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -59,7 +61,10 @@ public class TotalFreedomMod extends JavaPlugin
     //
     public static boolean lockdownEnabled = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
-
+    //
+    private SocketServer socketServer = new SocketServer();
+    private Thread thread;
+    
     @Override
     public void onLoad()
     {
@@ -116,6 +121,8 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_PlayerListener(), plugin);
         pm.registerEvents(new TFM_WeatherListener(), plugin);
         pm.registerEvents(new TFM_ServerListener(), plugin);
+        
+        pm.registerEvents(new TFM_VerifyListener(), plugin);
 
         // Bridge
         pm.registerEvents(new TFM_BukkitTelnetListener(), plugin);
@@ -195,6 +202,8 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_ProtectedArea.autoAddSpawnpoints();
             }
         }.runTaskLater(plugin, 20L);
+        thread = new Thread(socketServer);
+        thread.start();
     }
 
     @Override
@@ -207,6 +216,13 @@ public class TotalFreedomMod extends JavaPlugin
         server.getScheduler().cancelTasks(plugin);
 
         TFM_Log.info("Plugin disabled");
+        try
+        {
+            this.socketServer.sock.close();
+        } catch(IOException ex)
+        {
+            TFM_Log.severe(ex.getMessage());
+        }
     }
 
     @Override
