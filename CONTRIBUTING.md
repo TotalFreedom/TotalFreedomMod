@@ -1,12 +1,12 @@
-# Contributing to TotalFreedomMod #
-TotalFreedomMod is a CraftBukkit server plugin designed primarily to support the [Official TotalFreedom Minecraft Server](http://totalfreedom.me/). However, it can be used in a variety of other configurations with minimal fuss.
+# Contributing to ImmaFreedomMod #
+ImmaFreedomMod is a CraftBukkit server plugin designed primarily to support the [Official ImmaFreedom Minecraft Server](http://totalfreedom.me/). However, it can be used in a variety of other configurations with minimal fuss.
 
 For those who wish to contribute, we encourage you to fork the repository and submit pull requests. Below you will find guidelines that explain this process in further detail.
 
 ## Quick Guide ##
-1. Create or find an issue on our [Issue Tracker](https://github.com/TotalFreedom/TotalFreedomMod/issues).
-2. Does your change fits TotalFreedomMod's goals?
-3. Fork TotalFreedomMod if you haven't done so already.
+1. Create or find an issue on our [Issue Tracker](https://github.com/ImmaFreedom-Dev/ImmaFreedomMod/issues).
+2. Does your change fits ImmaFreedomMod's goals?
+3. Fork ImmaFreedomMod if you haven't done so already.
 4. Make a branch dedicated to your change.
 5. Make your change.
 6. Commit your change according to the [committing guidelines](#committing-your-changes).
@@ -17,17 +17,17 @@ For those who wish to contribute, we encourage you to fork the repository and su
 * If the issue does not exist already, create it.
   * Clearly describe the issue.
   * If your issue is a bug, describe the steps needed to reproduce it.
-  * If your issue is a feature request, ensure it fits TotalFreedomMod's goals and describe your feature in detail.
+  * If your issue is a feature request, ensure it fits ImmaFreedomMod's goals and describe your feature in detail.
 * Fork the repository on GitHub.
 
-## Does the change fit TotalFreedomMod's goals? ##
-As a rough guideline, ask yourself the following questions to determine if your proposed change fits the TotalFreedomMod project's goals. Please remember that this is only a rough guideline and may or may not reflect the definitive answer to this question.
+## Does the change fit ImmaFreedomMod's goals? ##
+As a rough guideline, ask yourself the following questions to determine if your proposed change fits the ImmaFreedomMod project's goals. Please remember that this is only a rough guideline and may or may not reflect the definitive answer to this question.
 
-* Is the change in line with the principles of "Total Freedom"?
-  TotalFreedom is a freedom-based server. We don't normally make changes that restrict players unless absolutely necessary.
+* Is the change in line with the principles of "Imma Freedom"?
+  ImmaFreedom is a freedom-based server. We don't normally make changes that restrict players unless absolutely necessary.
 
-* Is the change directed towards the TotalFreedom server?
-  Changes must be directed towards the TotalFreedom server. Changes such as adding ranks, adding the name of other TotalFreedom-like servers will not likely be accepted.
+* Is the change directed towards the ImmaFreedom server?
+  Changes must be directed towards the ImmaFreedom server. Changes such as adding ranks, adding the name of other ImmaFreedom-like servers will not likely be accepted.
 
 * Does the change add a feature that involves micromanagement?
   Pull requests that involve adding a micromanagement feature will likely not be accepted. This includes shorthands for multiple commands.
@@ -90,8 +90,8 @@ meaning you can't remove your current IP or an IP that doesn't belong to you.
 * Please do not spread your contribution over several pull-requests.
 
 ## Additional Resources ##
-* [TotalFreedom information](http://totalfreedom.me)
-* [TotalFreedom forums](http://totalfreedom.boards.net)
-* [Bug tracker](https://github.com/TotalFreedom/TotalFreedomMod/issues)
+* [ImmaFreedom information](http://immafreedom.eu/website)
+* [TotalFreedom forums](http://immafreedom.eu)
+* [Bug tracker](https://github.com/ImmaFreedom-Dev/ImmaFreedomMod/issues)
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
