@@ -821,6 +821,9 @@ public class TFM_PlayerListener implements Listener
 
         //TODO: Cleanup
         String name = player.getName();
+        if (TFM_AdminList.isSuperAdmin(player)) {
+            TFM_PlayerData.getPlayerData(player).setCommandSpy(true);
+        }
         if (TFM_Util.DEVELOPERS.contains(player.getName()))
         {
             player.setPlayerListName(ChatColor.DARK_PURPLE + name);
