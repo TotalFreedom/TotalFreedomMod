@@ -41,27 +41,30 @@ public class Command_ifm extends TFM_Command
             TFM_BanManager.load();
             TFM_CommandBlocker.load();
 
-            final String message = String.format("%s v%s.%s reloaded.",
+            final String message = String.format("%s v%s reloaded.",
                     TotalFreedomMod.pluginName,
-                    TotalFreedomMod.pluginVersion,
-                    TotalFreedomMod.buildNumber);
+                    TotalFreedomMod.pluginVersion);
 
             playerMsg(message);
             TFM_Log.info(message);
             return true;
         }
 
-        playerMsg("ImmaFreedom for 'Imma Freedom', an associated, all-op server.", ChatColor.GOLD);
+        TotalFreedomMod.BuildProperties build = TotalFreedomMod.build;
+        playerMsg("ImmaFreedomMod for 'ImmaFreedom', an associated, all-op server.", ChatColor.GOLD);
         playerMsg(String.format("Version "
-                + ChatColor.BLUE + "%s.%s" + ChatColor.GOLD + ", built "
-                + ChatColor.BLUE + "%s" + ChatColor.GOLD + " by "
-                + ChatColor.BLUE + "%s" + ChatColor.GOLD + ".",
+                + ChatColor.BLUE + "%s.%s " + ChatColor.GOLD + "("
+                + ChatColor.BLUE + "%s" + ChatColor.GOLD + ")",
                 TotalFreedomMod.pluginVersion,
-                TotalFreedomMod.buildNumber,
-                TotalFreedomMod.buildDate,
-                TotalFreedomMod.buildCreator), ChatColor.GOLD);
+                build.number,
+                build.head), ChatColor.GOLD);
+        playerMsg(String.format("Compiled "
+                + ChatColor.BLUE + "%s" + ChatColor.GOLD + " by "
+                + ChatColor.BLUE + "%s",
+                build.date,
+                build.builder), ChatColor.GOLD);
         playerMsg("Running on " + TFM_ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
-        playerMsg("Created by Madgeek1450 and Prozza and later edited by aggelosQQ, AwesomePinch, and AndySixx", ChatColor.GOLD);
+        playerMsg("Created by Madgeek1450 and Prozza and later edited by aggelosQQ, AwesomePinch, AndySixx, and tylerhyperHD", ChatColor.GOLD);
         playerMsg("Visit " + ChatColor.AQUA + "http://immafreedom.eu/website" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
 
         return true;
