@@ -37,8 +37,8 @@ public class Command_tagnyan extends TFM_Command
             {
                 if (args[0].toLowerCase().contains(word))
                 {
-                    playerMsg("That tag contains a forbidden word.");
-                    TFM_PlayerData.getPlayerData(sender_p).setTag(null);
+                    playerMsg("That tag contains a forbidden word (" + args[0] + ")");
+                    data.setTag(null);
                     return true;
                 }
             }
