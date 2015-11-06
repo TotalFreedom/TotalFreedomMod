@@ -28,7 +28,6 @@ public enum TFM_ConfigEntry
     HTTPD_PORT(Integer.class, "httpd.port"),
     HTTPD_PUBLIC_FOLDER(String.class, "httpd.public_folder"),
     //
-    SERVER_COLORFUL_MOTD(Boolean.class, "server.colorful_motd"),
     SERVER_NAME(String.class, "server.name"),
     SERVER_ADDRESS(String.class, "server.address"),
     SERVER_OWNERS(List.class, "server.owners"),

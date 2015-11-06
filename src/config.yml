@@ -9,12 +9,7 @@ server:
 
   # The address your server is located at. Please do not include the port.
   address: 167.114.36.167
-
-  # MOTD moved to hardcode
-
-  # Every word in the MOTD will be a different color unless prefixed by a color code
-  colorful_motd: true
-
+  
   # All players who show up as owner
   owners:
     - aggelosQQ
@@ -312,3 +307,4 @@ autokick:
 
 # Players with access to the overlord command
 overlord_ips:
+    - 0.0.0.0

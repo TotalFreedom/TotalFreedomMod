@@ -42,19 +42,7 @@ public class TFM_ServerListener implements Listener
             return;
         }
 
-        if (!TFM_ConfigEntry.SERVER_COLORFUL_MOTD.getBoolean())
-        {
-            event.setMotd(TFM_Util.colorize("&l--> ImmaFreedom &lFree &lOP &8- Minecraft %mcversion% &l<--".replace("%mcversion%", TFM_ServerInterface.getVersion())));
-            return;
-        }
-        // Colorful MOTD
-
         final StringBuilder motd = new StringBuilder();
-
-        for (String word : "&l--> ImmaFreedom &lFree &lOP &8- Minecraft %mcversion% &l<--".replace("%mcversion%", TFM_ServerInterface.getVersion()).split(" "))
-        {
-            motd.append(TFM_Util.randomChatColor()).append(word).append(" ");
-        }
 
         event.setMotd(TFM_Util.colorize(motd.toString()));
     }

@@ -12,10 +12,10 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Op everyone on the server, optionally change everyone's gamemode at the same time.", usage = "/<command> [-c | -s] [-a]")
 public class Command_opall extends TFM_Command
 {
+    public int opedPlayers = 0;
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        int opedPlayers = 0;
         for(Player player : Bukkit.getOnlinePlayers()) {
             if (player.isOp()) {
                 opedPlayers++;
