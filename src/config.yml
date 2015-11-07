@@ -12,7 +12,7 @@ server:
   
   # All players who show up as owner
   owners:
-    - aggelosQQ
+    - GrannyMary48
 
   # URL players should appeal for bans at
   ban_url: http://immafreedom.eu/
@@ -216,10 +216,9 @@ announcer:
     - 'You may view all online administrators via "/list -a"'
     - 'Save your buildings via WorldEdit!  http://immafreedom.eu/ for more information!'
     - 'Famous players, such as Notch, are always fake!  We are an offline/cracked server!'
-    - 'aggelosQQ is ImmaFreedoms owner.'
+    - 'GrannyMary48 is ImmaFreedoms owner.'
     - 'Server lagging?  Check the lag via "/tps"'
     - 'You are allowed to record and stream videos on ImmaFreedom :D'
-    - 'An admin abusing?  Report it! https://pravi.us/Jda'
     - 'Player vs Player while in creative/god mode it forbidden!'
     - 'Spawn killing is forbidden!'
     - 'Invisible potions are allowed!'
