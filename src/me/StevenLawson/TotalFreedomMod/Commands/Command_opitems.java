@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -10,13 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Give yourself op items.", usage = "/<command>")
 public class Command_opitems extends TFM_Command {
 
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
-        Player player = Bukkit.getPlayer(sender.getName());
+        Player player = getPlayer(sender.getName());
         PlayerInventory inv = player.getInventory();
         ItemStack sword = new ItemStack(Material.DIAMOND_SWORD, 1);
         ItemStack chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE, 1);
@@ -29,9 +28,9 @@ public class Command_opitems extends TFM_Command {
             if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS)) {
                 continue;
             }
-            sword.addUnsafeEnchantment(ench, 10000);
-            bow.addUnsafeEnchantment(ench, 10000);
-            arrow.addUnsafeEnchantment(ench, 10000);
+            sword.addUnsafeEnchantment(ench, 32767);
+            bow.addUnsafeEnchantment(ench, 32767);
+            arrow.addUnsafeEnchantment(ench, 32767);
         }
         inv.addItem(bow);
         inv.addItem(arrow);
@@ -40,10 +39,10 @@ public class Command_opitems extends TFM_Command {
             if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS)) {
                 continue;
             }
-            chestplate.addUnsafeEnchantment(ench, 10000);
-            leggings.addUnsafeEnchantment(ench, 10000);
-            boots.addUnsafeEnchantment(ench, 10000);
-            helmet.addUnsafeEnchantment(ench, 10000);
+            chestplate.addUnsafeEnchantment(ench, 32767);
+            leggings.addUnsafeEnchantment(ench, 32767);
+            boots.addUnsafeEnchantment(ench, 32767);
+            helmet.addUnsafeEnchantment(ench, 32767);
         }
         inv.setHelmet(helmet);
         inv.setBoots(boots);
