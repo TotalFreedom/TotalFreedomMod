@@ -41,9 +41,5 @@ public class TFM_ServerListener implements Listener
             event.setMotd(ChatColor.RED + "Server is full, please wait!");
             return;
         }
-
-        final StringBuilder motd = new StringBuilder();
-
-        event.setMotd(TFM_Util.colorize(motd.toString()));
     }
 }
