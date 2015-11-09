@@ -11,7 +11,7 @@
     <!-- Creates build.properties, unless it exists already -->
     <target name="create-build-properties" depends="-build-properties-exists" unless="build.properties.exists">
         <propertyfile file="build.properties" comment="Build information. Edit this to your liking.">
-            <entry key="program.builder" default="unknown" />
+        <entry key="program.builder" default="IF Dev Team" />
         </propertyfile>
     </target>
     
