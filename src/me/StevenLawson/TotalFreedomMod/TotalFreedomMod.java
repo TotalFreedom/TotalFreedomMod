@@ -14,6 +14,7 @@ import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.HTTPD.TFM_HTTPD_Manager;
+import me.StevenLawson.TotalFreedomMod.Listener.FreedomListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
@@ -120,6 +121,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_ServerListener(), plugin);
         
         pm.registerEvents(new TFM_VerifyListener(), plugin);
+        pm.registerEvents(new FreedomListener(), plugin);
 
         // Bridge
         pm.registerEvents(new TFM_BukkitTelnetListener(), plugin);

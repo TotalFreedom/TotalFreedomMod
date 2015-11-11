@@ -124,10 +124,10 @@ public class Command_tag extends TFM_Command
                         playerMsg("That tag is too long (Max is 20 characters).");
                         return true;
                     }
+                                 
+                    String vartag = outputTag.toLowerCase();
                     
-                    List<String> messages = Arrays.asList("admin", "owner", "moderator", "developer", "console, super admin, superadmin, sa, sta, sra");
-                
-                    if (outputTag.contains(messages.toString()))
+                    if (vartag.contains("admin") && vartag.contains("mod") && vartag.contains("owner") && vartag.contains("moderator") && vartag.contains("developer") && vartag.contains("console") && vartag.contains("super admin") && vartag.contains("telnet admin") && vartag.contains("senior admin"))
                     {
                         Command_smite.smite(sender_p, "[AutoSmite] You are not an administrator");
                         return true;
