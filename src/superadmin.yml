@@ -1,24 +1,8 @@
-# 
+#
 # SuperAdmin List
+#
+
 clean_threshold_hours: 168
+
 admins:
-  deadbeef-53f9-1f2f-22c6-b6a19bc0af51:
-    last_login_name: AwesomePinch
-    is_activated: true
-    is_telnet_admin: true
-    is_senior_admin: true
-    last_login: Sat, 14 Nov 2015 10:34:50 -0500
-    custom_login_message: the &9Co-Founder &band &5Lead-Developer&b!
-    console_aliases: []
-    ips:
-    - 68.54.251.248
-  deadbeef-c23d-d6ed-8909-2fbd20c2007c:
-    last_login_name: GrannyMary48
-    is_activated: true
-    is_telnet_admin: true
-    is_senior_admin: true
-    last_login: Sat, 14 Nov 2015 06:05:56 -0500
-    custom_login_message: ''
-    console_aliases: []
-    ips:
-    - 85.75.118.9
+  
