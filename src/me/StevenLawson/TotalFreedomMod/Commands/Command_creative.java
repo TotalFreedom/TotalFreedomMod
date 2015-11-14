@@ -43,7 +43,7 @@ public class Command_creative extends TFM_Command
                     targetPlayer.setGameMode(GameMode.CREATIVE);
                 }
 
-                TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to creative", false);
+                TFM_Util.adminAction(sender.getName(), "Changing everyones gamemode to creative", false);
                 return true;
             }
 
