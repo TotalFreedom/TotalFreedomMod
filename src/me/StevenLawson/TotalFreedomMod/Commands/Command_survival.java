@@ -44,7 +44,7 @@ public class Command_survival extends TFM_Command
                     targetPlayer.setGameMode(GameMode.SURVIVAL);
                 }
 
-                TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to survival", false);
+                TFM_Util.adminAction(sender.getName(), "Changing everyones gamemode to survival", false);
                 return true;
             }
 
