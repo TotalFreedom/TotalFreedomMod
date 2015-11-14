@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -60,9 +59,10 @@ public class TotalFreedomMod extends JavaPlugin
     public static boolean lockdownEnabled = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
     //
-    private SocketServer socketServer = new SocketServer();
+    private final SocketServer socketServer = new SocketServer();
     private Thread thread;
     
+        
     @Override
     public void onLoad()
     {

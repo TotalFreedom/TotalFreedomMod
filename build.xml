@@ -11,7 +11,6 @@
     <!-- Creates build.properties, unless it exists already -->
     <target name="create-build-properties" depends="-build-properties-exists" unless="build.properties.exists">
         <propertyfile file="build.properties" comment="Build information. Edit this to your liking.">
-        <entry key="program.builder" default="IF Dev Team" />
         </propertyfile>
     </target>
     
@@ -42,7 +41,7 @@
         <propertyfile file="${build.classes.dir}/build.properties">
             <entry key="program.buildnumber" value="${build.number}" />
             <entry key="program.buildhead" value="${program.buildhead}" />
-            <entry key="program.builder" value="${program.builder}" />
+            <entry key="program.builder" value="IF Dev Team" />
             <entry key="program.builddate" type="date" value="now" pattern="yyyy-MM-dd hh:mm aa" />
         </propertyfile>
     </target>

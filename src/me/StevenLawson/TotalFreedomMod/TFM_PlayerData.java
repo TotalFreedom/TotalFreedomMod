@@ -242,11 +242,6 @@ public class TFM_PlayerData
         }.runTaskLater(TotalFreedomMod.plugin, AUTO_PURGE);
     }
 
-    public void resetMsgCount()
-    {
-        this.messageCount = 0;
-    }
-
     public int incrementAndGetMsgCount()
     {
         return this.messageCount++;
@@ -255,6 +250,11 @@ public class TFM_PlayerData
     public int incrementAndGetBlockDestroyCount()
     {
         return this.totalBlockDestroy++;
+    }
+
+    public void resetMsgCount()
+    {
+        this.messageCount = 0;
     }
 
     public void resetBlockDestroyCount()

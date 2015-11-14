@@ -610,7 +610,7 @@ public class TFM_PlayerListener implements Listener
     {
         String command = event.getMessage();
         final Player player = event.getPlayer();
-
+        
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
         playerdata.setLastCommand(command);
 
