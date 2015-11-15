@@ -11,7 +11,7 @@ import java.util.Map;
 import me.totalfreedom.totalfreedommod.commands.FreedomCommand;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.heading;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import net.pravian.aero.command.CommandReflection;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;

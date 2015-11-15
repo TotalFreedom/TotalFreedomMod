@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;
@@ -18,40 +18,34 @@ public class Command_purgeall extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Purging all player data", true);
 
         // Purge entities
-        FUtil.TFM_EntityWiper.wipeEntities(true, true);
+        plugin.ew.wipeEntities(true, true);
 
         for (Player player : server.getOnlinePlayers())
         {
-            FPlayer playerdata = plugin.pl.getPlayer(player);
+            FPlayer fPlayer = plugin.pl.getPlayer(player);
 
             // Unmute all players
-            if (playerdata.isMuted())
+            if (fPlayer.isMuted())
             {
-                playerdata.setMuted(false);
+                fPlayer.setMuted(false);
             }
 
             // Unblock all commands
-            if (playerdata.allCommandsBlocked())
+            if (fPlayer.allCommandsBlocked())
             {
-                playerdata.setCommandsBlocked(false);
-            }
-
-            // Unhalt all players
-            if (playerdata.isHalted())
-            {
-                playerdata.setHalted(false);
+                fPlayer.setCommandsBlocked(false);
             }
 
             // Stop orbiting
-            if (playerdata.isOrbiting())
+            if (fPlayer.isOrbiting())
             {
-                playerdata.stopOrbiting();
+                fPlayer.stopOrbiting();
             }
 
             // Unfreeze
-            if (playerdata.isFrozen())
+            if (fPlayer.getFreezeData().isFrozen())
             {
-                playerdata.setFrozen(false);
+                fPlayer.getFreezeData().setFrozen(false);
             }
 
             // Purge potion effects
@@ -61,19 +55,17 @@ public class Command_purgeall extends FreedomCommand
             }
 
             // Uncage
-            if (playerdata.isCaged())
+            if (fPlayer.getCageData().isCaged())
             {
-                playerdata.setCaged(false);
-                playerdata.regenerateHistory();
-                playerdata.clearHistory();
+                fPlayer.getCageData().setCaged(false);
             }
         }
 
         // Unfreeze all players
-        Command_fr.setAllFrozen(false);
+        plugin.fm.setGlobalFreeze(false);
 
         // Remove all mobs
-        Command_mp.purgeMobs();
+        Command_mobpurge.purgeMobs();
 
         return true;
     }

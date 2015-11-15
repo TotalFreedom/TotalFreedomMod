@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.world.WorldTime;
 import me.totalfreedom.totalfreedommod.world.WorldWeather;
@@ -208,7 +208,12 @@ public class Command_adminworld extends FreedomCommand
         }
         catch (PermissionDeniedException ex)
         {
+            if (ex.getMessage().isEmpty())
+            {
+                return noPerms();
+            }
             sender.sendMessage(ex.getMessage());
+            return true;
         }
 
         return true;
@@ -219,7 +224,7 @@ public class Command_adminworld extends FreedomCommand
     {
         if (!(sender instanceof Player) || sender_p == null || !isAdmin(sender))
         {
-            throw new PermissionDeniedException(FreedomCommand.MSG_NO_PERMS);
+            throw new PermissionDeniedException();
         }
     }
 
@@ -227,6 +232,11 @@ public class Command_adminworld extends FreedomCommand
     {
 
         private static final long serialVersionUID = 1L;
+
+        private PermissionDeniedException()
+        {
+            super("");
+        }
 
         private PermissionDeniedException(String string)
         {

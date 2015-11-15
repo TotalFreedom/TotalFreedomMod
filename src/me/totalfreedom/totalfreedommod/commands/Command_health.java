@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 import me.totalfreedom.totalfreedommod.util.FLog;

@@ -1,12 +1,10 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.TwitterHandler;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -28,7 +26,11 @@ public class Command_saconfig extends FreedomCommand
         }
         catch (final PermissionsException ex)
         {
-            playerMsg(ex.getMessage());
+            if (ex.getMessage().isEmpty())
+            {
+                return noPerms();
+            }
+            sender.sendMessage(ex.getMessage());
             return true;
         }
         catch (final FormatException ex)
@@ -129,10 +131,10 @@ public class Command_saconfig extends FreedomCommand
             }
             case ADD:
             {
-                Player player = getPlayer(args[1]);
-                Admin admin = player == null ? plugin.al.getAdmin(player) : plugin.al.getEntryByName(args[1]);
+                final Player player = getPlayer(args[1]);
 
                 // Existing admin
+                final Admin admin = player == null ? plugin.al.getAdmin(player) : plugin.al.getEntryByName(args[1]);
                 if (admin != null)
                 {
                     if (admin.isActivated())
@@ -143,8 +145,8 @@ public class Command_saconfig extends FreedomCommand
                     FUtil.adminAction(sender.getName(), "Readding " + admin.getName() + " to the admin list", true);
 
                     if (player != null)
-                    { // Reset IP, username
-                        admin.loadFrom(player);
+                    {
+                        admin.loadFrom(player); // Reset IP, username
                     }
 
                     admin.setActivated(true);
@@ -163,10 +165,10 @@ public class Command_saconfig extends FreedomCommand
                 FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the admin list", true);
                 plugin.al.addAdmin(new Admin(player));
 
-                final FPlayer playerdata = plugin.pl.getPlayer(player.getPlayer());
-                if (playerdata.isFrozen())
+                final FPlayer fPlayer = plugin.pl.getPlayer(player.getPlayer());
+                if (fPlayer.getFreezeData().isFrozen())
                 {
-                    playerdata.setFrozen(false);
+                    fPlayer.getFreezeData().setFrozen(false);
                     playerMsg(player.getPlayer(), "You have been unfrozen.");
                 }
 
@@ -186,14 +188,10 @@ public class Command_saconfig extends FreedomCommand
                 FUtil.adminAction(sender.getName(), "Removing " + admin.getName() + " from the admin list", true);
                 plugin.al.removeAdmin(admin);
 
-                // Twitterbot
-                if (ConfigEntry.TWITTERBOT_ENABLED.getBoolean())
-                {
-                    TwitterHandler.delTwitterVerbose(admin.getName(), sender);
-                }
-
                 break;
             }
+            default:
+                return false;
         }
 
         return true;
@@ -241,14 +239,14 @@ public class Command_saconfig extends FreedomCommand
                     {
                         if (admin == null)
                         {
-                            throw new PermissionsException(FreedomCommand.MSG_NO_PERMS);
+                            throw new PermissionsException();
                         }
                     }
                     else if (mode.rank == PlayerRank.SENIOR_ADMIN)
                     {
                         if (!isSeniorAdmin)
                         {
-                            throw new PermissionsException(FreedomCommand.MSG_NO_PERMS);
+                            throw new PermissionsException();
                         }
                     }
 
@@ -286,6 +284,11 @@ public class Command_saconfig extends FreedomCommand
     {
         private static final long serialVersionUID = 234235261231L;
 
+        private PermissionsException()
+        {
+            super("");
+        }
+
         private PermissionsException(final String message)
         {
             super(message);
@@ -296,7 +299,7 @@ public class Command_saconfig extends FreedomCommand
     {
         private static final long serialVersionUID = 33331341256779901L;
 
-        private FormatException(final String message)
+        private FormatException(String message)
         {
             super(message);
         }

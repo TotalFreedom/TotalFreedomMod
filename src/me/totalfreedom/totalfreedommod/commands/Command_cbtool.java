@@ -1,10 +1,9 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import me.totalfreedom.totalfreedommod.commandblocker.CommandBlocker;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang3.ArrayUtils;

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.base.ConfigLoadable;
 import net.pravian.aero.base.ConfigSavable;
@@ -93,7 +93,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("username", name);
         cs.set("active", activated);
         cs.set("rank", rank.toString());
-        cs.set("ips", ips);
+        cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", lastLogin);
         cs.set("login_message", null);
     }

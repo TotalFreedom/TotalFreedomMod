@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -33,10 +32,9 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.banning.FBan;
+import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.config.FConfig;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -46,26 +44,14 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.SkullType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Boat;
 import org.bukkit.entity.Creature;
-import org.bukkit.entity.EnderCrystal;
-import org.bukkit.entity.EnderSignal;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ExperienceOrb;
-import org.bukkit.entity.Explosive;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.FileUtil;
 
 public class FUtil
@@ -120,6 +106,22 @@ public class FUtil
     private FUtil()
     {
         throw new AssertionError();
+    }
+
+    public static void cancel(BukkitTask task)
+    {
+        if (task == null)
+        {
+            return;
+        }
+
+        try
+        {
+            task.cancel();
+        }
+        catch (Exception ex)
+        {
+        }
     }
 
     public static void bcastMsg(String message, ChatColor color)
@@ -253,88 +255,6 @@ public class FUtil
     public static String decolorize(String string)
     {
         return string.replaceAll("\\u00A7(?=[0-9a-fk-or])", "&");
-    }
-
-    public static void buildHistory(Location location, int length, FPlayer playerdata)
-    {
-        final Block center = location.getBlock();
-        for (int xOffset = -length; xOffset <= length; xOffset++)
-        {
-            for (int yOffset = -length; yOffset <= length; yOffset++)
-            {
-                for (int zOffset = -length; zOffset <= length; zOffset++)
-                {
-                    final Block block = center.getRelative(xOffset, yOffset, zOffset);
-                    playerdata.insertHistoryBlock(block.getLocation(), block.getType());
-                }
-            }
-        }
-    }
-
-    public static void generateCube(Location location, int length, Material material)
-    {
-        final Block center = location.getBlock();
-        for (int xOffset = -length; xOffset <= length; xOffset++)
-        {
-            for (int yOffset = -length; yOffset <= length; yOffset++)
-            {
-                for (int zOffset = -length; zOffset <= length; zOffset++)
-                {
-                    final Block block = center.getRelative(xOffset, yOffset, zOffset);
-                    if (block.getType() != material)
-                    {
-                        block.setType(material);
-                    }
-                }
-            }
-        }
-    }
-
-    public static void generateHollowCube(Location location, int length, Material material)
-    {
-        final Block center = location.getBlock();
-        for (int xOffset = -length; xOffset <= length; xOffset++)
-        {
-            for (int yOffset = -length; yOffset <= length; yOffset++)
-            {
-                for (int zOffset = -length; zOffset <= length; zOffset++)
-                {
-                    // Hollow
-                    if (Math.abs(xOffset) != length && Math.abs(yOffset) != length && Math.abs(zOffset) != length)
-                    {
-                        continue;
-                    }
-
-                    final Block block = center.getRelative(xOffset, yOffset, zOffset);
-
-                    if (material != Material.SKULL)
-                    {
-                        // Glowstone light
-                        if (material != Material.GLASS && xOffset == 0 && yOffset == 2 && zOffset == 0)
-                        {
-                            block.setType(Material.GLOWSTONE);
-                            continue;
-                        }
-
-                        block.setType(material);
-                    }
-                    else // Darth mode
-                    {
-                        if (Math.abs(xOffset) == length && Math.abs(yOffset) == length && Math.abs(zOffset) == length)
-                        {
-                            block.setType(Material.GLOWSTONE);
-                            continue;
-                        }
-
-                        block.setType(Material.SKULL);
-                        final Skull skull = (Skull) block.getState();
-                        skull.setSkullType(SkullType.PLAYER);
-                        skull.setOwner("Prozza");
-                        skull.update();
-                    }
-                }
-            }
-        }
     }
 
     public static void setWorldTime(World world, long ticks)
@@ -487,7 +407,7 @@ public class FUtil
 
                 FUtil.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 1 minute.");
 
-                TotalFreedomMod.plugin.bm.addBan(FBan.forPlayer(player, Bukkit.getConsoleSender(), expires, kickMessage));
+                TotalFreedomMod.plugin.bm.addBan(Ban.forPlayer(player, Bukkit.getConsoleSender(), expires, kickMessage));
                 player.kickPlayer(kickMessage);
 
                 break;
@@ -500,13 +420,13 @@ public class FUtil
 
                 FUtil.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 3 minutes.");
 
-                TotalFreedomMod.plugin.bm.addBan(FBan.forPlayer(player, Bukkit.getConsoleSender(), expires, kickMessage));
+                TotalFreedomMod.plugin.bm.addBan(Ban.forPlayer(player, Bukkit.getConsoleSender(), expires, kickMessage));
                 player.kickPlayer(kickMessage);
                 break;
             }
             case STRIKE_THREE:
             {
-                TotalFreedomMod.plugin.bm.addBan(FBan.forPlayerFuzzy(player, Bukkit.getConsoleSender(), null, kickMessage));
+                TotalFreedomMod.plugin.bm.addBan(Ban.forPlayerFuzzy(player, Bukkit.getConsoleSender(), null, kickMessage));
 
                 FUtil.bcastMsg(ChatColor.RED + player.getName() + " has been banned.");
 
@@ -992,84 +912,6 @@ public class FUtil
             {
                 playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
             }
-        }
-    }
-
-    public static class TFM_EntityWiper
-    {
-
-        private static final List<Class<? extends Entity>> WIPEABLES = new ArrayList<Class<? extends Entity>>();
-
-        static
-        {
-            WIPEABLES.add(EnderCrystal.class);
-            WIPEABLES.add(EnderSignal.class);
-            WIPEABLES.add(ExperienceOrb.class);
-            WIPEABLES.add(Projectile.class);
-            WIPEABLES.add(FallingBlock.class);
-            WIPEABLES.add(Firework.class);
-            WIPEABLES.add(Item.class);
-        }
-
-        private TFM_EntityWiper()
-        {
-            throw new AssertionError();
-        }
-
-        private static boolean canWipe(Entity entity, boolean wipeExplosives, boolean wipeVehicles)
-        {
-            if (wipeExplosives)
-            {
-                if (Explosive.class.isAssignableFrom(entity.getClass()))
-                {
-                    return true;
-                }
-            }
-
-            if (wipeVehicles)
-            {
-                if (Boat.class.isAssignableFrom(entity.getClass()))
-                {
-                    return true;
-                }
-                else if (Minecart.class.isAssignableFrom(entity.getClass()))
-                {
-                    return true;
-                }
-            }
-
-            Iterator<Class<? extends Entity>> it = WIPEABLES.iterator();
-            while (it.hasNext())
-            {
-                if (it.next().isAssignableFrom(entity.getClass()))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static int wipeEntities(boolean wipeExplosives, boolean wipeVehicles)
-        {
-            int removed = 0;
-
-            Iterator<World> worlds = Bukkit.getWorlds().iterator();
-            while (worlds.hasNext())
-            {
-                Iterator<Entity> entities = worlds.next().getEntities().iterator();
-                while (entities.hasNext())
-                {
-                    Entity entity = entities.next();
-                    if (canWipe(entity, wipeExplosives, wipeVehicles))
-                    {
-                        entity.remove();
-                        removed++;
-                    }
-                }
-            }
-
-            return removed;
         }
     }
 

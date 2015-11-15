@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.player.FPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,36 +19,31 @@ public class Command_fuckoff extends FreedomCommand
             return false;
         }
 
-        boolean fuckoff_enabled = false;
-        double fuckoff_range = 25.0;
+        FPlayer player = plugin.pl.getPlayer(sender_p);
 
-        if (args[0].equalsIgnoreCase("on"))
+        if (!args[0].equals("on"))
         {
-            fuckoff_enabled = true;
+            player.disableFuckoff();
+        }
+        else
+        {
 
+            double radius = 25.0;
             if (args.length >= 2)
             {
                 try
                 {
-                    fuckoff_range = Math.max(5.0, Math.min(100.0, Double.parseDouble(args[1])));
+                    radius = Math.max(5.0, Math.min(50, Double.parseDouble(args[1])));
                 }
                 catch (NumberFormatException ex)
                 {
                 }
             }
+
+            player.setFuckoff(radius);
         }
 
-        if (TotalFreedomMod.fuckoffEnabledFor.containsKey(sender_p))
-        {
-            TotalFreedomMod.fuckoffEnabledFor.remove(sender_p);
-        }
-
-        if (fuckoff_enabled)
-        {
-            TotalFreedomMod.fuckoffEnabledFor.put(sender_p, new Double(fuckoff_range));
-        }
-
-        playerMsg("Fuckoff " + (fuckoff_enabled ? ("enabled. Range: " + fuckoff_range + ".") : "disabled."));
+        playerMsg("Fuckoff " + (player.isFuckOff() ? ("enabled. Radius: " + player.getFuckoffRadius() + ".") : "disabled."));
 
         return true;
     }

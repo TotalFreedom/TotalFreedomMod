@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod;
 
-import me.totalfreedom.totalfreedommod.util.FLog;
 import com.google.common.collect.Maps;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,10 +13,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.util.Vector;
 
 public class ProtectArea extends AbstractService<TotalFreedomMod>
@@ -80,6 +85,50 @@ public class ProtectArea extends AbstractService<TotalFreedomMod>
         catch (Exception ex)
         {
             FLog.severe(ex);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onBlockBreak(BlockBreakEvent event)
+    {
+        if (!ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
+        {
+            return;
+        }
+
+        final Player player = event.getPlayer();
+        if (plugin.al.isAdmin(player))
+        {
+            return;
+        }
+
+        final Location location = event.getBlock().getLocation();
+
+        if (isInProtectedArea(location))
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onBlockPlace(BlockPlaceEvent event)
+    {
+        if (!ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
+        {
+            return;
+        }
+
+        final Player player = event.getPlayer();
+        if (plugin.al.isAdmin(player))
+        {
+            return;
+        }
+
+        final Location location = event.getBlock().getLocation();
+
+        if (isInProtectedArea(location))
+        {
+            event.setCancelled(true);
         }
     }
 
@@ -284,7 +333,7 @@ public class ProtectArea extends AbstractService<TotalFreedomMod>
         }
     }
 
-    public class SerializableProtectedRegion implements Serializable
+    public static class SerializableProtectedRegion implements Serializable
     {
         private static final long serialVersionUID = 213123517828282L;
         private final double x, y, z;

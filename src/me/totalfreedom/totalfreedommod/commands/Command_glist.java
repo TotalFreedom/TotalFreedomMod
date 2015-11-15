@@ -1,9 +1,9 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.List;
-import me.totalfreedom.totalfreedommod.banning.FBan;
+import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -82,7 +82,7 @@ public class Command_glist extends FreedomCommand
                     target.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: " + ConfigEntry.SERVER_BAN_URL.getString());
                 }
 
-                FBan ban = FBan.forPlayerFuzzy(player, sender, null, null);
+                Ban ban = Ban.forPlayerFuzzy(player, sender, null, null);
                 for (String ip : ips)
                 {
                     ban.addIp(ip);
@@ -96,7 +96,7 @@ public class Command_glist extends FreedomCommand
                 plugin.bm.removeBan(plugin.bm.getByUsername(username));
                 for (String ip : ips)
                 {
-                    FBan ban = plugin.bm.getByIp(ip);
+                    Ban ban = plugin.bm.getByIp(ip);
                     if (ban != null)
                     {
                         plugin.bm.removeBan(ban);

@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
-import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

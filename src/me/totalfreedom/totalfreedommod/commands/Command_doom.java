@@ -1,9 +1,8 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.banning.FBan;
-import me.totalfreedom.totalfreedommod.player.PlayerList;
+import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -53,7 +52,7 @@ public class Command_doom extends FreedomCommand
         player.setOp(false);
 
         // Ban player
-        FBan ban = FBan.forPlayer(player, sender);
+        Ban ban = Ban.forPlayer(player, sender);
         ban.setReason("&cFUCKOFF");
         for (String playerIp : plugin.pl.getData(player).getIps())
         {

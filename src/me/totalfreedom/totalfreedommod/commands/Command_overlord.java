@@ -5,7 +5,7 @@ import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

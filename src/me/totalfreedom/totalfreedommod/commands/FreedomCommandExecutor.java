@@ -1,9 +1,9 @@
 package me.totalfreedom.totalfreedommod.commands;
 
 import java.util.Arrays;
-import me.totalfreedom.totalfreedommod.permission.ConsoleRank;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
-import me.totalfreedom.totalfreedommod.permission.Rank;
+import me.totalfreedom.totalfreedommod.rank.ConsoleRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
@@ -146,7 +146,7 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
         return result;
     }
 
-    public static class TFM_CommandExecutorFactory implements AeroCommandExecutorFactory
+    public static class FreedomExecutorFactory implements AeroCommandExecutorFactory
     {
 
         @Override

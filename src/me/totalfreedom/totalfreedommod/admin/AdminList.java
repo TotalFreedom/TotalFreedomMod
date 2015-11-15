@@ -8,18 +8,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.commands.Command_logs;
 import me.totalfreedom.totalfreedommod.config.FConfig;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import me.totalfreedom.totalfreedommod.TwitterHandler;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import net.pravian.aero.component.service.AbstractService;
 import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.ServicePriority;
 
 public class AdminList extends AbstractService<TotalFreedomMod>
@@ -68,7 +72,7 @@ public class AdminList extends AbstractService<TotalFreedomMod>
         config.load();
 
         allAdmins.clear();
-        for (String key : config.getKeys(true))
+        for (String key : config.getKeys(false))
         {
             Admin admin = new Admin(key);
             admin.loadFrom(config.getConfigurationSection(key));
@@ -305,6 +309,29 @@ public class AdminList extends AbstractService<TotalFreedomMod>
         return ipTable.keySet();
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerJoin(PlayerJoinEvent event)
+    {
+        final Player player = event.getPlayer();
+        final FPlayer fPlayer = plugin.pl.getPlayer(player);
+
+        boolean isAdmin = plugin.al.isAdmin(player);
+        if (isAdmin)
+        {
+            // Verify strict IP match
+            if (!plugin.al.isIdentityMatched(player))
+            {
+                fPlayer.setSuperadminIdVerified(false);
+                FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
+            }
+            else
+            {
+                fPlayer.setSuperadminIdVerified(true);
+                plugin.al.updateLastLogin(player);
+            }
+        }
+    }
+
     /*
      public void addAdmin(OfflinePlayer player)
      {
@@ -402,7 +429,6 @@ public class AdminList extends AbstractService<TotalFreedomMod>
 
             admin.setActivated(false);
             Command_logs.deactivateSuperadmin(admin);
-            TwitterHandler.delTwitter(admin.getName());
         }
 
         save();

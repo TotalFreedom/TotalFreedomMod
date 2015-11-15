@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,7 +14,7 @@ public class Command_rd extends FreedomCommand
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         FUtil.adminAction(sender.getName(), "Removing all server entities.", true);
-        playerMsg((FUtil.TFM_EntityWiper.wipeEntities(true, true)) + " entities removed.");
+        playerMsg((plugin.ew.wipeEntities(true, true)) + " entities removed.");
 
         return true;
     }

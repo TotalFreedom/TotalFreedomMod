@@ -1,9 +1,8 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.List;
-import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -40,7 +39,7 @@ public class Command_potion extends FreedomCommand
             {
                 if (!(plugin.al.isAdmin(sender) || senderIsConsole))
                 {
-                    playerMsg(FreedomCommand.MSG_NO_PERMS);
+                    noPerms();
                     return true;
                 }
                 FUtil.adminAction(sender.getName(), "Cleared all potion effects from all players", true);

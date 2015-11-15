@@ -1,12 +1,10 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
-import java.util.ArrayList;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.Iterator;
-import java.util.List;
+import me.totalfreedom.totalfreedommod.fun.Landminer.Landmine;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -37,9 +35,9 @@ public class Command_landmine extends FreedomCommand
 
         if (args.length >= 1)
         {
-            if ("list".equalsIgnoreCase(args[0]))
+            if ("list".equals(args[0]))
             {
-                final Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
+                final Iterator<Landmine> landmines = plugin.lm.getLandmines().iterator();
                 while (landmines.hasNext())
                 {
                     playerMsg(landmines.next().toString());
@@ -58,31 +56,11 @@ public class Command_landmine extends FreedomCommand
 
         final Block landmine = sender_p.getLocation().getBlock().getRelative(BlockFace.DOWN);
         landmine.setType(Material.TNT);
-        TFM_LandmineData.landmines.add(new TFM_LandmineData(landmine.getLocation(), sender_p, radius));
+        plugin.lm.add(new Landmine(landmine.getLocation(), sender_p, radius));
 
         playerMsg("Landmine planted - Radius = " + radius + " blocks.", ChatColor.GREEN);
 
         return true;
     }
 
-    public static class TFM_LandmineData
-    {
-        public static final List<TFM_LandmineData> landmines = new ArrayList<TFM_LandmineData>();
-        public final Location location;
-        public final Player player;
-        public final double radius;
-
-        public TFM_LandmineData(Location location, Player player, double radius)
-        {
-            this.location = location;
-            this.player = player;
-            this.radius = radius;
-        }
-
-        @Override
-        public String toString()
-        {
-            return this.location.toString() + ", " + this.radius + ", " + this.player.getName();
-        }
-    }
 }

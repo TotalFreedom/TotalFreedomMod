@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
-import me.totalfreedom.totalfreedommod.banning.FBan;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -41,7 +41,7 @@ public class Command_tban extends FreedomCommand
         }
 
         FUtil.adminAction(sender.getName(), "Tempbanning: " + player.getName() + " for 5 minutes.", true);
-        plugin.bm.addBan(FBan.forPlayer(player, sender, FUtil.parseDateOffset("5m"), ChatColor.RED + "You have been temporarily banned for 5 minutes."));
+        plugin.bm.addBan(Ban.forPlayer(player, sender, FUtil.parseDateOffset("5m"), ChatColor.RED + "You have been temporarily banned for 5 minutes."));
 
         player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
 

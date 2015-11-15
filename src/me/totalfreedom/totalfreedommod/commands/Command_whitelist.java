@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.OfflinePlayer;
@@ -58,8 +58,7 @@ public class Command_whitelist extends FreedomCommand
         // all commands past this line are superadmin-only
         if (!(senderIsConsole || plugin.al.isAdmin(sender)))
         {
-            sender.sendMessage(FreedomCommand.MSG_NO_PERMS);
-            return true;
+            return noPerms();
         }
 
         // on
@@ -152,7 +151,7 @@ public class Command_whitelist extends FreedomCommand
         // all commands past this line are console/telnet only
         if (!senderIsConsole)
         {
-            sender.sendMessage(FreedomCommand.MSG_NO_PERMS);
+            noPerms();
             return true;
         }
 

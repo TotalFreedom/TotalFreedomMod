@@ -6,7 +6,7 @@ import me.StevenLawson.BukkitTelnet.api.TelnetCommandEvent;
 import me.StevenLawson.BukkitTelnet.api.TelnetPreLoginEvent;
 import me.StevenLawson.BukkitTelnet.api.TelnetRequestDataTagsEvent;
 import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.entity.Player;

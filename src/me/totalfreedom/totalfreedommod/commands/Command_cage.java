@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.GameMode;
@@ -27,10 +27,7 @@ public class Command_cage extends FreedomCommand
             FUtil.adminAction(sender.getName(), "Uncaging " + sender.getName(), true);
             FPlayer playerdata = plugin.pl.getPlayer(sender_p);
 
-            playerdata.setCaged(false);
-            playerdata.regenerateHistory();
-            playerdata.clearHistory();
-
+            playerdata.getCageData().setCaged(false);
             return true;
         }
         else if ("purge".equals(args[0]))
@@ -40,9 +37,7 @@ public class Command_cage extends FreedomCommand
             for (Player player : server.getOnlinePlayers())
             {
                 FPlayer playerdata = plugin.pl.getPlayer(player);
-                playerdata.setCaged(false);
-                playerdata.regenerateHistory();
-                playerdata.clearHistory();
+                playerdata.getCageData().setCaged(false);
             }
 
             return true;
@@ -66,10 +61,7 @@ public class Command_cage extends FreedomCommand
             if ("off".equals(args[1]))
             {
                 FUtil.adminAction(sender.getName(), "Uncaging " + player.getName(), true);
-
-                playerdata.setCaged(false);
-                playerdata.regenerateHistory();
-                playerdata.clearHistory();
+                playerdata.getCageData().setCaged(false);
 
                 return true;
             }
@@ -99,12 +91,7 @@ public class Command_cage extends FreedomCommand
         }
 
         Location targetPos = player.getLocation().clone().add(0, 1, 0);
-        playerdata.setCaged(true, targetPos, outerMaterial, innerMaterial);
-        playerdata.regenerateHistory();
-        playerdata.clearHistory();
-        FUtil.buildHistory(targetPos, 2, playerdata);
-        FUtil.generateHollowCube(targetPos, 2, outerMaterial);
-        FUtil.generateCube(targetPos, 1, innerMaterial);
+        playerdata.getCageData().cage(targetPos, outerMaterial, innerMaterial);
 
         player.setGameMode(GameMode.SURVIVAL);
 

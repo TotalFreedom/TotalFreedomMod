@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.banning.FBan;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.ArrayUtils;
@@ -89,7 +89,7 @@ public class Command_gtfo extends FreedomCommand
         FUtil.bcastMsg(bcast.toString());
 
         // Ban player
-        plugin.bm.addBan(FBan.forPlayerFuzzy(player, sender, null, reason));
+        plugin.bm.addBan(Ban.forPlayerFuzzy(player, sender, null, reason));
 
         // Kick player
         player.kickPlayer(ChatColor.RED + "GTFO");

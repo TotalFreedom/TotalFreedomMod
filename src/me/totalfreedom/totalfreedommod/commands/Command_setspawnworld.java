@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.commands;
 
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Location;
 import org.bukkit.command.Command;

@@ -2,7 +2,7 @@ package me.totalfreedom.totalfreedommod.commands;
 
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.ChatColor;
@@ -29,7 +29,7 @@ public class Command_tfm extends FreedomCommand
 
             if (!plugin.al.isAdmin(sender))
             {
-                playerMsg(FreedomCommand.MSG_NO_PERMS);
+                noPerms();
                 return true;
             }
 

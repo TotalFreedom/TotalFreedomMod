@@ -1,9 +1,8 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.Arrays;
 import java.util.List;
-import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +44,7 @@ public class Command_tag extends FreedomCommand
             {
                 if (!plugin.al.isAdmin(sender))
                 {
-                    playerMsg(FreedomCommand.MSG_NO_PERMS);
+                    noPerms();
                     return true;
                 }
 
@@ -91,7 +90,7 @@ public class Command_tag extends FreedomCommand
             {
                 if (!plugin.al.isAdmin(sender))
                 {
-                    playerMsg(FreedomCommand.MSG_NO_PERMS);
+                    noPerms();
                     return true;
                 }
 

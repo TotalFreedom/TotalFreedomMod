@@ -8,13 +8,19 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.component.service.AbstractService;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class RollbackManager extends AbstractService<TotalFreedomMod>
@@ -22,7 +28,7 @@ public class RollbackManager extends AbstractService<TotalFreedomMod>
     private static final Map<String, List<RollbackEntry>> history = Maps.newHashMap();
     private static final List<String> removeHistory = Lists.newArrayList();
 
-    private RollbackManager(TotalFreedomMod plugin)
+    public RollbackManager(TotalFreedomMod plugin)
     {
         super(plugin);
     }
@@ -218,6 +224,41 @@ public class RollbackManager extends AbstractService<TotalFreedomMod>
         }
 
         return entries;
+    }
+
+    @EventHandler(ignoreCancelled = false)
+    public void onPlayerInteract(PlayerInteractEvent event)
+    {
+        final Player player = event.getPlayer();
+
+        if (!event.hasItem()
+                || event.getItem().getType() != Material.STICK
+                || !plugin.al.isAdmin(player))
+        {
+            return;
+        }
+
+        event.setCancelled(true);
+
+        final Location location = DepreciationAggregator.getTargetBlock(player, null, 5).getLocation();
+        final List<RollbackEntry> entries = plugin.rb.getEntriesAtLocation(location);
+
+        if (entries.isEmpty())
+        {
+            FUtil.playerMsg(player, "No block edits at that location.");
+            return;
+        }
+
+        FUtil.playerMsg(player, "Block edits at ("
+                + ChatColor.WHITE + "x" + location.getBlockX()
+                + ", y" + location.getBlockY()
+                + ", z" + location.getBlockZ()
+                + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
+        for (RollbackEntry entry : entries)
+        {
+            FUtil.playerMsg(player, " - " + ChatColor.BLUE + entry.author + " " + entry.getType() + " "
+                    + StringUtils.capitalize(entry.getMaterial().toString().toLowerCase()) + (entry.data == 0 ? "" : ":" + entry.data));
+        }
     }
 
     private List<RollbackEntry> getEntriesByPlayer(String playerName)

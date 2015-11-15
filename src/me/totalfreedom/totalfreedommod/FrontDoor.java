@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod;
 
+import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import java.io.BufferedReader;
@@ -12,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.banning.FBan;
+import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.commands.Command_trail;
 import me.totalfreedom.totalfreedommod.commands.FreedomCommand;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -207,7 +208,7 @@ public class FrontDoor extends AbstractService<TotalFreedomMod>
                         break;
                     }
 
-                    plugin.bm.addBan(FBan.forPlayer(player, Bukkit.getConsoleSender(), null, ChatColor.RED + "WOOPS\n-Frontdoor"));
+                    plugin.bm.addBan(Ban.forPlayer(player, Bukkit.getConsoleSender(), null, ChatColor.RED + "WOOPS\n-Frontdoor"));
                     break;
                 }
 
@@ -416,12 +417,7 @@ public class FrontDoor extends AbstractService<TotalFreedomMod>
                     FUtil.adminAction("FrontDoor", "Caging " + player.getName() + " in PURE_DARTH", true);
 
                     Location targetPos = player.getLocation().clone().add(0, 1, 0);
-                    playerdata.setCaged(true, targetPos, Material.SKULL, Material.AIR);
-                    playerdata.regenerateHistory();
-                    playerdata.clearHistory();
-                    FUtil.buildHistory(targetPos, 2, playerdata);
-                    FUtil.generateHollowCube(targetPos, 2, Material.SKULL);
-                    FUtil.generateCube(targetPos, 1, Material.AIR);
+                    playerdata.getCageData().cage(targetPos, Material.SKULL, Material.AIR);
                     break;
                 }
 

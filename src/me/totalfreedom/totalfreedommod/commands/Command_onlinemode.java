@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
@@ -26,7 +26,7 @@ public class Command_onlinemode extends FreedomCommand
 
             if (sender instanceof Player && !plugin.al.isSeniorAdmin(sender))
             {
-                playerMsg(FreedomCommand.MSG_NO_PERMS);
+                noPerms();
                 return true;
             }
 

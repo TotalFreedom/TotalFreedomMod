@@ -12,15 +12,22 @@ import java.util.Set;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.component.service.AbstractService;
 import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 
 public class BanManager extends AbstractService<TotalFreedomMod>
 {
-    private final Set<FBan> bans = Sets.newHashSet();
-    private final Map<String, FBan> ipBans = Maps.newHashMap();
-    private final Map<String, FBan> nameBans = Maps.newHashMap();
+    private final Set<Ban> bans = Sets.newHashSet();
+    private final Map<String, Ban> ipBans = Maps.newHashMap();
+    private final Map<String, Ban> nameBans = Maps.newHashMap();
     private final List<String> unbannableUsernames = Lists.newArrayList();
     //
     private final YamlConfig config;
@@ -56,7 +63,7 @@ public class BanManager extends AbstractService<TotalFreedomMod>
                 continue;
             }
 
-            FBan ban = new FBan();
+            Ban ban = new Ban();
             ban.loadFrom(config.getConfigurationSection(id));
 
             if (!ban.isValid())
@@ -84,7 +91,7 @@ public class BanManager extends AbstractService<TotalFreedomMod>
     {
 
         // Remove expired bans
-        for (Iterator<FBan> it = bans.iterator(); it.hasNext();)
+        for (Iterator<Ban> it = bans.iterator(); it.hasNext();)
         {
             if (it.next().isExpired())
             {
@@ -94,7 +101,7 @@ public class BanManager extends AbstractService<TotalFreedomMod>
 
         ipBans.clear();
         nameBans.clear();
-        for (FBan ban : bans)
+        for (Ban ban : bans)
         {
             if (ban.hasUsername())
             {
@@ -116,7 +123,7 @@ public class BanManager extends AbstractService<TotalFreedomMod>
         // Remove expired
         updateViews();
 
-        for (FBan ban : bans)
+        for (Ban ban : bans)
         {
             ban.saveTo(config.createSection(String.valueOf(ban.hashCode())));
         }
@@ -125,26 +132,26 @@ public class BanManager extends AbstractService<TotalFreedomMod>
         config.save();
     }
 
-    public Collection<FBan> getIpBans()
+    public Collection<Ban> getIpBans()
     {
         return Collections.unmodifiableCollection(ipBans.values());
     }
 
-    public Collection<FBan> getUsernameBans()
+    public Collection<Ban> getUsernameBans()
     {
         return Collections.unmodifiableCollection(nameBans.values());
     }
 
-    public FBan getByIp(String ip)
+    public Ban getByIp(String ip)
     {
-        final FBan directBan = ipBans.get(ip);
+        final Ban directBan = ipBans.get(ip);
         if (directBan != null && !directBan.isExpired())
         {
             return directBan;
         }
 
         // Match fuzzy IP
-        for (FBan loopBan : ipBans.values())
+        for (Ban loopBan : ipBans.values())
         {
             if (loopBan.isExpired())
             {
@@ -168,10 +175,10 @@ public class BanManager extends AbstractService<TotalFreedomMod>
         return null;
     }
 
-    public FBan getByUsername(String username)
+    public Ban getByUsername(String username)
     {
         username = username.toLowerCase();
-        final FBan directBan = nameBans.get(username);
+        final Ban directBan = nameBans.get(username);
 
         if (directBan != null && !directBan.isExpired())
         {
@@ -181,9 +188,9 @@ public class BanManager extends AbstractService<TotalFreedomMod>
         return null;
     }
 
-    public FBan unbanIp(String ip)
+    public Ban unbanIp(String ip)
     {
-        final FBan ban = getByIp(ip);
+        final Ban ban = getByIp(ip);
 
         if (ban == null)
         {
@@ -195,9 +202,9 @@ public class BanManager extends AbstractService<TotalFreedomMod>
         return ban;
     }
 
-    public FBan unbanUsername(String username)
+    public Ban unbanUsername(String username)
     {
-        final FBan ban = getByUsername(username);
+        final Ban ban = getByUsername(username);
 
         if (ban == null)
         {
@@ -219,7 +226,7 @@ public class BanManager extends AbstractService<TotalFreedomMod>
         return getByUsername(username) != null;
     }
 
-    public boolean addBan(FBan ban)
+    public boolean addBan(Ban ban)
     {
         if (bans.add(ban))
         {
@@ -230,7 +237,7 @@ public class BanManager extends AbstractService<TotalFreedomMod>
         return false;
     }
 
-    public boolean removeBan(FBan ban)
+    public boolean removeBan(Ban ban)
     {
         if (bans.remove(ban))
         {
@@ -252,4 +259,46 @@ public class BanManager extends AbstractService<TotalFreedomMod>
         nameBans.clear();
         saveAll();
     }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerLogin(PlayerLoginEvent event)
+    {
+        final String username = event.getPlayer().getName();
+        final String ip = Ips.getIp(event);
+
+        // Regular ban
+        Ban ban = plugin.bm.getByUsername(username);
+        if (ban == null)
+        {
+            ban = plugin.bm.getByIp(ip);
+        }
+
+        if (ban != null)
+        {
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ban.bakeKickMessage());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerJoin(PlayerJoinEvent event)
+    {
+        final Player player = event.getPlayer();
+        final PlayerData data = plugin.pl.getData(player);
+
+        if (!plugin.al.isAdmin(player))
+        {
+            return;
+        }
+
+        // Unban admins
+        for (String storedIp : data.getIps())
+        {
+            unbanIp(storedIp);
+            unbanIp(FUtil.getFuzzyIp(storedIp));
+        }
+
+        unbanUsername(player.getName());
+        player.setOp(true);
+    }
+
 }

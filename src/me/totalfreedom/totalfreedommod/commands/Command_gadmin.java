@@ -1,11 +1,11 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.UUID;
-import me.totalfreedom.totalfreedommod.banning.FBan;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.freeze.FreezeData;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -126,7 +126,7 @@ public class Command_gadmin extends FreedomCommand
             case NAMEBAN:
             {
                 FUtil.adminAction(sender.getName(), String.format("Banning Name: %s.", target.getName()), true);
-                plugin.bm.addBan(FBan.forPlayerName(target, sender, null, null));
+                plugin.bm.addBan(Ban.forPlayerName(target, sender, null, null));
                 target.kickPlayer("Username banned by Administrator.");
 
                 break;
@@ -140,7 +140,7 @@ public class Command_gadmin extends FreedomCommand
                     ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
                 }
                 FUtil.adminAction(sender.getName(), String.format("Banning IP: %s.", ip), true);
-                plugin.bm.addBan(FBan.forPlayerIp(ip, sender, null, null));
+                plugin.bm.addBan(Ban.forPlayerIp(ip, sender, null, null));
 
                 target.kickPlayer("IP address banned by Administrator.");
 
@@ -156,7 +156,7 @@ public class Command_gadmin extends FreedomCommand
                 }
                 FUtil.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", target.getName(), ip), true);
 
-                plugin.bm.addBan(FBan.forPlayer(target, sender));
+                plugin.bm.addBan(Ban.forPlayer(target, sender));
 
                 target.kickPlayer("IP and username banned by Administrator.");
 
@@ -186,11 +186,11 @@ public class Command_gadmin extends FreedomCommand
             }
             case FR:
             {
-                FPlayer playerdata = plugin.pl.getPlayer(target);
-                playerdata.setFrozen(!playerdata.isFrozen());
+                FreezeData fd = plugin.pl.getPlayer(target).getFreezeData();
+                fd.setFrozen(!fd.isFrozen());
 
-                playerMsg(target.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
-                target.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                playerMsg(target.getName() + " has been " + (fd.isFrozen() ? "frozen" : "unfrozen") + ".");
+                target.sendMessage(ChatColor.AQUA + "You have been " + (fd.isFrozen() ? "frozen" : "unfrozen") + ".");
 
                 break;
             }

@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.io.File;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -13,9 +13,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 @CommandParameters(description = "Update server files.", usage = "/<command>")
 public class Command_tfupdate extends FreedomCommand
 {
-    public static final String[] FILES =
-    {
-    };
+
+    public static final String[] FILES
+            =
+            {
+            };
 
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -28,7 +30,7 @@ public class Command_tfupdate extends FreedomCommand
 
         if (!sender.getName().equalsIgnoreCase("madgeek1450"))
         {
-            playerMsg(FreedomCommand.MSG_NO_PERMS);
+            noPerms();
             return true;
         }
 

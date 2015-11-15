@@ -2,7 +2,7 @@ package me.totalfreedom.totalfreedommod.commands;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;

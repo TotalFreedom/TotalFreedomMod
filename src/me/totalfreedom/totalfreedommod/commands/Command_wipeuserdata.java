@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.commands;
 
 import java.io.File;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

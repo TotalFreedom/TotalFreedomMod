@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import me.totalfreedom.totalfreedommod.caging.CageData;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.freeze.FreezeData;
 import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -34,18 +33,17 @@ public class FPlayer
     //
     private BukkitTask unmuteTask;
     private BukkitTask unfreezeTask;
-    private Location freezeLocation;
-    private boolean isHalted = false;
+    @Getter
+    private final FreezeData freezeData = new FreezeData(this);
+    @Getter
+    private double fuckoffRadius = 0;
     private int messageCount = 0;
     private int totalBlockDestroy = 0;
     private int totalBlockPlace = 0;
     private int freecamDestroyCount = 0;
     private int freecamPlaceCount = 0;
-    private boolean isCaged = false;
-    private Location cagePosition;
-    private final List<TFM_BlockData> cageHistory = new ArrayList<TFM_BlockData>();
-    private Material cageOuterMaterial = Material.GLASS;
-    private Material cageInnerMatterial = Material.AIR;
+    @Getter
+    private final CageData cageData = new CageData(this);
     private boolean isOrbiting = false;
     private double orbitStrength = 10.0;
     private boolean mobThrowerEnabled = false;
@@ -119,99 +117,19 @@ public class FPlayer
         return orbitStrength;
     }
 
-    public void setCaged(boolean state)
+    public boolean isFuckOff()
     {
-        this.isCaged = state;
+        return fuckoffRadius > 0;
     }
 
-    public void setCaged(boolean state, Location location, Material outer, Material inner)
+    public void setFuckoff(double radius)
     {
-        this.isCaged = state;
-        this.cagePosition = location;
-        this.cageOuterMaterial = outer;
-        this.cageInnerMatterial = inner;
+        this.fuckoffRadius = radius;
     }
 
-    public boolean isCaged()
+    public void disableFuckoff()
     {
-        return isCaged;
-    }
-
-    public Material getCageMaterial(CageLayer layer)
-    {
-        switch (layer)
-        {
-            case OUTER:
-                return this.cageOuterMaterial;
-            case INNER:
-                return this.cageInnerMatterial;
-            default:
-                return this.cageOuterMaterial;
-        }
-    }
-
-    public Location getCagePos()
-    {
-        return cagePosition;
-    }
-
-    public void clearHistory()
-    {
-        cageHistory.clear();
-    }
-
-    public void insertHistoryBlock(Location location, Material material)
-    {
-        cageHistory.add(new TFM_BlockData(location, material));
-    }
-
-    public void regenerateHistory()
-    {
-        for (TFM_BlockData blockdata : this.cageHistory)
-        {
-            blockdata.location.getBlock().setType(blockdata.material);
-        }
-    }
-
-    public Location getFreezeLocation()
-    {
-        return freezeLocation;
-    }
-
-    public boolean isFrozen()
-    {
-        return unfreezeTask != null;
-    }
-
-    public void setFrozen(boolean freeze)
-    {
-        cancel(unfreezeTask);
-        unfreezeTask = null;
-        freezeLocation = null;
-
-        if (player.getGameMode() != GameMode.CREATIVE)
-        {
-            FUtil.setFlying(player, false);
-        }
-
-        if (!freeze)
-        {
-            return;
-        }
-
-        freezeLocation = player.getLocation(); // Blockify location
-        FUtil.setFlying(player, true); // Avoid infinite falling
-
-        unfreezeTask = new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                FUtil.adminAction("TotalFreedom", "Unfreezing " + player.getName(), false);
-                setFrozen(false);
-            }
-
-        }.runTaskLater(TotalFreedomMod.plugin, AUTO_PURGE_TICKS);
+        this.fuckoffRadius = 0;
     }
 
     public void resetMsgCount()
@@ -351,7 +269,7 @@ public class FPlayer
 
     public void setMuted(boolean muted)
     {
-        cancel(unmuteTask);
+        FUtil.cancel(unmuteTask);
         unmuteTask = null;
 
         if (!muted)
@@ -368,42 +286,6 @@ public class FPlayer
                 setMuted(false);
             }
         }.runTaskLater(TotalFreedomMod.plugin, AUTO_PURGE_TICKS);
-    }
-
-    public boolean isHalted()
-    {
-        return this.isHalted;
-    }
-
-    public void setHalted(boolean halted)
-    {
-        this.isHalted = halted;
-
-        if (halted)
-        {
-            player.setOp(false);
-            player.setGameMode(GameMode.SURVIVAL);
-            FUtil.setFlying(player, false);
-            TotalFreedomMod.plugin.esb.setNickname(player.getName(), player.getName());
-            player.closeInventory();
-            player.setTotalExperience(0);
-
-            stopOrbiting();
-            setFrozen(true);
-            setMuted(true);
-
-            player.sendMessage(ChatColor.GRAY + "You have been halted, don't move!");
-        }
-        else
-        {
-            player.setOp(true);
-            player.setGameMode(GameMode.CREATIVE);
-            setFrozen(false);
-            setMuted(false);
-
-            player.sendMessage(ChatColor.GRAY + "You are no longer halted.");
-        }
-
     }
 
     public BukkitTask getLockupScheduleID()
@@ -513,42 +395,9 @@ public class FPlayer
         }
     }
 
-    public void cancel(BukkitTask task)
-    {
-        if (task == null)
-        {
-            return;
-        }
-
-        try
-        {
-            task.cancel();
-        }
-        catch (Exception ex)
-        {
-        }
-    }
-
-    public enum CageLayer
-    {
-        INNER, OUTER
-    }
-
-    private class TFM_BlockData
-    {
-        public Material material;
-        public Location location;
-
-        private TFM_BlockData(Location location, Material material)
-        {
-            this.location = location;
-            this.material = material;
-        }
-    }
-
     private class ArrowShooter extends BukkitRunnable
     {
-        private Player player;
+        private final Player player;
 
         private ArrowShooter(Player player)
         {

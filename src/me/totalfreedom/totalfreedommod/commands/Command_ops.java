@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.commands;
 
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
-import me.totalfreedom.totalfreedommod.admin.AdminList;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -44,7 +43,7 @@ public class Command_ops extends FreedomCommand
         {
             if (!plugin.al.isAdmin(sender))
             {
-                playerMsg(FreedomCommand.MSG_NO_PERMS);
+                noPerms();
                 return true;
             }
 

@@ -2,8 +2,8 @@ package me.totalfreedom.totalfreedommod.commands;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import me.totalfreedom.totalfreedommod.banning.FBan;
-import me.totalfreedom.totalfreedommod.permission.PlayerRank;
+import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -67,7 +67,7 @@ public class Command_tempban extends FreedomCommand
 
         FUtil.adminAction(sender.getName(), message.toString(), true);
 
-        plugin.bm.addBan(FBan.forPlayer(player, sender, expires, reason));
+        plugin.bm.addBan(Ban.forPlayer(player, sender, expires, reason));
 
         player.kickPlayer(sender.getName() + " - " + message.toString());
 
