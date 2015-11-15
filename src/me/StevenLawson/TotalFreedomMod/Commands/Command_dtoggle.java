@@ -16,26 +16,35 @@ public class Command_dtoggle extends TFM_Command
     {
         boolean toggled = false;
         boolean enabled = true;
-        for (Plugin p : TotalFreedomMod.server.getPluginManager().getPlugins()) {
-            if (p.getName().equalsIgnoreCase("DisguiseCraft")) {
-                if (p.isEnabled()) {
+        for (Plugin p : TotalFreedomMod.server.getPluginManager().getPlugins())
+        {
+            if (p.getName().equalsIgnoreCase("DisguiseCraft"))
+            {
+                if (p.isEnabled())
+                {
                     p.getPluginLoader().disablePlugin(p);
                     enabled = false;
-                } else {
+                }
+                else
+                {
                     p.getPluginLoader().enablePlugin(p);
                     enabled = true;
                 }
                 toggled = true;
             }
         }
-        if (toggled) {
-            if (!enabled) {
+        if (toggled)
+        {
+            if (!enabled)
+            {
                 TotalFreedomMod.server.broadcastMessage(ChatColor.RED + sender.getName() + " - Disabling DisguiseCraft");
-            } else {
+            }
+            else
+            {
                 TotalFreedomMod.server.broadcastMessage(ChatColor.GREEN + sender.getName() + " - Enabling DisguiseCraft");
             }
         }
         return true;
     }
-    
+
 }

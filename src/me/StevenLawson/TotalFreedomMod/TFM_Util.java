@@ -646,7 +646,10 @@ public class TFM_Util
         return StringUtils.join(names, ", ");
     }
 
-    @SuppressWarnings({"unchecked", "ConvertToTryWithResources"})
+    @SuppressWarnings(
+            {
+                "unchecked", "ConvertToTryWithResources"
+            })
     public static Map<String, Boolean> getSavedFlags()
     {
         Map<String, Boolean> flags = null;

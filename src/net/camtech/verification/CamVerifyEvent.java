@@ -18,31 +18,31 @@ public class CamVerifyEvent extends Event
         this.in = in;
         this.ip = ip;
     }
-    
+
     @Override
     public HandlerList getHandlers()
     {
         return handlers;
     }
-    
+
     public static HandlerList getHandlerList()
     {
         return handlers;
     }
-    
+
     public PrintWriter getOut()
     {
         return this.out;
     }
-    
+
     public BufferedReader getIn()
     {
         return this.in;
-    } 
-    
+    }
+
     public String getIp()
     {
         return this.ip;
     }
-    
+
 }

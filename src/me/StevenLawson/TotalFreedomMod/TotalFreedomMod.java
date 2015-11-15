@@ -61,8 +61,7 @@ public class TotalFreedomMod extends JavaPlugin
     //
     private final SocketServer socketServer = new SocketServer();
     private Thread thread;
-    
-        
+
     @Override
     public void onLoad()
     {
@@ -81,6 +80,7 @@ public class TotalFreedomMod extends JavaPlugin
     public void onEnable()
     {
         TFM_Log.info("Made by Madgeek1450 and Prozza");
+        TFM_Log.info("Made for ImmaFreedom, an all-op server.");
         TFM_Log.info("Version " + build.formattedVersion());
         TFM_Log.info("Compiled " + build.date + " by " + build.builder);
         final TFM_Util.MethodTimer timer = new TFM_Util.MethodTimer();
@@ -119,7 +119,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_PlayerListener(), plugin);
         pm.registerEvents(new TFM_WeatherListener(), plugin);
         pm.registerEvents(new TFM_ServerListener(), plugin);
-        
+
         pm.registerEvents(new TFM_VerifyListener(), plugin);
         pm.registerEvents(new FreedomListener(), plugin);
 
@@ -218,7 +218,8 @@ public class TotalFreedomMod extends JavaPlugin
         try
         {
             this.socketServer.sock.close();
-        } catch(IOException ex)
+        }
+        catch (IOException ex)
         {
             TFM_Log.severe(ex.getMessage());
         }
@@ -230,13 +231,16 @@ public class TotalFreedomMod extends JavaPlugin
         return TFM_CommandHandler.handleCommand(sender, cmd, commandLabel, args);
     }
 
-     public static class BuildProperties {
+    public static class BuildProperties
+    {
         public String builder;
         public String number;
         public String head;
         public String date;
 
-        public void load() {
+        @SuppressWarnings("ConvertToTryWithResources")
+        public void load()
+        {
             try
             {
                 final InputStream in = plugin.getResource("build.properties");
@@ -258,7 +262,8 @@ public class TotalFreedomMod extends JavaPlugin
             }
         }
 
-        public String formattedVersion() {
+        public String formattedVersion()
+        {
             return pluginVersion + "." + number + " (" + head + ")";
         }
     }

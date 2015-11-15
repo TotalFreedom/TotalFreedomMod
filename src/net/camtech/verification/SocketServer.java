@@ -42,7 +42,7 @@ public class SocketServer implements Runnable
                 CamVerifyEvent event = new CamVerifyEvent(out, in, clientSocket.getInetAddress().getHostAddress());
                 Bukkit.getServer().getPluginManager().callEvent(event);
                 System.out.println(event.getIp() + " has connected to CamVerify.");
-                
+
             }
             catch (IOException e)
             {
@@ -50,6 +50,5 @@ public class SocketServer implements Runnable
             }
         }
     }
-    
-    
+
 }

@@ -56,7 +56,7 @@ public class Command_tagclean extends TFM_Command
                     playerMsg(ChatColor.RESET + playerName + ": \"" + playerdata.getTag() + ChatColor.RESET + "\" -> \"" + newTag + ChatColor.RESET + "\".");
                     TFM_PlayerData.getPlayerData(sender_p).setTag(newTag);
                 }
-                
+
                 if (playerdata.getTag().contains(Arrays.toString(BLOCKED_WORDS)))
                 {
                     TFM_PlayerData.getPlayerData(sender_p).setTag("");

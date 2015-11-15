@@ -11,10 +11,12 @@ import org.bukkit.inventory.PlayerInventory;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Give yourself op items.", usage = "/<command>")
-public class Command_opitems extends TFM_Command {
+public class Command_opitems extends TFM_Command
+{
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
         Player player = getPlayer(sender.getName());
         PlayerInventory inv = player.getInventory();
         ItemStack sword = new ItemStack(Material.DIAMOND_SWORD, 1);
@@ -24,8 +26,10 @@ public class Command_opitems extends TFM_Command {
         ItemStack helmet = new ItemStack(Material.DIAMOND_HELMET, 1);
         ItemStack bow = new ItemStack(Material.BOW, 1);
         ItemStack arrow = new ItemStack(Material.ARROW, 1);
-        for (Enchantment ench : Enchantment.values()) {
-            if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS)) {
+        for (Enchantment ench : Enchantment.values())
+        {
+            if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS))
+            {
                 continue;
             }
             sword.addUnsafeEnchantment(ench, 32767);
@@ -35,8 +39,10 @@ public class Command_opitems extends TFM_Command {
         inv.addItem(bow);
         inv.addItem(arrow);
         inv.addItem(sword);
-        for (Enchantment ench : Enchantment.values()) {
-            if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS)) {
+        for (Enchantment ench : Enchantment.values())
+        {
+            if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS))
+            {
                 continue;
             }
             chestplate.addUnsafeEnchantment(ench, 32767);

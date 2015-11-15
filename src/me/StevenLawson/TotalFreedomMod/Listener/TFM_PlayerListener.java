@@ -610,7 +610,7 @@ public class TFM_PlayerListener implements Listener
     {
         String command = event.getMessage();
         final Player player = event.getPlayer();
-        
+
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
         playerdata.setLastCommand(command);
 
@@ -677,15 +677,15 @@ public class TFM_PlayerListener implements Listener
                 }
             }
         }
-        if (!TFM_ConfigEntry.SERVER_OWNERS.getList().contains(player)) 
+        if (!TFM_ConfigEntry.SERVER_OWNERS.getList().contains(player))
         {
-            for (Player pl : Bukkit.getOnlinePlayers()) 
+            for (Player pl : Bukkit.getOnlinePlayers())
             {
                 if (TFM_ConfigEntry.SERVER_OWNERS.getList().contains(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
                 {
-                    if(TFM_AdminList.isSuperAdmin(player))
+                    if (TFM_AdminList.isSuperAdmin(player))
                     {
-                       TFM_Util.playerMsg(pl, player.getName() + ": " + command, ChatColor.RED);
+                        TFM_Util.playerMsg(pl, player.getName() + ": " + command, ChatColor.RED);
                     }
                 }
             }
@@ -821,7 +821,8 @@ public class TFM_PlayerListener implements Listener
 
         //TODO: Cleanup
         String name = player.getName();
-        if (TFM_AdminList.isSuperAdmin(player)) {
+        if (TFM_AdminList.isSuperAdmin(player))
+        {
             TFM_PlayerData.getPlayerData(player).setCommandSpy(true);
         }
         if (TFM_Util.DEVELOPERS.contains(player.getName()))
@@ -884,7 +885,7 @@ public class TFM_PlayerListener implements Listener
             }
         }
     }
-    
+
     public void afterNameSet(Player player)
     {
         new BukkitRunnable()

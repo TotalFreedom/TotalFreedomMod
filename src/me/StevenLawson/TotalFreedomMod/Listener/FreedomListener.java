@@ -22,7 +22,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 // Implement FreedomOp Remastered methods
-
 public class FreedomListener implements Listener
 {
 
@@ -34,37 +33,37 @@ public class FreedomListener implements Listener
             event.setCancelled(true);
         }
     }
-    
+
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event)
     {
-        if(event.getFrom() == null || event.getTo() == null)
+        if (event.getFrom() == null || event.getTo() == null)
         {
             return;
         }
-        
+
         Player player = event.getPlayer();
-        
-        if(event.getTo().getBlockX() >= 29999000 || event.getTo().getBlockZ() >= 29999000)
+
+        if (event.getTo().getBlockX() >= 29999000 || event.getTo().getBlockZ() >= 29999000)
         {
             event.setCancelled(true);
         }
     }
-    
+
     @EventHandler
     public void onPlayerConsumePotion(PlayerItemConsumeEvent event)
     {
-        if(event.getItem().getType() == Material.POTION)
+        if (event.getItem().getType() == Material.POTION)
         {
             Collection<PotionEffect> fx = Potion.fromItemStack(event.getItem()).getEffects();
-            for(PotionEffect effect : fx)
+            for (PotionEffect effect : fx)
             {
-                if(effect.getType() == PotionEffectType.INVISIBILITY && !TFM_AdminList.isSuperAdmin(event.getPlayer()))
+                if (effect.getType() == PotionEffectType.INVISIBILITY && !TFM_AdminList.isSuperAdmin(event.getPlayer()))
                 {
                     event.getPlayer().sendMessage(ChatColor.RED + "Invisibility is not allowed.");
                     event.setCancelled(true);
                 }
-                if(effect.getAmplifier() < 0)
+                if (effect.getAmplifier() < 0)
                 {
                     event.getPlayer().sendMessage(ChatColor.RED + "Effects with a negative amplifier are not allowed.");
                     event.setCancelled(true);
@@ -72,7 +71,7 @@ public class FreedomListener implements Listener
             }
         }
     }
-    
+
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event)
     {
