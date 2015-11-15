@@ -88,20 +88,20 @@ public class Command_ulist extends TFM_Command
 
                         if (foundPlayers.isEmpty())
                         {
-                            playerMsg("There are no nearby players.");
+                            playerMsg(ChatColor.RED + "There are no nearby players.");
                             return true;
                         }
 
                         if (!(foundPlayers.isEmpty()) && foundDisguisedPlayers.isEmpty())
                         {
-                            playerMsg("There are no nearby disguised players.");
+                            playerMsg(ChatColor.RED + "There are no nearby disguised players.");
                             return true;
                         }
 
                         else
                         {
                             final StringBuilder onlineUsers = new StringBuilder();
-                            onlineUsers.append("Nearby Disguised Players: ");
+                            onlineUsers.append("Nearby disguised players: ");
                             onlineUsers.append(StringUtils.join(foundDisguisedPlayers, ChatColor.WHITE + ", "));
                             sender.sendMessage(onlineUsers.toString());
                             return true;
@@ -112,6 +112,6 @@ public class Command_ulist extends TFM_Command
                 }
             }
         }
-        return false;
+        return true;
     }
 }
