@@ -3,6 +3,6 @@ main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
 version: 3.0
 description: Plugin for the ImmaFreedom server.
 softdepend: [BukkitTelnet, WorldEdit, Essentials, DisguiseCraft]
-authors: [Madgeek1450, Prozza, tylerhyperHD, AwesomePinch, aggelosQQ]
+authors: [Madgeek1450, Prozza, tylerhyperHD, AwesomePinch, aggelosQQ, OxLemonxO]
 
 # plugin.yml is no longer used to define commands.
