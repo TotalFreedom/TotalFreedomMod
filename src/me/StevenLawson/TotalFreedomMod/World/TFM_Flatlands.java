@@ -51,11 +51,10 @@ public class TFM_Flatlands extends TFM_CustomWorld
 
         org.bukkit.material.Sign signData = (org.bukkit.material.Sign) welcomeSign.getData();
         signData.setFacingDirection(BlockFace.NORTH);
-
-        welcomeSign.setLine(0, ChatColor.RED + "Welcome to");
-        welcomeSign.setLine(1, ChatColor.YELLOW + "ImmaFreedom";
-        welcomeSign.setLine(2, ChatColor.GRAY + "----");
-        welcomeSign.setLine(3, ChatColor.AQUA + "Flatlands");
+        
+        welcomeSign.setLine(0, ChatColor.RED + "ImmaFreedom");
+        welcomeSign.setLine(1, ChatColor.DARK_GRAY + "---");
+        welcomeSign.setLine(2, ChatColor.DARK_GREEN + "Flatlands");
         welcomeSign.update();
 
         TFM_GameRuleHandler.commitGameRules();
