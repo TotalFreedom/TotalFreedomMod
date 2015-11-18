@@ -1,14 +1,27 @@
+# TFM excludes
+/lib
+
 # Netbeans excludes
-nbproject/private/
-dist/
-build/
+/nbproject/private
+/dist
+/build
 manifest.mf
+nb-configuration.xml
 
 # Eclipse excludes
 .project
 .classpath
-bin/
-.settings/
+/bin
+/.settings
+
+# IntelliJ excludes
+*.iml
+*.ipr
+*.iws
+/.idea
+
+# Maven excludes
+/target
 
 # OS generated files
 .DS_Store
@@ -17,6 +30,3 @@ bin/
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# TFM files
-build.properties
