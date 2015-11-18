@@ -7,10 +7,16 @@ import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import net.minecraft.server.v1_8_R3.PropertyManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -77,12 +83,9 @@ public class TFM_ServerInterface
                 continue;
             }
 
-            if (!isAdmin)
-            {
+            if (!isAdmin) {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Your username is already logged into this server.");
-            }
-            else
-            {
+            } else {
                 event.allow();
                 TFM_Sync.playerKick(onlinePlayer, "An admin just logged in with the username you are using.");
             }
@@ -239,6 +242,23 @@ public class TFM_ServerInterface
                         + ChatColor.GOLD + TFM_ConfigEntry.SERVER_PERMBAN_URL.getString());
                 return;
             }
+        }
+    }
+
+    public static void sendTitle(Player player, String message, int fadein, int stay, int fadeout)
+    {
+        try
+        {
+            CraftPlayer craftplayer = (CraftPlayer) player;
+            PlayerConnection connection = craftplayer.getHandle().playerConnection;
+            IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" +"\"}");
+            PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle, fadein, stay, fadeout);
+            connection.sendPacket(title);
+        }
+        catch (Exception e)
+        {
+            TFM_Log.severe("Title packet failed to send for player: " + player.getName());
+            TFM_Log.severe(e.getStackTrace().toString());          
         }
     }
 }
