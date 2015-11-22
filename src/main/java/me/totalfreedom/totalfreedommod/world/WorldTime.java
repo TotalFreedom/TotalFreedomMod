@@ -7,6 +7,7 @@ import org.bukkit.World;
 
 public enum WorldTime
 {
+
     INHERIT(),
     SUNRISE("sunrise,morning", 0),
     NOON("noon,midday,day", 6000),

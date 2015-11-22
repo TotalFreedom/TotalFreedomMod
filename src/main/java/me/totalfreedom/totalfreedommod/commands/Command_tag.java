@@ -15,13 +15,14 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <set <tag..> | off | clear <player> | clearall>")
 public class Command_tag extends FreedomCommand
 {
+
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
     {
         "admin", "owner", "moderator", "developer", "console"
     });
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 1)
         {
@@ -73,7 +74,7 @@ public class Command_tag extends FreedomCommand
                 }
                 else
                 {
-                    plugin.pl.getPlayer(sender_p).setTag(null);
+                    plugin.pl.getPlayer(playerSender).setTag(null);
                     playerMsg("Your tag has been removed.");
                 }
 
@@ -140,7 +141,7 @@ public class Command_tag extends FreedomCommand
                     }
                 }
 
-                plugin.pl.getPlayer(sender_p).setTag(outputTag);
+                plugin.pl.getPlayer(playerSender).setTag(outputTag);
                 playerMsg("Tag set to '" + outputTag + "'.");
 
                 return true;

@@ -25,8 +25,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 @CommandParameters(description = "Register your connection with the TFM logviewer.", usage = "/<command> [off]")
 public class Command_logs extends FreedomCommand
 {
+
     @Override
-    public boolean run(final CommandSender sender, final Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(final CommandSender sender, final Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         LogsRegistrationMode mode = LogsRegistrationMode.UPDATE;
 
@@ -35,7 +36,7 @@ public class Command_logs extends FreedomCommand
             mode = ("off".equals(args[0]) ? LogsRegistrationMode.DELETE : LogsRegistrationMode.UPDATE);
         }
 
-        updateLogsRegistration(sender, sender_p, mode);
+        updateLogsRegistration(sender, playerSender, mode);
 
         return true;
     }
@@ -47,10 +48,10 @@ public class Command_logs extends FreedomCommand
 
     public static void updateLogsRegistration(final CommandSender sender, final String targetName, final String targetIP, final LogsRegistrationMode mode)
     {
-        final String logsRegisterURL = ConfigEntry.LOGS_URL.getString();
+        final String logsRegisterUrl = ConfigEntry.LOGS_URL.getString();
         final String logsRegisterPassword = ConfigEntry.LOGS_SECRET.getString();
 
-        if (logsRegisterURL == null || logsRegisterPassword == null || logsRegisterURL.isEmpty() || logsRegisterPassword.isEmpty())
+        if (logsRegisterUrl == null || logsRegisterPassword == null || logsRegisterUrl.isEmpty() || logsRegisterPassword.isEmpty())
         {
             return;
         }
@@ -67,7 +68,7 @@ public class Command_logs extends FreedomCommand
                         sender.sendMessage(ChatColor.YELLOW + "Connecting...");
                     }
 
-                    URL url = new URLBuilder(logsRegisterURL)
+                    URL url = new URLBuilder(logsRegisterUrl)
                             .addQueryParameter("mode", mode.toString())
                             .addQueryParameter("password", logsRegisterPassword)
                             .addQueryParameter("name", targetName)
@@ -119,6 +120,7 @@ public class Command_logs extends FreedomCommand
 
     public static enum LogsRegistrationMode
     {
+
         UPDATE("update"), DELETE("delete");
         private final String mode;
 
@@ -136,6 +138,7 @@ public class Command_logs extends FreedomCommand
 
     private static class URLBuilder
     {
+
         private final String requestPath;
         private final Map<String, String> queryStringMap = new HashMap<String, String>();
 

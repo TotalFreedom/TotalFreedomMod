@@ -21,6 +21,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class FPlayer
 {
+
     public static final long AUTO_PURGE_TICKS = 5L * 60L * 20L;
 
     @Getter
@@ -293,7 +294,7 @@ public class FPlayer
         return this.lockupScheduleTask;
     }
 
-    public void setLockupScheduleID(BukkitTask id)
+    public void setLockupScheduleId(BukkitTask id)
     {
         this.lockupScheduleTask = id;
     }
@@ -397,6 +398,7 @@ public class FPlayer
 
     private class ArrowShooter extends BukkitRunnable
     {
+
         private final Player player;
 
         private ArrowShooter(Player player)

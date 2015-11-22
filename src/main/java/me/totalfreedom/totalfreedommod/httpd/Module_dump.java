@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Module_dump extends HTTPDModule
 {
+
     private File echoFile = null;
     private final String body;
 

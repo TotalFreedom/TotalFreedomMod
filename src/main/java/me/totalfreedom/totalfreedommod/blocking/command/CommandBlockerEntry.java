@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 public class CommandBlockerEntry
 {
+
     @Getter
     private final CommandBlockerRank rank;
     @Getter

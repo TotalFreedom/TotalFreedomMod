@@ -860,8 +860,7 @@ public class FUtil
             catch (IllegalAccessException ex)
             {
             }
-        }
-        while (checkClass.getSuperclass() != Object.class
+        } while (checkClass.getSuperclass() != Object.class
                 && ((checkClass = checkClass.getSuperclass()) != null));
 
         return null;
@@ -877,14 +876,14 @@ public class FUtil
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
-    public static long getUnixTime()
-    {
-        return System.currentTimeMillis() / 1000L;
-    }
-
     public static Date getUnixDate(long unix)
     {
         return new Date(unix * 1000);
+    }
+
+    public static long getUnixTime()
+    {
+        return System.currentTimeMillis() / 1000L;
     }
 
     public static long getUnixTime(Date date)

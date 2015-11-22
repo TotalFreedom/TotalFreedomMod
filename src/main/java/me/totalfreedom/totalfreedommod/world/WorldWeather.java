@@ -7,6 +7,7 @@ import org.bukkit.World;
 
 public enum WorldWeather
 {
+
     OFF("off"),
     RAIN("rain"),
     STORM("storm,thunderstorm");

@@ -12,6 +12,7 @@ import org.bukkit.block.Skull;
 
 public class CageData
 {
+
     private final FPlayer fPlayer;
     //
     private final List<BlockData> cageHistory = new ArrayList<BlockData>();
@@ -182,6 +183,7 @@ public class CageData
 
     private static class BlockData
     {
+
         public Material material;
         public Location location;
 

@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Fuckoff extends AbstractService<TotalFreedomMod>
 {
+
     public Fuckoff(TotalFreedomMod plugin)
     {
         super(plugin);

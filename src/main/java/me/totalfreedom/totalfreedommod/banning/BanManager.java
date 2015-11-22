@@ -25,6 +25,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 public class BanManager extends AbstractService<TotalFreedomMod>
 {
+
     private final Set<Ban> bans = Sets.newHashSet();
     private final Map<String, Ban> ipBans = Maps.newHashMap();
     private final Map<String, Ban> nameBans = Maps.newHashMap();

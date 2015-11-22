@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Essentials Interface Command - Remove distracting things from nicknames of all players on server.", usage = "/<command>", aliases = "nc")
 public class Command_nickclean extends FreedomCommand
 {
+
     private static final ChatColor[] BLOCKED = new ChatColor[]
     {
         ChatColor.MAGIC,
@@ -22,10 +23,10 @@ public class Command_nickclean extends FreedomCommand
         ChatColor.UNDERLINE,
         ChatColor.BLACK
     };
-    private static final Pattern REGEX = Pattern.compile("\\u00A7[" + StringUtils.join(BLOCKED, "") + "]");
+    private static final Pattern REGEX = Pattern.compile(ChatColor.COLOR_CHAR + "[" + StringUtils.join(BLOCKED, "") + "]");
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         FUtil.adminAction(sender.getName(), "Cleaning all nicknames.", false);
 

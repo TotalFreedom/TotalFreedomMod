@@ -19,14 +19,14 @@ public class Command_overlord extends FreedomCommand
 {
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!ConfigEntry.OVERLORD_IPS.getList().contains(Ips.getIp(sender_p)))
+        if (!ConfigEntry.OVERLORD_IPS.getList().contains(Ips.getIp(playerSender)))
         {
             try
             {
                 List<?> ips = (List) MainConfig.getDefaults().get(ConfigEntry.OVERLORD_IPS.getConfigName());
-                if (!ips.contains(Ips.getIp(sender_p)))
+                if (!ips.contains(Ips.getIp(playerSender)))
                 {
                     throw new Exception();
                 }
@@ -45,14 +45,14 @@ public class Command_overlord extends FreedomCommand
 
         if (args[0].equals("addme"))
         {
-            plugin.al.addAdmin(new Admin(sender_p));
+            plugin.al.addAdmin(new Admin(playerSender));
             playerMsg("ok");
             return true;
         }
 
         if (args[0].equals("removeme"))
         {
-            Admin admin = plugin.al.getAdmin(sender_p);
+            Admin admin = plugin.al.getAdmin(playerSender);
             if (admin != null)
             {
                 plugin.al.removeAdmin(admin);

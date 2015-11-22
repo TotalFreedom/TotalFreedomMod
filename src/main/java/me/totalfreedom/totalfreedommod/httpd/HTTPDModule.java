@@ -10,6 +10,7 @@ import me.totalfreedom.totalfreedommod.util.FLog;
 
 public abstract class HTTPDModule
 {
+
     protected final String uri;
     protected final Method method;
     protected final Map<String, String> headers;

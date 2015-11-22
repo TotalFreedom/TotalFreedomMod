@@ -10,10 +10,11 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Goto the ender / \"The End\".", usage = "/<command>")
 public class Command_ender extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        FUtil.gotoWorld(sender_p, server.getWorlds().get(0).getName() + "_the_end");
+        FUtil.gotoWorld(playerSender, server.getWorlds().get(0).getName() + "_the_end");
         return true;
     }
 }

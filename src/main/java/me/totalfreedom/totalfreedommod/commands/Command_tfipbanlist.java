@@ -12,8 +12,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Shows all banned IPs. Superadmins may optionally use 'purge' to clear the list.", usage = "/<command> [purge]")
 public class Command_tfipbanlist extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length > 0)
         {

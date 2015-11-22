@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 public enum CommandBlockerRank
 {
+
     ANYONE("a"),
     OP("o"),
     SUPER("s"),

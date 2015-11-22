@@ -10,8 +10,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Automatically ops user.", usage = "/<command>")
 public class Command_opme extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         FUtil.adminAction(sender.getName(), "Opping " + sender.getName(), false);
         sender.setOp(true);

@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
  */
 public class FConfig extends YamlConfiguration // BukkitLib @ https://github.com/Pravian/BukkitLib
 {
+
     private final Plugin plugin;
     private final File configFile;
     private final boolean copyDefaults;
@@ -23,7 +24,8 @@ public class FConfig extends YamlConfiguration // BukkitLib @ https://github.com
     /**
      * Creates a new YamlConfig instance.
      *
-     * <p>Example:
+     * <p>
+     * Example:
      * <pre>
      * YamlConfig config = new YamlConfig(this, "config.yml", true);
      * config.load();
@@ -41,7 +43,8 @@ public class FConfig extends YamlConfiguration // BukkitLib @ https://github.com
     /**
      * Creates a new YamlConfig instance.
      *
-     * <p>Example:
+     * <p>
+     * Example:
      * <pre>
      * YamlConfig config = new YamlConfig(this, new File(plugin.getDataFolder() + "/players", "Prozza.yml"), false);
      * config.load();
@@ -89,7 +92,8 @@ public class FConfig extends YamlConfiguration // BukkitLib @ https://github.com
     /**
      * Loads the configuration from the predefined file.
      *
-     * <p>Optionally, if loadDefaults has been set to true, the file will be copied over from the default inside the jar-file of the owning plugin.</p>
+     * <p>
+     * Optionally, if loadDefaults has been set to true, the file will be copied over from the default inside the jar-file of the owning plugin.</p>
      *
      * @see #YamlConfig(Plugin, String, boolean)
      */
@@ -142,6 +146,7 @@ public class FConfig extends YamlConfiguration // BukkitLib @ https://github.com
 
     /**
      * Returns the default configuration as been stored in the jar-file of the owning plugin.
+     *
      * @return The default configuration.
      */
     public YamlConfiguration getDefaultConfig()

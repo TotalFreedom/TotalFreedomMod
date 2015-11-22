@@ -12,6 +12,7 @@ import org.bukkit.World;
 
 public class GameRuleHandler extends AbstractService<TotalFreedomMod>
 {
+
     private final EnumMap<TFM_GameRule, TFM_GameRule_Value> rules = new EnumMap<TFM_GameRule, TFM_GameRule_Value>(TFM_GameRule.class);
 
     public GameRuleHandler(TotalFreedomMod plugin)
@@ -78,6 +79,7 @@ public class GameRuleHandler extends AbstractService<TotalFreedomMod>
 
     public static enum TFM_GameRule
     {
+
         DO_FIRE_TICK("doFireTick", TFM_GameRule_Value.TRUE),
         MOB_GRIEFING("mobGriefing", TFM_GameRule_Value.TRUE),
         KEEP_INVENTORY("keepInventory", TFM_GameRule_Value.FALSE),
@@ -109,6 +111,7 @@ public class GameRuleHandler extends AbstractService<TotalFreedomMod>
 
     public static enum TFM_GameRule_Value
     {
+
         TRUE("true"), FALSE("false");
         private final String value;
 
@@ -133,4 +136,5 @@ public class GameRuleHandler extends AbstractService<TotalFreedomMod>
             return (in ? TFM_GameRule_Value.TRUE : TFM_GameRule_Value.FALSE);
         }
     }
+
 }

@@ -13,8 +13,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Report a player for admins to see.", usage = "/<command> <player> <reason>")
 public class Command_report extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 2)
         {
@@ -31,7 +32,7 @@ public class Command_report extends FreedomCommand
 
         if (sender instanceof Player)
         {
-            if (player.equals(sender_p))
+            if (player.equals(playerSender))
             {
                 playerMsg(ChatColor.RED + "Please, don't try to report yourself.");
                 return true;
@@ -45,7 +46,7 @@ public class Command_report extends FreedomCommand
         }
 
         String report = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
-        FUtil.reportAction(sender_p, player, report);
+        FUtil.reportAction(playerSender, player, report);
 
         playerMsg(ChatColor.GREEN + "Thank you, your report has been successfully logged.");
 

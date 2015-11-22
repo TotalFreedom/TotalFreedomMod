@@ -10,7 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = PlayerRank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Go to the AdminWorld.", usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]")
+@CommandParameters(description = "Go to the AdminWorld.",
+        usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]")
 public class Command_adminworld extends FreedomCommand
 {
 
@@ -21,7 +22,7 @@ public class Command_adminworld extends FreedomCommand
     }
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         CommandMode commandMode = null;
 
@@ -56,7 +57,7 @@ public class Command_adminworld extends FreedomCommand
             {
                 case TELEPORT:
                 {
-                    if (!(sender instanceof Player) || sender_p == null)
+                    if (!(sender instanceof Player) || playerSender == null)
                     {
                         return true;
                     }
@@ -70,17 +71,17 @@ public class Command_adminworld extends FreedomCommand
                     {
                     }
 
-                    if (adminWorld == null || sender_p.getWorld() == adminWorld)
+                    if (adminWorld == null || playerSender.getWorld() == adminWorld)
                     {
                         playerMsg("Going to the main world.");
-                        sender_p.teleport(server.getWorlds().get(0).getSpawnLocation());
+                        playerSender.teleport(server.getWorlds().get(0).getSpawnLocation());
                     }
                     else
                     {
-                        if (plugin.wm.adminworld.canAccessWorld(sender_p))
+                        if (plugin.wm.adminworld.canAccessWorld(playerSender))
                         {
                             playerMsg("Going to the AdminWorld.");
-                            plugin.wm.adminworld.sendToWorld(sender_p);
+                            plugin.wm.adminworld.sendToWorld(playerSender);
                         }
                         else
                         {
@@ -100,7 +101,7 @@ public class Command_adminworld extends FreedomCommand
                         }
                         else if ("purge".equalsIgnoreCase(args[1]))
                         {
-                            assertCommandPerms(sender, sender_p);
+                            assertCommandPerms(sender, playerSender);
                             plugin.wm.adminworld.purgeGuestList();
                             FUtil.adminAction(sender.getName(), "AdminWorld guest list purged.", false);
                         }
@@ -111,7 +112,7 @@ public class Command_adminworld extends FreedomCommand
                     }
                     else if (args.length == 3)
                     {
-                        assertCommandPerms(sender, sender_p);
+                        assertCommandPerms(sender, playerSender);
 
                         if ("add".equalsIgnoreCase(args[1]))
                         {
@@ -123,7 +124,7 @@ public class Command_adminworld extends FreedomCommand
                                 return true;
                             }
 
-                            if (plugin.wm.adminworld.addGuest(player, sender_p))
+                            if (plugin.wm.adminworld.addGuest(player, playerSender))
                             {
                                 FUtil.adminAction(sender.getName(), "AdminWorld guest added: " + player.getName(), false);
                             }
@@ -154,7 +155,7 @@ public class Command_adminworld extends FreedomCommand
                 }
                 case TIME:
                 {
-                    assertCommandPerms(sender, sender_p);
+                    assertCommandPerms(sender, playerSender);
 
                     if (args.length == 2)
                     {
@@ -178,7 +179,7 @@ public class Command_adminworld extends FreedomCommand
                 }
                 case WEATHER:
                 {
-                    assertCommandPerms(sender, sender_p);
+                    assertCommandPerms(sender, playerSender);
 
                     if (args.length == 2)
                     {
@@ -220,9 +221,9 @@ public class Command_adminworld extends FreedomCommand
     }
 
     // TODO: Redo this properly
-    private void assertCommandPerms(CommandSender sender, Player sender_p) throws PermissionDeniedException
+    private void assertCommandPerms(CommandSender sender, Player playerSender) throws PermissionDeniedException
     {
-        if (!(sender instanceof Player) || sender_p == null || !isAdmin(sender))
+        if (!(sender instanceof Player) || playerSender == null || !isAdmin(sender))
         {
             throw new PermissionDeniedException();
         }

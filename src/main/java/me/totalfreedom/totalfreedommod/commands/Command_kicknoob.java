@@ -11,8 +11,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Kick all non-superadmins on server.", usage = "/<command>")
 public class Command_kicknoob extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         FUtil.adminAction(sender.getName(), "Disconnecting all non-superadmins.", true);
 

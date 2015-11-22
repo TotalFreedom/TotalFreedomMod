@@ -176,6 +176,7 @@ public class ServiceChecker extends AbstractService<TotalFreedomMod>
 
     public class ServiceStatus
     {
+
         @Getter
         private final String name;
         @Getter

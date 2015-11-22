@@ -36,6 +36,7 @@ import org.mcstats.Metrics;
 
 public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 {
+
     public static final long SERVICE_CHECKER_RATE = 120L;
     public static final int MAX_USERNAME_LENGTH = 20;
     //
@@ -118,7 +119,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
         FLog.info("Created by Madgeek1450 and Prozza");
         FLog.info("Version " + build.formattedVersion());
-        FLog.info("Compiled " + build.date + " by " + build.builder);
+        FLog.info("Compiled " + build.date + " by " + build.author);
 
         final FUtil.MethodTimer timer = new FUtil.MethodTimer();
         timer.start();
@@ -224,10 +225,12 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
     public static class BuildProperties
     {
-        public String builder;
+
+        public String author;
+        public String version;
         public String number;
-        public String head;
         public String date;
+        public String head;
 
         public void load()
         {
@@ -239,11 +242,11 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
                 props.load(in);
                 in.close();
 
-                builder = props.getProperty("program.builder", "unknown");
-                number = props.getProperty("program.buildnumber", "1");
-                head = props.getProperty("program.buildhead", "unknown");
-                date = props.getProperty("program.builddate", "unknown");
-
+                author = props.getProperty("program.build.author", "unknown");
+                version = props.getProperty("program.build.version", "unknown");
+                number = props.getProperty("program.build.number", "1");
+                date = props.getProperty("program.build.date", "unknown");
+                head = props.getProperty("program.build.head", "unknown");
             }
             catch (Exception ex)
             {

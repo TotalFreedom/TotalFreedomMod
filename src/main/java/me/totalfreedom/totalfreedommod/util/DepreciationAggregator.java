@@ -12,7 +12,8 @@ import org.bukkit.material.MaterialData;
 @SuppressWarnings("deprecation")
 public class DepreciationAggregator
 {
-    public static Block getTargetBlock(LivingEntity entity, HashSet< Byte> transparent, int maxDistance)
+
+    public static Block getTargetBlock(LivingEntity entity, HashSet<Byte> transparent, int maxDistance)
     {
         return entity.getTargetBlock(transparent, maxDistance);
     }

@@ -18,8 +18,9 @@ import org.bukkit.potion.PotionEffectType;
         usage = "/<command> <list | clear [target name] | add <type> <duration> <amplifier> [target name]>")
 public class Command_potion extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 1 || args.length == 2)
         {
@@ -53,7 +54,7 @@ public class Command_potion extends FreedomCommand
             }
             else if (args[0].equalsIgnoreCase("clear"))
             {
-                Player target = sender_p;
+                Player target = playerSender;
 
                 if (args.length == 2)
                 {
@@ -66,7 +67,7 @@ public class Command_potion extends FreedomCommand
                     }
                 }
 
-                if (!target.equals(sender_p))
+                if (!target.equals(playerSender))
                 {
                     if (!plugin.al.isAdmin(sender))
                     {
@@ -85,7 +86,7 @@ public class Command_potion extends FreedomCommand
                     target.removePotionEffect(potion_effect.getType());
                 }
 
-                playerMsg("Cleared all active potion effects " + (!target.equals(sender_p) ? "from player " + target.getName() + "." : "from yourself."), ChatColor.AQUA);
+                playerMsg("Cleared all active potion effects " + (!target.equals(playerSender) ? "from player " + target.getName() + "." : "from yourself."), ChatColor.AQUA);
             }
             else
             {
@@ -96,7 +97,7 @@ public class Command_potion extends FreedomCommand
         {
             if (args[0].equalsIgnoreCase("add"))
             {
-                Player target = sender_p;
+                Player target = playerSender;
 
                 if (args.length == 5)
                 {
@@ -110,7 +111,7 @@ public class Command_potion extends FreedomCommand
                     }
                 }
 
-                if (!target.equals(sender_p))
+                if (!target.equals(playerSender))
                 {
                     if (!plugin.al.isAdmin(sender))
                     {
@@ -161,7 +162,7 @@ public class Command_potion extends FreedomCommand
                         "Added potion effect: " + new_effect.getType().getName()
                         + ", Duration: " + new_effect.getDuration()
                         + ", Amplifier: " + new_effect.getAmplifier()
-                        + (!target.equals(sender_p) ? " to player " + target.getName() + "." : " to yourself."), ChatColor.AQUA);
+                        + (!target.equals(playerSender) ? " to player " + target.getName() + "." : " to yourself."), ChatColor.AQUA);
 
                 return true;
             }

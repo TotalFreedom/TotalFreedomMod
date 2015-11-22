@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 public class PermbanList extends AbstractService<TotalFreedomMod>
 {
+
     @Getter
     private final Set<String> permbannedNames = Sets.newHashSet();
     @Getter

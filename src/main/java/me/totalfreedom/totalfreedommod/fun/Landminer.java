@@ -19,6 +19,7 @@ import org.bukkit.util.Vector;
 
 public class Landminer extends AbstractService<TotalFreedomMod>
 {
+
     @Getter
     private final List<Landmine> landmines = new ArrayList<Landmine>();
 
@@ -102,6 +103,7 @@ public class Landminer extends AbstractService<TotalFreedomMod>
 
     public static class Landmine
     {
+
         @Getter
         private final Location location;
         @Getter

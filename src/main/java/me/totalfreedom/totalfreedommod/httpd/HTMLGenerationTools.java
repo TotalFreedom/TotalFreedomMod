@@ -7,6 +7,7 @@ import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 public class HTMLGenerationTools
 {
+
     private HTMLGenerationTools()
     {
         throw new AssertionError();

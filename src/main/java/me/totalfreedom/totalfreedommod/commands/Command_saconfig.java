@@ -16,8 +16,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Manage admins.", usage = "/<command> <list | clean | clearme [ip] | <add | delete | info> <username>>")
 public class Command_saconfig extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         final SAConfigMode mode;
         try
@@ -57,7 +58,7 @@ public class Command_saconfig extends FreedomCommand
             }
             case CLEARME:
             {
-                final Admin admin = plugin.al.getAdmin(sender_p);
+                final Admin admin = plugin.al.getAdmin(playerSender);
 
                 if (admin == null)
                 {
@@ -65,7 +66,7 @@ public class Command_saconfig extends FreedomCommand
                     return true;
                 }
 
-                final String ip = Ips.getIp(sender_p);
+                final String ip = Ips.getIp(playerSender);
 
                 if (args.length == 1)
                 {
@@ -199,6 +200,7 @@ public class Command_saconfig extends FreedomCommand
 
     private static enum SAConfigMode
     {
+
         LIST("list", PlayerRank.OP, SourceType.BOTH, 1, 1),
         CLEAN("clean", PlayerRank.SENIOR_ADMIN, SourceType.BOTH, 1, 1),
         CLEARME("clearme", PlayerRank.SUPER_ADMIN, SourceType.ONLY_IN_GAME, 1, 2),
@@ -282,6 +284,7 @@ public class Command_saconfig extends FreedomCommand
 
     private static class PermissionsException extends Exception
     {
+
         private static final long serialVersionUID = 234235261231L;
 
         private PermissionsException()
@@ -297,6 +300,7 @@ public class Command_saconfig extends FreedomCommand
 
     private static class FormatException extends Exception
     {
+
         private static final long serialVersionUID = 33331341256779901L;
 
         private FormatException(String message)
@@ -304,4 +308,5 @@ public class Command_saconfig extends FreedomCommand
             super(message);
         }
     }
+
 }

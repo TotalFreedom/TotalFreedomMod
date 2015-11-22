@@ -25,6 +25,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class RollbackManager extends AbstractService<TotalFreedomMod>
 {
+
     private static final Map<String, List<RollbackEntry>> history = Maps.newHashMap();
     private static final List<String> removeHistory = Lists.newArrayList();
 

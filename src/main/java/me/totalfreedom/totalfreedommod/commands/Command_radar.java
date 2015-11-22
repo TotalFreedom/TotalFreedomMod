@@ -15,20 +15,21 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Shows nearby people sorted by distance.", usage = "/<command> [range]")
 public class Command_radar extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        Location sender_pos = sender_p.getLocation();
+        Location playerSenderos = playerSender.getLocation();
 
         List<TFM_RadarData> radar_data = new ArrayList<TFM_RadarData>();
 
-        for (Player player : sender_pos.getWorld().getPlayers())
+        for (Player player : playerSenderos.getWorld().getPlayers())
         {
-            if (!player.equals(sender_p))
+            if (!player.equals(playerSender))
             {
                 try
                 {
-                    radar_data.add(new TFM_RadarData(player, sender_pos.distance(player.getLocation()), player.getLocation()));
+                    radar_data.add(new TFM_RadarData(player, playerSenderos.distance(player.getLocation()), player.getLocation()));
                 }
                 catch (IllegalArgumentException ex)
                 {
@@ -44,7 +45,7 @@ public class Command_radar extends FreedomCommand
 
         Collections.sort(radar_data, new TFM_RadarData());
 
-        playerMsg("People nearby in " + sender_pos.getWorld().getName() + ":", ChatColor.YELLOW);
+        playerMsg("People nearby in " + playerSenderos.getWorld().getName() + ":", ChatColor.YELLOW);
 
         int countmax = 5;
         if (args.length == 1)
@@ -75,6 +76,7 @@ public class Command_radar extends FreedomCommand
 
     private class TFM_RadarData implements Comparator<TFM_RadarData>
     {
+
         public Player player;
         public double distance;
         public Location location;
@@ -107,4 +109,5 @@ public class Command_radar extends FreedomCommand
             }
         }
     }
+
 }

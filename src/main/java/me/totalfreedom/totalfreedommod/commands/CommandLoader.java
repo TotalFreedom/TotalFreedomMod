@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 
 public class CommandLoader extends AbstractService<TotalFreedomMod>
 {
+
     @Getter
     private final SimpleCommandHandler<TotalFreedomMod> handler;
 

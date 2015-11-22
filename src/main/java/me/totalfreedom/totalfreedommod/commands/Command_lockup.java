@@ -13,8 +13,9 @@ import org.bukkit.scheduler.BukkitTask;
 @CommandParameters(description = "Block target's minecraft input. This is evil, and I never should have wrote it.", usage = "/<command> <all | purge | <<partialname> on | off>>")
 public class Command_lockup extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 1)
         {
@@ -88,11 +89,11 @@ public class Command_lockup extends FreedomCommand
 
     private void cancelLockup(FPlayer playerdata)
     {
-        BukkitTask lockupScheduleID = playerdata.getLockupScheduleID();
-        if (lockupScheduleID != null)
+        BukkitTask lockupScheduleId = playerdata.getLockupScheduleID();
+        if (lockupScheduleId != null)
         {
-            lockupScheduleID.cancel();
-            playerdata.setLockupScheduleID(null);
+            lockupScheduleId.cancel();
+            playerdata.setLockupScheduleId(null);
         }
     }
 
@@ -107,7 +108,7 @@ public class Command_lockup extends FreedomCommand
 
         cancelLockup(playerdata);
 
-        playerdata.setLockupScheduleID(new BukkitRunnable()
+        playerdata.setLockupScheduleId(new BukkitRunnable()
         {
             @Override
             public void run()

@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 
 public class Ban implements ConfigLoadable, ConfigSavable, Validatable
 {
+
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
 
     @Getter

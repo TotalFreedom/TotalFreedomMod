@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.rollback;
 
 public enum EntryType
 {
+
     BLOCK_PLACE("placed"),
     BLOCK_BREAK("broke");
     private final String action;

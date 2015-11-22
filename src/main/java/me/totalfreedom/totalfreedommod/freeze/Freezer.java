@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Freezer extends AbstractService<TotalFreedomMod>
 {
+
     @Getter
     private boolean globalFreeze = false;
 

@@ -13,8 +13,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Gives you a tag with random colors", usage = "/<command> <tag>", aliases = "tn")
 public class Command_tagnyan extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 1)
         {
@@ -28,7 +29,7 @@ public class Command_tagnyan extends FreedomCommand
             tag.append(FUtil.randomChatColor()).append(c);
         }
 
-        final FPlayer data = plugin.pl.getPlayer(sender_p);
+        final FPlayer data = plugin.pl.getPlayer(playerSender);
         data.setTag(tag.toString());
 
         playerMsg("Set tag to " + tag);

@@ -16,11 +16,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 @CommandParameters(description = "For the people that are still alive.", usage = "/<command>")
 public class Command_cake extends FreedomCommand
 {
+
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     private final Random random = new Random();
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         final StringBuilder output = new StringBuilder();
 

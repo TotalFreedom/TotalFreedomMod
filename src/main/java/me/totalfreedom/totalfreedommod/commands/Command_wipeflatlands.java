@@ -11,8 +11,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Wipe the flatlands map. Requires manual restart after command is used.", usage = "/<command>")
 public class Command_wipeflatlands extends FreedomCommand
 {
+
     @Override
-    public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(final CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         FUtil.setSavedFlag("do_wipe_flatlands", true);
 

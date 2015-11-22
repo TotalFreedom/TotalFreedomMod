@@ -14,8 +14,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Essentials Interface Command - Color your current nickname.", usage = "/<command> <color>")
 public class Command_colorme extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length != 1)
         {
@@ -47,7 +48,7 @@ public class Command_colorme extends FreedomCommand
             return true;
         }
 
-        final String newNick = color + ChatColor.stripColor(sender_p.getDisplayName()).trim() + ChatColor.WHITE;
+        final String newNick = color + ChatColor.stripColor(playerSender.getDisplayName()).trim() + ChatColor.WHITE;
 
         plugin.esb.setNickname(sender.getName(), newNick);
 

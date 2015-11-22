@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class LoginProcess extends AbstractService<TotalFreedomMod>
 {
+
     public static final int DEFAULT_PORT = 25565;
     public static final Pattern USERNAME_REGEX = Pattern.compile("^[\\w\\d_]{3,20}$");
 

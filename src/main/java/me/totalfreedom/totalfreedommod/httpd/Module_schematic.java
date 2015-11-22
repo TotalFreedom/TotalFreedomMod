@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Module_schematic extends HTTPDModule
 {
+
     private static final File SCHEMATIC_FOLDER = new File("./plugins/WorldEdit/schematics/");
     private static final String REQUEST_FORM_FILE_ELEMENT_NAME = "schematicFile";
     private static final Pattern SCHEMATIC_FILENAME_LC = Pattern.compile("^[a-z0-9_'!,\\-]{1,30}\\.schematic$");
@@ -236,6 +237,7 @@ public class Module_schematic extends HTTPDModule
 
     private static class SchematicTransferException extends Exception
     {
+
         public SchematicTransferException()
         {
         }
@@ -248,6 +250,7 @@ public class Module_schematic extends HTTPDModule
 
     private static class ResponseOverrideException extends Exception
     {
+
         private final Response response;
 
         public ResponseOverrideException(Response response)
@@ -269,6 +272,7 @@ public class Module_schematic extends HTTPDModule
 
     private static enum ModuleMode
     {
+
         LIST("list"),
         UPLOAD("upload"),
         DOWNLOAD("download"),
@@ -300,4 +304,5 @@ public class Module_schematic extends HTTPDModule
             return INVALID;
         }
     }
+
 }

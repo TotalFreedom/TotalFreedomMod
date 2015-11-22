@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 
 public enum PlayerRank implements Rank
 {
+
     // Order is important here
     IMPOSTOR(false, "an", "Imp", ChatColor.YELLOW, ChatColor.UNDERLINE),
     NON_OP(false, "a", "", ChatColor.GREEN),

@@ -136,8 +136,7 @@ public class Metrics
     }
 
     /**
-     * Construct and create a Graph that can be used to separate specific plotters to their own graphs on the metrics
-     * website. Plotters can be added to the graph object returned.
+     * Construct and create a Graph that can be used to separate specific plotters to their own graphs on the metrics website. Plotters can be added to the graph object returned.
      *
      * @param name The name of the graph
      * @return Graph object created. Will never return NULL under normal circumstances unless bad parameters are given
@@ -175,9 +174,8 @@ public class Metrics
     }
 
     /**
-     * Start measuring statistics. This will immediately create an async repeating task as the plugin and send the
-     * initial data to the metrics backend, and then after that it will post in increments of PING_INTERVAL * 1200
-     * ticks.
+     * Start measuring statistics. This will immediately create an async repeating task as the plugin and send the initial data to the metrics backend, and then after that it will post in increments
+     * of PING_INTERVAL * 1200 ticks.
      *
      * @return True if statistics measuring is running, otherwise false.
      */
@@ -699,8 +697,7 @@ public class Metrics
     {
 
         /**
-         * The graph's name, alphanumeric and spaces only :) If it does not comply to the above when submitted, it is
-         * rejected
+         * The graph's name, alphanumeric and spaces only :) If it does not comply to the above when submitted, it is rejected
          */
         private final String name;
         /**
@@ -809,9 +806,8 @@ public class Metrics
         }
 
         /**
-         * Get the current value for the plotted point. Since this function defers to an external function it may or may
-         * not return immediately thus cannot be guaranteed to be thread friendly or safe. This function can be called
-         * from any thread so care should be taken when accessing resources that need to be synchronized.
+         * Get the current value for the plotted point. Since this function defers to an external function it may or may not return immediately thus cannot be guaranteed to be thread friendly or safe.
+         * This function can be called from any thread so care should be taken when accessing resources that need to be synchronized.
          *
          * @return the current value for the point to be plotted.
          */

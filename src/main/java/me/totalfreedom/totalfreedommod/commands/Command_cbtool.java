@@ -20,8 +20,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "No Description Yet", usage = "/<command>")
 public class Command_cbtool extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 1)
         {
@@ -30,7 +31,7 @@ public class Command_cbtool extends FreedomCommand
 
         if ("targetblock".equalsIgnoreCase(args[0]) && sender instanceof Player)
         {
-            Block targetBlock = DepreciationAggregator.getTargetBlock(sender_p, null, 100);
+            Block targetBlock = DepreciationAggregator.getTargetBlock(playerSender, null, 100);
             playerMsg("Your target block: " + targetBlock.getLocation().toString());
             return true;
         }
@@ -78,6 +79,7 @@ public class Command_cbtool extends FreedomCommand
 
     private static enum SubCommand
     {
+
         PLAYER_DETECT("playerdetect", new SubCommandExecutable()
         {
             @Override
@@ -196,11 +198,13 @@ public class Command_cbtool extends FreedomCommand
 
     private interface SubCommandExecutable
     {
+
         public String execute(String[] args) throws SubCommandFailureException;
     }
 
     private static class SubCommandFailureException extends Exception
     {
+
         public SubCommandFailureException()
         {
         }
@@ -210,4 +214,5 @@ public class Command_cbtool extends FreedomCommand
             super(message);
         }
     }
+
 }

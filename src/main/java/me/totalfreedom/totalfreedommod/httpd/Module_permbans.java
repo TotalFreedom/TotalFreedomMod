@@ -5,6 +5,7 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 
 public class Module_permbans extends HTTPDModule
 {
+
     public Module_permbans(NanoHTTPD.HTTPSession session)
     {
         super(session);

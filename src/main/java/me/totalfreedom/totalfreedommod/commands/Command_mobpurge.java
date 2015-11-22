@@ -17,8 +17,9 @@ import org.bukkit.entity.Slime;
 @CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command>", aliases = "mp")
 public class Command_mobpurge extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         playerMsg("Purging all mobs...");
         playerMsg(purgeMobs() + " mobs removed.");

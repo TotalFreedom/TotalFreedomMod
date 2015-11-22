@@ -20,8 +20,9 @@ import org.bukkit.inventory.ItemStack;
 @CommandParameters(description = "Fill nearby dispensers with a set of items of your choice.", usage = "/<command> <radius> <comma,separated,items>")
 public class Command_dispfill extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 2)
         {
@@ -67,7 +68,7 @@ public class Command_dispfill extends FreedomCommand
             final ItemStack[] itemsArray = items.toArray(new ItemStack[items.size()]);
 
             int affected = 0;
-            final Location centerLocation = sender_p.getLocation();
+            final Location centerLocation = playerSender.getLocation();
             final Block centerBlock = centerLocation.getBlock();
             for (int xOffset = -radius; xOffset <= radius; xOffset++)
             {

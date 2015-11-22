@@ -12,14 +12,14 @@ public class Command_fuckoff extends FreedomCommand
 {
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 1)
         {
             return false;
         }
 
-        FPlayer player = plugin.pl.getPlayer(sender_p);
+        FPlayer player = plugin.pl.getPlayer(playerSender);
 
         if (!args[0].equals("on"))
         {

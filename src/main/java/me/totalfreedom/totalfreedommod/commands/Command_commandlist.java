@@ -17,8 +17,9 @@ import org.bukkit.plugin.PluginDescriptionFile;
 @CommandParameters(description = "Show all commands for all server plugins.", usage = "/<command>", aliases = "cmdlist")
 public class Command_commandlist extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         List<String> commands = new ArrayList<String>();
 

@@ -18,8 +18,10 @@ import org.bukkit.entity.Player;
         usage = "/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci | fr | smite> <targethash>] ]")
 public class Command_gadmin extends FreedomCommand
 {
+
     private enum GadminMode
     {
+
         LIST("list"),
         KICK("kick"),
         NAMEBAN("nameban"),
@@ -61,7 +63,7 @@ public class Command_gadmin extends FreedomCommand
     }
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 0)
         {

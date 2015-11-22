@@ -18,8 +18,9 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class Muter extends AbstractService<TotalFreedomMod>
 {
+
     // TODO: Match actual commands
-    public final List<String> MUTE_COMMANDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
+    public static final List<String> MUTE_COMMANDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
 
     public Muter(TotalFreedomMod plugin)
     {

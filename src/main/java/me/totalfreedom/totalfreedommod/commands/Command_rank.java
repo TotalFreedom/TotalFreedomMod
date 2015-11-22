@@ -10,8 +10,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Shows your rank.", usage = "/<command>")
 public class Command_rank extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (senderIsConsole && args.length < 1)
         {
@@ -29,7 +30,7 @@ public class Command_rank extends FreedomCommand
 
         if (args.length == 0)
         {
-            playerMsg(sender.getName() + " is " + plugin.rm.getDisplayRank(sender_p).getColoredLoginMessage(), ChatColor.AQUA);
+            playerMsg(sender.getName() + " is " + plugin.rm.getDisplayRank(playerSender).getColoredLoginMessage(), ChatColor.AQUA);
             return true;
         }
 

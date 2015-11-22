@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerList extends AbstractService<TotalFreedomMod>
 {
+
     public static final long AUTO_PURGE_TICKS = 20L * 60L * 5L;
     //
     @Getter

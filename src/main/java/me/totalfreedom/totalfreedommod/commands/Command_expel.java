@@ -15,8 +15,9 @@ import org.bukkit.util.Vector;
 @CommandParameters(description = "Push people away from you.", usage = "/<command> [radius] [strength]")
 public class Command_expel extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         double radius = 20.0;
         double strength = 5.0;
@@ -45,11 +46,11 @@ public class Command_expel extends FreedomCommand
 
         List<String> pushedPlayers = new ArrayList<String>();
 
-        final Vector senderPos = sender_p.getLocation().toVector();
-        final List<Player> players = sender_p.getWorld().getPlayers();
+        final Vector senderPos = playerSender.getLocation().toVector();
+        final List<Player> players = playerSender.getWorld().getPlayers();
         for (final Player player : players)
         {
-            if (player.equals(sender_p))
+            if (player.equals(playerSender))
             {
                 continue;
             }

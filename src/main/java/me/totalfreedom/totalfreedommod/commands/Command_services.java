@@ -13,7 +13,7 @@ public class Command_services extends FreedomCommand
 {
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         playerMsg("Mojang Services" + ChatColor.WHITE + ":", ChatColor.BLUE);
 

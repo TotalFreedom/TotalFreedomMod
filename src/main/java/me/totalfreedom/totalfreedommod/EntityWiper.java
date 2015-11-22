@@ -24,6 +24,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class EntityWiper extends AbstractService<TotalFreedomMod>
 {
+
     private static final long WIPE_RATE = 5 * 20L;
     //
     private final List<Class<? extends Entity>> wipables = new ArrayList<Class<? extends Entity>>();

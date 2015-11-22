@@ -21,6 +21,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class CommandBlocker extends AbstractService<TotalFreedomMod>
 {
+
     public static Pattern NUMBER_FLAG_PATTERN = Pattern.compile("(:([0-9]){5,})");
     //
     private final Map<String, CommandBlockerEntry> entryList = Maps.newHashMap();

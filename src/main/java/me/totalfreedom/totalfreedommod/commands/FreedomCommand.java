@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod>
 {
+
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
@@ -58,7 +59,7 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
         }
     }
 
-    protected abstract boolean run(final CommandSender sender, final Player sender_p, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole);
+    protected abstract boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole);
 
     public void playerMsg(final CommandSender sender, final String message, final ChatColor color)
     {

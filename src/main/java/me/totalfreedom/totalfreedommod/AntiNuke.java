@@ -14,6 +14,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class AntiNuke extends AbstractService<TotalFreedomMod>
 {
+
     public AntiNuke(TotalFreedomMod plugin)
     {
         super(plugin);

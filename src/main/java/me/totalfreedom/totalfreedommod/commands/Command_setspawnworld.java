@@ -12,17 +12,18 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Set world spawnpoint.", usage = "/<command>")
 public class Command_setspawnworld extends FreedomCommand
 {
-    @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
-    {
-        Location pos = sender_p.getLocation();
-        sender_p.getWorld().setSpawnLocation(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
 
-        playerMsg("Spawn location for this world set to: " + FUtil.formatLocation(sender_p.getWorld().getSpawnLocation()));
+    @Override
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
+        Location pos = playerSender.getLocation();
+        playerSender.getWorld().setSpawnLocation(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
+
+        playerMsg("Spawn location for this world set to: " + FUtil.formatLocation(playerSender.getWorld().getSpawnLocation()));
 
         if (ConfigEntry.PROTECTAREA_ENABLED.getBoolean() && ConfigEntry.PROTECTAREA_SPAWNPOINTS.getBoolean())
         {
-            plugin.pa.addProtectedArea("spawn_" + sender_p.getWorld().getName(), pos, ConfigEntry.PROTECTAREA_RADIUS.getDouble());
+            plugin.pa.addProtectedArea("spawn_" + playerSender.getWorld().getName(), pos, ConfigEntry.PROTECTAREA_RADIUS.getDouble());
         }
 
         return true;

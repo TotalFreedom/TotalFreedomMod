@@ -12,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 
 public class WorldEditBridge extends AbstractService<TotalFreedomMod>
 {
+
     private static WorldEditPlugin worldEditPlugin = null;
 
     public WorldEditBridge(TotalFreedomMod plugin)

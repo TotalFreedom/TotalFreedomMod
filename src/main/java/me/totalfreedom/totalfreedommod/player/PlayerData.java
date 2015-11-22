@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 public class PlayerData implements ConfigLoadable, ConfigSavable, Validatable
 {
+
     @Getter
     @Setter
     private String username;

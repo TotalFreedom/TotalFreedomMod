@@ -28,6 +28,7 @@ import org.bukkit.plugin.ServicePriority;
 
 public class AdminList extends AbstractService<TotalFreedomMod>
 {
+
     @Getter
     private final Map<String, Admin> allAdmins = Maps.newHashMap(); // Includes disabled admins
     // Only active admins below
@@ -333,78 +334,79 @@ public class AdminList extends AbstractService<TotalFreedomMod>
     }
 
     /*
-     public void addAdmin(OfflinePlayer player)
-     {
-     final String name = player.getName().toLowerCase();
-     final String ip = TFM_Util.getIp(player);
-     final boolean canSuperIp = !TFM_MainConfig.getList(TFM_ConfigEntry.NOADMIN_IPS).contains(ip);
-
-     if (nameTable.containsKey(name))
-     {
-     final Admin superadmin = nameTable.;
-     superadmin.setActivated(true);
-
-     if (player.isOnline())
-     {
-     superadmin.setLastLogin(new Date());
-
-     if (ip != null && canSuperIp)
-     {
-     superadmin.addIp(ip);
-     }
-     }
-
-     save();
-     updateTables();
-     return;
-     }
-
-     if (ip == null)
-     {
-     TFM_Log.severe("Could not add superadmin: " + TFM_Util.formatPlayer(player));
-     TFM_Log.severe("Could not retrieve IP!");
-     return;
-     }
-
-     if (!canSuperIp)
-     {
-     TFM_Log.warning("Could not add superadmin: " + TFM_Util.formatPlayer(player));
-     TFM_Log.warning("IP " + ip + " may not be supered.");
-     return;
-     }
-
-     final Admin superadmin = new Admin(
-     uuid,
-     player.getName(),
-     new Date(),
-     "",
-     false,
-     false,
-     true);
-     superadmin.addIp(ip);
-
-     nameTable.put(uuid, superadmin);
-
-     updateTables();
-     }
-
-     public void removeAdmin(OfflinePlayer player)
-     {
-     final UUID uuid = TFM_UuidManager.getUniqueId(player);
-
-     if (!nameTable.containsKey(uuid))
-     {
-     TFM_Log.warning("Could not remove admin: " + TFM_Util.formatPlayer(player));
-     TFM_Log.warning("Player is not an admin!");
-     return;
-     }
-
-     final Admin superadmin = nameTable.get(uuid);
-     superadmin.setActivated(false);
-     Command_logs.deactivateSuperadmin(superadmin);
-
-     updateTables();
-     }*/
+     * public void addAdmin(OfflinePlayer player)
+     * {
+     * final String name = player.getName().toLowerCase();
+     * final String ip = TFM_Util.getIp(player);
+     * final boolean canSuperIp = !TFM_MainConfig.getList(TFM_ConfigEntry.NOADMIN_IPS).contains(ip);
+     *
+     * if (nameTable.containsKey(name))
+     * {
+     * final Admin superadmin = nameTable.;
+     * superadmin.setActivated(true);
+     *
+     * if (player.isOnline())
+     * {
+     * superadmin.setLastLogin(new Date());
+     *
+     * if (ip != null && canSuperIp)
+     * {
+     * superadmin.addIp(ip);
+     * }
+     * }
+     *
+     * save();
+     * updateTables();
+     * return;
+     * }
+     *
+     * if (ip == null)
+     * {
+     * TFM_Log.severe("Could not add superadmin: " + TFM_Util.formatPlayer(player));
+     * TFM_Log.severe("Could not retrieve IP!");
+     * return;
+     * }
+     *
+     * if (!canSuperIp)
+     * {
+     * TFM_Log.warning("Could not add superadmin: " + TFM_Util.formatPlayer(player));
+     * TFM_Log.warning("IP " + ip + " may not be supered.");
+     * return;
+     * }
+     *
+     * final Admin superadmin = new Admin(
+     * uuid,
+     * player.getName(),
+     * new Date(),
+     * "",
+     * false,
+     * false,
+     * true);
+     * superadmin.addIp(ip);
+     *
+     * nameTable.put(uuid, superadmin);
+     *
+     * updateTables();
+     * }
+     *
+     * public void removeAdmin(OfflinePlayer player)
+     * {
+     * final UUID uuid = TFM_UuidManager.getUniqueId(player);
+     *
+     * if (!nameTable.containsKey(uuid))
+     * {
+     * TFM_Log.warning("Could not remove admin: " + TFM_Util.formatPlayer(player));
+     * TFM_Log.warning("Player is not an admin!");
+     * return;
+     * }
+     *
+     * final Admin superadmin = nameTable.get(uuid);
+     * superadmin.setActivated(false);
+     * Command_logs.deactivateSuperadmin(superadmin);
+     *
+     * updateTables();
+     * }
+     */
     public void deactivateOldEntries(boolean verbose)
     {
         for (Admin admin : allAdmins.values())

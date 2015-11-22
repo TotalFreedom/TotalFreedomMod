@@ -13,11 +13,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 @CommandParameters(description = "Make some noise.", usage = "/<command>")
 public class Command_deafen extends FreedomCommand
 {
+
     private static final Random random = new Random();
     public static final double STEPS = 10.0;
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         for (final Player player : server.getOnlinePlayers())
         {

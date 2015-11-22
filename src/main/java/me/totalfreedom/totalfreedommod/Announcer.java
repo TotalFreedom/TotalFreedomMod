@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Announcer extends AbstractService<TotalFreedomMod>
 {
+
     private final List<String> announcements = Lists.newArrayList();
     @Getter
     private boolean enabled;

@@ -17,8 +17,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Shows information about TotalFreedomMod or reloads it", usage = "/<command> [reload]")
 public class Command_tfm extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 1)
         {
@@ -53,14 +54,14 @@ public class Command_tfm extends FreedomCommand
         playerMsg(String.format("Version "
                 + ChatColor.BLUE + "%s.%s " + ChatColor.GOLD + "("
                 + ChatColor.BLUE + "%s" + ChatColor.GOLD + ")",
-                TotalFreedomMod.pluginVersion,
+                build.version,
                 build.number,
                 build.head), ChatColor.GOLD);
         playerMsg(String.format("Compiled "
                 + ChatColor.BLUE + "%s" + ChatColor.GOLD + " by "
                 + ChatColor.BLUE + "%s",
                 build.date,
-                build.builder), ChatColor.GOLD);
+                build.author), ChatColor.GOLD);
         playerMsg("Visit " + ChatColor.AQUA + "http://github.com/TotalFreedom/TotalFreedomMod"
                 + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
 

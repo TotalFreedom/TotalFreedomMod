@@ -15,8 +15,9 @@ import org.bukkit.entity.Player;
         aliases = "adminchat")
 public class Command_o extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 0)
         {
@@ -26,7 +27,7 @@ public class Command_o extends FreedomCommand
                 return true;
             }
 
-            FPlayer userinfo = plugin.pl.getPlayer(sender_p);
+            FPlayer userinfo = plugin.pl.getPlayer(playerSender);
             userinfo.setAdminChat(!userinfo.inAdminChat());
             playerMsg("Toggled Admin Chat " + (userinfo.inAdminChat() ? "on" : "off") + ".");
         }

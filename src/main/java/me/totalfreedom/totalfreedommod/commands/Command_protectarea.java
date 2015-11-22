@@ -16,7 +16,7 @@ public class Command_protectarea extends FreedomCommand
 {
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (!ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
         {
@@ -85,7 +85,7 @@ public class Command_protectarea extends FreedomCommand
                     return true;
                 }
 
-                plugin.pa.addProtectedArea(args[1], sender_p.getLocation(), radius);
+                plugin.pa.addProtectedArea(args[1], playerSender.getLocation(), radius);
 
                 playerMsg("Area added. Protected Areas: " + StringUtils.join(plugin.pa.getProtectedAreaLabels(), ", "));
             }

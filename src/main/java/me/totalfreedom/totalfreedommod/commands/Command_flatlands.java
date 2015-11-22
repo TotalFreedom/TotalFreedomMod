@@ -10,12 +10,13 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Goto the flatlands.", usage = "/<command>")
 public class Command_flatlands extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (ConfigEntry.FLATLANDS_GENERATE.getBoolean())
         {
-            plugin.wm.flatlands.sendToWorld(sender_p);
+            plugin.wm.flatlands.sendToWorld(playerSender);
         }
         else
         {

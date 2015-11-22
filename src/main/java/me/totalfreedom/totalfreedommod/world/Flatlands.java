@@ -16,9 +16,8 @@ import org.bukkit.block.BlockFace;
 
 public class Flatlands extends CustomWorld
 {
-    private static final String GENERATION_PARAMETERS = ConfigEntry.FLATLANDS_GENERATE_PARAMS.getString();
 
-    ;
+    private static final String GENERATION_PARAMETERS = ConfigEntry.FLATLANDS_GENERATE_PARAMS.getString();
 
     public Flatlands()
     {

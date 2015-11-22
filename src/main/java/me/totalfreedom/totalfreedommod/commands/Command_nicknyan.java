@@ -12,8 +12,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Essentials Interface Command - Nyanify your nickname.", usage = "/<command> <<nick> | off>")
 public class Command_nicknyan extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length != 1)
         {
@@ -29,7 +30,7 @@ public class Command_nicknyan extends FreedomCommand
 
         final String nickPlain = ChatColor.stripColor(FUtil.colorize(args[0].trim()));
 
-        if (!nickPlain.matches("^[a-zA-Z_0-9\u00a7]+$"))
+        if (!nickPlain.matches("^[a-zA-Z_0-9" + ChatColor.COLOR_CHAR + "]+$"))
         {
             playerMsg("That nickname contains invalid characters.");
             return true;
@@ -42,7 +43,7 @@ public class Command_nicknyan extends FreedomCommand
 
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            if (player == sender_p)
+            if (player == playerSender)
             {
                 continue;
             }

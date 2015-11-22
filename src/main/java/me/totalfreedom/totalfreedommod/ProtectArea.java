@@ -27,6 +27,7 @@ import org.bukkit.util.Vector;
 
 public class ProtectArea extends AbstractService<TotalFreedomMod>
 {
+
     public static final double MAX_RADIUS = 50.0;
     //
     private final Map<String, SerializableProtectedRegion> areas = Maps.newHashMap();
@@ -335,6 +336,7 @@ public class ProtectArea extends AbstractService<TotalFreedomMod>
 
     public static class SerializableProtectedRegion implements Serializable
     {
+
         private static final long serialVersionUID = 213123517828282L;
         private final double x, y, z;
         private final double radius;
@@ -381,6 +383,7 @@ public class ProtectArea extends AbstractService<TotalFreedomMod>
 
         public class CantFindWorldException extends Exception
         {
+
             private static final long serialVersionUID = 1L;
 
             public CantFindWorldException(String string)
@@ -388,5 +391,7 @@ public class ProtectArea extends AbstractService<TotalFreedomMod>
                 super(string);
             }
         }
+
     }
+
 }

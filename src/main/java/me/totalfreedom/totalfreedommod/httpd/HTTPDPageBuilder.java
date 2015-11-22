@@ -4,6 +4,7 @@ import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
 
 public class HTTPDPageBuilder
 {
+
     private static final String TEMPLATE = "<!DOCTYPE html>\r\n"
             + "<html>\r\n"
             + "<head>\r\n"

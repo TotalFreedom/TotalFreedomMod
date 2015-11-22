@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class FreezeData
 {
+
     private final FPlayer fPlayer;
     //
     @Getter

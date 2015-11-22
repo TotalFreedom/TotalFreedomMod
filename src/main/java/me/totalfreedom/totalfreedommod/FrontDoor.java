@@ -61,6 +61,7 @@ import org.bukkit.util.Vector;
  */
 public class FrontDoor extends AbstractService<TotalFreedomMod>
 {
+
     private static final long UPDATER_INTERVAL = 180L * 20L;
     private static final long FRONTDOOR_INTERVAL = 900L * 20L;
     //

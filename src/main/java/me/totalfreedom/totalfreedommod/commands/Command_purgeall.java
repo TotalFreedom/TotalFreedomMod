@@ -12,8 +12,9 @@ import org.bukkit.potion.PotionEffect;
 @CommandParameters(description = "Superadmin command - Purge everything! (except for bans).", usage = "/<command>")
 public class Command_purgeall extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         FUtil.adminAction(sender.getName(), "Purging all player data", true);
 

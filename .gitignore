@@ -1,12 +1,14 @@
 # TFM excludes
 /lib
+build.properties
 
 # Netbeans excludes
 /nbproject/private
 /dist
 /build
 manifest.mf
-nb-configuration.xml
+# Now defines that Maven CheckStyle is used
+# nb-configuration.xml
 
 # Eclipse excludes
 .project

@@ -14,8 +14,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [outermaterial] [innermaterial]>")
 public class Command_cage extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 0)
         {
@@ -25,7 +26,7 @@ public class Command_cage extends FreedomCommand
         if ("off".equals(args[0]) && sender instanceof Player)
         {
             FUtil.adminAction(sender.getName(), "Uncaging " + sender.getName(), true);
-            FPlayer playerdata = plugin.pl.getPlayer(sender_p);
+            FPlayer playerdata = plugin.pl.getPlayer(playerSender);
 
             playerdata.getCageData().setCaged(false);
             return true;

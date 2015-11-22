@@ -10,8 +10,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Remove various server entities that may cause lag, such as dropped items, minecarts, and boats.", usage = "/<command> <carts>")
 public class Command_rd extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         FUtil.adminAction(sender.getName(), "Removing all server entities.", true);
         playerMsg((plugin.ew.wipeEntities(true, true)) + " entities removed.");

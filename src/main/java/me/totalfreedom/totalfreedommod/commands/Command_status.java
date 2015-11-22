@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Show misc. server info.", usage = "/<command>")
 public class Command_status extends FreedomCommand
 {
+
     public static final Map<String, String> SERVICE_MAP = new HashMap<String, String>();
 
     static
@@ -26,7 +27,7 @@ public class Command_status extends FreedomCommand
     }
 
     @Override
-    public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(final CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         playerMsg("For information about TotalFreedomMod, try /tfm", ChatColor.GREEN); // Temporary
 

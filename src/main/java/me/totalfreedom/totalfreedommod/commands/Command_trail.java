@@ -22,24 +22,25 @@ import org.bukkit.plugin.RegisteredListener;
 @CommandParameters(description = "Pretty rainbow trails.", usage = "/<command> [off]")
 public class Command_trail extends FreedomCommand
 {
+
     private static Listener movementListener = null;
     private static final List<Player> trailPlayers = new ArrayList<Player>();
     private static final Random RANDOM = new Random();
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length > 0 && "off".equals(args[0]))
         {
-            trailPlayers.remove(sender_p);
+            trailPlayers.remove(playerSender);
 
             playerMsg("Trail disabled.");
         }
         else
         {
-            if (!trailPlayers.contains(sender_p))
+            if (!trailPlayers.contains(playerSender))
             {
-                trailPlayers.add(sender_p);
+                trailPlayers.add(playerSender);
             }
 
             playerMsg("Trail enabled. Use \"/trail off\" to disable.");

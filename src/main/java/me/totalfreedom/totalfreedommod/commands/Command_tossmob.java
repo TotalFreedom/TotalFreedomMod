@@ -18,8 +18,9 @@ import org.bukkit.inventory.ItemStack;
         usage = "/<command> <mobtype [speed] | off | list>")
 public class Command_tossmob extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (!ConfigEntry.TOSSMOB_ENABLED.getBoolean())
         {
@@ -27,7 +28,7 @@ public class Command_tossmob extends FreedomCommand
             return true;
         }
 
-        FPlayer playerData = plugin.pl.getPlayer(sender_p);
+        FPlayer playerData = plugin.pl.getPlayer(playerSender);
 
         EntityType creature = EntityType.PIG;
         if (args.length >= 1)
@@ -83,7 +84,7 @@ public class Command_tossmob extends FreedomCommand
         playerMsg("Left click while holding a " + Material.BONE.toString() + " to throw mobs!", ChatColor.GREEN);
         playerMsg("Type '/tossmob off' to disable.  -By Madgeek1450", ChatColor.GREEN);
 
-        sender_p.setItemInHand(new ItemStack(Material.BONE, 1));
+        playerSender.setItemInHand(new ItemStack(Material.BONE, 1));
 
         return true;
     }

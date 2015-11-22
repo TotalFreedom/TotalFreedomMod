@@ -16,8 +16,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Set a landmine trap.", usage = "/<command>")
 public class Command_landmine extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (!ConfigEntry.LANDMINES_ENABLED.getBoolean())
         {
@@ -54,9 +55,9 @@ public class Command_landmine extends FreedomCommand
             }
         }
 
-        final Block landmine = sender_p.getLocation().getBlock().getRelative(BlockFace.DOWN);
+        final Block landmine = playerSender.getLocation().getBlock().getRelative(BlockFace.DOWN);
         landmine.setType(Material.TNT);
-        plugin.lm.add(new Landmine(landmine.getLocation(), sender_p, radius));
+        plugin.lm.add(new Landmine(landmine.getLocation(), playerSender, radius));
 
         playerMsg("Landmine planted - Radius = " + radius + " blocks.", ChatColor.GREEN);
 

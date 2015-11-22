@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.commands.FreedomCommand;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.heading;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
 import me.totalfreedom.totalfreedommod.rank.PlayerRank;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import net.pravian.aero.command.CommandReflection;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +23,7 @@ import org.bukkit.command.SimpleCommandMap;
 
 public class Module_help extends HTTPDModule
 {
+
     public Module_help(NanoHTTPD.HTTPSession session)
     {
         super(session);
@@ -136,6 +137,7 @@ public class Module_help extends HTTPDModule
 
     public static class CommandComparator implements Comparator<Command>
     {
+
         @Override
         public int compare(Command a, Command b)
         {

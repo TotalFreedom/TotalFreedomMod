@@ -10,8 +10,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Manage permanently banned players and IPs.", usage = "/<command> reload")
 public class Command_permban extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length != 1)
         {

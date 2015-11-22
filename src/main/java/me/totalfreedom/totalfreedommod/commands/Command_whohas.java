@@ -15,8 +15,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "See who has a block and optionally smite.", usage = "/<command> <item> [smite]", aliases = "wh")
 public class Command_whohas extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 1)
         {

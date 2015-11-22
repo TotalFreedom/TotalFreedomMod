@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 
 public class Admin implements ConfigLoadable, ConfigSavable, Validatable
 {
+
     @Getter
     private String configKey;
     @Getter

@@ -12,8 +12,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Warns a player.", usage = "/<command> <player> <reason>")
 public class Command_warn extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 2)
         {
@@ -30,7 +31,7 @@ public class Command_warn extends FreedomCommand
 
         if (sender instanceof Player)
         {
-            if (player.equals(sender_p))
+            if (player.equals(playerSender))
             {
                 playerMsg(ChatColor.RED + "Please, don't try to warn yourself.");
                 return true;

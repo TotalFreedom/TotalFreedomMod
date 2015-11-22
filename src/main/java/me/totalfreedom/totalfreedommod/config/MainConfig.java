@@ -15,6 +15,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class MainConfig
 {
+
     public static final File CONFIG_FILE = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.CONFIG_FILENAME);
     //
     private static final EnumMap<ConfigEntry, Object> ENTRY_MAP;
@@ -79,7 +80,8 @@ public class MainConfig
                     }
                     else
                     {
-                        FLog.warning("Value for " + entry.getConfigName() + " is of type " + value.getClass().getSimpleName() + ". Needs to be " + entry.getType().getSimpleName() + ". Using default value.");
+                        FLog.warning("Value for " + entry.getConfigName() + " is of type "
+                                + value.getClass().getSimpleName() + ". Needs to be " + entry.getType().getSimpleName() + ". Using default value.");
                     }
                 }
                 else
@@ -274,6 +276,7 @@ public class MainConfig
 
     public static class TFM_Defaults
     {
+
         private YamlConfiguration defaults = null;
 
         private TFM_Defaults(InputStream defaultConfig)
@@ -300,4 +303,5 @@ public class MainConfig
             return defaults.get(path);
         }
     }
+
 }

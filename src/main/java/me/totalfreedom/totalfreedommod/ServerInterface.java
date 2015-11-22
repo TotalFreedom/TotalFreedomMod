@@ -10,6 +10,7 @@ import net.pravian.aero.component.service.AbstractService;
 
 public class ServerInterface extends AbstractService<TotalFreedomMod>
 {
+
     public static final String COMPILE_NMS_VERSION = "v1_8_R3";
 
     public ServerInterface(TotalFreedomMod plugin)

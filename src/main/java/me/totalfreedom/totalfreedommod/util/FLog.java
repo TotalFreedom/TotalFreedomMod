@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 public class FLog
 {
+
     private static final Logger FALLBACK_LOGGER = Logger.getLogger("Minecraft-Server");
     private static Logger serverLogger = null;
     private static Logger pluginLogger = null;

@@ -15,6 +15,7 @@ import org.bukkit.util.Vector;
 
 public class Jumppads extends AbstractService<TotalFreedomMod>
 {
+
     public static final Material BLOCK_ID = Material.WOOL;
     public static final double DAMPING_COEFFICIENT = 0.8;
     //
@@ -117,6 +118,7 @@ public class Jumppads extends AbstractService<TotalFreedomMod>
 
     public static enum JumpPadMode
     {
+
         OFF(false), NORMAL(true), NORMAL_AND_SIDEWAYS(true), MADGEEK(true);
         private final boolean on;
 

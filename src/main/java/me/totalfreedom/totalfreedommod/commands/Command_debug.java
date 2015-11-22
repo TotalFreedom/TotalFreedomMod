@@ -12,8 +12,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "For developers only - debug things via reflection.", usage = "/<command>")
 public class Command_debug extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 3)
         {

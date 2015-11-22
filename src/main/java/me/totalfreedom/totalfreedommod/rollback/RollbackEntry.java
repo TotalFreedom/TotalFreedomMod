@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 
 public class RollbackEntry
 {
+
     // Use of primitives to decrease overhead
     public final String author;
     public final String worldName;

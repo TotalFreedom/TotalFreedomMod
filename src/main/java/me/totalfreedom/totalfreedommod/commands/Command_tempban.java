@@ -16,10 +16,11 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Temporarily ban someone.", usage = "/<command> [playername] [duration] [reason]")
 public class Command_tempban extends FreedomCommand
 {
+
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 1)
         {

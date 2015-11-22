@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Module_file extends HTTPDModule
 {
+
     private final File rootDir = new File(ConfigEntry.HTTPD_PUBLIC_FOLDER.getString());
     public static final Map<String, String> MIME_TYPES = new HashMap<String, String>();
 
@@ -302,7 +303,7 @@ public class Module_file extends HTTPDModule
             }
         }
 
-        List<String> _files = Arrays.asList(f.list(new FilenameFilter()
+        List<String> files = Arrays.asList(f.list(new FilenameFilter()
         {
             @Override
             public boolean accept(File dir, String name)
@@ -310,7 +311,7 @@ public class Module_file extends HTTPDModule
                 return new File(dir, name).isFile();
             }
         }));
-        Collections.sort(_files);
+        Collections.sort(files);
         List<String> directories = Arrays.asList(f.list(new FilenameFilter()
         {
             @Override
@@ -320,7 +321,7 @@ public class Module_file extends HTTPDModule
             }
         }));
         Collections.sort(directories);
-        if (up != null || directories.size() + _files.size() > 0)
+        if (up != null || directories.size() + files.size() > 0)
         {
             msg += "<ul>";
             if (up != null || directories.size() > 0)
@@ -337,12 +338,12 @@ public class Module_file extends HTTPDModule
                 }
                 msg += "</section>";
             }
-            if (_files.size() > 0)
+            if (files.size() > 0)
             {
                 msg += "<section class=\"files\">";
-                for (int i = 0; i < _files.size(); i++)
+                for (int i = 0; i < files.size(); i++)
                 {
-                    String file = _files.get(i);
+                    String file = files.get(i);
 
                     msg += "<li><a href=\"" + encodeUri(uri + file) + "\"><span class=\"filename\">" + file + "</span></a>";
                     File curFile = new File(f, file);

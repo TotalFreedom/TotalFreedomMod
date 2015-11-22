@@ -12,9 +12,9 @@ public class Command_cartsit extends FreedomCommand
 {
 
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        Player targetPlayer = sender_p;
+        Player targetPlayer = playerSender;
 
         if (args.length == 1)
         {
@@ -36,7 +36,7 @@ public class Command_cartsit extends FreedomCommand
                 return true;
             }
         }
-        else if (targetPlayer != sender_p && !isAdmin(sender))
+        else if (targetPlayer != playerSender && !isAdmin(sender))
         {
             sender.sendMessage("Only superadmins can select another player as a /cartsit target.");
             return true;

@@ -10,8 +10,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Sets your expierence level.", usage = "/<command> [level]")
 public class Command_setlevel extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length != 1)
         {
@@ -39,7 +40,7 @@ public class Command_setlevel extends FreedomCommand
             return true;
         }
 
-        sender_p.setLevel(new_level);
+        playerSender.setLevel(new_level);
 
         playerMsg("You have been set to level " + Integer.toString(new_level), ChatColor.AQUA);
 

@@ -10,11 +10,12 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Spy on commands", usage = "/<command>", aliases = "commandspy")
 public class Command_cmdspy extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
 
-        FPlayer playerdata = plugin.pl.getPlayer(sender_p);
+        FPlayer playerdata = plugin.pl.getPlayer(playerSender);
         playerdata.setCommandSpy(!playerdata.cmdspyEnabled());
         playerMsg("CommandSpy " + (playerdata.cmdspyEnabled() ? "enabled." : "disabled."));
 

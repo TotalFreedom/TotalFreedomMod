@@ -12,8 +12,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Broadcasts the given message as the console, includes sender name.", usage = "/<command> <message>")
 public class Command_say extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 0)
         {

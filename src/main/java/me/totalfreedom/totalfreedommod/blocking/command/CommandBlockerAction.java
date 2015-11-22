@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.blocking.command;
 
 public enum CommandBlockerAction
 {
+
     BLOCK("b"),
     BLOCK_AND_EJECT("a"),
     BLOCK_UNKNOWN("u");

@@ -14,8 +14,9 @@ import org.bukkit.potion.PotionEffectType;
 @CommandParameters(description = "Shows (optionally smites) invisisible players", usage = "/<command> (smite)")
 public class Command_invis extends FreedomCommand
 {
+
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         boolean smite = false;
         if (args.length >= 1)
