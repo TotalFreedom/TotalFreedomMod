@@ -933,10 +933,10 @@ public class TFM_PlayerListener implements Listener
         
         if (player.getGameMode().equals(SURVIVAL))
         {
-            for (ItemStack block : event.getBlock().getDrops())
+            for (ItemStack stack : event.getBlock().getDrops())
             {
                 event.getBlock().setType(Material.AIR);
-                player.getInventory().addItem(block);
+                player.getInventory().addItem(stack);
                 event.setCancelled(true);
             }
         }
