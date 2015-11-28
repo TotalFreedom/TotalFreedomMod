@@ -44,6 +44,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -945,6 +946,19 @@ public class TFM_PlayerListener implements Listener
                     }
                 }
             }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onBreakBlock(BlockBreakEvent event)
+    {
+        final Player player = event.getPlayer();
+        
+        for (ItemStack block : event.getBlock().getDrops())
+        {
+            event.getBlock().setType(Material.AIR);
+            player.getInventory().addItem(block);
+            event.setCancelled(true);
         }
     }
 }
