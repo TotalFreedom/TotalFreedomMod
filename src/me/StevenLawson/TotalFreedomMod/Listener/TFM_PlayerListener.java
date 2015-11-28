@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import static org.bukkit.GameMode.SURVIVAL;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -954,11 +955,14 @@ public class TFM_PlayerListener implements Listener
     {
         final Player player = event.getPlayer();
         
-        for (ItemStack block : event.getBlock().getDrops())
+        if (player.getGameMode().equals(SURVIVAL))
         {
-            event.getBlock().setType(Material.AIR);
-            player.getInventory().addItem(block);
-            event.setCancelled(true);
+            for (ItemStack block : event.getBlock().getDrops())
+            {
+                event.getBlock().setType(Material.AIR);
+                player.getInventory().addItem(block);
+                event.setCancelled(true);
+            }
         }
     }
 }
