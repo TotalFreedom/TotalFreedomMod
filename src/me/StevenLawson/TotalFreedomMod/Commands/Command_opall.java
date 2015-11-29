@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,8 +27,12 @@ public class Command_opall extends TFM_Command
             }
             else if (args[0].equals("-s"))
             {
+              if (TFM_AdminList.isTelnetAdmin(sender) && TFM_AdminList.isSeniorAdmin(sender)) {
                 doSetGamemode = true;
                 targetGamemode = GameMode.SURVIVAL;
+              } else {
+                sender.sendMessage(TFM_Util.NO_PERMISSION)
+              }
             }
         }
 
