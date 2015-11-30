@@ -24,11 +24,7 @@ public class Command_opall extends TFM_Command
                 doSetGamemode = true;
                 targetGamemode = GameMode.CREATIVE;
             }
-            else if (!TFM_AdminList.isSeniorAdmin(sender))
-            {
-                sender.sendMessage(TFM_Command.MSG_NO_PERMS);
-            }
-            else
+            else if (TFM_AdminList.isSeniorAdmin(sender))
             {
                 if (args[0].equals("-s"))
                 {
