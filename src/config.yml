@@ -98,6 +98,7 @@ blocked_commands:
   - 's:b:/tpall:_'
   - 'n:b:/togglejail:_'
   - 's:b:/vl add:_'
+  - 's:b:/visitcounter reset:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
