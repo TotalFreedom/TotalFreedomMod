@@ -69,7 +69,7 @@ public class TFM_Util
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
     public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "DarthSalmon", "AcidicCyanide", "Wild1145", "WickedGamingUK");
     public static final List<String> EXECUTIVES = Arrays.asList("KM_Galahad");
-    public static final List<String> IFDEVS = Arrays.asList("AwesomePinch", "AndySixx", "OxLemonxO", "tylerhyperHD");
+    public static final List<String> IFDEVS = Arrays.asList("AwesomePinch", "AndySixx", "OxLemonxO", "tylerhyperHD", "Savnith");
     public static final List<String> SYSADMINS = Arrays.asList("samennis1");
     private static final Random RANDOM = new Random();
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
