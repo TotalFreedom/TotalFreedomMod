@@ -1,8 +1,8 @@
-## ImmaFreedomMod v3.0 Configuration, by Savnith, Madgeek1450 and Prozza ##
+## ImmaFreedomMod v3.1 Configuration, by Savnith, Madgeek1450 and Prozza ##
 
 # Generic server information
 server:
-  # You should change this to your server's name
+  # You should change your server's name
   name: ImmaFreedom
 
   # The address your server is located at. Please do not include the port.
