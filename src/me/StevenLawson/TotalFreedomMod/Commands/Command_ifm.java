@@ -64,7 +64,7 @@ public class Command_ifm extends TFM_Command
                 build.date,
                 build.builder), ChatColor.GOLD);
         playerMsg("Running on " + TFM_ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
-        playerMsg("Created by Madgeek1450 and Prozza and later edited by aggelosQQ, AwesomePinch, AndySixx, and tylerhyperHD", ChatColor.GOLD);
+        playerMsg("Created by Madgeek1450 and Prozza and later edited by aggelosQQ, AwesomePinch, AndySixx, Savnith, and tylerhyperHD", ChatColor.GOLD);
         playerMsg("Visit " + ChatColor.AQUA + "http://immafreedom.eu/website" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
 
         return true;
