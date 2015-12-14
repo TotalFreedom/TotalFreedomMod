@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 @CommandParameters(description = "For the people that are still alive.", usage = "/<command>")
 public class Command_cookie extends TFM_Command
 {
-    public static final String COOKIE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cookies.";
+    public static final String COOKIE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you runin out of cookies.";
     private final Random random = new Random();
 
     @Override
