@@ -1,6 +1,4 @@
-#
-# SuperAdmin List
-#
+## Admin Configuration List ##
 
 clean_threshold_hours: 168
 

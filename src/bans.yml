@@ -1,10 +1,11 @@
-#
-# TotalFreedomMod banning config
-# Warning: modification of this file is not recommended
-#
-# Format:
-# Ip: [IP-address / UUID]:[Last login name]:[Expiry unix timestamp (0 = never)][Banned by]:[Reason]
-#
+## ImmaFreedomMod Banning Config, by Savnith ##
+
+# Warning: modification of this file is not recommended! #
+
+###########
+# Format: ###########################################################################################
+# Ip: [IP-address / UUID]:[Last login name]:[Expiry unix timestamp (0 = never)][Banned by]:[Reason] #
+#####################################################################################################
 
 ips:
   - '192.168.1.254:Notch:Prozza:0:IP ban example'

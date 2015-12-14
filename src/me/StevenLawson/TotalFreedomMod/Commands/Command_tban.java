@@ -48,7 +48,7 @@ public class Command_tban extends TFM_Command
         TFM_BanManager.addIpBan(
                 new TFM_Ban(TFM_Util.getIp(player), player.getName(), sender.getName(), TFM_Util.parseDateOffset("5m"), ChatColor.RED + "You have been temporarily banned for 5 minutes."));
 
-        player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
+        player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read immafreedom.eu for more info.");
 
         return true;
     }

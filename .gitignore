@@ -1,14 +1,14 @@
-# Netbeans excludes - StevenLawson & JeromSar
-/nbproject/private/
-/dist/
-/build/
+# Netbeans excludes
+nbproject/private/
+dist/
+build/
 manifest.mf
 
-# Eclipse excludes - JeromSar (old)
+# Eclipse excludes
 .project
 .classpath
-/bin/
-/.settings/
+bin/
+.settings/
 
 # OS generated files
 .DS_Store
@@ -19,4 +19,4 @@ ehthumbs.db
 Thumbs.db
 
 # TFM files
-buildcreator.properties
+build.properties

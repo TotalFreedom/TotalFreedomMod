@@ -105,6 +105,7 @@ public class TFM_PlayerData
     private boolean verifiedSuperadminId = false;
     private String lastCommand = "";
     private boolean cmdspyEnabled = false;
+    private boolean didNeedHelp = false;
     private String tag = null;
     private int warningCount = 0;
 
@@ -241,11 +242,6 @@ public class TFM_PlayerData
         }.runTaskLater(TotalFreedomMod.plugin, AUTO_PURGE);
     }
 
-    public void resetMsgCount()
-    {
-        this.messageCount = 0;
-    }
-
     public int incrementAndGetMsgCount()
     {
         return this.messageCount++;
@@ -254,6 +250,11 @@ public class TFM_PlayerData
     public int incrementAndGetBlockDestroyCount()
     {
         return this.totalBlockDestroy++;
+    }
+
+    public void resetMsgCount()
+    {
+        this.messageCount = 0;
     }
 
     public void resetBlockDestroyCount()
@@ -495,6 +496,16 @@ public class TFM_PlayerData
     public void setLastCommand(String lastCommand)
     {
         this.lastCommand = lastCommand;
+    }
+
+    public void setAdminHelpNeeded(boolean enabled)
+    {
+        this.didNeedHelp = enabled;
+    }
+
+    public boolean adminHelpEnabled()
+    {
+        return didNeedHelp;
     }
 
     public void setCommandSpy(boolean enabled)

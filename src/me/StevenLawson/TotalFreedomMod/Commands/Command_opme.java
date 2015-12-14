@@ -5,8 +5,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Automatically ops user.", usage = "/<command>")
+@CommandPermissions(level = AdminLevel.NON_OP, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Automatically ops the player.", usage = "/<command>")
 public class Command_opme extends TFM_Command
 {
     @Override

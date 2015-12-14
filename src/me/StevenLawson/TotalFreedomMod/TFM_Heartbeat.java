@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class TFM_Heartbeat extends BukkitRunnable
 {
+
     private static final long AUTO_KICK_TIME = (long) TFM_ConfigEntry.AUTOKICK_TIME.getInteger() * 1000L;
     private final TotalFreedomMod plugin;
     private final Server server;

@@ -77,10 +77,9 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
         org.bukkit.material.Sign signData = (org.bukkit.material.Sign) welcomeSign.getData();
         signData.setFacingDirection(BlockFace.NORTH);
 
-        welcomeSign.setLine(0, ChatColor.GREEN + "AdminWorld");
+        welcomeSign.setLine(0, ChatColor.RED + "ImmaFreedom");
         welcomeSign.setLine(1, ChatColor.DARK_GRAY + "---");
-        welcomeSign.setLine(2, ChatColor.YELLOW + "Spawn Point");
-        welcomeSign.setLine(3, ChatColor.DARK_GRAY + "---");
+        welcomeSign.setLine(2, ChatColor.DARK_GREEN + "Adminworld");
         welcomeSign.update();
 
         TFM_GameRuleHandler.commitGameRules();

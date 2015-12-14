@@ -2,18 +2,24 @@ package me.StevenLawson.TotalFreedomMod;
 
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import static me.StevenLawson.TotalFreedomMod.TFM_Util.DEVELOPERS;
+import static me.StevenLawson.TotalFreedomMod.TFM_Util.IFDEVS;
+import static me.StevenLawson.TotalFreedomMod.TFM_Util.EXECUTIVES;
+import static me.StevenLawson.TotalFreedomMod.TFM_Util.SYSADMINS;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public enum TFM_PlayerRank
 {
-    DEVELOPER("a " + ChatColor.DARK_PURPLE + "Developer", ChatColor.DARK_PURPLE + "[Dev]"),
+    DEVELOPER("a " + ChatColor.DARK_PURPLE + "Developer", ChatColor.DARK_PURPLE + "[TF-Dev]"),
+    EXEC("an " + ChatColor.DARK_RED + "Executive", ChatColor.DARK_RED + "[Exec]"),
+    IFDEV("a " + ChatColor.DARK_PURPLE + "Developer", ChatColor.DARK_PURPLE + "[IF Dev]"),
     IMPOSTOR("an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "Impostor", ChatColor.YELLOW.toString() + ChatColor.UNDERLINE + "[IMP]"),
     NON_OP("a " + ChatColor.GREEN + "Non-OP", ChatColor.GREEN.toString()),
     OP("an " + ChatColor.RED + "OP", ChatColor.RED + "[OP]"),
     SUPER("a " + ChatColor.GOLD + "Super Admin", ChatColor.GOLD + "[SA]"),
     TELNET("a " + ChatColor.DARK_GREEN + "Super Telnet Admin", ChatColor.DARK_GREEN + "[STA]"),
+    SYS("a " + ChatColor.DARK_RED + "System Admin", ChatColor.DARK_RED + "[SYS]"),
     SENIOR("a " + ChatColor.LIGHT_PURPLE + "Senior Admin", ChatColor.LIGHT_PURPLE + "[SrA]"),
     OWNER("the " + ChatColor.BLUE + "Owner", ChatColor.BLUE + "[Owner]"),
     CONSOLE("The " + ChatColor.DARK_PURPLE + "Console", ChatColor.DARK_PURPLE + "[Console]");
@@ -68,6 +74,21 @@ public enum TFM_PlayerRank
         if (DEVELOPERS.contains(sender.getName()))
         {
             return DEVELOPER;
+        }
+
+        if (EXECUTIVES.contains(sender.getName()))
+        {
+            return EXEC;
+        }
+
+        if (IFDEVS.contains(sender.getName()))
+        {
+            return IFDEV;
+        }
+
+        if (SYSADMINS.contains(sender.getName()))
+        {
+            return SYS;
         }
 
         final TFM_Admin entry = TFM_AdminList.getEntryByIp(TFM_Util.getIp((Player) sender));

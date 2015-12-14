@@ -12,8 +12,10 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Go to the AdminWorld.", usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]")
 public class Command_adminworld extends TFM_Command
 {
+
     private enum CommandMode
     {
+
         TELEPORT, GUEST, TIME, WEATHER;
     }
 
@@ -221,6 +223,7 @@ public class Command_adminworld extends TFM_Command
 
     private class PermissionDeniedException extends Exception
     {
+
         private static final long serialVersionUID = 1L;
 
         private PermissionDeniedException(String string)

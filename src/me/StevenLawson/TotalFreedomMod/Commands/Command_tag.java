@@ -15,11 +15,6 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <set <tag..> | off | clear <player> | clearall>")
 public class Command_tag extends TFM_Command
 {
-    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
-    {
-        "admin", "owner", "moderator", "developer", "console"
-    });
-
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -130,13 +125,12 @@ public class Command_tag extends TFM_Command
                         return true;
                     }
 
-                    for (String word : FORBIDDEN_WORDS)
+                    String vartag = outputTag.toLowerCase();
+
+                    if (vartag.contains("admin") && vartag.contains("mod") && vartag.contains("owner") && vartag.contains("moderator") && vartag.contains("developer") && vartag.contains("console") && vartag.contains("super admin") && vartag.contains("telnet admin") && vartag.contains("senior admin"))
                     {
-                        if (rawTag.contains(word))
-                        {
-                            playerMsg("That tag contains a forbidden word.");
-                            return true;
-                        }
+                        Command_smite.smite(sender_p, "[AutoSmite] You are not an administrator");
+                        return true;
                     }
                 }
 

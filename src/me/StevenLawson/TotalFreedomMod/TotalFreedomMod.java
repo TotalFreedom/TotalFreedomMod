@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -14,13 +13,16 @@ import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.HTTPD.TFM_HTTPD_Manager;
+import me.StevenLawson.TotalFreedomMod.Listener.FreedomListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_ServerListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_VerifyListener;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
+import net.camtech.verification.SocketServer;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -45,12 +47,9 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String PROTECTED_AREA_FILENAME = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     //
+    public static final BuildProperties build = new BuildProperties();
     @Deprecated
     public static final String YOU_ARE_NOT_OP = me.StevenLawson.TotalFreedomMod.Commands.TFM_Command.YOU_ARE_NOT_OP;
-    //
-    public static String buildNumber = "1";
-    public static String buildDate = TotalFreedomMod.buildDate = TFM_Util.dateToString(new Date());
-    public static String buildCreator = "Unknown";
     //
     public static Server server;
     public static TotalFreedomMod plugin;
@@ -59,6 +58,9 @@ public class TotalFreedomMod extends JavaPlugin
     //
     public static boolean lockdownEnabled = false;
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<Player, Double>();
+    //
+    private final SocketServer socketServer = new SocketServer();
+    private Thread thread;
 
     @Override
     public void onLoad()
@@ -71,15 +73,16 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Log.setPluginLogger(plugin.getLogger());
         TFM_Log.setServerLogger(server.getLogger());
 
-        setAppProperties();
+        build.load();
     }
 
     @Override
     public void onEnable()
     {
         TFM_Log.info("Made by Madgeek1450 and Prozza");
-        TFM_Log.info("Compiled " + buildDate + " by " + buildCreator);
-
+        TFM_Log.info("Made for ImmaFreedom, an all-op server.");
+        TFM_Log.info("Version " + build.formattedVersion());
+        TFM_Log.info("Compiled " + build.date + " by " + build.builder);
         final TFM_Util.MethodTimer timer = new TFM_Util.MethodTimer();
         timer.start();
 
@@ -116,6 +119,9 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_PlayerListener(), plugin);
         pm.registerEvents(new TFM_WeatherListener(), plugin);
         pm.registerEvents(new TFM_ServerListener(), plugin);
+
+        pm.registerEvents(new TFM_VerifyListener(), plugin);
+        pm.registerEvents(new FreedomListener(), plugin);
 
         // Bridge
         pm.registerEvents(new TFM_BukkitTelnetListener(), plugin);
@@ -167,7 +173,6 @@ public class TotalFreedomMod extends JavaPlugin
         // Start services
         TFM_ServiceChecker.start();
         TFM_HTTPD_Manager.start();
-        TFM_FrontDoor.start();
         TFM_CommandBlocker.load();
 
         timer.update();
@@ -196,6 +201,8 @@ public class TotalFreedomMod extends JavaPlugin
                 TFM_ProtectedArea.autoAddSpawnpoints();
             }
         }.runTaskLater(plugin, 20L);
+        thread = new Thread(socketServer);
+        thread.start();
     }
 
     @Override
@@ -204,11 +211,18 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_HTTPD_Manager.stop();
         TFM_BanManager.save();
         TFM_UuidManager.close();
-        TFM_FrontDoor.stop();
 
         server.getScheduler().cancelTasks(plugin);
 
         TFM_Log.info("Plugin disabled");
+        try
+        {
+            this.socketServer.sock.close();
+        }
+        catch (IOException ex)
+        {
+            TFM_Log.severe(ex.getMessage());
+        }
     }
 
     @Override
@@ -217,25 +231,40 @@ public class TotalFreedomMod extends JavaPlugin
         return TFM_CommandHandler.handleCommand(sender, cmd, commandLabel, args);
     }
 
-    private static void setAppProperties()
+    public static class BuildProperties
     {
-        try
+        public String builder;
+        public String number;
+        public String head;
+        public String date;
+
+        @SuppressWarnings("ConvertToTryWithResources")
+        public void load()
         {
-            final InputStream in = plugin.getResource("appinfo.properties");
-            Properties props = new Properties();
+            try
+            {
+                final InputStream in = plugin.getResource("build.properties");
 
-            // in = plugin.getClass().getResourceAsStream("/appinfo.properties");
-            props.load(in);
-            in.close();
+                final Properties props = new Properties();
+                props.load(in);
+                in.close();
 
-            TotalFreedomMod.buildNumber = props.getProperty("program.buildnumber");
-            TotalFreedomMod.buildDate = props.getProperty("program.builddate");
-            TotalFreedomMod.buildCreator = props.getProperty("program.buildcreator");
+                builder = props.getProperty("program.builder", "unknown");
+                number = props.getProperty("program.buildnumber", "1");
+                head = props.getProperty("program.buildhead", "unknown");
+                date = props.getProperty("program.builddate", "unknown");
+
+            }
+            catch (Exception ex)
+            {
+                TFM_Log.severe("Could not load build properties! Did you compile with Netbeans/ANT?");
+                TFM_Log.severe(ex);
+            }
         }
-        catch (Exception ex)
+
+        public String formattedVersion()
         {
-            TFM_Log.severe("Could not load App properties!");
-            TFM_Log.severe(ex);
+            return pluginVersion + "." + number + " (" + head + ")";
         }
     }
 }
