@@ -1,6 +1,6 @@
 name: TotalFreedomMod
-main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 4.3
+main: me.totalfreedom.totalfreedommod.TotalFreedomMod
+version: 5.0
 description: Plugin for the Total Freedom server.
 softdepend: [BukkitTelnet, WorldEdit, Essentials]
 authors: [Madgeek1450, Prozza]

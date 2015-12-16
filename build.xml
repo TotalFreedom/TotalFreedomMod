@@ -3,23 +3,52 @@
     <description>Builds, tests, and runs the project TotalFreedomMod.</description>
     <import file="nbproject/build-impl.xml" />
 
-    <target name="-pre-jar">
-        <copy file="buildcreator.default.properties" tofile="buildcreator.properties" overwrite="false" />
-
-        <property file="buildcreator.properties"/>
-        <buildnumber file="buildnumber.properties" />
-
-        <propertyfile file="appinfo.properties">
-            <entry key="program.buildnumber" value="${build.number}" />
-            <entry key="program.builddate" type="date" value="now" pattern="MM/dd/yyyy hh:mm aa" />
-            <entry key="program.buildcreator" value="${program.buildcreator}" />
-        </propertyfile>
-        <copy file="appinfo.properties" todir="${build.classes.dir}" />
-        <delete file="appinfo.properties" />
+    <!-- if "build.properties" exists, store that in "build.properties.exists" -->
+    <target name="-build-properties-exists">
+        <available property="build.properties.exists" file="build.properties"/>
     </target>
 
+    <!-- Creates build.properties, unless it exists already -->
+    <target name="create-build-properties" depends="-build-properties-exists" unless="build.properties.exists">
+        <propertyfile file="build.properties" comment="Build information. Edit this to your liking.">
+            <entry key="program.builder" default="unknown" />
+        </propertyfile>
+    </target>
+
+    <!-- Pre-jar property generation -->
+    <target name="-pre-jar" depends="create-build-properties">
+
+        <!-- Determine git version -->
+        <exec executable="git" outputproperty="program.buildhead" failifexecutionfails="false" errorproperty="">
+            <arg value="describe"/>
+            <arg value="--tags"/>
+            <arg value="--always"/>
+            <arg value="HEAD"/>
+        </exec>
+        <condition property="repository.version" value="${program.buildhead}" else="unknown">
+            <and>
+                <isset property="program.buildhead"/>
+                <length string="${program.buildhead}" trim="yes" length="0" when="greater"/>
+            </and>
+        </condition>
+
+        <!-- Load build.properties file -->
+        <property file="build.properties"/>
+
+        <!-- Load buildnumber from build.properties, store in ${build.number} -->
+        <buildnumber file="build.properties" />
+
+        <!-- Write build info -->
+        <propertyfile file="${build.classes.dir}/build.properties">
+            <entry key="program.buildnumber" value="${build.number}" />
+            <entry key="program.buildhead" value="${program.buildhead}" />
+            <entry key="program.builder" value="${program.builder}" />
+            <entry key="program.builddate" type="date" value="now" pattern="yyyy-MM-dd hh:mm aa" />
+        </propertyfile>
+    </target>
+
+    <!-- Cleanup -->
     <target name="-post-jar">
-        <!-- Cleanup -->
         <delete file="${dist.dir}/README.TXT" />
         <delete dir="${dist.dir}/lib/" />
     </target>
