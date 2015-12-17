@@ -61,8 +61,6 @@ public class Command_smite extends TFM_Command
 
         //Kill:
         player.setHealth(0.0);
-        
-        //Who where they smitted by:
-        player.sendMessage("You were smited by:" + sender.getName());
+
     }
 }
