@@ -41,10 +41,10 @@ public class Command_suspend extends TFM_Command
         // remove from superadmin
         if (TFM_AdminList.isSuperAdmin(player))
         {
-            TFM_Util.adminAction(sender.getName(), "Suspending " + player.getName() + " and removing them from the superadmin list.", true);
+            TFM_Util.adminAction(sender.getName(), "Suspending " + player.getName(), true);
             TFM_AdminList.removeSuperadmin(player);
-        }else {
-        TFM_Util.bcastMsg(sender.getName() + " tried to suspend: " + player.getName(), ChatColor.RED);
+        } else {
+            TFM_Util.adminAction(sender.getName(), "Tried to suspend " + player.getName());
         }
 
         // remove from whitelist
