@@ -58,7 +58,6 @@ public class Command_smite extends TFM_Command
                 world.strikeLightning(strike_pos);
             }
         }
-
         //Kill:
         player.setHealth(0.0);
 
