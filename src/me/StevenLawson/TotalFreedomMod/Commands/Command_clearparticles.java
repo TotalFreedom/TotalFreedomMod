@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Particle Cleanup", usage = "/<command>", aliases = "cc")
+@CommandParameters(description = "Particle Cleanup", usage = "/<command>", aliases = "cp")
 public class Command_clearparticles extends TFM_Command 
 {        
     @Override
