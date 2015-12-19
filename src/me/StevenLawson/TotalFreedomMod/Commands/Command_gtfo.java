@@ -92,7 +92,7 @@ public class Command_gtfo extends TFM_Command
 
         TFM_Util.bcastMsg(bcast.toString());
 
-        TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), sender.getName(), null, reason));
+        TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), sender.getName(), null, reason, sender.getName));
 
         // ban username:
         TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), sender.getName(), null, reason, sender.getName()));
