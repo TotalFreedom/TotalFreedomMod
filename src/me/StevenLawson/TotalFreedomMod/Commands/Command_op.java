@@ -26,6 +26,16 @@ public class Command_op extends TFM_Command
             playerMsg("Correct usage: /opall");
             return true;
         }
+         if (args[0].equalsIgnoreCase("-c") || args[0].equalsIgnoreCase("-s"))
+        {
+            if (TFM_AdminList.isSuperAdmin(sender) || senderIsConsole) {
+            playerMsg("Correct usage: /opall [-c|-s]");
+            return true;
+        } else {
+            playerMsg("You need to be an Super Admin to use -c and/or -s!");
+        }
+                
+            }
 
         OfflinePlayer player = null;
         for (Player onlinePlayer : server.getOnlinePlayers())
@@ -51,8 +61,15 @@ public class Command_op extends TFM_Command
             }
         }
 
-        TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
-        player.setOp(true);
+         if (!player.isOp())
+         {
+         	TFM_Util.adminAction(sender.getName(), "Opping " + player.getName(), false);
+         	player.setOp(true);
+         }
+         else
+         {
+         	playerMsg("You don't have permission to OP users that are already Opped.", ChatColor.YELLOW);
+         }
 
         return true;
     }
