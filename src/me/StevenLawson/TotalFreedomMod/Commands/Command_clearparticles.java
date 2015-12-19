@@ -12,12 +12,12 @@ import org.bukkit.entity.Player;
 public class Command_clearparticles extends TFM_Command 
 {        
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
-        for (int i = 0; i <= 80; i++)
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
         {    
-            TFM_Util.bcastMsg("");
+        server.dispatchCommand(sender, "wildcard gcmd ? pp clear");
         }
-        TFM_Util.adminAction(sender.getName(), "Clearing all particles ", true);
+        TFM_Util.bcastMsg(sender.getName() + " - Cleared all particle effects from all players", ChatColor.RED);
         return true;
     }
 }
