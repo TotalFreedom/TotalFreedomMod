@@ -1,35 +1,31 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Ban;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
-import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.TFM_Player;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import org.bukkit.ChatColor;
+import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE)
-@CommandParameters(description = "Daily ban wipe command", usage = "/<command>")
+@CommandParameters(description = "Cleaning all banlist excluding Perm-Ban list", usage = "/<command>")
 public class Command_wipebandata extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
-
-        {           
-            {
-                {
-                TFM_Util.adminAction(sender.getName(), "Daily ban purge session started", true);     
-                TFM_Util.adminAction(sender.getName(), "Wiping all bans from the server", true); 
-                TFM_PlayerList.purgeAll();
-                TFM_BanManager.purgeIpBans();
-                TFM_BanManager.purgeUuidBans();
-                TFM_Util.adminAction(sender.getName(), "Daily ban purge session ended", true); 
-                }
-            }
+    {
+        TFM_Util.adminAction(sender.getName(), "Wiping all bans from the server", true);
+        {
+        TFM_BanManager.purgeIpBans();
+        TFM_BanManager.purgeUuidBans();
+        TFM_PlayerList.purgeAll();
+        }
         return true;
     }
 }
-    
-
