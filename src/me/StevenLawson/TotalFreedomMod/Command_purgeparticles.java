@@ -18,8 +18,8 @@ public class Command_purgeparticles extends TFM_Command
         for (Player player : server.getOnlinePlayers())
         {
         server.dispatchCommand(player, "pp clear");
-
-          }
+        }
+           
         }
 
         return true;
