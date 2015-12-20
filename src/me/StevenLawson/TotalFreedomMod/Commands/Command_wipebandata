@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "Daily ban wipe command", usage = "/<command>")
-public class Command_wipebans extends TFM_Command
+public class Command_wipebandata extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -20,7 +20,7 @@ public class Command_wipebans extends TFM_Command
         {           
             {
                 {
-                TFM_Util.adminAction(sender.getName(), "Starting daily ban purge session", true);     
+                TFM_Util.adminAction(sender.getName(), "Daily ban purge session started", true);     
                 TFM_Util.adminAction(sender.getName(), "Wiping all bans from the server", true); 
                 TFM_PlayerList.purgeAll();
                 TFM_BanManager.purgeIpBans();
