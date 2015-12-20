@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Clearing all particle effect from all players on the server", usage = "/<command> <partialname>")
+@CommandParameters(description = "Clearing all particle effect from all players on the server", usage = "/<command>")
 public class Command_purgeparticles extends TFM_Command
 {
     @Override
