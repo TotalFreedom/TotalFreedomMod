@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Shows (optionally clears) invisisible players", usage = "/<command> (clear)")
+@CommandParameters(description = "Shows (optionally clears) invisible players", usage = "/<command> (clear)")
 public class Command_invis extends TFM_Command
 {
     @Override
