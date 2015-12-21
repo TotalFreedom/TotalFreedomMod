@@ -66,7 +66,6 @@ public class Command_invis extends TFM_Command
             if (args[0].equalsIgnoreCase("clear"))
             {
                 TFM_Util.adminAction(sender.getName(), "Clearing all invis potion effect from all players", true);
-                smite = false;
             }
             else
             {
@@ -82,7 +81,8 @@ public class Command_invis extends TFM_Command
                     player.removePotionEffect((PotionEffectType.INVISIBILITY));
                 }
             }
-        }        
+        }
+        
         return true;
     }
 }
