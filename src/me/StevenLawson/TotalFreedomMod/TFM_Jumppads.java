@@ -18,7 +18,7 @@ public class TFM_Jumppads
 
     static
     {
-        BLOCK_ID = Material.WOOL;
+        BLOCK_ID = Material.GLASS;
         DAMPING_COEFFICIENT = 0.8;
         PUSH_MAP = new HashMap<Player, Boolean>();
         mode = JumpPadMode.MADGEEK;
