@@ -107,6 +107,7 @@ blocked_commands:
   - 's:b:/kill:_'
   - 's:b://generate:_'
   - 's:b://:_'
+  - 's:b://flood:_'
   - 's:b:/superpickaxe:_'
   - 's:b:/brush:_'
   - 's:b:/size:_'
