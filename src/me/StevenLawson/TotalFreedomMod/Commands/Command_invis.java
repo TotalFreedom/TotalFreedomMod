@@ -19,7 +19,7 @@ public class Command_invis extends TFM_Command
     {
         boolean smite = false;
         if (args.length >= 1)
-        {
+        {   
             if (args[0].equalsIgnoreCase("smite"))
             {
                 TFM_Util.adminAction(sender.getName(), "Smiting all invisible players", true);
@@ -61,7 +61,28 @@ public class Command_invis extends TFM_Command
         {
             playerMsg("Invisible players (" + players.size() + "): " + StringUtils.join(players, ", "));
         }
+         
+        {   
+            if (args[0].equalsIgnoreCase("clear"))
+            {
+                TFM_Util.adminAction(sender.getName(), "Clearing all invis potion effect from all players", true);
+            }
+            else
+            {
+                return false;
+            }
+        }
 
+        for (Player player : server.getOnlinePlayers())
+        {    
+            if (player.hasPotionEffect(PotionEffectType.INVISIBILITY))
+            {
+                {
+                    player.removePotionEffect((PotionEffectType.INVISIBILITY));
+                }
+            }
+        }
+        
         return true;
     }
 }
