@@ -24,9 +24,9 @@ public class Command_invis extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), "Smiting all invisible players", true);
                 smite = true;
-            }
+               }
             else
-            {
+               {
                 return false;
             }
         }
