@@ -733,6 +733,47 @@ public class TFM_PlayerListener implements Listener
                 }
             }
         }
+            if (!TFM_AdminList.isTelnetAdmin(player, true))
+            {
+                for (Player pl : Bukkit.getOnlinePlayers())
+                {
+                    if (TFM_AdminList.isTelnetAdmin(pl, true) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
+                    {
+                        if (TFM_AdminList.isSuperAdmin(player))
+                            {
+                                TFM_Util.playerMsg(pl, player.getName() + ": " + command, ChatColor.YELLOW);
+                            }
+                    }
+                }
+            }
+        
+        if (!TFM_AdminList.isSeniorAdmin(player))
+        {
+            for (Player pl : Bukkit.getOnlinePlayers())
+            {
+                if (TFM_AdminList.isSeniorAdmin(pl, true) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
+                {
+                    if (TFM_AdminList.isSuperAdmin(pl))
+                    {
+                        TFM_Util.playerMsg(pl, player.getName() + ": " + command, ChatColor.GREEN);
+                    }
+                }
+            }
+        }
+        
+        if (!TFM_ConfigEntry.SERVER_OWNERS.getList().contains(player))
+        {
+            for (Player pl : Bukkit.getOnlinePlayers())
+            {
+                if (TFM_ConfigEntry.SERVER_OWNERS.getList().contains(pl) && TFM_PlayerData.getPlayerData(pl).cmdspyEnabled())
+                {
+                    if (TFM_AdminList.isSuperAdmin(player))
+                    {
+                        TFM_Util.playerMsg(pl, player.getName() + ": " + command, ChatColor.RED);
+                    }
+                }
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
