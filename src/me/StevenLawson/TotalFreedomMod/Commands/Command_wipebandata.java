@@ -19,8 +19,6 @@ public class Command_wipebandata extends TFM_Command
         {
         TFM_BanManager.purgeIpBans();
         TFM_BanManager.purgeUuidBans();
-        TFM_PlayerList.purgeAll();
-        playerMsg("Successfully wiped all bans from the server!");
         }
         return true;
     }
