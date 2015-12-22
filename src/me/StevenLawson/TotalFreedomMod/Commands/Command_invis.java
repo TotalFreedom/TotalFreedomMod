@@ -11,19 +11,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Shows (optionally smites) invisisible players", usage = "/<command> (smite)")
+@CommandParameters(description = "Shows (optionally clears) invisible players", usage = "/<command> (clear)")
 public class Command_invis extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        boolean smite = false;
+        boolean clear = false;
         if (args.length >= 1)
         {
-            if (args[0].equalsIgnoreCase("smite"))
+            if (args[0].equalsIgnoreCase("clear"))
             {
-                TFM_Util.adminAction(sender.getName(), "Smiting all invisible players", true);
-                smite = true;
+                TFM_Util.adminAction(sender.getName(), "Clearing all invisible players", true);
+                clear = true;
             }
             else
             {
@@ -32,17 +32,17 @@ public class Command_invis extends TFM_Command
         }
 
         List<String> players = new ArrayList<String>();
-        int smites = 0;
+        int clears = 0;
 
         for (Player player : server.getOnlinePlayers())
         {
             if (player.hasPotionEffect(PotionEffectType.INVISIBILITY))
             {
                 players.add(player.getName());
-                if (smite && !TFM_AdminList.isSuperAdmin(player))
+                if (clear && !TFM_AdminList.isSuperAdmin(player))
                 {
-                    player.setHealth(0.0);
-                    smites++;
+                    player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                    clears++;
                 }
             }
         }
@@ -53,9 +53,9 @@ public class Command_invis extends TFM_Command
             return true;
         }
 
-        if (smite)
+        if (clear)
         {
-            playerMsg("Smitten " + smites + " players");
+            playerMsg("Cleared " + clears + " players");
         }
         else
         {
