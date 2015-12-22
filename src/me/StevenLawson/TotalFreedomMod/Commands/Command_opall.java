@@ -13,7 +13,7 @@ public class Command_opall extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        TFM_Util.adminAction(sender.getName(), "Opping all players on the server", false);
+        TFM_Util.adminAction(sender.getName(), "Opping all players on TotalFreedom", false);
 
         boolean doSetGamemode = false;
         GameMode targetGamemode = GameMode.CREATIVE;
