@@ -39,7 +39,7 @@ public class Command_invis extends TFM_Command
             if (player.hasPotionEffect(PotionEffectType.INVISIBILITY))
             {
                 players.add(player.getName());
-                if (!TFM_AdminList.isSuperAdmin(player))
+                if (clear && !TFM_AdminList.isSuperAdmin(player))
                 {
                     player.removePotionEffect(PotionEffectType.INVISIBILITY);
                     clears++;
