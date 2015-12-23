@@ -67,7 +67,7 @@ public class TFM_Util
     private static final Map<String, Integer> ejectTracker = new HashMap<String, Integer>();
     public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "DarthSalmon", "AcidicCyanide", "Wild1145", "WickedGamingUK");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "DarthSalmon", "AcidicCyanide", "Wild1145", "WickedGamingUK", "Savnith");
     private static final Random RANDOM = new Random();
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<String, ChatColor>();
@@ -235,7 +235,7 @@ public class TFM_Util
 
         if (player.getWorld().getName().equalsIgnoreCase(targetWorld))
         {
-            playerMsg(player, "Going to main world.", ChatColor.GRAY);
+            playerMsg(player, "Welcome to the main world.", ChatColor.GRAY);
             player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
             return;
         }
@@ -332,7 +332,7 @@ public class TFM_Util
                         block.setType(Material.SKULL);
                         final Skull skull = (Skull) block.getState();
                         skull.setSkullType(SkullType.PLAYER);
-                        skull.setOwner("Prozza");
+                        skull.setOwner("Savnith");
                         skull.update();
                     }
                 }
@@ -918,13 +918,13 @@ public class TFM_Util
     public static void adminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
     {
         String name = sender.getName() + " " + TFM_PlayerRank.fromSender(sender).getPrefix() + ChatColor.WHITE;
-        TFM_Log.info("[ADMIN] " + name + ": " + message);
+        TFM_Log.info("[AdminChat] " + name + ": " + message);
 
         for (Player player : Bukkit.getOnlinePlayers())
         {
             if (TFM_AdminList.isSuperAdmin(player))
             {
-                player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
+                player.sendMessage("[" + ChatColor.DARK_RED + "AdminChat" + ChatColor.WHITE + "] " + ChatColor.BLUE + name + ": " + ChatColor.AQUA + message);
             }
         }
     }
@@ -999,7 +999,7 @@ public class TFM_Util
         {
             if (TFM_AdminList.isSuperAdmin(player))
             {
-                playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
+                playerMsg(player, ChatColor.RED + "[PlayerReports] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
             }
         }
     }
