@@ -1,8 +1,8 @@
-name: TotalFreedomMod
+name: AlexFreedomMod
 main: me.StevenLawson.TotalFreedomMod.TotalFreedomMod
-version: 4.3
-description: Plugin for the Total Freedom server.
-softdepend: [BukkitTelnet, WorldEdit, Essentials]
-authors: [Madgeek1450, Prozza]
+version: 6.0beta
+description: Plugin for AlexFreedom!
+softdepend: [AF-BukkitTelnet, AF-WorldEdit, AF-Essentials]
+authors: [Madgeek1450, Savnith, Prozza]
 
 # plugin.yml is no longer used to define commands.

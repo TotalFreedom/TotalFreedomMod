@@ -603,7 +603,7 @@ public class TFM_PlayerListener implements Listener
             {
                 if (!TFM_AdminList.isSuperAdminSync(player))
                 {
-                    TFM_Sync.playerMsg(player, ChatColor.RED + "You are muted, STFU! - You will be unmuted in 5 minutes.");
+                    TFM_Sync.playerMsg(player, ChatColor.RED + "Shut the fuck up, Your muted! - You shall be unmuted in 5 minutes.");
                     event.setCancelled(true);
                     return;
                 }
