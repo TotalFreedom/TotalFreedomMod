@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Force-Kick a player", usage = "/<command> <partialname> <reason>")
+@CommandParameters(description = "Kicks a player", usage = "/<command> <partialname> <reason>")
 public class Command_kick extends TFM_Command
 {
     @Override
@@ -36,7 +36,7 @@ public class Command_kick extends TFM_Command
         }
 
         TFM_Util.adminAction(sender.getName(), "Kicking " + player.getName() + " from the server", true);
-        sender.sendMessage(ChatColor.RED + "Kicked: " + player.getName());
+        playerMsg(ChatColor.RED + "Kicked: " + player.getName());
 
         // deop
         player.setOp(false);
