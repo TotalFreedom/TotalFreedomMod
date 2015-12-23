@@ -1,4 +1,4 @@
-## AlexFreedomMod 6.0 Configeration, by Savnith and alex ##
+## AlexFreedomMod v6.1 Configuration, by Savnith and alex ##
 
 # Generic server information
 server:
@@ -204,35 +204,19 @@ announcer:
   enabled: true
 
   # Interval between announcements, in seconds.
-  interval: 600
+  interval: 100
 
   # Prefix for all announcements
-  prefix: '&5[&eTotalFreedom&5] &b'
+  prefix: '&7(&2Alex&aFreedom&7) &e'
 
   announcements:
-    - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
-    - 'You can always review the server rules here: &6http://totalfreedom.me/'
+    - 'Be sure to visit our forums at &6http://alexfreedomremade.boards.net/'
+    - 'You can always review the server rules here with /rules'
     - 'If you are not OP, be sure to ask!'
     - 'Somebody breaking the rules?  Report it!  /report <user> <reason>'
     - 'Griefing is not allowed!'
     - 'Hacking is allowed!'
     - 'Interested in becoming admin? Do "/ai" for more information!'
-    - 'You may view all online administrators via "/list -a"'
-    - 'Save your buildings via WorldEdit!  http://totalfreedom.me for more information!'
-    - 'Famous players, such as Notch, are always fake!  We are an offline/cracked server!'
-    - 'You may contact TotalFreedoms Support on Twitter!  pravi.us/nGS'
-    - 'You may download TotalFreedomMod here: pravi.us/V8c'
-    - 'MarkByron is TotalFreedoms owner.'
-    - 'Server lagging?  Check the lag via "/tps"'
-    - 'You are allowed to record and stream videos on TotalFreedom :D'
-    - 'An admin abusing?  Report it! pravi.us/vfa'
-    - 'Player vs Player while in creative/god mode it forbidden!'
-    - 'Spawn killing is forbidden!'
-    - 'Invisible potions are allowed!'
-    - 'Serial griefing and trolling will result in permanently being banned!'
-    - 'TotalFreedom does not accept any form of donations!'
-    - 'Racism, Nazism, and Sexism is strictly forbidden!'
-    - 'Join our Mumble server! IP: 64.34.202.140:2862'
 
 # Players who cannot be banned by username
 unbannable_usernames:
