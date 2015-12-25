@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.RegisteredListener;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Pretty rainbow trails.", usage = "/<command> [off] [glass]")
+@CommandParameters(description = "Pretty rainbow trails.", usage = "/<command> [off | glass]")
 public class Command_trail extends TFM_Command
 {
     public static Listener movementListener = null;
