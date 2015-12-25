@@ -21,7 +21,7 @@ import org.bukkit.plugin.RegisteredListener;
 @CommandParameters(description = "Pretty rainbow trails.", usage = "/<command> [off] [glass]")
 public class Command_trail extends TFM_Command
 {
-    private static Listener movementListener = null;
+    public static Listener movementListener = null;
     private static final List<Player> trailPlayers = new ArrayList<Player>();
     private static final Random RANDOM = new Random();
 
