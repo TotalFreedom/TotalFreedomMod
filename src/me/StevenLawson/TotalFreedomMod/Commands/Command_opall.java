@@ -26,10 +26,16 @@ public class Command_opall extends TFM_Command
             }
             else if (args[0].equals("-s"))
             {
-                doSetGamemode = true;
-                targetGamemode = GameMode.SURVIVAL;
+                if (TFM_AdminList.isSeniorAdmin(sender))
+                {
+                    doSetGamemode = true;
+                    targetGamemode = GameMode.SURVIVAL;
+                }
+                else
+                {
+                    sender.sendMessage(TFM_Command.MSG_NO_PERMS);
+                }
             }
-        }
 
         for (Player player : server.getOnlinePlayers())
         {
