@@ -100,6 +100,8 @@ blocked_commands:
   - 'n:b:/save-all:_'
   - 'n:b:/save-on:_'
   - 'n:b:/save-off:_'
+  - 'n:b:/pp barrier:_'
+  - 'n:b:/pp largeexplode:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
