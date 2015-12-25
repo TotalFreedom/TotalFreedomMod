@@ -10,8 +10,10 @@ import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -109,6 +111,14 @@ public class TFM_BlockListener implements Listener
                 {
                     event.setCancelled(true);
                 }
+            }
+        }
+        if (player.getGameMode().equals(GameMode.SURVIVAL))
+        {
+            for (ItemStack stack : event.getBlock().getDrops())
+            {
+                event.getBlock();
+                player.getInventory().addItem(stack);
             }
         }
     }
