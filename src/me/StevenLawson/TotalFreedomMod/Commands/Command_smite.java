@@ -36,7 +36,7 @@ public class Command_smite extends TFM_Command
 
     public static void smite(final Player player)
     {
-        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty person.", ChatColor.RED);
+        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
 
         //Deop
         player.setOp(false);
@@ -61,8 +61,6 @@ public class Command_smite extends TFM_Command
 
         //Kill:
         player.setHealth(0.0);
-        
-        //Who where they smitted by:
-        player.sendMessage("You where smited by:" + sender.getName());
+    
     }
 }
