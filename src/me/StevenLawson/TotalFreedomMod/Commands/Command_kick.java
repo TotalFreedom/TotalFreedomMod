@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Kick someone from the server", usage = "/<command> <playername> <reason>")
+@CommandParameters(description = "Kick someone from the server.", usage = "/<command> <playername> [reason]")
 public class Command_kick
 {
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
