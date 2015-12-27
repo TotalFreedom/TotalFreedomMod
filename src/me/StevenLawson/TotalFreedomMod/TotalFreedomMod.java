@@ -74,9 +74,13 @@ public class TotalFreedomMod extends JavaPlugin
         setAppProperties();
     }
 
+    public static TotalFreedomMod getPlugin() {
+        return plugin;
+    }
     @Override
     public void onEnable()
     {
+        plugin = this;
         TFM_Log.info("Made by Madgeek1450 and Prozza");
         TFM_Log.info("Compiled " + buildDate + " by " + buildCreator);
 
@@ -106,6 +110,7 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_BanManager.load();
         TFM_Announcer.load();
         TFM_ProtectedArea.load();
+        getServer().getPluginManager().registerEvents(new AutoOP(), this);
 
         // Start SuperAdmin service
         server.getServicesManager().register(Function.class, TFM_AdminList.SUPERADMIN_SERVICE, plugin, ServicePriority.Normal);
