@@ -1,6 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.Commands.Command_smite;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -20,6 +22,11 @@ public class Command_kick
             reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         }
             {
+                if (!TFM_AdminList.isSuperAdmin(sender))
+                {
+                    sender.sendMessage(TFM_Command.MSG_NO_PERMS);
+                }
+                
                 if (!TFM_AdminList.isSuperAdmin(sender_p))
                 {
                     if (args.length < 1) {
@@ -28,12 +35,17 @@ public class Command_kick
                     }
                         }
                 else
+                
                 {
                     sender.sendMessage("You cannot kick admins!");
                 }
+                
                 if (!TFM_AdminList.isSuperAdmin(sender_p))
+                
                 {
                     sender_p.kickPlayer(ChatColor.RED + reason + "- " + sender.getName());
+                    TFM_Util.bcastMsg(sender.getName() + "-" + " Kicking" + sender_p.getName() + ChatColor.YELLOW + "- " + reason , ChatColor.RED);
+                    
                 }
             }
      return true;
