@@ -21,7 +21,6 @@ public class Command_kick
         {
             reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         }
-            {
                 if (!TFM_AdminList.isSuperAdmin(sender))
                 {
                     sender.sendMessage(TFM_Command.MSG_NO_PERMS);
@@ -33,9 +32,8 @@ public class Command_kick
                         
                     sender_p.kickPlayer(ChatColor.RED + "You have been kicked by: " + sender.getName() + "-" + " No reason given");
                     }
-                        }
+                }
                 else
-                
                 {
                     sender.sendMessage("You cannot kick admins!");
                 }
