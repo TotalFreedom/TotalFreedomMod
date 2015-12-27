@@ -21,10 +21,10 @@ public class Command_kick
         {
             reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         }
-                if (!TFM_AdminList.isSuperAdmin(sender))
-                {
-                    sender.sendMessage(TFM_Command.MSG_NO_PERMS);
-                }
+            if (!TFM_AdminList.isSuperAdmin(sender))
+            {
+                sender.sendMessage(TFM_Command.MSG_NO_PERMS);
+            }
                 
                 if (!TFM_AdminList.isSuperAdmin(sender_p))
                 {
