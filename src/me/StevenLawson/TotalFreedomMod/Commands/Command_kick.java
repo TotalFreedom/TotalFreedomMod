@@ -25,13 +25,13 @@ public class Command_kick extends TFM_Command
                 sender.sendMessage(TFM_Command.MSG_NO_PERMS);
             }
                 
-                if (!TFM_AdminList.isSuperAdmin(sender_p))
+            if (!TFM_AdminList.isSuperAdmin(sender_p))
+            {
+                if (args.length < 1) 
                 {
-                    if (args.length < 1) 
-                    {
-                    sender_p.kickPlayer(ChatColor.RED + "You have been kicked by: " + sender.getName() + "-" + " No reason given");
-                    }
+                sender_p.kickPlayer(ChatColor.RED + "You have been kicked by: " + sender.getName() + "-" + " No reason given");
                 }
+                   }
                 else
                 {
                     sender.sendMessage("You cannot kick admins!");
