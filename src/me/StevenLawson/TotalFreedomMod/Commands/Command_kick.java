@@ -43,7 +43,6 @@ public class Command_kick
                 {
                     sender_p.kickPlayer(ChatColor.RED + reason + "- " + sender.getName());
                     TFM_Util.bcastMsg(sender.getName() + "-" + " Kicking" + sender_p.getName() + ChatColor.YELLOW + "- " + reason , ChatColor.RED);
-                    
                 }
             }
      return true;
