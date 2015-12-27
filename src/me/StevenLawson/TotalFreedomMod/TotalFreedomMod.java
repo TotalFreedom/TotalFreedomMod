@@ -74,9 +74,13 @@ public class TotalFreedomMod extends JavaPlugin
         setAppProperties();
     }
 
+    public static TotalFreedomMod getPlugin() {
+        return plugin;
+    }
     @Override
     public void onEnable()
     {
+        plugin = this;
         TFM_Log.info("Made by Madgeek1450 and Prozza");
         TFM_Log.info("Compiled " + buildDate + " by " + buildCreator);
 
