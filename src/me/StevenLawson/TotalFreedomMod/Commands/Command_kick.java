@@ -1,6 +1,5 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.Commands.Command_smite;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang3.ArrayUtils;
@@ -12,7 +11,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Kick someone from the server.", usage = "/<command> <playername> [reason]")
-public class Command_kick
+public class Command_kick extends TFM_Command
 {
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -30,7 +29,6 @@ public class Command_kick
                 {
                     if (args.length < 1) 
                     {
-                        
                     sender_p.kickPlayer(ChatColor.RED + "You have been kicked by: " + sender.getName() + "-" + " No reason given");
                     }
                 }
@@ -42,10 +40,9 @@ public class Command_kick
                 if (!TFM_AdminList.isSuperAdmin(sender_p))
                 
                 {
-                    sender_p.kickPlayer(ChatColor.RED + reason + "- " + sender.getName());
+                    TFM_Util.adminAction("Kicked for ", reason, true);
                     TFM_Util.bcastMsg(sender.getName() + "-" + " Kicking" + sender_p.getName() + ChatColor.YELLOW + "- " + reason , ChatColor.RED);
                 }
-            }
-     return true;
+            return true;        
+        }
     }
-}
