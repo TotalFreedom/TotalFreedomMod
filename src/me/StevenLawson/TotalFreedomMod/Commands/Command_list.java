@@ -12,12 +12,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i]", aliases = "who")
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f]", aliases = "who")
 public class Command_list extends TFM_Command
 {
     private static enum ListFilter
     {
         ALL,
+        FAKE,
         ADMINS,
         IMPOSTORS;
     }
@@ -52,6 +53,10 @@ public class Command_list extends TFM_Command
             {
                 listFilter = ListFilter.IMPOSTORS;
             }
+            if ("-f".equals(args[0]))
+            {
+                listFilter = ListFilter.FAKE;
+            }
             else
             {
                 return false;
@@ -72,6 +77,11 @@ public class Command_list extends TFM_Command
         final List<String> names = new ArrayList<String>();
         for (Player player : server.getOnlinePlayers())
         {
+            if (listFilter == ListFilter.FAKE && !TFM_ConfigEntry.UNBANNABLE_USERNAMES(player))
+            {
+                continue;
+            }
+            
             if (listFilter == ListFilter.ADMINS && !TFM_AdminList.isSuperAdmin(player))
             {
                 continue;
