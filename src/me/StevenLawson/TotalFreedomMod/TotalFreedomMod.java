@@ -98,6 +98,9 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Util.createBackups(SUPERADMIN_FILENAME);
         TFM_Util.createBackups(PERMBAN_FILENAME);
 
+        //Stops command feedback
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule sendCommandFeedback false");
+
         // Load services
         TFM_UuidManager.load();
         TFM_AdminList.load();
