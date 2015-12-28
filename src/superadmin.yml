@@ -33,6 +33,7 @@ admins:
     is_activated: true
     is_telnet_admin: true
     is_senior_admin: true
+    is_clan_admin: true
     console_aliases: []
     ips:
     - 8.8.4.4
