@@ -55,7 +55,7 @@ public class Command_invis extends TFM_Command
 
         if (clear)
         {
-            playerMsg("Cleared invisibility effect from " + clears + " players"");
+            playerMsg("Cleared invisibility effect from " + clears + " players");
         }
         else
         {
