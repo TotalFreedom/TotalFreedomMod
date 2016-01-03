@@ -38,7 +38,6 @@ public class Command_blockcmd extends TFM_Command
         
         if (args[0].equalsIgnoreCase("-a"))
         {
-            TFM_PlayerData playerdata;
             
             TFM_Util.adminAction(sender.getName(), "Blocking commands for all non-superadmins", true);
             
