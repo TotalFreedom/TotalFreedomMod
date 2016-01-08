@@ -39,14 +39,14 @@ public class Command_smite extends TFM_Command
 
         else
         {
-            sender.sendMessage(ChatColor.RED + "You must supply a reason in order to smite someone.");
+            sender.sendMessage(ChatColor.GREEN + "You must supply a reason in order to smite someone.");
             return true;
         }
     }
 
     public static void smite(final CommandSender sender, final Player player, final String reason)
     {
-        TFM_Util.bcastMsg(String.format("%s has been a naughty, naughty person.\nThey have  been smitten!\n" + ChatColor.GOLD + "Reason: %s (%s)", player.getName(), reason, sender.getName()), ChatColor.RED);
+        TFM_Util.bcastMsg(String.format("%s has been a naughty, naughty boy/girl.\nThey have been smitten!\n" + ChatColor.RED + "Reason: %s (%s)", player.getName(), reason, sender.getName()), ChatColor.RED);
         String full = String.format(ChatColor.RED + "%s has been smitten for %s", player.getName(), reason + " (" + sender.getName() + ")");
 
         //Deop
