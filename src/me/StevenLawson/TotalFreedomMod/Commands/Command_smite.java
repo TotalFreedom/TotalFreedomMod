@@ -103,4 +103,4 @@ public class Command_smite extends TFM_Command
         player.setHealth(0.0);
     }
 }
-Status API Training Shop Blog About Pricing
+
