@@ -47,6 +47,7 @@ public class Command_smite extends TFM_Command
 
     public static void smite(final Player player, final String reason)
     {
+        // Smites the player with the reason under it in yellow
         TFM_Util.bcastMsg(String.format("%s has been a naughty, naughty boy. \n" + ChatColor.YELLOW + "Reason: %s", player.getName(), reason), ChatColor.RED);
 
         //Deop
@@ -76,6 +77,7 @@ public class Command_smite extends TFM_Command
 
     public static void smite(final Player player)
     {
+        // Smites the player with the normal message if there is no reason provided.
         TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
 
         //Deop
