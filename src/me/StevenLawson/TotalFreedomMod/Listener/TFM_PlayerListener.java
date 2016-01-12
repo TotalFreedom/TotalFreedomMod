@@ -359,7 +359,7 @@ public class TFM_PlayerListener implements Listener
                                 }
                                 TFM_Util.bcastMsg(msg.toString());
 
-                                player.getInventory().getItemInHand().setType(Material.POTATO_ITEM);
+                                player.getInventory().getItemInHand().setType(Material.POTATO);
                             }
 
                             event.setCancelled(true);
