@@ -219,6 +219,7 @@ announcer:
     - 'Somebody breaking the rules?  Report it!  /report <user> <reason>'
     - 'Griefing is not allowed!'
     - 'Hacking is allowed!'
+    - 'Please avoid using any hard to read color codes in nicknames!'
     - 'Interested in becoming admin? Do "/ai" for more information!'
     - 'You may view all online administrators via "/list -a"'
     - 'Save your buildings via WorldEdit!  http://totalfreedom.me for more information!'
