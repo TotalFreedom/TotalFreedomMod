@@ -57,6 +57,7 @@ public class Command_blockcmd extends TFM_Command
             playerMsg("Blocked command for " + counter + " players.");
             return true;
         }
+    }
 
         final Player player = getPlayer(args[0]);
 
