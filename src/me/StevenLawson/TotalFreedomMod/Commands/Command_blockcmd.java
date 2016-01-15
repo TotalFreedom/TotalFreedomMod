@@ -37,7 +37,7 @@ public class Command_blockcmd extends TFM_Command
         }
         
     }
-        else if (args[0].equalsIgnoreCase("all"))
+        if (args[0].equalsIgnoreCase("all"))
         {
             TFM_Util.adminAction(sender.getName(), "Blocking commands for all players", true);;
             int counter = 0;
