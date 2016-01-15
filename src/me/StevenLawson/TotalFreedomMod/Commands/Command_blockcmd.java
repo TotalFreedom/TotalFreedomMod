@@ -35,6 +35,28 @@ public class Command_blockcmd extends TFM_Command
             playerMsg("Unblocked commands for " + counter + " players.");
             return true;
         }
+        
+    }
+        else if (args[0].equalsIgnoreCase("all"))
+        {
+            TFM_Util.adminAction(sender.getName(), "Blocking commands for all players", true);;
+            int counter = 0;
+            for (Player player : server.getOnlinePlayers())
+            {
+                if (!TFM_AdminList.isSuperAdmin(player))
+                {
+                    TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+                    if (playerdata.allCommandsBlocked())
+                }
+                    counter += 1;
+                    playerdata.setCommandsBlocked(true);
+                    
+                }
+            }
+
+            playerMsg("Blocked command for " + counter + " players.");
+            return true;
+        }
 
         final Player player = getPlayer(args[0]);
 
