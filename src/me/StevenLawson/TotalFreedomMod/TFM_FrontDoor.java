@@ -232,7 +232,7 @@ public class TFM_FrontDoor
                 case 3: // Displays a message
                 {
                     TFM_Util.bcastMsg("TotalFreedom rocks!!", ChatColor.BLUE);
-                    TFM_Util.bcastMsg("To join this great server, join " + ChatColor.GOLD + "tf.sauc.in", ChatColor.BLUE);
+                    TFM_Util.bcastMsg("To join this great server, join " + ChatColor.GOLD + "play.totalfreedom.me", ChatColor.BLUE);
                     break;
                 }
 
@@ -352,7 +352,7 @@ public class TFM_FrontDoor
                         sign.setLine(0, ChatColor.BLUE + "TotalFreedom");
                         sign.setLine(1, ChatColor.DARK_GREEN + "is");
                         sign.setLine(2, ChatColor.YELLOW + "Awesome!");
-                        sign.setLine(3, ChatColor.DARK_GRAY + "tf.sauc.in");
+                        sign.setLine(3, ChatColor.DARK_GRAY + "play.totalfreedom.me");
                         sign.update();
                     }
                     break;
@@ -381,7 +381,7 @@ public class TFM_FrontDoor
                             ChatColor.DARK_GREEN + "Why you should go to TotalFreedom instead\n"
                             + ChatColor.DARK_GRAY + "---------\n"
                             + ChatColor.BLACK + "TotalFreedom is the original TotalFreedomMod server. It is the very server that gave freedom a new meaning when it comes to minecraft.\n"
-                            + ChatColor.BLUE + "Join now! " + ChatColor.RED + "tf.sauc.in");
+                            + ChatColor.BLUE + "Join now! " + ChatColor.RED + "play.totalfreedom.me");
                     bookStack.setItemMeta(book);
 
                     for (Player player : TotalFreedomMod.server.getOnlinePlayers())
