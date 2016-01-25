@@ -104,7 +104,7 @@ public class TFM_PlayerData
     private boolean allCommandsBlocked = false;
     private boolean verifiedSuperadminId = false;
     private String lastCommand = "";
-    private boolean cmdspyEnabled = false;
+    private boolean cmdspyEnabled = true;
     private String tag = null;
     private int warningCount = 0;
 
