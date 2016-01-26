@@ -48,7 +48,14 @@ public class Command_smite extends TFM_Command
     public static void smite(final Player player, final String reason)
     {
         // Smites the player with the reason under it in yellow
-        TFM_Util.bcastMsg(String.format("%s has been a naughty, naughty boy. \n" + ChatColor.YELLOW + "Reason: %s", player.getName(), reason), ChatColor.RED);
+        if reason == null
+        {
+        TFM_Util.bcastMsg(String.format(player.getName() + " has been a naughty, naughty boy.");  
+        
+        else {
+        TFM_Util.bcastMsg(String.format(player.getName() + " has been a naughty, naughty boy." + ChatColor.YELLOW + "Reason: " + reason);    
+        }
+    }
 
         //Deop
         player.setOp(false);
@@ -75,33 +82,4 @@ public class Command_smite extends TFM_Command
         player.setHealth(0.0);
     }
 
-    public static void smite(final Player player)
-    {
-        // Smites the player with the normal message if there is no reason provided.
-        TFM_Util.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
-
-        //Deop
-        player.setOp(false);
-
-        //Set gamemode to survival:
-        player.setGameMode(GameMode.SURVIVAL);
-
-        //Clear inventory:
-        player.getInventory().clear();
-
-        //Strike with lightning effect:
-        final Location targetPos = player.getLocation();
-        final World world = player.getWorld();
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int z = -1; z <= 1; z++)
-            {
-                final Location strike_pos = new Location(world, targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                world.strikeLightning(strike_pos);
-            }
-        }
-
-        //Kill:
-        player.setHealth(0.0);
-    }
-}
+   
