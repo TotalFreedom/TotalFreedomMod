@@ -15,13 +15,12 @@ public class Command_unloadchunks extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        TFM_Util.adminAction(sender.getName(), "Unloading unused chunks", true);
         int numChunks = 0;
         for (World world : server.getWorlds())
         {
             numChunks += unloadUnusedChunks(world);
         }
-        TFM_Util.adminAction(sender.getName(), "Unloading unused chunks", true);
-        
         if (!senderIsConsole)
         {
             sender_p.sendMessage(numChunks + " chunks unloaded.");
