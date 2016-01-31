@@ -9,8 +9,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Unloads chunks not currently in use.", usage = "/<command>")
-public class Command_rc extends TFM_Command
+@CommandParameters(description = "Unloads chunks not currently in use.", usage = "/<command>", aliases="rc")
+public class Command_unloadchunks extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -20,7 +20,7 @@ public class Command_rc extends TFM_Command
         {
             numChunks += unloadUnusedChunks(world);
         }
-        TFM_Util.adminAction(sender.getName(), "unloading unused chunks.", true);
+        TFM_Util.adminAction(sender.getName(), "Unloading unused chunks", true);
         
         if (!senderIsConsole)
         {
