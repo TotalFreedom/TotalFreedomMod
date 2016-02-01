@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "For the bad Superadmins", usage = "/<command> <playername>")
+@CommandParameters(description = "For the bad OPs", usage = "/<command> <playername>")
 public class Command_kick extends TFM_Command
 {
     @Override
