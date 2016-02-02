@@ -105,7 +105,7 @@ public class Command_stfu extends TFM_Command
                 }
                 else
                 {
-                    playerMsg(player.getName() + " is a superadmin, and can't be muted.");
+                    playerMsg(player.getName() + " is a superadmin, and can't be muted you dingus.");
                 }
             }
         }
