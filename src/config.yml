@@ -6,7 +6,7 @@
 # Generic server information
 server:
   # You should change this to your server's name
-  name: PugFreedomMod
+  name: PugFreedom
 
   # The address your server is located at. Please do not include the port.
   address: pugfreedom.g-s.nu
