@@ -74,7 +74,7 @@ public class Command_cage extends TFM_Command
             }
             else
             {
-                if ("darth".equalsIgnoreCase(args[1]))
+                if ("pugaa".equalsIgnoreCase(args[1]))
                 {
                     outerMaterial = Material.SKULL;
                 }
@@ -113,7 +113,7 @@ public class Command_cage extends TFM_Command
         }
         else
         {
-            TFM_Util.adminAction(sender.getName(), "Caging " + player.getName() + " in PURE_DARTH", true);
+            TFM_Util.adminAction(sender.getName(), "Caging " + player.getName() + " in PURE_PUGAA", true);
         }
 
         return true;
