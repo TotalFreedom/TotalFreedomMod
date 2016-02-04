@@ -20,7 +20,7 @@ public class Command_kick extends TFM_Command
             return false;
         }
         
-        Player player = getPlayer(args[0]);
+        Player player = bukkit.getServer().getPlayer(args[0]);
         
         if (player == null)
         {
@@ -28,14 +28,17 @@ public class Command_kick extends TFM_Command
             return true;
         }
         
-        String reason = null;
-        if (args.length >= 2)
-        {
-            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+        String reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+        if (reason == null) {
+            TFM_Util.adminAction(sender.getName(), "Kicking " + player.getName() + " from the server", true);
+            player.kickPlayer(ChatColor.RED + "You have been kicked from the server by  " + sender.getName());
         }
         
-    TFM_Util.adminAction(sender.getName(), "Kicking " + player.getName() + " from the server", true);
-    player.kickPlayer(ChatColor.RED + "You have been kicked from the server" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
+        else {
+            TFM_Util.adminAction(sender.getName(), "Kicking " + player.getName() + " from the server", true);
+            player.kickPlayer(ChatColor.RED + "You have been kicked from the server by " + sender.getName() + "\nReason: " + ChatColor.YELLOW + reason);
+            
+       }
     
     return true;
     }
