@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "You'll never even see it coming.", usage = "/<command>")
+@CommandParameters(description = "You'll never even see it coming.", usage = "/<command> [on/off] [range]")
 public class Command_fuckoff extends TFM_Command
 {
     @Override
