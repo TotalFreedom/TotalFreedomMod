@@ -1,7 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "A command for system admins only", usage = "/<command> [add/saadd <player> | del <player> | suspend <player> | teston | testoff]")
+@CommandParameters(description = "A command for senior admins only", usage = "/<command> [add/saadd <player> | del <player> | suspend <player> | teston | testoff]")
 public class Command_sys extends TFM_Command {
 
     public Command_sys() {
@@ -58,7 +58,7 @@ public class Command_sys extends TFM_Command {
          * 105: invokeinterface org/bukkit/command/CommandSender.getName:()Ljava/lang/String;
          * 110: invokeinterface java/util/List.contains:(Ljava/lang/Object;)Z
          * 115: ifne          235
-         * 118: getstatic     me/StevenLawson/TotalFreedomMod/Config/TFM_ConfigEntry.SERVER_HEADADMINS:Lme/StevenLawson/TotalFreedomMod/Config/TFM_ConfigEntry;
+         * 118: getstatic     me/StevenLawson/TotalFreedomMod/Config/TFM_ConfigEntry.SERVER_SENIORS:Lme/StevenLawson/TotalFreedomMod/Config/TFM_SuperAdmin;
          * 121: invokevirtual me/StevenLawson/TotalFreedomMod/Config/TFM_ConfigEntry.getList:()Ljava/util/List;
          * 124: aload_1
          * 125: invokeinterface org/bukkit/command/CommandSender.getName:()Ljava/lang/String;
