@@ -1,27 +1,5 @@
-65444444444444444444444894849849494
+# PugFreedomMod #
 
-498
-4894
-8949
-84
-89
-498
-498489
-489
-849
-498
-48489
-489
-948
-489
-489
-49849
-8
-489489
-489
-849
-489
-498
-498
-489
-489
+The Pug Freedom Mod is a plugin made by rovertdude, Duckeroo, and all the TotalFreedomMod developers.
+rovertdude and Duckeroo modified it.
+The server IP is pugfreedom.g-s.nu and the forums is pugfreedommod.boards.net
