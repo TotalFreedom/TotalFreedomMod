@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class Command_csay extends TFM_Command
 {
     @Override
-    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsPlayer)
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length > 0)
         {
