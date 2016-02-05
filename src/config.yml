@@ -21,6 +21,7 @@ server:
   owners:
     - rovertdude
     - imbackherobrine
+    - CONSOLE
 
   # URL players should appeal for bans at
   ban_url: http://pugfreedom.boards.net/
