@@ -750,6 +750,11 @@ public class TFM_PlayerListener implements Listener
             }
         }
     }
+    
+    @EventHandler
+    public void onPotionToss(PotionSplashEvent event){
+        event.setCancelled(true); 
+    }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerKick(PlayerKickEvent event)
