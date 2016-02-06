@@ -1,5 +1,5 @@
 #
-# TotalFreedomMod v4.3 Configuration
+# PugFreedomMod v4.3 Configuration
 # by Madgeek1450 and Prozza
 #
 
@@ -9,7 +9,7 @@ server:
   name: PugFreedom
 
   # The address your server is located at. Please do not include the port.
-  address: pugfreedom.g-s.nu
+  address: PugFreedom.g-s.nu
 
   # Shown at the server list
   motd: PugFreedom &8- Minecraft %mcversion%
@@ -24,10 +24,10 @@ server:
     - CONSOLE
 
   # URL players should appeal for bans at
-  ban_url: http://pugfreedommod.boards.net/
+  ban_url: http://PugFreedommod.boards.net/
 
   # URL players should appeal for permanent bans at
-  permban_url: http://pugfreedommod.boards.net/
+  permban_url: http://PugFreedommod.boards.net/
 
 # ForceIP configuration
 forceip:
@@ -140,6 +140,9 @@ blocked_commands:
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
   - 's:a:/restart:_'
+  - 'n:a:/pex:_'
+  - 's:a:/sys:_'
+  - 'n:a:/protocol:_'
 
 # Automatically wipe dropped objects
 auto_wipe: true
@@ -206,7 +209,7 @@ host_sender_names:
 
 # Announcer
 announcer:
-  enabled: false
+  enabled: true
 
   # Interval between announcements, in seconds.
   interval: 600
@@ -215,29 +218,27 @@ announcer:
   prefix: '&5[&ePugFreedom&5] &b'
 
   announcements:
-    - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
-    - 'You can always review the server rules here: &6http://totalfreedom.me/'
+    - 'Be sure to visit our forums at &6http://PugFreedommod.boards.net/'
+    - 'You can always review the server rules here: &6http://PugFreedom.me/'
     - 'If you are not OP, be sure to ask!'
     - 'Somebody breaking the rules?  Report it!  /report <user> <reason>'
     - 'Griefing is not allowed!'
     - 'Hacking is allowed!'
-    - 'Interested in becoming admin? Do "/ai" for more information!'
+    - 'Interested in becoming admin? Go to pugfreedommod.boards.net!'
     - 'You may view all online administrators via "/list -a"'
-    - 'Save your buildings via WorldEdit!  http://totalfreedom.me for more information!'
     - 'Famous players, such as Notch, are always fake!  We are an offline/cracked server!'
-    - 'You may contact TotalFreedoms Support on Twitter!  pravi.us/nGS'
-    - 'You may download TotalFreedomMod here: pravi.us/V8c'
-    - 'MarkByron is TotalFreedoms owner.'
+    - 'You may download PugFreedomMod here: github.com/rovertdude/PugFreedomMod'
+    - 'RovertDude is PugFreedoms owner.'
     - 'Server lagging?  Check the lag via "/tps"'
-    - 'You are allowed to record and stream videos on TotalFreedom :D'
-    - 'An admin abusing?  Report it! pravi.us/vfa'
+    - 'You are allowed to record and stream videos on PugFreedom :D'
+    - 'An admin abusing?  Report it!'
     - 'Player vs Player while in creative/god mode it forbidden!'
     - 'Spawn killing is forbidden!'
     - 'Invisible potions are allowed!'
     - 'Serial griefing and trolling will result in permanently being banned!'
-    - 'TotalFreedom does not accept any form of donations!'
+    - 'PugFreedom does not accept any form of donations out of server.pro!'
     - 'Racism, Nazism, and Sexism is strictly forbidden!'
-    - 'Join our Mumble server! IP: 64.34.202.140:2862'
+    - 'Do not ask for staff! Apply at pugfreedommod.boards.net!'
 
 # Players who cannot be banned by username
 unbannable_usernames:
