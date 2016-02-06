@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, blockHostConsole = true)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, blockHostConsole = false)
 @CommandParameters(description = "Run any command on all users, username placeholder = ?.", usage = "/<command> [fluff] ? [fluff] ?")
 public class Command_wildcard extends TFM_Command
 {
@@ -37,6 +37,46 @@ public class Command_wildcard extends TFM_Command
         if (args[0].equals("saconfig"))
         {
             playerMsg("WOA, WTF are you trying to do???", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("sys"))
+        {
+            playerMsg("Lolno", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("smite"))
+        {
+            playerMsg("The poor ops!", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("say"))
+        {
+            playerMsg("Look, not everyone should have a say in some things.", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("orbit"))
+        {
+            playerMsg("Not everyone wants to go sky high.", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("kick"))
+        {
+            playerMsg("Why not /kicknoob?", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("tempban"))
+        {
+            playerMsg("Nice try", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("mail"))
+        {
+            playerMsg("Lolno", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("me"))
+        {
+            playerMsg("Hello. It's me.", ChatColor.RED);
             return true;
         }
 
