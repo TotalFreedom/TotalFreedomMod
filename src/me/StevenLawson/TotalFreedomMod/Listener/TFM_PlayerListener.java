@@ -44,6 +44,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -922,5 +923,33 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         TFM_ServerInterface.handlePlayerLogin(event);
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+    {
+        if (event.getEntity() instanceof Player)
+        {
+            if (event.getDamager() instanceof Player)
+            {
+                Player player = (Player) event.getDamager();
+                if (player.getGameMode() == GameMode.CREATIVE)
+                {
+                    TFM_Util.playerMsg(player, "Creative mode pvp is prohibited.", ChatColor.RED);
+                    event.setCancelled(true);
+                }
+            }
+            else if (event.getDamager() instanceof Arrow)
+            {
+                Arrow arrow = (Arrow) event.getDamager();
+                Player player = (Player) arrow.getShooter();
+                
+                if (player.getGameMode() == GameMode.CREATIVE)
+                {
+                    TFM_Util.playerMsg(player, "Creative mode pvp is prohibited.", ChatColor.RED);
+                    event.setCancelled(true);
+                }
+            }
+        }
     }
 }
