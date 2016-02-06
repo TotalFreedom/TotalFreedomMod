@@ -17,7 +17,7 @@ public class Command_tag extends TFM_Command
 {
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
     {
-        "admin", "owner", "moderator", "developer", "console"
+        "admin", "owner", "moderator", "developer", "console", "dev", "SA", "Adm1n", "0wner"
     });
 
     @Override
@@ -41,13 +41,6 @@ public class Command_tag extends TFM_Command
                 return true;
             }
             else if ("clearall".equalsIgnoreCase(args[0]))
-            {
-                if (!TFM_AdminList.isSuperAdmin(sender))
-                {
-                    playerMsg(TFM_Command.MSG_NO_PERMS);
-                    return true;
-                }
-
                 TFM_Util.adminAction(sender.getName(), "Removing all tags", false);
 
                 int count = 0;
