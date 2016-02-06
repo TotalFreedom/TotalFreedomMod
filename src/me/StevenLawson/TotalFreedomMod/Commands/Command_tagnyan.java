@@ -27,23 +27,21 @@ public class Command_tagnyan extends TFM_Command
         {
             tag.append(TFM_Util.randomChatColor()).append(c);
         }
-
         final TFM_PlayerData data = TFM_PlayerData.getPlayerData(sender_p);
-        data.setTag(tag.toString());
-        
+
         if (!TFM_AdminList.isSuperAdmin(sender))
         {
             for (String word : Command_tag.FORBIDDEN_WORDS)
             {
-                if (args[0].toLowerCase().contains(word))
+                if (args[0].equalsIgnoreCase(word))
                 {
                     playerMsg("That tag contains a forbidden word (" + args[0] + ")");
-                    data.setTag(null);
                     return true;
                 }
             }
         }
 
+        data.setTag(tag.toString());
         playerMsg("Set tag to " + tag);
 
         return true;
