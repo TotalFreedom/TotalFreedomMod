@@ -76,7 +76,7 @@ public class Command_gadmin extends TFM_Command
             while (it.hasNext())
             {
                 final Player player = it.next();
-                final String hash = TFM_UuidManager.getUniqueId(player).toString().substring(0, 4);
+                final String hash = TFM_UuidManager.getUniqueId(player).toString().substring(0, 11);
                 sender.sendMessage(ChatColor.GRAY + String.format("[ %s ] : [ %s ] - %s",
                         player.getName(),
                         ChatColor.stripColor(player.getDisplayName()),
@@ -94,7 +94,7 @@ public class Command_gadmin extends TFM_Command
         while (it.hasNext() && target == null)
         {
             final Player player = it.next();
-            final String hash = TFM_UuidManager.getUniqueId(player).toString().substring(0, 4);
+            final String hash = TFM_UuidManager.getUniqueId(player).toString().substring(0, 11);
 
             if (hash.equalsIgnoreCase(args[1]))
             {
@@ -161,7 +161,7 @@ public class Command_gadmin extends TFM_Command
             case OP:
             {
                 TFM_Util.adminAction(sender.getName(), String.format("Opping %s.", target.getName()), false);
-                target.setOp(false);
+                target.setOp(true);
                 target.sendMessage(TFM_Command.YOU_ARE_OP);
 
                 break;
