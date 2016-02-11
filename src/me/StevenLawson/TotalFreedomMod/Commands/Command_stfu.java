@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> [-s] | list | purge | all] [reason:optional]", aliases = "mute")
+@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> [-s] | list | purge | all] [reason]", aliases = "mute")
 public class Command_stfu extends TFM_Command
 {
     @Override
@@ -59,7 +59,6 @@ public class Command_stfu extends TFM_Command
         }
         else if (args[0].equalsIgnoreCase("all"))
         {
-            TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
 
             TFM_PlayerData playerdata;
             int counter = 0;
@@ -68,12 +67,12 @@ public class Command_stfu extends TFM_Command
                 if (args.length > 1)
                 {
                     String reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
-                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
+                    TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
                     TFM_Util.bcastMsg(ChatColor.RED + "Reason: " + ChatColor.YELLOW + reason);
                 }
                 else
                 {
-                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
+                    TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
                 }
                 if (!TFM_AdminList.isSuperAdmin(player))
                 {
