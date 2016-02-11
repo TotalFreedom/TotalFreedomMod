@@ -83,12 +83,10 @@ public class Command_smite extends TFM_Command
 
     }
 
-    // Creates the null reason, this is done because of method recursion, so no reason can be given and smite(player); will run, keeping other commands using smite in tact.
-    static String reason = null;
 
     public static void smite(final Player player)
     {
-        Command_smite.smite(player, reason);
+        smite(player, reason);
     }
 
 }
