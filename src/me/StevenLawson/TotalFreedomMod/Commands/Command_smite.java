@@ -38,7 +38,6 @@ public class Command_smite extends TFM_Command
         }
         else
         {
-            String reason = null;
             smite(player);
         }
 
@@ -82,15 +81,9 @@ public class Command_smite extends TFM_Command
 
     }
 
-<<<<<<< HEAD
     public static void smite(final Player player)
     {
         String reason = null;
-=======
-
-    public void smite(final Player player)
-    {
->>>>>>> origin/pull-request-1
         smite(player, reason);
     }
 
