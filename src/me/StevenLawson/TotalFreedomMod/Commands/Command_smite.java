@@ -40,6 +40,7 @@ public class Command_smite extends TFM_Command
 
         else
         {
+            String reason = null;
             smite(player);
         }
 
@@ -84,7 +85,7 @@ public class Command_smite extends TFM_Command
     }
 
 
-    public static void smite(final Player player)
+    public void smite(final Player player)
     {
         smite(player, reason);
     }
