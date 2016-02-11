@@ -65,6 +65,16 @@ public class Command_stfu extends TFM_Command
             int counter = 0;
             for (Player player : server.getOnlinePlayers())
             {
+                if (args.length > 1)
+                {
+                    String reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
+                    TFM_Util.bcastMsg(ChatColor.RED + "Reason: " + ChatColor.YELLOW + reason);
+                }
+                else
+                {
+                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
+                }
                 if (!TFM_AdminList.isSuperAdmin(player))
                 {
                     playerdata = TFM_PlayerData.getPlayerData(player);

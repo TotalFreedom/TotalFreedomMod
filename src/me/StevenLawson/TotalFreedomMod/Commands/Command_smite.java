@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> [playername] [reason:optional]")
+@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> <playername> [reason]")
 public class Command_smite extends TFM_Command
 {
 
@@ -23,7 +23,6 @@ public class Command_smite extends TFM_Command
         {
             return false;
         }
-
         final Player player = getPlayer(args[0]);
 
         if (player == null)
@@ -37,7 +36,6 @@ public class Command_smite extends TFM_Command
             smite(player, reason);
             return true;
         }
-
         else
         {
             smite(player);
@@ -83,12 +81,10 @@ public class Command_smite extends TFM_Command
 
     }
 
-    // Creates the null reason, this is done because of method recursion, so no reason can be given and smite(player); will run, keeping other commands using smite in tact.
-    static String reason = null;
-
     public static void smite(final Player player)
     {
-        Command_smite.smite(player, reason);
+        String reason = null;
+        smite(player, reason);
     }
 
 }
