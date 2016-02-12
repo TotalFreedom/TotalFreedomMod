@@ -932,17 +932,14 @@ public class TFM_PlayerListener implements Listener
     @EventHandler
     public void onPlayerConsumePotion(PlayerItemConsumeEvent event)
     {
-        if (event.getItem().getType() == Material.POTION)
-        {
             Collection<PotionEffect> fx = Potion.fromItemStack(event.getItem()).getEffects();
             for (PotionEffect effect : fx)
             {
-                if (effect.getType() == PotionEffectType.INVISIBILITY && !TFM_AdminList.isSuperAdmin(event.getPlayer()))
+                if (effect.getType() == PotionEffectType.INVISIBILITY && !TFM_AdminList.isSuperAdmin(event.getPlayer()) && && event.getItem().getType() == Material.POTION)
                 {
                     event.getPlayer().sendMessage(ChatColor.RED + "Invisibility is not allowed.");
                     event.setCancelled(true);
                 }
             }
-        }
     }
 }
