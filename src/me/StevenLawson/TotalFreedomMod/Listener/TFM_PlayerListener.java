@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Listener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -49,6 +50,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -56,6 +58,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -922,5 +927,22 @@ public class TFM_PlayerListener implements Listener
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         TFM_ServerInterface.handlePlayerLogin(event);
+    }
+    
+    @EventHandler
+    public void onPlayerConsumePotion(PlayerItemConsumeEvent event)
+    {
+        if (event.getItem().getType() == Material.POTION)
+        {
+            Collection<PotionEffect> fx = Potion.fromItemStack(event.getItem()).getEffects();
+            for (PotionEffect effect : fx)
+            {
+                if (effect.getType() == PotionEffectType.INVISIBILITY && !TFM_AdminList.isSuperAdmin(event.getPlayer()))
+                {
+                    event.getPlayer().sendMessage(ChatColor.RED + "Invisibility is not allowed.");
+                    event.setCancelled(true);
+                }
+            }
+        }
     }
 }
