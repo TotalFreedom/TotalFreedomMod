@@ -1,1 +1,1 @@
-Visit [https://github.com/TotalFreedom/TotalFreedomMod/wiki/Contributing[the wiki page]] to see the contributing guidelines.
+Visit [the wiki page](https://github.com/TotalFreedom/TotalFreedomMod/wiki/Contributing) to see the contributing guidelines.
