@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -40,13 +41,14 @@ public class Command_warn extends TFM_Command
 
         if (TFM_AdminList.isSuperAdmin(player))
         {
-            playerMsg(ChatColor.RED + "You can not warn admins");
+            playerMsg(ChatColor.RED + "You can not warn admins.");
             return true;
         }
 
         String warnReason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
-
-        playerMsg(ChatColor.RED + "[WARNING] " + warnReason);
+        
+        TFM_Util.bcastMsg(ChatColor.RED + sender.getName() + " - Warning " + player.getName());
+        playerMsg(player, ChatColor.RED + "[WARNING] " + warnReason + "\n Warned by " + sender.getName());
         playerMsg(ChatColor.GREEN + "You have successfully warned " + player.getName());
 
         TFM_PlayerData.getPlayerData(player).incrementWarnings();
