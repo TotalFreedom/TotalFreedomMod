@@ -3,12 +3,15 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> [-s] | list | purge | all]", aliases = "mute")
+@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> [-s] | list | purge | all] [reason]", aliases = "mute")
 public class Command_stfu extends TFM_Command
 {
     @Override
@@ -56,12 +59,21 @@ public class Command_stfu extends TFM_Command
         }
         else if (args[0].equalsIgnoreCase("all"))
         {
-            TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
 
             TFM_PlayerData playerdata;
             int counter = 0;
             for (Player player : server.getOnlinePlayers())
             {
+                if (args.length > 1)
+                {
+                    String reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+                    TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
+                    TFM_Util.bcastMsg(ChatColor.RED + "Reason: " + ChatColor.YELLOW + reason);
+                }
+                else
+                {
+                    TFM_Util.adminAction(sender.getName(), "Muting all non-Superadmins", true);
+                }
                 if (!TFM_AdminList.isSuperAdmin(player))
                 {
                     playerdata = TFM_PlayerData.getPlayerData(player);
@@ -89,24 +101,33 @@ public class Command_stfu extends TFM_Command
                 playerdata.setMuted(false);
                 playerMsg("Unmuted " + player.getName());
             }
-            else
+            else if (!TFM_AdminList.isSuperAdmin(player))
             {
-                if (!TFM_AdminList.isSuperAdmin(player))
+
+                if (args.length > 1)
                 {
+                    String reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
                     TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
-                    playerdata.setMuted(true);
-
-                    if (args.length == 2 && args[1].equalsIgnoreCase("-s"))
-                    {
-                        Command_smite.smite(player);
-                    }
-
-                    playerMsg("Muted " + player.getName());
+                    TFM_Util.bcastMsg(ChatColor.RED + "Reason: " + ChatColor.YELLOW + reason);
                 }
+
                 else
                 {
-                    playerMsg(player.getName() + " is a superadmin, and can't be muted.");
+                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
                 }
+
+                playerdata.setMuted(true);
+
+                if (args.length == 2 && args[1].equalsIgnoreCase("-s"))
+                {
+                    Command_smite.smite(player);
+                }
+
+                playerMsg("Muted " + player.getName());
+            }
+            else
+            {
+                playerMsg(player.getName() + " is a superadmin, and can't be muted.");
             }
         }
 
