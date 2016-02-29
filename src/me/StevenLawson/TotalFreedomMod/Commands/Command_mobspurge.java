@@ -39,7 +39,7 @@ public class Command_mobspurge extends TFM_Command
             }
         }
         
-        TFM_AdminAction(sender.getName(), "has purged all mobs");
+        TFM_Util.adminAction(sender.getName(), "has purged all living mobs")
 
         return removed;
     }
