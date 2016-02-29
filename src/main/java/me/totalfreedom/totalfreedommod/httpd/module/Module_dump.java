@@ -1,9 +1,11 @@
-package me.totalfreedom.totalfreedommod.httpd;
+package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
+import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.list;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
 import me.totalfreedom.totalfreedommod.util.FLog;

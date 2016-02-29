@@ -1,8 +1,9 @@
-package me.totalfreedom.totalfreedommod.httpd;
+package me.totalfreedom.totalfreedommod.httpd.module;
 
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;

@@ -1,7 +1,9 @@
-package me.totalfreedom.totalfreedommod.httpd;
+package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.io.File;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 
 public class Module_permbans extends HTTPDModule
 {

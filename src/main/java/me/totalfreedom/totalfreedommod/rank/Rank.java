@@ -11,8 +11,6 @@ public interface Rank
 
     public ChatColor getColor();
 
-    public String getColorString();
-
     public String getColoredName();
 
     public String getColoredTag();

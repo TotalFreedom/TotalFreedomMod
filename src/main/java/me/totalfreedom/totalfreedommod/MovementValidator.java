@@ -30,8 +30,6 @@ public class MovementValidator extends AbstractService<TotalFreedomMod>
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerTeleport(PlayerTeleportEvent event)
     {
-        final Player player = event.getPlayer();
-
         // Check absolute value to account for negatives
         if (Math.abs(event.getTo().getX()) >= MAX_XZ_COORD || Math.abs(event.getTo().getZ()) >= MAX_XZ_COORD)
         {

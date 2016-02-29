@@ -33,12 +33,6 @@ public abstract class RankProxy implements Rank
     }
 
     @Override
-    public String getColorString()
-    {
-        return proxy.getColorString();
-    }
-
-    @Override
     public String getColoredName()
     {
         return proxy.getColoredName();
@@ -59,7 +53,7 @@ public abstract class RankProxy implements Rank
     @Override
     public boolean isAtLeast(Rank rank)
     {
-        return rank.isAtLeast(rank);
+        return proxy.isAtLeast(rank);
     }
 
     @Override

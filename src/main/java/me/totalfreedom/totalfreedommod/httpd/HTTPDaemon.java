@@ -1,5 +1,12 @@
 package me.totalfreedom.totalfreedommod.httpd;
 
+import me.totalfreedom.totalfreedommod.httpd.module.Module_help;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_file;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_schematic;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_permbans;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_players;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_logs;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_list;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

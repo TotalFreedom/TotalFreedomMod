@@ -6,7 +6,6 @@ import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import net.pravian.aero.command.AbstractCommandBase;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -103,16 +102,6 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
     public PlayerData getData(Player player)
     {
         return plugin.pl.getData(player);
-    }
-
-    public Player getPlayer(String partialName, boolean exact)
-    {
-        if (exact)
-        {
-            return Bukkit.getPlayer(partialName);
-        }
-
-        return super.getPlayer(label);
     }
 
     public static FreedomCommand getCommand(Command command)

@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.base.ConfigLoadable;
 import net.pravian.aero.base.ConfigSavable;
@@ -80,7 +81,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     {
         name = cs.getString("username", configKey);
         activated = cs.getBoolean("active", true);
-        rank = PlayerRank.forString(cs.getString("rank"));
+        rank = PlayerRank.findRank(cs.getString("rank"));
         ips.clear();
         ips.addAll(cs.getStringList("ips"));
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
@@ -99,9 +100,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("login_message", null);
     }
 
-    public boolean isMinimum(PlayerRank pRank)
+    public boolean isAtLeast(PlayerRank pRank)
     {
-        return rank.ordinal() >= pRank.ordinal();
+        return rank.isAtLeast(pRank);
     }
 
     // Util IP methods

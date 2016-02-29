@@ -1,6 +1,10 @@
 package me.totalfreedom.totalfreedommod.player;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,8 +27,7 @@ public class PlayerData implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private long lastJoinUnix;
-    @Getter
-    private final Set<String> ips = Sets.newHashSet();
+    private final List<String> ips = Lists.newArrayList();
 
     public PlayerData(Player player)
     {
@@ -56,10 +59,15 @@ public class PlayerData implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("last_join", lastJoinUnix);
     }
 
+    public List<String> getIps()
+    {
+        return Collections.unmodifiableList(ips);
+    }
+
     // IP utils
     public boolean addIp(String ip)
     {
-        return ips.add(ip);
+        return ips.contains(ip) ? false : ips.add(ip);
     }
 
     public boolean removeIp(String ip)

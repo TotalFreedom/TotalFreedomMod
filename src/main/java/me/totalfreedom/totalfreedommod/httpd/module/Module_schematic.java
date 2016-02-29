@@ -1,4 +1,4 @@
-package me.totalfreedom.totalfreedommod.httpd;
+package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +14,10 @@ import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Method;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools;
+import me.totalfreedom.totalfreedommod.httpd.HTTPDPageBuilder;
+import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;

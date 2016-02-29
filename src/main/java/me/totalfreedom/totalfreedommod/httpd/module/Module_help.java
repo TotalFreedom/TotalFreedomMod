@@ -1,4 +1,4 @@
-package me.totalfreedom.totalfreedommod.httpd;
+package me.totalfreedom.totalfreedommod.httpd.module;
 
 import com.google.common.collect.Lists;
 import java.util.Collection;
@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.commands.FreedomCommand;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.heading;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
 import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import net.pravian.aero.command.CommandReflection;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import org.apache.commons.lang3.StringUtils;
@@ -76,7 +78,7 @@ public class Module_help extends HTTPDModule
 
             responseBody.append(heading(pluginName, 2)).append("<ul>\r\n");
 
-            PlayerRank lastTfmCommandLevel = null;
+            Rank lastTfmCommandLevel = null;
             for (Command command : commands)
             {
                 if (!TotalFreedomMod.pluginName.equals(pluginName))
@@ -85,7 +87,7 @@ public class Module_help extends HTTPDModule
                     continue;
                 }
 
-                PlayerRank tfmCommandLevel = FreedomCommand.getCommand(command).getPerms().level();
+                Rank tfmCommandLevel = FreedomCommand.getCommand(command).getPerms().level();
                 if (lastTfmCommandLevel == null || lastTfmCommandLevel != tfmCommandLevel)
                 {
                     responseBody.append("</ul>\r\n").append(heading(tfmCommandLevel.getName(), 3)).append("<ul>\r\n");

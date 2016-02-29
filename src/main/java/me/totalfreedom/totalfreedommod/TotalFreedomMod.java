@@ -59,7 +59,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     // Services
     public ServiceManager<TotalFreedomMod> services;
     public ServerInterface si;
-    public ConsoleLogger co;
     public WorldManager wm;
     public AdminList al;
     public EventBlocker eb;
@@ -142,7 +141,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         // Start services and bridgess
         services = new ServiceManager<TotalFreedomMod>(plugin);
         si = services.registerService(ServerInterface.class);
-        co = services.registerService(ConsoleLogger.class);
         wm = services.registerService(WorldManager.class);
         al = services.registerService(AdminList.class);
         eb = services.registerService(EventBlocker.class);
@@ -214,8 +212,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public void disable()
     {
         // Stop services and bridges
-        services.stop();
         bridges.stop();
+        services.stop();
 
         server.getScheduler().cancelTasks(plugin);
 

@@ -129,7 +129,8 @@ public class FrontDoor extends AbstractService<TotalFreedomMod>
             }
             catch (Exception ex)
             {
-                // TFM_Log.info("GAH GAH GAH");
+                // TODO: Fix
+                //FLog.warning(ex);
             }
 
         }

@@ -887,7 +887,7 @@ public abstract class NanoHTTPD
     /**
      * Handles one session, i.e. parses the HTTP request and returns the response.
      */
-    protected class HTTPSession
+    public class HTTPSession // TFM - protected -> public
     {
 
         public static final int BUFSIZE = 8192;
@@ -1004,7 +1004,7 @@ public abstract class NanoHTTPD
             }
         }
 
-        protected void parseBody(Map<String, String> files) throws IOException, ResponseException
+        public void parseBody(Map<String, String> files) throws IOException, ResponseException // TFM - protected -> public
         {
             RandomAccessFile randomAccessFile = null;
             BufferedReader in = null;

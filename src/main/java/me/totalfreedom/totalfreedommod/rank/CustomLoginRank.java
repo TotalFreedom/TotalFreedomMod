@@ -5,7 +5,7 @@ public class CustomLoginRank extends RankProxy
 
     private String loginMessage;
 
-    public CustomLoginRank(PlayerRank rank, String loginMessage)
+    public CustomLoginRank(Rank rank, String loginMessage)
     {
         super(rank);
     }

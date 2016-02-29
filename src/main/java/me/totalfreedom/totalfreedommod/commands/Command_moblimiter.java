@@ -77,7 +77,7 @@ public class Command_moblimiter extends FreedomCommand
             playerMsg("Moblimiter is disabled. No mob restrictions are in effect.");
         }
 
-        plugin.gr.setGameRule(GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !ConfigEntry.MOB_LIMITER_ENABLED.getBoolean());
+        plugin.gr.setGameRule(GameRuleHandler.GameRule.DO_MOB_SPAWNING, !ConfigEntry.MOB_LIMITER_ENABLED.getBoolean());
 
         return true;
     }

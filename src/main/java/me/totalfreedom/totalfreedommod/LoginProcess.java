@@ -103,11 +103,6 @@ public class LoginProcess extends AbstractService<TotalFreedomMod>
             }
         }
 
-        // Generate playerdata if it is nonexistent
-        plugin.pl.getData(player);
-        final FPlayer fPlayer = plugin.pl.getPlayer(player);
-        fPlayer.setSuperadminIdVerified(false);
-
         // Check if player is admin
         // Not safe to use TFM_Util.isSuperAdmin(player) because player.getAddress() will return a null until after player login.
         final boolean isAdmin = plugin.al.getEntryByIp(ip) != null;

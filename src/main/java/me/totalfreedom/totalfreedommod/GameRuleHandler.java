@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,13 +14,13 @@ import org.bukkit.World;
 public class GameRuleHandler extends AbstractService<TotalFreedomMod>
 {
 
-    private final EnumMap<TFM_GameRule, TFM_GameRule_Value> rules = new EnumMap<TFM_GameRule, TFM_GameRule_Value>(TFM_GameRule.class);
+    private final Map<GameRule, Boolean> rules = new EnumMap<GameRule, Boolean>(GameRule.class);
 
     public GameRuleHandler(TotalFreedomMod plugin)
     {
         super(plugin);
 
-        for (TFM_GameRule gameRule : TFM_GameRule.values())
+        for (GameRule gameRule : GameRule.values())
         {
             rules.put(gameRule, gameRule.getDefaultValue());
         }
@@ -28,13 +29,13 @@ public class GameRuleHandler extends AbstractService<TotalFreedomMod>
     @Override
     protected void onStart()
     {
-        setGameRule(TFM_GameRule.DO_DAYLIGHT_CYCLE, !ConfigEntry.DISABLE_NIGHT.getBoolean(), false);
-        setGameRule(TFM_GameRule.DO_FIRE_TICK, ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean(), false);
-        setGameRule(TFM_GameRule.DO_MOB_LOOT, false, false);
-        setGameRule(TFM_GameRule.DO_MOB_SPAWNING, !ConfigEntry.MOB_LIMITER_ENABLED.getBoolean(), false);
-        setGameRule(TFM_GameRule.DO_TILE_DROPS, false, false);
-        setGameRule(TFM_GameRule.MOB_GRIEFING, false, false);
-        setGameRule(TFM_GameRule.NATURAL_REGENERATION, true, false);
+        setGameRule(GameRule.DO_DAYLIGHT_CYCLE, !ConfigEntry.DISABLE_NIGHT.getBoolean(), false);
+        setGameRule(GameRule.DO_FIRE_TICK, ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean(), false);
+        setGameRule(GameRule.DO_MOB_LOOT, false, false);
+        setGameRule(GameRule.DO_MOB_SPAWNING, !ConfigEntry.MOB_LIMITER_ENABLED.getBoolean(), false);
+        setGameRule(GameRule.DO_TILE_DROPS, false, false);
+        setGameRule(GameRule.MOB_GRIEFING, false, false);
+        setGameRule(GameRule.NATURAL_REGENERATION, true, false);
         commitGameRules();
     }
 
@@ -43,14 +44,14 @@ public class GameRuleHandler extends AbstractService<TotalFreedomMod>
     {
     }
 
-    public void setGameRule(TFM_GameRule gameRule, boolean value)
+    public void setGameRule(GameRule gameRule, boolean value)
     {
         setGameRule(gameRule, value, true);
     }
 
-    public void setGameRule(TFM_GameRule gameRule, boolean value, boolean doCommit)
+    public void setGameRule(GameRule gameRule, boolean value, boolean doCommit)
     {
-        rules.put(gameRule, TFM_GameRule_Value.fromBoolean(value));
+        rules.put(gameRule, value);
         if (doCommit)
         {
             commitGameRules();
@@ -60,39 +61,43 @@ public class GameRuleHandler extends AbstractService<TotalFreedomMod>
     public void commitGameRules()
     {
         List<World> worlds = Bukkit.getWorlds();
-        Iterator<Map.Entry<TFM_GameRule, TFM_GameRule_Value>> it = rules.entrySet().iterator();
+        Iterator<Map.Entry<GameRule, Boolean>> it = rules.entrySet().iterator();
         while (it.hasNext())
         {
-            Map.Entry<TFM_GameRule, TFM_GameRule_Value> gameRuleEntry = it.next();
+
+            Map.Entry<GameRule, Boolean> gameRuleEntry = it.next();
             String gameRuleName = gameRuleEntry.getKey().getGameRuleName();
             String gameRuleValue = gameRuleEntry.getValue().toString();
+
             for (World world : worlds)
             {
                 world.setGameRuleValue(gameRuleName, gameRuleValue);
-                if (gameRuleEntry.getKey() == TFM_GameRule.DO_DAYLIGHT_CYCLE && !gameRuleEntry.getValue().toBoolean())
+                if (gameRuleEntry.getKey() == GameRule.DO_DAYLIGHT_CYCLE && !gameRuleEntry.getValue())
                 {
                     FUtil.setWorldTime(world, 6000L);
                 }
             }
+
         }
     }
 
-    public static enum TFM_GameRule
+    public static enum GameRule
     {
 
-        DO_FIRE_TICK("doFireTick", TFM_GameRule_Value.TRUE),
-        MOB_GRIEFING("mobGriefing", TFM_GameRule_Value.TRUE),
-        KEEP_INVENTORY("keepInventory", TFM_GameRule_Value.FALSE),
-        DO_MOB_SPAWNING("doMobSpawning", TFM_GameRule_Value.TRUE),
-        DO_MOB_LOOT("doMobLoot", TFM_GameRule_Value.TRUE),
-        DO_TILE_DROPS("doTileDrops", TFM_GameRule_Value.TRUE),
-        COMMAND_BLOCK_OUTPUT("commandBlockOutput", TFM_GameRule_Value.TRUE),
-        NATURAL_REGENERATION("naturalRegeneration", TFM_GameRule_Value.TRUE),
-        DO_DAYLIGHT_CYCLE("doDaylightCycle", TFM_GameRule_Value.TRUE);
+        DO_FIRE_TICK("doFireTick", true),
+        MOB_GRIEFING("mobGriefing", true),
+        KEEP_INVENTORY("keepInventory", false),
+        DO_MOB_SPAWNING("doMobSpawning", true),
+        DO_MOB_LOOT("doMobLoot", true),
+        DO_TILE_DROPS("doTileDrops", true),
+        COMMAND_BLOCK_OUTPUT("commandBlockOutput", true),
+        NATURAL_REGENERATION("naturalRegeneration", true),
+        DO_DAYLIGHT_CYCLE("doDaylightCycle", true);
+        //
         private final String gameRuleName;
-        private final TFM_GameRule_Value defaultValue;
+        private final boolean defaultValue;
 
-        private TFM_GameRule(String gameRuleName, TFM_GameRule_Value defaultValue)
+        private GameRule(String gameRuleName, boolean defaultValue)
         {
             this.gameRuleName = gameRuleName;
             this.defaultValue = defaultValue;
@@ -103,37 +108,9 @@ public class GameRuleHandler extends AbstractService<TotalFreedomMod>
             return gameRuleName;
         }
 
-        public TFM_GameRule_Value getDefaultValue()
+        public boolean getDefaultValue()
         {
             return defaultValue;
-        }
-    }
-
-    public static enum TFM_GameRule_Value
-    {
-
-        TRUE("true"), FALSE("false");
-        private final String value;
-
-        private TFM_GameRule_Value(String value)
-        {
-            this.value = value;
-        }
-
-        @Override
-        public String toString()
-        {
-            return this.value;
-        }
-
-        public boolean toBoolean()
-        {
-            return (this.value.equals(TFM_GameRule_Value.TRUE.value));
-        }
-
-        public static TFM_GameRule_Value fromBoolean(boolean in)
-        {
-            return (in ? TFM_GameRule_Value.TRUE : TFM_GameRule_Value.FALSE);
         }
     }
 

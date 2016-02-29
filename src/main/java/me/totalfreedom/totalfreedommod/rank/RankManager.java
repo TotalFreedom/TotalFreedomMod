@@ -45,46 +45,61 @@ public class RankManager extends AbstractService<TotalFreedomMod>
 
         final Player player = (Player) sender;
 
+        // Display impostors
+        if (plugin.al.isAdminImpostor(player))
+        {
+            return PlayerRank.IMPOSTOR;
+        }
+
         // Developers always show up
         if (FUtil.DEVELOPERS.contains(player.getName()))
         {
             return TitleRank.DEVELOPER;
         }
 
-        final PlayerRank playerRank = getRank((Player) sender);
-        final Admin admin = playerRank.isAdmin() ? plugin.al.getAdmin(sender) : null;
+        final PlayerRank rank = getRank(player);
+        final Admin admin = rank.isAdmin() ? plugin.al.getAdmin(sender) : null;
 
-        // Titles except developer are only for admins
+        // Non-admins don't have titles, display actual rank
         if (admin == null)
         {
-            return playerRank;
+            return rank;
         }
 
+        // If the player's an owner, display that
         if (MainConfig.get(ConfigEntry.SERVER_OWNERS, List.class).contains(player.getName()))
         {
             return TitleRank.OWNER;
         }
 
         final String loginMessage = admin.getLoginMessage();
-        return loginMessage == null ? playerRank : new CustomLoginRank(playerRank, ChatUtils.colorize(loginMessage));
 
+        // If we don't have a custom login message, use the actual rank
+        if (loginMessage == null)
+        {
+            return rank;
+        }
+
+        return new CustomLoginRank(rank, ChatUtils.colorize(loginMessage));
     }
 
-    public Rank getRank(CommandSender sender)
+    public PlayerRank getRank(CommandSender sender)
     {
         if (sender instanceof Player)
         {
             return getRank((Player) sender);
         }
 
+        // Console admin, get by name
         Admin admin = plugin.al.getEntryByName(sender.getName());
 
+        // Unknown console: RCON, CONSOLE?
         if (admin == null)
-        { // Unknown console, RCon, CONSOLE?
-            return ConsoleRank.SENIOR_CONSOLE;
+        {
+            return PlayerRank.SENIOR_CONSOLE;
         }
 
-        return ConsoleRank.forRank(admin.getRank());
+        return admin.getRank();
     }
 
     public PlayerRank getRank(Player player)
@@ -107,17 +122,17 @@ public class RankManager extends AbstractService<TotalFreedomMod>
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         final Player player = event.getPlayer();
-        final PlayerData data = plugin.pl.getData(player);
+        //plugin.pl.getData(player);
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
 
         // Unban admins
         boolean isAdmin = plugin.al.isAdmin(player);
+        fPlayer.setSuperadminIdVerified(false);
         if (isAdmin)
         {
             // Verify strict IP match
             if (!plugin.al.isIdentityMatched(player))
             {
-                fPlayer.setSuperadminIdVerified(false);
                 FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
             }
             else
@@ -146,8 +161,8 @@ public class RankManager extends AbstractService<TotalFreedomMod>
             plugin.pl.getPlayer(player).setTag(display.getColoredTag());
             try
             {
-                String displayName = display.getColorString() + player.getName();
-                player.setPlayerListName(displayName.substring(0, 16));
+                String displayName = display.getColor() + player.getName();
+                player.setPlayerListName(displayName.substring(0, Math.min(displayName.length(), 16)));
             }
             catch (IllegalArgumentException ex)
             {

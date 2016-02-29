@@ -27,12 +27,14 @@ public class Command_saconfig extends FreedomCommand
         }
         catch (final PermissionsException ex)
         {
-            if (ex.getMessage().isEmpty())
+            String msg = ex.getMessage();
+            if (msg != null && !msg.isEmpty())
             {
-                return noPerms();
+                sender.sendMessage(msg);
+                return true;
             }
-            sender.sendMessage(ex.getMessage());
-            return true;
+
+            return noPerms();
         }
         catch (final FormatException ex)
         {
@@ -231,7 +233,7 @@ public class Command_saconfig extends FreedomCommand
 
             Admin admin = TotalFreedomMod.plugin.al.getAdmin(sender);
 
-            boolean isSeniorAdmin = admin != null ? admin.isMinimum(PlayerRank.SENIOR_ADMIN) : false;
+            boolean isSeniorAdmin = admin != null ? admin.getRank().isAtLeast(PlayerRank.SENIOR_ADMIN) : false;
 
             for (final SAConfigMode mode : values())
             {

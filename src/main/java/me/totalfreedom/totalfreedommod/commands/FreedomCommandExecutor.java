@@ -1,12 +1,11 @@
 package me.totalfreedom.totalfreedommod.commands;
 
 import java.util.Arrays;
-import me.totalfreedom.totalfreedommod.rank.ConsoleRank;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import net.pravian.aero.command.AeroCommandBase;
 import net.pravian.aero.command.executor.AbstractCommandExecutor;
 import net.pravian.aero.command.executor.AeroCommandExecutor;
@@ -137,12 +136,11 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
 
         // Console permissions
         Rank rank = TotalFreedomMod.plugin.rm.getRank(sender);
-        boolean result = rank.isAtLeast(ConsoleRank.forRank(perms.level()));
+        boolean result = rank.isAtLeast(perms.level());
         if (!result && sendMsg)
         {
             sender.sendMessage(handler.getPermissionMessage());
         }
-
         return result;
     }
 

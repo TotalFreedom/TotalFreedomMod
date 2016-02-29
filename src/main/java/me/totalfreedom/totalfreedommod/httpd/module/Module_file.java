@@ -1,4 +1,4 @@
-package me.totalfreedom.totalfreedommod.httpd;
+package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
 import org.apache.commons.lang3.StringUtils;
 
