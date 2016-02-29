@@ -9,8 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Freeze players (toggles on and off).", usage = "/<command> [target | purge]")
-public class Command_fr extends FreedomCommand
+@CommandParameters(description = "Freeze players (toggles on and off).", usage = "/<command> [target | purge]", aliases = "fr")
+public class Command_freeze extends FreedomCommand
 {
 
     @Override

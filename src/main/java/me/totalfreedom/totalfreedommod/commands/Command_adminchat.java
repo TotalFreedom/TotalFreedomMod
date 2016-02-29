@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 @CommandParameters(
         description = "AdminChat - Talk privately with other admins. Using <command> itself will toggle AdminChat on and off for all messages.",
         usage = "/<command> [message...]",
-        aliases = "adminchat")
-public class Command_o extends FreedomCommand
+        aliases = "o,ac")
+public class Command_adminchat extends FreedomCommand
 {
 
     @Override
