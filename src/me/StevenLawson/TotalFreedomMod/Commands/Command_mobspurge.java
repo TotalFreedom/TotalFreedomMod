@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command>", alias = "mp")
-public class Command_mobspurge extends TFM_Command
+@CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command>", alias = "mp,mobspurge")
+public class Command_mobpurge extends TFM_Command
 {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
