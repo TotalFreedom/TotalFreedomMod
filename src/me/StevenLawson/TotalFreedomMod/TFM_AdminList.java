@@ -145,6 +145,7 @@ public class TFM_AdminList
                 admin.getCustomLoginMessage(),
                 admin.isTelnetAdmin(),
                 admin.isSeniorAdmin(),
+                admin.cmdSpyEnabled(),
                 admin.isActivated());
         newAdmin.addIps(admin.getIps());
         adminList.put(newUuid, newAdmin);
@@ -266,6 +267,7 @@ public class TFM_AdminList
 
             config.set("admins." + uuid + ".last_login_name", uuid);
             config.set("admins." + uuid + ".is_activated", section.getBoolean(admin + ".is_activated"));
+            config.set("admins." + uuid + ".cmdspy", section.getBoolean(admin + ".cmdspy"));
             config.set("admins." + uuid + ".is_telnet_admin", section.getBoolean(admin + ".is_telnet_admin"));
             config.set("admins." + uuid + ".is_senior_admin", section.getBoolean(admin + ".is_senior_admin"));
             config.set("admins." + uuid + ".last_login", section.getString(admin + ".last_login"));
@@ -299,6 +301,7 @@ public class TFM_AdminList
 
             config.set("admins." + uuid + ".last_login_name", superadmin.getLastLoginName());
             config.set("admins." + uuid + ".is_activated", superadmin.isActivated());
+            config.set("admins." + uuid + ".cmdspy", superadmin.cmdSpyEnabled());
             config.set("admins." + uuid + ".is_telnet_admin", superadmin.isTelnetAdmin());
             config.set("admins." + uuid + ".is_senior_admin", superadmin.isSeniorAdmin());
             config.set("admins." + uuid + ".last_login", TFM_Util.dateToString(superadmin.getLastLogin()));
@@ -325,6 +328,7 @@ public class TFM_AdminList
 
         config.set("admins." + uuid + ".last_login_name", admin.getLastLoginName());
         config.set("admins." + uuid + ".is_activated", admin.isActivated());
+        config.set("admins." + uuid + ".cmdspy", admin.cmdSpyEnabled());
         config.set("admins." + uuid + ".is_telnet_admin", admin.isTelnetAdmin());
         config.set("admins." + uuid + ".is_senior_admin", admin.isSeniorAdmin());
         config.set("admins." + uuid + ".last_login", TFM_Util.dateToString(admin.getLastLogin()));
@@ -625,7 +629,9 @@ public class TFM_AdminList
                 "",
                 false,
                 false,
-                true);
+                false,
+                true
+        );
         superadmin.addIp(ip);
 
         adminList.put(uuid, superadmin);

@@ -21,9 +21,10 @@ public class TFM_Admin
     private final List<String> consoleAliases;
     private final List<String> ips;
     private Date lastLogin;
+    private boolean cmdSpyEnabled;
     private boolean isActivated;
 
-    public TFM_Admin(UUID uuid, String lastLoginName, Date lastLogin, String loginMessage, boolean isTelnetAdmin, boolean isSeniorAdmin, boolean isActivated)
+    public TFM_Admin(UUID uuid, String lastLoginName, Date lastLogin, String loginMessage, boolean isTelnetAdmin, boolean isSeniorAdmin, boolean cmdSpyEnabled, boolean isActivated)
     {
         this.uuid = uuid;
         this.lastLoginName = lastLoginName;
@@ -33,6 +34,7 @@ public class TFM_Admin
         this.isTelnetAdmin = isTelnetAdmin;
         this.isSeniorAdmin = isSeniorAdmin;
         this.consoleAliases = new ArrayList<String>();
+        this.cmdSpyEnabled = cmdSpyEnabled;
         this.isActivated = isActivated;
     }
 
@@ -46,6 +48,7 @@ public class TFM_Admin
         this.isSeniorAdmin = section.getBoolean("is_senior_admin", false);
         this.isTelnetAdmin = section.getBoolean("is_telnet_admin", false);
         this.consoleAliases = section.getStringList("console_aliases");
+        this.cmdSpyEnabled = section.getBoolean("cmdspy", true);
         this.isActivated = section.getBoolean("is_activated", true);
 
         for (Iterator<?> it = TFM_MainConfig.getList(TFM_ConfigEntry.NOADMIN_IPS).iterator(); it.hasNext();)
@@ -159,5 +162,15 @@ public class TFM_Admin
     public void setActivated(boolean isActivated)
     {
         this.isActivated = isActivated;
+    }
+
+    public void setCommandSpy(boolean cmdSpyEnabled)
+    {
+        this.cmdSpyEnabled = cmdSpyEnabled;
+    }
+
+    public boolean cmdSpyEnabled()
+    {
+        return cmdSpyEnabled;
     }
 }

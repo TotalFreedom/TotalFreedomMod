@@ -104,7 +104,6 @@ public class TFM_PlayerData
     private boolean allCommandsBlocked = false;
     private boolean verifiedSuperadminId = false;
     private String lastCommand = "";
-    private boolean cmdspyEnabled = false;
     private String tag = null;
     private int warningCount = 0;
 
@@ -495,16 +494,6 @@ public class TFM_PlayerData
     public void setLastCommand(String lastCommand)
     {
         this.lastCommand = lastCommand;
-    }
-
-    public void setCommandSpy(boolean enabled)
-    {
-        this.cmdspyEnabled = enabled;
-    }
-
-    public boolean cmdspyEnabled()
-    {
-        return cmdspyEnabled;
     }
 
     public void setTag(String tag)
