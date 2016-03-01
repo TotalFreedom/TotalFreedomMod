@@ -124,6 +124,11 @@ public class TFM_CommandBlocker
             }
             return true;
         }
+        else if (command.contains("**"))
+        {
+            TFM_Util.playerMsg(sender, "'**' is prohibited.");
+            return true;
+        }
 
         for (String part : commandParts)
         {
