@@ -5,7 +5,10 @@ import org.bukkit.ChatColor;
 
 public enum TitleRank implements Rank
 {
-
+    TELNET_CLAN_ADMIN("a", "TCA", ChatColor.DARK_GREEN),
+    TELNET_ADMIN("a", "TA", ChatColor.DARK_GREEN),
+    SENIOR_ADMIN("a", "SrA", ChatColor.PINK),
+    SUPER_ADMIN("a", "SA", ChatColor.GOLD),
     DEVELOPER("a", "Dev", ChatColor.DARK_PURPLE),
     OWNER("the", "Owner", ChatColor.BLUE);
 
