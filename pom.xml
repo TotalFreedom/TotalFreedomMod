@@ -67,7 +67,7 @@
             <artifactId>spigot</artifactId>
             <version>1.8.7-R0.1-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Spigot-1.8.7.jar</systemPath>
+            <systemPath>${project.basedir}/lib/Spigot-1.9.jar</systemPath>
         </dependency>
 
         <dependency>
