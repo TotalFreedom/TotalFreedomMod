@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import net.pravian.aero.command.CommandReflection;
-import net.pravian.aero.component.service.AbstractService;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
@@ -19,7 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class CommandBlocker extends AbstractService<TotalFreedomMod>
+public class CommandBlocker extends FreedomService
 {
 
     public static Pattern NUMBER_FLAG_PATTERN = Pattern.compile("(:([0-9]){5,})");

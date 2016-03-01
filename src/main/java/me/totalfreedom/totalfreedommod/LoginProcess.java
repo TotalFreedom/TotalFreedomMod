@@ -2,10 +2,8 @@ package me.totalfreedom.totalfreedommod;
 
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class LoginProcess extends AbstractService<TotalFreedomMod>
+public class LoginProcess extends FreedomService
 {
 
     public static final int DEFAULT_PORT = 25565;

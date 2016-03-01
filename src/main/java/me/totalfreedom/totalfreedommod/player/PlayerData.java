@@ -1,11 +1,8 @@
 package me.totalfreedom.totalfreedommod.player;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import net.pravian.aero.base.ConfigLoadable;

@@ -1,15 +1,15 @@
 package me.totalfreedom.totalfreedommod.freeze;
 
 import lombok.Getter;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class Freezer extends AbstractService<TotalFreedomMod>
+public class Freezer extends FreedomService
 {
 
     @Getter

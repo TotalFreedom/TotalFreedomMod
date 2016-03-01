@@ -2,12 +2,11 @@ package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-public class AutoKick extends AbstractService<TotalFreedomMod>
+public class AutoKick extends FreedomService
 {
 
     public static final long AUTOKICK_RATE = 10 * 20L;

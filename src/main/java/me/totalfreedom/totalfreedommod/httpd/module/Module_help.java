@@ -13,7 +13,6 @@ import me.totalfreedom.totalfreedommod.commands.FreedomCommand;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.heading;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import net.pravian.aero.command.CommandReflection;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;

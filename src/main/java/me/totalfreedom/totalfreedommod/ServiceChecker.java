@@ -16,7 +16,6 @@ import java.util.Map.Entry;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -24,7 +23,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-public class ServiceChecker extends AbstractService<TotalFreedomMod>
+public class ServiceChecker extends FreedomService
 {
 
     @Getter

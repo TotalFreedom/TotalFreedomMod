@@ -2,16 +2,14 @@ package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-public class GameRuleHandler extends AbstractService<TotalFreedomMod>
+public class GameRuleHandler extends FreedomService
 {
 
     private final Map<GameRule, Boolean> rules = new EnumMap<GameRule, Boolean>(GameRule.class);
@@ -35,6 +33,7 @@ public class GameRuleHandler extends AbstractService<TotalFreedomMod>
         setGameRule(GameRule.DO_MOB_SPAWNING, !ConfigEntry.MOB_LIMITER_ENABLED.getBoolean(), false);
         setGameRule(GameRule.DO_TILE_DROPS, false, false);
         setGameRule(GameRule.MOB_GRIEFING, false, false);
+        setGameRule(GameRule.COMMAND_BLOCK_OUTPUT, false);
         setGameRule(GameRule.NATURAL_REGENERATION, true, false);
         commitGameRules();
     }

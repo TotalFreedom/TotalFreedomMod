@@ -1,14 +1,13 @@
 package me.totalfreedom.totalfreedommod.rank;
 
 import java.util.List;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
 import net.pravian.aero.util.ChatUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -18,7 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class RankManager extends AbstractService<TotalFreedomMod>
+public class RankManager extends FreedomService
 {
 
     public RankManager(TotalFreedomMod plugin)

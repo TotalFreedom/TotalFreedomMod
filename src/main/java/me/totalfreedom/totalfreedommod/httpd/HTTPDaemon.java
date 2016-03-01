@@ -13,17 +13,17 @@ import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.HTTPSession;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import net.pravian.aero.component.service.AbstractService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 
-public class HTTPDaemon extends AbstractService<TotalFreedomMod>
+public class HTTPDaemon extends FreedomService
 {
 
     public static String MIME_DEFAULT_BINARY = "application/octet-stream";

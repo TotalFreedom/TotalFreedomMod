@@ -3,14 +3,14 @@ package me.totalfreedom.totalfreedommod.bridge;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class WorldEditBridge extends AbstractService<TotalFreedomMod>
+public class WorldEditBridge extends FreedomService
 {
 
     private static WorldEditPlugin worldEditPlugin = null;

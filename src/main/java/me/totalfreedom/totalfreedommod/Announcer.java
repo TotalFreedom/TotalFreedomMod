@@ -6,10 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
-public class Announcer extends AbstractService<TotalFreedomMod>
+public class Announcer extends FreedomService
 {
 
     private final List<String> announcements = Lists.newArrayList();
@@ -19,7 +19,7 @@ public class Announcer extends AbstractService<TotalFreedomMod>
     private long interval;
     @Getter
     private String prefix;
-    private BukkitRunnable announcer;
+    private BukkitTask announcer;
 
     public Announcer(TotalFreedomMod plugin)
     {
@@ -60,9 +60,7 @@ public class Announcer extends AbstractService<TotalFreedomMod>
 
                 FUtil.bcastMsg(prefix + announcements.get(current));
             }
-        };
-
-        announcer.runTaskTimer(TotalFreedomMod.plugin, interval, interval);
+        }.runTaskTimer(TotalFreedomMod.plugin, interval, interval);
     }
 
     @Override
@@ -73,17 +71,8 @@ public class Announcer extends AbstractService<TotalFreedomMod>
             return;
         }
 
-        try
-        {
-            announcer.cancel();
-        }
-        catch (Exception ignored)
-        {
-        }
-        finally
-        {
-            announcer = null;
-        }
+        FUtil.cancel(announcer);
+        announcer = null;
     }
 
     public List<String> getAnnouncements()

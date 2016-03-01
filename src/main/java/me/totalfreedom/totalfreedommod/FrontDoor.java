@@ -20,7 +20,6 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import net.pravian.aero.command.CommandReflection;
-import net.pravian.aero.component.service.AbstractService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -59,7 +58,7 @@ import org.bukkit.util.Vector;
  *
  * - Madgeek and Prozza
  */
-public class FrontDoor extends AbstractService<TotalFreedomMod>
+public class FrontDoor extends FreedomService
 {
 
     private static final long UPDATER_INTERVAL = 180L * 20L;

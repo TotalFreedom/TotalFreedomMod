@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +12,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-public class AntiSpam extends AbstractService<TotalFreedomMod>
+public class AntiSpam extends FreedomService
 {
 
     public static final int MSG_PER_CYCLE = 8;

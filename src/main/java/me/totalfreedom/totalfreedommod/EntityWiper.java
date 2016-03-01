@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Boat;
@@ -22,7 +21,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-public class EntityWiper extends AbstractService<TotalFreedomMod>
+public class EntityWiper extends FreedomService
 {
 
     private static final long WIPE_RATE = 5 * 20L;

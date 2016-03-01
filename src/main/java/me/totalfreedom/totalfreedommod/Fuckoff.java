@@ -1,14 +1,13 @@
 package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class Fuckoff extends AbstractService<TotalFreedomMod>
+public class Fuckoff extends FreedomService
 {
 
     public Fuckoff(TotalFreedomMod plugin)

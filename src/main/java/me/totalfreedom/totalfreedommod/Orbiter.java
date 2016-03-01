@@ -1,14 +1,13 @@
 package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
-public class Orbiter extends AbstractService<TotalFreedomMod>
+public class Orbiter extends FreedomService
 {
 
     public Orbiter(TotalFreedomMod plugin)

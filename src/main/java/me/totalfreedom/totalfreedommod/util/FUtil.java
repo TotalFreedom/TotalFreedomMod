@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.banning.Ban;
-import me.totalfreedom.totalfreedommod.config.FConfig;
+import net.pravian.aero.config.YamlConfig;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.io.FileUtils;
@@ -631,7 +631,7 @@ public class FUtil
     public static void createBackups(String file, boolean onlyWeekly)
     {
         final String save = file.split("\\.")[0];
-        final FConfig config = new FConfig(TotalFreedomMod.plugin, "backup/backup.yml", false);
+        final YamlConfig config = new YamlConfig(TotalFreedomMod.plugin, "backup/backup.yml", false);
         config.load();
 
         // Weekly

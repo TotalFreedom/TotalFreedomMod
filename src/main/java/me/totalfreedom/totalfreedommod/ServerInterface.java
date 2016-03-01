@@ -6,9 +6,8 @@ import java.util.List;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
 import net.minecraft.server.v1_8_R3.PropertyManager;
-import net.pravian.aero.component.service.AbstractService;
 
-public class ServerInterface extends AbstractService<TotalFreedomMod>
+public class ServerInterface extends FreedomService
 {
 
     public static final String COMPILE_NMS_VERSION = "v1_8_R3";

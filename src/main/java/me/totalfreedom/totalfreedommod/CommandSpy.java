@@ -1,13 +1,12 @@
 package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class CommandSpy extends AbstractService<TotalFreedomMod>
+public class CommandSpy extends FreedomService
 {
 
     public CommandSpy(TotalFreedomMod plugin)

@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.UUID;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -25,7 +24,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.util.Vector;
 
-public class ProtectArea extends AbstractService<TotalFreedomMod>
+public class ProtectArea extends FreedomService
 {
 
     public static final double MAX_RADIUS = 50.0;

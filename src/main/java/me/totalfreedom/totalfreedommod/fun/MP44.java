@@ -1,12 +1,12 @@
 package me.totalfreedom.totalfreedommod.fun;
 
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class MP44 extends AbstractService<TotalFreedomMod>
+public class MP44 extends FreedomService
 {
 
     public MP44(TotalFreedomMod plugin)

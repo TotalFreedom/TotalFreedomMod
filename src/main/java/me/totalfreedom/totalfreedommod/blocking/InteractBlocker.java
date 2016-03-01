@@ -1,9 +1,9 @@
 package me.totalfreedom.totalfreedommod.blocking;
 
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class InteractBlocker extends AbstractService<TotalFreedomMod>
+public class InteractBlocker extends FreedomService
 {
 
     public InteractBlocker(TotalFreedomMod plugin)

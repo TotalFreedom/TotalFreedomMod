@@ -3,14 +3,13 @@ package me.totalfreedom.totalfreedommod;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ChatManager extends AbstractService<TotalFreedomMod>
+public class ChatManager extends FreedomService
 {
 
     public ChatManager(TotalFreedomMod plugin)

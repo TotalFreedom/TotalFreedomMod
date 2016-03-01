@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -12,7 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class AntiNuke extends AbstractService<TotalFreedomMod>
+public class AntiNuke extends FreedomService
 {
 
     public AntiNuke(TotalFreedomMod plugin)

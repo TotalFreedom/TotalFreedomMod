@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod.commands;
 
 import lombok.Getter;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import net.pravian.aero.command.handler.SimpleCommandHandler;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.ChatColor;
 
-public class CommandLoader extends AbstractService<TotalFreedomMod>
+public class CommandLoader extends FreedomService
 {
 
     @Getter

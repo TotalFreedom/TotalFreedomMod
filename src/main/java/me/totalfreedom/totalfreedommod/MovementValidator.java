@@ -1,13 +1,12 @@
 package me.totalfreedom.totalfreedommod;
 
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-public class MovementValidator extends AbstractService<TotalFreedomMod>
+public class MovementValidator extends FreedomService
 {
 
     public static final int MAX_XZ_COORD = 30000000;

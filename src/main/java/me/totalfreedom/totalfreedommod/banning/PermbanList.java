@@ -4,18 +4,18 @@ import me.totalfreedom.totalfreedommod.util.FLog;
 import com.google.common.collect.Sets;
 import java.util.Set;
 import lombok.Getter;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.config.FConfig;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
+import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerLoginEvent;
 
-public class PermbanList extends AbstractService<TotalFreedomMod>
+public class PermbanList extends FreedomService
 {
 
     @Getter
@@ -34,7 +34,7 @@ public class PermbanList extends AbstractService<TotalFreedomMod>
         permbannedNames.clear();
         permbannedIps.clear();
 
-        final FConfig config = new FConfig(TotalFreedomMod.plugin, TotalFreedomMod.PERMBAN_FILENAME, true);
+        final YamlConfig config = new YamlConfig(TotalFreedomMod.plugin, TotalFreedomMod.PERMBAN_FILENAME, true);
         config.load();
 
         for (String name : config.getKeys(false))

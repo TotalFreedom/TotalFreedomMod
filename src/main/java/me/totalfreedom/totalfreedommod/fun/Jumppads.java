@@ -4,8 +4,8 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
-public class Jumppads extends AbstractService<TotalFreedomMod>
+public class Jumppads extends FreedomService
 {
 
     public static final Material BLOCK_ID = Material.WOOL;

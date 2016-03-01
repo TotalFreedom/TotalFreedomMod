@@ -5,15 +5,15 @@ import java.util.Map;
 import me.StevenLawson.BukkitTelnet.api.TelnetCommandEvent;
 import me.StevenLawson.BukkitTelnet.api.TelnetPreLoginEvent;
 import me.StevenLawson.BukkitTelnet.api.TelnetRequestDataTagsEvent;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-public class BukkitTelnetBridge extends AbstractService<TotalFreedomMod>
+public class BukkitTelnetBridge extends FreedomService
 {
 
     public BukkitTelnetBridge(TotalFreedomMod plugin)

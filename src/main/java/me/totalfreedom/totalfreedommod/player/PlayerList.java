@@ -5,11 +5,11 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 import lombok.Getter;
-import me.totalfreedom.totalfreedommod.config.FConfig;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import net.pravian.aero.component.service.AbstractService;
+import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -18,7 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class PlayerList extends AbstractService<TotalFreedomMod>
+public class PlayerList extends FreedomService
 {
 
     public static final long AUTO_PURGE_TICKS = 20L * 60L * 5L;
@@ -62,7 +62,7 @@ public class PlayerList extends AbstractService<TotalFreedomMod>
     {
         for (PlayerData data : dataMap.values())
         {
-            FConfig config = getConfig(data);
+            YamlConfig config = getConfig(data);
             data.saveTo(config);
             config.save();
         }
@@ -132,7 +132,7 @@ public class PlayerList extends AbstractService<TotalFreedomMod>
             dataMap.put(player.getName().toLowerCase(), data);
 
             // Save player
-            FConfig config = getConfig(data);
+            YamlConfig config = getConfig(data);
             data.saveTo(config);
             config.save();
         }
@@ -214,9 +214,9 @@ public class PlayerList extends AbstractService<TotalFreedomMod>
         return new File(getConfigFolder(), name + ".yml");
     }
 
-    protected FConfig getConfig(PlayerData data)
+    protected YamlConfig getConfig(PlayerData data)
     {
-        final FConfig config = new FConfig(TotalFreedomMod.plugin, getConfigFile(data.getUsername().toLowerCase()), false);
+        final YamlConfig config = new YamlConfig(TotalFreedomMod.plugin, getConfigFile(data.getUsername().toLowerCase()), false);
         config.load();
         return config;
     }

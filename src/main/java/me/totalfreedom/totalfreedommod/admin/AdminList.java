@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.commands.Command_logs;
-import me.totalfreedom.totalfreedommod.config.FConfig;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
+import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,7 +26,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.ServicePriority;
 
-public class AdminList extends AbstractService<TotalFreedomMod>
+public class AdminList extends FreedomService
 {
 
     @Getter
@@ -38,13 +38,13 @@ public class AdminList extends AbstractService<TotalFreedomMod>
     private final Map<String, Admin> ipTable = Maps.newHashMap();
     //
     private int cleanThreshold = 24 * 7; // 1 Week in hours
-    private final FConfig config;
+    private final YamlConfig config;
 
     public AdminList(TotalFreedomMod plugin)
     {
         super(plugin);
 
-        this.config = new FConfig(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILENAME, true);
+        this.config = new YamlConfig(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILENAME, true);
     }
 
     @Override

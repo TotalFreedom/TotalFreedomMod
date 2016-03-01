@@ -2,14 +2,13 @@ package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.server.ServerListPingEvent;
 
-public class ServerPing extends AbstractService<TotalFreedomMod>
+public class ServerPing extends FreedomService
 {
 
     public ServerPing(TotalFreedomMod plugin)

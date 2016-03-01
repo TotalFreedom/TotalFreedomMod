@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.blocking;
 
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
@@ -14,7 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
-public class MobBlocker extends AbstractService<TotalFreedomMod>
+public class MobBlocker extends FreedomService
 {
 
     public MobBlocker(TotalFreedomMod plugin)

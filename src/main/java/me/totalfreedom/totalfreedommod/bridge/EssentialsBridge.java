@@ -2,14 +2,14 @@ package me.totalfreedom.totalfreedommod.bridge;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-public class EssentialsBridge extends AbstractService<TotalFreedomMod>
+public class EssentialsBridge extends FreedomService
 {
 
     private Essentials essentialsPlugin = null;

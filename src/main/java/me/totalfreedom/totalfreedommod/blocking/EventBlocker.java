@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.blocking;
 
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import net.pravian.aero.component.service.AbstractService;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
@@ -21,7 +21,7 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
-public class EventBlocker extends AbstractService<TotalFreedomMod>
+public class EventBlocker extends FreedomService
 {
 
     public EventBlocker(TotalFreedomMod plugin)
