@@ -51,6 +51,8 @@ public class TFM_ServerListener implements Listener
         // Colorful MOTD
 
         final StringBuilder motd = new StringBuilder();
+        
+        motd.append(Bukkit.getServer().getOnlineMode() ? "•" : "○");
 
         for (String word : TFM_ConfigEntry.SERVER_MOTD.getString().replace("%mcversion%", TFM_ServerInterface.getVersion()).split(" "))
         {
