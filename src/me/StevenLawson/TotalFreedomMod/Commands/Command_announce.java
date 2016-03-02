@@ -15,11 +15,8 @@ public class Command_announce extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-      public static void announce(final Player player)
-      {
-        String message = StringUtils.join(ArrayUtils.subarray(args, 0, args.length), " ");
-        TFM_Util.bcastMsg(TFM_ConfigEntry.ANNOUNCER_PREFIX.getString().replaceAll("&", "§") + message + " (" + sender.getName() + ")");
-        return true;
-      }
+      String message = StringUtils.join(ArrayUtils.subarray(args, 0, args.length), " ");
+      TFM_Util.bcastMsg(TFM_ConfigEntry.ANNOUNCER_PREFIX.getString().replaceAll("&", "§") + message);
+      return true;
     }
 }
