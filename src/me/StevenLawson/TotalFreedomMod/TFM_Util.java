@@ -114,7 +114,7 @@ public class TFM_Util
     {
         throw new AssertionError();
     }
-
+    
     public static void bcastMsg(String message, ChatColor color)
     {
         TFM_Log.info(message, true);
@@ -128,6 +128,16 @@ public class TFM_Util
     public static void bcastMsg(String message)
     {
         TFM_Util.bcastMsg(message, null);
+    }
+    
+    public static void announceMsg(String message, ChatColor color)
+    {
+        TFM_Util.bcastMsg(TFM_ConfigEntry.ANNOUNCER_PREFIX.getString().replaceAll("&", "§") + message);
+    }
+    
+    public static void announceMsg(String message)
+    {
+        TFM_Util.announceMsg(message, null);
     }
 
     // Still in use by listeners
