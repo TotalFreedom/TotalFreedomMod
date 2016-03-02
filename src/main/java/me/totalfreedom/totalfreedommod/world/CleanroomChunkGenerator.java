@@ -215,7 +215,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
         else
         {
             // This is the default, but just in case default populators change to stock minecraft populators by default...
-            return new ArrayList<BlockPopulator>();
+            return new ArrayList<>();
         }
     }
 

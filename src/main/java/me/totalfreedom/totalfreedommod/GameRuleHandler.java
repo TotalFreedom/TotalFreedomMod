@@ -12,7 +12,7 @@ import org.bukkit.World;
 public class GameRuleHandler extends FreedomService
 {
 
-    private final Map<GameRule, Boolean> rules = new EnumMap<GameRule, Boolean>(GameRule.class);
+    private final Map<GameRule, Boolean> rules = new EnumMap<>(GameRule.class);
 
     public GameRuleHandler(TotalFreedomMod plugin)
     {

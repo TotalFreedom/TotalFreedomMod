@@ -26,7 +26,7 @@ public class EntityWiper extends FreedomService
 
     private static final long WIPE_RATE = 5 * 20L;
     //
-    private final List<Class<? extends Entity>> wipables = new ArrayList<Class<? extends Entity>>();
+    private final List<Class<? extends Entity>> wipables = new ArrayList<>();
     //
     private BukkitTask wipeTask;
 

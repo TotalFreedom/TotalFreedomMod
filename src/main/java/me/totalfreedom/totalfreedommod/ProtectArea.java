@@ -26,7 +26,7 @@ import org.bukkit.util.Vector;
 
 public class ProtectArea extends FreedomService
 {
-
+    public static final String DATA_FILENAME = "protectedareas.dat";
     public static final double MAX_RADIUS = 50.0;
     //
     private final Map<String, SerializableProtectedRegion> areas = Maps.newHashMap();
@@ -44,7 +44,7 @@ public class ProtectArea extends FreedomService
             return;
         }
 
-        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILENAME);
+        File input = new File(TotalFreedomMod.plugin.getDataFolder(), DATA_FILENAME);
         try
         {
             if (input.exists())
@@ -76,7 +76,7 @@ public class ProtectArea extends FreedomService
     {
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PROTECTED_AREA_FILENAME));
+            FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), DATA_FILENAME));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(areas);
             oos.close();

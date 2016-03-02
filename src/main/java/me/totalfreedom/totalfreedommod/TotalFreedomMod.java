@@ -8,10 +8,6 @@ import me.totalfreedom.totalfreedommod.fun.ItemFun;
 import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
 import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
@@ -19,7 +15,7 @@ import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
 import me.totalfreedom.totalfreedommod.caging.Cager;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
-import me.totalfreedom.totalfreedommod.commands.CommandLoader;
+import me.totalfreedom.totalfreedommod.command.CommandLoader;
 import me.totalfreedom.totalfreedommod.freeze.Freezer;
 import me.totalfreedom.totalfreedommod.fun.Landminer;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
@@ -29,6 +25,10 @@ import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.world.WorldManager;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import net.pravian.aero.component.service.ServiceManager;
 import net.pravian.aero.plugin.AeroPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -37,15 +37,7 @@ import org.mcstats.Metrics;
 public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 {
 
-    public static final long SERVICE_CHECKER_RATE = 120L;
-    public static final int MAX_USERNAME_LENGTH = 20;
-    //
     public static final String CONFIG_FILENAME = "config.yml";
-    public static final String SUPERADMIN_FILENAME = "superadmin.yml";
-    public static final String PERMBAN_FILENAME = "permban.yml";
-    public static final String UUID_FILENAME = "uuids.db";
-    public static final String PROTECTED_AREA_FILENAME = "protectedareas.dat";
-    public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     //
     public static final BuildProperties build = new BuildProperties();
     //
@@ -53,8 +45,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static TotalFreedomMod plugin;
     public static String pluginName;
     public static String pluginVersion;
-    //
-    public static boolean lockdownEnabled = false;
     //
     // Services
     public ServiceManager<TotalFreedomMod> services;
@@ -134,12 +124,12 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         FUtil.deleteFolder(new File("./_deleteme"));
 
         // Create backups
-        FUtil.createBackups(CONFIG_FILENAME, true);
-        FUtil.createBackups(SUPERADMIN_FILENAME);
-        FUtil.createBackups(PERMBAN_FILENAME);
+        FUtil.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
+        FUtil.createBackups(AdminList.CONFIG_FILENAME);
+        FUtil.createBackups(PermbanList.CONFIG_FILENAME);
 
         // Start services and bridgess
-        services = new ServiceManager<TotalFreedomMod>(plugin);
+        services = new ServiceManager<>(plugin);
         si = services.registerService(ServerInterface.class);
         wm = services.registerService(WorldManager.class);
         al = services.registerService(AdminList.class);
@@ -176,7 +166,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         services.start();
 
         // Register bridges
-        bridges = new ServiceManager<TotalFreedomMod>(plugin);
+        bridges = new ServiceManager<>(plugin);
         btb = bridges.registerService(BukkitTelnetBridge.class);
         esb = bridges.registerService(EssentialsBridge.class);
         web = bridges.registerService(WorldEditBridge.class);

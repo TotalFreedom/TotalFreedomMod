@@ -150,7 +150,7 @@ public class ItemFun extends FreedomService
                     distance = location.distance(targetBlock.getLocation());
                 }
 
-                final List<Block> affected = new ArrayList<Block>();
+                final List<Block> affected = new ArrayList<>();
 
                 Block lastBlock = null;
                 for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))

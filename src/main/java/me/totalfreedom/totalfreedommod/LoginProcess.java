@@ -1,6 +1,8 @@
 package me.totalfreedom.totalfreedommod;
 
 import java.util.regex.Pattern;
+import lombok.Getter;
+import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -15,9 +17,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class LoginProcess extends FreedomService
 {
-
     public static final int DEFAULT_PORT = 25565;
+    public static final int MIN_USERNAME_LENGTH = 2;
+    public static final int MAX_USERNAME_LENGTH = 20;
     public static final Pattern USERNAME_REGEX = Pattern.compile("^[\\w\\d_]{3,20}$");
+    //
+    @Getter
+    @Setter
+    private boolean lockdownEnabled = false;
 
     public LoginProcess(TotalFreedomMod plugin)
     {
@@ -71,7 +78,7 @@ public class LoginProcess extends FreedomService
         final String ip = event.getAddress().getHostAddress().trim();
 
         // Check username length
-        if (username.length() < 3 || username.length() > TotalFreedomMod.MAX_USERNAME_LENGTH)
+        if (username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH)
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username is an invalid length (must be between 3 and 20 characters long).");
             return;
@@ -154,7 +161,7 @@ public class LoginProcess extends FreedomService
         }
 
         // Lockdown mode
-        if (TotalFreedomMod.lockdownEnabled)
+        if (lockdownEnabled)
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is currently in lockdown mode.");
             return;
@@ -186,7 +193,7 @@ public class LoginProcess extends FreedomService
                     player.sendMessage(ChatColor.RED + "Server is currently closed to non-superadmins.");
                 }
 
-                if (TotalFreedomMod.lockdownEnabled)
+                if (lockdownEnabled)
                 {
                     FUtil.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
                 }

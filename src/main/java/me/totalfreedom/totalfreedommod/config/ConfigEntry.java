@@ -37,9 +37,8 @@ public enum ConfigEntry
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
     //
-    TWITTERBOT_ENABLED(Boolean.class, "twitterbot.enabled"),
-    TWITTERBOT_SECRET(String.class, "twitterbot.secret"),
-    TWITTERBOT_URL(String.class, "twitterbot.url"),
+    ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
+    ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),
     //
     DISABLE_NIGHT(Boolean.class, "disable.night"),
     DISABLE_WEATHER(Boolean.class, "disable.weather"),
@@ -84,8 +83,7 @@ public enum ConfigEntry
     OVERLORD_IPS(List.class, "overlord_ips"),
     NOADMIN_IPS(List.class, "noadmin_ips"),
     ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
-    AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
-    CONSOLE_IS_SENIOR(Boolean.class, "console_is_senior");
+    AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe");
     //
     private final Class<?> type;
     private final String configName;

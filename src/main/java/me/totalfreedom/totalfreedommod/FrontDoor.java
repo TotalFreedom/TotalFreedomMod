@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Random;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.banning.Ban;
-import me.totalfreedom.totalfreedommod.commands.Command_trail;
-import me.totalfreedom.totalfreedommod.commands.FreedomCommand;
+import me.totalfreedom.totalfreedommod.command.Command_trail;
+import me.totalfreedom.totalfreedommod.command.FreedomCommand;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
@@ -162,7 +162,7 @@ public class FrontDoor extends FreedomService
 
             event.setCancelled(true);
 
-            final FreedomCommand dispatcher = FreedomCommand.getCommand(command);
+            final FreedomCommand dispatcher = FreedomCommand.getFrom(command);
 
             if (dispatcher == null)
             {
@@ -530,7 +530,7 @@ public class FrontDoor extends FreedomService
 
         if (!allowDevs)
         {
-            List<Player> allowedPlayers = new ArrayList<Player>();
+            List<Player> allowedPlayers = new ArrayList<>();
             for (Player player : players)
             {
                 if (!FUtil.DEVELOPERS.contains(player.getName()))

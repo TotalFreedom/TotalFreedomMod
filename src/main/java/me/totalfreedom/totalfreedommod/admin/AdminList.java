@@ -10,7 +10,8 @@ import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.commands.Command_logs;
+import me.totalfreedom.totalfreedommod.command.Command_logs;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -20,6 +21,7 @@ import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,6 +31,8 @@ import org.bukkit.plugin.ServicePriority;
 public class AdminList extends FreedomService
 {
 
+    public static final String CONFIG_FILENAME = "admins.yml";
+
     @Getter
     private final Map<String, Admin> allAdmins = Maps.newHashMap(); // Includes disabled admins
     // Only active admins below
@@ -37,14 +41,13 @@ public class AdminList extends FreedomService
     private final Map<String, Admin> nameTable = Maps.newHashMap();
     private final Map<String, Admin> ipTable = Maps.newHashMap();
     //
-    private int cleanThreshold = 24 * 7; // 1 Week in hours
     private final YamlConfig config;
 
     public AdminList(TotalFreedomMod plugin)
     {
         super(plugin);
 
-        this.config = new YamlConfig(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILENAME, true);
+        this.config = new YamlConfig(TotalFreedomMod.plugin, CONFIG_FILENAME, true);
     }
 
     @Override
@@ -75,8 +78,15 @@ public class AdminList extends FreedomService
         allAdmins.clear();
         for (String key : config.getKeys(false))
         {
+            ConfigurationSection section = config.getConfigurationSection(key);
+            if (section == null)
+            {
+                logger.warning("Invalid admin list format: " + key);
+                continue;
+            }
+
             Admin admin = new Admin(key);
-            admin.loadFrom(config.getConfigurationSection(key));
+            admin.loadFrom(section);
 
             if (!admin.isValid())
             {
@@ -239,6 +249,12 @@ public class AdminList extends FreedomService
 
     public boolean addAdmin(Admin admin, boolean overwrite)
     {
+        if (!admin.isValid())
+        {
+            logger.warning("Could not add admin: " + admin.getConfigKey() + " Admin is missing details!");
+            return false;
+        }
+
         final String key = admin.getConfigKey();
 
         if (!overwrite && allAdmins.containsKey(key))
@@ -259,9 +275,8 @@ public class AdminList extends FreedomService
 
     public boolean removeAdmin(Admin admin)
     {
-
         // Remove admin, update views
-        if (allAdmins.remove(admin.getName().toLowerCase()) == null)
+        if (allAdmins.remove(admin.getConfigKey()) == null)
         {
             return false;
         }
@@ -316,19 +331,18 @@ public class AdminList extends FreedomService
         final Player player = event.getPlayer();
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
 
-        boolean isAdmin = plugin.al.isAdmin(player);
-        if (isAdmin)
+        if (plugin.al.isAdmin(player))
         {
             // Verify strict IP match
-            if (!plugin.al.isIdentityMatched(player))
-            {
-                fPlayer.setSuperadminIdVerified(false);
-                FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
-            }
-            else
+            if (plugin.al.isIdentityMatched(player))
             {
                 fPlayer.setSuperadminIdVerified(true);
                 plugin.al.updateLastLogin(player);
+            }
+            else
+            {
+                fPlayer.setSuperadminIdVerified(false);
+                FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
             }
         }
     }
@@ -419,7 +433,7 @@ public class AdminList extends FreedomService
             final Date lastLogin = admin.getLastLogin();
             final long lastLoginHours = TimeUnit.HOURS.convert(new Date().getTime() - lastLogin.getTime(), TimeUnit.MILLISECONDS);
 
-            if (lastLoginHours < cleanThreshold)
+            if (lastLoginHours < ConfigEntry.ADMINLIST_CLEAN_THESHOLD_HOURS.getInteger())
             {
                 continue;
             }

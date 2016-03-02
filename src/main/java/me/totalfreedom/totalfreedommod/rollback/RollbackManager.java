@@ -212,7 +212,7 @@ public class RollbackManager extends FreedomService
         final int testZ = location.getBlockZ();
         final String testWorldName = location.getWorld().getName();
 
-        List<RollbackEntry> entries = new ArrayList<RollbackEntry>();
+        List<RollbackEntry> entries = new ArrayList<>();
         for (String playername : history.keySet())
         {
             for (RollbackEntry entry : history.get(playername.toLowerCase()))
@@ -268,7 +268,7 @@ public class RollbackManager extends FreedomService
         List<RollbackEntry> playerEntryList = history.get(playerName.toLowerCase());
         if (playerEntryList == null)
         {
-            playerEntryList = new ArrayList<RollbackEntry>();
+            playerEntryList = new ArrayList<>();
             history.put(playerName.toLowerCase(), playerEntryList);
         }
         return playerEntryList;

@@ -48,12 +48,6 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>net.pravian</groupId>
-            <artifactId>Aero</artifactId>
-            <version>2.0</version>
-            <scope>compile</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -65,9 +59,17 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.8.7-R0.1-SNAPSHOT</version>
+            <version>1.9-R0.1-SNAPSHOT</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Spigot-1.9.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>net.pravian</groupId>
+            <artifactId>aero</artifactId>
+            <version>2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Aero-2.0.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -176,7 +178,7 @@
                 <configuration>
                     <outputFileName>TotalFreedomMod.jar</outputFileName>
                     <compilerVersion>1.7</compilerVersion>
-                    <source>1.6</source>
+                    <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
             </plugin>

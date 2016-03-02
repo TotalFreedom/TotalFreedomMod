@@ -61,8 +61,8 @@ public class ServerPing extends FreedomService
                     .replace("%mcversion%", plugin.si.getVersion())));
             return;
         }
-        // Colorful MOTD
 
+        // Colorful MOTD
         final StringBuilder motd = new StringBuilder();
 
         for (String word : ConfigEntry.SERVER_MOTD.getString().replace("%mcversion%", plugin.si.getVersion()).split(" "))

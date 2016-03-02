@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.commands.FreedomCommand;
+import me.totalfreedom.totalfreedommod.command.FreedomCommand;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.heading;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
@@ -46,7 +46,7 @@ public class Module_help extends HTTPDModule
                                 + "Please note that it does not include vanilla server commands."));
 
         final Collection<Command> knownCommands = ((SimpleCommandMap) map).getCommands();
-        final Map<String, List<Command>> commandsByPlugin = new HashMap<String, List<Command>>();
+        final Map<String, List<Command>> commandsByPlugin = new HashMap<>();
 
         for (Command command : knownCommands)
         {
@@ -86,7 +86,7 @@ public class Module_help extends HTTPDModule
                     continue;
                 }
 
-                Rank tfmCommandLevel = FreedomCommand.getCommand(command).getPerms().level();
+                Rank tfmCommandLevel = FreedomCommand.getFrom(command).getPerms().level();
                 if (lastTfmCommandLevel == null || lastTfmCommandLevel != tfmCommandLevel)
                 {
                     responseBody.append("</ul>\r\n").append(heading(tfmCommandLevel.getName(), 3)).append("<ul>\r\n");
@@ -142,8 +142,8 @@ public class Module_help extends HTTPDModule
         @Override
         public int compare(Command a, Command b)
         {
-            FreedomCommand ca = FreedomCommand.getCommand(a);
-            FreedomCommand cb = FreedomCommand.getCommand(b);
+            FreedomCommand ca = FreedomCommand.getFrom(a);
+            FreedomCommand cb = FreedomCommand.getFrom(b);
 
             if (ca == null
                     || cb == null

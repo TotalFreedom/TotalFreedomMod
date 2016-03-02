@@ -95,8 +95,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("active", activated);
         cs.set("rank", rank.toString());
         cs.set("ips", Lists.newArrayList(ips));
-        cs.set("last_login", lastLogin);
-        cs.set("login_message", null);
+        cs.set("last_login", FUtil.dateToString(lastLogin));
+        cs.set("login_message", loginMessage);
     }
 
     public boolean isAtLeast(PlayerRank pRank)

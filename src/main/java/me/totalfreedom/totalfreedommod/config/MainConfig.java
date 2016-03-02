@@ -23,7 +23,7 @@ public class MainConfig
 
     static
     {
-        ENTRY_MAP = new EnumMap<ConfigEntry, Object>(ConfigEntry.class);
+        ENTRY_MAP = new EnumMap<>(ConfigEntry.class);
 
         TFM_Defaults tempDefaults = null;
         try

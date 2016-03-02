@@ -80,7 +80,7 @@ public class Module_schematic extends HTTPDModule
             {
                 Collection<File> schematics = FileUtils.listFiles(SCHEMATIC_FOLDER, SCHEMATIC_FILTER, false);
 
-                final List<String> schematicsFormatted = new ArrayList<String>();
+                final List<String> schematicsFormatted = new ArrayList<>();
                 for (File schematic : schematics)
                 {
                     String filename = StringEscapeUtils.escapeHtml4(schematic.getName());

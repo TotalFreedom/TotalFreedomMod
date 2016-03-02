@@ -25,7 +25,7 @@ public class Module_file extends HTTPDModule
 {
 
     private final File rootDir = new File(ConfigEntry.HTTPD_PUBLIC_FOLDER.getString());
-    public static final Map<String, String> MIME_TYPES = new HashMap<String, String>();
+    public static final Map<String, String> MIME_TYPES = new HashMap<>();
 
     static
     {

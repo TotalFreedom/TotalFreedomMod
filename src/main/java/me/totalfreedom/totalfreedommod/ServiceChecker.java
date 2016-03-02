@@ -25,6 +25,7 @@ import org.json.simple.JSONValue;
 
 public class ServiceChecker extends FreedomService
 {
+    public static final long SERVICE_CHECKER_RATE = 120L;
 
     @Getter
     private final Map<String, ServiceStatus> services = Maps.newHashMap();
@@ -69,7 +70,7 @@ public class ServiceChecker extends FreedomService
             return;
         }
 
-        task = getUpdateRunnable().runTaskTimerAsynchronously(TotalFreedomMod.plugin, 40L, TotalFreedomMod.SERVICE_CHECKER_RATE * 20L);
+        task = getUpdateRunnable().runTaskTimerAsynchronously(TotalFreedomMod.plugin, 40L, SERVICE_CHECKER_RATE * 20L);
     }
 
     @Override
@@ -165,7 +166,7 @@ public class ServiceChecker extends FreedomService
 
     public List<ServiceStatus> getAllStatuses()
     {
-        List<ServiceStatus> servicesList = new ArrayList<ServiceStatus>();
+        List<ServiceStatus> servicesList = new ArrayList<>();
         for (String key : services.keySet())
         {
             servicesList.add(services.get(key));

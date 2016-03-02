@@ -29,11 +29,11 @@ public final class AdminWorld extends CustomWorld
     private static final String GENERATION_PARAMETERS = ConfigEntry.FLATLANDS_GENERATE_PARAMS.getString();
     private static final String WORLD_NAME = "adminworld";
     //
-    private final Map<Player, Long> teleportCooldown = new HashMap<Player, Long>();
-    private final Map<CommandSender, Boolean> accessCache = new HashMap<CommandSender, Boolean>();
+    private final Map<Player, Long> teleportCooldown = new HashMap<>();
+    private final Map<CommandSender, Boolean> accessCache = new HashMap<>();
     //
     private Long cacheLastCleared = null;
-    private Map<Player, Player> guestList = new HashMap<Player, Player>(); // Guest, Supervisor
+    private Map<Player, Player> guestList = new HashMap<>(); // Guest, Supervisor
     private WorldWeather weather = WorldWeather.OFF;
     private WorldTime time = WorldTime.INHERIT;
 
@@ -128,7 +128,7 @@ public final class AdminWorld extends CustomWorld
 
     public String guestListToString()
     {
-        final List<String> output = new ArrayList<String>();
+        final List<String> output = new ArrayList<>();
         final Iterator<Map.Entry<Player, Player>> it = guestList.entrySet().iterator();
         while (it.hasNext())
         {

@@ -50,7 +50,7 @@ public class FPlayer
     private boolean mobThrowerEnabled = false;
     private EntityType mobThrowerEntity = EntityType.PIG;
     private double mobThrowerSpeed = 4.0;
-    private final List<LivingEntity> mobThrowerQueue = new ArrayList<LivingEntity>();
+    private final List<LivingEntity> mobThrowerQueue = new ArrayList<>();
     private BukkitTask mp44ScheduleTask = null;
     private boolean mp44Armed = false;
     private boolean mp44Firing = false;

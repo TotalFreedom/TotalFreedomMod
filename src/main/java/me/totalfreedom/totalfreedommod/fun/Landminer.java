@@ -21,7 +21,7 @@ public class Landminer extends FreedomService
 {
 
     @Getter
-    private final List<Landmine> landmines = new ArrayList<Landmine>();
+    private final List<Landmine> landmines = new ArrayList<>();
 
     public Landminer(TotalFreedomMod plugin)
     {

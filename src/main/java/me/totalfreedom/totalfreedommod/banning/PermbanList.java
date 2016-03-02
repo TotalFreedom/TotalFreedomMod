@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 public class PermbanList extends FreedomService
 {
+    public static final String CONFIG_FILENAME = "permbans.yml";
 
     @Getter
     private final Set<String> permbannedNames = Sets.newHashSet();
@@ -34,7 +35,7 @@ public class PermbanList extends FreedomService
         permbannedNames.clear();
         permbannedIps.clear();
 
-        final YamlConfig config = new YamlConfig(TotalFreedomMod.plugin, TotalFreedomMod.PERMBAN_FILENAME, true);
+        final YamlConfig config = new YamlConfig(TotalFreedomMod.plugin, CONFIG_FILENAME, true);
         config.load();
 
         for (String name : config.getKeys(false))

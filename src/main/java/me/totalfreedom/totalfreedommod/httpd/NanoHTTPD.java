@@ -308,7 +308,7 @@ public abstract class NanoHTTPD
      */
     public Response serve(HTTPSession session)
     {
-        Map<String, String> files = new HashMap<String, String>();
+        Map<String, String> files = new HashMap<>();
         Method method = session.getMethod();
         if (Method.PUT.equals(method) || Method.POST.equals(method))
         {
@@ -369,7 +369,7 @@ public abstract class NanoHTTPD
      */
     protected Map<String, List<String>> decodeParameters(String queryString)
     {
-        Map<String, List<String>> parms = new HashMap<String, List<String>>();
+        Map<String, List<String>> parms = new HashMap<>();
         if (queryString != null)
         {
             StringTokenizer st = new StringTokenizer(queryString, "&");
@@ -531,7 +531,7 @@ public abstract class NanoHTTPD
         public DefaultTempFileManager()
         {
             tmpdir = System.getProperty("java.io.tmpdir");
-            tempFiles = new ArrayList<TempFile>();
+            tempFiles = new ArrayList<>();
         }
 
         @Override
@@ -618,7 +618,7 @@ public abstract class NanoHTTPD
         /**
          * Headers for the HTTP response. Use addHeader() to add lines.
          */
-        private Map<String, String> header = new HashMap<String, String>();
+        private Map<String, String> header = new HashMap<>();
         /**
          * The request method that spawned this response.
          */
@@ -948,14 +948,14 @@ public abstract class NanoHTTPD
                     inputStream = sequenceInputStream;
                 }
 
-                parms = new HashMap<String, String>();
-                headers = new HashMap<String, String>();
+                parms = new HashMap<>();
+                headers = new HashMap<>();
 
                 // Create a BufferedReader for parsing the header.
                 BufferedReader hin = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(buf, 0, rlen)));
 
                 // Decode the header into parms and header java properties
-                Map<String, String> pre = new HashMap<String, String>();
+                Map<String, String> pre = new HashMap<>();
                 decodeHeader(hin, pre, parms, headers);
 
                 method = Method.lookup(pre.get("method"));
@@ -1195,7 +1195,7 @@ public abstract class NanoHTTPD
                         throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Content type is multipart/form-data but next chunk does not start with boundary. Usage: GET /example/file.html");
                     }
                     boundarycount++;
-                    Map<String, String> item = new HashMap<String, String>();
+                    Map<String, String> item = new HashMap<>();
                     mpline = in.readLine();
                     while (mpline != null && mpline.trim().length() > 0)
                     {
@@ -1214,7 +1214,7 @@ public abstract class NanoHTTPD
                             throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Content type is multipart/form-data but no content-disposition info found. Usage: GET /example/file.html");
                         }
                         StringTokenizer st = new StringTokenizer(contentDisposition, "; ");
-                        Map<String, String> disposition = new HashMap<String, String>();
+                        Map<String, String> disposition = new HashMap<>();
                         while (st.hasMoreTokens())
                         {
                             String token = st.nextToken();
@@ -1297,7 +1297,7 @@ public abstract class NanoHTTPD
         {
             int matchcount = 0;
             int matchbyte = -1;
-            List<Integer> matchbytes = new ArrayList<Integer>();
+            List<Integer> matchbytes = new ArrayList<>();
             for (int i = 0; i < b.limit(); i++)
             {
                 if (b.get(i) == boundary[matchcount])
@@ -1504,8 +1504,8 @@ public abstract class NanoHTTPD
     public class CookieHandler implements Iterable<String>
     {
 
-        private HashMap<String, String> cookies = new HashMap<String, String>();
-        private ArrayList<Cookie> queue = new ArrayList<Cookie>();
+        private HashMap<String, String> cookies = new HashMap<>();
+        private ArrayList<Cookie> queue = new ArrayList<>();
 
         public CookieHandler(Map<String, String> httpHeaders)
         {

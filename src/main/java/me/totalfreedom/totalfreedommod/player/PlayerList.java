@@ -43,13 +43,11 @@ public class PlayerList extends FreedomService
         playerMap.clear();
         dataMap.clear();
 
-        // Preload online playerMap
+        // Preload online players
         for (Player player : server.getOnlinePlayers())
         {
             getPlayer(player);
         }
-
-        FLog.info("Loaded playerdata for " + playerMap.size() + " players");
     }
 
     @Override

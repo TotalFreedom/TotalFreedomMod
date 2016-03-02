@@ -56,7 +56,7 @@ public abstract class HTTPDModule
 
     protected final Map<String, String> getFiles()
     {
-        Map<String, String> files = new HashMap<String, String>();
+        Map<String, String> files = new HashMap<>();
 
         try
         {

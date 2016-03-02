@@ -54,14 +54,15 @@ import org.bukkit.util.FileUtil;
 
 public class FUtil
 {
-
-    private static final Map<String, Integer> ejectTracker = new HashMap<String, Integer>();
-    public static final Map<String, EntityType> mobtypes = new HashMap<String, EntityType>();
+    private static final Map<String, Integer> EJECT_TRACKER = new HashMap<>();
+    private static final Random RANDOM = new Random();
+    //
+    public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
+    public static final Map<String, EntityType> MOB_TYPES = new HashMap<>();
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
     public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "Wild1145", "WickedGamingUK");
-    private static final Random RANDOM = new Random();
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
-    public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<String, ChatColor>();
+    public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
             ChatColor.DARK_BLUE,
             ChatColor.DARK_GREEN,
@@ -86,7 +87,7 @@ public class FUtil
                 {
                     if (Creature.class.isAssignableFrom(type.getEntityClass()))
                     {
-                        mobtypes.put(DepreciationAggregator.getName_EntityType(type).toLowerCase(), type);
+                        MOB_TYPES.put(DepreciationAggregator.getName_EntityType(type).toLowerCase(), type);
                     }
                 }
             }
@@ -316,12 +317,12 @@ public class FUtil
     {
         mobname = mobname.toLowerCase().trim();
 
-        if (!FUtil.mobtypes.containsKey(mobname))
+        if (!FUtil.MOB_TYPES.containsKey(mobname))
         {
             throw new Exception();
         }
 
-        return FUtil.mobtypes.get(mobname);
+        return FUtil.MOB_TYPES.get(mobname);
     }
 
     /**
@@ -366,15 +367,15 @@ public class FUtil
         EjectMethod method = EjectMethod.STRIKE_ONE;
         final String ip = Ips.getIp(player);
 
-        if (!FUtil.ejectTracker.containsKey(ip))
+        if (!FUtil.EJECT_TRACKER.containsKey(ip))
         {
-            FUtil.ejectTracker.put(ip, 0);
+            FUtil.EJECT_TRACKER.put(ip, 0);
         }
 
-        int kicks = FUtil.ejectTracker.get(ip);
+        int kicks = FUtil.EJECT_TRACKER.get(ip);
         kicks += 1;
 
-        FUtil.ejectTracker.put(ip, kicks);
+        FUtil.EJECT_TRACKER.put(ip, kicks);
 
         if (kicks <= 1)
         {
@@ -541,7 +542,7 @@ public class FUtil
 
     public static String playerListToNames(Set<OfflinePlayer> players)
     {
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         for (OfflinePlayer player : players)
         {
             names.add(player.getName());
@@ -554,7 +555,7 @@ public class FUtil
     {
         Map<String, Boolean> flags = null;
 
-        File input = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILENAME);
+        File input = new File(TotalFreedomMod.plugin.getDataFolder(), SAVED_FLAGS_FILENAME);
         if (input.exists())
         {
             try
@@ -604,14 +605,14 @@ public class FUtil
 
         if (flags == null)
         {
-            flags = new HashMap<String, Boolean>();
+            flags = new HashMap<>();
         }
 
         flags.put(flag, value);
 
         try
         {
-            final FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.SAVED_FLAGS_FILENAME));
+            final FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), SAVED_FLAGS_FILENAME));
             final ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(flags);
             oos.close();
@@ -717,7 +718,7 @@ public class FUtil
 
     public static List<String> removeDuplicates(List<String> oldList)
     {
-        List<String> newList = new ArrayList<String>();
+        List<String> newList = new ArrayList<>();
         for (String entry : oldList)
         {
             if (!newList.contains(entry))

@@ -15,7 +15,7 @@ public class CageData
 
     private final FPlayer fPlayer;
     //
-    private final List<BlockData> cageHistory = new ArrayList<BlockData>();
+    private final List<BlockData> cageHistory = new ArrayList<>();
     //
     @Getter
     private boolean caged = false;

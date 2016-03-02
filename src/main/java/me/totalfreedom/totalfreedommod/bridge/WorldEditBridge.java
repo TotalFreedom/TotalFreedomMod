@@ -12,9 +12,6 @@ import org.bukkit.plugin.Plugin;
 
 public class WorldEditBridge extends FreedomService
 {
-
-    private static WorldEditPlugin worldEditPlugin = null;
-
     public WorldEditBridge(TotalFreedomMod plugin)
     {
         super(plugin);
@@ -32,59 +29,63 @@ public class WorldEditBridge extends FreedomService
 
     private WorldEditPlugin getWorldEditPlugin()
     {
-        if (worldEditPlugin == null)
+        WorldEditPlugin worldEditPlugin = null;
+
+        try
         {
-            try
+            Plugin we = Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
+            if (we != null)
             {
-                Plugin we = Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
-                if (we != null)
+                if (we instanceof WorldEditPlugin)
                 {
-                    if (we instanceof WorldEditPlugin)
-                    {
-                        worldEditPlugin = (WorldEditPlugin) we;
-                    }
+                    worldEditPlugin = (WorldEditPlugin) we;
                 }
             }
-            catch (Exception ex)
-            {
-                FLog.severe(ex);
-            }
         }
+        catch (Exception ex)
+        {
+            FLog.severe(ex);
+        }
+
         return worldEditPlugin;
     }
 
     private LocalSession getPlayerSession(Player player)
     {
+        final WorldEditPlugin wep = getWorldEditPlugin();
+        if (wep == null)
+        {
+            return null;
+        }
+
         try
         {
-            final WorldEditPlugin wep = getWorldEditPlugin();
-            if (wep != null)
-            {
-                return wep.getSession(player);
-            }
+            return wep.getSession(player);
         }
         catch (Exception ex)
         {
             FLog.severe(ex);
+            return null;
         }
-        return null;
     }
 
     private BukkitPlayer getBukkitPlayer(Player player)
     {
+        final WorldEditPlugin wep = getWorldEditPlugin();
+        if (wep == null)
+        {
+            return null;
+        }
+
         try
         {
-            final WorldEditPlugin wep = getWorldEditPlugin();
-            if (wep != null)
-            {
-                return wep.wrapPlayer(player);
-            }
+            return wep.wrapPlayer(player);
         }
         catch (Exception ex)
         {
             FLog.severe(ex);
+            return null;
         }
-        return null;
     }
 
     public void undo(Player player, int count)

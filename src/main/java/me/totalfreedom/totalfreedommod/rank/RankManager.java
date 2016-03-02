@@ -89,10 +89,15 @@ public class RankManager extends FreedomService
             return getRank((Player) sender);
         }
 
+        // CONSOLE?
+        if (sender.getName().equals("CONSOLE")) {
+            return ConfigEntry.ADMINLIST_CONSOLE_IS_SENIOR.getBoolean() ? PlayerRank.SENIOR_CONSOLE : PlayerRank.TELNET_CONSOLE;
+        }
+
         // Console admin, get by name
         Admin admin = plugin.al.getEntryByName(sender.getName());
 
-        // Unknown console: RCON, CONSOLE?
+        // Unknown console: RCON?
         if (admin == null)
         {
             return PlayerRank.SENIOR_CONSOLE;
@@ -109,12 +114,12 @@ public class RankManager extends FreedomService
         }
 
         final Admin entry = plugin.al.getAdmin(player);
-        if (entry == null)
+        if (entry != null)
         {
-            return player.isOp() ? PlayerRank.OP : PlayerRank.NON_OP;
+            return entry.getRank();
         }
 
-        return entry.getRank();
+        return player.isOp() ? PlayerRank.OP : PlayerRank.NON_OP;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

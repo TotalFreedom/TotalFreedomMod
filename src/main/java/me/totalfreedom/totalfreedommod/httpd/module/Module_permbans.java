@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.io.File;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.banning.PermbanList;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 
@@ -16,10 +17,10 @@ public class Module_permbans extends HTTPDModule
     @Override
     public NanoHTTPD.Response getResponse()
     {
-        File permbanFile = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PERMBAN_FILENAME);
+        File permbanFile = new File(TotalFreedomMod.plugin.getDataFolder(), PermbanList.CONFIG_FILENAME);
         if (permbanFile.exists())
         {
-            return HTTPDaemon.serveFileBasic(new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.PERMBAN_FILENAME));
+            return HTTPDaemon.serveFileBasic(new File(TotalFreedomMod.plugin.getDataFolder(), PermbanList.CONFIG_FILENAME));
         }
         else
         {

@@ -27,6 +27,16 @@ server:
   # URL players should appeal for permanent bans at
   permban_url: http://bit.ly/TF_PermBan
 
+# Admin list
+adminlist:
+
+  # The amount of hours after which admins may be removed from the admin list
+  clean_threshold_hours: 167
+
+  # Give the default CONSOLE senior admin privileges.
+  # Handy in development environments.
+  console_is_senior: true
+
 # ForceIP configuration
 forceip:
   enabled: false
@@ -54,7 +64,7 @@ allow:
 # How blocked commands work:
 # All sections described below are delimited by colon characters.
 # Make sure that you block a command by its main command name, not an alias
-# -as all aliases are blocked by default. Commands are case-insensitive.
+# as all aliases are blocked by default. Commands are case-insensitive.
 #
 # * The first section is a letter which indicates which rank may use this command
 #   Valid ranks:
@@ -192,10 +202,6 @@ protectarea:
   auto_protect_spawnpoints: true
   auto_protect_radius: 25.0
 
-# Give the default CONSOLE senior admin privileges.
-# Handy in development environments.
-console_is_senior: true
-
 # Host Sender Names - Names that indicate automated services or host-based consoles you want to block from using some commands.
 # Make sure these are all lower-case.
 host_sender_names:
@@ -216,29 +222,28 @@ announcer:
     - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
     - 'You can always review the server rules here: &6http://totalfreedom.me/'
     - 'If you are not OP, be sure to ask!'
-    - 'Somebody breaking the rules?  Report it!  /report <user> <reason>'
+    - 'Somebody breaking the rules? Report it! /report <user> <reason>'
     - 'Griefing is not allowed!'
-    - 'Hacking is allowed!'
+    - 'Hacked clients are allowed!'
     - 'Interested in becoming admin? Do "/ai" for more information!'
     - 'You may view all online administrators via "/list -a"'
-    - 'Save your buildings via WorldEdit!  http://totalfreedom.me for more information!'
-    - 'Famous players, such as Notch, are always fake!  We are an offline/cracked server!'
-    - 'You may contact TotalFreedoms Support on Twitter!  pravi.us/nGS'
-    - 'You may download TotalFreedomMod here: pravi.us/V8c'
-    - 'MarkByron is TotalFreedoms owner.'
+    - 'Save your buildings via WorldEdit! http://totalfreedom.me for more information!'
+    - 'Famous players, such as Notch, are always fake! We are an offline/cracked server!'
+    - 'You may contact TotalFreedom support on Twitter! https://tiny.re/tfsupport'
+    - 'You may download TotalFreedomMod here: https://tiny.re/tfm+'
+    - 'MarkByron is the owner of TotalFreedom.'
     - 'Server lagging?  Check the lag via "/tps"'
-    - 'You are allowed to record and stream videos on TotalFreedom :D'
-    - 'An admin abusing?  Report it! pravi.us/vfa'
-    - 'Player vs Player while in creative/god mode it forbidden!'
+    - 'You are allowed to record and stream videos on TotalFreedom.'
+    - 'Player vs player while in creative or god mode it forbidden!'
     - 'Spawn killing is forbidden!'
     - 'Invisible potions are allowed!'
-    - 'Serial griefing and trolling will result in permanently being banned!'
+    - 'Serial griefing and trolling will result in a permanent ban!'
     - 'TotalFreedom does not accept any form of donations!'
-    - 'Racism, Nazism, and Sexism is strictly forbidden!'
+    - 'Racism, nazism, and sexism are strictly forbidden!'
     - 'Join our Mumble server! IP: 64.34.202.140:2862'
 
-# Players who cannot be banned by username
-unbannable_usernames:
+# Famous players - cannot be banned by username
+famous_players:
   - honeydew
   - xephos
   - captainsparklez
@@ -281,12 +286,6 @@ unbannable_usernames:
 noadmin_ips:
   - 167.114.97.16
 
-# TwitterBot - Used to allow superadmins to verify themselves using twitter
-twitterbot:
-  enabled: false
-  url: ''
-  secret: ''
-
 # Pet Protect - Prevent tamed pets from being killed.
 petprotect:
   enabled: true
@@ -309,10 +308,10 @@ httpd:
 autokick:
   enabled: true
 
-  # autokick_threshold - Percentage of server player capacity used at which players will be automatically kicked for being inactive. Range: 0.0 - 1.0
+  # Percentage of server player capacity used at which players will be automatically kicked for being inactive. Range: 0.0 - 1.0
   threshold: 0.9
 
-  # autokick_time - Time, in seconds, after which a player should be kicked when inactive
+  # Time, in seconds, after which a player should be kicked when inactive
   time: 120
 
 # Players with access to the overlord command
