@@ -11,6 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command>")
@@ -19,7 +20,7 @@ public class Command_mp extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        playerMsg("Purging all mobs...");
+        TFM_Util.adminAction(sender.getName(), "Removing all mobs", true);
         playerMsg(purgeMobs() + " mobs removed.");
         return true;
     }
