@@ -1,15 +1,16 @@
 package me.totalfreedom.totalfreedommod.blocking.command;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.FreedomService;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import net.pravian.aero.command.CommandReflection;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
@@ -22,9 +23,10 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 public class CommandBlocker extends FreedomService
 {
 
-    public static Pattern NUMBER_FLAG_PATTERN = Pattern.compile("(:([0-9]){5,})");
+    private final Pattern flagPattern = Pattern.compile("(:([0-9]){5,})");
     //
     private final Map<String, CommandBlockerEntry> entryList = Maps.newHashMap();
+    private final List<String> unknownCommands = Lists.newArrayList();
 
     public CommandBlocker(TotalFreedomMod plugin)
     {
@@ -46,6 +48,7 @@ public class CommandBlocker extends FreedomService
     public void load()
     {
         entryList.clear();
+        unknownCommands.clear();
 
         final CommandMap commandMap = CommandReflection.getCommandMap();
         if (commandMap == null)
@@ -89,7 +92,7 @@ public class CommandBlocker extends FreedomService
             // Obtain command from alias
             if (command == null)
             {
-                FLog.info("Blocking unknown command: /" + commandName);
+                unknownCommands.add(commandName);
             }
             else
             {
@@ -114,7 +117,7 @@ public class CommandBlocker extends FreedomService
             }
         }
 
-        FLog.info("Loaded " + blockedCommands.size() + " blocked commands");
+        FLog.info("Loaded " + blockedCommands.size() + " blocked commands (" + (blockedCommands.size() - unknownCommands.size()) + " known).");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -157,7 +160,7 @@ public class CommandBlocker extends FreedomService
 
         for (String part : commandParts)
         {
-            Matcher matcher = NUMBER_FLAG_PATTERN.matcher(part);
+            Matcher matcher = flagPattern.matcher(part);
             if (!matcher.matches())
             {
                 continue;

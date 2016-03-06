@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.NON_OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
 @CommandParameters(description = "Switch server online-mode on and off.", usage = "/<command> <on | off>")
 public class Command_onlinemode extends FreedomCommand
 {

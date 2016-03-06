@@ -33,7 +33,7 @@ public class CommandLoader extends FreedomService
         handler.loadFrom(FreedomCommand.class.getPackage());
         handler.registerAll("TotalFreedomMod", true);
 
-        FLog.info("Loaded " + handler.getExecutors().size() + " commands");
+        FLog.info("Loaded " + handler.getExecutors().size() + " commands.");
     }
 
     @Override

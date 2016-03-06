@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command>", aliases = "mp")
 public class Command_mobpurge extends FreedomCommand
 {

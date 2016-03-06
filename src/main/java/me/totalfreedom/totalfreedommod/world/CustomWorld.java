@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.world;
 
 import lombok.Getter;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import net.pravian.aero.component.PluginComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.World;

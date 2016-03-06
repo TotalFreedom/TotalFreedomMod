@@ -4,41 +4,50 @@ import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import org.bukkit.Bukkit;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class WorldEditBridge extends FreedomService
 {
+
+    private final WorldEditListener listener;
+    //
+    private WorldEditPlugin worldedit = null;
+
     public WorldEditBridge(TotalFreedomMod plugin)
     {
         super(plugin);
+        listener = new WorldEditListener(plugin);
     }
 
     @Override
     protected void onStart()
     {
+        listener.register();
     }
 
     @Override
     protected void onStop()
     {
+        listener.unregister();
     }
 
-    private WorldEditPlugin getWorldEditPlugin()
+    public void undo(Player player, int count)
     {
-        WorldEditPlugin worldEditPlugin = null;
-
         try
         {
-            Plugin we = Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
-            if (we != null)
+            LocalSession session = getPlayerSession(player);
+            if (session != null)
             {
-                if (we instanceof WorldEditPlugin)
+                final BukkitPlayer bukkitPlayer = getBukkitPlayer(player);
+                if (bukkitPlayer != null)
                 {
-                    worldEditPlugin = (WorldEditPlugin) we;
+                    for (int i = 0; i < count; i++)
+                    {
+                        session.undo(session.getBlockBag(bukkitPlayer), bukkitPlayer);
+                    }
                 }
             }
         }
@@ -46,8 +55,47 @@ public class WorldEditBridge extends FreedomService
         {
             FLog.severe(ex);
         }
+    }
 
-        return worldEditPlugin;
+    private WorldEditPlugin getWorldEditPlugin()
+    {
+        if (worldedit == null)
+        {
+            try
+            {
+                Plugin we = server.getPluginManager().getPlugin("WorldEdit");
+                if (we != null)
+                {
+                    if (we instanceof WorldEditPlugin)
+                    {
+                        worldedit = (WorldEditPlugin) we;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                FLog.severe(ex);
+            }
+        }
+
+        return worldedit;
+    }
+
+    public void setLimit(Player player, int limit)
+    {
+        try
+        {
+            final LocalSession session = getPlayerSession(player);
+            if (session != null)
+            {
+                session.setBlockChangeLimit(limit);
+            }
+        }
+        catch (Exception ex)
+        {
+            FLog.severe(ex);
+        }
+
     }
 
     private LocalSession getPlayerSession(Player player)
@@ -85,45 +133,6 @@ public class WorldEditBridge extends FreedomService
         {
             FLog.severe(ex);
             return null;
-        }
-    }
-
-    public void undo(Player player, int count)
-    {
-        try
-        {
-            LocalSession session = getPlayerSession(player);
-            if (session != null)
-            {
-                final BukkitPlayer bukkitPlayer = getBukkitPlayer(player);
-                if (bukkitPlayer != null)
-                {
-                    for (int i = 0; i < count; i++)
-                    {
-                        session.undo(session.getBlockBag(bukkitPlayer), bukkitPlayer);
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            FLog.severe(ex);
-        }
-    }
-
-    public void setLimit(Player player, int limit)
-    {
-        try
-        {
-            final LocalSession session = getPlayerSession(player);
-            if (session != null)
-            {
-                session.setBlockChangeLimit(limit);
-            }
-        }
-        catch (Exception ex)
-        {
-            FLog.severe(ex);
         }
     }
 }

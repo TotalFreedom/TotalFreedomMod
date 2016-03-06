@@ -1,12 +1,12 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.OP, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Sets your expierence level.", usage = "/<command> [level]")
 public class Command_setlevel extends FreedomCommand
 {

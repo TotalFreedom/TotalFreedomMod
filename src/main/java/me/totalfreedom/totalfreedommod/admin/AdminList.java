@@ -13,7 +13,7 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.command.Command_logs;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.config.YamlConfig;
@@ -63,6 +63,8 @@ public class AdminList extends FreedomService
                 return isAdmin(player);
             }
         }, plugin, ServicePriority.Normal);
+
+        deactivateOldEntries(false);
     }
 
     @Override
@@ -151,7 +153,7 @@ public class AdminList extends FreedomService
             return false;
         }
 
-        return admin.getRank().ordinal() >= PlayerRank.SENIOR_ADMIN.ordinal();
+        return admin.getRank().ordinal() >= Rank.SENIOR_ADMIN.ordinal();
     }
 
     public Admin getAdmin(CommandSender sender)
@@ -297,7 +299,7 @@ public class AdminList extends FreedomService
 
         for (Admin admin : allAdmins.values())
         {
-            if (!admin.isActivated())
+            if (!admin.isActive())
             {
                 continue;
             }
@@ -347,85 +349,11 @@ public class AdminList extends FreedomService
         }
     }
 
-    /*
-     * public void addAdmin(OfflinePlayer player)
-     * {
-     * final String name = player.getName().toLowerCase();
-     * final String ip = TFM_Util.getIp(player);
-     * final boolean canSuperIp = !TFM_MainConfig.getList(TFM_ConfigEntry.NOADMIN_IPS).contains(ip);
-     *
-     * if (nameTable.containsKey(name))
-     * {
-     * final Admin superadmin = nameTable.;
-     * superadmin.setActivated(true);
-     *
-     * if (player.isOnline())
-     * {
-     * superadmin.setLastLogin(new Date());
-     *
-     * if (ip != null && canSuperIp)
-     * {
-     * superadmin.addIp(ip);
-     * }
-     * }
-     *
-     * save();
-     * updateTables();
-     * return;
-     * }
-     *
-     * if (ip == null)
-     * {
-     * TFM_Log.severe("Could not add superadmin: " + TFM_Util.formatPlayer(player));
-     * TFM_Log.severe("Could not retrieve IP!");
-     * return;
-     * }
-     *
-     * if (!canSuperIp)
-     * {
-     * TFM_Log.warning("Could not add superadmin: " + TFM_Util.formatPlayer(player));
-     * TFM_Log.warning("IP " + ip + " may not be supered.");
-     * return;
-     * }
-     *
-     * final Admin superadmin = new Admin(
-     * uuid,
-     * player.getName(),
-     * new Date(),
-     * "",
-     * false,
-     * false,
-     * true);
-     * superadmin.addIp(ip);
-     *
-     * nameTable.put(uuid, superadmin);
-     *
-     * updateTables();
-     * }
-     *
-     * public void removeAdmin(OfflinePlayer player)
-     * {
-     * final UUID uuid = TFM_UuidManager.getUniqueId(player);
-     *
-     * if (!nameTable.containsKey(uuid))
-     * {
-     * TFM_Log.warning("Could not remove admin: " + TFM_Util.formatPlayer(player));
-     * TFM_Log.warning("Player is not an admin!");
-     * return;
-     * }
-     *
-     * final Admin superadmin = nameTable.get(uuid);
-     * superadmin.setActivated(false);
-     * Command_logs.deactivateSuperadmin(superadmin);
-     *
-     * updateTables();
-     * }
-     */
     public void deactivateOldEntries(boolean verbose)
     {
         for (Admin admin : allAdmins.values())
         {
-            if (!admin.isActivated() || admin.getRank() == PlayerRank.SENIOR_ADMIN)
+            if (!admin.isActive() || admin.getRank().isAtLeast(Rank.SENIOR_ADMIN))
             {
                 continue;
             }
@@ -440,10 +368,10 @@ public class AdminList extends FreedomService
 
             if (verbose)
             {
-                FUtil.adminAction("TotalFreedomMod", "Deactivating superadmin " + admin.getName() + ", inactive for " + lastLoginHours + " hours.", true);
+                FUtil.adminAction("TotalFreedomMod", "Deactivating superadmin " + admin.getName() + ", inactive for " + lastLoginHours + " hours", true);
             }
 
-            admin.setActivated(false);
+            admin.setActive(false);
             Command_logs.deactivateSuperadmin(admin);
         }
 

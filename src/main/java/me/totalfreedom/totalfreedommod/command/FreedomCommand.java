@@ -1,13 +1,12 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import lombok.Getter;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
+import me.totalfreedom.totalfreedommod.rank.RankBase;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.rank.Rank;
 import net.pravian.aero.command.AbstractCommandBase;
-import net.pravian.aero.command.TooledCommandBase;
 import net.pravian.aero.util.Players;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -54,7 +53,7 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
         }
         catch (CommandFailException ex)
         {
-            msg(isConsole() ? ex.getMessage() : ChatColor.RED + ex.getMessage());
+            msg(ex.getMessage());
             return true;
         }
         catch (Exception ex)
@@ -72,7 +71,7 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
     {
         if (!isConsole())
         {
-            throw new CommandFailException("This command may only be used from the console.");
+            throw new CommandFailException(getHandler().getOnlyConsoleMessage());
         }
     }
 
@@ -80,11 +79,11 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
     {
         if (isConsole())
         {
-            throw new CommandFailException("This command may only be used by players.");
+            throw new CommandFailException(getHandler().getOnlyPlayerMessage());
         }
     }
 
-    protected void checkRank(Rank rank)
+    protected void checkRank(RankBase rank)
     {
         if (!plugin.rm.getRank(sender).isAtLeast(rank))
         {
@@ -92,15 +91,18 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
         }
     }
 
-    protected boolean noPerms() {
-        throw new CommandFailException("You do not have permissions for this command.");
+    protected boolean noPerms()
+    {
+        throw new CommandFailException(getHandler().getPermissionMessage());
     }
 
-    protected boolean isConsole() {
+    protected boolean isConsole()
+    {
         return !(sender instanceof Player);
     }
 
-    protected Player getPlayer(String name) {
+    protected Player getPlayer(String name)
+    {
         return Players.getPlayer(name);
     }
 
@@ -115,7 +117,7 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
 
     protected void msg(final String message, final ChatColor color)
     {
-        msg(playerSender, message, color);
+        msg(sender, message, color);
     }
 
     protected void msg(final CommandSender sender, final String message)
@@ -125,7 +127,7 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
 
     protected void msg(final String message)
     {
-        FreedomCommand.this.msg(playerSender, message);
+        msg(sender, message);
     }
 
     protected boolean isAdmin(CommandSender sender)

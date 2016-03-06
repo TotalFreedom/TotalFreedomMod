@@ -1,20 +1,18 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.banning.Ban;
-import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Bans or unbans any player, even those who are not logged in anymore.", usage = "/<command> <purge | <ban | unban> <username>>")
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
+@CommandParameters(description = "Bans or unbans any player, even those who are not logged in anymore.", usage = "/<command> <purge | ban <username> [reason] | unban <username>>")
 public class Command_glist extends FreedomCommand
 {
 
@@ -28,93 +26,90 @@ public class Command_glist extends FreedomCommand
 
         if (args.length == 1)
         {
-            if (args[0].equalsIgnoreCase("purge"))
+            if ("purge".equals(args[0]))
             {
-                if (getAdmin(sender).getRank() == PlayerRank.SENIOR_ADMIN)
-                {
-                    plugin.pl.purgeAllData();
-                    msg("Purged playerbase.");
-                }
-                else
-                {
-                    msg("Only Senior Admins may purge the userlist.");
-                }
+                checkRank(Rank.SENIOR_ADMIN);
+                plugin.pl.purgeAllData();
+                msg("Purged playerbase.");
+
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
-        else if (args.length == 2)
+
+        if (args.length < 2)
         {
-            String username;
-            final List<String> ips = new ArrayList<>();
+            return false;
+        }
 
-            final Player player = getPlayer(args[1]);
+        String username;
+        final List<String> ips = new ArrayList<>();
 
-            if (player == null)
+        final Player player = getPlayer(args[1]);
+        if (player == null)
+        {
+            final PlayerData entry = plugin.pl.getData(args[1]);
+
+            if (entry == null)
             {
-                final PlayerData entry = plugin.pl.getData(args[1]);
-
-                if (entry == null)
-                {
-                    msg("Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
-                    return true;
-                }
-
-                username = entry.getUsername();
-                ips.addAll(entry.getIps());
-            }
-            else
-            {
-                username = player.getName();
-                final PlayerData entry = plugin.pl.getData(player);
-                ips.addAll(entry.getIps());
+                msg("Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
+                return true;
             }
 
-            String mode = args[0].toLowerCase();
-            if (mode.equalsIgnoreCase("ban"))
-            {
-                FUtil.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
+            username = entry.getUsername();
+            ips.addAll(entry.getIps());
+        }
+        else
+        {
+            final PlayerData entry = plugin.pl.getData(player);
+            username = player.getName();
+            ips.addAll(entry.getIps());
+        }
 
-                final Player target = Bukkit.getPlayer(username);
-                if (target != null)
-                {
-                    target.kickPlayer("You have been banned by " + sender.getName() + "\n If you think you have been banned wrongly, appeal here: " + ConfigEntry.SERVER_BAN_URL.getString());
-                }
+        if ("ban".equals(args[0]))
+        {
+            FUtil.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
 
-                Ban ban = Ban.forPlayerFuzzy(player, sender, null, null);
-                for (String ip : ips)
-                {
-                    ban.addIp(ip);
-                    ban.addIp(FUtil.getFuzzyIp(ip));
-                }
-                plugin.bm.addBan(ban);
-            }
-            else if (mode.equalsIgnoreCase("unban"))
+            final String reason = args.length > 2 ? StringUtils.join(args, " ", 2, args.length) : null;
+
+            Ban ban = Ban.forPlayerName(player, sender, null, reason);
+            for (String ip : ips)
             {
-                FUtil.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
-                plugin.bm.removeBan(plugin.bm.getByUsername(username));
-                for (String ip : ips)
-                {
-                    Ban ban = plugin.bm.getByIp(ip);
-                    if (ban != null)
-                    {
-                        plugin.bm.removeBan(ban);
-                    }
-                }
+                ban.addIp(ip);
+                ban.addIp(FUtil.getFuzzyIp(ip));
             }
-            else
+            plugin.bm.addBan(ban);
+
+            if (player != null)
             {
-                return false;
+                player.kickPlayer(ban.bakeKickMessage());
+            }
+            return true;
+        }
+
+        if ("unban".equals(args[0]))
+        {
+            FUtil.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
+            plugin.bm.removeBan(plugin.bm.getByUsername(username));
+
+            for (String ip : ips)
+            {
+                Ban ban = plugin.bm.getByIp(ip);
+                if (ban != null)
+                {
+                    plugin.bm.removeBan(ban);
+                }
+                ban = plugin.bm.getByIp(FUtil.getFuzzyIp(ip));
+                if (ban != null)
+                {
+                    plugin.bm.removeBan(ban);
+                }
             }
 
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 }

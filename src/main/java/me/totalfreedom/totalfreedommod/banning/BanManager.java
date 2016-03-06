@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
@@ -42,17 +42,6 @@ public class BanManager extends FreedomService
     @Override
     protected void onStart()
     {
-        load();
-    }
-
-    @Override
-    protected void onStop()
-    {
-        saveAll();
-    }
-
-    public void load()
-    {
         config.load();
 
         bans.clear();
@@ -79,58 +68,24 @@ public class BanManager extends FreedomService
         // Remove expired bans, repopulate ipBans and nameBans,
         updateViews();
 
-        FLog.info("Loaded " + ipBans.size() + " IP bans and " + nameBans.size() + " username bans");
+        FLog.info("Loaded " + ipBans.size() + " IP bans and " + nameBans.size() + " username bans.");
 
         // Load unbannable usernames
         unbannableUsernames.clear();
-        unbannableUsernames.addAll((Collection<? extends String>) ConfigEntry.UNBANNABLE_USERNAMES.getList());
+        unbannableUsernames.addAll((Collection<? extends String>) ConfigEntry.FAMOUS_PLAYERS.getList());
         FLog.info("Loaded " + unbannableUsernames.size() + " unbannable usernames.");
-
     }
 
-    private void updateViews()
+    @Override
+    protected void onStop()
     {
-
-        // Remove expired bans
-        for (Iterator<Ban> it = bans.iterator(); it.hasNext();)
-        {
-            if (it.next().isExpired())
-            {
-                it.remove();
-            }
-        }
-
-        ipBans.clear();
-        nameBans.clear();
-        for (Ban ban : bans)
-        {
-            if (ban.hasUsername())
-            {
-                nameBans.put(ban.getUsername().toLowerCase(), ban);
-            }
-
-            if (ban.hasIps())
-            {
-                for (String ip : ban.getIps())
-                {
-                    ipBans.put(ip, ban);
-                }
-            }
-        }
+        saveAll();
+        logger.info("Saved " + bans.size() + " player bans");
     }
 
-    public void saveAll()
+    public Set<Ban> getAllBans()
     {
-        // Remove expired
-        updateViews();
-
-        for (Ban ban : bans)
-        {
-            ban.saveTo(config.createSection(String.valueOf(ban.hashCode())));
-        }
-
-        // Save config
-        config.save();
+        return Collections.unmodifiableSet(bans);
     }
 
     public Collection<Ban> getIpBans()
@@ -141,6 +96,21 @@ public class BanManager extends FreedomService
     public Collection<Ban> getUsernameBans()
     {
         return Collections.unmodifiableCollection(nameBans.values());
+    }
+
+    public void saveAll()
+    {
+        // Remove expired
+        updateViews();
+
+        config.clear();
+        for (Ban ban : bans)
+        {
+            ban.saveTo(config.createSection(String.valueOf(ban.hashCode())));
+        }
+
+        // Save config
+        config.save();
     }
 
     public Ban getByIp(String ip)
@@ -193,13 +163,12 @@ public class BanManager extends FreedomService
     {
         final Ban ban = getByIp(ip);
 
-        if (ban == null)
+        if (ban != null)
         {
-            return ban;
+            bans.remove(ban);
+            saveAll();
         }
 
-        bans.remove(ban);
-        saveAll();
         return ban;
     }
 
@@ -207,13 +176,12 @@ public class BanManager extends FreedomService
     {
         final Ban ban = getByUsername(username);
 
-        if (ban == null)
+        if (ban != null)
         {
-            return ban;
+            bans.remove(ban);
+            saveAll();
         }
 
-        bans.remove(ban);
-        saveAll();
         return ban;
     }
 
@@ -231,7 +199,7 @@ public class BanManager extends FreedomService
     {
         if (bans.add(ban))
         {
-            updateViews();
+            saveAll();
             return true;
         }
 
@@ -242,23 +210,23 @@ public class BanManager extends FreedomService
     {
         if (bans.remove(ban))
         {
-            updateViews();
+            saveAll();
             return true;
         }
 
         return false;
     }
 
-    public void purgeIpBans()
+    public int purge()
     {
-        ipBans.clear();
-        saveAll();
-    }
+        config.clear();
+        config.save();
 
-    public void purgeNameBans()
-    {
-        nameBans.clear();
-        saveAll();
+        int size = bans.size();
+        bans.clear();
+        updateViews();
+
+        return size;
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -268,13 +236,13 @@ public class BanManager extends FreedomService
         final String ip = Ips.getIp(event);
 
         // Regular ban
-        Ban ban = plugin.bm.getByUsername(username);
+        Ban ban = getByUsername(username);
         if (ban == null)
         {
-            ban = plugin.bm.getByIp(ip);
+            ban = getByIp(ip);
         }
 
-        if (ban != null)
+        if (ban != null && !ban.isExpired())
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ban.bakeKickMessage());
         }
@@ -300,6 +268,36 @@ public class BanManager extends FreedomService
 
         unbanUsername(player.getName());
         player.setOp(true);
+    }
+
+    private void updateViews()
+    {
+        // Remove expired bans
+        for (Iterator<Ban> it = bans.iterator(); it.hasNext();)
+        {
+            if (it.next().isExpired())
+            {
+                it.remove();
+            }
+        }
+
+        nameBans.clear();
+        ipBans.clear();
+        for (Ban ban : bans)
+        {
+            if (ban.hasUsername())
+            {
+                nameBans.put(ban.getUsername().toLowerCase(), ban);
+            }
+
+            if (ban.hasIps())
+            {
+                for (String ip : ban.getIps())
+                {
+                    ipBans.put(ip, ban);
+                }
+            }
+        }
     }
 
 }

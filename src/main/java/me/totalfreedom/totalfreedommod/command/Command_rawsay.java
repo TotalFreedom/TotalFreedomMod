@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
 @CommandParameters(description = "Broadcasts the given message. Supports colors.", usage = "/<command> <message>")
 public class Command_rawsay extends FreedomCommand
 {

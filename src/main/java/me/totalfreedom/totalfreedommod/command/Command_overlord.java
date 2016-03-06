@@ -4,7 +4,7 @@ import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -13,7 +13,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.IMPOSTOR, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Overlord - control this server in-game", usage = "access", aliases = "ov")
 public class Command_overlord extends FreedomCommand
 {

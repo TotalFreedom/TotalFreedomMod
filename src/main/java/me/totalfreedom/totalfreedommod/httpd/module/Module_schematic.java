@@ -9,15 +9,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Method;
-import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDPageBuilder;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Method;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -236,7 +236,7 @@ public class Module_schematic extends HTTPDModule
     private boolean isAuthorized(String remoteAddress)
     {
         Admin entry = TotalFreedomMod.plugin.al.getEntryByIp(remoteAddress);
-        return entry != null && entry.isActivated();
+        return entry != null && entry.isActive();
     }
 
     private static class SchematicTransferException extends Exception

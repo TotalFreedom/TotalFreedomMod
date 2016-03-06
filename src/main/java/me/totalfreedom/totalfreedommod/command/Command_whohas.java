@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -11,7 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "See who has a block and optionally smite.", usage = "/<command> <item> [smite]", aliases = "wh")
 public class Command_whohas extends FreedomCommand
 {

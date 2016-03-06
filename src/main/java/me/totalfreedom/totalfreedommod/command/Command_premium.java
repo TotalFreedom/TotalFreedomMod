@@ -1,10 +1,10 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Validates if a given account is premium.", usage = "/<command> <player>", aliases = "prem")
 public class Command_premium extends FreedomCommand
 {

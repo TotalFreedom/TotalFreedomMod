@@ -1,14 +1,14 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.freeze.FreezeData;
+import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Freeze players (toggles on and off).", usage = "/<command> [target | purge]", aliases = "fr")
 public class Command_freeze extends FreedomCommand
 {

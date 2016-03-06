@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.world.WorldTime;
 import me.totalfreedom.totalfreedommod.world.WorldWeather;
@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Go to the AdminWorld.",
         usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]")
 public class Command_adminworld extends FreedomCommand

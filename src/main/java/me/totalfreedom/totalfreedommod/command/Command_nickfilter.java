@@ -1,11 +1,11 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +13,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "NickFilter: Prefix any command with this command to replace nicknames in that command with real names. Nicknames should be prefixed with a !.",
         usage = "/<command> <other_command> !<playernick>",
         aliases = "nf")

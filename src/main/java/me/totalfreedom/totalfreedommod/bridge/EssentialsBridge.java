@@ -3,9 +3,9 @@ package me.totalfreedom.totalfreedommod.bridge;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import me.totalfreedom.totalfreedommod.FreedomService;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 

@@ -8,7 +8,6 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.ChatUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -35,7 +34,7 @@ public class RankManager extends FreedomService
     {
     }
 
-    public Rank getDisplayRank(CommandSender sender)
+    public RankBase getDisplay(CommandSender sender)
     {
         if (!(sender instanceof Player))
         {
@@ -47,20 +46,19 @@ public class RankManager extends FreedomService
         // Display impostors
         if (plugin.al.isAdminImpostor(player))
         {
-            return PlayerRank.IMPOSTOR;
+            return Rank.IMPOSTOR;
         }
 
         // Developers always show up
         if (FUtil.DEVELOPERS.contains(player.getName()))
         {
-            return TitleRank.DEVELOPER;
+            return Title.DEVELOPER;
         }
 
-        final PlayerRank rank = getRank(player);
-        final Admin admin = rank.isAdmin() ? plugin.al.getAdmin(sender) : null;
+        final Rank rank = getRank(player);
 
         // Non-admins don't have titles, display actual rank
-        if (admin == null)
+        if (!rank.isAdmin())
         {
             return rank;
         }
@@ -68,21 +66,13 @@ public class RankManager extends FreedomService
         // If the player's an owner, display that
         if (MainConfig.get(ConfigEntry.SERVER_OWNERS, List.class).contains(player.getName()))
         {
-            return TitleRank.OWNER;
+            return Title.OWNER;
         }
 
-        final String loginMessage = admin.getLoginMessage();
-
-        // If we don't have a custom login message, use the actual rank
-        if (loginMessage == null)
-        {
-            return rank;
-        }
-
-        return new CustomLoginRank(rank, ChatUtils.colorize(loginMessage));
+        return rank;
     }
 
-    public PlayerRank getRank(CommandSender sender)
+    public Rank getRank(CommandSender sender)
     {
         if (sender instanceof Player)
         {
@@ -90,8 +80,9 @@ public class RankManager extends FreedomService
         }
 
         // CONSOLE?
-        if (sender.getName().equals("CONSOLE")) {
-            return ConfigEntry.ADMINLIST_CONSOLE_IS_SENIOR.getBoolean() ? PlayerRank.SENIOR_CONSOLE : PlayerRank.TELNET_CONSOLE;
+        if (sender.getName().equals("CONSOLE"))
+        {
+            return ConfigEntry.ADMINLIST_CONSOLE_IS_SENIOR.getBoolean() ? Rank.SENIOR_CONSOLE : Rank.TELNET_CONSOLE;
         }
 
         // Console admin, get by name
@@ -100,17 +91,17 @@ public class RankManager extends FreedomService
         // Unknown console: RCON?
         if (admin == null)
         {
-            return PlayerRank.SENIOR_CONSOLE;
+            return Rank.SENIOR_CONSOLE;
         }
 
         return admin.getRank();
     }
 
-    public PlayerRank getRank(Player player)
+    public Rank getRank(Player player)
     {
         if (plugin.al.isAdminImpostor(player))
         {
-            return PlayerRank.IMPOSTOR;
+            return Rank.IMPOSTOR;
         }
 
         final Admin entry = plugin.al.getAdmin(player);
@@ -119,7 +110,7 @@ public class RankManager extends FreedomService
             return entry.getRank();
         }
 
-        return player.isOp() ? PlayerRank.OP : PlayerRank.NON_OP;
+        return player.isOp() ? Rank.OP : Rank.NON_OP;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -150,19 +141,32 @@ public class RankManager extends FreedomService
         if (plugin.al.isAdminImpostor(player))
         {
             FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor and has been frozen!", ChatColor.RED);
-            FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + plugin.rm.getDisplayRank(player).getColoredLoginMessage());
+            FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
             player.getInventory().clear();
             player.setOp(false);
             player.setGameMode(GameMode.SURVIVAL);
             plugin.pl.getPlayer(player).getFreezeData().setFrozen(true);
+            player.sendMessage(ChatColor.RED + "You are marked as an impostor, please verify yourself!");
         }
 
         // Set display
-        Rank display = getDisplayRank(player);
         if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()))
         {
-            FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + display.getColoredLoginMessage());
+            final RankBase display = getDisplay(player);
+            String loginMsg = display.getColoredLoginMessage();
+
+            if (isAdmin)
+            {
+                Admin admin = plugin.al.getAdmin(player);
+                if (admin.hasLoginMessage())
+                {
+                    loginMsg = admin.getLoginMessage();
+                }
+            }
+
+            FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + loginMsg);
             plugin.pl.getPlayer(player).setTag(display.getColoredTag());
+
             try
             {
                 String displayName = display.getColor() + player.getName();

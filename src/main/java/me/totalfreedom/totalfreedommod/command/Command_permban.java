@@ -1,12 +1,12 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
 @CommandParameters(description = "Manage permanently banned players and IPs.", usage = "/<command> reload")
 public class Command_permban extends FreedomCommand
 {

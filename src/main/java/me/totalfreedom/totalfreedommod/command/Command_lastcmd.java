@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Show the last command that someone used.", usage = "/<command> <player>")
 public class Command_lastcmd extends FreedomCommand
 {

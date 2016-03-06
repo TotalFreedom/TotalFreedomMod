@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.base.ConfigLoadable;
 import net.pravian.aero.base.ConfigSavable;
@@ -26,10 +26,10 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     private String name;
     @Getter
     @Setter
-    private boolean activated = true;
+    private boolean active = true;
     @Getter
     @Setter
-    private PlayerRank rank = PlayerRank.SUPER_ADMIN;
+    private Rank rank = Rank.SUPER_ADMIN;
     @Getter
     private final List<String> ips = Lists.newArrayList();
     @Getter
@@ -62,7 +62,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")
                 .append("- Rank: ").append(rank.getName()).append("\n")
-                .append("- Is Activated: ").append(activated);
+                .append("- Is Active: ").append(active);
 
         return output.toString();
     }
@@ -79,8 +79,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     public void loadFrom(ConfigurationSection cs)
     {
         name = cs.getString("username", configKey);
-        activated = cs.getBoolean("active", true);
-        rank = PlayerRank.findRank(cs.getString("rank"));
+        active = cs.getBoolean("active", true);
+        rank = Rank.findRank(cs.getString("rank"));
         ips.clear();
         ips.addAll(cs.getStringList("ips"));
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
@@ -92,16 +92,21 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     {
         Validate.isTrue(isValid(), "Could not save admin entry: " + name + ". Entry not valid!");
         cs.set("username", name);
-        cs.set("active", activated);
+        cs.set("active", active);
         cs.set("rank", rank.toString());
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
     }
 
-    public boolean isAtLeast(PlayerRank pRank)
+    public boolean isAtLeast(Rank pRank)
     {
         return rank.isAtLeast(pRank);
+    }
+
+    public boolean hasLoginMessage()
+    {
+        return loginMessage != null && !loginMessage.isEmpty();
     }
 
     // Util IP methods

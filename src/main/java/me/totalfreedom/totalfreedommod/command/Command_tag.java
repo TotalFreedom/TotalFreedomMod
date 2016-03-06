@@ -1,9 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.Arrays;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -11,7 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <set <tag..> | off | clear <player> | clearall>")
 public class Command_tag extends FreedomCommand
 {

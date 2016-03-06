@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.command.FreedomCommand;
-import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.heading;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
-import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
+import me.totalfreedom.totalfreedommod.rank.RankBase;
 import net.pravian.aero.command.CommandReflection;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import org.apache.commons.lang3.StringUtils;
@@ -77,7 +77,7 @@ public class Module_help extends HTTPDModule
 
             responseBody.append(heading(pluginName, 2)).append("<ul>\r\n");
 
-            Rank lastTfmCommandLevel = null;
+            RankBase lastTfmCommandLevel = null;
             for (Command command : commands)
             {
                 if (!TotalFreedomMod.pluginName.equals(pluginName))
@@ -86,7 +86,7 @@ public class Module_help extends HTTPDModule
                     continue;
                 }
 
-                Rank tfmCommandLevel = FreedomCommand.getFrom(command).getPerms().level();
+                RankBase tfmCommandLevel = FreedomCommand.getFrom(command).getPerms().level();
                 if (lastTfmCommandLevel == null || lastTfmCommandLevel != tfmCommandLevel)
                 {
                     responseBody.append("</ul>\r\n").append(heading(tfmCommandLevel.getName(), 3)).append("<ul>\r\n");

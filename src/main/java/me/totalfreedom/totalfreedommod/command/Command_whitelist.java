@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.OfflinePlayer;
@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Manage the whitelist.", usage = "/<command> <on | off | list | count | add <player> | remove <player> | addall | purge>")
 public class Command_whitelist extends FreedomCommand
 {

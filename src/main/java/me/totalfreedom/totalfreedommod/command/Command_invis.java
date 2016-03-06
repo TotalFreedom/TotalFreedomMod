@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Shows (optionally smites) invisisible players", usage = "/<command> (smite)")
 public class Command_invis extends FreedomCommand
 {

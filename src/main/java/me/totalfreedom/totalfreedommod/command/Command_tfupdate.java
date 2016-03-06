@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.io.File;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;
@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@CommandPermissions(level = PlayerRank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
 @CommandParameters(description = "Update server files.", usage = "/<command>")
 public class Command_tfupdate extends FreedomCommand
 {

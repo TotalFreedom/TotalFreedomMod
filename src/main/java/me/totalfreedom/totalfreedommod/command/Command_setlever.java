@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,7 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.NON_OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
 @CommandParameters(description = "Set the on/off state of the lever at position x, y, z in world 'worldname'.", usage = "/<command> <x> <y> <z> <worldname> <on|off>")
 public class Command_setlever extends FreedomCommand
 {

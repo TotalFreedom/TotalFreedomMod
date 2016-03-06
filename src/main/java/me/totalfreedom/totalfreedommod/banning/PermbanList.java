@@ -1,12 +1,12 @@
 package me.totalfreedom.totalfreedommod.banning;
 
-import me.totalfreedom.totalfreedommod.util.FLog;
 import com.google.common.collect.Sets;
 import java.util.Set;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 public class PermbanList extends FreedomService
 {
+
     public static final String CONFIG_FILENAME = "permbans.yml";
 
     @Getter
@@ -44,7 +45,7 @@ public class PermbanList extends FreedomService
             permbannedIps.addAll(config.getStringList(name));
         }
 
-        FLog.info("Loaded " + permbannedNames.size() + " permanently banned usernames and " + permbannedIps.size() + " permanently banned IPs.");
+        FLog.info("Loaded " + permbannedIps.size() + " perm IP bans and " + permbannedNames.size() + " perm username bans.");
     }
 
     @Override

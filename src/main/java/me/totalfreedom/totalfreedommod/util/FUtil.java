@@ -31,8 +31,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.banning.Ban;
-import net.pravian.aero.config.YamlConfig;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +54,7 @@ import org.bukkit.util.FileUtil;
 
 public class FUtil
 {
+
     private static final Map<String, Integer> EJECT_TRACKER = new HashMap<>();
     private static final Random RANDOM = new Random();
     //
@@ -827,7 +828,7 @@ public class FUtil
 
     public static void adminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
     {
-        String name = sender.getName() + " " + TotalFreedomMod.plugin.rm.getDisplayRank(sender).getColoredTag() + ChatColor.WHITE;
+        String name = sender.getName() + " " + TotalFreedomMod.plugin.rm.getDisplay(sender).getColoredTag() + ChatColor.WHITE;
         FLog.info("[ADMIN] " + name + ": " + message);
 
         for (Player player : Bukkit.getOnlinePlayers())

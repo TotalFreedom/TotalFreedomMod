@@ -4,7 +4,10 @@ import com.google.common.collect.Lists;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -61,6 +64,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         {
             this.ips.addAll(Arrays.asList(ips));
         }
+        dedupeIps();
         this.by = by;
         this.expiryUnix = FUtil.getUnixTime(expire);
     }
@@ -215,12 +219,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
             return false;
         }
 
-        if (hasUsername() && !(getUsername().equalsIgnoreCase(ban.getUsername())))
-        {
-            return false;
-        }
-
-        return true;
+        return !(hasUsername() && !(getUsername().equalsIgnoreCase(ban.getUsername())));
     }
 
     @Override
@@ -240,12 +239,14 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         this.ips.addAll(cs.getStringList("ips"));
         this.by = cs.getString("by", null);
         this.reason = cs.getString("reason", null);
-        this.expiryUnix = cs.getLong("expiry_unix", -1);
+        this.expiryUnix = cs.getLong("expiry_unix", 0);
+        dedupeIps();
     }
 
     @Override
     public void saveTo(ConfigurationSection cs)
     {
+        dedupeIps();
         cs.set("username", username);
         cs.set("ips", ips.isEmpty() ? null : ips);
         cs.set("by", by);
@@ -257,5 +258,21 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
     public boolean isValid()
     {
         return username != null || !ips.isEmpty();
+    }
+
+    private void dedupeIps()
+    {
+
+        Set<String> uniqueIps = new HashSet<>();
+
+        Iterator<String> it = ips.iterator();
+        while (it.hasNext())
+        {
+            if (!uniqueIps.add(it.next()))
+            {
+                it.remove();
+            }
+        }
+
     }
 }

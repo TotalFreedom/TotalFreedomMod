@@ -1,10 +1,10 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 /*
  * See https://github.com/TotalFreedom/License - This file may not be edited or removed.
  */
-@CommandPermissions(level = PlayerRank.NON_OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
 @CommandParameters(description = "Shows information about TotalFreedomMod or reloads it", usage = "/<command> [reload]")
 public class Command_tfm extends FreedomCommand
 {

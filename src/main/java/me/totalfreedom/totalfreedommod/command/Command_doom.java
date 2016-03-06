@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-@CommandPermissions(level = PlayerRank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
 @CommandParameters(description = "For the bad Superadmins", usage = "/<command> <playername>")
 public class Command_doom extends FreedomCommand
 {

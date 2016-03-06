@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-@CommandPermissions(level = PlayerRank.OP, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Fill nearby dispensers with a set of items of your choice.", usage = "/<command> <radius> <comma,separated,items>")
 public class Command_dispfill extends FreedomCommand
 {

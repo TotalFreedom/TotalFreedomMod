@@ -1,9 +1,9 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.StevenLawson.worldedit.LimitChangedEvent;
-import me.StevenLawson.worldedit.SelectionChangedEvent;
+import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.worldedit.LimitChangedEvent;
+import me.totalfreedom.worldedit.SelectionChangedEvent;
 import net.pravian.aero.component.PluginListener;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

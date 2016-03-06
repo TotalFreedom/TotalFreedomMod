@@ -1,5 +1,5 @@
 #
-# TotalFreedomMod v4.3 Configuration
+# TotalFreedomMod 5.0 Configuration
 # by Madgeek1450 and Prozza
 #
 
@@ -110,6 +110,8 @@ blocked_commands:
   - 'n:b:/save-all:_'
   - 'n:b:/save-on:_'
   - 'n:b:/save-off:_'
+  - 'n:b:/tfbanlist:Use /banlist to see and wipe the ban list'
+  - 'n:b:/tfipbanlist:Use /banlist to see and wipe the ban list'
 
   # Superadmin commands
   - 's:b:/kick:_'

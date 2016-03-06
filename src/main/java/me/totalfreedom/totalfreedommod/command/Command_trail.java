@@ -1,11 +1,11 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,7 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.RegisteredListener;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Pretty rainbow trails.", usage = "/<command> [off]")
 public class Command_trail extends FreedomCommand
 {

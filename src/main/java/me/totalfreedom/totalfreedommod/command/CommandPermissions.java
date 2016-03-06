@@ -2,13 +2,13 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandPermissions
 {
 
-    PlayerRank level();
+    Rank level();
 
     SourceType source();
 

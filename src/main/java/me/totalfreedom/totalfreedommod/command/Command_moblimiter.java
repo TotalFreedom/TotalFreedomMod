@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.GameRuleHandler;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.ONLY_CONSOLE)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "Control mob rezzing parameters.", usage = "/<command> <on|off|setmax <count>|dragon|giant|ghast|slime>")
 public class Command_moblimiter extends FreedomCommand
 {

@@ -1,7 +1,5 @@
 package me.totalfreedom.totalfreedommod;
 
-import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import com.google.common.collect.Maps;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,6 +14,8 @@ import java.util.Map.Entry;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -25,6 +25,7 @@ import org.json.simple.JSONValue;
 
 public class ServiceChecker extends FreedomService
 {
+
     public static final long SERVICE_CHECKER_RATE = 120L;
 
     @Getter

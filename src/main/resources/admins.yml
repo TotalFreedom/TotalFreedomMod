@@ -8,8 +8,6 @@ prozza:
   rank: SENIOR_ADMIN
   ips:
   - 127.0.0.1
-  console_aliases:
-  - Darth
   last_login: Wed, 2 Apr 2016 16:08:39 +0200
   login_message: 'the &5Lead Developer&b!'
 
@@ -20,7 +18,6 @@ madgeek1450:
   ips:
   - 1.2.3.4
   - 8.8.8.8
-  console_aliases: []
   last_login: Wed, 2 Apr 2016 16:08:39 +0200
   login_message: 'the &4Co-Founder&b and &6Master-ass-kicker&b.'
 
@@ -28,7 +25,6 @@ markbyron:
   username: markbyron
   active: true
   rank: SENIOR_ADMIN
-  console_aliases: []
   ips:
   - 8.8.4.4
   last_login: Wed, 2 Apr 2016 16:08:39 +0200

@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.Iterator;
 import java.util.Map;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.OP, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Essentials Interface Command - Color your current nickname.", usage = "/<command> <color>")
 public class Command_colorme extends FreedomCommand
 {

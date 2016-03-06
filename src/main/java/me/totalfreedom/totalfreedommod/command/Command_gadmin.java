@@ -1,18 +1,18 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.UUID;
 import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.freeze.FreezeData;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(
         description = "Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci, fr, smite.",
         usage = "/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci | fr | smite> <targethash>] ]")

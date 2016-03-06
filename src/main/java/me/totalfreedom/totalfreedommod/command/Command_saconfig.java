@@ -1,10 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.Date;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Manage admins.", usage = "/<command> <list | clean | clearme [ip] | <add | remove | info> <username>>")
 public class Command_saconfig extends FreedomCommand
 {
@@ -41,7 +40,7 @@ public class Command_saconfig extends FreedomCommand
 
                 FUtil.adminAction(sender.getName(), "Cleaning admin list", true);
                 plugin.al.deactivateOldEntries(true);
-                msg("Superadmins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.YELLOW);
+                msg("Superadmins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
 
                 return true;
             }
@@ -49,7 +48,7 @@ public class Command_saconfig extends FreedomCommand
             case "clearme":
             {
                 checkPlayer();
-                checkRank(PlayerRank.SUPER_ADMIN);
+                checkRank(Rank.SUPER_ADMIN);
 
                 final Admin admin = plugin.al.getAdmin(playerSender);
 
@@ -107,7 +106,7 @@ public class Command_saconfig extends FreedomCommand
                     return false;
                 }
 
-                checkRank(PlayerRank.SUPER_ADMIN);
+                checkRank(Rank.SUPER_ADMIN);
 
                 Admin admin = plugin.al.getEntryByName(args[1]);
 
@@ -140,7 +139,7 @@ public class Command_saconfig extends FreedomCommand
                 }
 
                 checkConsole();
-                checkRank(PlayerRank.TELNET_ADMIN);
+                checkRank(Rank.TELNET_ADMIN);
 
                 final Player player = getPlayer(args[1]);
 
@@ -162,7 +161,7 @@ public class Command_saconfig extends FreedomCommand
                         admin.loadFrom(player); // Reset IP, username
                     }
 
-                    admin.setActivated(true);
+                    admin.setActive(true);
                     admin.setLastLogin(new Date());
                     plugin.al.save(admin);
                     plugin.al.updateTables();
@@ -181,7 +180,8 @@ public class Command_saconfig extends FreedomCommand
 
                 }
 
-                if (player != null) {
+                if (player != null)
+                {
                     final FPlayer fPlayer = plugin.pl.getPlayer(player);
                     if (fPlayer.getFreezeData().isFrozen())
                     {
@@ -201,7 +201,7 @@ public class Command_saconfig extends FreedomCommand
                 }
 
                 checkConsole();
-                checkRank(PlayerRank.TELNET_ADMIN);
+                checkRank(Rank.TELNET_ADMIN);
 
                 Player player = getPlayer(args[1]);
                 Admin admin = player == null ? plugin.al.getAdmin(player) : plugin.al.getEntryByName(args[1]);

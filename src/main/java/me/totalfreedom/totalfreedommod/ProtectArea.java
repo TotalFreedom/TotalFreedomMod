@@ -26,6 +26,7 @@ import org.bukkit.util.Vector;
 
 public class ProtectArea extends FreedomService
 {
+
     public static final String DATA_FILENAME = "protectedareas.dat";
     public static final double MAX_RADIUS = 50.0;
     //

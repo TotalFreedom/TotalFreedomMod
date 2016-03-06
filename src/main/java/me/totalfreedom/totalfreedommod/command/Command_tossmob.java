@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -13,7 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-@CommandPermissions(level = PlayerRank.OP, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Throw a mob in the direction you are facing when you left click with a stick.",
         usage = "/<command> <mobtype [speed] | off | list>")
 public class Command_tossmob extends FreedomCommand

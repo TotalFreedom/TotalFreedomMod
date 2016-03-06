@@ -1,8 +1,9 @@
 package me.totalfreedom.totalfreedommod;
 
-import me.totalfreedom.totalfreedommod.util.FLog;
 import java.util.Arrays;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import net.minecraft.server.v1_9_R1.MinecraftServer;
 import net.minecraft.server.v1_9_R1.PropertyManager;
@@ -27,6 +28,17 @@ public class ServerInterface extends FreedomService
     @Override
     protected void onStop()
     {
+    }
+
+    public static void warnVersion()
+    {
+        final String nms = FUtil.getNmsVersion();
+
+        if (!COMPILE_NMS_VERSION.equals(nms))
+        {
+            FLog.warning(TotalFreedomMod.pluginName + " is compiled for " + COMPILE_NMS_VERSION + " but the server is running version " + nms + "!");
+            FLog.warning("This might result in unexpected behaviour!");
+        }
     }
 
     public void setOnlineMode(boolean mode)

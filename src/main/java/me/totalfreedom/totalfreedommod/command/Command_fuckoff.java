@@ -1,12 +1,12 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SENIOR_ADMIN, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "You'll never even see it coming.", usage = "/<command>")
 public class Command_fuckoff extends FreedomCommand
 {

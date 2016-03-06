@@ -1,9 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang3.ArrayUtils;
@@ -16,7 +16,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.NON_OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
 @CommandParameters(description = "No Description Yet", usage = "/<command>")
 public class Command_cbtool extends FreedomCommand
 {

@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-@CommandPermissions(level = PlayerRank.SENIOR_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Manage plugins", usage = "/<command> <<enable | disable | reload> <pluginname>> | list>", aliases = "plc")
 public class Command_plugincontrol extends FreedomCommand
 {

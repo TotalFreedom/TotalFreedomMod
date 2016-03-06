@@ -1,10 +1,10 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicInteger;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang.math.DoubleRange;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "View ticks-per-second", usage = "/<command>")
 public class Command_health extends FreedomCommand
 {

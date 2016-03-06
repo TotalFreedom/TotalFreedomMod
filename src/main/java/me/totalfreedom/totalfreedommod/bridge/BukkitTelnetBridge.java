@@ -2,13 +2,13 @@ package me.totalfreedom.totalfreedommod.bridge;
 
 import java.util.Iterator;
 import java.util.Map;
-import me.StevenLawson.BukkitTelnet.api.TelnetCommandEvent;
-import me.StevenLawson.BukkitTelnet.api.TelnetPreLoginEvent;
-import me.StevenLawson.BukkitTelnet.api.TelnetRequestDataTagsEvent;
+import me.totalfreedom.bukkittelnet.api.TelnetCommandEvent;
+import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
+import me.totalfreedom.bukkittelnet.api.TelnetRequestDataTagsEvent;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -43,7 +43,7 @@ public class BukkitTelnetBridge extends FreedomService
 
         final Admin admin = plugin.al.getEntryByIp(ip, true);
 
-        if (admin == null || !admin.isActivated() || !admin.getRank().hasConsole())
+        if (admin == null || !admin.isActive() || !admin.getRank().hasConsole())
         {
             return;
         }
@@ -78,11 +78,11 @@ public class BukkitTelnetBridge extends FreedomService
             final Admin admin = plugin.al.getAdmin(player);
             if (admin != null)
             {
-                boolean isActivated = admin.isActivated();
+                boolean active = admin.isActive();
 
-                isAdmin = isActivated;
-                isSeniorAdmin = isActivated && admin.getRank() == PlayerRank.SENIOR_ADMIN;
-                isTelnetAdmin = isActivated && (isSeniorAdmin || admin.getRank() == PlayerRank.TELNET_ADMIN);
+                isAdmin = active;
+                isSeniorAdmin = active && admin.getRank() == Rank.SENIOR_ADMIN;
+                isTelnetAdmin = active && (isSeniorAdmin || admin.getRank() == Rank.TELNET_ADMIN);
             }
 
             playerTags.put("tfm.admin.isAdmin", isAdmin);

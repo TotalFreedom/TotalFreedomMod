@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,10 +9,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -21,7 +21,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Register your connection with the TFM logviewer.", usage = "/<command> [off]")
 public class Command_logs extends FreedomCommand
 {

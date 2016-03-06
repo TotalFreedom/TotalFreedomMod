@@ -1,17 +1,17 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.NON_OP, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.NON_OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Shows nearby people sorted by distance.", usage = "/<command> [range]")
 public class Command_radar extends FreedomCommand
 {

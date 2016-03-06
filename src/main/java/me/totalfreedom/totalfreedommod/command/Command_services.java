@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.ServiceChecker.ServiceStatus;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.NON_OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
 @CommandParameters(description = "Shows the status of all Mojang services", usage = "/<command>")
 public class Command_services extends FreedomCommand
 {

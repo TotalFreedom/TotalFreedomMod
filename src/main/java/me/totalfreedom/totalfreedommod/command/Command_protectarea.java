@@ -1,14 +1,14 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import me.totalfreedom.totalfreedommod.ProtectArea;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(
         description = "Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.",
         usage = "/<command> <list | clear | remove <label> | add <label> <radius>>")

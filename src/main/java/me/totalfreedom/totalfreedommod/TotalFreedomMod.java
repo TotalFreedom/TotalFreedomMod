@@ -1,34 +1,34 @@
 package me.totalfreedom.totalfreedommod;
 
-import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
-import me.totalfreedom.totalfreedommod.banning.PermbanList;
-import me.totalfreedom.totalfreedommod.fun.Jumppads;
-import me.totalfreedom.totalfreedommod.fun.MP44;
-import me.totalfreedom.totalfreedommod.fun.ItemFun;
-import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
-import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
-import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
-import me.totalfreedom.totalfreedommod.admin.AdminList;
-import me.totalfreedom.totalfreedommod.banning.BanManager;
-import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
-import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
-import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
-import me.totalfreedom.totalfreedommod.caging.Cager;
-import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
-import me.totalfreedom.totalfreedommod.command.CommandLoader;
-import me.totalfreedom.totalfreedommod.freeze.Freezer;
-import me.totalfreedom.totalfreedommod.fun.Landminer;
-import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
-import me.totalfreedom.totalfreedommod.rank.RankManager;
-import me.totalfreedom.totalfreedommod.player.PlayerList;
-import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
-import me.totalfreedom.totalfreedommod.util.FLog;
-import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.world.WorldManager;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import me.totalfreedom.totalfreedommod.admin.AdminList;
+import me.totalfreedom.totalfreedommod.banning.BanManager;
+import me.totalfreedom.totalfreedommod.banning.PermbanList;
+import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
+import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
+import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
+import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
+import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
+import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
+import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
+import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
+import me.totalfreedom.totalfreedommod.caging.Cager;
+import me.totalfreedom.totalfreedommod.command.CommandLoader;
+import me.totalfreedom.totalfreedommod.freeze.Freezer;
+import me.totalfreedom.totalfreedommod.fun.ItemFun;
+import me.totalfreedom.totalfreedommod.fun.Jumppads;
+import me.totalfreedom.totalfreedommod.fun.Landminer;
+import me.totalfreedom.totalfreedommod.fun.MP44;
+import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
+import me.totalfreedom.totalfreedommod.player.PlayerList;
+import me.totalfreedom.totalfreedommod.rank.RankManager;
+import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.world.WorldManager;
 import net.pravian.aero.component.service.ServiceManager;
 import net.pravian.aero.plugin.AeroPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -113,17 +113,16 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         final FUtil.MethodTimer timer = new FUtil.MethodTimer();
         timer.start();
 
-        if (!ServerInterface.COMPILE_NMS_VERSION.equals(FUtil.getNmsVersion()))
-        {
-            FLog.warning(pluginName + " is compiled for " + ServerInterface.COMPILE_NMS_VERSION + " but the server is running "
-                    + "version " + FUtil.getNmsVersion() + "!");
-            FLog.warning("This might result in unexpected behaviour!");
-        }
+        // Warn if we're running on a wrong version
+        ServerInterface.warnVersion();
 
+        // Delete unused files
         FUtil.deleteCoreDumps();
         FUtil.deleteFolder(new File("./_deleteme"));
 
-        // Create backups
+        // Convert old config files
+        new ConfigConverter(plugin).convert();
+
         FUtil.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
         FUtil.createBackups(AdminList.CONFIG_FILENAME);
         FUtil.createBackups(PermbanList.CONFIG_FILENAME);
@@ -173,7 +172,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         bridges.start();
 
         timer.update();
-
         FLog.info("Version " + pluginVersion + " for " + ServerInterface.COMPILE_NMS_VERSION + " enabled in " + timer.getTotal() + "ms");
 
         // Metrics @ http://mcstats.org/plugin/TotalFreedomMod

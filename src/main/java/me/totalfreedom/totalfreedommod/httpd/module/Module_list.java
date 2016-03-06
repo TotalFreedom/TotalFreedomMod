@@ -27,7 +27,7 @@ public class Module_list extends HTTPDModule
 
         for (Player player : onlinePlayers)
         {
-            String tag = TotalFreedomMod.plugin.rm.getDisplayRank(player).getTag();
+            String tag = TotalFreedomMod.plugin.rm.getDisplay(player).getTag();
             body.append("<li>").append(tag).append(player.getName()).append("</li>\r\n");
         }
 

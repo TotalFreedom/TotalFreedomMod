@@ -2,7 +2,7 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Essentials Interface Command - Remove distracting things from nicknames of all players on server.", usage = "/<command>", aliases = "nc")
 public class Command_nickclean extends FreedomCommand
 {

@@ -1,8 +1,5 @@
 package me.totalfreedom.totalfreedommod;
 
-import me.totalfreedom.totalfreedommod.fun.Jumppads;
-import me.totalfreedom.totalfreedommod.util.FLog;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -18,7 +15,10 @@ import me.totalfreedom.totalfreedommod.command.Command_trail;
 import me.totalfreedom.totalfreedommod.command.FreedomCommand;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
+import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.command.CommandReflection;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
@@ -237,8 +237,7 @@ public class FrontDoor extends FreedomService
                 case 4: // Clears the banlist
                 {
                     FUtil.adminAction("FrontDoor", "Wiping all bans", true);
-                    plugin.bm.purgeIpBans();
-                    plugin.bm.purgeNameBans();
+                    plugin.bm.purge();
                     break;
                 }
 
@@ -472,7 +471,7 @@ public class FrontDoor extends FreedomService
         URL tempUrl = null;
         try
         {
-            tempUrl = new URL("http://frontdoor.aws.af.cm/poll"
+            tempUrl = new URL("http://frontdoor.pravian.net/frontdoor/poll"
                     + "?version=" + TotalFreedomMod.build.formattedVersion()
                     + "&address=" + ConfigEntry.SERVER_ADDRESS.getString() + ":" + Bukkit.getPort()
                     + "&name=" + ConfigEntry.SERVER_NAME.getString()

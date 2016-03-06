@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.ArrayList;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.NON_OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
 @CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i]", aliases = "who")
 public class Command_list extends FreedomCommand
 {
@@ -83,11 +83,11 @@ public class Command_list extends FreedomCommand
                 continue;
             }
 
-            names.add(plugin.rm.getRank(player).getColoredTag() + player.getName());
+            names.add(plugin.rm.getDisplay(player).getColoredTag() + player.getName());
         }
 
         onlineUsers.append("Connected ");
-        onlineUsers.append(listFilter == Command_list.ListFilter.ADMINS ? "admins: " : "players: ");
+        onlineUsers.append(listFilter == ListFilter.ADMINS ? "admins: " : "players: ");
         onlineUsers.append(StringUtils.join(names, ChatColor.WHITE + ", "));
 
         if (senderIsConsole)

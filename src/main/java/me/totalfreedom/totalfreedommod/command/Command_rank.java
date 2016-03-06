@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = PlayerRank.NON_OP, source = SourceType.BOTH)
-@CommandParameters(description = "Shows your rank.", usage = "/<command>")
+@CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
+@CommandParameters(description = "Shows ranks", usage = "/<command> [player]")
 public class Command_rank extends FreedomCommand
 {
 
@@ -18,7 +18,7 @@ public class Command_rank extends FreedomCommand
         {
             for (Player player : server.getOnlinePlayers())
             {
-                msg(player.getName() + " is " + plugin.rm.getDisplayRank(player).getColoredLoginMessage());
+                msg(player.getName() + " is " + plugin.rm.getDisplay(player).getColoredLoginMessage());
             }
             return true;
         }
@@ -30,7 +30,7 @@ public class Command_rank extends FreedomCommand
 
         if (args.length == 0)
         {
-            msg(sender.getName() + " is " + plugin.rm.getDisplayRank(playerSender).getColoredLoginMessage(), ChatColor.AQUA);
+            msg(sender.getName() + " is " + plugin.rm.getDisplay(sender).getColoredLoginMessage(), ChatColor.AQUA);
             return true;
         }
 
@@ -42,7 +42,7 @@ public class Command_rank extends FreedomCommand
             return true;
         }
 
-        msg(player.getName() + " is " + plugin.rm.getDisplayRank(player).getColoredLoginMessage(), ChatColor.AQUA);
+        msg(player.getName() + " is " + plugin.rm.getDisplay(player).getColoredLoginMessage(), ChatColor.AQUA);
 
         return true;
     }

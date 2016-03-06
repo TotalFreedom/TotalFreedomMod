@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.PlayerRank;
 import java.util.Random;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@CommandPermissions(level = PlayerRank.SENIOR_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Make some noise.", usage = "/<command>")
 public class Command_deafen extends FreedomCommand
 {

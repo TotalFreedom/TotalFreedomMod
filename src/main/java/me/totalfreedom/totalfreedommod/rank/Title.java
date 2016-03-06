@@ -3,7 +3,7 @@ package me.totalfreedom.totalfreedommod.rank;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
-public enum TitleRank implements Rank
+public enum Title implements RankBase
 {
 
     DEVELOPER("a", "Dev", ChatColor.DARK_PURPLE),
@@ -19,7 +19,7 @@ public enum TitleRank implements Rank
     @Getter
     private final String colorString;
 
-    private TitleRank(String determiner, String tag, ChatColor... colors)
+    private Title(String determiner, String tag, ChatColor... colors)
     {
         final String[] nameParts = name().toLowerCase().split("_");
         String tempName = "";
@@ -66,7 +66,7 @@ public enum TitleRank implements Rank
     }
 
     @Override
-    public boolean isAtLeast(Rank rank)
+    public boolean isAtLeast(RankBase rank)
     {
         return getLevel() >= rank.getLevel();
     }

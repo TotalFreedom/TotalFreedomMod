@@ -79,7 +79,7 @@ public enum ConfigEntry
     SERVICE_CHECKER_URL(String.class, "service_checker_url"),
     BLOCKED_COMMANDS(List.class, "blocked_commands"),
     HOST_SENDER_NAMES(List.class, "host_sender_names"),
-    UNBANNABLE_USERNAMES(List.class, "unbannable_usernames"),
+    FAMOUS_PLAYERS(List.class, "famous_players"),
     OVERLORD_IPS(List.class, "overlord_ips"),
     NOADMIN_IPS(List.class, "noadmin_ips"),
     ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
