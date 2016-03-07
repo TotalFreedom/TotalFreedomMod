@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -51,17 +52,26 @@ public class Freezer extends FreedomService
     {
         final Player player = event.getPlayer();
 
-        if (!plugin.al.isAdmin(player))
+        if (plugin.al.isAdmin(player))
         {
             return;
         }
 
         final FreezeData fd = plugin.pl.getPlayer(player).getFreezeData();
-        if (globalFreeze || fd.isFrozen())
+        if (!fd.isFrozen() && !globalFreeze)
         {
-            FUtil.setFlying(player, true);
-            event.setTo(fd.getLocation());
+            return;
         }
+
+        FUtil.setFlying(player, true);
+
+        Location loc = fd.getLocation();
+        if (loc == null)
+        {
+            loc = event.getFrom();
+        }
+
+        event.setTo(loc);
     }
 
 }

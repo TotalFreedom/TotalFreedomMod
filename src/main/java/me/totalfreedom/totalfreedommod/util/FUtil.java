@@ -826,7 +826,7 @@ public class FUtil
         }
     }
 
-    public static void adminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
+    public static void adminChatMessage(CommandSender sender, String message)
     {
         String name = sender.getName() + " " + TotalFreedomMod.plugin.rm.getDisplay(sender).getColoredTag() + ChatColor.WHITE;
         FLog.info("[ADMIN] " + name + ": " + message);

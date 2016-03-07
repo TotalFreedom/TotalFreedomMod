@@ -10,7 +10,7 @@ public enum Rank implements RankBase
     NON_OP(Type.PLAYER, "a", "", ChatColor.GREEN),
     OP(Type.PLAYER, "an", "OP", ChatColor.RED),
     SUPER_ADMIN(Type.ADMIN, "a", "SA", ChatColor.GOLD),
-    TELNET_ADMIN(Type.ADMIN, "a", "StA", ChatColor.DARK_GREEN),
+    TELNET_ADMIN(Type.ADMIN, "a", "STA", ChatColor.DARK_GREEN),
     SENIOR_ADMIN(Type.ADMIN, "a", "SrA", ChatColor.LIGHT_PURPLE),
     TELNET_CONSOLE(),
     SENIOR_CONSOLE();
@@ -39,7 +39,7 @@ public enum Rank implements RankBase
         String tempName = "";
         for (String part : nameParts)
         {
-            tempName = Character.toUpperCase(part.charAt(0)) + part.substring(1) + " ";
+            tempName += Character.toUpperCase(part.charAt(0)) + part.substring(1) + " ";
         }
         name = tempName.trim();
 

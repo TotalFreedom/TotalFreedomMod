@@ -33,7 +33,7 @@ public class Command_adminchat extends FreedomCommand
         }
         else
         {
-            FUtil.adminChatMessage(sender, StringUtils.join(args, " "), senderIsConsole);
+            FUtil.adminChatMessage(sender, StringUtils.join(args, " "));
         }
 
         return true;

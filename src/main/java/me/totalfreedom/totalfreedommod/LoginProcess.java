@@ -150,7 +150,7 @@ public class LoginProcess extends FreedomService
         // Server full check
         if (server.getOnlinePlayers().size() >= server.getMaxPlayers())
         {
-            event.disallow(PlayerLoginEvent.Result.KICK_FULL, "Sorry, but this server is full.");
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Sorry, but this server is full.");
             return;
         }
 

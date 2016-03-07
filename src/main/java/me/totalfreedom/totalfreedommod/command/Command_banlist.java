@@ -19,7 +19,7 @@ public class Command_banlist extends FreedomCommand
         {
             if (args[0].equalsIgnoreCase("purge"))
             {
-                checkRank(Rank.SUPER_ADMIN);
+                checkRank(Rank.SENIOR_ADMIN);
 
                 FUtil.adminAction(sender.getName(), "Purging the ban list", true);
                 int amount = plugin.bm.purge();

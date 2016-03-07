@@ -59,8 +59,22 @@ public class CageData
         this.innerMaterial = inner;
 
         buildHistory(location, 2, fPlayer);
-        generateHollowCube(location, 2, outer);
-        generateCube(location, 1, inner);
+        regenerate();
+    }
+
+    public void regenerate()
+    {
+
+        if (!caged
+                || location == null
+                || outerMaterial == null
+                || innerMaterial == null)
+        {
+            return;
+        }
+
+        generateHollowCube(location, 2, outerMaterial);
+        generateCube(location, 1, innerMaterial);
     }
 
     // TODO: EventHandlerize this?

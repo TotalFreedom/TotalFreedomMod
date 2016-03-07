@@ -37,7 +37,7 @@ public class FSync
         }.runTask(TotalFreedomMod.plugin);
     }
 
-    public static void adminChatMessage(final CommandSender sender, final String message, final boolean isRed)
+    public static void adminChatMessage(final CommandSender sender, final String message)
     {
         new BukkitRunnable()
         {
@@ -45,7 +45,7 @@ public class FSync
             @Override
             public void run()
             {
-                FUtil.adminChatMessage(sender, message, isRed);
+                FUtil.adminChatMessage(sender, message);
             }
 
         }.runTask(TotalFreedomMod.plugin);

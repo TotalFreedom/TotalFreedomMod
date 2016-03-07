@@ -58,28 +58,33 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public LoginProcess lp;
     public AntiNuke nu;
     public AntiSpam as;
-    public Muter mu;
     public RankManager rm;
-    public BanManager bm;
     public PlayerList pl;
     public CommandLoader cl;
     public CommandBlocker cb;
     public Announcer an;
+    public ChatManager cm;
+    public BanManager bm;
     public PermbanList pb;
     public ProtectArea pa;
     public ServiceChecker sc;
     public GameRuleHandler gr;
     public RollbackManager rb;
-    public Jumppads jp;
+    public CommandSpy cs;
     public Cager ca;
     public Freezer fm;
+    public Orbiter or;
+    public Muter mu;
     public Fuckoff fo;
+    public AutoKick ak;
+    public MovementValidator mv;
     public EntityWiper ew;
     public FrontDoor fd;
     public ServerPing sp;
     public ItemFun it;
     public Landminer lm;
     public MP44 mp;
+    public Jumppads jp;
     public HTTPDaemon hd;
     //
     // Bridges
@@ -127,7 +132,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         FUtil.createBackups(AdminList.CONFIG_FILENAME);
         FUtil.createBackups(PermbanList.CONFIG_FILENAME);
 
-        // Start services and bridgess
+        // Start services
         services = new ServiceManager<>(plugin);
         si = services.registerService(ServerInterface.class);
         wm = services.registerService(WorldManager.class);
@@ -139,32 +144,45 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         lp = services.registerService(LoginProcess.class);
         nu = services.registerService(AntiNuke.class);
         as = services.registerService(AntiSpam.class);
-        mu = services.registerService(Muter.class);
         rm = services.registerService(RankManager.class);
-        bm = services.registerService(BanManager.class);
+
         pl = services.registerService(PlayerList.class);
         cl = services.registerService(CommandLoader.class);
         cb = services.registerService(CommandBlocker.class);
         an = services.registerService(Announcer.class);
+        cm = services.registerService(ChatManager.class);
+        bm = services.registerService(BanManager.class);
         pb = services.registerService(PermbanList.class);
         pa = services.registerService(ProtectArea.class);
         sc = services.registerService(ServiceChecker.class);
         gr = services.registerService(GameRuleHandler.class);
+
+        // Single admin utils
         rb = services.registerService(RollbackManager.class);
-        jp = services.registerService(Jumppads.class);
+        cs = services.registerService(CommandSpy.class);
         ca = services.registerService(Cager.class);
         fm = services.registerService(Freezer.class);
+        or = services.registerService(Orbiter.class);
+        mu = services.registerService(Muter.class);
         fo = services.registerService(Fuckoff.class);
+        ak = services.registerService(AutoKick.class);
+
+        mv = services.registerService(MovementValidator.class);
         ew = services.registerService(EntityWiper.class);
         fd = services.registerService(FrontDoor.class);
         sp = services.registerService(ServerPing.class);
+
+        // Fun
         it = services.registerService(ItemFun.class);
         lm = services.registerService(Landminer.class);
         mp = services.registerService(MP44.class);
+        jp = services.registerService(Jumppads.class);
+
+        // HTTPD
         hd = services.registerService(HTTPDaemon.class);
         services.start();
 
-        // Register bridges
+        // Start bridges
         bridges = new ServiceManager<>(plugin);
         btb = bridges.registerService(BukkitTelnetBridge.class);
         esb = bridges.registerService(EssentialsBridge.class);

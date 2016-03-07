@@ -45,8 +45,6 @@ public class ChatManager extends FreedomService
         final Player player = event.getPlayer();
         String message = event.getMessage().trim();
 
-        final FPlayer playerdata = plugin.pl.getPlayerSync(player);
-
         // Strip color from messages
         message = ChatColor.stripColor(message);
 
@@ -75,9 +73,10 @@ public class ChatManager extends FreedomService
         }
 
         // Check for adminchat
-        if (playerdata.inAdminChat())
+        final FPlayer fPlayer = plugin.pl.getPlayerSync(player);
+        if (fPlayer.inAdminChat())
         {
-            FSync.adminChatMessage(player, message, false);
+            FSync.adminChatMessage(player, message);
             event.setCancelled(true);
             return;
         }
@@ -86,9 +85,9 @@ public class ChatManager extends FreedomService
         event.setMessage(message);
 
         // Set the tag
-        if (playerdata.getTag() != null)
+        if (fPlayer.getTag() != null)
         {
-            event.setFormat("<" + playerdata.getTag().replaceAll("%", "%%") + " %1$s> %2$s");
+            event.setFormat("<" + fPlayer.getTag().replaceAll("%", "%%") + " %1$s> %2$s");
         }
     }
 

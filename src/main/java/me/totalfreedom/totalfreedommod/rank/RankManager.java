@@ -140,13 +140,14 @@ public class RankManager extends FreedomService
         // Handle impostors
         if (plugin.al.isAdminImpostor(player))
         {
-            FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor and has been frozen!", ChatColor.RED);
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
+            FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor and has been frozen!", ChatColor.RED);
             player.getInventory().clear();
             player.setOp(false);
             player.setGameMode(GameMode.SURVIVAL);
             plugin.pl.getPlayer(player).getFreezeData().setFrozen(true);
             player.sendMessage(ChatColor.RED + "You are marked as an impostor, please verify yourself!");
+            return;
         }
 
         // Set display

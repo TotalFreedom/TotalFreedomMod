@@ -47,22 +47,12 @@ public class RollbackManager extends FreedomService
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void blockPlace(BlockPlaceEvent event)
     {
-        if (plugin.al.isAdmin(event.getPlayer()))
-        {
-            return;
-        }
-
         storeEntry(event.getPlayer(), new RollbackEntry(event.getPlayer().getName(), event.getBlock(), EntryType.BLOCK_PLACE));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void blockBreak(BlockBreakEvent event)
     {
-        if (!plugin.al.isAdmin(event.getPlayer()))
-        {
-            return;
-        }
-
         storeEntry(event.getPlayer(), new RollbackEntry(event.getPlayer().getName(), event.getBlock(), EntryType.BLOCK_BREAK));
     }
 

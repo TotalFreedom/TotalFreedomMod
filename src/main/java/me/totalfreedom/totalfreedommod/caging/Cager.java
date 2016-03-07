@@ -6,8 +6,10 @@ import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -28,6 +30,25 @@ public class Cager extends FreedomService
     @Override
     protected void onStop()
     {
+    }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onBreakBlock(BlockBreakEvent event)
+    {
+        Player player = event.getPlayer();
+        if (player == null
+                || plugin.al.isAdmin(player))
+        {
+            return;
+        }
+
+        FPlayer fPlayer = plugin.pl.getPlayer(event.getPlayer());
+        CageData cage = fPlayer.getCageData();
+
+        if (cage.isCaged())
+        {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -56,8 +77,9 @@ public class Cager extends FreedomService
 
         if (outOfCage)
         {
-            player.getPlayer().teleport(cageLoc.subtract(0, 0.5, 0));
+            player.getPlayer().teleport(cageLoc.subtract(0, 0.1, 0));
             FUtil.playerMsg(player.getPlayer(), "You may not leave your cage.", ChatColor.RED);
+            cage.regenerate();
         }
     }
 

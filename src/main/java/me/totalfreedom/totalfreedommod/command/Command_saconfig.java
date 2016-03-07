@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage admins.", usage = "/<command> <list | clean | clearme [ip] | <add | remove | info> <username>>")
+@CommandParameters(description = "Manage admins.", usage = "/<command> <list | clean | reload | clearme [ip] | setrank <username> <rank> | <add | remove | info> <username>>")
 public class Command_saconfig extends FreedomCommand
 {
 
@@ -42,6 +42,16 @@ public class Command_saconfig extends FreedomCommand
                 plugin.al.deactivateOldEntries(true);
                 msg("Superadmins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
 
+                return true;
+            }
+
+            case "reload":
+            {
+                checkRank(Rank.SUPER_ADMIN);
+
+                FUtil.adminAction(sender.getName(), "Reloading the admin list", true);
+                plugin.al.load();
+                msg("Admin list reloaded!");
                 return true;
             }
 
@@ -99,6 +109,37 @@ public class Command_saconfig extends FreedomCommand
                 return true;
             }
 
+            case "setrank":
+            {
+                if (args.length < 3)
+                {
+                    return false;
+                }
+
+                checkConsole();
+                checkRank(Rank.SENIOR_CONSOLE);
+
+                Rank rank = Rank.findRank(args[2]);
+                if (!rank.isAtLeast(Rank.SUPER_ADMIN))
+                {
+                    msg("Rank must be superadmin or higher.", ChatColor.RED);
+                    return true;
+                }
+
+                Admin admin = plugin.al.getEntryByName(args[1]);
+                if (admin == null)
+                {
+                    msg("Unknown admin: " + args[1]);
+                    return true;
+                }
+
+                admin.setRank(rank);
+                plugin.al.save(admin);
+
+                msg("Set " + admin.getName() + "'s rank to " + rank.getName());
+                return true;
+            }
+
             case "info":
             {
                 if (args.length < 2)
@@ -149,11 +190,20 @@ public class Command_saconfig extends FreedomCommand
                     return true;
                 }
 
-                final Admin admin = player != null ? plugin.al.getEntryByName(player.getName()) : plugin.al.getEntryByName(args[1]);
+                String name = player != null ? player.getName() : args[1];
+
+                Admin admin = null;
+                for (Admin loopAdmin : plugin.al.getAllAdmins().values())
+                {
+                    if (loopAdmin.getName().equalsIgnoreCase(name))
+                    {
+                        admin = loopAdmin;
+                        break;
+                    }
+                }
 
                 if (admin != null) // Existing admin
                 {
-
                     FUtil.adminAction(sender.getName(), "Readding " + admin.getName() + " to the admin list", true);
 
                     if (player != null)
@@ -163,6 +213,12 @@ public class Command_saconfig extends FreedomCommand
 
                     admin.setActive(true);
                     admin.setLastLogin(new Date());
+
+                    if (player != null)
+                    {
+                        admin.addIp(Ips.getIp(player));
+                    }
+
                     plugin.al.save(admin);
                     plugin.al.updateTables();
                 }
@@ -213,8 +269,9 @@ public class Command_saconfig extends FreedomCommand
                 }
 
                 FUtil.adminAction(sender.getName(), "Removing " + admin.getName() + " from the admin list", true);
-                plugin.al.removeAdmin(admin);
-
+                admin.setActive(false);
+                plugin.al.save(admin);
+                plugin.al.updateTables();
                 return true;
             }
 

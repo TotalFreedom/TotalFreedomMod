@@ -18,18 +18,18 @@ public class Command_freeze extends FreedomCommand
     {
         if (args.length == 0)
         {
-            boolean allFrozen = plugin.fm.isGlobalFreeze();
-            plugin.fm.setGlobalFreeze(!allFrozen);
+            boolean gFreeze = !plugin.fm.isGlobalFreeze();
+            plugin.fm.setGlobalFreeze(gFreeze);
 
-            if (!allFrozen)
+            if (!gFreeze)
             {
-                FUtil.adminAction(sender.getName(), "Disabling global player freeze", true);
+                FUtil.adminAction(sender.getName(), "Disabling global player freeze", false);
                 msg("Players are now free to move.");
                 return true;
             }
 
-            FUtil.adminAction(sender.getName(), "Disabling global player freeze", true);
-            msg("Players are now unfrozen.");
+            FUtil.adminAction(sender.getName(), "Enabling global player freeze", false);
+            msg("Players are now frozen.");
 
             for (Player player : server.getOnlinePlayers())
             {
