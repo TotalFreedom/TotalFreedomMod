@@ -84,6 +84,8 @@ public class LoginProcess extends FreedomService
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username is an invalid length (must be between 3 and 20 characters long).");
             return;
         }
+        
+        if ()
 
         // Check username characters
         if (!USERNAME_REGEX.matcher(username).find())
@@ -112,12 +114,16 @@ public class LoginProcess extends FreedomService
         // Check if player is admin
         // Not safe to use TFM_Util.isSuperAdmin(player) because player.getAddress() will return a null until after player login.
         final boolean isAdmin = plugin.al.getEntryByIp(ip) != null;
-
+        // Define playerdata
+        FPlayer playerdata = plugin.pl.getPlayer(player);
         // Validation below this point
         if (isAdmin) // Player is superadmin
         {
             // Force-allow log in
             event.allow();
+            
+            // Auto-enable commandspy
+            playerdata.setCommandSpy(!playerdata.cmdspyEnabled());
 
             int count = server.getOnlinePlayers().size();
             if (count >= server.getMaxPlayers())
