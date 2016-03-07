@@ -1,6 +1,6 @@
-package me.StevenLawson.TotalFreedomMod.Commands;
+package me.totalfreedom.totalfreedommod.command;
 
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import me.totalfreedom.totalfreedom.util.FUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
