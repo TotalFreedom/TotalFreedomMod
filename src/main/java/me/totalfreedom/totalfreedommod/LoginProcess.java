@@ -84,8 +84,6 @@ public class LoginProcess extends FreedomService
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your username is an invalid length (must be between 3 and 20 characters long).");
             return;
         }
-        
-        if ()
 
         // Check username characters
         if (!USERNAME_REGEX.matcher(username).find())
