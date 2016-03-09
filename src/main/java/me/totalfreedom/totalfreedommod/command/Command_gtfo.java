@@ -93,7 +93,7 @@ public class Command_gtfo extends FreedomCommand
         plugin.bm.addBan(Ban.forPlayerFuzzy(player, sender, null, reason));
 
         // Kick player
-        player.kickPlayer(ChatColor.RED + "GTFO");
+        player.kickPlayer(ChatColor.RED + "GTFO" + (reason != null ? ("\nReason: " + ChatColor.YELLOW + reason) : ""));
 
         return true;
     }
