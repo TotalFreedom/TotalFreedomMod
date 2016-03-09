@@ -9,7 +9,7 @@ import net.md_5.bungee.api.ChatColor;
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME, blockHostConsole = true)
 @CommandParameters(
 		description = "Learn how to apply for admin.", 
-		usage = "/<command> [on | off]",
+		usage = "/<command>",
 		aliases = "ai")
 public class Command_admininfo extends TFM_Command
 {
