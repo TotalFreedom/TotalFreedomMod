@@ -114,7 +114,7 @@ public class TFM_Util
     {
         throw new AssertionError();
     }
-    
+
     public static void bcastMsg(String message, ChatColor color)
     {
         TFM_Log.info(message, true);
