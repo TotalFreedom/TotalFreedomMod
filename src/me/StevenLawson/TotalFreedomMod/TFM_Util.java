@@ -129,6 +129,16 @@ public class TFM_Util
     {
         TFM_Util.bcastMsg(message, null);
     }
+    
+    public static void announceMsg(String message, ChatColor color)
+    {
+        TFM_Util.bcastMsg(TFM_ConfigEntry.ANNOUNCER_PREFIX.getString().replaceAll("&", "§") + message);
+    }
+    
+    public static void announceMsg(String message)
+    {
+        TFM_Util.announceMsg(message, null);
+    }
 
     // Still in use by listeners
     public static void playerMsg(CommandSender sender, String message, ChatColor color)
