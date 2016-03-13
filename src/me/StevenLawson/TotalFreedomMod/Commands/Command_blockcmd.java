@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Block all commands for a specific player.", usage = "/<command> <purge | <partialname>>", aliases = "blockcommands,blockcommand")
+@CommandParameters(description = "Block all commands for a specific or all players.", usage = "/<command> <purge> <-a | <partialname>>", aliases = "blockcommands,blockcommand")
 public class Command_blockcmd extends TFM_Command
 {
     @Override
@@ -35,7 +35,21 @@ public class Command_blockcmd extends TFM_Command
             playerMsg("Unblocked commands for " + counter + " players.");
             return true;
         }
-
+        else if (args[0].equalsIgnoreCase("-a"))
+        {
+            TFM_Util.adminAction(sender.getName(), "Blocking all commands for all players", true);
+            int counter = 0;
+            for (Player player : server.getOnlinePlayers())
+            {
+                TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
+                if (playerdata.allCommandsBlocked())
+                {
+                    counter += 1;
+                    playerdata.setCommandsBlocked(true);
+                }
+            }
+            playerMsg("Blocked commands for " + counter + " players.");
+        }
         final Player player = getPlayer(args[0]);
 
         if (player == null)
