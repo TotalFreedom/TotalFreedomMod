@@ -39,10 +39,10 @@ public class Command_tagclean extends TFM_Command
                 final Matcher matcher = REGEX.matcher(Tag);
                 if (matcher.find())
                 {
-                    final String newTag = matcher.replaceAll("");
-                    playerMsg(ChatColor.RESET + playerName + ": \"" + Tag + ChatColor.RESET + "\" -> \"" + newTag + ChatColor.RESET + "\".");
+                    final String cleanTag = matcher.replaceAll("");
+                    playerMsg(ChatColor.RESET + playerName + ": \"" + Tag + ChatColor.RESET + "\" -> \"" + cleanTag + ChatColor.RESET + "\".");
         
-                    TFM_PlayerData.getPlayerData(player).setTag(newTag);
+                    TFM_PlayerData.getPlayerData(player).setTag(cleanTag);
                 }
             }
         }
