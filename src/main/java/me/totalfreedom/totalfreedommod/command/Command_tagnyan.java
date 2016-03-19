@@ -30,10 +30,21 @@ public class Command_tagnyan extends FreedomCommand
         }
 
         final FPlayer data = plugin.pl.getPlayer(playerSender);
+
+        if (!plugin.al.isAdmin(sender))
+        {
+            for (String word : Command_tag.FORBIDDEN_WORDS)
+            {
+                if (args[0].toLowerCase().contains(word))
+                {
+                    msg("That tag contains a forbidden word (" + args[0] + ")");
+                    return true;
+                }
+            }
+        }
+
         data.setTag(tag.toString());
-
         msg("Set tag to " + tag);
-
         return true;
     }
 }
