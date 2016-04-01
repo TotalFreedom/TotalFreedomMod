@@ -18,11 +18,13 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.RegisteredListener;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Pretty rainbow trails.", usage = "/<command> [off]")
+@CommandParameters(description = "Pretty rainbow trails.", usage = "/<command> off | glass")
 public class Command_trail extends TFM_Command
 {
     private static Listener movementListener = null;
+    private static Listener glassmovementListener = null;
     private static final List<Player> trailPlayers = new ArrayList<Player>();
+    private static final List<Player> glasstrailPlayers = new ArrayList<Player>();
     private static final Random RANDOM = new Random();
 
     @Override
@@ -31,16 +33,19 @@ public class Command_trail extends TFM_Command
         if (args.length > 0 && "off".equals(args[0]))
         {
             trailPlayers.remove(sender_p);
-
+            glasstrailPlayers.remove(sender_p);
             playerMsg("Trail disabled.");
         }
-        else
+        else if (args.length > 0 && "glass".equals(args[0]))
         {
-            if (!trailPlayers.contains(sender_p))
-            {
-                trailPlayers.add(sender_p);
-            }
-
+            trailPlayers.remove(sender_p);
+            glasstrailPlayers.add(sender_p);
+            playerMsg("Glass Trail enabled. Use \"/trail off\" to disable.");
+        }
+        else if (!trailPlayers.contains(sender_p))
+        {
+            glasstrailPlayers.remove(sender_p);
+            trailPlayers.add(sender_p);
             playerMsg("Trail enabled. Use \"/trail off\" to disable.");
         }
 
@@ -51,6 +56,14 @@ public class Command_trail extends TFM_Command
         else
         {
             unregisterMovementHandler();
+        }
+        if (!glasstrailPlayers.isEmpty())
+        {
+            registerGlassMovementHandler();
+        }
+        else
+        {
+            unregisterGlassMovementHandler();
         }
 
         return true;
@@ -126,6 +139,79 @@ public class Command_trail extends TFM_Command
         if (trailPlayers.isEmpty())
         {
             unregisterMovementHandler();
+        }
+    }
+
+    private static void registerGlassMovementHandler()
+    {
+        if (getRegisteredListener(glassmovementListener) == null)
+        {
+            Bukkit.getPluginManager().registerEvents(glassmovementListener = new Listener()
+            {
+                @EventHandler(priority = EventPriority.NORMAL)
+                public void onPlayerMove(PlayerMoveEvent event)
+                {
+                    Player player = event.getPlayer();
+                    if (glasstrailPlayers.contains(player))
+                    {
+                        Block fromBlock = event.getFrom().getBlock();
+                        if (fromBlock.isEmpty())
+                        {
+                            Block toBlock = event.getTo().getBlock();
+                            if (!fromBlock.equals(toBlock))
+                            {
+                                fromBlock.setType(Material.STAINED_GLASS);
+                                TFM_DepreciationAggregator.setData_Block(fromBlock, (byte) RANDOM.nextInt(16));
+                            }
+                        }
+                    }
+                }
+            }, TotalFreedomMod.plugin);
+        }
+    }
+
+    private static void unregisterGlassMovementHandler()
+    {
+        Listener registeredGlassListener = getRegisteredGlassListener(glassmovementListener);
+        if (registeredGlassListener != null)
+        {
+            PlayerMoveEvent.getHandlerList().unregister(registeredGlassListener);
+        }
+    }
+
+    private static Listener getRegisteredGlassListener(Listener glasslistener)
+    {
+        RegisteredListener[] registeredGlassListeners = PlayerMoveEvent.getHandlerList().getRegisteredListeners();
+        for (RegisteredListener registeredGlassListener : registeredGlassListeners)
+        {
+            if (registeredGlassListener.getListener() == glasslistener)
+            {
+                return glasslistener;
+            }
+        }
+        return null;
+    }
+
+    public static void startGlassTrail(Player player)
+    {
+        if (!glasstrailPlayers.contains(player))
+        {
+            glasstrailPlayers.add(player);
+        }
+
+        if (!glasstrailPlayers.isEmpty())
+        {
+            registerGlassMovementHandler();
+        }
+    }
+
+    public static void stopGlassTrail(Player player)
+    {
+        glasstrailPlayers.remove(player);
+
+        if (glasstrailPlayers.isEmpty())
+        {
+            unregisterGlassMovementHandler();
         }
     }
 }
