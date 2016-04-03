@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>me.totalfreedom</groupId>
+    <artifactId>totalfreedom</artifactId>
+    <version>5.0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tfm.build.version>${project.version}</tfm.build.version>
+        <tfm.build.number>${maven.buildnumber}</tfm.build.number>
+        <tfm.build.date>${maven.build.timestamp}</tfm.build.date>
+        <tfm.build.author>${buildAuthor}</tfm.build.author>
+        <tfm.build.head>${buildHead}</tfm.build.head>
+        <jar.finalName>${project.name}</jar.finalName>
+        <maven.build.timestamp.format>dd/MM/yyyy hh:mm aa</maven.build.timestamp.format>
+    </properties>
+
+    <name>TotalFreedomMod</name>
+    <description>Server modification for the TotalFreedom server</description>
+    <url>https://github.com/TotalFreedom/TotalFreedomMod</url>
+
+    <licenses>
+        <license>
+            <name>TotalFreedom General License</name>
+            <url>https://github.com/TotalFreedom/License/blob/master/LICENSE.md</url>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Total Freedom</name>
+        <url>https://totalfreedom.me</url>
+    </organization>
+
+    <scm>
+        <connection>scm:git:git@github.com:TotalFreedom/TotalFreedomMod.git</connection>
+        <developerConnection>scm:git:git@github.com:TotalFreedom/TotalFreedomMod.git</developerConnection>
+        <url>git@github.com:TotalFreedom/TotalFreedomMod.git</url>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>spigot</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.9-R0.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Spigot-1.9.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>net.pravian</groupId>
+            <artifactId>aero</artifactId>
+            <version>2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Aero-2.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>net.totalfreedom</groupId>
+            <artifactId>bukkittelnet</artifactId>
+            <version>4.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/BukkitTelnet-4.3.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>net.totalfreedom</groupId>
+            <artifactId>tf-worldedit</artifactId>
+            <version>6.1.0-TF</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/TF-WorldEdit-6.1.1.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>net.totalfreedom</groupId>
+            <artifactId>tf-essentials</artifactId>
+            <version>2.0-TF</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/TF-Essentials-2.1.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Filter resources for build.properties -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+
+        <plugins>
+            <!-- Compiler -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <outputFileName>TotalFreedomMod.jar</outputFileName>
+                    <compilerVersion>1.7</compilerVersion>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            
+            <!-- Antrun -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <target>
+                                <propertyfile file="build.properties" comment="Build information. Edit this to your liking.">
+                                    <entry key="buildAuthor" default="unknown" />
+                                </propertyfile>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Properties -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>${basedir}/build.properties</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Checkstyle -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>2.17</version>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <failOnViolation>true</failOnViolation>
+                </configuration>
+            </plugin>
+
+            <!-- Git describe -->
+            <plugin>
+                <groupId>com.lukegb.mojo</groupId>
+                <artifactId>gitdescribe-maven-plugin</artifactId>
+                <version>3.0</version>
+                <executions>
+                    <execution>
+                        <id>git-describe</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>gitdescribe</goal>
+                        </goals>
+                        <configuration>
+                            <descriptionProperty>buildHead</descriptionProperty>
+                            <extraArguments>
+                                <param>--tags</param>
+                                <param>--always</param>
+                                <param>HEAD</param>
+                            </extraArguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Buildnumber -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <buildNumberPropertyName>maven.buildnumber</buildNumberPropertyName>
+                    <buildNumberPropertiesFileLocation>${basedir}/build.properties</buildNumberPropertiesFileLocation>
+                    <format>{0,number}</format>
+                    <items>
+                        <item>buildNumber</item>
+                    </items>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <reporting>
+        <!-- Checkstyle -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>2.17</version>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <failOnViolation>true</failOnViolation>
+                    <failsOnError>true</failsOnError>
+                    <consoleOutput>true</consoleOutput>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>
