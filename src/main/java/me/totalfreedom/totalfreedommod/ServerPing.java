@@ -65,6 +65,8 @@ public class ServerPing extends FreedomService
         // Colorful MOTD
         final StringBuilder motd = new StringBuilder();
 
+        motd.append(Bukkit.getServer().getOnlineMode() ? "•" : "○");
+
         for (String word : ConfigEntry.SERVER_MOTD.getString().replace("%mcversion%", plugin.si.getVersion()).split(" "))
         {
             motd.append(FUtil.randomChatColor()).append(word).append(" ");
