@@ -10,13 +10,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Set your own login message", usage = "/<command> <set <message>>")
 public class Command_loginmsg extends FreedomCommand
 {
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
-    {
+    {   
         if (args.length < 2)
         {
             return false;
@@ -24,11 +24,13 @@ public class Command_loginmsg extends FreedomCommand
         
         String message = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         
-        if (!args[0].equalsIgnoreCase(playerSender).isAdmin())
-        {
-           return true;
-        }
+        String commandSender = sender.getName();
         
+        if (!args[0].equalsIgnoreCase(commandSender) && !plugin.al.isSeniorAdmin(sender))
+        {
+            msg("You don't have permission to assign another users login message!");
+            return true;
+        }
         
         if (args[1].equalsIgnoreCase("delete"))
         {
@@ -42,12 +44,12 @@ public class Command_loginmsg extends FreedomCommand
             
             if (message.equalsIgnoreCase(admin.getLoginMessage()))
             {
-                msg(ChatColor.RED + "There login message can't be the same as its there current login message");
+                msg(ChatColor.RED + "The login message can't be the same as its the same as the current login message");
                 return true;
             }
             
             admin.setLoginMessage(message);
-            msg(FUtil.colorize("There new login message is now " + message), ChatColor.GREEN);
+            msg(FUtil.colorize("The newly set login message is now " + message), ChatColor.GREEN);
             return true;
         }
         return false;
