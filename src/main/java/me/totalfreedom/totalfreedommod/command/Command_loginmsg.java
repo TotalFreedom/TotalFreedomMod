@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Set your own login message", usage = "/<command> <set <message>>")
 public class Command_loginmsg extends FreedomCommand
 {
@@ -24,24 +24,30 @@ public class Command_loginmsg extends FreedomCommand
         
         String message = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         
-        if (args[0].equalsIgnoreCase("delete"))
+        if (!args[0].equalsIgnoreCase(playerSender).isAdmin())
+        {
+           return true;
+        }
+        
+        
+        if (args[1].equalsIgnoreCase("delete"))
         {
             msg("You have deleted your login message!");
             return true;
         }
         
-        if (args[0].equalsIgnoreCase("set"))
+        if (args[1].equalsIgnoreCase("set"))
         {
             Admin admin = plugin.al.getAdmin(sender);
             
             if (message.equalsIgnoreCase(admin.getLoginMessage()))
             {
-                msg(ChatColor.RED + "Your new login message can't be the same as your current login message");
+                msg(ChatColor.RED + "There login message can't be the same as its there current login message");
                 return true;
             }
             
             admin.setLoginMessage(message);
-            msg(FUtil.colorize("Your new login message is now " + message), ChatColor.GREEN);
+            msg(FUtil.colorize("There new login message is now " + message), ChatColor.GREEN);
             return true;
         }
         return false;
