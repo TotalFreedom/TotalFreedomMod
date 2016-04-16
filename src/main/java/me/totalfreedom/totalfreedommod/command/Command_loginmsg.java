@@ -34,6 +34,7 @@ public class Command_loginmsg extends FreedomCommand
         
         if (args[1].equalsIgnoreCase("delete"))
         {
+            admin.setLoginMssgae(null);
             msg("You have deleted your login message!");
             return true;
         }
