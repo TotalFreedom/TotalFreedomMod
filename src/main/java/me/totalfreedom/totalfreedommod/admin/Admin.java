@@ -98,7 +98,12 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
     }
-
+    
+    public String setLoginMessage(String string)
+    {
+        return loginMessage = string;
+    }
+ 
     public boolean isAtLeast(Rank pRank)
     {
         return rank.isAtLeast(pRank);
