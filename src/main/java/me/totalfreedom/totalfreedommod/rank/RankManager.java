@@ -161,7 +161,7 @@ public class RankManager extends FreedomService
                 Admin admin = plugin.al.getAdmin(player);
                 if (admin.hasLoginMessage())
                 {
-                    loginMsg = admin.getLoginMessage();
+                    loginMsg = FUtil.colorize(admin.getLoginMessage()); // Adds ChatColor Code support.
                 }
             }
 
