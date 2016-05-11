@@ -21,7 +21,7 @@ public class Command_announce extends FreedomCommand
         }
         String message = StringUtils.join(args, " ");
         
-        FUtil.bcastMsg(String.format("[§5[§eTotalFreedom§5] &b", message));
+        TFM_Util.bcastMsg(TFM_ConfigEntry.ANNOUNCER_PREFIX.getString().replaceAll("&", "§") + message);
         
         
         return true;
