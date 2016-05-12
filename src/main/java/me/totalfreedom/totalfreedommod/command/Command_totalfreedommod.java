@@ -14,8 +14,8 @@ import org.bukkit.entity.Player;
  * See https://github.com/TotalFreedom/License - This file may not be edited or removed.
  */
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
-@CommandParameters(description = "Shows information about TotalFreedomMod or reloads it", usage = "/<command> [reload]")
-public class Command_tfm extends FreedomCommand
+@CommandParameters(description = "Shows information about TotalFreedomMod or reloads it", usage = "/<command> [reload]", aliases = "tfm")
+public class Command_totalfreedommod extends FreedomCommand
 {
 
     @Override
@@ -34,7 +34,7 @@ public class Command_tfm extends FreedomCommand
                 return true;
             }
 
-            MainConfig.load();
+            plugin.config.load();
             plugin.services.stop();
             plugin.services.start();
 
@@ -52,8 +52,9 @@ public class Command_tfm extends FreedomCommand
         msg("Running on " + ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
         msg("Created by Madgeek1450 and Prozza.", ChatColor.GOLD);
         msg(String.format("Version "
-                + ChatColor.BLUE + "%s.%s " + ChatColor.GOLD + "("
+                + ChatColor.BLUE + "%s %s.%s " + ChatColor.GOLD + "("
                 + ChatColor.BLUE + "%s" + ChatColor.GOLD + ")",
+                build.codename,
                 build.version,
                 build.number,
                 build.head), ChatColor.GOLD);

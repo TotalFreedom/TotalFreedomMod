@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage admins.", usage = "/<command> <list | clean | reload | clearme [ip] | setrank <username> <rank> | <add | remove | info> <username>>")
+@CommandParameters(description = "Manage admins.", usage = "/<command> <list | clean | reload | | setrank <username> <rank> | <add | remove | info> <username>>")
 public class Command_saconfig extends FreedomCommand
 {
 
@@ -37,6 +37,7 @@ public class Command_saconfig extends FreedomCommand
             case "clean":
             {
                 checkConsole();
+                checkRank(Rank.TELNET_ADMIN);
 
                 FUtil.adminAction(sender.getName(), "Cleaning admin list", true);
                 plugin.al.deactivateOldEntries(true);
@@ -55,71 +56,24 @@ public class Command_saconfig extends FreedomCommand
                 return true;
             }
 
-            case "clearme":
-            {
-                checkPlayer();
-                checkRank(Rank.SUPER_ADMIN);
-
-                final Admin admin = plugin.al.getAdmin(playerSender);
-
-                if (admin == null)
-                {
-                    msg("Could not find your admin entry! Please notify a developer.", ChatColor.RED);
-                    return true;
-                }
-
-                final String ip = Ips.getIp(playerSender);
-
-                if (args.length == 1)
-                {
-                    FUtil.adminAction(sender.getName(), "Cleaning my supered IPs", true);
-
-                    int counter = admin.getIps().size() - 1;
-                    admin.clearIPs();
-                    admin.addIp(ip);
-
-                    plugin.al.save(admin);
-
-                    msg(counter + " IPs removed.");
-                    msg(admin.getIps().get(0) + " is now your only IP address");
-                }
-                else
-                {
-                    if (!admin.getIps().contains(args[1]))
-                    {
-                        msg("That IP is not registered to you.");
-                    }
-                    else if (ip.equals(args[1]))
-                    {
-                        msg("You cannot remove your current IP.");
-                    }
-                    else
-                    {
-                        FUtil.adminAction(sender.getName(), "Removing a supered IP", true);
-
-                        admin.removeIp(args[1]);
-
-                        plugin.al.save(admin);
-
-                        msg("Removed IP " + args[1]);
-                        msg("Current IPs: " + StringUtils.join(admin.getIps(), ", "));
-                    }
-                }
-
-                return true;
-            }
-
             case "setrank":
             {
+                checkConsole();
+                checkNotHostConsole();
+                checkRank(Rank.SENIOR_CONSOLE);
+
                 if (args.length < 3)
                 {
                     return false;
                 }
 
-                checkConsole();
-                checkRank(Rank.SENIOR_CONSOLE);
-
                 Rank rank = Rank.findRank(args[2]);
+                if (rank == null)
+                {
+                    msg("Unknown rank: " + rank);
+                    return true;
+                }
+
                 if (!rank.isAtLeast(Rank.SUPER_ADMIN))
                 {
                     msg("Rank must be superadmin or higher.", ChatColor.RED);
@@ -133,8 +87,10 @@ public class Command_saconfig extends FreedomCommand
                     return true;
                 }
 
+                FUtil.adminAction(sender.getName(), "Setting " + admin.getName() + "'s rank to " + rank.getName(), true);
+
                 admin.setRank(rank);
-                plugin.al.save(admin);
+                plugin.al.save();
 
                 msg("Set " + admin.getName() + "'s rank to " + rank.getName());
                 return true;
@@ -182,16 +138,16 @@ public class Command_saconfig extends FreedomCommand
                 checkConsole();
                 checkRank(Rank.TELNET_ADMIN);
 
+                // Player already an admin?
                 final Player player = getPlayer(args[1]);
-
-                if (plugin.al.isAdmin(player))
+                if (player != null && plugin.al.isAdmin(player))
                 {
                     msg("That player is already admin.");
                     return true;
                 }
 
+                // Find the old admin entry
                 String name = player != null ? player.getName() : args[1];
-
                 Admin admin = null;
                 for (Admin loopAdmin : plugin.al.getAllAdmins().values())
                 {
@@ -202,29 +158,8 @@ public class Command_saconfig extends FreedomCommand
                     }
                 }
 
-                if (admin != null) // Existing admin
+                if (admin == null) // New admin
                 {
-                    FUtil.adminAction(sender.getName(), "Readding " + admin.getName() + " to the admin list", true);
-
-                    if (player != null)
-                    {
-                        admin.loadFrom(player); // Reset IP, username
-                    }
-
-                    admin.setActive(true);
-                    admin.setLastLogin(new Date());
-
-                    if (player != null)
-                    {
-                        admin.addIp(Ips.getIp(player));
-                    }
-
-                    plugin.al.save(admin);
-                    plugin.al.updateTables();
-                }
-                else // New admin
-                {
-
                     if (player == null)
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND);
@@ -233,7 +168,22 @@ public class Command_saconfig extends FreedomCommand
 
                     FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the admin list", true);
                     plugin.al.addAdmin(new Admin(player));
+                }
+                else // Existing admin
+                {
+                    FUtil.adminAction(sender.getName(), "Readding " + admin.getName() + " to the admin list", true);
 
+                    if (player != null)
+                    {
+                        admin.setName(player.getName());
+                        admin.addIp(Ips.getIp(player));
+                    }
+
+                    admin.setActive(true);
+                    admin.setLastLogin(new Date());
+
+                    plugin.al.save();
+                    plugin.al.updateTables();
                 }
 
                 if (player != null)
@@ -260,7 +210,7 @@ public class Command_saconfig extends FreedomCommand
                 checkRank(Rank.TELNET_ADMIN);
 
                 Player player = getPlayer(args[1]);
-                Admin admin = player == null ? plugin.al.getAdmin(player) : plugin.al.getEntryByName(args[1]);
+                Admin admin = player != null ? plugin.al.getAdmin(player) : plugin.al.getEntryByName(args[1]);
 
                 if (admin == null)
                 {
@@ -270,7 +220,7 @@ public class Command_saconfig extends FreedomCommand
 
                 FUtil.adminAction(sender.getName(), "Removing " + admin.getName() + " from the admin list", true);
                 admin.setActive(false);
-                plugin.al.save(admin);
+                plugin.al.save();
                 plugin.al.updateTables();
                 return true;
             }

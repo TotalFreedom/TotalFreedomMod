@@ -2,7 +2,7 @@ package me.totalfreedom.totalfreedommod.rank;
 
 import org.bukkit.ChatColor;
 
-public interface RankBase
+public interface Displayable
 {
 
     public String getName();
@@ -16,9 +16,5 @@ public interface RankBase
     public String getColoredTag();
 
     public String getColoredLoginMessage();
-
-    public boolean isAtLeast(RankBase rank);
-
-    public int getLevel();
 
 }

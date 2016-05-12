@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.FLog;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -21,11 +21,11 @@ public class Command_enchant extends FreedomCommand
             return false;
         }
 
-        ItemStack itemInHand = playerSender.getItemInHand();
+        ItemStack item = playerSender.getEquipment().getItemInMainHand();
 
-        if (itemInHand == null)
+        if (item == null || item.getType() == Material.AIR)
         {
-            msg("You are holding an invalid item.");
+            msg("You have to hold an item to enchant it");
             return true;
         }
 
@@ -36,7 +36,7 @@ public class Command_enchant extends FreedomCommand
             StringBuilder possible_ench = new StringBuilder("Possible enchantments for held item: ");
             for (Enchantment ench : Enchantment.values())
             {
-                if (ench.canEnchantItem(itemInHand))
+                if (ench.canEnchantItem(item))
                 {
                     has_enchantments = true;
                     possible_ench.append(ench.getName()).append(", ");
@@ -58,14 +58,14 @@ public class Command_enchant extends FreedomCommand
             {
                 try
                 {
-                    if (ench.canEnchantItem(itemInHand))
+                    if (ench.canEnchantItem(item))
                     {
-                        itemInHand.addEnchantment(ench, ench.getMaxLevel());
+                        item.addEnchantment(ench, ench.getMaxLevel());
                     }
                 }
                 catch (Exception ex)
                 {
-                    FLog.info("Error using " + ench.getName() + " on " + itemInHand.getType().name() + " held by " + playerSender.getName() + ".");
+                    msg("Could not add enchantment: " + ench.getName());
                 }
             }
 
@@ -73,9 +73,9 @@ public class Command_enchant extends FreedomCommand
         }
         else if (args[0].equalsIgnoreCase("reset"))
         {
-            for (Enchantment ench : itemInHand.getEnchantments().keySet())
+            for (Enchantment ench : item.getEnchantments().keySet())
             {
-                itemInHand.removeEnchantment(ench);
+                item.removeEnchantment(ench);
             }
 
             msg("Removed all enchantments.");
@@ -105,9 +105,9 @@ public class Command_enchant extends FreedomCommand
 
             if (args[0].equalsIgnoreCase("add"))
             {
-                if (ench.canEnchantItem(itemInHand))
+                if (ench.canEnchantItem(item))
                 {
-                    itemInHand.addEnchantment(ench, ench.getMaxLevel());
+                    item.addEnchantment(ench, ench.getMaxLevel());
 
                     msg("Added enchantment: " + ench.getName());
                 }
@@ -118,7 +118,7 @@ public class Command_enchant extends FreedomCommand
             }
             else if (args[0].equals("remove"))
             {
-                itemInHand.removeEnchantment(ench);
+                item.removeEnchantment(ench);
 
                 msg("Removed enchantment: " + ench.getName());
             }

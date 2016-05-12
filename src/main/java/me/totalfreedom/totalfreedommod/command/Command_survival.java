@@ -15,61 +15,43 @@ public class Command_survival extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole)
-        {
-            if (args.length == 0)
-            {
-                msg("When used from the console, you must define a target user to change gamemode on.");
-                return true;
-            }
-        }
-
-        Player player;
-
         if (args.length == 0)
         {
-            player = playerSender;
+            if (isConsole())
+            {
+                sender.sendMessage("When used from the console, you must define a target player.");
+                return true;
+            }
+
+            playerSender.setGameMode(GameMode.SURVIVAL);
+            msg("Gamemode set to survival.");
+            return true;
         }
-        else
+
+        checkRank(Rank.SUPER_ADMIN);
+
+        if (args[0].equals("-a"))
         {
-            if (args[0].equalsIgnoreCase("-a"))
+            for (Player targetPlayer : server.getOnlinePlayers())
             {
-                if (!plugin.al.isAdmin(sender) || senderIsConsole)
-                {
-                    noPerms();
-                    return true;
-                }
-
-                for (Player targetPlayer : server.getOnlinePlayers())
-                {
-                    targetPlayer.setGameMode(GameMode.SURVIVAL);
-                }
-
-                FUtil.adminAction(sender.getName(), "Changing everyone's gamemode to survival", false);
-                return true;
+                targetPlayer.setGameMode(GameMode.SURVIVAL);
             }
 
-            if (senderIsConsole || plugin.al.isAdmin(sender))
-            {
-                player = getPlayer(args[0]);
-
-                if (player == null)
-                {
-                    msg(FreedomCommand.PLAYER_NOT_FOUND);
-                    return true;
-                }
-            }
-            else
-            {
-                msg("Only superadmins can change other user's gamemode.");
-                return true;
-            }
+            FUtil.adminAction(sender.getName(), "Changing everyone's gamemode to survival", false);
+            return true;
         }
 
-        msg("Setting " + player.getName() + " to game mode 'Survival'.");
-        player.sendMessage(sender.getName() + " set your game mode to 'Survival'.");
-        player.setGameMode(GameMode.SURVIVAL);
+        Player player = getPlayer(args[0]);
 
+        if (player == null)
+        {
+            sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
+            return true;
+        }
+
+        msg("Setting " + player.getName() + " to game mode survival.");
+        msg(player, sender.getName() + " set your game mode to survival.");
+        player.setGameMode(GameMode.SURVIVAL);
         return true;
     }
 }

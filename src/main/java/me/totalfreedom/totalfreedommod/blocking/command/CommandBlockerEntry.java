@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.blocking.command;
 
 import lombok.Getter;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -38,7 +39,7 @@ public class CommandBlockerEntry
     {
         if (action == CommandBlockerAction.BLOCK_AND_EJECT && sender instanceof Player)
         {
-            FUtil.autoEject((Player) sender, "You used a prohibited command: " + command);
+            TotalFreedomMod.plugin().ae.autoEject((Player) sender, "You used a prohibited command: " + command);
             FUtil.bcastMsg(sender.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
             return;
         }

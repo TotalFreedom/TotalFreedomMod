@@ -34,12 +34,12 @@ public class Freezer extends FreedomService
 
     public void setGlobalFreeze(boolean frozen)
     {
-        this.globalFreeze = true;
+        this.globalFreeze = frozen;
     }
 
     public void purge()
     {
-        setGlobalFreeze(false);
+        this.globalFreeze = false;
 
         for (Player player : server.getOnlinePlayers())
         {

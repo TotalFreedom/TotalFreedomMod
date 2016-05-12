@@ -36,7 +36,7 @@ public class PermbanList extends FreedomService
         permbannedNames.clear();
         permbannedIps.clear();
 
-        final YamlConfig config = new YamlConfig(TotalFreedomMod.plugin, CONFIG_FILENAME, true);
+        final YamlConfig config = new YamlConfig(plugin, CONFIG_FILENAME, true);
         config.load();
 
         for (String name : config.getKeys(false))

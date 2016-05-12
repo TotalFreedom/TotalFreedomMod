@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.command;
 import java.util.Arrays;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.rank.RankBase;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.command.AeroCommandBase;
@@ -20,9 +19,12 @@ import org.bukkit.entity.Player;
 public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends AbstractCommandExecutor<C>
 {
 
-    public FreedomCommandExecutor(AeroCommandHandler<?> handler, String name, C command)
+    private final TotalFreedomMod plugin;
+
+    public FreedomCommandExecutor(TotalFreedomMod plugin, AeroCommandHandler<?> handler, String name, C command)
     {
         super(handler, name, command);
+        this.plugin = plugin;
     }
 
     protected FreedomCommand getCommand()
@@ -45,9 +47,25 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
             return;
         }
 
-        pluginCommand.setAliases(Arrays.asList(params.aliases().split(",")));
+        String aliasString = params.aliases();
+
+        if (aliasString.length() > 0)
+        {
+            pluginCommand.setAliases(Arrays.asList(params.aliases().split(",")));
+        }
         pluginCommand.setDescription(params.description());
         pluginCommand.setUsage(params.usage());
+
+        // Check if permisions are correctly set up
+        CommandPermissions perms = command.getPerms();
+        if (perms != null)
+        {
+            if (perms.level().isConsole())
+            {
+                FLog.warning("[Command] " + pluginCommand.getName() + " - permission is set to a console rank, "
+                        + "should be set to player variant with 'source = SourceType.ONLY_CONSOLE'");
+            }
+        }
     }
 
     @Override
@@ -125,7 +143,7 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
         // Player permissions
         if (player != null)
         {
-            Rank rank = TotalFreedomMod.plugin.rm.getRank(player);
+            Rank rank = plugin.rm.getRank(player);
             boolean result = rank.isAtLeast(perms.level());
             if (!result && sendMsg)
             {
@@ -135,7 +153,7 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
         }
 
         // Console permissions
-        RankBase rank = TotalFreedomMod.plugin.rm.getRank(sender);
+        Rank rank = plugin.rm.getRank(sender);
         boolean result = rank.isAtLeast(perms.level());
         if (!result && sendMsg)
         {
@@ -147,10 +165,17 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
     public static class FreedomExecutorFactory implements AeroCommandExecutorFactory
     {
 
+        private final TotalFreedomMod plugin;
+
+        public FreedomExecutorFactory(TotalFreedomMod plugin)
+        {
+            this.plugin = plugin;
+        }
+
         @Override
         public AeroCommandExecutor<? extends AeroCommandBase<?>> newExecutor(AeroCommandHandler<?> handler, String name, AeroCommandBase<?> command)
         {
-            return new FreedomCommandExecutor<>(handler, name, command);
+            return new FreedomCommandExecutor<>(plugin, handler, name, command);
         }
 
     }

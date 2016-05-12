@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -10,14 +11,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Temporarily bans a player for five minutes.", usage = "/<command> <partialname>", aliases = "noob")
+@CommandParameters(description = "Temporarily bans a player for five minutes.", usage = "/<command> <player> [reason]", aliases = "noob")
 public class Command_tban extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length != 1)
+        if (args.length < 1)
         {
             return false;
         }
@@ -28,6 +29,16 @@ public class Command_tban extends FreedomCommand
         {
             msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
             return true;
+        }
+
+        String reason;
+        if (args.length > 1)
+        {
+            reason = StringUtils.join(args, " ", 1, args.length);
+        }
+        else
+        {
+            reason = "You have been temporarily banned for 5 minutes.";
         }
 
         // strike with lightning effect:
@@ -42,7 +53,7 @@ public class Command_tban extends FreedomCommand
         }
 
         FUtil.adminAction(sender.getName(), "Tempbanning: " + player.getName() + " for 5 minutes.", true);
-        plugin.bm.addBan(Ban.forPlayer(player, sender, FUtil.parseDateOffset("5m"), ChatColor.RED + "You have been temporarily banned for 5 minutes."));
+        plugin.bm.addBan(Ban.forPlayer(player, sender, FUtil.parseDateOffset("5m"), reason));
 
         player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
 

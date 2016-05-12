@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod;
 
+import me.totalfreedom.totalfreedommod.fun.Trailer;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,12 +12,14 @@ import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
 import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
 import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
+import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
 import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
 import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
 import me.totalfreedom.totalfreedommod.caging.Cager;
 import me.totalfreedom.totalfreedommod.command.CommandLoader;
+import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.freeze.Freezer;
 import me.totalfreedom.totalfreedommod.fun.ItemFun;
 import me.totalfreedom.totalfreedommod.fun.Jumppads;
@@ -28,9 +31,12 @@ import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.util.MethodTimer;
 import me.totalfreedom.totalfreedommod.world.WorldManager;
 import net.pravian.aero.component.service.ServiceManager;
 import net.pravian.aero.plugin.AeroPlugin;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mcstats.Metrics;
 
@@ -41,33 +47,35 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     //
     public static final BuildProperties build = new BuildProperties();
     //
-    @SuppressWarnings("FieldNameHidesFieldInSuperclass")
-    public static TotalFreedomMod plugin;
     public static String pluginName;
     public static String pluginVersion;
+    //
+    public MainConfig config;
     //
     // Services
     public ServiceManager<TotalFreedomMod> services;
     public ServerInterface si;
+    public SavedFlags sf;
     public WorldManager wm;
+    public LogViewer lv;
     public AdminList al;
+    public RankManager rm;
+    public CommandLoader cl;
+    public CommandBlocker cb;
     public EventBlocker eb;
     public BlockBlocker bb;
     public MobBlocker mb;
     public InteractBlocker ib;
+    public PotionBlocker pb;
     public LoginProcess lp;
     public AntiNuke nu;
     public AntiSpam as;
-    public RankManager rm;
     public PlayerList pl;
-    public CommandLoader cl;
-    public CommandBlocker cb;
     public Announcer an;
     public ChatManager cm;
     public BanManager bm;
-    public PermbanList pb;
+    public PermbanList pm;
     public ProtectArea pa;
-    public ServiceChecker sc;
     public GameRuleHandler gr;
     public RollbackManager rb;
     public CommandSpy cs;
@@ -77,6 +85,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Muter mu;
     public Fuckoff fo;
     public AutoKick ak;
+    public AutoEject ae;
     public MovementValidator mv;
     public EntityWiper ew;
     public FrontDoor fd;
@@ -85,6 +94,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Landminer lm;
     public MP44 mp;
     public Jumppads jp;
+    public Trailer tr;
     public HTTPDaemon hd;
     //
     // Bridges
@@ -96,26 +106,23 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     @Override
     public void load()
     {
-        TotalFreedomMod.plugin = this;
         TotalFreedomMod.pluginName = plugin.getDescription().getName();
         TotalFreedomMod.pluginVersion = plugin.getDescription().getVersion();
 
         FLog.setPluginLogger(plugin.getLogger());
         FLog.setServerLogger(server.getLogger());
 
-        build.load();
+        build.load(plugin);
     }
 
     @Override
     public void enable()
     {
-        TotalFreedomMod.plugin = this;
-
         FLog.info("Created by Madgeek1450 and Prozza");
         FLog.info("Version " + build.formattedVersion());
         FLog.info("Compiled " + build.date + " by " + build.author);
 
-        final FUtil.MethodTimer timer = new FUtil.MethodTimer();
+        final MethodTimer timer = new MethodTimer();
         timer.start();
 
         // Warn if we're running on a wrong version
@@ -128,33 +135,39 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         // Convert old config files
         new ConfigConverter(plugin).convert();
 
-        FUtil.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
-        FUtil.createBackups(AdminList.CONFIG_FILENAME);
-        FUtil.createBackups(PermbanList.CONFIG_FILENAME);
+        BackupManager backups = new BackupManager(this);
+        backups.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
+        backups.createBackups(AdminList.CONFIG_FILENAME);
+        backups.createBackups(PermbanList.CONFIG_FILENAME);
+
+        config = new MainConfig(this);
+        config.load();
 
         // Start services
         services = new ServiceManager<>(plugin);
         si = services.registerService(ServerInterface.class);
+        sf = services.registerService(SavedFlags.class);
         wm = services.registerService(WorldManager.class);
+        lv = services.registerService(LogViewer.class);
         al = services.registerService(AdminList.class);
+        rm = services.registerService(RankManager.class);
+        cl = services.registerService(CommandLoader.class);
+        cb = services.registerService(CommandBlocker.class);
         eb = services.registerService(EventBlocker.class);
         bb = services.registerService(BlockBlocker.class);
         mb = services.registerService(MobBlocker.class);
         ib = services.registerService(InteractBlocker.class);
+        pb = services.registerService(PotionBlocker.class);
         lp = services.registerService(LoginProcess.class);
         nu = services.registerService(AntiNuke.class);
         as = services.registerService(AntiSpam.class);
-        rm = services.registerService(RankManager.class);
 
         pl = services.registerService(PlayerList.class);
-        cl = services.registerService(CommandLoader.class);
-        cb = services.registerService(CommandBlocker.class);
         an = services.registerService(Announcer.class);
         cm = services.registerService(ChatManager.class);
         bm = services.registerService(BanManager.class);
-        pb = services.registerService(PermbanList.class);
+        pm = services.registerService(PermbanList.class);
         pa = services.registerService(ProtectArea.class);
-        sc = services.registerService(ServiceChecker.class);
         gr = services.registerService(GameRuleHandler.class);
 
         // Single admin utils
@@ -166,6 +179,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         mu = services.registerService(Muter.class);
         fo = services.registerService(Fuckoff.class);
         ak = services.registerService(AutoKick.class);
+        ae = services.registerService(AutoEject.class);
 
         mv = services.registerService(MovementValidator.class);
         ew = services.registerService(EntityWiper.class);
@@ -177,6 +191,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         lm = services.registerService(Landminer.class);
         mp = services.registerService(MP44.class);
         jp = services.registerService(Jumppads.class);
+        tr = services.registerService(Trailer.class);
 
         // HTTPD
         hd = services.registerService(HTTPDaemon.class);
@@ -224,29 +239,31 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         server.getScheduler().cancelTasks(plugin);
 
         FLog.info("Plugin disabled");
-        TotalFreedomMod.plugin = null;
     }
 
     public static class BuildProperties
     {
 
         public String author;
+        public String codename;
         public String version;
         public String number;
         public String date;
         public String head;
 
-        public void load()
+        public void load(TotalFreedomMod plugin)
         {
             try
             {
-                final InputStream in = plugin.getResource("build.properties");
-
-                final Properties props = new Properties();
-                props.load(in);
-                in.close();
+                final Properties props;
+                try (InputStream in = plugin.getResource("build.properties"))
+                {
+                    props = new Properties();
+                    props.load(in);
+                }
 
                 author = props.getProperty("program.build.author", "unknown");
+                codename = props.getProperty("program.build.codename", "unknown");
                 version = props.getProperty("program.build.version", "unknown");
                 number = props.getProperty("program.build.number", "1");
                 date = props.getProperty("program.build.date", "unknown");
@@ -263,6 +280,18 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         {
             return pluginVersion + "." + number + " (" + head + ")";
         }
+    }
+
+    public static TotalFreedomMod plugin()
+    {
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
+        {
+            if (plugin.getName().equalsIgnoreCase(pluginName))
+            {
+                return (TotalFreedomMod) plugin;
+            }
+        }
+        return null;
     }
 
 }

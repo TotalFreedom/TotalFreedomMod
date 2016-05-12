@@ -10,6 +10,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tfm.build.version>${project.version}</tfm.build.version>
+        <tfm.build.codename>Electrum</tfm.build.codename>
         <tfm.build.number>${maven.buildnumber}</tfm.build.number>
         <tfm.build.date>${maven.build.timestamp}</tfm.build.date>
         <tfm.build.author>${buildAuthor}</tfm.build.author>
@@ -120,7 +121,7 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-            
+
             <!-- Antrun -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -224,7 +225,7 @@
                 <configuration>
                     <buildNumberPropertyName>maven.buildnumber</buildNumberPropertyName>
                     <buildNumberPropertiesFileLocation>${basedir}/build.properties</buildNumberPropertiesFileLocation>
-                    <format>{0,number}</format>
+                    <format>{0,number,#}</format>
                     <items>
                         <item>buildNumber</item>
                     </items>

@@ -4,6 +4,9 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -127,6 +130,33 @@ public class WorldManager extends FreedomService
         {
             event.setCancelled(true);
         }
+    }
+
+    public void gotoWorld(Player player, String targetWorld)
+    {
+        if (player == null)
+        {
+            return;
+        }
+
+        if (player.getWorld().getName().equalsIgnoreCase(targetWorld))
+        {
+            playerMsg(player, "Going to main world.", ChatColor.GRAY);
+            player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+            return;
+        }
+
+        for (World world : Bukkit.getWorlds())
+        {
+            if (world.getName().equalsIgnoreCase(targetWorld))
+            {
+                playerMsg(player, "Going to world: " + targetWorld, ChatColor.GRAY);
+                player.teleport(world.getSpawnLocation());
+                return;
+            }
+        }
+
+        playerMsg(player, "World " + targetWorld + " not found.", ChatColor.GRAY);
     }
 
 }

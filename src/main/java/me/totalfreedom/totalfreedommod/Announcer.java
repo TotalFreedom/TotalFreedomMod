@@ -58,9 +58,9 @@ public class Announcer extends FreedomService
                     current = 0;
                 }
 
-                FUtil.bcastMsg(prefix + announcements.get(current));
+                announce(announcements.get(current));
             }
-        }.runTaskTimer(TotalFreedomMod.plugin, interval, interval);
+        }.runTaskTimer(plugin, interval, interval);
     }
 
     @Override
@@ -78,6 +78,11 @@ public class Announcer extends FreedomService
     public List<String> getAnnouncements()
     {
         return Collections.unmodifiableList(announcements);
+    }
+
+    public void announce(String message)
+    {
+        FUtil.bcastMsg(prefix + message);
     }
 
 }

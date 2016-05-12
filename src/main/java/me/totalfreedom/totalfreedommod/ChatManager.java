@@ -3,7 +3,10 @@ package me.totalfreedom.totalfreedommod;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
+import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -84,10 +87,41 @@ public class ChatManager extends FreedomService
         // Finally, set message
         event.setMessage(message);
 
-        // Set the tag
-        if (fPlayer.getTag() != null)
+        // Make format
+        String format = "<%1$s> %2$s";
+
+        String tag = fPlayer.getTag();
+        if (tag != null && !tag.isEmpty())
         {
-            event.setFormat("<" + fPlayer.getTag().replaceAll("%", "%%") + " %1$s> %2$s");
+            format = tag.replace("%", "%%") + " " + format;
+        }
+
+        // Set format
+        event.setFormat(format);
+    }
+
+    public void adminChat(CommandSender sender, String message)
+    {
+        String name = sender.getName() + " " + plugin.rm.getDisplay(sender).getColoredTag() + ChatColor.WHITE;
+        FLog.info("[ADMIN] " + name + ": " + message);
+
+        for (Player player : server.getOnlinePlayers())
+        {
+            if (plugin.al.isAdmin(player))
+            {
+                player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.GOLD + message);
+            }
+        }
+    }
+
+    public void reportAction(Player reporter, Player reported, String report)
+    {
+        for (Player player : server.getOnlinePlayers())
+        {
+            if (plugin.al.isAdmin(player))
+            {
+                playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
+            }
         }
     }
 

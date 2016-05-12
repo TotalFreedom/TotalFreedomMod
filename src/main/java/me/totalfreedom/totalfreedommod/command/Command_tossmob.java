@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -30,7 +31,7 @@ public class Command_tossmob extends FreedomCommand
 
         FPlayer playerData = plugin.pl.getPlayer(playerSender);
 
-        EntityType creature = EntityType.PIG;
+        EntityType type = null;
         if (args.length >= 1)
         {
             if ("off".equals(args[0]))
@@ -42,19 +43,32 @@ public class Command_tossmob extends FreedomCommand
 
             if (args[0].equalsIgnoreCase("list"))
             {
-                msg("Supported mobs: " + StringUtils.join(FUtil.MOB_TYPES.keySet(), ", "), ChatColor.GREEN);
+                StringBuilder sb = new StringBuilder();
+                for (EntityType loop : EntityType.values())
+                {
+                    if (loop.isAlive())
+                    {
+                        sb.append(" ").append(DepreciationAggregator.getName_EntityType(loop));
+                    }
+                }
+                msg("Supported mobs: " + sb.toString().trim(), ChatColor.GREEN);
                 return true;
             }
 
-            try
+            for (EntityType loopType : EntityType.values())
             {
-                creature = FUtil.getEntityType(args[0]);
+                if (DepreciationAggregator.getName_EntityType(loopType).toLowerCase().equalsIgnoreCase(args[0]))
+                {
+                    type = loopType;
+                    break;
+                }
             }
-            catch (Exception ex)
+
+            if (type == null)
             {
                 msg(args[0] + " is not a supported mob type. Using a pig instead.", ChatColor.RED);
                 msg("By the way, you can type /tossmob list to see all possible mobs.", ChatColor.RED);
-                creature = EntityType.PIG;
+                type = EntityType.PIG;
             }
         }
 
@@ -79,12 +93,12 @@ public class Command_tossmob extends FreedomCommand
             speed = 5.0;
         }
 
-        playerData.enableMobThrower(creature, speed);
-        msg("MobThrower is enabled. Creature: " + creature + " - Speed: " + speed + ".", ChatColor.GREEN);
+        playerData.enableMobThrower(type, speed);
+        msg("MobThrower is enabled. Creature: " + type + " - Speed: " + speed + ".", ChatColor.GREEN);
         msg("Left click while holding a " + Material.BONE.toString() + " to throw mobs!", ChatColor.GREEN);
         msg("Type '/tossmob off' to disable.  -By Madgeek1450", ChatColor.GREEN);
 
-        playerSender.setItemInHand(new ItemStack(Material.BONE, 1));
+        playerSender.getEquipment().setItemInMainHand(new ItemStack(Material.BONE, 1));
 
         return true;
     }

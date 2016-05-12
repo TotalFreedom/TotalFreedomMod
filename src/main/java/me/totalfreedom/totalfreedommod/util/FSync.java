@@ -11,6 +11,7 @@ public class FSync
 
     public static void playerMsg(final Player player, final String message)
     {
+        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
         new BukkitRunnable()
         {
 
@@ -20,11 +21,12 @@ public class FSync
                 FUtil.playerMsg(player, message);
             }
 
-        }.runTask(TotalFreedomMod.plugin);
+        }.runTask(plugin);
     }
 
     public static void playerKick(final Player player, final String reason)
     {
+        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
         new BukkitRunnable()
         {
 
@@ -34,39 +36,42 @@ public class FSync
                 player.kickPlayer(reason);
             }
 
-        }.runTask(TotalFreedomMod.plugin);
+        }.runTask(plugin);
     }
 
     public static void adminChatMessage(final CommandSender sender, final String message)
     {
+        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
         new BukkitRunnable()
         {
 
             @Override
             public void run()
             {
-                FUtil.adminChatMessage(sender, message);
+                plugin.cm.adminChat(sender, message);
             }
 
-        }.runTask(TotalFreedomMod.plugin);
+        }.runTask(plugin);
     }
 
     public static void autoEject(final Player player, final String kickMessage)
     {
+        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
         new BukkitRunnable()
         {
 
             @Override
             public void run()
             {
-                FUtil.autoEject(player, kickMessage);
+                plugin.ae.autoEject(player, kickMessage);
             }
 
-        }.runTask(TotalFreedomMod.plugin);
+        }.runTask(plugin);
     }
 
     public static void bcastMsg(final String message, final ChatColor color)
     {
+        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
         new BukkitRunnable()
         {
 
@@ -76,6 +81,6 @@ public class FSync
                 FUtil.bcastMsg(message, color);
             }
 
-        }.runTask(TotalFreedomMod.plugin);
+        }.runTask(plugin);
     }
 }

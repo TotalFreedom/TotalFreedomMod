@@ -24,7 +24,7 @@ public class CommandLoader extends FreedomService
     protected void onStart()
     {
         handler.clearCommands();
-        handler.setExecutorFactory(new FreedomCommandExecutor.FreedomExecutorFactory());
+        handler.setExecutorFactory(new FreedomCommandExecutor.FreedomExecutorFactory(plugin));
         handler.setCommandClassPrefix("Command_");
         handler.setPermissionMessage(ChatColor.RED + "You do not have permission to use this command.");
         handler.setOnlyConsoleMessage(ChatColor.RED + "This command can only be used from the console.");

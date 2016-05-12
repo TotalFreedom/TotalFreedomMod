@@ -70,14 +70,14 @@ public class ItemFun extends FreedomService
                 if (!plugin.al.isSeniorAdmin(player))
                 {
                     final StringBuilder msg = new StringBuilder();
-                    final char[] chars = (player.getName() + " is a clown.").toCharArray();
+                    final char[] chars = ("You are a clown.").toCharArray();
                     for (char c : chars)
                     {
                         msg.append(FUtil.randomChatColor()).append(c);
                     }
-                    FUtil.bcastMsg(msg.toString());
+                    player.sendMessage(msg.toString());
 
-                    player.getInventory().getItemInHand().setType(Material.POTATO_ITEM);
+                    player.getEquipment().getItemInMainHand().setType(Material.POTATO_ITEM);
                     break;
                 }
 
@@ -126,7 +126,7 @@ public class ItemFun extends FreedomService
                 break;
             }
 
-            case CARROT:
+            case CARROT_ITEM:
             {
                 if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
                 {
@@ -185,7 +185,7 @@ public class ItemFun extends FreedomService
                             tntBlock.setType(Material.AIR);
                         }
                     }
-                }.runTaskLater(TotalFreedomMod.plugin, 30L);
+                }.runTaskLater(plugin, 30L);
 
                 event.setCancelled(true);
                 break;
@@ -220,7 +220,7 @@ public class ItemFun extends FreedomService
 
                 if (fPlayer.toggleMP44Firing())
                 {
-                    fPlayer.startArrowShooter(TotalFreedomMod.plugin);
+                    fPlayer.startArrowShooter(plugin);
                 }
                 else
                 {

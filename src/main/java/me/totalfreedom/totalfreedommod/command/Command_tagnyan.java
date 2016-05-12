@@ -29,8 +29,18 @@ public class Command_tagnyan extends FreedomCommand
             tag.append(FUtil.randomChatColor()).append(c);
         }
 
+        String tagStr = tag.toString();
+        for (String word : Command_tag.FORBIDDEN_WORDS)
+        {
+            if (tagStr.contains(word))
+            {
+                msg("That tag contains a forbidden word.");
+                return true;
+            }
+        }
+
         final FPlayer data = plugin.pl.getPlayer(playerSender);
-        data.setTag(tag.toString());
+        data.setTag(tagStr);
 
         msg("Set tag to " + tag);
 

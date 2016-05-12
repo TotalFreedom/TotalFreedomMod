@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -21,7 +22,7 @@ public class Command_mobpurge extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        msg("Purging all mobs...");
+        FUtil.adminAction(sender.getName(), "Purging all mobs", true);
         msg(purgeMobs() + " mobs removed.");
         return true;
     }

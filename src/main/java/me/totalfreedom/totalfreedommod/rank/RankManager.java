@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod.rank;
 
-import java.util.List;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import net.pravian.aero.util.ChatUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -34,7 +34,7 @@ public class RankManager extends FreedomService
     {
     }
 
-    public RankBase getDisplay(CommandSender sender)
+    public Displayable getDisplay(CommandSender sender)
     {
         if (!(sender instanceof Player))
         {
@@ -64,7 +64,7 @@ public class RankManager extends FreedomService
         }
 
         // If the player's an owner, display that
-        if (MainConfig.get(ConfigEntry.SERVER_OWNERS, List.class).contains(player.getName()))
+        if (ConfigEntry.SERVER_OWNERS.getList().contains(player.getName()))
         {
             return Title.OWNER;
         }
@@ -94,7 +94,14 @@ public class RankManager extends FreedomService
             return Rank.SENIOR_CONSOLE;
         }
 
-        return admin.getRank();
+        Rank rank = admin.getRank();
+
+        // Get console
+        if (rank.hasConsoleVariant())
+        {
+            rank = rank.getConsoleVariant();
+        }
+        return rank;
     }
 
     public Rank getRank(Player player)
@@ -122,13 +129,13 @@ public class RankManager extends FreedomService
 
         // Unban admins
         boolean isAdmin = plugin.al.isAdmin(player);
-        fPlayer.setSuperadminIdVerified(false);
         if (isAdmin)
         {
             // Verify strict IP match
             if (!plugin.al.isIdentityMatched(player))
             {
                 FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
+                fPlayer.setSuperadminIdVerified(false);
             }
             else
             {
@@ -153,7 +160,7 @@ public class RankManager extends FreedomService
         // Set display
         if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()))
         {
-            final RankBase display = getDisplay(player);
+            final Displayable display = getDisplay(player);
             String loginMsg = display.getColoredLoginMessage();
 
             if (isAdmin)
@@ -161,17 +168,17 @@ public class RankManager extends FreedomService
                 Admin admin = plugin.al.getAdmin(player);
                 if (admin.hasLoginMessage())
                 {
-                    loginMsg = admin.getLoginMessage();
+                    loginMsg = ChatUtils.colorize(admin.getLoginMessage());
                 }
             }
 
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + loginMsg);
             plugin.pl.getPlayer(player).setTag(display.getColoredTag());
 
+            String displayName = display.getColor() + player.getName();
             try
             {
-                String displayName = display.getColor() + player.getName();
-                player.setPlayerListName(displayName.substring(0, Math.min(displayName.length(), 16)));
+                player.setPlayerListName(StringUtils.substring(displayName, 0, 16));
             }
             catch (IllegalArgumentException ex)
             {

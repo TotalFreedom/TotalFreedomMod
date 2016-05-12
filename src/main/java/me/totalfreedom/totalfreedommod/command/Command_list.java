@@ -2,6 +2,8 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -10,16 +12,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i]", aliases = "who")
+@CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.BOTH)
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f]", aliases = "who")
 public class Command_list extends FreedomCommand
 {
 
     private static enum ListFilter
     {
 
-        ALL,
+        PLAYERS,
         ADMINS,
+        FAMOUS_PLAYERS,
         IMPOSTORS;
     }
 
@@ -45,22 +48,24 @@ public class Command_list extends FreedomCommand
         final ListFilter listFilter;
         if (args.length == 1)
         {
-            if ("-a".equals(args[0]))
+            switch (args[0])
             {
-                listFilter = ListFilter.ADMINS;
-            }
-            else if ("-i".equals(args[0]))
-            {
-                listFilter = ListFilter.IMPOSTORS;
-            }
-            else
-            {
-                return false;
+                case "-a":
+                    listFilter = ListFilter.ADMINS;
+                    break;
+                case "-i":
+                    listFilter = ListFilter.IMPOSTORS;
+                    break;
+                case "-f":
+                    listFilter = ListFilter.FAMOUS_PLAYERS;
+                    break;
+                default:
+                    return false;
             }
         }
         else
         {
-            listFilter = ListFilter.ALL;
+            listFilter = ListFilter.PLAYERS;
         }
 
         final StringBuilder onlineStats = new StringBuilder();
@@ -83,11 +88,20 @@ public class Command_list extends FreedomCommand
                 continue;
             }
 
-            names.add(plugin.rm.getDisplay(player).getColoredTag() + player.getName());
+            if (listFilter == ListFilter.FAMOUS_PLAYERS && !ConfigEntry.FAMOUS_PLAYERS.getList().contains(player.getName().toLowerCase()))
+            {
+                continue;
+            }
+
+            Displayable display = plugin.rm.getDisplay(player);
+
+            names.add(display.getColoredTag() + player.getName());
         }
 
+        String playerType = listFilter == null ? "players" : listFilter.toString().toLowerCase().replace('_', ' ');
+
         onlineUsers.append("Connected ");
-        onlineUsers.append(listFilter == ListFilter.ADMINS ? "admins: " : "players: ");
+        onlineUsers.append(playerType + ": ");
         onlineUsers.append(StringUtils.join(names, ChatColor.WHITE + ", "));
 
         if (senderIsConsole)

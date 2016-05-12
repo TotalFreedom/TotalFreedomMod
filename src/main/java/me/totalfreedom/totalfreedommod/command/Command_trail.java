@@ -23,111 +23,21 @@ import org.bukkit.plugin.RegisteredListener;
 public class Command_trail extends FreedomCommand
 {
 
-    private static Listener movementListener = null;
-    private static final List<Player> trailPlayers = new ArrayList<>();
-    private static final Random RANDOM = new Random();
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length > 0 && "off".equals(args[0]))
         {
-            trailPlayers.remove(playerSender);
-
+            plugin.tr.remove(playerSender);
             msg("Trail disabled.");
         }
         else
         {
-            if (!trailPlayers.contains(playerSender))
-            {
-                trailPlayers.add(playerSender);
-            }
-
+            plugin.tr.add(playerSender);
             msg("Trail enabled. Use \"/trail off\" to disable.");
-        }
-
-        if (!trailPlayers.isEmpty())
-        {
-            registerMovementHandler();
-        }
-        else
-        {
-            unregisterMovementHandler();
         }
 
         return true;
     }
 
-    private static void registerMovementHandler()
-    {
-        if (getRegisteredListener(movementListener) == null)
-        {
-            Bukkit.getPluginManager().registerEvents(movementListener = new Listener()
-            {
-                @EventHandler(priority = EventPriority.NORMAL)
-                public void onPlayerMove(PlayerMoveEvent event)
-                {
-                    Player player = event.getPlayer();
-                    if (trailPlayers.contains(player))
-                    {
-                        Block fromBlock = event.getFrom().getBlock();
-                        if (fromBlock.isEmpty())
-                        {
-                            Block toBlock = event.getTo().getBlock();
-                            if (!fromBlock.equals(toBlock))
-                            {
-                                fromBlock.setType(Material.WOOL);
-                                DepreciationAggregator.setData_Block(fromBlock, (byte) RANDOM.nextInt(16));
-                            }
-                        }
-                    }
-                }
-            }, TotalFreedomMod.plugin);
-        }
-    }
-
-    private static void unregisterMovementHandler()
-    {
-        Listener registeredListener = getRegisteredListener(movementListener);
-        if (registeredListener != null)
-        {
-            PlayerMoveEvent.getHandlerList().unregister(registeredListener);
-        }
-    }
-
-    private static Listener getRegisteredListener(Listener listener)
-    {
-        RegisteredListener[] registeredListeners = PlayerMoveEvent.getHandlerList().getRegisteredListeners();
-        for (RegisteredListener registeredListener : registeredListeners)
-        {
-            if (registeredListener.getListener() == listener)
-            {
-                return listener;
-            }
-        }
-        return null;
-    }
-
-    public static void startTrail(Player player)
-    {
-        if (!trailPlayers.contains(player))
-        {
-            trailPlayers.add(player);
-        }
-
-        if (!trailPlayers.isEmpty())
-        {
-            registerMovementHandler();
-        }
-    }
-
-    public static void stopTrail(Player player)
-    {
-        trailPlayers.remove(player);
-
-        if (trailPlayers.isEmpty())
-        {
-            unregisterMovementHandler();
-        }
-    }
 }

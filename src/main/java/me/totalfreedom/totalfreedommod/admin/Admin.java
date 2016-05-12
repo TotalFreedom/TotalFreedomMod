@@ -57,7 +57,6 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         final StringBuilder output = new StringBuilder();
 
         output.append("Admin: ").append(name).append("\n")
-                .append("- Last Login Name: ").append(name).append("\n")
                 .append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n")
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")

@@ -55,22 +55,24 @@ public class ServerPing extends FreedomService
             return;
         }
 
+        String baseMotd = ConfigEntry.SERVER_MOTD.getString().replace("%mcversion%", plugin.si.getVersion());
+        baseMotd = baseMotd.replace("\\n", "\n");
+        baseMotd = FUtil.colorize(baseMotd);
+
         if (!ConfigEntry.SERVER_COLORFUL_MOTD.getBoolean())
         {
-            event.setMotd(FUtil.colorize(ConfigEntry.SERVER_MOTD.getString()
-                    .replace("%mcversion%", plugin.si.getVersion())));
+            event.setMotd(baseMotd);
             return;
         }
 
         // Colorful MOTD
         final StringBuilder motd = new StringBuilder();
-
-        for (String word : ConfigEntry.SERVER_MOTD.getString().replace("%mcversion%", plugin.si.getVersion()).split(" "))
+        for (String word : baseMotd.split(" "))
         {
             motd.append(FUtil.randomChatColor()).append(word).append(" ");
         }
 
-        event.setMotd(FUtil.colorize(motd.toString()));
+        event.setMotd(motd.toString().trim());
     }
 
 }

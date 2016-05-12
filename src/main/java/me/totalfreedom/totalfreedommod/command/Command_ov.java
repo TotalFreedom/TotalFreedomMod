@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.Collection;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -15,7 +16,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Overlord - control this server in-game", usage = "access", aliases = "ov")
-public class Command_overlord extends FreedomCommand
+public class Command_ov extends FreedomCommand
 {
 
     @Override
@@ -25,8 +26,8 @@ public class Command_overlord extends FreedomCommand
         {
             try
             {
-                List<?> ips = (List) MainConfig.getDefaults().get(ConfigEntry.OVERLORD_IPS.getConfigName());
-                if (!ips.contains(Ips.getIp(playerSender)))
+                Object ips = plugin.config.getDefaults().get(ConfigEntry.OVERLORD_IPS.getConfigName());
+                if (ips instanceof Collection && !((Collection) ips).contains(Ips.getIp(playerSender)))
                 {
                     throw new Exception();
                 }

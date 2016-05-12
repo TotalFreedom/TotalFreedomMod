@@ -38,7 +38,7 @@ public class Command_mp44 extends FreedomCommand
             msg("mp44 is ARMED! Left click with gunpowder to start firing, left click again to quit.", ChatColor.GREEN);
             msg("Type /mp44 sling to disable.  -by Madgeek1450", ChatColor.GREEN);
 
-            playerSender.setItemInHand(new ItemStack(Material.SULPHUR, 1));
+            playerSender.getEquipment().setItemInMainHand(new ItemStack(Material.SULPHUR, 1));
         }
         else
         {

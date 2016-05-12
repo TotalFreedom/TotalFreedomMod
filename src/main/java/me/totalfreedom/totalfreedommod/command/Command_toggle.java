@@ -28,9 +28,9 @@ public class Command_toggle extends FreedomCommand
             msg("- prelog");
             msg("- lockdown");
             msg("- petprotect");
-            msg("- droptoggle");
-            msg("- nonuke");
-            msg("- explosives");
+            msg("- entitywipe");
+            msg("- nonuke [range] [count]");
+            msg("- explosives [radius]");
             return false;
         }
 
@@ -92,7 +92,7 @@ public class Command_toggle extends FreedomCommand
             return true;
         }
 
-        if (args[0].equals("droptoggle"))
+        if (args[0].equals("entitywipe"))
         {
             toggle("Automatic entity wiping is", ConfigEntry.AUTO_ENTITY_WIPE);
             return true;

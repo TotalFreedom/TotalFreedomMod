@@ -7,8 +7,10 @@ import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -42,9 +44,9 @@ public class Command_ro extends FreedomCommand
                 }
             }
 
-            if (fromMaterial == null)
+            if (fromMaterial == null || fromMaterial == Material.AIR || !fromMaterial.isBlock())
             {
-                msg("Invalid block: " + materialName, ChatColor.RED);
+                msg("Invalid material: " + materialName, ChatColor.RED);
                 return true;
             }
 
@@ -105,7 +107,7 @@ public class Command_ro extends FreedomCommand
 
                 for (final Material material : materials)
                 {
-                    affected += FUtil.replaceBlocks(player.getLocation(), material, Material.AIR, radius);
+                    affected += replaceBlocks(player.getLocation(), material, Material.AIR, radius);
                 }
             }
         }
@@ -116,7 +118,7 @@ public class Command_ro extends FreedomCommand
                 for (Material material : materials)
                 {
                     FUtil.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
-                    affected += FUtil.replaceBlocks(targetPlayer.getLocation(), material, Material.AIR, radius);
+                    affected += replaceBlocks(targetPlayer.getLocation(), material, Material.AIR, radius);
                 }
             }
         }
@@ -124,5 +126,33 @@ public class Command_ro extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Remove complete! " + affected + " blocks removed.", false);
 
         return true;
+    }
+
+    public static int replaceBlocks(Location center, Material fromMaterial, Material toMaterial, int radius)
+    {
+        int affected = 0;
+
+        Block centerBlock = center.getBlock();
+        for (int xOffset = -radius; xOffset <= radius; xOffset++)
+        {
+            for (int yOffset = -radius; yOffset <= radius; yOffset++)
+            {
+                for (int zOffset = -radius; zOffset <= radius; zOffset++)
+                {
+                    Block block = centerBlock.getRelative(xOffset, yOffset, zOffset);
+
+                    if (block.getType().equals(fromMaterial))
+                    {
+                        if (block.getLocation().distanceSquared(center) < (radius * radius))
+                        {
+                            block.setType(toMaterial);
+                            affected++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return affected;
     }
 }

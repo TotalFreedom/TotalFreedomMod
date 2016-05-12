@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.list;
 import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
@@ -18,9 +19,9 @@ public class Module_dump extends HTTPDModule
     private File echoFile = null;
     private final String body;
 
-    public Module_dump(NanoHTTPD.HTTPSession session)
+    public Module_dump(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
     {
-        super(session);
+        super(plugin, session);
 
         //Body needs to be computed before getResponse, so we know if a text response or a file echo is needed.
         this.body = body();

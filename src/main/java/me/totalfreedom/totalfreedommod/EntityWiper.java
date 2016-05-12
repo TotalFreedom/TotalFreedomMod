@@ -7,6 +7,9 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.block.BlockState;
+import org.bukkit.entity.AreaEffectCloud;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EnderSignal;
@@ -18,6 +21,13 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.ThrownExpBottle;
+import org.bukkit.entity.ThrownPotion;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -40,6 +50,9 @@ public class EntityWiper extends FreedomService
         wipables.add(FallingBlock.class);
         wipables.add(Firework.class);
         wipables.add(Item.class);
+        wipables.add(ThrownPotion.class);
+        wipables.add(ThrownExpBottle.class);
+        wipables.add(AreaEffectCloud.class);
     }
 
     @Override
@@ -123,6 +136,24 @@ public class EntityWiper extends FreedomService
         }
 
         return removed;
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onContainerBreak(BlockBreakEvent event)
+    {
+        if (!ConfigEntry.AUTO_ENTITY_WIPE.getBoolean())
+        {
+            return;
+        }
+
+        BlockState state = event.getBlock().getState();
+        if (!(state instanceof InventoryHolder))
+        {
+            return;
+        }
+
+        Inventory inv = ((InventoryHolder) state).getInventory();
+        inv.clear();
     }
 
 }

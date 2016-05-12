@@ -107,7 +107,7 @@ public class AntiSpam extends FreedomService
         if (fPlayer.incrementAndGetMsgCount() > MSG_PER_CYCLE)
         {
             FUtil.bcastMsg(player.getName() + " was automatically kicked for spamming commands.", ChatColor.RED);
-            FUtil.autoEject(player, "Kicked for spamming commands.");
+            plugin.ae.autoEject(player, "Kicked for spamming commands.");
 
             fPlayer.resetMsgCount();
             event.setCancelled(true);

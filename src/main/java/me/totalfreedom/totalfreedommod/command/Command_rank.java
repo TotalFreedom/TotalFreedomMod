@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,24 +15,24 @@ public class Command_rank extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole && args.length < 1)
+        if (isConsole() && args.length == 0)
         {
             for (Player player : server.getOnlinePlayers())
             {
-                msg(player.getName() + " is " + plugin.rm.getDisplay(player).getColoredLoginMessage());
+                msg(message(player));
             }
+            return true;
+        }
+
+        if (args.length == 0)
+        {
+            msg(message(playerSender));
             return true;
         }
 
         if (args.length > 1)
         {
             return false;
-        }
-
-        if (args.length == 0)
-        {
-            msg(sender.getName() + " is " + plugin.rm.getDisplay(sender).getColoredLoginMessage(), ChatColor.AQUA);
-            return true;
         }
 
         final Player player = getPlayer(args[0]);
@@ -42,8 +43,33 @@ public class Command_rank extends FreedomCommand
             return true;
         }
 
-        msg(player.getName() + " is " + plugin.rm.getDisplay(player).getColoredLoginMessage(), ChatColor.AQUA);
+        msg(message(player));
 
         return true;
+    }
+
+    public String message(Player player)
+    {
+        Displayable display = plugin.rm.getDisplay(player);
+        Rank rank = plugin.rm.getRank(player);
+
+        StringBuilder sb = new StringBuilder();
+        sb
+                .append(ChatColor.AQUA)
+                .append(player.getName())
+                .append(" is ")
+                .append(display.getColoredLoginMessage());
+
+        if (rank != display)
+        {
+            sb
+                    .append(ChatColor.AQUA)
+                    .append(" (")
+                    .append(rank.getColoredName())
+                    .append(ChatColor.AQUA)
+                    .append(')');
+        }
+
+        return sb.toString();
     }
 }
