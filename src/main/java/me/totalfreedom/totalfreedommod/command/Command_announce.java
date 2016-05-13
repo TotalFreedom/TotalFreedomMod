@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Make an announcement", usage = "/<command> <message>")
 public class Command_announce extends FreedomCommand
 {
