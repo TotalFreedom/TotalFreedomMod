@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.totalfreedom</groupId>
-    <artifactId>totalfreedom</artifactId>
+    <artifactId>unraveledmc</artifactId>
     <version>5.0</version>
     <packaging>jar</packaging>
 
@@ -31,8 +31,8 @@
     </licenses>
 
     <organization>
-        <name>Total Freedom</name>
-        <url>https://totalfreedom.me</url>
+        <name>UnraveledMC</name>
+        <url>https://unraveledmc.com</url>
     </organization>
 
     <scm>
