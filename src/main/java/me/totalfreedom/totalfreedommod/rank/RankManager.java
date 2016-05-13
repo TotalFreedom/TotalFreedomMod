@@ -71,6 +71,15 @@ public class RankManager extends FreedomService
 
         return rank;
     }
+    
+        // If the player's an executive, display that
+        if (ConfigEntry.SERVER_EXECS.getList().contains(player.getName()))
+        {
+            return Title.EXEC;
+        }
+
+        return rank;
+    }
 
     public Rank getRank(CommandSender sender)
     {
