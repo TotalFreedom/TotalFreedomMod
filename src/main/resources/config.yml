@@ -21,6 +21,11 @@ server:
   owners:
     - PinchTheFinch
     - aggelosQQ
+    
+  # All players who show up as exec
+  execs:
+    - samennis1
+    - Dusty01
 
   # URL players should appeal for bans at
   ban_url: http://unraveledmc.com/forum/
