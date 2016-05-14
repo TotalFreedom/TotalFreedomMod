@@ -3,18 +3,17 @@ package me.totalfreedom.totalfreedommod.rank;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
-public enum Rank implements RankBase
+public enum Rank implements Displayable
 {
 
-    IMPOSTOR(Type.PLAYER, "an", "Imp", ChatColor.YELLOW),
-    NON_OP(Type.PLAYER, "a", "", ChatColor.GREEN),
-    OP(Type.PLAYER, "an", "OP", ChatColor.RED),
-    SUPER_ADMIN(Type.ADMIN, "a", "SA", ChatColor.GOLD),
-    TELNET_ADMIN(Type.ADMIN, "a", "STA", ChatColor.DARK_GREEN),
-    SENIOR_ADMIN(Type.ADMIN, "a", "SrA", ChatColor.LIGHT_PURPLE),
-    TELNET_CONSOLE(),
-    SENIOR_CONSOLE();
-    //
+    IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW),
+    NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.GREEN),
+    OP("an", "Op", Type.PLAYER, "OP", ChatColor.RED),
+    SUPER_ADMIN("a", "Super Admin", Type.ADMIN, "SA", ChatColor.AQUA),
+    TELNET_ADMIN("a", "Telnet Admin", Type.ADMIN, "STA", ChatColor.DARK_GREEN),
+    SENIOR_ADMIN("a", "Senior Admin", Type.ADMIN, "SrA", ChatColor.GOLD),
+    TELNET_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE),
+    SENIOR_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE);
     @Getter
     private final Type type;
     @Getter
@@ -23,58 +22,30 @@ public enum Rank implements RankBase
     @Getter
     private final String tag;
     @Getter
+    private final String coloredTag;
+    @Getter
     private final ChatColor color;
 
-    private Rank()
-    {
-        this("Console", Type.ADMIN_CONSOLE, "the", "Console", ChatColor.DARK_PURPLE);
-    }
-
-    private Rank(Type type, String determiner, String tag, ChatColor color)
-    {
-        this.type = type;
-
-        // Name
-        final String[] nameParts = name().toLowerCase().split("_");
-        String tempName = "";
-        for (String part : nameParts)
-        {
-            tempName += Character.toUpperCase(part.charAt(0)) + part.substring(1) + " ";
-        }
-        name = tempName.trim();
-
-        this.determiner = determiner;
-        this.tag = tag.length() > 0 ? "[" + tag + "]" : "";
-
-        // Colors
-        this.color = color;
-    }
-
-    private Rank(String name, Type type, String determiner, String tag, ChatColor color)
+    private Rank(String determiner, String name, Type type, String abbr, ChatColor color)
     {
         this.type = type;
         this.name = name;
         this.determiner = determiner;
-        this.tag = "[" + tag + "]";
+        this.tag = abbr.isEmpty() ? "" : "[" + abbr + "]";
+        this.coloredTag = abbr.isEmpty() ? "" : ChatColor.DARK_GRAY + "[" + color + abbr + ChatColor.DARK_GRAY + "]" + color;
         this.color = color;
     }
 
     @Override
     public String getColoredName()
     {
-        return getColor() + getName();
-    }
-
-    @Override
-    public String getColoredTag()
-    {
-        return getColor() + getTag();
+        return color + name;
     }
 
     @Override
     public String getColoredLoginMessage()
     {
-        return determiner + " " + getColoredName();
+        return determiner + " " + color + ChatColor.ITALIC + name;
     }
 
     public boolean isConsole()
@@ -82,16 +53,24 @@ public enum Rank implements RankBase
         return getType() == Type.ADMIN_CONSOLE;
     }
 
-    @Override
     public int getLevel()
     {
         return ordinal();
     }
 
-    @Override
-    public boolean isAtLeast(RankBase rank)
+    public boolean isAtLeast(Rank rank)
     {
-        return getLevel() >= rank.getLevel();
+        if (getLevel() < rank.getLevel())
+        {
+            return false;
+        }
+
+        if (!hasConsoleVariant() || !rank.hasConsoleVariant())
+        {
+            return true;
+        }
+
+        return getConsoleVariant().getLevel() >= rank.getConsoleVariant().getLevel();
     }
 
     public boolean isAdmin()
@@ -99,7 +78,7 @@ public enum Rank implements RankBase
         return getType() == Type.ADMIN || getType() == Type.ADMIN_CONSOLE;
     }
 
-    public boolean hasConsole()
+    public boolean hasConsoleVariant()
     {
         return getConsoleVariant() != null;
     }

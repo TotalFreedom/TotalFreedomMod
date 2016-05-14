@@ -51,6 +51,11 @@ public class Command_premium extends FreedomCommand
                     final String message = ("false".equalsIgnoreCase(in.readLine()) ? ChatColor.RED + "No" : ChatColor.DARK_GREEN + "Yes");
                     in.close();
 
+                    if (!plugin.isEnabled())
+                    {
+                        return;
+                    }
+
                     new BukkitRunnable()
                     {
                         @Override

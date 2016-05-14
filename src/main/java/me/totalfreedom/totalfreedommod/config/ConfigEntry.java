@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.config;
 
 import java.util.List;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 
 public enum ConfigEntry
 {
@@ -106,51 +107,62 @@ public enum ConfigEntry
 
     public String getString()
     {
-        return MainConfig.getString(this);
+        return getConfig().getString(this);
     }
 
     public String setString(String value)
     {
-        MainConfig.setString(this, value);
+        getConfig().setString(this, value);
         return value;
     }
 
     public Double getDouble()
     {
-        return MainConfig.getDouble(this);
+        return getConfig().getDouble(this);
     }
 
     public Double setDouble(Double value)
     {
-        MainConfig.setDouble(this, value);
+        getConfig().setDouble(this, value);
         return value;
     }
 
     public Boolean getBoolean()
     {
-        return MainConfig.getBoolean(this);
+        return getConfig().getBoolean(this);
     }
 
     public Boolean setBoolean(Boolean value)
     {
-        MainConfig.setBoolean(this, value);
+        getConfig().setBoolean(this, value);
         return value;
     }
 
     public Integer getInteger()
     {
-        return MainConfig.getInteger(this);
+        return getConfig().getInteger(this);
     }
 
     public Integer setInteger(Integer value)
     {
-        MainConfig.setInteger(this, value);
+        getConfig().setInteger(this, value);
         return value;
     }
 
     public List<?> getList()
     {
-        return MainConfig.getList(this);
+        return getConfig().getList(this);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getStringList()
+    {
+        return (List<String>) getList();
+    }
+
+    private MainConfig getConfig()
+    {
+        return TotalFreedomMod.plugin().config;
     }
 
     public static ConfigEntry findConfigEntry(String name)

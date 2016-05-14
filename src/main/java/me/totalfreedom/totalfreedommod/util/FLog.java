@@ -12,7 +12,6 @@ public class FLog
 
     private FLog()
     {
-        throw new AssertionError();
     }
 
     // Level.INFO:

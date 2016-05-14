@@ -9,41 +9,45 @@ import java.util.EnumMap;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
+import net.pravian.aero.component.PluginComponent;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class MainConfig
+public class MainConfig extends PluginComponent<TotalFreedomMod>
 {
 
-    public static final File CONFIG_FILE = new File(TotalFreedomMod.plugin.getDataFolder(), TotalFreedomMod.CONFIG_FILENAME);
+    public static final String CONFIG_FILENAME = "config.yml";
     //
-    private static final EnumMap<ConfigEntry, Object> ENTRY_MAP;
-    private static final TFM_Defaults DEFAULTS;
+    private final EnumMap<ConfigEntry, Object> entries;
+    private final ConfigDefaults defaults;
 
-    static
+    public MainConfig(TotalFreedomMod plugin)
     {
-        ENTRY_MAP = new EnumMap<>(ConfigEntry.class);
+        super(plugin);
 
-        TFM_Defaults tempDefaults = null;
+        entries = new EnumMap<>(ConfigEntry.class);
+
+        ConfigDefaults tempDefaults = null;
         try
         {
             try
             {
-                InputStream defaultConfig = getDefaultConfig();
-                tempDefaults = new TFM_Defaults(defaultConfig);
-                for (ConfigEntry entry : ConfigEntry.values())
+                try (InputStream defaultConfig = getDefaultConfig())
                 {
-                    ENTRY_MAP.put(entry, tempDefaults.get(entry.getConfigName()));
+                    tempDefaults = new ConfigDefaults(defaultConfig);
+                    for (ConfigEntry entry : ConfigEntry.values())
+                    {
+                        entries.put(entry, tempDefaults.get(entry.getConfigName()));
+                    }
                 }
-                defaultConfig.close();
             }
             catch (IOException ex)
             {
                 FLog.severe(ex);
             }
 
-            copyDefaultConfig(CONFIG_FILE);
+            copyDefaultConfig(getConfigFile());
 
             load();
         }
@@ -52,21 +56,16 @@ public class MainConfig
             FLog.severe(ex);
         }
 
-        DEFAULTS = tempDefaults;
+        defaults = tempDefaults;
     }
 
-    private MainConfig()
-    {
-        throw new AssertionError();
-    }
-
-    public static void load()
+    public void load()
     {
         try
         {
             YamlConfiguration config = new YamlConfiguration();
 
-            config.load(CONFIG_FILE);
+            config.load(getConfigFile());
 
             for (ConfigEntry entry : ConfigEntry.values())
             {
@@ -76,7 +75,7 @@ public class MainConfig
                     Object value = config.get(path);
                     if (value == null || entry.getType().isAssignableFrom(value.getClass()))
                     {
-                        ENTRY_MAP.put(entry, value);
+                        entries.put(entry, value);
                     }
                     else
                     {
@@ -90,21 +89,18 @@ public class MainConfig
                 }
             }
         }
-        catch (FileNotFoundException ex)
-        {
-            FLog.severe(ex);
-        }
-        catch (IOException ex)
-        {
-            FLog.severe(ex);
-        }
-        catch (InvalidConfigurationException ex)
+        catch (IOException | InvalidConfigurationException ex)
         {
             FLog.severe(ex);
         }
     }
 
-    public static String getString(ConfigEntry entry)
+    private File getConfigFile()
+    {
+        return new File(plugin.getDataFolder(), "config.yml");
+    }
+
+    public String getString(ConfigEntry entry)
     {
         try
         {
@@ -117,7 +113,7 @@ public class MainConfig
         return null;
     }
 
-    public static void setString(ConfigEntry entry, String value)
+    public void setString(ConfigEntry entry, String value)
     {
         try
         {
@@ -129,7 +125,7 @@ public class MainConfig
         }
     }
 
-    public static Double getDouble(ConfigEntry entry)
+    public Double getDouble(ConfigEntry entry)
     {
         try
         {
@@ -142,7 +138,7 @@ public class MainConfig
         return null;
     }
 
-    public static void setDouble(ConfigEntry entry, Double value)
+    public void setDouble(ConfigEntry entry, Double value)
     {
         try
         {
@@ -154,7 +150,7 @@ public class MainConfig
         }
     }
 
-    public static Boolean getBoolean(ConfigEntry entry)
+    public Boolean getBoolean(ConfigEntry entry)
     {
         try
         {
@@ -167,7 +163,7 @@ public class MainConfig
         return null;
     }
 
-    public static void setBoolean(ConfigEntry entry, Boolean value)
+    public void setBoolean(ConfigEntry entry, Boolean value)
     {
         try
         {
@@ -179,7 +175,7 @@ public class MainConfig
         }
     }
 
-    public static Integer getInteger(ConfigEntry entry)
+    public Integer getInteger(ConfigEntry entry)
     {
         try
         {
@@ -192,7 +188,7 @@ public class MainConfig
         return null;
     }
 
-    public static void setInteger(ConfigEntry entry, Integer value)
+    public void setInteger(ConfigEntry entry, Integer value)
     {
         try
         {
@@ -204,7 +200,7 @@ public class MainConfig
         }
     }
 
-    public static List getList(ConfigEntry entry)
+    public List getList(ConfigEntry entry)
     {
         try
         {
@@ -217,9 +213,9 @@ public class MainConfig
         return null;
     }
 
-    public static <T> T get(ConfigEntry entry, Class<T> type) throws IllegalArgumentException
+    public <T> T get(ConfigEntry entry, Class<T> type) throws IllegalArgumentException
     {
-        Object value = ENTRY_MAP.get(entry);
+        Object value = entries.get(entry);
         try
         {
             return type.cast(value);
@@ -230,7 +226,7 @@ public class MainConfig
         }
     }
 
-    public static <T> void set(ConfigEntry entry, T value, Class<T> type) throws IllegalArgumentException
+    public <T> void set(ConfigEntry entry, T value, Class<T> type) throws IllegalArgumentException
     {
         if (!type.isAssignableFrom(entry.getType()))
         {
@@ -240,10 +236,10 @@ public class MainConfig
         {
             throw new IllegalArgumentException("Value is not of type " + type.getSimpleName());
         }
-        ENTRY_MAP.put(entry, value);
+        entries.put(entry, value);
     }
 
-    private static void copyDefaultConfig(File targetFile)
+    private void copyDefaultConfig(File targetFile)
     {
         if (targetFile.exists())
         {
@@ -254,9 +250,10 @@ public class MainConfig
 
         try
         {
-            InputStream defaultConfig = getDefaultConfig();
-            FileUtils.copyInputStreamToFile(defaultConfig, targetFile);
-            defaultConfig.close();
+            try (InputStream defaultConfig = getDefaultConfig())
+            {
+                FileUtils.copyInputStreamToFile(defaultConfig, targetFile);
+            }
         }
         catch (IOException ex)
         {
@@ -264,22 +261,22 @@ public class MainConfig
         }
     }
 
-    private static InputStream getDefaultConfig()
+    private InputStream getDefaultConfig()
     {
-        return TotalFreedomMod.plugin.getResource(TotalFreedomMod.CONFIG_FILENAME);
+        return plugin.getResource(TotalFreedomMod.CONFIG_FILENAME);
     }
 
-    public static TFM_Defaults getDefaults()
+    public ConfigDefaults getDefaults()
     {
-        return DEFAULTS;
+        return defaults;
     }
 
-    public static class TFM_Defaults
+    public static class ConfigDefaults
     {
 
         private YamlConfiguration defaults = null;
 
-        private TFM_Defaults(InputStream defaultConfig)
+        private ConfigDefaults(InputStream defaultConfig)
         {
             try
             {

@@ -3,12 +3,13 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Block all commands for a specific player.", usage = "/<command> <purge | <partialname>>", aliases = "blockcommands,blockcommand")
+@CommandParameters(description = "Block all commands for a specific player.", usage = "/<command> <-a | purge | <player>>", aliases = "blockcommands,blockcommand,bc,bcmd")
 public class Command_blockcmd extends FreedomCommand
 {
 
@@ -20,7 +21,7 @@ public class Command_blockcmd extends FreedomCommand
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("purge"))
+        if (args[0].equals("purge"))
         {
             FUtil.adminAction(sender.getName(), "Unblocking commands for all players", true);
             int counter = 0;
@@ -37,6 +38,26 @@ public class Command_blockcmd extends FreedomCommand
             return true;
         }
 
+        if (args[0].equals("-a"))
+        {
+            FUtil.adminAction(sender.getName(), "Blocking commands for all non-admins", true);
+            int counter = 0;
+            for (Player player : server.getOnlinePlayers())
+            {
+                if (isAdmin(player))
+                {
+                    continue;
+                }
+
+                counter += 1;
+                plugin.pl.getPlayer(player).setCommandsBlocked(true);
+                msg(player, "Your commands have been blocked by an admin.", ChatColor.RED);
+            }
+
+            msg("Blocked commands for " + counter + " players.");
+            return true;
+        }
+
         final Player player = getPlayer(args[0]);
 
         if (player == null)
@@ -45,7 +66,7 @@ public class Command_blockcmd extends FreedomCommand
             return true;
         }
 
-        if (isAdmin(sender))
+        if (isAdmin(player))
         {
             msg(player.getName() + " is a Superadmin, and cannot have their commands blocked.");
             return true;

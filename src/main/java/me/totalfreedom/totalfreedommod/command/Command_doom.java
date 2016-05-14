@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
-@CommandParameters(description = "For the bad Superadmins", usage = "/<command> <playername>")
+@CommandParameters(description = "For the bad admins", usage = "/<command> <playername>")
 public class Command_doom extends FreedomCommand
 {
 

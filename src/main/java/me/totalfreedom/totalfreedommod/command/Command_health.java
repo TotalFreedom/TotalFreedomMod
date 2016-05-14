@@ -45,6 +45,12 @@ public class Command_health extends FreedomCommand
                     Thread.sleep(2500);
                     final double ticksPerSecond = tickMeter.stopTicking();
 
+                    // Plugin was disabled during async task
+                    if (!plugin.isEnabled())
+                    {
+                        return;
+                    }
+
                     new BukkitRunnable()
                     {
                         @Override

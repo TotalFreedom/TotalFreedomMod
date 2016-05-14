@@ -167,7 +167,7 @@ public class Command_gadmin extends FreedomCommand
             case OP:
             {
                 FUtil.adminAction(sender.getName(), String.format("Opping %s.", target.getName()), false);
-                target.setOp(false);
+                target.setOp(true);
                 target.sendMessage(FreedomCommand.YOU_ARE_OP);
 
                 break;

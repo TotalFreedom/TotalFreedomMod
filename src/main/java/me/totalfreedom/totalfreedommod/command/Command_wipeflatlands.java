@@ -15,7 +15,7 @@ public class Command_wipeflatlands extends FreedomCommand
     @Override
     public boolean run(final CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        FUtil.setSavedFlag("do_wipe_flatlands", true);
+        plugin.sf.setSavedFlag("do_wipe_flatlands", true);
 
         FUtil.bcastMsg("Server is going offline for flatlands wipe.", ChatColor.GRAY);
 

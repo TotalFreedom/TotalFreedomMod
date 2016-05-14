@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 public class Module_list extends HTTPDModule
 {
 
-    public Module_list(NanoHTTPD.HTTPSession session)
+    public Module_list(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
     {
-        super(session);
+        super(plugin, session);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Module_list extends HTTPDModule
 
         for (Player player : onlinePlayers)
         {
-            String tag = TotalFreedomMod.plugin.rm.getDisplay(player).getTag();
+            String tag = plugin.rm.getDisplay(player).getTag();
             body.append("<li>").append(tag).append(player.getName()).append("</li>\r\n");
         }
 

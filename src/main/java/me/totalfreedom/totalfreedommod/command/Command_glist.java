@@ -73,7 +73,7 @@ public class Command_glist extends FreedomCommand
 
             final String reason = args.length > 2 ? StringUtils.join(args, " ", 2, args.length) : null;
 
-            Ban ban = Ban.forPlayerName(player, sender, null, reason);
+            Ban ban = Ban.forPlayerName(username, sender, null, reason);
             for (String ip : ips)
             {
                 ban.addIp(ip);

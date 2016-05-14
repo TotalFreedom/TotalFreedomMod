@@ -95,7 +95,7 @@ public class PlayerList extends FreedomService
             return tPlayer;
         }
 
-        tPlayer = new FPlayer(player);
+        tPlayer = new FPlayer(plugin, player);
         playerMap.put(Ips.getIp(player), tPlayer);
 
         return tPlayer;
@@ -214,7 +214,7 @@ public class PlayerList extends FreedomService
 
     protected YamlConfig getConfig(PlayerData data)
     {
-        final YamlConfig config = new YamlConfig(TotalFreedomMod.plugin, getConfigFile(data.getUsername().toLowerCase()), false);
+        final YamlConfig config = new YamlConfig(plugin, getConfigFile(data.getUsername().toLowerCase()), false);
         config.load();
         return config;
     }

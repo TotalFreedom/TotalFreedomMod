@@ -3,19 +3,22 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> [-s] | list | purge | all]", aliases = "mute")
+@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [[-s] <player> [reason] | list | purge | all]", aliases = "mute")
 public class Command_stfu extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length == 0 || args.length > 2)
+        if (args.length == 0)
         {
             return false;
         }
@@ -38,8 +41,11 @@ public class Command_stfu extends FreedomCommand
             {
                 msg("- none");
             }
+
+            return true;
         }
-        else if (args[0].equalsIgnoreCase("purge"))
+
+        if (args[0].equalsIgnoreCase("purge"))
         {
             FUtil.adminAction(sender.getName(), "Unmuting all players.", true);
             FPlayer info;
@@ -54,8 +60,10 @@ public class Command_stfu extends FreedomCommand
                 }
             }
             msg("Unmuted " + count + " players.");
+            return true;
         }
-        else if (args[0].equalsIgnoreCase("all"))
+
+        if (args[0].equalsIgnoreCase("all"))
         {
             FUtil.adminAction(sender.getName(), "Muting all non-Superadmins", true);
 
@@ -72,43 +80,64 @@ public class Command_stfu extends FreedomCommand
             }
 
             msg("Muted " + counter + " players.");
+            return true;
+        }
+
+        boolean smite = args[0].equals("-s");
+        if (smite)
+        {
+            args = ArrayUtils.subarray(args, 1, args.length);
+        }
+
+        final Player player = getPlayer(args[0]);
+        if (player == null)
+        {
+            sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
+            return true;
+        }
+
+        String reason = null;
+        if (args.length > 1)
+        {
+            reason = StringUtils.join(args, " ", 1, args.length);
+        }
+
+        FPlayer playerdata = plugin.pl.getPlayer(player);
+        if (playerdata.isMuted())
+        {
+            FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
+            playerdata.setMuted(false);
+            msg("Unmuted " + player.getName());
+
+            msg(player, "You have been unmuted.", ChatColor.RED);
         }
         else
         {
-            final Player player = getPlayer(args[0]);
-
-            if (player == null)
+            if (plugin.al.isAdmin(player))
             {
-                sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
+                msg(player.getName() + " is a superadmin, and can't be muted.");
                 return true;
             }
 
-            FPlayer playerdata = plugin.pl.getPlayer(player);
-            if (playerdata.isMuted())
+            FUtil.adminAction(sender.getName(), "Muting " + player.getName(), true);
+            playerdata.setMuted(true);
+
+            if (smite)
             {
-                FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
-                playerdata.setMuted(false);
-                msg("Unmuted " + player.getName());
+                Command_smite.smite(player);
+            }
+
+            if (reason != null)
+            {
+                msg(player, "You have been muted. Reason: " + reason, ChatColor.RED);
             }
             else
             {
-                if (!plugin.al.isAdmin(player))
-                {
-                    FUtil.adminAction(sender.getName(), "Muting " + player.getName(), true);
-                    playerdata.setMuted(true);
-
-                    if (args.length == 2 && args[1].equalsIgnoreCase("-s"))
-                    {
-                        Command_smite.smite(player);
-                    }
-
-                    msg("Muted " + player.getName());
-                }
-                else
-                {
-                    msg(player.getName() + " is a superadmin, and can't be muted.");
-                }
+                msg(player, "You have been muted.", ChatColor.RED);
             }
+
+            msg("Muted " + player.getName());
+
         }
 
         return true;

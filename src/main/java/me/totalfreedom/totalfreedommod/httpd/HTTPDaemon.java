@@ -3,7 +3,8 @@ package me.totalfreedom.totalfreedommod.httpd;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.concurrent.Callable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.FreedomService;
@@ -11,6 +12,8 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.HTTPSession;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
+import me.totalfreedom.totalfreedommod.httpd.module.HTTPDModule;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_dump;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_file;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_help;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_list;
@@ -21,18 +24,16 @@ import me.totalfreedom.totalfreedommod.httpd.module.Module_schematic;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.bukkit.Bukkit;
 
 public class HTTPDaemon extends FreedomService
 {
 
     public static String MIME_DEFAULT_BINARY = "application/octet-stream";
-    //
     private static final Pattern EXT_REGEX = Pattern.compile("\\.([^\\.\\s]+)$");
     //
-    public static final int PORT = ConfigEntry.HTTPD_PORT.getInteger();
-    //
-    private static final TFM_HTTPD HTTPD = new TFM_HTTPD(PORT);
+    public int port;
+    private HTTPD httpd;
+    public Map<String, ModuleExecutable> modules = new HashMap<>();
 
     public HTTPDaemon(TotalFreedomMod plugin)
     {
@@ -47,13 +48,27 @@ public class HTTPDaemon extends FreedomService
             return;
         }
 
+        port = ConfigEntry.HTTPD_PORT.getInteger();;
+        httpd = new HTTPD(port);
+
+        // Modules
+        modules.clear();
+        module("dump", Module_dump.class, true);
+        module("file", Module_file.class, true);
+        module("help", Module_help.class, false);
+        module("list", Module_list.class, false);
+        module("logs", Module_logs.class, true);
+        module("permbans", Module_permbans.class, true);
+        module("players", Module_players.class, false);
+        module("schematic", Module_schematic.class, true);
+
         try
         {
-            HTTPD.start();
+            httpd.start();
 
-            if (HTTPD.isAlive())
+            if (httpd.isAlive())
             {
-                FLog.info("TFM HTTPd started. Listening on port: " + HTTPD.getListeningPort());
+                FLog.info("TFM HTTPd started. Listening on port: " + httpd.getListeningPort());
             }
             else
             {
@@ -74,160 +89,25 @@ public class HTTPDaemon extends FreedomService
             return;
         }
 
-        HTTPD.stop();
+        httpd.stop();
 
         FLog.info("TFM HTTPd stopped.");
     }
 
-    private static enum ModuleType
+    private void module(String name, Class<? extends HTTPDModule> clazz, boolean async)
     {
-
-        DUMP(new ModuleExecutable(false, "dump")
-        {
-            @Override
-            public Response getResponse(HTTPSession session)
-            {
-                return new Response(Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, "The DUMP module is disabled. It is intended for debugging use only.");
-            }
-        }),
-        HELP(new ModuleExecutable(true, "help")
-        {
-            @Override
-            public Response getResponse(HTTPSession session)
-            {
-                return new Module_help(session).getResponse();
-            }
-        }),
-        LIST(new ModuleExecutable(true, "list")
-        {
-            @Override
-            public Response getResponse(HTTPSession session)
-            {
-                return new Module_list(session).getResponse();
-            }
-        }),
-        FILE(new ModuleExecutable(false, "file")
-        {
-            @Override
-            public Response getResponse(HTTPSession session)
-            {
-                return new Module_file(session).getResponse();
-            }
-        }),
-        SCHEMATIC(new ModuleExecutable(false, "schematic")
-        {
-            @Override
-            public Response getResponse(HTTPSession session)
-            {
-                return new Module_schematic(session).getResponse();
-            }
-        }),
-        PERMBANS(new ModuleExecutable(false, "permbans")
-        {
-            @Override
-            public Response getResponse(HTTPSession session)
-            {
-                return new Module_permbans(session).getResponse();
-            }
-        }),
-        PLAYERS(new ModuleExecutable(true, "players")
-        {
-            @Override
-            public Response getResponse(HTTPSession session)
-            {
-                return new Module_players(session).getResponse();
-            }
-        }),
-        LOGS(new ModuleExecutable(false, "logs")
-        {
-            @Override
-            public Response getResponse(HTTPSession session)
-            {
-                return new Module_logs(session).getResponse();
-            }
-        });
-        //
-        private final ModuleExecutable moduleExecutable;
-
-        private ModuleType(ModuleExecutable moduleExecutable)
-        {
-            this.moduleExecutable = moduleExecutable;
-        }
-
-        private abstract static class ModuleExecutable
-        {
-
-            private final boolean runOnBukkitThread;
-            private final String name;
-
-            private ModuleExecutable(boolean runOnBukkitThread, String name)
-            {
-                this.runOnBukkitThread = runOnBukkitThread;
-                this.name = name;
-            }
-
-            public Response execute(final HTTPSession session)
-            {
-                try
-                {
-                    if (this.runOnBukkitThread)
-                    {
-                        return Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin, new Callable<Response>()
-                        {
-                            @Override
-                            public Response call() throws Exception
-                            {
-                                return getResponse(session);
-                            }
-                        }).get();
-                    }
-                    else
-                    {
-                        return getResponse(session);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    FLog.severe(ex);
-                }
-                return null;
-            }
-
-            public abstract Response getResponse(HTTPSession session);
-
-            public String getName()
-            {
-                return name;
-            }
-        }
-
-        public ModuleExecutable getModuleExecutable()
-        {
-            return moduleExecutable;
-        }
-
-        private static ModuleType getByName(String needle)
-        {
-            for (ModuleType type : values())
-            {
-                if (type.getModuleExecutable().getName().equalsIgnoreCase(needle))
-                {
-                    return type;
-                }
-            }
-            return FILE;
-        }
+        modules.put(name, ModuleExecutable.forClass(plugin, clazz, async));
     }
 
-    private static class TFM_HTTPD extends NanoHTTPD
+    private class HTTPD extends NanoHTTPD
     {
 
-        public TFM_HTTPD(int port)
+        private HTTPD(int port)
         {
             super(port);
         }
 
-        public TFM_HTTPD(String hostname, int port)
+        private HTTPD(String hostname, int port)
         {
             super(hostname, port);
         }
@@ -235,25 +115,28 @@ public class HTTPDaemon extends FreedomService
         @Override
         public Response serve(HTTPSession session)
         {
-            Response response;
+            final String[] args = StringUtils.split(session.getUri(), "/");
+
+            ModuleExecutable mex = modules.get("file");
+            if (args.length >= 1)
+            {
+                mex = modules.get(args[0].toLowerCase());
+            }
+
+            if (mex == null)
+            {
+                return new Response(Response.Status.NOT_FOUND, MIME_PLAINTEXT, "Error 404: Not Found - The requested resource was not found on this server.");
+            }
 
             try
             {
-                final String[] args = StringUtils.split(session.getUri(), "/");
-                final ModuleType moduleType = args.length >= 1 ? ModuleType.getByName(args[0]) : ModuleType.FILE;
-                response = moduleType.getModuleExecutable().execute(session);
+                return mex.execute(session);
             }
             catch (Exception ex)
             {
-                response = new Response(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, "Error 500: Internal Server Error\r\n" + ex.getMessage() + "\r\n" + ExceptionUtils.getStackTrace(ex));
+                FLog.severe(ex);
+                return new Response(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, "Error 500: Internal Server Error\r\n" + ex.getMessage() + "\r\n" + ExceptionUtils.getStackTrace(ex));
             }
-
-            if (response == null)
-            {
-                response = new Response(Response.Status.NOT_FOUND, MIME_PLAINTEXT, "Error 404: Not Found - The requested resource was not found on this server.");
-            }
-
-            return response;
         }
     }
 
@@ -289,4 +172,5 @@ public class HTTPDaemon extends FreedomService
 
         return response;
     }
+
 }

@@ -6,36 +6,28 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class CommandSpy extends FreedomService
-{
+public class CommandSpy extends FreedomService {
 
-    public CommandSpy(TotalFreedomMod plugin)
-    {
+    public CommandSpy(TotalFreedomMod plugin) {
         super(plugin);
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
-    {
-        if (plugin.al.isAdmin(event.getPlayer()))
-        {
+    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+        if (plugin.al.isAdmin(event.getPlayer())) {
             return;
         }
 
-        for (Player player : server.getOnlinePlayers())
-        {
-            if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).cmdspyEnabled())
-            {
+        for (Player player : server.getOnlinePlayers()) {
+            if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).cmdspyEnabled()) {
                 FUtil.playerMsg(player, event.getPlayer().getName() + ": " + event.getMessage());
             }
         }

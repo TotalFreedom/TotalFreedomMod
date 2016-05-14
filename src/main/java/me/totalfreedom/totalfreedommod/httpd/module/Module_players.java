@@ -12,9 +12,9 @@ import org.json.simple.JSONObject;
 public class Module_players extends HTTPDModule
 {
 
-    public Module_players(NanoHTTPD.HTTPSession session)
+    public Module_players(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
     {
-        super(session);
+        super(plugin, session);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Module_players extends HTTPDModule
         }
 
         // Admins
-        for (Admin admin : TotalFreedomMod.plugin.al.getAllAdmins().values())
+        for (Admin admin : plugin.al.getAllAdmins().values())
         {
             final String username = admin.getName();
 
@@ -49,7 +49,7 @@ public class Module_players extends HTTPDModule
                     telnetadmins.add(username);
                     break;
                 case SENIOR_ADMIN:
-                    senioradmins.add(senioradmins);
+                    senioradmins.add(username);
                     break;
             }
         }

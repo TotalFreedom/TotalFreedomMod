@@ -14,7 +14,7 @@ public class Command_ender extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        FUtil.gotoWorld(playerSender, server.getWorlds().get(0).getName() + "_the_end");
+        plugin.wm.gotoWorld(playerSender, server.getWorlds().get(0).getName() + "_the_end");
         return true;
     }
 }

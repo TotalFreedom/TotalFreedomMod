@@ -45,7 +45,7 @@ public class ProtectArea extends FreedomService
             return;
         }
 
-        File input = new File(TotalFreedomMod.plugin.getDataFolder(), DATA_FILENAME);
+        File input = new File(plugin.getDataFolder(), DATA_FILENAME);
         try
         {
             if (input.exists())
@@ -77,7 +77,7 @@ public class ProtectArea extends FreedomService
     {
         try
         {
-            FileOutputStream fos = new FileOutputStream(new File(TotalFreedomMod.plugin.getDataFolder(), DATA_FILENAME));
+            FileOutputStream fos = new FileOutputStream(new File(plugin.getDataFolder(), DATA_FILENAME));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(areas);
             oos.close();

@@ -3,72 +3,41 @@ package me.totalfreedom.totalfreedommod.rank;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
-public enum Title implements RankBase
+public enum Title implements Displayable
 {
 
-    DEVELOPER("a", "Dev", ChatColor.DARK_PURPLE),
-    OWNER("the", "Owner", ChatColor.BLUE);
+    DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, "Dev"),
+    OWNER("the", "Owner", ChatColor.BLUE, "Owner");
 
+    private final String determiner;
     @Getter
     private final String name;
-    private final String determiner;
     @Getter
     private final String tag;
     @Getter
-    private final ChatColor color;
+    private final String coloredTag;
     @Getter
-    private final String colorString;
+    private final ChatColor color;
 
-    private Title(String determiner, String tag, ChatColor... colors)
+    private Title(String determiner, String name, ChatColor color, String tag)
     {
-        final String[] nameParts = name().toLowerCase().split("_");
-        String tempName = "";
-        for (String part : nameParts)
-        {
-            tempName = Character.toUpperCase(part.charAt(0)) + part.substring(1) + " ";
-        }
-        name = tempName.trim();
-
         this.determiner = determiner;
+        this.name = name;
         this.tag = "[" + tag + "]";
-
-        this.color = colors[0];
-        String tColor = "";
-        for (ChatColor lColor : colors)
-        {
-            tColor += lColor.toString();
-        }
-        colorString = tColor;
+        this.coloredTag = ChatColor.DARK_GRAY + "[" + color + tag + ChatColor.DARK_GRAY + "]" + color;
+        this.color = color;
     }
 
     @Override
     public String getColoredName()
     {
-        return getColorString() + getName();
-    }
-
-    @Override
-    public String getColoredTag()
-    {
-        return getColorString() + getTag();
+        return color + name;
     }
 
     @Override
     public String getColoredLoginMessage()
     {
-        return determiner + " " + getColoredName();
-    }
-
-    @Override
-    public int getLevel()
-    {
-        return ordinal();
-    }
-
-    @Override
-    public boolean isAtLeast(RankBase rank)
-    {
-        return getLevel() >= rank.getLevel();
+        return determiner + " " + color + ChatColor.ITALIC + name;
     }
 
 }

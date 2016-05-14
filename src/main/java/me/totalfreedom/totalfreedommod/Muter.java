@@ -2,13 +2,13 @@ package me.totalfreedom.totalfreedommod;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,8 +18,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 public class Muter extends FreedomService
 {
 
-    // TODO: Match actual commands
-    public static final List<String> MUTE_COMMANDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
+    public static final List<String> MUTE_COMMANDS = Arrays.asList(StringUtils.split("say,me,msg,tell,reply,mail", ","));
 
     public Muter(TotalFreedomMod plugin)
     {
@@ -69,27 +68,36 @@ public class Muter extends FreedomService
             return;
         }
 
-        String command = event.getMessage();
+        String message = event.getMessage();
         if (plugin.al.isAdmin(player))
         {
             fPlayer.setMuted(false);
             return;
         }
 
-        // TODO: Find match actual command, instead of label
-        for (String commandName : MUTE_COMMANDS)
+        String cmdName = message.split(" ")[0].toLowerCase();
+        if (cmdName.startsWith("/"))
         {
-            if (Pattern.compile("^/" + commandName.toLowerCase() + " ").matcher(command.toLowerCase()).find())
-            {
-                player.sendMessage(ChatColor.RED + "That command is blocked while you are muted.");
-                event.setCancelled(true);
-                return;
-            }
+            cmdName = cmdName.substring(1);
         }
 
+        Command command = server.getPluginCommand(cmdName);
+        if (command != null)
+        {
+            cmdName = command.getName().toLowerCase();
+        }
+
+        if (MUTE_COMMANDS.contains(cmdName))
+        {
+            player.sendMessage(ChatColor.RED + "That command is blocked while you are muted.");
+            event.setCancelled(true);
+            return;
+        }
+
+        // TODO: Should this go here?
         if (ConfigEntry.ENABLE_PREPROCESS_LOG.getBoolean())
         {
-            FLog.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", player.getName(), ChatColor.stripColor(player.getDisplayName()), command), true);
+            FLog.info(String.format("[PREPROCESS_COMMAND] %s(%s): %s", player.getName(), ChatColor.stripColor(player.getDisplayName()), message), true);
         }
     }
 

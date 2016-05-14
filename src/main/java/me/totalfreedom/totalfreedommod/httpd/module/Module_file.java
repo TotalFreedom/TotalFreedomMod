@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
@@ -57,9 +58,9 @@ public class Module_file extends HTTPDModule
         MIME_TYPES.put("class", "application/octet-stream");
     }
 
-    public Module_file(NanoHTTPD.HTTPSession session)
+    public Module_file(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
     {
-        super(session);
+        super(plugin, session);
     }
 
     private File getRootDir()

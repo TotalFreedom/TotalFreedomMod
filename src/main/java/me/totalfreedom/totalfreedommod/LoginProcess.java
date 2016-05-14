@@ -199,7 +199,7 @@ public class LoginProcess extends FreedomService
                     FUtil.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
                 }
             }
-        }.runTaskLater(TotalFreedomMod.plugin, 20L * 1L);
+        }.runTaskLater(plugin, 20L * 1L);
     }
 
 }

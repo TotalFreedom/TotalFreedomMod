@@ -9,18 +9,18 @@ import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 public class Module_permbans extends HTTPDModule
 {
 
-    public Module_permbans(NanoHTTPD.HTTPSession session)
+    public Module_permbans(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
     {
-        super(session);
+        super(plugin, session);
     }
 
     @Override
     public NanoHTTPD.Response getResponse()
     {
-        File permbanFile = new File(TotalFreedomMod.plugin.getDataFolder(), PermbanList.CONFIG_FILENAME);
+        File permbanFile = new File(plugin.getDataFolder(), PermbanList.CONFIG_FILENAME);
         if (permbanFile.exists())
         {
-            return HTTPDaemon.serveFileBasic(new File(TotalFreedomMod.plugin.getDataFolder(), PermbanList.CONFIG_FILENAME));
+            return HTTPDaemon.serveFileBasic(new File(plugin.getDataFolder(), PermbanList.CONFIG_FILENAME));
         }
         else
         {

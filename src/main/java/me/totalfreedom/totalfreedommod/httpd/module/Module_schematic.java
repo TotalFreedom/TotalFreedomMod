@@ -39,9 +39,9 @@ public class Module_schematic extends HTTPDModule
             + "<button type=\"submit\">Submit</button>\n"
             + "</form>";
 
-    public Module_schematic(NanoHTTPD.HTTPSession session)
+    public Module_schematic(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
     {
-        super(session);
+        super(plugin, session);
     }
 
     @Override
@@ -235,7 +235,7 @@ public class Module_schematic extends HTTPDModule
 
     private boolean isAuthorized(String remoteAddress)
     {
-        Admin entry = TotalFreedomMod.plugin.al.getEntryByIp(remoteAddress);
+        Admin entry = plugin.al.getEntryByIp(remoteAddress);
         return entry != null && entry.isActive();
     }
 

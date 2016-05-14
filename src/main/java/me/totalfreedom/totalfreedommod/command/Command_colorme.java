@@ -12,15 +12,19 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Essentials Interface Command - Color your current nickname.", usage = "/<command> <color>")
-public class Command_colorme extends FreedomCommand {
+public class Command_colorme extends FreedomCommand
+{
 
     @Override
-    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
-        if (args.length != 1) {
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
+        if (args.length != 1)
+        {
             return false;
         }
 
-        if ("list".equalsIgnoreCase(args[0])) {
+        if ("list".equalsIgnoreCase(args[0]))
+        {
             msg("Colors: " + StringUtils.join(FUtil.CHAT_COLOR_NAMES.keySet(), ", "));
             return true;
         }
@@ -28,15 +32,18 @@ public class Command_colorme extends FreedomCommand {
         final String needle = args[0].trim().toLowerCase();
         ChatColor color = null;
         final Iterator<Map.Entry<String, ChatColor>> it = FUtil.CHAT_COLOR_NAMES.entrySet().iterator();
-        while (it.hasNext()) {
+        while (it.hasNext())
+        {
             final Map.Entry<String, ChatColor> entry = it.next();
-            if (entry.getKey().contains(needle)) {
+            if (entry.getKey().contains(needle))
+            {
                 color = entry.getValue();
                 break;
             }
         }
 
-        if (color == null) {
+        if (color == null)
+        {
             msg("Invalid color: " + needle + " - Use \"/colorme list\" to list colors.");
             return true;
         }

@@ -41,9 +41,9 @@ public class BukkitTelnetBridge extends FreedomService
             return;
         }
 
-        final Admin admin = plugin.al.getEntryByIp(ip, true);
+        final Admin admin = plugin.al.getEntryByIpFuzzy(ip);
 
-        if (admin == null || !admin.isActive() || !admin.getRank().hasConsole())
+        if (admin == null || !admin.isActive() || !admin.getRank().hasConsoleVariant())
         {
             return;
         }

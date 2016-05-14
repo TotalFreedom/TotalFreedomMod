@@ -162,7 +162,7 @@ public class RollbackManager extends FreedomService
                     purgeEntries(playerName);
                 }
             }
-        }.runTaskLater(TotalFreedomMod.plugin, 40L * 20L);
+        }.runTaskLater(plugin, 40L * 20L);
         return count;
     }
 

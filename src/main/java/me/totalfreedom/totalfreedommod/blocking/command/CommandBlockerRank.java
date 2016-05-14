@@ -40,7 +40,7 @@ public enum CommandBlockerRank
             return TELNET;
         }
 
-        Admin admin = TotalFreedomMod.plugin.al.getAdmin(sender);
+        Admin admin = TotalFreedomMod.plugin().al.getAdmin(sender);
         if (admin != null)
         {
             if (admin.getRank() == Rank.SENIOR_ADMIN)

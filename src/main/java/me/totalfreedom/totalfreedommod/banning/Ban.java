@@ -67,6 +67,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         dedupeIps();
         this.by = by;
         this.expiryUnix = FUtil.getUnixTime(expire);
+        this.reason = reason;
     }
 
     //

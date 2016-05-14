@@ -29,8 +29,6 @@ public class Command_freeze extends FreedomCommand
             }
 
             FUtil.adminAction(sender.getName(), "Enabling global player freeze", false);
-            msg("Players are now frozen.");
-
             for (Player player : server.getOnlinePlayers())
             {
                 if (!isAdmin(player))
@@ -38,6 +36,8 @@ public class Command_freeze extends FreedomCommand
                     msg(player, "You have been frozen due to rulebreakers, you will be unfrozen soon.", ChatColor.RED);
                 }
             }
+            msg("Players are now frozen.");
+
             return true;
         }
 

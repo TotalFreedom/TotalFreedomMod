@@ -12,20 +12,15 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.command.Command_logs;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.ServicePriority;
 
 public class AdminList extends FreedomService
@@ -47,7 +42,7 @@ public class AdminList extends FreedomService
     {
         super(plugin);
 
-        this.config = new YamlConfig(TotalFreedomMod.plugin, CONFIG_FILENAME, true);
+        this.config = new YamlConfig(plugin, CONFIG_FILENAME, true);
     }
 
     @Override
@@ -100,7 +95,7 @@ public class AdminList extends FreedomService
         }
 
         updateTables();
-        FLog.info("Loaded " + nameTable.size() + " admins (" + nameTable.size() + " active) and " + ipTable.size() + " IPs.");
+        FLog.info("Loaded " + allAdmins.size() + " admins (" + nameTable.size() + " active,  " + ipTable.size() + " IPs)");
     }
 
     public void save()
@@ -119,17 +114,6 @@ public class AdminList extends FreedomService
         config.save();
     }
 
-    public void save(Admin admin)
-    {
-        if (!allAdmins.values().contains(admin))
-        { // Ensure admin is present
-            addAdmin(admin, false);
-        }
-
-        admin.saveTo(config.createSection(admin.getConfigKey()));
-        config.save();
-    }
-
     public synchronized boolean isAdminSync(CommandSender sender)
     {
         return isAdmin(sender);
@@ -142,7 +126,9 @@ public class AdminList extends FreedomService
             return true;
         }
 
-        return getAdmin((Player) sender) != null;
+        Admin admin = getAdmin((Player) sender);
+
+        return admin != null && admin.isActive();
     }
 
     public boolean isSeniorAdmin(CommandSender sender)
@@ -168,22 +154,41 @@ public class AdminList extends FreedomService
 
     public Admin getAdmin(Player player)
     {
+        // Find admin
         String ip = Ips.getIp(player);
-        Admin admin = getEntryByIp(ip, true);
+        Admin admin = getEntryByName(player.getName());
 
-        if (admin == null && Bukkit.getOnlineMode())
+        // Admin by name
+        if (admin != null)
         {
-            admin = getEntryByName(player.getName());
-
-            // Add new IP
-            if (admin != null)
+            // Check if we're in online mode,
+            // Or the players IP is in the admin entry
+            if (Bukkit.getOnlineMode() || admin.getIps().contains(ip))
             {
-                admin.addIp(ip);
-                save(admin);
+                if (!admin.getIps().contains(ip))
+                {
+                    // Add the new IP if we have to
+                    admin.addIp(ip);
+                    save();
+                    updateTables();
+                }
+                return admin;
             }
+
+            // Impostor
         }
 
-        return admin;
+        // Admin by ip
+        admin = getEntryByIp(ip);
+        if (admin != null)
+        {
+            // Set the new username
+            admin.setName(player.getName());
+            save();
+            updateTables();
+        }
+
+        return null;
     }
 
     public Admin getEntryByName(String name)
@@ -193,16 +198,15 @@ public class AdminList extends FreedomService
 
     public Admin getEntryByIp(String ip)
     {
-        return getEntryByIp(ip, false);
+        return ipTable.get(ip);
     }
 
-    public Admin getEntryByIp(String needleIp, boolean fuzzy)
+    public Admin getEntryByIpFuzzy(String needleIp)
     {
-        Admin admin = ipTable.get(needleIp);
-
-        if (admin != null || !fuzzy)
+        final Admin directAdmin = getEntryByIp(needleIp);
+        if (directAdmin != null)
         {
-            return admin;
+            return directAdmin;
         }
 
         for (String ip : ipTable.keySet())
@@ -212,7 +216,8 @@ public class AdminList extends FreedomService
                 return ipTable.get(ip);
             }
         }
-        return admin;
+
+        return null;
     }
 
     public void updateLastLogin(Player player)
@@ -225,7 +230,7 @@ public class AdminList extends FreedomService
 
         admin.setLastLogin(new Date());
         admin.setName(player.getName());
-        save(admin);
+        save();
     }
 
     public boolean isAdminImpostor(Player player)
@@ -246,11 +251,6 @@ public class AdminList extends FreedomService
 
     public boolean addAdmin(Admin admin)
     {
-        return addAdmin(admin, false);
-    }
-
-    public boolean addAdmin(Admin admin, boolean overwrite)
-    {
         if (!admin.isValid())
         {
             logger.warning("Could not add admin: " + admin.getConfigKey() + " Admin is missing details!");
@@ -258,11 +258,6 @@ public class AdminList extends FreedomService
         }
 
         final String key = admin.getConfigKey();
-
-        if (!overwrite && allAdmins.containsKey(key))
-        {
-            return false;
-        }
 
         // Store admin, update views
         allAdmins.put(key, admin);
@@ -327,28 +322,6 @@ public class AdminList extends FreedomService
         return ipTable.keySet();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerJoin(PlayerJoinEvent event)
-    {
-        final Player player = event.getPlayer();
-        final FPlayer fPlayer = plugin.pl.getPlayer(player);
-
-        if (plugin.al.isAdmin(player))
-        {
-            // Verify strict IP match
-            if (plugin.al.isIdentityMatched(player))
-            {
-                fPlayer.setSuperadminIdVerified(true);
-                plugin.al.updateLastLogin(player);
-            }
-            else
-            {
-                fPlayer.setSuperadminIdVerified(false);
-                FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
-            }
-        }
-    }
-
     public void deactivateOldEntries(boolean verbose)
     {
         for (Admin admin : allAdmins.values())
@@ -372,7 +345,7 @@ public class AdminList extends FreedomService
             }
 
             admin.setActive(false);
-            Command_logs.deactivateSuperadmin(admin);
+            plugin.lv.deactivateSuperadmin(admin);
         }
 
         save();

@@ -93,7 +93,7 @@ allow:
 #   - 'n:b:/ban:_'
 #
 blocked_commands:
-  # Disabled commands
+    # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
   - 'n:b:/ban:_'
@@ -110,12 +110,21 @@ blocked_commands:
   - 'n:b:/save-all:_'
   - 'n:b:/save-on:_'
   - 'n:b:/save-off:_'
+  - 'n:b:/playsound:_'
+  - 'n:b:/skinrestorer:_'
+  - 'n:b:/packet:_'
+  - 'n:b:/thaw:_'
+  - 'n:b:/pp largeexplode:You may not use this particle! Please use another.'
+  - 'n:b:/pp hugeexplosion:You may not use this particle! Please use another.'
+  - 'n:b:/pp barrier:You may not use this particle! Please use another.'
+  - 'n:b:/setjail:_'
   - 'n:b:/tfbanlist:Use /banlist to see and wipe the ban list'
   - 'n:b:/tfipbanlist:Use /banlist to see and wipe the ban list'
 
   # Superadmin commands
   - 's:b:/kick:_'
   - 's:b:/socialspy:_'
+  - 's:b:/replaceitem:_'
   - 's:b:/kill:_'
   - 's:b://generate:_'
   - 's:b://:_'
@@ -144,8 +153,10 @@ blocked_commands:
   - 's:b:/tpall:_'
   - 's:b:/setblock:_'
   - 's:b:/green:_'
-  - 'n:b:/gamerule:_'
-  - 'n:b:/togglejail:_'
+  - 's:b:/gamerule:_'
+  - 's:b:/togglejail:_'
+  - 's:b:/fill:_'
+  - 's:b:/flood:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
@@ -283,6 +294,7 @@ famous_players:
   - stampylongnose
   - dantdm
   - gizzy14gazza
+  - furiousdestroyer
 
 # IPs that can not be supered
 noadmin_ips:

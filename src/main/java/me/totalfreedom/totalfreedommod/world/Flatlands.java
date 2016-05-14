@@ -68,7 +68,7 @@ public class Flatlands extends CustomWorld
         boolean doFlatlandsWipe = false;
         try
         {
-            doFlatlandsWipe = FUtil.getSavedFlag("do_wipe_flatlands");
+            doFlatlandsWipe = plugin.sf.getSavedFlag("do_wipe_flatlands");
         }
         catch (Exception ex)
         {
@@ -79,7 +79,7 @@ public class Flatlands extends CustomWorld
             if (Bukkit.getServer().getWorld("flatlands") == null)
             {
                 FLog.info("Wiping flatlands.");
-                FUtil.setSavedFlag("do_wipe_flatlands", false);
+                plugin.sf.setSavedFlag("do_wipe_flatlands", false);
                 FileUtils.deleteQuietly(new File("./flatlands"));
             }
             else

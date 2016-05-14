@@ -36,7 +36,7 @@ public class BanManager extends FreedomService
     public BanManager(TotalFreedomMod plugin)
     {
         super(plugin);
-        this.config = new YamlConfig(TotalFreedomMod.plugin, "bans.yml");
+        this.config = new YamlConfig(plugin, "bans.yml");
     }
 
     @Override

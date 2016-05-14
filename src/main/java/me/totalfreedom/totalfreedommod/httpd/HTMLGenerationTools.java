@@ -10,7 +10,6 @@ public class HTMLGenerationTools
 
     private HTMLGenerationTools()
     {
-        throw new AssertionError();
     }
 
     public static String paragraph(String data)

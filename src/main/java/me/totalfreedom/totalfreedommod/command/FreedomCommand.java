@@ -4,8 +4,9 @@ import lombok.Getter;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
-import me.totalfreedom.totalfreedommod.rank.RankBase;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.command.AbstractCommandBase;
 import net.pravian.aero.util.Players;
 import org.bukkit.ChatColor;
@@ -83,7 +84,15 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
         }
     }
 
-    protected void checkRank(RankBase rank)
+    protected void checkNotHostConsole()
+    {
+        if (isConsole() && FUtil.isFromHostConsole(sender.getName()))
+        {
+            throw new CommandFailException("This command can not be used from the host console.");
+        }
+    }
+
+    protected void checkRank(Rank rank)
     {
         if (!plugin.rm.getRank(sender).isAtLeast(rank))
         {

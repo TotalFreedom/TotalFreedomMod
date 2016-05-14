@@ -25,6 +25,8 @@ public class FPlayer
     public static final long AUTO_PURGE_TICKS = 5L * 60L * 20L;
 
     @Getter
+    private final TotalFreedomMod plugin;
+    @Getter
     private final String name;
     @Getter
     private final String ip;
@@ -33,7 +35,6 @@ public class FPlayer
     private Player player;
     //
     private BukkitTask unmuteTask;
-    private BukkitTask unfreezeTask;
     @Getter
     private final FreezeData freezeData = new FreezeData(this);
     @Getter
@@ -58,19 +59,22 @@ public class FPlayer
     private String lastMessage = "";
     private boolean inAdminchat = false;
     private boolean allCommandsBlocked = false;
-    private boolean verifiedSuperadminId = false;
+    @Getter
+    @Setter
+    private boolean superadminIdVerified = false;
     private String lastCommand = "";
     private boolean cmdspyEnabled = false;
     private String tag = null;
     private int warningCount = 0;
 
-    public FPlayer(Player player)
+    public FPlayer(TotalFreedomMod plugin, Player player)
     {
-        this(player.getName(), Ips.getIp(player));
+        this(plugin, player.getName(), Ips.getIp(player));
     }
 
-    private FPlayer(String name, String ip)
+    private FPlayer(TotalFreedomMod plugin, String name, String ip)
     {
+        this.plugin = plugin;
         this.name = name;
         this.ip = ip;
     }
@@ -278,15 +282,19 @@ public class FPlayer
             return;
         }
 
+        if (getPlayer() == null)
+        {
+            return;
+        }
         unmuteTask = new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                FUtil.adminAction("TotalFreedom", "Unmuting " + player.getName(), false);
+                FUtil.adminAction("TotalFreedom", "Unmuting " + getPlayer().getName(), false);
                 setMuted(false);
             }
-        }.runTaskLater(TotalFreedomMod.plugin, AUTO_PURGE_TICKS);
+        }.runTaskLater(plugin, AUTO_PURGE_TICKS);
     }
 
     public BukkitTask getLockupScheduleID()
@@ -327,20 +335,6 @@ public class FPlayer
     public void setCommandsBlocked(boolean commandsBlocked)
     {
         this.allCommandsBlocked = commandsBlocked;
-    }
-
-    // If someone logs in to telnet or minecraft, and they are an admin, make sure that they are using a username that is associated with their IP.
-    // After the check for this is done in TFM_PlayerListener, never change it elsewhere.
-    public boolean isSuperadminIdVerified()
-    {
-        return this.verifiedSuperadminId;
-    }
-
-    // If someone logs in to telnet or minecraft, and they are an admin, make sure that they are using a username that is associated with their IP.
-    // After the check for this is done in TFM_PlayerListener, never change it elsewhere.
-    public void setSuperadminIdVerified(boolean verifiedSuperadminId)
-    {
-        this.verifiedSuperadminId = verifiedSuperadminId;
     }
 
     public String getLastCommand()
@@ -391,8 +385,9 @@ public class FPlayer
 
         if (this.warningCount % 2 == 0)
         {
-            this.player.getWorld().strikeLightning(this.player.getLocation());
-            FUtil.playerMsg(this.player, ChatColor.RED + "You have been warned at least twice now, make sure to read the rules at " + ConfigEntry.SERVER_BAN_URL.getString());
+            Player p = getPlayer();
+            p.getWorld().strikeLightning(p.getLocation());
+            FUtil.playerMsg(p, ChatColor.RED + "You have been warned at least twice now, make sure to read the rules at " + ConfigEntry.SERVER_BAN_URL.getString());
         }
     }
 
