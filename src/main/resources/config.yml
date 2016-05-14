@@ -6,26 +6,32 @@
 # Generic server information
 server:
   # You should change this to your server's name
-  name: TotalFreedom
+  name: UnraveledMC
 
   # The address your server is located at. Please do not include the port.
-  address: play.totalfreedom.me
+  address: play.unraveledmc.com
 
   # Shown at the server list
-  motd: TotalFreedom &8- Minecraft %mcversion%
+  motd: UnraveledMC &8- Minecraft %mcversion%
 
   # Every word in the MOTD will be a different color unless prefixed by a color code
   colorful_motd: true
 
   # All players who show up as owner
   owners:
-    - markbyron
+    - PinchTheFinch
+    - aggelosQQ
+    
+  # All players who show up as exec
+  execs:
+    - samennis1
+    - Dusty01
 
   # URL players should appeal for bans at
-  ban_url: http://totalfreedom.boards.net/
+  ban_url: http://unraveledmc.com/forum/
 
   # URL players should appeal for permanent bans at
-  permban_url: http://bit.ly/TF_PermBan
+  permban_url: http://unraveledmc.com/forum/
 
 # Admin list
 adminlist:
@@ -120,6 +126,7 @@ blocked_commands:
   - 'n:b:/setjail:_'
   - 'n:b:/tfbanlist:Use /banlist to see and wipe the ban list'
   - 'n:b:/tfipbanlist:Use /banlist to see and wipe the ban list'
+  - 'n:b:/mob:Blocked due to crash exploits'
 
   # Superadmin commands
   - 's:b:/kick:_'
@@ -229,7 +236,7 @@ announcer:
   interval: 600
 
   # Prefix for all announcements
-  prefix: '&5[&eTotalFreedom&5] &b'
+  prefix: '&5[&eUnraveledMC&5] &b'
 
   announcements:
     - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'

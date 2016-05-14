@@ -8,6 +8,7 @@ public enum Title implements Displayable
 
     DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, "Dev"),
     OWNER("the", "Owner", ChatColor.BLUE, "Owner");
+    EXEC("an", "Executive", ChatColor.DARK_RED, "Exec");
 
     private final String determiner;
     @Getter
