@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.totalfreedom</groupId>
-    <artifactId>totalfreedom</artifactId>
+    <artifactId>unraveledmc</artifactId>
     <version>5.0</version>
     <packaging>jar</packaging>
 
@@ -19,9 +19,9 @@
         <maven.build.timestamp.format>dd/MM/yyyy hh:mm aa</maven.build.timestamp.format>
     </properties>
 
-    <name>TotalFreedomMod</name>
-    <description>Server modification for the TotalFreedom server</description>
-    <url>https://github.com/TotalFreedom/TotalFreedomMod</url>
+    <name>UnraveledMC</name>
+    <description>Server modification for the UnraveledMC server</description>
+    <url>https://github.com/UnraveledMC-Dev/UnraveledMCMod</url>
 
     <licenses>
         <license>
@@ -31,8 +31,8 @@
     </licenses>
 
     <organization>
-        <name>Total Freedom</name>
-        <url>https://totalfreedom.me</url>
+        <name>Unraveled MC</name>
+        <url>https://unraveledmc.com/forum</url>
     </organization>
 
     <scm>
@@ -115,7 +115,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <outputFileName>TotalFreedomMod.jar</outputFileName>
+                    <outputFileName>UnraveledMCMod.jar</outputFileName>
                     <compilerVersion>1.7</compilerVersion>
                     <source>1.7</source>
                     <target>1.7</target>
