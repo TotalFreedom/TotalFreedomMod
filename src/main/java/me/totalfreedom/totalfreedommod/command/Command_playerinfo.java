@@ -53,7 +53,6 @@ public class Command_playerinfo extends FreedomCommand
         msg("Last command: " + playerdata.getLastCommand());
         msg("Muted: " + (playerdata.isMuted() ? "§2true" : "§4false"), ChatColor.DARK_AQUA);
         msg("CommandSpy: " + (playerdata.cmdspyEnabled() ? "§2true" : "§4false"), ChatColor.RED);
-        msg("Frozen: " + (playerdata.isFrozen() ? "§2true" : "§4false"), ChatColor.GOLD);
         msg("Location: World: " + player.getLocation().getWorld().getName() + " X: " + player.getLocation().getBlockX() + " Y: " + player.getLocation().getBlockY() + " Z: " + player.getLocation().getBlockZ(), ChatColor.WHITE);
         msg(ChatColor.YELLOW + "Tag: " + playerdata.getTag());
         return true;
