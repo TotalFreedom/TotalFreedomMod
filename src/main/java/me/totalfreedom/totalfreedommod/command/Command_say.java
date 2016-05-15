@@ -40,7 +40,7 @@ public class Command_say extends FreedomCommand
             }
         }
 
-        FUtil.bcastMsg(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
+        FUtil.bcastMsg(String.format("[Shout:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
 
         return true;
     }
