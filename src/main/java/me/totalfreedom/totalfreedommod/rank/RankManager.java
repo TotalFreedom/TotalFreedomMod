@@ -49,10 +49,16 @@ public class RankManager extends FreedomService
             return Rank.IMPOSTOR;
         }
 
-        // Developers always show up
+        // TF Developers always show up
         if (FUtil.DEVELOPERS.contains(player.getName()))
         {
             return Title.DEVELOPER;
+        }
+        
+        // UMC Developers always show up
+        if (FUtil.UMCDEVS.contains(player.getName()))
+        {
+            return Title.UMCDEV;
         }
 
         final Rank rank = getRank(player);
@@ -68,6 +74,11 @@ public class RankManager extends FreedomService
         {
             return Title.OWNER;
         }
+        
+        // If the player's an executive, display that
+        if (ConfigEntry.SERVER_EXECS.getList().contains(player.getName()))
+        {
+            return.Title.EXEC;
 
         return rank;
     }
