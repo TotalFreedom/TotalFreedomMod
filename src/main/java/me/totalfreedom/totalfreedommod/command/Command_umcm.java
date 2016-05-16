@@ -45,7 +45,7 @@ public class Command_umcm extends FreedomCommand
         }
         msg("UnraveledMCMod for 'UnraveledMC', an all-op server.", ChatColor.GOLD);
         msg("Running on " + ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
-        msg("Created by aggelosqq, and PinchTheFinch", ChatColor.GOLD);
+        msg("Created by aggelosQQ, and PinchTheFinch", ChatColor.GOLD);
 
         return true;
     }
