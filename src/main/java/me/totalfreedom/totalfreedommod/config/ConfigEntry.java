@@ -41,6 +41,7 @@ public enum ConfigEntry
     //
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),
+    ADMIN_VERIFY_PASSWORD(String.class, "adminlist.admin_verify_password"),
     //
     DISABLE_NIGHT(Boolean.class, "disable.night"),
     DISABLE_WEATHER(Boolean.class, "disable.weather"),
