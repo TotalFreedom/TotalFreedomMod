@@ -4,7 +4,6 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.minecraft.server.v1_9_R1.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
@@ -28,9 +27,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.GameMode;
-import com.earth2me.essentials.User;
-import com.earth2me.essentials.IEssentials;
-
 public class EventBlocker extends FreedomService
 {
 
