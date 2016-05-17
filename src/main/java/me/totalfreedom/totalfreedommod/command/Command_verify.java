@@ -21,6 +21,11 @@ public class Command_verify extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (ConfigEntry.VERIFY_ENABLED.getBoolean().equals(false))
+        {
+            msg("Self verification is currently disabled!", ChatColor.RED);
+            return true;
+        }
         if (plugin.al.isAdminImpostor(playerSender))
         {
             if (args.length > 1)
