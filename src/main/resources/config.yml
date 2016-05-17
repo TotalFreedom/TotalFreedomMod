@@ -33,6 +33,13 @@ server:
   # URL players should appeal for permanent bans at
   permban_url: http://unraveledmc.com/forum/
 
+# Self verification system
+selfverify:
+  # Good in the case of a security issue
+  enabled: true
+  # Password, it can have spaces!
+  password: Sample Password
+  
 # Admin list
 adminlist:
 
@@ -42,9 +49,6 @@ adminlist:
   # Give the default CONSOLE senior admin privileges.
   # Handy in development environments.
   console_is_senior: true
-  
-  # Password for admin imposter self verification
-  admin_verify_password: Sample Password
 
 # ForceIP configuration
 forceip:
