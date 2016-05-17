@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
-@CommandParameters(description = "Shows information about UnraveledMCMod or reloads it.", usage = "/<command> [reload]")
+@CommandParameters(description = "Shows information about UnraveledMCMod or reloads it.", usage = "/<command> [reload]", aliases = "umcm")
 public class Command_umcm extends FreedomCommand
 {
 
@@ -37,7 +37,7 @@ public class Command_umcm extends FreedomCommand
 
             final String message = String.format("%s v%s reloaded.",
                     TotalFreedomMod.pluginName,
-                    ConfigEntry.PLUGIN_VERSION.getString());
+                    TotalFreedomMod.pluginVersion);
 
             msg(message);
             FLog.info(message);
@@ -46,6 +46,8 @@ public class Command_umcm extends FreedomCommand
         msg("UnraveledMCMod for 'UnraveledMC', an all-op server.", ChatColor.GOLD);
         msg("Running on " + ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
         msg("Created by aggelosQQ, and PinchTheFinch", ChatColor.GOLD);
+        msg("Visit " + ChatColor.AQUA + "http://unraveledmc.com/forum/"
+                + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
 
         return true;
     }
