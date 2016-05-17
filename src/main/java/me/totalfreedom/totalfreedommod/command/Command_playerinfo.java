@@ -32,7 +32,7 @@ public class Command_playerinfo extends FreedomCommand
         if (args.length == 1)
         {
         msg("Name: " + player.getName(), ChatColor.AQUA);
-        msg("Opped: " + (player.isOp() ? "§2true" : "§4false"), ChatColor.LIGHT_PURPLE);
+        msg("Opped: " + (player.isOp() ? "§atrue" : "§cfalse"), ChatColor.LIGHT_PURPLE);
         if (player.getGameMode().equals(GameMode.SURVIVAL))
         {
             msg("Gamemode: survival", ChatColor.DARK_BLUE);
@@ -52,9 +52,9 @@ public class Command_playerinfo extends FreedomCommand
         msg("IP: " + player.getAddress(), ChatColor.GREEN);
         msg("Rank: " + plugin.rm.getRank(player).getName(), ChatColor.LIGHT_PURPLE);
         msg("Last command: " + playerdata.getLastCommand());
-        msg("Muted: " + (playerdata.isMuted() ? "§2true" : "§4false"), ChatColor.DARK_AQUA);
-        msg("CommandSpy: " + (playerdata.cmdspyEnabled() ? "§2true" : "§4false"), ChatColor.RED);
-        msg("Frozen: " + (fPlayer.getFreezeData().isFrozen() ? "§2true" : "§4false"), ChatColor.RED);
+        msg("Muted: " + (playerdata.isMuted() ? "§atrue" : "§cfalse"), ChatColor.DARK_AQUA);
+        msg("CommandSpy: " + (playerdata.cmdspyEnabled() ? "§atrue" : "§cfalse"), ChatColor.RED);
+        msg("Frozen: " + (fPlayer.getFreezeData().isFrozen() ? "§atrue" : "§cfalse"), ChatColor.RED);
         msg("Location: World: " + player.getLocation().getWorld().getName() + " X: " + player.getLocation().getBlockX() + " Y: " + player.getLocation().getBlockY() + " Z: " + player.getLocation().getBlockZ(), ChatColor.WHITE);
         msg(ChatColor.YELLOW + "Tag: " + playerdata.getTag());
         return true;
