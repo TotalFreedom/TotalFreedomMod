@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
 @CommandParameters(description = "Shows information about UnraveledMCMod or reloads it.", usage = "/<command> [reload]", aliases = "umcm")
-public class Command_umcm extends FreedomCommand
+public class Command_unraveledmcmod extends FreedomCommand
 {
 
     @Override
