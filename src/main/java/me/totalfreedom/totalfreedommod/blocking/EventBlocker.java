@@ -178,17 +178,7 @@ public class EventBlocker extends FreedomService
     {
         event.setCancelled(true);
     }
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
-    {
-        Player player = event.getPlayer();
-        String command = event.getMessage().toLowerCase().trim();
-        if (command.contains("&k") && !plugin.al.isAdmin(player))
-        {
-            event.setCancelled(true);
-            FUtil.playerMsg(player, ChatColor.RED + "You are not allowed to use &k");
-        }
-    }
+    
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerHit(PlayerCommandPreprocessEvent event)
     {
