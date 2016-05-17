@@ -3,6 +3,8 @@ package me.totalfreedom.totalfreedommod.blocking;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FUtil;
+import net.minecraft.server.v1_9_R1.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
@@ -20,6 +22,14 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Arrow;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.GameMode;
+import com.earth2me.essentials.User;
+import com.earth2me.essentials.IEssentials;
 
 public class EventBlocker extends FreedomService
 {
@@ -168,7 +178,6 @@ public class EventBlocker extends FreedomService
     {
         event.setCancelled(true);
     }
-    
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
@@ -180,5 +189,45 @@ public class EventBlocker extends FreedomService
             FUtil.playerMsg(player, ChatColor.RED + "You are not allowed to use &k");
         }
     }
-
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerHit(PlayerCommandPreprocessEvent event)
+    {
+        Player player = event.getPlayer();
+        String command = event.getMessage().toLowerCase().trim();
+        if (command.contains("&k") && !plugin.al.isAdmin(player))
+        {
+            event.setCancelled(true);
+            FUtil.playerMsg(player, "You are not allowed to use &k", ChatColor.RED);
+        }
+    }
+    
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+    {
+        if (event.getEntity() instanceof Player)
+        {
+            if (event.getDamager() instanceof Player)
+            {
+                Player player = (Player) event.getDamager();
+                if (player.getGameMode() == GameMode.CREATIVE)
+                {
+                    FUtil.playerMsg(player, "Creative PvP is not allowed!", ChatColor.RED);
+                    event.setCancelled(true);
+                }
+            }
+            if (event.getDamager() instanceof Arrow)
+            {
+                Arrow arrow = (Arrow) event.getDamager();
+                if (arrow.getShooter() instanceof Player)
+                {
+                    Player player = (Player) arrow.getShooter();
+                    if (player.getGameMode() == GameMode.CREATIVE)
+                    {
+                        FUtil.playerMsg(player, "Creative PvP is not allowed!", ChatColor.RED);
+                        event.setCancelled(true);
+                    }
+                }
+            }
+        }
+    }
 }
