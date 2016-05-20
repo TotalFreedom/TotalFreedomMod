@@ -19,7 +19,7 @@
         <maven.build.timestamp.format>dd/MM/yyyy hh:mm aa</maven.build.timestamp.format>
     </properties>
 
-    <name>UnraveledMC</name>
+    <name>UnraveledMCMod</name>
     <description>Server modification for the UnraveledMC server</description>
     <url>https://github.com/UnraveledMC-Dev/UnraveledMCMod</url>
 
