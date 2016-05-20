@@ -103,7 +103,7 @@ public class Command_executive extends FreedomCommand
                             public void run()
                             {
                                 player.getWorld().createExplosion(player.getLocation(), 4F);
-                                banPlayer(player.getName(), "You are need to get your act together, come back when you can handle yourself!", true, false);
+                                banPlayer(player.getName(), "You need to get your act together, come back when you can handle yourself!", true, false);
                                 FUtil.adminAction(cSender.getName(), "Has sent " + player.getName() + " to hell, IP: " + IP, true);
                                 player.kickPlayer(ChatColor.RED + "Welcome to hell you fucking ignorant cunt!");
                             }
