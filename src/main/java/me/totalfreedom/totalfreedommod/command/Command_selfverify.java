@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SENIOR_CONSOLE, source = SourceType.ONLY_CONSOLE)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Enable or disable self verification", usage = "/<command> [on | off]")
 public class Command_selfverify extends FreedomCommand
 {
