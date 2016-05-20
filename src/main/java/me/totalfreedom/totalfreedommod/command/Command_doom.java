@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
-@CommandParameters(description = "For the bad admins", usage = "/<command> <playername>")
+@CommandParameters(description = "For the bad admins", usage = "/<command> <playername>", aliases = "suspend")
 public class Command_doom extends FreedomCommand
 {
 
@@ -42,7 +42,7 @@ public class Command_doom extends FreedomCommand
         Admin admin = getAdmin(player);
         if (admin != null)
         {
-            FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the superadmin list", true);
+            FUtil.adminAction(sender.getName(), "Suspending " + player.getName() + " from the staff team.", true);
             plugin.al.removeAdmin(admin);
         }
 
