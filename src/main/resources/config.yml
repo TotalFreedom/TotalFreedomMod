@@ -21,7 +21,6 @@ server:
   owners:
     - Wolfie_YT
     - _c0ded
-    - _c0ding
 
   # URL players should appeal for bans at
   ban_url: http://onlyliberty.boards.net
@@ -33,7 +32,7 @@ server:
 adminlist:
 
   # The amount of hours after which admins may be removed from the admin list
-  clean_threshold_hours: 48
+  clean_threshold_hours: 72
 
   # Give the default CONSOLE senior admin privileges.
   # Handy in development environments.
@@ -96,15 +95,15 @@ allow:
 #
 blocked_commands:
     # Disabled commands
-  - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
-  - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
-  - 'n:b:/ban:_'
-  - 'n:b:/pardon:_'
-  - 'n:b:/ban-ip:_'
-  - 'n:b:/pardon-ip:_'
+  - 's:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
+  - 's:b:/gamemode:Use /creative and /survival to set your gamemode.'
+  - 'c:b:/ban:_'
+  - 'c:b:/pardon:_'
+  - 'c:b:/ban-ip:_'
+  - 'c:b:/pardon-ip:_'
   - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
-  - 'n:b:/enderchest:_'
+  - 's:b:/enderchest:_'
   - 'n:b:/spreadplayers:_'
   - 'n:b:/execute:_'
   - 'n:b:/blockdata:_'
