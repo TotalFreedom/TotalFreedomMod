@@ -29,19 +29,18 @@ public class Command_saconfig extends FreedomCommand
         {
             case "list":
             {
-                msg("Superadmins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
+                msg("Admins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
 
                 return true;
             }
 
             case "clean":
             {
-                checkConsole();
                 checkRank(Rank.TELNET_ADMIN);
 
-                FUtil.adminAction(sender.getName(), "Cleaning admin list", true);
+                FUtil.adminAction(sender.getName(), "Cleaning the admin list", true);
                 plugin.al.deactivateOldEntries(true);
-                msg("Superadmins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
+                msg("Admins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
 
                 return true;
             }
@@ -58,9 +57,7 @@ public class Command_saconfig extends FreedomCommand
 
             case "setrank":
             {
-                checkConsole();
-                checkNotHostConsole();
-                checkRank(Rank.SENIOR_CONSOLE);
+                checkRank(Rank.SENIOR_ADMIN);
 
                 if (args.length < 3)
                 {
@@ -118,7 +115,7 @@ public class Command_saconfig extends FreedomCommand
 
                 if (admin == null)
                 {
-                    msg("Superadmin not found: " + args[1]);
+                    msg("Admin not found: " + args[1]);
                 }
                 else
                 {
@@ -134,8 +131,6 @@ public class Command_saconfig extends FreedomCommand
                 {
                     return false;
                 }
-
-                checkConsole();
                 checkRank(Rank.TELNET_ADMIN);
 
                 // Player already an admin?
@@ -206,7 +201,6 @@ public class Command_saconfig extends FreedomCommand
                     return false;
                 }
 
-                checkConsole();
                 checkRank(Rank.TELNET_ADMIN);
 
                 Player player = getPlayer(args[1]);
@@ -214,7 +208,7 @@ public class Command_saconfig extends FreedomCommand
 
                 if (admin == null)
                 {
-                    msg("Superadmin not found: " + args[1]);
+                    msg("Admin not found: " + args[1]);
                     return true;
                 }
 
