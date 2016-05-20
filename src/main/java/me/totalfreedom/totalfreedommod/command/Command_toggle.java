@@ -31,6 +31,8 @@ public class Command_toggle extends FreedomCommand
             msg("- entitywipe");
             msg("- nonuke [range] [count]");
             msg("- explosives [radius]");
+            msg("- adminmodeon");
+            msg("- adminmodeoff");
             return false;
         }
 
@@ -89,6 +91,20 @@ public class Command_toggle extends FreedomCommand
         if (args[0].equals("petprotect"))
         {
             toggle("Tamed pet protection is", ConfigEntry.ENABLE_PET_PROTECT);
+            return true;
+        }
+        
+        if (args[0].equals("adminmodeon"))
+        {
+            ConfigEntry.ADMIN_ONLY_MODE.setBoolean(true);
+            FUtil.adminAction(sender.getName(), "Turning on adminmode", true);
+            return true;
+        }
+        
+        if (args[0].equals("adminmodeoff"))
+        {
+            ConfigEntry.ADMIN_ONLY_MODE.setBoolean(false);
+            FUtil.adminAction(sender.getName(), "Opening the server to all players.", true);
             return true;
         }
 
