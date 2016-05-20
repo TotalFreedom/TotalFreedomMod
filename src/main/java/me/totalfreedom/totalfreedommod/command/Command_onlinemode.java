@@ -25,7 +25,7 @@ public class Command_onlinemode extends FreedomCommand
         {
             boolean onlineMode;
 
-            if (sender instanceof Player && !plugin.al.isSeniorAdmin(sender))
+            if (!plugin.al.isSeniorAdmin(sender))
             {
                 noPerms();
                 return true;
