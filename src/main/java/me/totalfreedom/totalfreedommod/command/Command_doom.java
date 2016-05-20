@@ -35,7 +35,7 @@ public class Command_doom extends FreedomCommand
 
         FUtil.adminAction(sender.getName(), "Casting oblivion over " + player.getName(), true);
         FUtil.bcastMsg(player.getName() + " will be completely obliviated!", ChatColor.RED);
-        FUtil.bcastMsg(player.getName() + " has angered the pugs!", ChatColor.RED);
+        FUtil.bcastMsg(player.getName() + " has angered the wolves!", ChatColor.RED);
 
         final String ip = player.getAddress().getAddress().getHostAddress().trim();
 
