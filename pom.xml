@@ -82,11 +82,11 @@
         </dependency>
 
         <dependency>
-            <groupId>net.totalfreedom</groupId>
+            <groupId>com.sk89q.worldedit</groupId>
             <artifactId>tf-worldedit</artifactId>
-            <version>6.1.0-TF</version>
+            <version>6.1.1-UMC</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/TF-WorldEdit-6.1.1.jar</systemPath>
+            <systemPath>${project.basedir}/lib/UMC-WorldEdit.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -94,7 +94,7 @@
             <artifactId>tf-essentials</artifactId>
             <version>2.0-TF</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/TF-Essentials-2.1.jar</systemPath>
+            <systemPath>${project.basedir}/lib/UMC-Essentials.jar</systemPath>
         </dependency>
     </dependencies>
 
