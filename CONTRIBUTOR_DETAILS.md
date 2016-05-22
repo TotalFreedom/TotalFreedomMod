@@ -4,6 +4,7 @@ These people have write access.
 rovertdude
 PuggyCrew
 _c0ded
+adroition
 
 # How to Become One #
 In order to become a contributor, you need to fit at least 3 of the following:
