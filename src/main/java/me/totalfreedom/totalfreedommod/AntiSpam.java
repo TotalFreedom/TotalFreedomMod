@@ -79,6 +79,7 @@ public class AntiSpam extends FreedomService
         }
 
         // Check for message repeat
+        if (!isAdmin(player))
         if (playerdata.getLastMessage().equalsIgnoreCase(message))
         {
             FSync.playerMsg(player, "Please do not repeat messages.");
