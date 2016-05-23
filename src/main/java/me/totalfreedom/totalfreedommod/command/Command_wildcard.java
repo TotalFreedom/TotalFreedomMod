@@ -40,6 +40,21 @@ public class Command_wildcard extends FreedomCommand
             msg("WOA, WTF are you trying to do???", ChatColor.RED);
             return true;
         }
+        if (args[0].equals("suspend"))
+        {
+            msg("Look, we all hate people, but this is not the way to deal with it, doom is evil enough!", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("orbit"))
+        {
+            msg("Some people don't want to fly!", ChatColor.RED);
+            return true;
+        }
+        if (args[0].equals("ban"))
+        {
+            msg("Nice try", ChatColor.RED);
+            return true;
+        }
 
         String baseCommand = StringUtils.join(args, " ");
 
