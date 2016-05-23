@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Makes someone GTFO (deop and ip ban by username).", usage = "/<command> <partialname>")
+@CommandParameters(description = "Makes someone GTFO (deop and ip ban by username).", usage = "/<command> <partialname>", aliases = "ban,dayban,eban,banip,ban-ip")
 public class Command_gtfo extends FreedomCommand
 {
 
@@ -93,7 +93,7 @@ public class Command_gtfo extends FreedomCommand
         plugin.bm.addBan(Ban.forPlayerFuzzy(player, sender, null, reason));
 
         // Kick player
-        player.kickPlayer(ChatColor.RED + "GTFO");
+        player.kickPlayer(ChatColor.RED + "You have been banned from this server.");
 
         return true;
     }
