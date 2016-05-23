@@ -52,10 +52,10 @@ public class Flatlands extends CustomWorld
         org.bukkit.material.Sign signData = (org.bukkit.material.Sign) welcomeSign.getData();
         signData.setFacingDirection(BlockFace.NORTH);
 
-        welcomeSign.setLine(0, ChatColor.GREEN + "Flatlands");
-        welcomeSign.setLine(1, ChatColor.DARK_GRAY + "---");
-        welcomeSign.setLine(2, ChatColor.YELLOW + "Spawn Point");
-        welcomeSign.setLine(3, ChatColor.DARK_GRAY + "---");
+        welcomeSign.setLine(0, ChatColor.DARK_GRAY + "Flatlands");
+        welcomeSign.setLine(1, ChatColor.DARK_AQUA + "---");
+        welcomeSign.setLine(2, ChatColor.GRAY + "Spawn Point");
+        welcomeSign.setLine(3, ChatColor.DARK_AQUA + "---");
         welcomeSign.update();
 
         plugin.gr.commitGameRules();
