@@ -170,14 +170,6 @@ public class EventBlocker extends FreedomService
         event.setCancelled(true);
     }
 
-    public void onPlace(BlockPlaceEvent event) {
-        if (isRedstone(event.getBlock())){
-            event.setCancelled(false);
-        }else {
-            event.setCancelled(true);
-        }
-    }
- 
     private boolean isRedstone(Block block) {
         if(block.getType() == Material.SIGN
             return false;
