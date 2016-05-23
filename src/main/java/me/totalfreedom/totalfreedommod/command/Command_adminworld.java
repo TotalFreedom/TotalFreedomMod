@@ -93,6 +93,8 @@ public class Command_adminworld extends FreedomCommand
                 }
                 case GUEST:
                 {
+                    checkRank(Rank.SENIOR_ADMIN);
+                
                     if (args.length == 2)
                     {
                         if ("list".equalsIgnoreCase(args[1]))
