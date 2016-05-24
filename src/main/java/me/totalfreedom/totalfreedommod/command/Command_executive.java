@@ -60,7 +60,7 @@ public class Command_executive extends FreedomCommand
                         final Player player = getPlayer(args[1]);
                         String reason = null;
 
-                        FUtil.adminAction(sender.getName(), "Calling Saten to open the gates of hell for " + player.getName(), true);
+                        FUtil.adminAction(sender.getName(), "Calling Satan to open the gates of hell for " + player.getName(), true);
                         FUtil.bcastMsg(player.getName() + " is going to have a bad time!", ChatColor.RED);
                         final String IP = player.getAddress().getAddress().getHostAddress().trim();
                         if (plugin.al.isAdmin(player))
