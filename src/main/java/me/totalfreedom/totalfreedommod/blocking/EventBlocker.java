@@ -14,6 +14,7 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -22,11 +23,14 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.GameMode;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material;
+
 public class EventBlocker extends FreedomService
 {
 
@@ -187,7 +191,7 @@ public class EventBlocker extends FreedomService
         }
     }
     
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
     {
         if (event.getEntity() instanceof Player)
@@ -214,6 +218,18 @@ public class EventBlocker extends FreedomService
                     }
                 }
             }
+        }
+    }
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onOpenBook(PlayerInteractEvent event)
+    {
+        ItemStack is = event.getItem();
+        if (is != null && is.getType().equals(Material.WRITTEN_BOOK))
+        {
+            Player player = event.getPlayer();
+            player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+            event.setCancelled(true);
+            player.sendMessage(ChatColor.GRAY + "For security reasons opening written books has been disabled");
         }
     }
 }
