@@ -76,7 +76,6 @@ public class Command_executive extends FreedomCommand
                         player.closeInventory();
                         player.getInventory().clear();
                         player.setFireTicks(10000);
-                        player.getWorld().createExplosion(player.getLocation(), 4F);
                         new BukkitRunnable()
                         {
                             @Override
@@ -85,7 +84,6 @@ public class Command_executive extends FreedomCommand
                                 player.getWorld().strikeLightning(player.getLocation());
                             }
                         }.runTaskLater(plugin, 20L * 2L);
-                        player.getWorld().createExplosion(player.getLocation(), 4F);
                         new BukkitRunnable()
                         {
                             @Override
