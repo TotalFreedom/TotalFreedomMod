@@ -108,7 +108,23 @@ public class BlockBlocker extends FreedomService
                 }
                 break;
             }
+            case WALL_SIGN:
+            {
+                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+
+                event.setCancelled(true);
+                player.sendMessage(ChatColor.GRAY + "For security reasons the use of signs has been disabled");
+                break;
+            }
+            case SIGN_POST:
+            {
+                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+
+                event.setCancelled(true);
+                player.sendMessage(ChatColor.GRAY + "For security reasons the use of signs has been disabled");
+                
+                break;
+            }
         }
     }
-
 }
