@@ -2,9 +2,13 @@
 The following people are the official contributors of the Wolf Freedom Core.
 These people have write access.
 rovertdude
+
 PuggyCrew
+
 _c0ded
-adroition
+
+adroition [lead developer]
+
 
 # How to Become One #
 In order to become a contributor, you need to fit at least 3 of the following:
