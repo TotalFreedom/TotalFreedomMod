@@ -84,7 +84,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>tf-worldedit</artifactId>
-            <version>6.1.1-UMC</version>
+            <version>6.1.1-TF</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/UMC-WorldEdit.jar</systemPath>
         </dependency>
