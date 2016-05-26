@@ -1,6 +1,7 @@
 # Contributor Details #
 The following people are the official contributors of the Wolf Freedom Core.
 These people have write access.
+
 rovertdude
 
 PuggyCrew
