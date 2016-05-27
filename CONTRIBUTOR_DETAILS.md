@@ -2,23 +2,32 @@
 The following people are the official contributors of the Wolf Freedom Core.
 These people have write access.
 
-rovertdude
+ -rovertdude
 
-PuggyCrew
+ -PuggyCrew
+ 
+ -_c0ded
+ 
+ -adroition [Lead Developer]
 
-_c0ded
-
-adroition [lead developer]
-
+-----------------------------------
 
 # How to Become One #
 In order to become a contributor, you need to fit at least 3 of the following:
+
 1. Have made useful pulls to the core
+
 2. Have made at least 10 issues and/or pull requests
+
 3. Have been recommended for developer
+
 4. Have a great experience with coding
+
 5. Have taken any decree in coding
+
 6. Have developer on another TotalFreedomMod github page
+
+-----------------------------------
 
 # How people are picked #
 Developers are generally picked out of the roster of people that have at least 3 of those.
