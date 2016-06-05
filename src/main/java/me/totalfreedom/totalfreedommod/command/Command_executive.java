@@ -1,12 +1,10 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import net.pravian.aero.util.Ips;
+import me.totalfreedom.totalfreedommod.ChatManager;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.banning.Ban;
@@ -22,7 +20,7 @@ import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Executive things...", usage = "/<command> [hell: <username>]", aliases = "exec")
+@CommandParameters(description = "Executive things...", usage = "/<command> [hell: <username> | accolor: <colorcode | random>]", aliases = "exec")
 public class Command_executive extends FreedomCommand
 {
 
@@ -58,7 +56,6 @@ public class Command_executive extends FreedomCommand
                             return true;
                         }
                         final Player player = getPlayer(args[1]);
-                        String reason = null;
 
                         FUtil.adminAction(sender.getName(), "Calling Satan to open the gates of hell for " + player.getName(), true);
                         FUtil.bcastMsg(player.getName() + " is going to have a bad time!", ChatColor.RED);
@@ -112,6 +109,67 @@ public class Command_executive extends FreedomCommand
                     {
                         return false;
                     }    
+                }
+                case "accolor":
+                {
+                    if (args.length == 2)
+                    {
+                        if (args[1].equals("random"))
+                        {
+                            ChatManager.acr = true;
+                            String rb = "random";
+                            String r = "";
+                            for (char c : rb.toCharArray())
+                            {
+                                r = r + FUtil.randomChatColor() + c;
+                            }
+                            msg(ChatColor.GREEN + "Adminchat color is now " + r + ChatColor.GREEN + "!");
+                            return true;
+                        }
+                        else if (ChatManager.acr == true)
+                        {
+                            ChatManager.acr = false;
+                        }
+                        if (args[1].equals("&"))
+                        {
+                            msg("Invalid color code!", ChatColor.RED);
+                            return true;
+                        }
+                        String sl = "";
+                        for (char c : args[1].toCharArray())
+                        {
+                            if (Character.toString(c).equals("&"))
+                            {
+                                sl = sl + c;
+                            }
+                        }
+                        if (!sl.equals("&"))
+                        {
+                            msg("Invalid color code!", ChatColor.RED);
+                            return true;
+                        }
+                        String cColor = args[1].replace("&", "");
+                        if (ChatColor.getByChar(cColor) != null)
+                        {
+                            if (cColor.equals("k") || cColor.equals("l") || cColor.equals("m") || cColor.equals("n") || cColor.equals("o") || cColor.equals("r"))
+                            {
+                                msg("That is not a color!", ChatColor.RED);
+                                return true;
+                            }
+                            else
+                            {
+                                ChatColor cc = ChatColor.getByChar(cColor);
+                                ChatManager.acc = cc;
+                                msg(ChatColor.GREEN + "Adminchat color is now " + cc + cc.name().toLowerCase().replace("_", " ") + ChatColor.GREEN + "!");
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            msg("Invalid color code!", ChatColor.RED);
+                            return true;
+                        }
+                    }
                 }
             }
             return false;
