@@ -12,15 +12,16 @@ server:
   address: play.unraveledmc.com
 
   # Shown at the server list
-  motd: UnraveledMC &8- Minecraft %mcversion%
+  motd: '&lUnraveledMC &l- &lFree &lOP'
 
   # Every word in the MOTD will be a different color unless prefixed by a color code
   colorful_motd: true
 
   # All players who show up as owner
   owners:
-    - PinchTheFinch
+    - AwesomePinch
     - aggelosQQ
+    - CreeperIvanYT
 
   # All players who show up as executive
   execs:
@@ -127,16 +128,16 @@ blocked_commands:
   - 'n:b:/skinrestorer:_'
   - 'n:b:/packet:_'
   - 'n:b:/thaw:_'
-  - 'n:b:/pp largeexplode:You may not use this particle! Please use another.'
-  - 'n:b:/pp hugeexplosion:You may not use this particle! Please use another.'
-  - 'n:b:/pp barrier:You may not use this particle! Please use another.'
   - 'n:b:/setjail:_'
   - 'n:b:/tfbanlist:Use /banlist to see and wipe the ban list'
   - 'n:b:/tfipbanlist:Use /banlist to see and wipe the ban list'
   - 'n:b:/testfor:_'
   - 'n:b:/testforblock:_'
   - 'n:b:/testforblocks:_'
-  - 'n:b:/packet:_'
+  - 'n:b:/packet_filter:_'
+  - 'n:b:/viaver:_'
+  - 'n:b:/viaversion:_'
+  - 'n:b:/viainfo:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
@@ -177,9 +178,10 @@ blocked_commands:
   - 's:b:/coreprotect:_'
   - 's:b:/core:_'
   - 's:b:/co:_'
-  - 's:b:/reaction:_'
   - 's:b:/supertrails:_'
+  - 's:b:/reaction:_'
   - 's:b:/protocol:_'
+  - 's:b:/discord logout:&eOnly administrators may disable the bot.'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
@@ -336,8 +338,8 @@ service_checker_url: http://status.mojang.com/check
 # HTTPD server
 httpd:
   enabled: true
-  port: 28966
-  public_folder: ./public_html
+  port: 28366
+  public_folder: ../../../../../../../../var/www/html
 
 # Inactivity Auto-Kick (Requires Essentials)
 autokick:
