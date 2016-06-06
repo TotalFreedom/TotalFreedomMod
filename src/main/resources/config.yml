@@ -137,7 +137,6 @@ blocked_commands:
   - 'n:b:/testforblock:_'
   - 'n:b:/testforblocks:_'
   - 'n:b:/packet:_'
-  - 'n:b:/packet_filter:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
@@ -180,7 +179,6 @@ blocked_commands:
   - 's:b:/co:_'
   - 's:b:/reaction:_'
   - 's:b:/supertrails:_'
-  - 's:b:/reaction:_'
   - 's:b:/protocol:_'
 
   # Superadmin commands - Auto-eject
