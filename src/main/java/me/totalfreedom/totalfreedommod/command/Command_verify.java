@@ -31,7 +31,7 @@ public class Command_verify extends FreedomCommand
             if (args.length > 1)
             {
                 String inputedPassword = StringUtils.join(args, " ");
-                if (inputedPassword.equals(ConfigEntry.ADMIN_VERIFY_PASSWORD.getString()))
+                if (inputedPassword.equals(ConfigEntry.VERIFY_PASSWORD.getString()))
                 {
                     String name = playerSender != null ? playerSender.getName() : args[1];
                     Admin admin = null;

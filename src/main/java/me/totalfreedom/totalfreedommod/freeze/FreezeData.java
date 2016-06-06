@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.freeze;
 
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import static me.totalfreedom.totalfreedommod.player.FPlayer.AUTO_PURGE_TICKS;
 import me.totalfreedom.totalfreedommod.util.FLog;

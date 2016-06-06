@@ -80,8 +80,8 @@ public class RankManager extends FreedomService
         {
             return Title.EXEC;
         }
-
         return rank;
+    }
 
     public Rank getRank(CommandSender sender)
     {

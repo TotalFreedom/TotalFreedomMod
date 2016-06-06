@@ -99,7 +99,7 @@ public class Command_doom extends FreedomCommand
                 FUtil.adminAction(sender.getName(), "Banning " + player.getName() + ", IP: " + ip, true);
 
                 // generate explosion
-                player.getWorld().createExplosion(player.getLocation(), 0F. false);
+                player.getWorld().createExplosion(player.getLocation(), 0F, false);
 
                 // kick player
                 player.kickPlayer(ChatColor.RED + "FUCKOFF, and get your shit together!");
