@@ -339,7 +339,7 @@ service_checker_url: http://status.mojang.com/check
 httpd:
   enabled: true
   port: 28366
-  public_folder: ../../../../../../../../var/www/html
+  public_folder: ././././././././var/www/html
 
 # Inactivity Auto-Kick (Requires Essentials)
 autokick:
