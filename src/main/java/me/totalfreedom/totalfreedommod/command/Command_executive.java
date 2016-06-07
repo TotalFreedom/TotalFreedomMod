@@ -33,7 +33,7 @@ public class Command_executive extends FreedomCommand
             if (!senderIsConsole)
             {
                 final int firstEmpty = playerSender.getInventory().firstEmpty();
-                final ItemStack cakeItem = new ItemStack(Material.CAKE);
+                final ItemStack cakeItem = new ItemStack(Material.COOKIE);
                 playerSender.getInventory().setItem(firstEmpty, cakeItem);
             }
             else
