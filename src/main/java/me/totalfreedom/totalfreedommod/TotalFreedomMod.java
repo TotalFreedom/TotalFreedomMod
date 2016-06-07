@@ -48,7 +48,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static final BuildProperties build = new BuildProperties();
     //
     public static String pluginName;
-    public static String pluginVersion;
+    public static String pluginVersion = "1.4";
     //
     public MainConfig config;
     //
@@ -106,7 +106,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public void load()
     {
         TotalFreedomMod.pluginName = plugin.getDescription().getName();
-        TotalFreedomMod.pluginVersion = plugin.getDescription().getVersion();
 
         FLog.setPluginLogger(plugin.getLogger());
         FLog.setServerLogger(server.getLogger());
@@ -260,12 +259,12 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
                     props.load(in);
                 }
 
-                author = props.getProperty("program.build.author", "PinchTheFinch");
+                author = props.getProperty("program.build.author", "CreeperSeth");
                 codename = props.getProperty("program.build.codename", "UnraveledMCMod");
-                version = props.getProperty("program.build.version", "1.3");
-                number = props.getProperty("program.build.number", "1.3");
-                date = props.getProperty("program.build.date", "5/15/16");
-                head = props.getProperty("program.build.head", "PinchTheFinch");
+                version = props.getProperty("program.build.version", "1.4");
+                number = props.getProperty("program.build.number", "1.4");
+                date = props.getProperty("program.build.date", "6/6/16");
+                head = props.getProperty("program.build.head", "CreeperSeth");
             }
             catch (Exception ex)
             {

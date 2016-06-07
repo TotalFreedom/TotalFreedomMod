@@ -28,21 +28,8 @@ public class ConfigConverter extends PluginComponent<TotalFreedomMod>
     {
         File data = plugin.getDataFolder();
         data.mkdirs();
-        File versionFile = new File(data, "version.yml");
 
         boolean convert = false;
-        if (!versionFile.exists() && data.listFiles().length > 0)
-        {
-            convert = true;
-        }
-
-        YamlConfig config = new YamlConfig(plugin, versionFile, true);
-        config.load();
-
-        if (config.getInt("version", -1) < CURRENT_CONFIG_VERSION)
-        {
-            convert = true;
-        }
 
         if (!convert)
         {
@@ -56,10 +43,6 @@ public class ConfigConverter extends PluginComponent<TotalFreedomMod>
 
         for (File file : data.listFiles())
         {
-            if (file.equals(backup) || file.equals(versionFile))
-            {
-                continue;
-            }
 
             try
             {
