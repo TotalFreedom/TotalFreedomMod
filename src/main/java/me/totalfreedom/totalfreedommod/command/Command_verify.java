@@ -73,7 +73,7 @@ public class Command_verify extends FreedomCommand
         {
             if (plugin.al.isAdmin(sender))
             {
-                msg("You are not an imposter, therefor you do not need to verify!", ChatColor.RED);
+                msg("You are not an imposter, therefore you do not need to verify!", ChatColor.RED);
                 return true;
             }
             else
