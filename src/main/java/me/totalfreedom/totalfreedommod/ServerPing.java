@@ -55,13 +55,11 @@ public class ServerPing extends FreedomService
             return;
         }
 
-        String lineone = ConfigEntry.MOTD_LINE_ONE.getString().replace("%mcversion%", plugin.si.getVersion());
-        String linetwo = ConfigEntry.MOTD_LINE_TWO.getString().replace("%mcversion%", plugin.si.getVersion());
-        String baseMotd = lineone + " \\n" + linetwo;
+        String baseMotd = ConfigEntry.SERVER_MOTD.getString().replace("%mcversion%", plugin.si.getVersion());
         baseMotd = baseMotd.replace("\\n", "\n");
         baseMotd = FUtil.colorize(baseMotd);
 
-        if (!ConfigEntry.MOTD_COLORFUL_MOTD.getBoolean())
+        if (!ConfigEntry.SERVER_COLORFUL_MOTD.getBoolean())
         {
             event.setMotd(baseMotd);
             return;
