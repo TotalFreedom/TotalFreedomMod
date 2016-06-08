@@ -11,12 +11,6 @@ server:
   # The address your server is located at. Please do not include the port.
   address: play.unraveledmc.com
 
-  # Shown at the server list
-  motd: '&lUnraveledMC &l- &lFree &lOP'
-
-  # Every word in the MOTD will be a different color unless prefixed by a color code
-  colorful_motd: true
-
   # All players who show up as owner
   owners:
     - AwesomePinch
@@ -33,7 +27,15 @@ server:
 
   # URL players should appeal for permanent bans at
   permban_url: http://unraveledmc.com/forum/
-
+# Shown at the server list
+motd:
+  # Every word in the MOTD will be a different color unless prefixed by a color code
+  colorful_motd: true
+  #What shows up on line 1
+  line_one: '&lUnraveledMC &l- &lFree &lOP'
+  #What shows up on line 2
+  line_two: 'Running on %mcversion%'
+  
 # Self verification system
 selfverify:
   # Good in the case of a security issue
@@ -72,6 +74,8 @@ allow:
   water_place: false
   tnt_minecarts: false
   explosions: false
+  sign_place: false
+  only_admin_sign_place: false
 
 # Blocked commands:
 #
