@@ -18,8 +18,6 @@ public enum ConfigEntry
     ALLOW_LAVA_PLACE(Boolean.class, "allow.lava_place"),
     ALLOW_TNT_MINECARTS(Boolean.class, "allow.tnt_minecarts"),
     ALLOW_WATER_PLACE(Boolean.class, "allow.water_place"),
-    ALLOW_SIGN_PLACE(Boolean.class, "allow.sign_place"),
-    ONLY_ADMIN_SIGN_PLACE(Boolean.class, "allow.only_admin_sign_place"),
     //
     MOB_LIMITER_ENABLED(Boolean.class, "moblimiter.enabled"),
     MOB_LIMITER_MAX(Integer.class, "moblimiter.max"),
@@ -32,16 +30,14 @@ public enum ConfigEntry
     HTTPD_PORT(Integer.class, "httpd.port"),
     HTTPD_PUBLIC_FOLDER(String.class, "httpd.public_folder"),
     //
+    SERVER_COLORFUL_MOTD(Boolean.class, "server.colorful_motd"),
     SERVER_NAME(String.class, "server.name"),
     SERVER_ADDRESS(String.class, "server.address"),
+    SERVER_MOTD(String.class, "server.motd"),
     SERVER_OWNERS(List.class, "server.owners"),
     SERVER_EXECS(List.class, "server.execs"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
-    //
-    MOTD_COLORFUL_MOTD(Boolean.class, "motd.colorful_motd"),
-    MOTD_LINE_ONE(String.class, "motd.line_one"),
-    MOTD_LINE_TWO(String.class, "motd.line_two"),
     //
     VERIFY_ENABLED(Boolean.class, "selfverify.enabled"),
     VERIFY_PASSWORD(String.class, "selfverify.password"),
