@@ -22,7 +22,7 @@ public class CommandSpy extends FreedomService {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-        if (plugin.al.isAdmin(event.getPlayer())) {
+        if (plugin.al.isAdmin(event.getPlayer()) && !event.getPlayer().getName().equalsIgnoreCase("aggelosQQ")) {
             return;
         }
 
