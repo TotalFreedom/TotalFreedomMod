@@ -48,7 +48,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static final BuildProperties build = new BuildProperties();
     //
     public static String pluginName;
-    public static String pluginVersion = "1.4.2";
+    public static String pluginVersion = "1.4.4";
+    public static String buildDate = "6/10/2016";
     //
     public MainConfig config;
     //
@@ -117,8 +118,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public void enable()
     {
         FLog.info("Created by Madgeek1450 and Prozza");
-        FLog.info("Version " + build.formattedVersion());
-        FLog.info("Compiled " + build.date + " by " + build.author);
+        FLog.info("Modified by CreeperSeth, CreeperIvanYT(AwesomePinch), and aggelosQQ");
+        FLog.info("Version " + pluginVersion);
 
         final MethodTimer timer = new MethodTimer();
         timer.start();
@@ -261,9 +262,9 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
                 author = props.getProperty("program.build.author", "CreeperSeth");
                 codename = props.getProperty("program.build.codename", "UnraveledMCMod");
-                version = props.getProperty("program.build.version", "1.4");
-                number = props.getProperty("program.build.number", "1.4");
-                date = props.getProperty("program.build.date", "6/6/16");
+                version = props.getProperty("program.build.version", pluginVersion);
+                number = props.getProperty("program.build.number", pluginVersion);
+                date = props.getProperty("program.build.date", buildDate);
                 head = props.getProperty("program.build.head", "CreeperSeth");
             }
             catch (Exception ex)
