@@ -15,12 +15,12 @@ public class Command_admininfo extends FreedomCommand
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         msg("How to apply for admin on the UnraveledMC server:", ChatColor.AQUA);
-        msg("Do not ask for admin in game,", ChatColor.DARK_GREEN);
-        msg("Be helpful within the server,", ChatColor.GOLD);
-        msg("Report those breaking the rules,", ChatColor.DARK_GREEN);
-        msg("And apply on our forums at this link:", ChatColor.GOLD);
-        msg("http://unraveledmc.com/forum", ChatColor.DARK_AQUA);
-        msg("Do not apply for admin if you can't be active atleast once a month!", ChatColor.RED);
+        msg(" Do not ask for admin in game,", ChatColor.DARK_GREEN);
+        msg(" Be helpful within the server,", ChatColor.GOLD);
+        msg(" Report those breaking the rules,", ChatColor.DARK_GREEN);
+        msg(" And apply on our forums at this link:", ChatColor.GOLD);
+        msg(" http://unraveledmc.com/forum", ChatColor.DARK_AQUA);
+        msg(" Do not apply for admin if you cannot be active!", ChatColor.RED);
         return true;
     }
 }
