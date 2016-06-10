@@ -15,18 +15,9 @@ public class Command_setlimit extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length == 0)
+        int amount = 2500;
+        if (args.length > 0)
         {
-            FUtil.adminAction(sender.getName(), "Setting everyone's Worldedit block modification limit to 2500.", true);
-            for (final Player player : server.getOnlinePlayers())
-            {
-                plugin.web.setLimit(player, 2500);
-            }
-            return true;
-        }
-        else
-        {
-            int amount;
             try
             {
                 amount = Math.max(1, Math.min(10000, Integer.parseInt(args[0])));
@@ -36,12 +27,12 @@ public class Command_setlimit extends FreedomCommand
                 msg("Invalid number: " + args[0], ChatColor.RED);
                 return true;
             }
-            FUtil.adminAction(sender.getName(), "Setting everyone's Worldedit block modification limit to " + amount + ".", true);
-            for (final Player player : server.getOnlinePlayers())
-            {
-                plugin.web.setLimit(player, amount);
-            }
-            return true;
         }
+        FUtil.adminAction(sender.getName(), "Setting everyone's Worldedit block modification limit to " + amount + ".", true);
+        for (final Player player : server.getOnlinePlayers())
+        {
+            plugin.web.setLimit(player, amount);
+        }
+        return true;
     }
 }

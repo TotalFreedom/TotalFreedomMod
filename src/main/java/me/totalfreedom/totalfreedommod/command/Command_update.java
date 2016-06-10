@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
-@CommandParameters(description = "Update UnraveledMCMod", usage = "/<command> <URL>")
+@CommandParameters(description = "Update UnraveledMCMod", usage = "/<command> [URL]")
 public class Command_update extends FreedomCommand
 {
     @Override
@@ -54,7 +54,8 @@ public class Command_update extends FreedomCommand
                     }
                 }
             }.runTaskAsynchronously(plugin);
+            return true;
         }
-        return true;
+        return false;
     }
 }
