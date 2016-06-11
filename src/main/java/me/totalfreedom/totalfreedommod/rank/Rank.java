@@ -84,7 +84,7 @@ public enum Rank implements Displayable
     }
 
 
-    if (sender.getName().equals("Wolfie_YT")
+    if (sender.getName().equals("ThatOne_Wolf")
     {
     return FOUNDER;
     }
