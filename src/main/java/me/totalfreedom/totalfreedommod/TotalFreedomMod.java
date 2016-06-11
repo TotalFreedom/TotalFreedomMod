@@ -48,8 +48,9 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static final BuildProperties build = new BuildProperties();
     //
     public static String pluginName;
-    public static String pluginVersion = "1.4.4";
+    public static String pluginVersion = "1.4.5";
     public static String buildDate = "6/10/2016";
+    public static String compiledBy = "CreeperSeth";
     //
     public MainConfig config;
     //
