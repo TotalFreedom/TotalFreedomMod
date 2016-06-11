@@ -44,6 +44,8 @@ public class Command_unraveledmcmod extends FreedomCommand
         }
         msg("UnraveledMCMod for 'UnraveledMC', an all-op server.", ChatColor.GOLD);
         msg("Version: " + TotalFreedomMod.pluginVersion, ChatColor.GOLD);
+        msg("Compiled by: " + TotalFreedomMod.compiledBy, ChatColor.GOLD);
+        msg("Compile date: " + TotalFreedomMod.buildDate, ChatColor.GOLD);
         msg("Running on " + ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
         msg("Created by aggelosQQ, CreeperIvanYT (AwesomePinch), and CreeperSeth.", ChatColor.GOLD);
         msg("Visit " + ChatColor.AQUA + "http://unraveledmc.com" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
