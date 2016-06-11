@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Self verification command for admin imposters", usage = "/<command> [password]")
+@CommandParameters(description = "Self verification command for admin imposters", usage = "/<command> <password>")
 public class Command_verify extends FreedomCommand
 {
 

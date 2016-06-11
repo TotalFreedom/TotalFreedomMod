@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Get info on a player.", usage = "/<command> <player>", aliases = "pi")
+@CommandParameters(description = "Get info on a player.", usage = "/<command> <name>", aliases = "pi")
 public class Command_playerinfo extends FreedomCommand
 {
 
