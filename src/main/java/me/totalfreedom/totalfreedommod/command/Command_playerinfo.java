@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import org.apache.commons.lang3.StringUtils;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Get info on a player.", usage = "/<command> <name>", aliases = "pi")
@@ -49,14 +50,14 @@ public class Command_playerinfo extends FreedomCommand
         {
             msg("Gamemode: spectator", ChatColor.DARK_BLUE);
         }
-        msg("IP: " + player.getAddress(), ChatColor.GREEN);
-        msg("Rank: " + plugin.rm.getRank(player).getName(), ChatColor.LIGHT_PURPLE);
+        msg("IPs: " + StringUtils.join(plugin.pl.getData(player).getIps(), ", "), ChatColor.GREEN);
+        msg("Rank: " + plugin.rm.getRank(player).getColor() + plugin.rm.getRank(player).getName(), ChatColor.LIGHT_PURPLE);
         msg("Last command: " + playerdata.getLastCommand());
         msg("Muted: " + (playerdata.isMuted() ? "§atrue" : "§cfalse"), ChatColor.DARK_AQUA);
         msg("Commandspy: " + (playerdata.cmdspyEnabled() ? "§atrue" : "§cfalse"), ChatColor.RED);
         msg("Frozen: " + (fPlayer.getFreezeData().isFrozen() ? "§atrue" : "§cfalse"), ChatColor.RED);
         msg("Location: World: " + player.getLocation().getWorld().getName() + " X: " + player.getLocation().getBlockX() + " Y: " + player.getLocation().getBlockY() + " Z: " + player.getLocation().getBlockZ(), ChatColor.WHITE);
-        msg(ChatColor.YELLOW + "Tag: " + playerdata.getTag());
+        msg("Tag: " + (playerdata.getTag() == null ? "None" : playerdata.getTag()), ChatColor.WHITE);
         return true;
         }
         return false;
