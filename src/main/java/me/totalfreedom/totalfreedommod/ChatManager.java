@@ -16,6 +16,7 @@ public class ChatManager extends FreedomService
 {
     public static ChatColor acc = ChatColor.GOLD;
     public static boolean acr = false;
+    public static boolean acn = false;
 
     public ChatManager(TotalFreedomMod plugin)
     {
@@ -111,15 +112,27 @@ public class ChatManager extends FreedomService
         {
             if (plugin.al.isAdmin(player))
             {
+                ChatColor cc = acc;
                 if (acr == true)
                 {
-                    ChatColor cc = FUtil.randomChatColor();
+                    cc = FUtil.randomChatColor();
                     player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + cc + message);
+                }
+                else if (acn == true)
+                {
+                    String rm = "";
+                    for (char c : message.toCharArray())
+                    {
+                        ChatColor rc = FUtil.randomChatColor();
+                        rm = rm + rc + c;
+                    }
+                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + rm);
                 }
                 else
                 {
-                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + acc + message);
+                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + cc + message);
                 }
+         
             }
         }
     }
