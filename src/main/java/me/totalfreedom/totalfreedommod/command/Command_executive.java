@@ -20,7 +20,7 @@ import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Executive things...", usage = "/<command> [hell: <username> | accolor: <colorcode | random>]", aliases = "exec")
+@CommandParameters(description = "Executive things...", usage = "/<command> [hell: <username> | accolor: <colorcode | random | nyan>]", aliases = "exec")
 public class Command_executive extends FreedomCommand
 {
 
@@ -117,7 +117,17 @@ public class Command_executive extends FreedomCommand
                         if (args[1].equals("random"))
                         {
                             ChatManager.acr = true;
-                            String rb = "random";
+                            msg(ChatColor.GREEN + "Adminchat color is now " + FUtil.randomChatColor() + "random" + ChatColor.GREEN + "!");
+                            return true;
+                        }
+                        else if (ChatManager.acr == true)
+                        {
+                            ChatManager.acr = false;
+                        }
+                        if (args[1].equals("nyan"))
+                        {
+                            ChatManager.acn = true;
+                            String rb = "nyan";
                             String r = "";
                             for (char c : rb.toCharArray())
                             {
@@ -126,9 +136,9 @@ public class Command_executive extends FreedomCommand
                             msg(ChatColor.GREEN + "Adminchat color is now " + r + ChatColor.GREEN + "!");
                             return true;
                         }
-                        else if (ChatManager.acr == true)
+                        else if (ChatManager.acn == true)
                         {
-                            ChatManager.acr = false;
+                            ChatManager.acn = false;
                         }
                         if (args[1].equals("&"))
                         {
