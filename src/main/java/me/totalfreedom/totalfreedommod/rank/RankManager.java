@@ -60,6 +60,15 @@ public class RankManager extends FreedomService
         {
             return Title.UMCDEV;
         }
+        
+        // Master builders show up if they are not admins
+        if (!plugin.al.isAdmin(player))
+        {
+            if (ConfigEntry.SERVER_MASTER_BUILDERS.getList().contains(player.getName()))
+            {
+                return Title.MASTER_BUILDER;
+            }
+        }
 
         final Rank rank = getRank(player);
 
@@ -169,6 +178,21 @@ public class RankManager extends FreedomService
         }
 
         // Set display
+        if (!plugin.al.isAdmin(player) && ConfigEntry.SERVER_MASTER_BUILDERS.getList().contains(player.getName()))
+        {
+            final Displayable display = getDisplay(player);
+            String loginMsg = display.getColoredLoginMessage();
+            FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + loginMsg);
+            String displayName = display.getColor() + player.getName();
+            plugin.pl.getPlayer(player).setTag(display.getColoredTag());
+            try
+            {
+                player.setPlayerListName(StringUtils.substring(displayName, 0, 16));
+            }
+            catch (IllegalArgumentException ex)
+            {
+            }
+        }
         if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()))
         {
             final Displayable display = getDisplay(player);

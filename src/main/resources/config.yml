@@ -21,6 +21,9 @@ server:
   execs:
     - Dusty01
     - samennis1
+    
+    # All players who show up as master builder
+  master_builders: []
 
   # URL players should appeal for bans at
   ban_url: http://unraveledmc.com/forum/
