@@ -55,6 +55,16 @@ public class Command_tban extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Tempbanning: " + player.getName() + " for 5 minutes.", true);
         plugin.bm.addBan(Ban.forPlayer(player, sender, FUtil.parseDateOffset("5m"), reason));
 
+        // add ip ban for 5mins
+        String ip = player.getAddress().getAddress().getHostAddress();
+        String[] ip_parts = ip.split("\\.");
+        if (ip_parts.length == 4)
+        {
+            ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+        }
+        plugin.bm.addBan(Ban.forPlayerIp(ip, sender, FUtil.parseDateOffset("5m"), reason));
+  
+        // kick player
         player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
 
         return true;
