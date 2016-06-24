@@ -98,6 +98,14 @@ public class InteractBlocker extends FreedomService
                 event.setCancelled(true);
                 break;
             }
+            
+            case WRITTEN_BOOK:
+            {
+                player.getInventory().clear(player.getInventory().getHeldItemSlot());
+                player.sendMessage(ChatColor.GRAY + "Written books are currently disabled.");
+                event.setCancelled(true);
+                break;
+            }
         }
     }
 }
