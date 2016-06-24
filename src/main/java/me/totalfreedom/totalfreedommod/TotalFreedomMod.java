@@ -24,6 +24,7 @@ import me.totalfreedom.totalfreedommod.freeze.Freezer;
 import me.totalfreedom.totalfreedommod.fun.ItemFun;
 import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.fun.Landminer;
+import me.totalfreedom.totalfreedommod.fun.Lightning;
 import me.totalfreedom.totalfreedommod.fun.MP44;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
@@ -48,8 +49,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static final BuildProperties build = new BuildProperties();
     //
     public static String pluginName;
-    public static String pluginVersion = "1.4.6";
-    public static String buildDate = "6/16/2016";
+    public static String pluginVersion = "1.4.7";
+    public static String buildDate = "6/20/2016";
     public static String compiledBy = "CreeperSeth";
     //
     public MainConfig config;
@@ -97,6 +98,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Jumppads jp;
     public Trailer tr;
     public HTTPDaemon hd;
+    public Lightning ln;
     //
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
@@ -188,6 +190,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         // Fun
         it = services.registerService(ItemFun.class);
         lm = services.registerService(Landminer.class);
+        ln = services.registerService(Lightning.class);
         mp = services.registerService(MP44.class);
         jp = services.registerService(Jumppads.class);
         tr = services.registerService(Trailer.class);
