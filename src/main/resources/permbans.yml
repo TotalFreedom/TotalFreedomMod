@@ -1,0 +1,10 @@
+#
+# TotalFreedomMod 5.0 Permanent Bans
+#
+
+badplayer1:
+  - 123.123.123.123
+  - 321.321.321.321
+badplayer2:
+  - 111.111.111.111
+badplayer3: []
