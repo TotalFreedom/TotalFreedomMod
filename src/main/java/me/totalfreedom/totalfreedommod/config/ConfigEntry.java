@@ -60,6 +60,7 @@ public enum ConfigEntry
     TOSSMOB_ENABLED(Boolean.class, "tossmob_enabled"),
     AUTOKICK_ENABLED(Boolean.class, "autokick.enabled"),
     MP44_ENABLED(Boolean.class, "mp44_enabled"),
+    LIGHTNING_SWING_ENABLED(Boolean.class, "lightning_swing_enabled"),
     //
     PROTECTAREA_ENABLED(Boolean.class, "protectarea.enabled"),
     PROTECTAREA_SPAWNPOINTS(Boolean.class, "protectarea.auto_protect_spawnpoints"),

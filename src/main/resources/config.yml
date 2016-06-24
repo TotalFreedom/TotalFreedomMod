@@ -220,6 +220,7 @@ disable:
 landmines_enabled: false
 mp44_enabled: false
 tossmob_enabled: false
+lightning_swing_enabled: true
 
 # Moblimiter
 moblimiter:
