@@ -140,44 +140,38 @@ public class Command_executive extends FreedomCommand
                         {
                             ChatManager.acn = false;
                         }
-                        if (args[1].equals("&"))
+                        if (args[1].length() != 2)
                         {
                             msg("Invalid color code!", ChatColor.RED);
                             return true;
                         }
-                        String sl = "";
-                        for (char c : args[1].toCharArray())
-                        {
-                            if (Character.toString(c).equals("&"))
-                            {
-                                sl = sl + c;
-                            }
-                        }
-                        if (!sl.equals("&"))
+                        if (!args[1].startsWith("&"))
                         {
                             msg("Invalid color code!", ChatColor.RED);
                             return true;
                         }
-                        String cColor = args[1].replace("&", "");
-                        if (ChatColor.getByChar(cColor) != null)
+                        String colorChar;
+                        ChatColor newColor;
+                        if (ChatColor.getByChar(args[1].replace("&", "")) != null)
                         {
-                            if (cColor.equals("k") || cColor.equals("l") || cColor.equals("m") || cColor.equals("n") || cColor.equals("o") || cColor.equals("r"))
-                            {
-                                msg("That is not a color!", ChatColor.RED);
-                                return true;
-                            }
-                            else
-                            {
-                                ChatColor cc = ChatColor.getByChar(cColor);
-                                ChatManager.acc = cc;
-                                msg(ChatColor.GREEN + "Adminchat color is now " + cc + cc.name().toLowerCase().replace("_", " ") + ChatColor.GREEN + "!");
-                                return true;
-                            }
+                            colorChar = args[1].replace("&", "");
                         }
                         else
                         {
                             msg("Invalid color code!", ChatColor.RED);
                             return true;
+                        }
+                        if (colorChar.equals("k") || colorChar.equals("l") || colorChar.equals("m") || colorChar.equals("n") || colorChar.equals("o") || colorChar.equals("r"))
+                        {
+                            msg("That is not a color!", ChatColor.RED);
+                            return true;
+                        }
+                        else
+                        {
+                            newColor = ChatColor.getByChar(colorChar);
+                            ChatManager.acc = newColor;
+                            msg(ChatColor.GREEN + "Adminchat color is now " + newColor + newColor.name().toLowerCase().replace("_", " ") + ChatColor.GREEN + "!");
+                           return true;
                         }
                     }
                 }
