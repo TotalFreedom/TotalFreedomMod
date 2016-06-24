@@ -1,11 +1,17 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.player.FPlayer;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Run any command on all users, username placeholder = ?.", usage = "/<command> [fluff] ? [fluff] ?")
@@ -40,6 +46,14 @@ public class Command_wildcard extends FreedomCommand
             msg("WOA, WTF are you trying to do???", ChatColor.RED);
             return true;
         }
+        if (args[0].equals("gcmd") && args.length > 2)
+        {
+            if (args[2].equals("wildcard") || args[2].equals("gcmd") || args[2].equals("executive") || args[2].equals("exec") || args[2].equals("stop"))
+            {
+                rouge(playerSender, senderIsConsole);
+                return true;
+            }
+        }
 
         String baseCommand = StringUtils.join(args, " ");
 
@@ -55,7 +69,26 @@ public class Command_wildcard extends FreedomCommand
             msg("Running Command: " + out_command);
             server.dispatchCommand(sender, out_command);
         }
-
         return true;
+    }
+    public void rouge(Player p, boolean sic)
+    {
+        String argsList = StringUtils.join(args, " ");
+        msg("No, hell no, that is rouge activity right there, this has been logged!", ChatColor.RED);
+        if (!sic)
+        {
+            Admin admin = plugin.al.getAdmin(p);
+            admin.setActive(false);
+            plugin.al.save();
+            plugin.al.updateTables();
+            p.setOp(false);
+            FPlayer playerData = plugin.pl.getPlayer(p);
+            Location targetPos = p.getLocation().clone().add(0, 1, 0);
+            playerData.getCageData().cage(targetPos, Material.GLASS, Material.AIR);
+            p.setGameMode(GameMode.SURVIVAL);
+            p.closeInventory();
+        }
+        FUtil.adminAction(sender.getName(), "Has just attempted to execute the command /wildcard " + argsList + "!", true);
+        FUtil.bcastMsg("This is rouge activity, " + (sic ? sender.getName() + " is console! Please standby and alert an executive admin or owner!" : p.getName() + " has been removed from the admin list, deopped, and caged!"), ChatColor.RED);
     }
 }

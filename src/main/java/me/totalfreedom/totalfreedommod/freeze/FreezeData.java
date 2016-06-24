@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.freeze;
 
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import static me.totalfreedom.totalfreedommod.player.FPlayer.AUTO_PURGE_TICKS;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -67,7 +68,7 @@ public class FreezeData
             @Override
             public void run()
             {
-                FUtil.adminAction("TotalFreedom", "Unfreezing " + player.getName(), false);
+                FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Unfreezing " + player.getName(), false);
                 setFrozen(false);
             }
 

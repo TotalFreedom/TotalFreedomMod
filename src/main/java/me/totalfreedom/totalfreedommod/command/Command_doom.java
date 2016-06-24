@@ -42,7 +42,7 @@ public class Command_doom extends FreedomCommand
         Admin admin = getAdmin(player);
         if (admin != null)
         {
-            FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the superadmin list", true);
+            FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the admin list", true);
             plugin.al.removeAdmin(admin);
         }
 
@@ -72,7 +72,7 @@ public class Command_doom extends FreedomCommand
         player.setFireTicks(10000);
 
         // Generate explosion
-        player.getWorld().createExplosion(player.getLocation(), 4F);
+        player.getWorld().createExplosion(player.getLocation(), 0F, false);
 
         // Shoot the player in the sky
         player.setVelocity(player.getVelocity().clone().add(new Vector(0, 20, 0)));
@@ -99,7 +99,7 @@ public class Command_doom extends FreedomCommand
                 FUtil.adminAction(sender.getName(), "Banning " + player.getName() + ", IP: " + ip, true);
 
                 // generate explosion
-                player.getWorld().createExplosion(player.getLocation(), 4F);
+                player.getWorld().createExplosion(player.getLocation(), 0F, false);
 
                 // kick player
                 player.kickPlayer(ChatColor.RED + "FUCKOFF, and get your shit together!");

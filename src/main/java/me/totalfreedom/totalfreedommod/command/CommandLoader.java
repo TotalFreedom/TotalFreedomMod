@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 
 public class CommandLoader extends FreedomService
 {
+    public int totalCommands;
 
     @Getter
     private final SimpleCommandHandler<TotalFreedomMod> handler;
@@ -32,8 +33,9 @@ public class CommandLoader extends FreedomService
 
         handler.loadFrom(FreedomCommand.class.getPackage());
         handler.registerAll("TotalFreedomMod", true);
+        totalCommands = handler.getExecutors().size();
 
-        FLog.info("Loaded " + handler.getExecutors().size() + " commands.");
+        FLog.info("Loaded " + totalCommands + " commands.");
     }
 
     @Override

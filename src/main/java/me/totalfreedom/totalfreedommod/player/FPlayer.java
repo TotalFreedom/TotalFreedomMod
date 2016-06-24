@@ -63,7 +63,7 @@ public class FPlayer
     @Setter
     private boolean superadminIdVerified = false;
     private String lastCommand = "";
-    private boolean cmdspyEnabled = false;
+    private boolean cmdspyEnabled = true;
     private String tag = null;
     private int warningCount = 0;
 

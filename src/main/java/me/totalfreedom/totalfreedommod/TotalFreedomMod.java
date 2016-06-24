@@ -48,7 +48,9 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static final BuildProperties build = new BuildProperties();
     //
     public static String pluginName;
-    public static String pluginVersion;
+    public static String pluginVersion = "1.4.6";
+    public static String buildDate = "6/16/2016";
+    public static String compiledBy = "CreeperSeth";
     //
     public MainConfig config;
     //
@@ -88,7 +90,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public AutoEject ae;
     public MovementValidator mv;
     public EntityWiper ew;
-    public FrontDoor fd;
     public ServerPing sp;
     public ItemFun it;
     public Landminer lm;
@@ -107,7 +108,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public void load()
     {
         TotalFreedomMod.pluginName = plugin.getDescription().getName();
-        TotalFreedomMod.pluginVersion = plugin.getDescription().getVersion();
 
         FLog.setPluginLogger(plugin.getLogger());
         FLog.setServerLogger(server.getLogger());
@@ -119,8 +119,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public void enable()
     {
         FLog.info("Created by Madgeek1450 and Prozza");
-        FLog.info("Version " + build.formattedVersion());
-        FLog.info("Compiled " + build.date + " by " + build.author);
+        FLog.info("Modified by CreeperSeth, CreeperIvanYT(AwesomePinch), and aggelosQQ");
+        FLog.info("Version " + pluginVersion);
 
         final MethodTimer timer = new MethodTimer();
         timer.start();
@@ -183,7 +183,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
         mv = services.registerService(MovementValidator.class);
         ew = services.registerService(EntityWiper.class);
-        fd = services.registerService(FrontDoor.class);
         sp = services.registerService(ServerPing.class);
 
         // Fun
@@ -262,12 +261,12 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
                     props.load(in);
                 }
 
-                author = props.getProperty("program.build.author", "unknown");
-                codename = props.getProperty("program.build.codename", "unknown");
-                version = props.getProperty("program.build.version", "unknown");
-                number = props.getProperty("program.build.number", "1");
-                date = props.getProperty("program.build.date", "unknown");
-                head = props.getProperty("program.build.head", "unknown");
+                author = props.getProperty("program.build.author", "CreeperSeth");
+                codename = props.getProperty("program.build.codename", "UnraveledMCMod");
+                version = props.getProperty("program.build.version", pluginVersion);
+                number = props.getProperty("program.build.number", pluginVersion);
+                date = props.getProperty("program.build.date", buildDate);
+                head = props.getProperty("program.build.head", "CreeperSeth");
             }
             catch (Exception ex)
             {

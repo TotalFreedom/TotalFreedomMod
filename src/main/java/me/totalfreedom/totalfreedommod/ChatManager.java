@@ -3,8 +3,8 @@ package me.totalfreedom.totalfreedommod;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,6 +14,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatManager extends FreedomService
 {
+    public static ChatColor acc = ChatColor.GOLD;
+    public static boolean acr = false;
+    public static boolean acn = false;
 
     public ChatManager(TotalFreedomMod plugin)
     {
@@ -109,7 +112,27 @@ public class ChatManager extends FreedomService
         {
             if (plugin.al.isAdmin(player))
             {
-                player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.GOLD + message);
+                ChatColor cc = acc;
+                if (acr == true)
+                {
+                    cc = FUtil.randomChatColor();
+                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + cc + message);
+                }
+                else if (acn == true)
+                {
+                    String rm = "";
+                    for (char c : message.toCharArray())
+                    {
+                        ChatColor rc = FUtil.randomChatColor();
+                        rm = rm + rc + c;
+                    }
+                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + rm);
+                }
+                else
+                {
+                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + cc + message);
+                }
+         
             }
         }
     }

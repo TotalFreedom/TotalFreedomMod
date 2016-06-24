@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.blocking;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
@@ -13,6 +14,7 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -20,6 +22,14 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Arrow;
+import org.bukkit.GameMode;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material;
 
 public class EventBlocker extends FreedomService
 {
@@ -168,5 +178,58 @@ public class EventBlocker extends FreedomService
     {
         event.setCancelled(true);
     }
-
+    
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerHit(PlayerCommandPreprocessEvent event)
+    {
+        Player player = event.getPlayer();
+        String command = event.getMessage().toLowerCase().trim();
+        if (command.contains("&k") && !plugin.al.isAdmin(player))
+        {
+            event.setCancelled(true);
+            FUtil.playerMsg(player, "You are not allowed to use &k", ChatColor.RED);
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+    {
+        if (event.getEntity() instanceof Player)
+        {
+            if (event.getDamager() instanceof Player)
+            {
+                Player player = (Player) event.getDamager();
+                if (player.getGameMode() == GameMode.CREATIVE)
+                {
+                    FUtil.playerMsg(player, "Creative PvP is not allowed!", ChatColor.RED);
+                    event.setCancelled(true);
+                }
+            }
+            if (event.getDamager() instanceof Arrow)
+            {
+                Arrow arrow = (Arrow) event.getDamager();
+                if (arrow.getShooter() instanceof Player)
+                {
+                    Player player = (Player) arrow.getShooter();
+                    if (player.getGameMode() == GameMode.CREATIVE)
+                    {
+                        FUtil.playerMsg(player, "Creative PvP is not allowed!", ChatColor.RED);
+                        event.setCancelled(true);
+                    }
+                }
+            }
+        }
+    }
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onOpenBook(PlayerInteractEvent event)
+    {
+        ItemStack is = event.getItem();
+        if (is != null && is.getType().equals(Material.WRITTEN_BOOK))
+        {
+            Player player = event.getPlayer();
+            player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+            event.setCancelled(true);
+            player.sendMessage(ChatColor.GRAY + "For security reasons opening written books has been disabled");
+        }
+    }
 }

