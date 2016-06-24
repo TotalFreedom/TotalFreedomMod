@@ -55,7 +55,7 @@ public class Command_tban extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Tempbanning: " + player.getName() + " for 5 minutes.", true);
         plugin.bm.addBan(Ban.forPlayer(player, sender, FUtil.parseDateOffset("5m"), reason));
 
-        player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
+        player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read onlyliberty.boards.net for more info.");
 
         return true;
     }

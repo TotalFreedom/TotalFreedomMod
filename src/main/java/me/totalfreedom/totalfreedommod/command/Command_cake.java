@@ -43,8 +43,6 @@ public class Command_cake extends FreedomCommand
             {
                 player.getInventory().setItem(firstEmpty, heldItem);
             }
-
-            player.awardAchievement(Achievement.BAKE_CAKE);
         }
 
         FUtil.bcastMsg(output.toString());

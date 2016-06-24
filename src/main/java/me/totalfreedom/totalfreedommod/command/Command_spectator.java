@@ -18,4 +18,30 @@ public class Command_spectator extends FreedomCommand
         msg("Gamemode set to spectator.");
         return true;
     }
+        checkRank(Rank.SUPER_ADMIN);
+
+    if (args[0].equals("-a"))
+    {
+        for (Player targetPlayer : server.getOnlinePlayers())
+        {
+            targetPlayer.setGameMode(GameMode.SPECTATOR);
+        }
+
+        FUtil.adminAction(sender.getName(), "Changing everyone's gamemode to spectator", false);
+        return true;
+        }
+
+        Player player = getPlayer(args[0]);
+
+        if (player == null)
+        {
+            sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
+            return true;
+        }
+
+        msg("Setting " + player.getName() + " to game mode spectator.");
+        msg(player, sender.getName() + " set your game mode to spectator.");
+        player.setGameMode(GameMode.SPECTATOR);
+        return true;
+    }
 }
