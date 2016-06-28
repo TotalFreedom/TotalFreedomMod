@@ -168,7 +168,6 @@ public class Command_gadmin extends FreedomCommand
             {
                 FUtil.adminAction(sender.getName(), String.format("Opping %s.", target.getName()), false);
                 target.setOp(true);
-                plugin.da.setAdminDeopped(target.getName(), false);
                 target.sendMessage(FreedomCommand.YOU_ARE_OP);
 
                 break;
@@ -177,7 +176,6 @@ public class Command_gadmin extends FreedomCommand
             {
                 FUtil.adminAction(sender.getName(), String.format("Deopping %s.", target.getName()), false);
                 target.setOp(false);
-                plugin.da.setAdminDeopped(target.getName(), true);
                 target.sendMessage(FreedomCommand.YOU_ARE_NOT_OP);
 
                 break;

@@ -39,7 +39,6 @@ public class Command_smite extends FreedomCommand
         }
 
         smite(player, reason);
-        plugin.da.setAdminDeopped(player.getName(), true);
         return true;
     }
 
