@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Quick Op - op someone based on a partial name.", usage = "/<command> <partialname>")
@@ -37,8 +38,13 @@ public class Command_qop extends FreedomCommand
             {
                 if (!player.isOp())
                 {
+                    if (!plugin.al.isAdmin(sender) && plugin.da.isAdminDeopped(player.getName()))
+                    {
+                        msg("You can not op that player because that player has been deopped by an administrator.", ChatColor.RED);
+                    }
                     matchedPlayerNames.add(player.getName());
                     player.setOp(true);
+                    plugin.da.setAdminDeopped(player.getName(), false);
                     player.sendMessage(FreedomCommand.YOU_ARE_OP);
                 }
             }
