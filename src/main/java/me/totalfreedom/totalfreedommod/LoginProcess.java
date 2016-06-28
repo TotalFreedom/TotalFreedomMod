@@ -198,8 +198,12 @@ public class LoginProcess extends FreedomService
                 {
                     FUtil.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
                 }
+                
+                if (plugin.al.isAdmin(player) && !ConfigEntry.ADMIN_LOGIN_MESSAGE.getString().isEmpty())
+                {
+                    player.sendMessage(FUtil.colorize(ConfigEntry.ADMIN_LOGIN_MESSAGE.getString()));
+                }
             }
         }.runTaskLater(plugin, 20L * 1L);
     }
-
 }
