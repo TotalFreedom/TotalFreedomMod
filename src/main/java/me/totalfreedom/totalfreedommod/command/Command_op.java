@@ -51,15 +51,9 @@ public class Command_op extends FreedomCommand
                 return true;
             }
         }
-        if (!plugin.al.isAdmin(sender) && plugin.da.isAdminDeopped(player.getName()))
-        {
-            msg("You can not op that player because that player has been deopped by an administrator.", ChatColor.RED);
-            return true;
-        }
 
         FUtil.adminAction(sender.getName(), "Opping " + player.getName(), false);
         player.setOp(true);
-        plugin.da.setAdminDeopped(player.getName(), false);
 
         return true;
     }

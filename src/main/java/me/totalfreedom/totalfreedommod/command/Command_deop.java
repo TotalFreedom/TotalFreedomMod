@@ -40,7 +40,6 @@ public class Command_deop extends FreedomCommand
         FUtil.adminAction(sender.getName(), "De-opping " + player.getName(), false);
 
         player.setOp(false);
-        plugin.da.setAdminDeopped(player.getName(), true);
 
         return true;
     }
