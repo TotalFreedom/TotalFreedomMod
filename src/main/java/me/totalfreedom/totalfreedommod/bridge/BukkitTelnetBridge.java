@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.bridge;
 
 import java.util.Iterator;
 import java.util.Map;
+import me.totalfreedom.bukkittelnet.BukkitTelnet;
 import me.totalfreedom.bukkittelnet.api.TelnetCommandEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetRequestDataTagsEvent;
@@ -9,12 +10,16 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.plugin.Plugin;
 
 public class BukkitTelnetBridge extends FreedomService
 {
+    private BukkitTelnet bukkitTelnetPlugin = null;
 
     public BukkitTelnetBridge(TotalFreedomMod plugin)
     {
@@ -29,6 +34,11 @@ public class BukkitTelnetBridge extends FreedomService
     @Override
     protected void onStop()
     {
+    }
+    
+    public int getTelnetSessionAmount()
+    {
+        return getBukkitTelnetPlugin().appender.getSessions().size();
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -94,4 +104,27 @@ public class BukkitTelnetBridge extends FreedomService
             playerTags.put("tfm.essentialsBridge.getNickname", plugin.esb.getNickname(player.getName()));
         }
     }
+    public BukkitTelnet getBukkitTelnetPlugin()
+    {
+        if (bukkitTelnetPlugin == null)
+        {
+            try
+            {
+                final Plugin bukkitTelnet = Bukkit.getServer().getPluginManager().getPlugin("BukkitTelnet");
+                if (bukkitTelnet != null)
+                {
+                    if (bukkitTelnet instanceof BukkitTelnet)
+                    {
+                        bukkitTelnetPlugin = (BukkitTelnet) bukkitTelnet;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                FLog.severe(ex);
+            }
+        }
+        return bukkitTelnetPlugin;
+    }
+
 }
