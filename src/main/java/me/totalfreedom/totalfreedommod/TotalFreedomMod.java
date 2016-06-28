@@ -30,6 +30,7 @@ import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
+import me.totalfreedom.totalfreedommod.shop.Shop;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.util.MethodTimer;
@@ -49,8 +50,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static final BuildProperties build = new BuildProperties();
     //
     public static String pluginName;
-    public static String pluginVersion = "1.4.7";
-    public static String buildDate = "6/20/2016";
+    public static String pluginVersion = "1.5";
+    public static String buildDate = "6/27/2016";
     public static String compiledBy = "CreeperSeth";
     //
     public MainConfig config;
@@ -74,8 +75,10 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public AntiNuke nu;
     public AntiSpam as;
     public PlayerList pl;
+    public Shop sh;
     public Announcer an;
     public ChatManager cm;
+    public Data da;
     public BanManager bm;
     public PermbanList pm;
     public ProtectArea pa;
@@ -165,8 +168,10 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         as = services.registerService(AntiSpam.class);
 
         pl = services.registerService(PlayerList.class);
+        sh = services.registerService(Shop.class);
         an = services.registerService(Announcer.class);
         cm = services.registerService(ChatManager.class);
+        da = services.registerService(Data.class);
         bm = services.registerService(BanManager.class);
         pm = services.registerService(PermbanList.class);
         pa = services.registerService(ProtectArea.class);
