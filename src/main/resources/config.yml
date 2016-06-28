@@ -38,23 +38,36 @@ motd:
   line_one: '&lUnraveledMC &l- &lFree &lOP'
   #What shows up on line 2
   line_two: 'Running on %mcversion%'
-  
-# Self verification system
-selfverify:
-  # Good in the case of a security issue
+
+# The shop
+shop:
+  # Enable the shop
   enabled: true
-  # Password, it can have spaces!
-  password: Sample Password
- 
-# Admin list
-adminlist:
+  # Shop prefix
+  prefix: '&8[&bShop&8]'
+  # How much should the price be for buying colored chat
+  colored_chat_price: 10
 
-  # The amount of hours after which admins may be removed from the admin list
-  clean_threshold_hours: 167
-
-  # Give the default CONSOLE senior admin privileges.
-  # Handy in development environments.
-  console_is_senior: true
+# Admins
+admins:
+  # Message to display to admins when they login (supports color codes)
+  # Note: That is a double '
+  admin_login_message: ''
+  
+  # Admin list
+  adminlist:
+    # The amount of hours after which admins may be removed from the admin list
+    clean_threshold_hours: 167
+    # Give the default CONSOLE senior admin privileges.
+    # Handy in development environments.
+    console_is_senior: true
+    
+  # Self verification system
+  selfverify:
+    # Good in the case of a security issue
+    enabled: true
+    # Password, it can have spaces!
+    password: Sample Password
 
 # ForceIP configuration
 forceip:
