@@ -39,6 +39,7 @@ public class Command_qdeop extends FreedomCommand
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(false);
+                    plugin.da.setAdminDeopped(player.getName(), true);
                     player.sendMessage(FreedomCommand.YOU_ARE_NOT_OP);
                 }
             }
