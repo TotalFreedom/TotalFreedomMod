@@ -68,6 +68,18 @@ public class FUtil
     {
     }
 
+    public static boolean isExecutive(String name)
+    {
+        if (!ConfigEntry.SERVER_EXECS.getList().contains(name) && !ConfigEntry.SERVER_OWNERS.getList().contains(name) && !UMCDEVS.contains(name))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
     public static void cancel(BukkitTask task)
     {
         if (task == null)
