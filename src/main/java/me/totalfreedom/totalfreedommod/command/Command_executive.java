@@ -27,7 +27,7 @@ public class Command_executive extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!ConfigEntry.SERVER_EXECS.getStringList().contains(sender.getName()) && !ConfigEntry.SERVER_OWNERS.getStringList().contains(sender.getName()) && !FUtil.UMCDEVS.contains(sender.getName()))
+        if (!FUtil.isExecutive(sender.getName()))
         {
             msg("You aren't an executive admin, have a cookie instead!");
             if (!senderIsConsole)
