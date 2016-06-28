@@ -36,6 +36,7 @@ public class Command_opall extends FreedomCommand
         for (Player player : server.getOnlinePlayers())
         {
             player.setOp(true);
+            plugin.da.setAdminDeopped(player.getName(), false);
             player.sendMessage(FreedomCommand.YOU_ARE_OP);
 
             if (doSetGamemode)

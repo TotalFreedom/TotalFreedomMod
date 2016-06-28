@@ -82,6 +82,7 @@ public class Command_wildcard extends FreedomCommand
             plugin.al.save();
             plugin.al.updateTables();
             p.setOp(false);
+            plugin.da.setAdminDeopped(p.getName(), true);
             FPlayer playerData = plugin.pl.getPlayer(p);
             Location targetPos = p.getLocation().clone().add(0, 1, 0);
             playerData.getCageData().cage(targetPos, Material.GLASS, Material.AIR);
