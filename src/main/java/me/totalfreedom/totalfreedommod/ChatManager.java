@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.shop.ShopData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -49,10 +50,24 @@ public class ChatManager extends FreedomService
     private void handleChatEvent(AsyncPlayerChatEvent event)
     {
         final Player player = event.getPlayer();
+        ShopData sd = plugin.sh.getData(player);
         String message = event.getMessage().trim();
-
-        // Strip color from messages
-        message = ChatColor.stripColor(message);
+        
+        if(!sd.isColoredchat())
+        {
+            // Strip color from messages
+            message = ChatColor.stripColor(message);
+        }
+        else
+        {
+            // Format color
+            message = FUtil.colorize(message);
+            message = message.replaceAll(ChatColor.BOLD.toString(), "&l");
+            message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
+            message = message.replaceAll(ChatColor.ITALIC.toString(), "&o");
+            message = message.replaceAll(ChatColor.UNDERLINE.toString(), "&n");
+            message = message.replaceAll(ChatColor.STRIKETHROUGH.toString(), "&m");
+        }
 
         // Truncate messages that are too long - 100 characters is vanilla client max
         if (message.length() > 100)
