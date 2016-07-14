@@ -30,22 +30,22 @@ public class Command_loginmessage extends FreedomCommand
         ShopData sd = plugin.sh.getData(playerSender);
         if (!sd.isCustomLoginMessage())
         {
-            msg(plugin.sh.getShopPrefix() + ChatColor.RED + "You have not purchased custom login messages yet!");
+            msg(plugin.sh.getShopPrefix() + ChatColor.RED + "You have not purchased " + ChatColor.BLUE + "Custom Login Message" + ChatColor.RED + " yet!");
             return true;
         }
-        Inventory i = server.createInventory(null, 9, ChatColor.AQUA + "Login messages");
+        Inventory i = server.createInventory(null, 9, ChatColor.AQUA + "Login Messages");
         ItemStack removeLoginMessage = new ItemStack(Material.BARRIER);
         ItemMeta meta = removeLoginMessage.getItemMeta();
-        meta.setDisplayName(ChatColor.RED + "Remove login message");
+        meta.setDisplayName(ChatColor.RED + "Remove current login message");
         removeLoginMessage.setItemMeta(meta);
         i.setItem(0, removeLoginMessage);
-        ItemStack animeFan = newLoginMessage(new ItemStack(Material.NAME_TAG), "Anime fan", ChatColor.RED, "an &canime fan", playerSender);
+        ItemStack animeFan = newLoginMessage(new ItemStack(Material.NAME_TAG), "Anime fan", ChatColor.RED, "an &cAnime Fan", playerSender);
         i.setItem(1, animeFan);
         ItemStack someDamnBot = newLoginMessage(new ItemStack(Material.NAME_TAG), "Some damn bot", ChatColor.GREEN, "&aprobably some damn bot", playerSender);
         i.setItem(2, someDamnBot);
-        ItemStack UnraveledMCAddict = newLoginMessage(new ItemStack(Material.NAME_TAG), "UnraveledMC Addict", ChatColor.GOLD, "an &6UnraveledMC Addict", playerSender);
+        ItemStack UnraveledMCAddict = newLoginMessage(new ItemStack(Material.NAME_TAG), "UnraveledMC Addict", ChatColor.GOLD, "an &7&lUnraveled&8&lMC &e&lAddict", playerSender);
         i.setItem(3, UnraveledMCAddict);
-        ItemStack RWBYFan = newLoginMessage(new ItemStack(Material.NAME_TAG), "RWBY fan", ChatColor.LIGHT_PURPLE, "a &4R&fW&8B&6Y &dfan", playerSender);
+        ItemStack RWBYFan = newLoginMessage(new ItemStack(Material.NAME_TAG), "RWBY Fan", ChatColor.LIGHT_PURPLE, "a &4R&fW&8B&6Y &dfan", playerSender);
         i.setItem(4, RWBYFan);
         playerSender.openInventory(i);
         return true;
