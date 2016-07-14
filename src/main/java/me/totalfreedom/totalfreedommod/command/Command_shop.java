@@ -1,18 +1,27 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.List;
+import java.util.ArrayList;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.shop.ShopData;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material;
+import org.bukkit.inventory.meta.ItemMeta;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Shop commands", usage = "/<command> <list | buy <ID>>", aliases = "sh")
+@CommandParameters(description = "Open the shop GUI", usage = "/<command>", aliases = "sh")
 public class Command_shop extends FreedomCommand
 {
+    public final int coloredChatPrice = ConfigEntry.SHOP_COLORED_CHAT_PRICE.getInteger();
+    public final int customLoginMessagePrice = ConfigEntry.SHOP_LOGIN_MESSAGE_PRICE.getInteger();
+    public int coins;
+    
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -20,60 +29,28 @@ public class Command_shop extends FreedomCommand
         if (!ConfigEntry.SHOP_ENABLED.getBoolean())
         {
             msg("The shop is currently disabled!", ChatColor.RED);
+            return true;
         }
-        final String prefix = FUtil.colorize(ConfigEntry.SHOP_PREFIX.getString() + " ");
+        
         ShopData sd = plugin.sh.getData(playerSender);
-        int coins = sd.getCoins();
-        int coloredChatPrice = ConfigEntry.SHOP_COLORED_CHAT_PRICE.getInteger();
-        int amountNeeded;
-        if (args.length > 0)
+        coins = sd.getCoins();
+        Boolean hasColoredChat = sd.isColoredchat();
+        Boolean hasCustomLoginMessages = sd.isCustomLoginMessage();
+        Inventory i = server.createInventory(null, 36, plugin.sh.GUIName);
+        for (int slot = 0; slot < 36; slot++)
         {
-            if (args[0].equalsIgnoreCase("list"))
-            {
-                msg("-====== ITEMS ======-", ChatColor.GREEN);
-                msg(ChatColor.GOLD + "Key: If you can offord the item the price will be " + ChatColor.DARK_GREEN + "green");
-                msg(ChatColor.GOLD + "If you can't offord the item the price will be " + ChatColor.DARK_RED + "red");
-                msg(ChatColor.GOLD + "If you already have the item the price will be labeled " + ChatColor.RED + "PURCHACED");
-                msg(ChatColor.AQUA + "Colored Chat (1) - Cost: " + (sd.isColoredchat() ? ChatColor.RED + "PURCHACED" : (canOfford(coloredChatPrice, coins) ? ChatColor.DARK_GREEN : ChatColor.RED) + ConfigEntry.SHOP_COLORED_CHAT_PRICE.getInteger().toString()));
-                return true;
-            }
+            ItemStack blank = new ItemStack(Material.STAINED_GLASS_PANE);
+            ItemMeta meta = blank.getItemMeta();
+            meta.setDisplayName(ChatColor.RESET + "");
+            blank.setItemMeta(meta);
+            i.setItem(slot, blank);
         }
-        if (args.length > 1)
-        {
-            if (args[0].equalsIgnoreCase("buy"))
-            {
-                switch (args[1])
-                {
-                    case "1":
-                        if (!sd.isColoredchat())
-                        {
-                            if (canOfford(coloredChatPrice, coins))
-                            {
-                                sd.setCoins(sd.getCoins() - coloredChatPrice);
-                                sd.setColoredchat(true);
-                                plugin.sh.save(sd);
-                                msg(prefix + ChatColor.GREEN + "Succesfully bought colored chat!");
-                                return true;
-                            }
-                            else
-                            {
-                                amountNeeded = coloredChatPrice - coins;
-                                msg(prefix + ChatColor.RED + "You can not offord colored chat you need " + amountNeeded + " more coins!");
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            msg(prefix + ChatColor.RED + "You already have colored chat!");
-                            return true;
-                        }
-                    default:
-                        msg(prefix + ChatColor.RED + "No item can be found with an ID of " + args[1] + "!");
-                        return true;
-                }
-            }
-        }
-        return false;
+        ItemStack coloredChat = newShopItem(new ItemStack(Material.BOOK_AND_QUILL), ChatColor.AQUA, "Colored Chat", coloredChatPrice, hasColoredChat);
+        i.setItem(10, coloredChat);
+        ItemStack customLoginMessage = newShopItem(new ItemStack(Material.NAME_TAG), ChatColor.BLUE, "Custom Login Messages", customLoginMessagePrice, hasCustomLoginMessages);
+        i.setItem(11, customLoginMessage);
+        playerSender.openInventory(i);
+        return true;
     }
     public boolean canOfford(int p, int c)
     {
@@ -86,4 +63,46 @@ public class Command_shop extends FreedomCommand
             return false;
         }
     }
+    
+    public int amountNeeded(int p)
+    {
+        return p - coins;
+    }
+
+    public ItemStack newShopItem(ItemStack is, ChatColor color, String name, int price, Boolean purchased)
+    {
+        ItemMeta m = is.getItemMeta();
+        m.setDisplayName(color + name);
+        Boolean co = canOfford(price, coins);
+        List<String> l = new ArrayList();
+        if (!purchased)
+            {
+            l.add(ChatColor.GOLD + "Price: " + (co ? ChatColor.DARK_GREEN : ChatColor.RED) + price);
+            if (!co)
+            {
+                l.add(ChatColor.RED + "You can not offord this item!");
+                l.add(ChatColor.RED + "You need " + amountNeeded(price) + " more coins to buy this item.");
+            }
+        }
+        else
+        {
+            l.add(ChatColor.RED + "You already purchased this item");
+        }
+        m.setLore(l);
+        is.setItemMeta(m);
+        return is;
+    }
+    
+    public ItemStack newShopItem(Material mat, ChatColor color, String name, int price, Boolean purchased)
+    {
+        return newShopItem(new ItemStack(mat), color, name, price, purchased);
+    }
 }
+/*
+        Shop layout:
+
+        ---------
+        -cl------
+        ---------
+        ---------
+*/

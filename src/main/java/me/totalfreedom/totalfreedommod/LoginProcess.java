@@ -1,11 +1,15 @@
 package me.totalfreedom.totalfreedommod;
 
+import com.google.common.collect.Lists;
 import java.util.regex.Pattern;
+import java.util.List;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.shop.ShopData;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -183,6 +187,19 @@ public class LoginProcess extends FreedomService
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         final Player player = event.getPlayer();
+        final ShopData sd = plugin.sh.getData(player);
+        
+        // Op player on join if the player is not opped
+        if (ConfigEntry.OP_ON_JOIN.getBoolean() && !player.isOp() && !plugin.al.isAdminImpostor(player))
+        {
+            player.setOp(true);
+        }
+        
+        // Has shop custom login message
+        if (!plugin.al.isAdmin(player) && !plugin.al.isAdminImpostor(player) && !ConfigEntry.SERVER_MASTER_BUILDERS.getList().contains(player.getName()) && sd.isCustomLoginMessage() && !sd.getLoginMessage().equalsIgnoreCase("none"))
+        {
+            FUtil.bcastMsg(plugin.sl.createLoginMessage(player, sd.getLoginMessage()));
+        }
 
         new BukkitRunnable()
         {
@@ -199,9 +216,17 @@ public class LoginProcess extends FreedomService
                     FUtil.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
                 }
                 
-                if (plugin.al.isAdmin(player) && !ConfigEntry.ADMIN_LOGIN_MESSAGE.getString().isEmpty())
+                if (plugin.al.isAdmin(player) && !ConfigEntry.ADMIN_LOGIN_MESSAGE.getList().isEmpty())
                 {
-                    player.sendMessage(FUtil.colorize(ConfigEntry.ADMIN_LOGIN_MESSAGE.getString()));
+                    List<String> messages = new ArrayList();
+                    for (Object msg : ConfigEntry.ADMIN_LOGIN_MESSAGE.getList())
+                    {
+                        messages.add(FUtil.colorize((String) msg));
+                    }
+                    for (int i = 0; i <= messages.size(); i++)
+                    {
+                        player.sendMessage(messages.get(i));
+                    }
                 }
             }
         }.runTaskLater(plugin, 20L * 1L);

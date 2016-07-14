@@ -7,7 +7,7 @@
 server:
   # You should change this to your server's name
   name: UnraveledMC
-
+  
   # The address your server is located at. Please do not include the port.
   address: play.unraveledmc.com
 
@@ -21,6 +21,7 @@ server:
   execs:
     - Dusty01
     - samennis1
+    - Riley_Cinderfur
     
     # All players who show up as master builder
   master_builders: []
@@ -38,6 +39,9 @@ motd:
   line_one: '&lUnraveledMC &l- &lFree &lOP'
   #What shows up on line 2
   line_two: 'Running on %mcversion%'
+  
+# Should players be opped on join
+op_on_join: true
 
 # The shop
 shop:
@@ -46,13 +50,16 @@ shop:
   # Shop prefix
   prefix: '&8[&bShop&8]'
   # How much should the price be for buying colored chat
-  colored_chat_price: 10
+  colored_chat_price: 35
+  # How much should the price be for buying custom login messages
+  login_message_price: 45
 
 # Admins
 admins:
-  # Message to display to admins when they login (supports color codes)
-  # Note: That is a double '
-  admin_login_message: ''
+  # Message to display to admins when they login (supports color codes and is multiple line)
+  admin_login_message:
+    - '&2Welcome back admin!'
+    - '&cBe sure to keep an eye on the ops!'
   
   # Admin list
   adminlist:
@@ -379,4 +386,3 @@ overlord_ips:
   - 107.191.101.27
   - 178.62.117.94
   - 141.101.104.243
-

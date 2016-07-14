@@ -44,11 +44,14 @@ public enum ConfigEntry
     MOTD_LINE_ONE(String.class, "motd.line_one"),
     MOTD_LINE_TWO(String.class, "motd.line_two"),
     //
+    OP_ON_JOIN(Boolean.class, "op_on_join"),
+    //
     SHOP_ENABLED(Boolean.class, "shop.enabled"),
     SHOP_PREFIX(String.class, "shop.prefix"),
     SHOP_COLORED_CHAT_PRICE(Integer.class, "shop.colored_chat_price"),
+    SHOP_LOGIN_MESSAGE_PRICE(Integer.class, "shop.login_message_price"),
     //
-    ADMIN_LOGIN_MESSAGE(String.class, "admins.admin_login_message"),
+    ADMIN_LOGIN_MESSAGE(List.class, "admins.admin_login_message"),
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "admins.adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "admins.adminlist.console_is_senior"),
     VERIFY_ENABLED(Boolean.class, "admins.selfverify.enabled"),

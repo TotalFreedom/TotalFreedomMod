@@ -25,6 +25,12 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private boolean coloredchat;
+    @Getter
+    @Setter
+    private boolean customLoginMessage = false;
+    @Getter
+    @Setter
+    private String loginMessage = "none";
 
     public ShopData(Player player)
     {
@@ -44,6 +50,8 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         this.ips.addAll(cs.getStringList("ips"));
         this.coins = cs.getInt("coins", coins);
         this.coloredchat = cs.getBoolean("coloredchat", coloredchat);
+        this.customLoginMessage = cs.getBoolean("customLoginMessage", customLoginMessage);
+        this.loginMessage = cs.getString("loginMessage", loginMessage);
     }
 
     @Override
@@ -54,6 +62,8 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", ips);
         cs.set("coins", coins);
         cs.set("coloredchat", coloredchat);
+        cs.set("customLoginMessage", customLoginMessage);
+        cs.set("loginMessage", loginMessage);
     }
 
     public List<String> getIps()
@@ -76,6 +86,7 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
     public boolean isValid()
     {
         return username != null
-                && !ips.isEmpty();
+                && !ips.isEmpty()
+                && !loginMessage.isEmpty();
     }
 }
