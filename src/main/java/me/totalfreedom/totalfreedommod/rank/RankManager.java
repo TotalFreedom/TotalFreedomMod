@@ -144,7 +144,6 @@ public class RankManager extends FreedomService
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         final Player player = event.getPlayer();
-        //plugin.pl.getData(player);
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
 
         // Unban admins
