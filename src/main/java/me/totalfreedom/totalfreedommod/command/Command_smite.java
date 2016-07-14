@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> <player> [reason]")
+@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> <bitch's name> [reason]")
 public class Command_smite extends FreedomCommand
 {
 
@@ -24,7 +24,7 @@ public class Command_smite extends FreedomCommand
             return false;
         }
 
-        final Player player = getPlayer(args[0]);
+        final Player bitch = getPlayer(args[0]);
 
         String reason = null;
         if (args.length > 1)
@@ -32,25 +32,25 @@ public class Command_smite extends FreedomCommand
             reason = StringUtils.join(args, " ", 1, args.length);
         }
 
-        if (player == null)
+        if (bitch == null)
         {
             msg(FreedomCommand.PLAYER_NOT_FOUND);
             return true;
         }
 
-        smite(player, reason);
-        plugin.da.setAdminDeopped(player.getName(), true);
+        smite(bitch, reason);
+        plugin.da.setAdminDeopped(bitch.getName(), true);
         return true;
     }
 
-    public static void smite(Player player)
+    public static void smite(Player bitch)
     {
-        smite(player, null);
+        smite(bitch, null);
     }
 
-    public static void smite(Player player, String reason)
+    public static void smite(Player bitch, String reason)
     {
-        FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
+        FUtil.bcastMsg(bitch.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
 
         if (reason != null)
         {
@@ -58,17 +58,17 @@ public class Command_smite extends FreedomCommand
         }
 
         // Deop
-        player.setOp(false);
+        bitch.setOp(false);
 
         // Set gamemode to survival
-        player.setGameMode(GameMode.SURVIVAL);
+        bitch.setGameMode(GameMode.SURVIVAL);
 
         // Clear inventory
-        player.getInventory().clear();
+        bitch.getInventory().clear();
 
         // Strike with lightning effect
-        final Location targetPos = player.getLocation();
-        final World world = player.getWorld();
+        final Location targetPos = bitch.getLocation();
+        final World world = bitch.getWorld();
         for (int x = -1; x <= 1; x++)
         {
             for (int z = -1; z <= 1; z++)
@@ -79,11 +79,11 @@ public class Command_smite extends FreedomCommand
         }
 
         // Kill
-        player.setHealth(0.0);
+        bitch.setHealth(0.0);
 
         if (reason != null)
         {
-            player.sendMessage(ChatColor.RED + "You've been smitten. Reason: " + reason);
+            bitch.sendMessage(ChatColor.RED + "You've been smitten. Reason: " + reason);
         }
     }
 }
