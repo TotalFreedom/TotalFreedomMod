@@ -110,7 +110,11 @@ public class Command_tag extends FreedomCommand
             }
             else if ("set".equalsIgnoreCase(args[0]))
             {
-                checkConsole();
+                if (senderIsConsole)
+                {
+                    msg(FreedomCommand.NOT_FROM_CONSOLE);
+                    return true;
+                }
                 final String inputTag = StringUtils.join(args, " ", 1, args.length);
                 final String outputTag = FUtil.colorize(StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
                         new String[]
