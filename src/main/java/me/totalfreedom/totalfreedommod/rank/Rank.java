@@ -7,8 +7,8 @@ public enum Rank implements Displayable
 {
 
     IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW),
-    NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.GREEN),
-    OP("an", "Op", Type.PLAYER, "OP", ChatColor.RED),
+    NON_OP("a", "Non-OP", Type.PLAYER, "", ChatColor.GREEN),
+    OP("an", "OP", Type.PLAYER, "OP", ChatColor.RED),
     SUPER_ADMIN("a", "Super Admin", Type.ADMIN, "SA", ChatColor.AQUA),
     TELNET_ADMIN("a", "Telnet Admin", Type.ADMIN, "STA", ChatColor.DARK_GREEN),
     SENIOR_ADMIN("a", "Senior Admin", Type.ADMIN, "SrA", ChatColor.GOLD),
@@ -46,6 +46,16 @@ public enum Rank implements Displayable
     public String getColoredLoginMessage()
     {
         return determiner + " " + color + ChatColor.ITALIC + name;
+    }
+    
+    public String getItalicColoredName()
+    {
+        return "" + color + ChatColor.ITALIC + name;
+    }
+    
+    public String getDeterminer()
+    {
+        return determiner;
     }
 
     public boolean isConsole()
