@@ -7,11 +7,13 @@ import java.util.Map;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,6 +22,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Shop extends FreedomService
 {
+    public final String GUIName = ChatColor.AQUA + "UnraveledMC Shop";
     @Getter
     public final Map<String, ShopData> dataMap = Maps.newHashMap(); // ip,dataMap
     @Getter
@@ -60,6 +63,11 @@ public class Shop extends FreedomService
         final ShopData entry = getData(player.getName());
 
         return (entry == null ? null : entry.getIps().iterator().next());
+    }
+    
+    public String getShopPrefix()
+    {
+        return FUtil.colorize(ConfigEntry.SHOP_PREFIX.getString() + " ");
     }
 
     // May not return null
