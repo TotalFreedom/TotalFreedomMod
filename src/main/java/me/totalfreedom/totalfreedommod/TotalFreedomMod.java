@@ -31,6 +31,7 @@ import me.totalfreedom.totalfreedommod.player.PlayerList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
 import me.totalfreedom.totalfreedommod.shop.Shop;
+import me.totalfreedom.totalfreedommod.shop.ShopGUIListener;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.util.MethodTimer;
@@ -50,8 +51,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static final BuildProperties build = new BuildProperties();
     //
     public static String pluginName;
-    public static String pluginVersion = "1.5";
-    public static String buildDate = "6/27/2016";
+    public static String pluginVersion = "1.5.1";
+    public static String buildDate = "7/13/2016";
     public static String compiledBy = "CreeperSeth";
     //
     public MainConfig config;
@@ -76,12 +77,14 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public AntiSpam as;
     public PlayerList pl;
     public Shop sh;
+    public ShopGUIListener sl;
     public Announcer an;
     public ChatManager cm;
     public Data da;
     public BanManager bm;
     public PermbanList pm;
     public ProtectArea pa;
+    public ServiceChecker sc;
     public GameRuleHandler gr;
     public RollbackManager rb;
     public CommandSpy cs;
@@ -169,12 +172,14 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
         pl = services.registerService(PlayerList.class);
         sh = services.registerService(Shop.class);
+        sl = services.registerService(ShopGUIListener.class);
         an = services.registerService(Announcer.class);
         cm = services.registerService(ChatManager.class);
         da = services.registerService(Data.class);
         bm = services.registerService(BanManager.class);
         pm = services.registerService(PermbanList.class);
         pa = services.registerService(ProtectArea.class);
+        sc = services.registerService(ServiceChecker.class);
         gr = services.registerService(GameRuleHandler.class);
 
         // Single admin utils
