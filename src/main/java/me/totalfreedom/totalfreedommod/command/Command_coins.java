@@ -20,6 +20,7 @@ public class Command_coins extends FreedomCommand
         if (!ConfigEntry.SHOP_ENABLED.getBoolean())
         {
             msg("The shop is currently disabled!", ChatColor.RED);
+            return true;
         }
         Player p;
         final String prefix = FUtil.colorize(ConfigEntry.SHOP_PREFIX.getString() + " ");
