@@ -28,7 +28,7 @@ public class Command_verify extends FreedomCommand
         }
         if (plugin.al.isAdminImpostor(playerSender))
         {
-            if (args.length > 1)
+            if (args.length > 0)
             {
                 String inputedPassword = StringUtils.join(args, " ");
                 if (inputedPassword.equals(ConfigEntry.VERIFY_PASSWORD.getString()))
