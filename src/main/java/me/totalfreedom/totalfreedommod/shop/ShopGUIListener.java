@@ -39,7 +39,7 @@ public class ShopGUIListener extends FreedomService
             return;
         }
         Inventory i = event.getInventory();
-        if (!i.getTitle().equals(plugin.sh.GUIName) && !i.getTitle().equals(ChatColor.AQUA + "Login messages"))
+        if (!i.getTitle().equals(plugin.sh.GUIName) && !i.getTitle().equals(ChatColor.AQUA + "Login Messages"))
         {
             return;
         }
@@ -58,7 +58,7 @@ public class ShopGUIListener extends FreedomService
                 sd.setCoins(coins - coloredChatPrice);
                 sd.setColoredchat(true);
                 plugin.sh.save(sd);
-                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought colored chat!");
+                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought " + ChatColor.BLUE + " Colored Chat" + ChatColor.GREEN + "! You may now use colored codes in chat, do /einfo colors for more information.");
                 event.setCancelled(true);
                 p.closeInventory();
             }
@@ -67,23 +67,23 @@ public class ShopGUIListener extends FreedomService
                 sd.setCoins(coins - customLoginMessagePrice);
                 sd.setCustomLoginMessage(true);
                 plugin.sh.save(sd);
-                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought custom login messages! Use /loginmessage to set one!");
+                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought" + ChatColor.BLUE + " custom login messages" + ChatColor.GREEN + "! Use /loginmessage to set one!");
                 event.setCancelled(true);
                 p.closeInventory();
             }
         }
-        else if (i.getTitle().equals(ChatColor.AQUA + "Login messages"))
+        else if (i.getTitle().equals(ChatColor.AQUA + "Login Messages"))
         {
             if (is.getType().equals(Material.BARRIER))
             {
                 sd.setLoginMessage("none");
                 plugin.sh.save(sd);
                 p.closeInventory();
-                p.sendMessage(ChatColor.GREEN + "Successfully removed login message!");
+                p.sendMessage(ChatColor.GREEN + "Successfully removed your current login message!");
             }
-            else if (is.getItemMeta().getDisplayName().equals(ChatColor.RED + "Anime fan"))
+            else if (is.getItemMeta().getDisplayName().equals(ChatColor.RED + "Anime Fan"))
             {
-                sd.setLoginMessage("&ban &canime fan");
+                sd.setLoginMessage("&ban &cAnime Fan");
                 plugin.sh.save(sd);
                 p.closeInventory();
                 p.sendMessage(ChatColor.GREEN + "Your login message is now " + createLoginMessage(p, sd.getLoginMessage()));
@@ -97,7 +97,7 @@ public class ShopGUIListener extends FreedomService
             }
             else if (is.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "UnraveledMC Addict"))
             {
-                sd.setLoginMessage("an &6UnraveledMC Addict");
+                sd.setLoginMessage("an &7&lUnraveled&8&lMC &e&lAddict");
                 plugin.sh.save(sd);
                 p.closeInventory();
                 p.sendMessage(ChatColor.GREEN + "Your login message is now " + createLoginMessage(p, sd.getLoginMessage()));
