@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
         aliases = "o,ac")
 public class Command_adminchat extends FreedomCommand
 {
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -33,9 +32,13 @@ public class Command_adminchat extends FreedomCommand
         }
         else
         {
-            plugin.cm.adminChat(sender, StringUtils.join(args, " "));
+            if(StringUtils.join(args, " ").contains("&k") || StringUtils.join(args, " ").contains("&0") || StringUtils.join(args, " ").contains("&m"))
+            {
+                msg("You may not use that color as it is against the rules!");
+                return true;
+            }
+            plugin.cm.adminChat(sender, FUtil.colorize(StringUtils.join(args, " ")));
         }
-
         return true;
     }
 }
