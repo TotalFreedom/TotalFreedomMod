@@ -120,6 +120,7 @@ blocked_commands:
   - 'n:b:/setjail:_'
   - 'n:b:/tfbanlist:Use /banlist to see and wipe the ban list'
   - 'n:b:/tfipbanlist:Use /banlist to see and wipe the ban list'
+  - 'n:b:/summon:This command has been blocked for security reasons'
 
   # Superadmin commands
   - 's:b:/kick:_'
