@@ -16,5 +16,9 @@ public interface Displayable
     public String getColoredTag();
 
     public String getColoredLoginMessage();
+    
+    public String getDeterminer();
+    
+    public String getItalicColoredName();
 
 }

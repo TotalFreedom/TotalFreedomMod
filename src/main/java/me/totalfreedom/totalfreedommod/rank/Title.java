@@ -12,6 +12,7 @@ public enum Title implements Displayable
     EXEC("an", "Executive Admin", ChatColor.DARK_RED, "Exec"),
     OWNER("an", "Owner", ChatColor.BLUE, "Owner");
 
+    @Getter
     private final String determiner;
     @Getter
     private final String name;
@@ -41,6 +42,18 @@ public enum Title implements Displayable
     public String getColoredLoginMessage()
     {
         return determiner + " " + color + ChatColor.ITALIC + name;
+    }
+    
+    @Override
+    public String getDeterminer()
+    {
+        return determiner;
+    }
+    
+    @Override
+    public String getItalicColoredName()
+    {
+        return color.toString() + ChatColor.ITALIC + name;
     }
 
 }

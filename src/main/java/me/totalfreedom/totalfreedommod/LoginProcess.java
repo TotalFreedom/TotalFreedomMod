@@ -196,7 +196,7 @@ public class LoginProcess extends FreedomService
         }
         
         // Has shop custom login message
-        if (!plugin.al.isAdmin(player) && !plugin.al.isAdminImpostor(player) && !ConfigEntry.SERVER_MASTER_BUILDERS.getList().contains(player.getName()) && sd.isCustomLoginMessage() && !sd.getLoginMessage().equalsIgnoreCase("none"))
+        if (!plugin.al.isAdmin(player) && !plugin.al.isAdminImpostor(player) && sd.isCustomLoginMessage() && !sd.getLoginMessage().equalsIgnoreCase("none"))
         {
             FUtil.bcastMsg(plugin.sl.createLoginMessage(player, sd.getLoginMessage()));
         }
@@ -223,7 +223,7 @@ public class LoginProcess extends FreedomService
                     {
                         messages.add(FUtil.colorize((String) msg));
                     }
-                    for (int i = 0; i <= messages.size(); i++)
+                    for (int i = 0; i < messages.size(); i++)
                     {
                         player.sendMessage(messages.get(i));
                     }

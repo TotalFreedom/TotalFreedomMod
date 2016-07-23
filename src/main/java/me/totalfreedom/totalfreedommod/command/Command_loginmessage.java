@@ -30,7 +30,7 @@ public class Command_loginmessage extends FreedomCommand
         ShopData sd = plugin.sh.getData(playerSender);
         if (!sd.isCustomLoginMessage())
         {
-            msg(plugin.sh.getShopPrefix() + ChatColor.RED + "You have not purchased " + ChatColor.BLUE + "Custom Login Message" + ChatColor.RED + " yet!");
+            msg(plugin.sh.getShopPrefix() + ChatColor.RED + "You have not purchased " + ChatColor.BLUE + "Custom Login Messages" + ChatColor.RED + " yet!");
             return true;
         }
         Inventory i = server.createInventory(null, 9, ChatColor.AQUA + "Login Messages");
@@ -56,7 +56,7 @@ public class Command_loginmessage extends FreedomCommand
         ItemMeta m = is.getItemMeta();
         m.setDisplayName(color + name);
         List<String> l = new ArrayList();
-        l.add(ChatColor.AQUA + player.getName() + " is " + plugin.rm.getRank(player).getDeterminer() + " " + plugin.rm.getRank(player).getItalicColoredName());
+        l.add(ChatColor.AQUA + player.getName() + " is " + plugin.rm.getDisplay(player).getDeterminer() + " " + plugin.rm.getDisplay(player).getItalicColoredName());
         l.add(ChatColor.AQUA + "and " + FUtil.colorize(message));
         m.setLore(l);
         is.setItemMeta(m);

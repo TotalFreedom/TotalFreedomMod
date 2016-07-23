@@ -114,9 +114,8 @@ public class ShopGUIListener extends FreedomService
     
     public String createLoginMessage(Player player, String msg)
     {
-        Rank r = plugin.rm.getRank(player);
-        String loginMessage = ChatColor.AQUA + player.getName() + " is " + r.getDeterminer() + " "
-                + r.getItalicColoredName() + ChatColor.AQUA + " and " + FUtil.colorize(msg);
+        String loginMessage = ChatColor.AQUA + player.getName() + " is " + plugin.rm.getDisplay(player).getDeterminer() + " "
+                + plugin.rm.getDisplay(player).getItalicColoredName() + ChatColor.AQUA + " and " + FUtil.colorize(msg);
         return loginMessage;
     }
     

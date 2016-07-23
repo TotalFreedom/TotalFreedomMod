@@ -18,6 +18,7 @@ public enum Rank implements Displayable
     private final Type type;
     @Getter
     private final String name;
+    @Getter
     private final String determiner;
     @Getter
     private final String tag;
@@ -48,14 +49,16 @@ public enum Rank implements Displayable
         return determiner + " " + color + ChatColor.ITALIC + name;
     }
     
-    public String getItalicColoredName()
-    {
-        return "" + color + ChatColor.ITALIC + name;
-    }
-    
+    @Override
     public String getDeterminer()
     {
         return determiner;
+    }
+    
+    @Override
+    public String getItalicColoredName()
+    {
+        return color.toString() + ChatColor.ITALIC + name;
     }
 
     public boolean isConsole()
