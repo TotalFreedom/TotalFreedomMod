@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.shop.ShopData;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -48,7 +49,13 @@ public class Command_shop extends FreedomCommand
         ItemStack coloredChat = newShopItem(new ItemStack(Material.BOOK_AND_QUILL), ChatColor.AQUA, "Colored Chat", coloredChatPrice, hasColoredChat);
         i.setItem(10, coloredChat);
         ItemStack customLoginMessage = newShopItem(new ItemStack(Material.NAME_TAG), ChatColor.BLUE, "Custom Login Messages", customLoginMessagePrice, hasCustomLoginMessages);
-        i.setItem(11, customLoginMessage);
+        i.setItem(12, customLoginMessage);
+        ItemStack coins = new ItemStack(Material.GOLD_NUGGET);
+        ItemMeta m = coins.getItemMeta();
+        m.setDisplayName(FUtil.colorize("&c&lYou have &e&l" + sd.getCoins() + "&c&l coins"));
+        coins.setItemMeta(m);
+        i.setItem(35, coins);
+        
         playerSender.openInventory(i);
         return true;
     }
@@ -102,7 +109,7 @@ public class Command_shop extends FreedomCommand
         Shop layout:
 
         ---------
-        -cl------
+        -c-l-----
         ---------
-        ---------
+        --------$
 */
