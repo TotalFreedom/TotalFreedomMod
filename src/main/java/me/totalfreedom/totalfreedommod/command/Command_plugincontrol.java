@@ -113,7 +113,7 @@ public class Command_plugincontrol extends FreedomCommand
 
             if (target.getName().equals(plugin.getName()))
             {
-                msg("Use /tfm reload to reload instead.");
+                msg("Use /umcm reload to reload instead.");
                 return true;
             }
 
