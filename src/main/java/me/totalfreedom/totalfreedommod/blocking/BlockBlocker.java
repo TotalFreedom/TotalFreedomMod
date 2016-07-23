@@ -108,58 +108,12 @@ public class BlockBlocker extends FreedomService
                 }
                 break;
             }
-            case WALL_SIGN:
+            case STRUCTURE_BLOCK:
+            case STRUCTURE_VOID:
             {
-                if (ConfigEntry.ALLOW_SIGN_PLACE.getBoolean())
-                {
-                    FLog.info(String.format("%s placed wall sign @ %s", player.getName(), FUtil.formatLocation(event.getBlock().getLocation())));
-                }
-                else if (ConfigEntry.ONLY_ADMIN_SIGN_PLACE.getBoolean())
-                {
-                    if (plugin.al.isAdmin(event.getPlayer()))
-                    {
-                        FLog.info(String.format("%s placed wall sign @ %s", player.getName(), FUtil.formatLocation(event.getBlock().getLocation())));
-                    }
-                    else
-                    {
-                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                        event.setCancelled(true);
-                        player.sendMessage(ChatColor.GRAY + "For security reasons, only admins may place signs");
-                    }
-                }
-                else
-                {
-                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                    event.setCancelled(true);
-                    player.sendMessage(ChatColor.GRAY + "For security reasons the placement of signs has been disabled");
-                }
-                break;
-            }
-            case SIGN_POST:
-            {
-                if (ConfigEntry.ALLOW_SIGN_PLACE.getBoolean())
-                {
-                    FLog.info(String.format("%s placed sign post @ %s", player.getName(), FUtil.formatLocation(event.getBlock().getLocation())));
-                }
-                else if (ConfigEntry.ONLY_ADMIN_SIGN_PLACE.getBoolean())
-                {
-                    if (plugin.al.isAdmin(event.getPlayer()))
-                    {
-                        FLog.info(String.format("%s placed sign post @ %s", player.getName(), FUtil.formatLocation(event.getBlock().getLocation())));
-                    }
-                    else
-                    {
-                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                        event.setCancelled(true);
-                        player.sendMessage(ChatColor.GRAY + "For security reasons, only admins may place signs");
-                    }
-                }
-                else
-                {
-                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                    event.setCancelled(true);
-                    player.sendMessage(ChatColor.GRAY + "For security reasons the placement of signs has been disabled");
-                }
+                player.sendMessage(ChatColor.GRAY + "Structure blocks are disabled.");
+
+                event.setCancelled(true);
                 break;
             }
         }
