@@ -1,6 +1,6 @@
 #
-# TotalFreedomMod 5.0 Configuration
-# by Madgeek1450 and Prozza
+# UnraveledMCMod Configuration
+# by Madgeek1450, Prozza, and CreeperSeth
 #
 
 # Generic server information
@@ -21,7 +21,7 @@ server:
   execs:
     - Dusty01
     - samennis1
-    - Riley_Cinderfur
+    - XeonXeoda
     
     # All players who show up as master builder
   master_builders: []
@@ -47,12 +47,15 @@ op_on_join: true
 shop:
   # Enable the shop
   enabled: true
+  
   # Shop prefix
-  prefix: '&8[&bShop&8]'
+  prefix: '&7&l[&8&lUMC Shop&7&l]'
+  
   # How much should the price be for buying colored chat
   colored_chat_price: 35
+  
   # How much should the price be for buying custom login messages
-  login_message_price: 45
+  login_message_price: 50
 
 # Admins
 admins:
@@ -75,6 +78,13 @@ admins:
     enabled: true
     # Password, it can have spaces!
     password: Sample Password
+    
+  # Admin-Only Mode
+  admin_only_mode: false
+  
+  # IPs that can not be supered
+  noadmin_ips:
+    - 167.114.97.16
 
 # ForceIP configuration
 forceip:
@@ -97,8 +107,6 @@ allow:
   water_place: false
   tnt_minecarts: false
   explosions: false
-  sign_place: false
-  only_admin_sign_place: false
 
 # Blocked commands:
 #
@@ -259,9 +267,6 @@ flatlands:
   # Flatlands generation parameters - Uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
   generate_params: 16,stone,32,dirt,1,grass
 
-# Admin-Only Mode
-admin_only_mode: false
-
 # Protected Areas - Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
 protectarea:
   enabled: true
@@ -346,10 +351,6 @@ famous_players:
   - gizzy14gazza
   - furiousdestroyer
   - pewdie
-
-# IPs that can not be supered
-noadmin_ips:
-  - 167.114.97.16
 
 # Pet Protect - Prevent tamed pets from being killed.
 petprotect:

@@ -18,8 +18,6 @@ public enum ConfigEntry
     ALLOW_LAVA_PLACE(Boolean.class, "allow.lava_place"),
     ALLOW_TNT_MINECARTS(Boolean.class, "allow.tnt_minecarts"),
     ALLOW_WATER_PLACE(Boolean.class, "allow.water_place"),
-    ALLOW_SIGN_PLACE(Boolean.class, "allow.sign_place"),
-    ONLY_ADMIN_SIGN_PLACE(Boolean.class, "allow.only_admin_sign_place"),
     //
     MOB_LIMITER_ENABLED(Boolean.class, "moblimiter.enabled"),
     MOB_LIMITER_MAX(Integer.class, "moblimiter.max"),
@@ -56,7 +54,8 @@ public enum ConfigEntry
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "admins.adminlist.console_is_senior"),
     VERIFY_ENABLED(Boolean.class, "admins.selfverify.enabled"),
     VERIFY_PASSWORD(String.class, "admins.selfverify.password"),
-    //
+    ADMIN_ONLY_MODE(Boolean.class, "admins.admin_only_mode"),
+    NOADMIN_IPS(List.class, "admins.noadmin_ips"),
     DISABLE_NIGHT(Boolean.class, "disable.night"),
     DISABLE_WEATHER(Boolean.class, "disable.weather"),
     //
@@ -99,8 +98,6 @@ public enum ConfigEntry
     HOST_SENDER_NAMES(List.class, "host_sender_names"),
     FAMOUS_PLAYERS(List.class, "famous_players"),
     OVERLORD_IPS(List.class, "overlord_ips"),
-    NOADMIN_IPS(List.class, "noadmin_ips"),
-    ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
     AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe");
     //
     private final Class<?> type;
