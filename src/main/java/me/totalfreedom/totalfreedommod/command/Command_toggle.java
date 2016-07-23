@@ -31,7 +31,6 @@ public class Command_toggle extends FreedomCommand
             msg("- entitywipe");
             msg("- nonuke [range] [count]");
             msg("- explosives [radius]");
-            msg("- signs <-a>");
             return false;
         }
 
@@ -156,31 +155,6 @@ public class Command_toggle extends FreedomCommand
             }
             return true;
         }
-        if (args[0].equals("signs"))
-        {
-            if (args.length > 1)
-            {
-                if (args[1].equalsIgnoreCase("-a"))
-                {
-                    toggle("Sign placement for admins only is", ConfigEntry.ONLY_ADMIN_SIGN_PLACE);
-                    if (ConfigEntry.ALLOW_SIGN_PLACE.getBoolean())
-                    {
-                        ConfigEntry.ALLOW_SIGN_PLACE.setBoolean(false);
-                    }
-                    return true;
-                }
-            }
-            else
-            {
-                toggle("Sign placement is", ConfigEntry.ALLOW_SIGN_PLACE);
-                if (ConfigEntry.ONLY_ADMIN_SIGN_PLACE.getBoolean())
-                {
-                    ConfigEntry.ONLY_ADMIN_SIGN_PLACE.setBoolean(false);
-                }
-                return true;
-            }
-        }
-
         return false;
     }
 
