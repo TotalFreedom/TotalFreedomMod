@@ -83,7 +83,7 @@ public class LibsDisguisesBridge extends FreedomService
             
             for (Player player : server.getOnlinePlayers())
             {
-                if (DisguiseAPI.isDisguised(player) && !plugin.al.isAdmin(player))
+                if (DisguiseAPI.isDisguised(player))
                 {
                     DisguiseAPI.undisguiseToAll(player);
                 }
