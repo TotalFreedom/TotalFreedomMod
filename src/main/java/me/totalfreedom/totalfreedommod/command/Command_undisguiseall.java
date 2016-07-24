@@ -19,7 +19,7 @@ public class Command_undisguiseall extends FreedomCommand
     {
         FUtil.adminAction(sender.getName(), "Undisguising all non-admins", true);
         
-        plugin.ldb.undisguiseAll();
+        plugin.ldb.undisguiseAll(false);
 
         return true;
     }
