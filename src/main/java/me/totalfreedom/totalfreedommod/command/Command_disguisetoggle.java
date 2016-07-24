@@ -37,6 +37,7 @@ public class Command_disguisetoggle extends FreedomCommand
         
         if (enabled)
         {
+            plugin.ldb.undisguiseAll();
             pm.disablePlugin(LibsDisguises);
             enabled = false;
         }
