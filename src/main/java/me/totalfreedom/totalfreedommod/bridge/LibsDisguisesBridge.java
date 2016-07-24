@@ -5,10 +5,9 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.entity.Entity;
 
 public class LibsDisguisesBridge extends FreedomService
 {
@@ -70,7 +69,7 @@ public class LibsDisguisesBridge extends FreedomService
         return null;
     }
     
-    public void undisguiseAll()
+    public void undisguiseAll(Boolean admins)
     {
         try
         {
@@ -85,6 +84,10 @@ public class LibsDisguisesBridge extends FreedomService
             {
                 if (DisguiseAPI.isDisguised(player))
                 {
+                    if (!admins && plugin.al.isAdmin(player))
+                    {
+                        continue;
+                    }
                     DisguiseAPI.undisguiseToAll(player);
                 }
             }
