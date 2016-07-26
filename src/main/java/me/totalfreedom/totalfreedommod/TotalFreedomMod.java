@@ -16,6 +16,7 @@ import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
 import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
 import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
+import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
 import me.totalfreedom.totalfreedommod.caging.Cager;
 import me.totalfreedom.totalfreedommod.command.CommandLoader;
@@ -51,8 +52,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static final BuildProperties build = new BuildProperties();
     //
     public static String pluginName;
-    public static String pluginVersion = "1.5.2";
-    public static String buildDate = "7/23/2016";
+    public static String pluginVersion = "1.5.3";
+    public static String buildDate = "7/25/2016";
     public static String compiledBy = "CreeperSeth";
     //
     public MainConfig config;
@@ -110,6 +111,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public ServiceManager<TotalFreedomMod> bridges;
     public BukkitTelnetBridge btb;
     public EssentialsBridge esb;
+    public LibsDisguisesBridge ldb;
     public WorldEditBridge web;
 
     @Override
@@ -213,6 +215,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         bridges = new ServiceManager<>(plugin);
         btb = bridges.registerService(BukkitTelnetBridge.class);
         esb = bridges.registerService(EssentialsBridge.class);
+        ldb = bridges.registerService(LibsDisguisesBridge.class);
         web = bridges.registerService(WorldEditBridge.class);
         bridges.start();
 
