@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.command.FreedomCommand;
 import static me.unraveledmc.unraveledmcmod.httpd.HTMLGenerationTools.heading;
 import static me.unraveledmc.unraveledmcmod.httpd.HTMLGenerationTools.paragraph;
@@ -25,7 +25,7 @@ import org.bukkit.command.SimpleCommandMap;
 public class Module_help extends HTTPDModule
 {
 
-    public Module_help(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
+    public Module_help(UnraveledMCMod plugin, NanoHTTPD.HTTPSession session)
     {
         super(plugin, session);
     }
@@ -80,7 +80,7 @@ public class Module_help extends HTTPDModule
             Displayable lastTfmCommandLevel = null;
             for (Command command : commands)
             {
-                if (!TotalFreedomMod.pluginName.equals(pluginName))
+                if (!UnraveledMCMod.pluginName.equals(pluginName))
                 {
                     responseBody.append(buildDescription(command));
                     continue;

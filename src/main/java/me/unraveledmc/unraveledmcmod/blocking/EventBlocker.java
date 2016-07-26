@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.blocking;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.bukkit.entity.Entity;
@@ -34,7 +34,7 @@ import org.bukkit.Material;
 public class EventBlocker extends FreedomService
 {
 
-    public EventBlocker(TotalFreedomMod plugin)
+    public EventBlocker(UnraveledMCMod plugin)
     {
         super(plugin);
     }

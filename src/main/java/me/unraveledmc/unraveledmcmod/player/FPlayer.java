@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.caging.CageData;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.freeze.FreezeData;
@@ -25,7 +25,7 @@ public class FPlayer
     public static final long AUTO_PURGE_TICKS = 5L * 60L * 20L;
 
     @Getter
-    private final TotalFreedomMod plugin;
+    private final UnraveledMCMod plugin;
     @Getter
     private final String name;
     @Getter
@@ -67,12 +67,12 @@ public class FPlayer
     private String tag = null;
     private int warningCount = 0;
 
-    public FPlayer(TotalFreedomMod plugin, Player player)
+    public FPlayer(UnraveledMCMod plugin, Player player)
     {
         this(plugin, player.getName(), Ips.getIp(player));
     }
 
-    private FPlayer(TotalFreedomMod plugin, String name, String ip)
+    private FPlayer(UnraveledMCMod plugin, String name, String ip)
     {
         this.plugin = plugin;
         this.name = name;
@@ -227,7 +227,7 @@ public class FPlayer
         }
     }
 
-    public void startArrowShooter(TotalFreedomMod plugin)
+    public void startArrowShooter(UnraveledMCMod plugin)
     {
         this.stopArrowShooter();
         this.mp44ScheduleTask = new ArrowShooter(this.player).runTaskTimer(plugin, 1L, 1L);

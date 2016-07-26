@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Map;
 import lombok.Getter;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import net.pravian.aero.config.YamlConfig;
@@ -30,7 +30,7 @@ public class PlayerList extends FreedomService
     @Getter
     private final File configFolder;
 
-    public PlayerList(TotalFreedomMod plugin)
+    public PlayerList(UnraveledMCMod plugin)
     {
         super(plugin);
 

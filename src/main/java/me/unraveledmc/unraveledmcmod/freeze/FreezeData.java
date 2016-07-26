@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.freeze;
 
 import lombok.Getter;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
 import static me.unraveledmc.unraveledmcmod.player.FPlayer.AUTO_PURGE_TICKS;

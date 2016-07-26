@@ -11,7 +11,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 public class ServerPing extends FreedomService
 {
 
-    public ServerPing(TotalFreedomMod plugin)
+    public ServerPing(UnraveledMCMod plugin)
     {
         super(plugin);
     }

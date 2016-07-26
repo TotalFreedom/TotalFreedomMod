@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.fun;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Lightning extends FreedomService
      public static List<Player> lpl = new ArrayList();
      public static int amount = 1;
 
-    public Lightning(TotalFreedomMod plugin)
+    public Lightning(UnraveledMCMod plugin)
     {
         super(plugin);
     }

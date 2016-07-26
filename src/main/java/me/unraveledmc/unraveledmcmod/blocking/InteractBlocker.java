@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.blocking;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
 import org.bukkit.ChatColor;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 public class InteractBlocker extends FreedomService
 {
 
-    public InteractBlocker(TotalFreedomMod plugin)
+    public InteractBlocker(UnraveledMCMod plugin)
     {
         super(plugin);
     }

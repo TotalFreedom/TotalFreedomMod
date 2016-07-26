@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.blocking;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.EnderDragon;
@@ -17,7 +17,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 public class MobBlocker extends FreedomService
 {
 
-    public MobBlocker(TotalFreedomMod plugin)
+    public MobBlocker(UnraveledMCMod plugin)
     {
         super(plugin);
     }

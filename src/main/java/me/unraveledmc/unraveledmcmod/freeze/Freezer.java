@@ -2,7 +2,7 @@ package me.unraveledmc.unraveledmcmod.freeze;
 
 import lombok.Getter;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ public class Freezer extends FreedomService
     @Getter
     private boolean globalFreeze = false;
 
-    public Freezer(TotalFreedomMod plugin)
+    public Freezer(UnraveledMCMod plugin)
     {
         super(plugin);
     }

@@ -176,6 +176,7 @@ blocked_commands:
 
   # Superadmin commands
   - 's:b:/kick:_'
+  - 's:b:/tool:_'
   - 's:b:/socialspy:_'
   - 's:b:/replaceitem:_'
   - 's:b:/kill:_'

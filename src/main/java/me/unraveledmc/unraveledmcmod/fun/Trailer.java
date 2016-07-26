@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.DepreciationAggregator;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,7 +20,7 @@ public class Trailer extends FreedomService
     private final Random random = new Random();
     private final Set<String> trailPlayers = new HashSet<>(); // player name
 
-    public Trailer(TotalFreedomMod plugin)
+    public Trailer(UnraveledMCMod plugin)
     {
         super(plugin);
     }

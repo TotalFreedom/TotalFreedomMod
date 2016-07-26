@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import static me.unraveledmc.unraveledmcmod.util.FUtil.playerMsg;
 
 public class ChatManager extends FreedomService
 {
@@ -19,7 +20,7 @@ public class ChatManager extends FreedomService
     public static boolean acr = false;
     public static boolean acn = false;
 
-    public ChatManager(TotalFreedomMod plugin)
+    public ChatManager(UnraveledMCMod plugin)
     {
         super(plugin);
     }

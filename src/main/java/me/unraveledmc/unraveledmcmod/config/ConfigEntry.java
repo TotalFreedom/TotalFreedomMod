@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.config;
 
 import java.util.List;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 
 public enum ConfigEntry
 {
@@ -176,7 +176,7 @@ public enum ConfigEntry
 
     private MainConfig getConfig()
     {
-        return TotalFreedomMod.plugin().config;
+        return UnraveledMCMod.plugin().config;
     }
 
     public static ConfigEntry findConfigEntry(String name)

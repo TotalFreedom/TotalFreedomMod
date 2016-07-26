@@ -32,7 +32,7 @@ public class ProtectArea extends FreedomService
     //
     private final Map<String, SerializableProtectedRegion> areas = Maps.newHashMap();
 
-    public ProtectArea(TotalFreedomMod plugin)
+    public ProtectArea(UnraveledMCMod plugin)
     {
         super(plugin);
     }

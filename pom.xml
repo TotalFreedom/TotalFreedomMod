@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.totalfreedom</groupId>
+    <groupId>me.unraveledmc</groupId>
     <artifactId>unraveledmcmod</artifactId>
     <version>5.0</version>
     <packaging>jar</packaging>
@@ -31,8 +31,8 @@
     </licenses>
 
     <organization>
-        <name>Unraveled MC</name>
-        <url>https://unraveledmc.com/forum</url>
+        <name>UnraveledMC-Dev</name>
+        <url>github.com/UnraveledMC-Dev</url>
     </organization>
 
     <scm>
@@ -91,8 +91,8 @@
 
         <dependency>
             <groupId>net.totalfreedom</groupId>
-            <artifactId>tf-essentials</artifactId>
-            <version>2.0-TF</version>
+            <artifactId>umc-essentials</artifactId>
+            <version>2.0-UMC</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/UMC-Essentials.jar</systemPath>
         </dependency>

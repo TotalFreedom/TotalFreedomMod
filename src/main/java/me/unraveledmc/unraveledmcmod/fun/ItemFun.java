@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
 import me.unraveledmc.unraveledmcmod.util.DepreciationAggregator;
@@ -27,7 +27,7 @@ public class ItemFun extends FreedomService
 
     private final Random random = new Random();
 
-    public ItemFun(TotalFreedomMod plugin)
+    public ItemFun(UnraveledMCMod plugin)
     {
         super(plugin);
     }

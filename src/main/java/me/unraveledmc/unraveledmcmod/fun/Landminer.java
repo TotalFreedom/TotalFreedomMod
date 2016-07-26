@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import lombok.Getter;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -23,7 +23,7 @@ public class Landminer extends FreedomService
     @Getter
     private final List<Landmine> landmines = new ArrayList<>();
 
-    public Landminer(TotalFreedomMod plugin)
+    public Landminer(UnraveledMCMod plugin)
     {
         super(plugin);
     }

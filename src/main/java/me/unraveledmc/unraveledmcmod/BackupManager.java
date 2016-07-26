@@ -7,10 +7,10 @@ import net.pravian.aero.component.PluginComponent;
 import net.pravian.aero.config.YamlConfig;
 import org.bukkit.util.FileUtil;
 
-public class BackupManager extends PluginComponent<TotalFreedomMod>
+public class BackupManager extends PluginComponent<UnraveledMCMod>
 {
 
-    public BackupManager(TotalFreedomMod plugin)
+    public BackupManager(UnraveledMCMod plugin)
     {
         super(plugin);
     }

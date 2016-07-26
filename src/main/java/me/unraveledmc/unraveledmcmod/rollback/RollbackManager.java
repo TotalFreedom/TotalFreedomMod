@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.DepreciationAggregator;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +29,7 @@ public class RollbackManager extends FreedomService
     private static final Map<String, List<RollbackEntry>> history = Maps.newHashMap();
     private static final List<String> removeHistory = Lists.newArrayList();
 
-    public RollbackManager(TotalFreedomMod plugin)
+    public RollbackManager(UnraveledMCMod plugin)
     {
         super(plugin);
     }

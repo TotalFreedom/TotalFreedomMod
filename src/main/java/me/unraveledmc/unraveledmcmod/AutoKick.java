@@ -15,7 +15,7 @@ public class AutoKick extends FreedomService
     private long autoKickTicks;
     private double autoKickThreshold;
 
-    public AutoKick(TotalFreedomMod plugin)
+    public AutoKick(UnraveledMCMod plugin)
     {
         super(plugin);
     }

@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.blocking;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +14,7 @@ public class PotionBlocker extends FreedomService
 
     public static final int POTION_BLOCK_RADIUS_SQUARED = 20 * 20;
 
-    public PotionBlocker(TotalFreedomMod plugin)
+    public PotionBlocker(UnraveledMCMod plugin)
     {
         super(plugin);
     }

@@ -10,7 +10,7 @@ wipe when the player leaves but wipes on reload or restart*/
 {
     public static final List<String> ADMIN_DEOPPED_PLAYERS = new ArrayList();
 
-    public Data(TotalFreedomMod plugin)
+    public Data(UnraveledMCMod plugin)
     {
         super(plugin);
     }

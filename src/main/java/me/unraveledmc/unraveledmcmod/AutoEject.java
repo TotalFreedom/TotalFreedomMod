@@ -19,7 +19,7 @@ public class AutoEject extends FreedomService
 
     private final Map<String, Integer> ejects = new HashMap<>(); // ip -> amount
 
-    public AutoEject(TotalFreedomMod plugin)
+    public AutoEject(UnraveledMCMod plugin)
     {
         super(plugin);
     }

@@ -3,7 +3,7 @@ package me.unraveledmc.unraveledmcmod.bridge;
 import me.libraryaddict.disguise.LibsDisguises;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
@@ -13,7 +13,7 @@ public class LibsDisguisesBridge extends FreedomService
 {
     private LibsDisguises libsDisguisesPlugin = null;
 
-    public LibsDisguisesBridge(TotalFreedomMod plugin)
+    public LibsDisguisesBridge(UnraveledMCMod plugin)
     {
         super(plugin);
     }

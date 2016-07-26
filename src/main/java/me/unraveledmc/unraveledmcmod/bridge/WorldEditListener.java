@@ -1,6 +1,6 @@
 package me.unraveledmc.unraveledmcmod.bridge;
 
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import me.totalfreedom.worldedit.LimitChangedEvent;
 import me.totalfreedom.worldedit.SelectionChangedEvent;
@@ -9,10 +9,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
-public class WorldEditListener extends PluginListener<TotalFreedomMod>
+public class WorldEditListener extends PluginListener<UnraveledMCMod>
 {
 
-    public WorldEditListener(TotalFreedomMod plugin)
+    public WorldEditListener(UnraveledMCMod plugin)
     {
         super(plugin);
     }

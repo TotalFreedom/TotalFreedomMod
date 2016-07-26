@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.rank;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class RankManager extends FreedomService
 {
 
-    public RankManager(TotalFreedomMod plugin)
+    public RankManager(UnraveledMCMod plugin)
     {
         super(plugin);
     }

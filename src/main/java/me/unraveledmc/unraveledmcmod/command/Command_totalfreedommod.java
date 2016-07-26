@@ -1,6 +1,6 @@
 package me.unraveledmc.unraveledmcmod.command;
 
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
 import org.bukkit.ChatColor;
@@ -19,7 +19,7 @@ public class Command_totalfreedommod extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        TotalFreedomMod.BuildProperties build = TotalFreedomMod.build;
+        UnraveledMCMod.BuildProperties build = UnraveledMCMod.build;
         msg("TotalFreedomMod for 'Total Freedom', the original all-op server.", ChatColor.GOLD);
         msg("Running on " + ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
         msg("Created by Madgeek1450 and Prozza.", ChatColor.GOLD);

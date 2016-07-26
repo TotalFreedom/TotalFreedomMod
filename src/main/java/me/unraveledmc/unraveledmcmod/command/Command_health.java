@@ -2,7 +2,7 @@ package me.unraveledmc.unraveledmcmod.command;
 
 import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicInteger;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import org.apache.commons.lang.math.DoubleRange;
@@ -74,11 +74,11 @@ public class Command_health extends FreedomCommand
     {
 
         private final AtomicInteger ticks = new AtomicInteger();
-        private final TotalFreedomMod plugin;
+        private final UnraveledMCMod plugin;
         private long startTime;
         private BukkitTask task;
 
-        public TFM_TickMeter(TotalFreedomMod plugin)
+        public TFM_TickMeter(UnraveledMCMod plugin)
         {
             this.plugin = plugin;
         }

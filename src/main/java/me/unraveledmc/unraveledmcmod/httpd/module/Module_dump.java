@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import static me.unraveledmc.unraveledmcmod.httpd.HTMLGenerationTools.list;
 import static me.unraveledmc.unraveledmcmod.httpd.HTMLGenerationTools.paragraph;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDaemon;
@@ -12,6 +12,7 @@ import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import static me.unraveledmc.unraveledmcmod.httpd.HTMLGenerationTools.list;
 
 public class Module_dump extends HTTPDModule
 {
@@ -19,7 +20,7 @@ public class Module_dump extends HTTPDModule
     private File echoFile = null;
     private final String body;
 
-    public Module_dump(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
+    public Module_dump(UnraveledMCMod plugin, NanoHTTPD.HTTPSession session)
     {
         super(plugin, session);
 

@@ -4,7 +4,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDPageBuilder;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD.HTTPSession;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD.Method;
@@ -12,7 +12,7 @@ import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD.Response;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import net.pravian.aero.component.PluginComponent;
 
-public abstract class HTTPDModule extends PluginComponent<TotalFreedomMod>
+public abstract class HTTPDModule extends PluginComponent<UnraveledMCMod>
 {
 
     protected final String uri;
@@ -22,7 +22,7 @@ public abstract class HTTPDModule extends PluginComponent<TotalFreedomMod>
     protected final Socket socket;
     protected final HTTPSession session;
 
-    public HTTPDModule(TotalFreedomMod plugin, HTTPSession session)
+    public HTTPDModule(UnraveledMCMod plugin, HTTPSession session)
     {
         super(plugin);
         this.uri = session.getUri();

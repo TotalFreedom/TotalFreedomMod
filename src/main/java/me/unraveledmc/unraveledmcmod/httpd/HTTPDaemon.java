@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD.HTTPSession;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD.Response;
@@ -35,7 +35,7 @@ public class HTTPDaemon extends FreedomService
     private HTTPD httpd;
     public Map<String, ModuleExecutable> modules = new HashMap<>();
 
-    public HTTPDaemon(TotalFreedomMod plugin)
+    public HTTPDaemon(UnraveledMCMod plugin)
     {
         super(plugin);
     }

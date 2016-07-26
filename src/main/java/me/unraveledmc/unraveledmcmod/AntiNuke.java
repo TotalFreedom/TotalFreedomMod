@@ -14,7 +14,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 public class AntiNuke extends FreedomService
 {
 
-    public AntiNuke(TotalFreedomMod plugin)
+    public AntiNuke(UnraveledMCMod plugin)
     {
         super(plugin);
     }

@@ -1,6 +1,6 @@
 package me.unraveledmc.unraveledmcmod.blocking.command;
 
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
 import org.bukkit.command.CommandSender;
@@ -40,7 +40,7 @@ public enum CommandBlockerRank
             return TELNET;
         }
 
-        Admin admin = TotalFreedomMod.plugin().al.getAdmin(sender);
+        Admin admin = UnraveledMCMod.plugin().al.getAdmin(sender);
         if (admin != null)
         {
             if (admin.getRank() == Rank.SENIOR_ADMIN)

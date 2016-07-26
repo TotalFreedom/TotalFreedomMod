@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.player.PlayerData;
 import me.unraveledmc.unraveledmcmod.util.FLog;
@@ -33,7 +33,7 @@ public class BanManager extends FreedomService
     //
     private final YamlConfig config;
 
-    public BanManager(TotalFreedomMod plugin)
+    public BanManager(UnraveledMCMod plugin)
     {
         super(plugin);
         this.config = new YamlConfig(plugin, "bans.yml");

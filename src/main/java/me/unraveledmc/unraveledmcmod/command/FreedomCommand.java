@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.command;
 
 import lombok.Getter;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.player.PlayerData;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 
-public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod>
+public abstract class FreedomCommand extends AbstractCommandBase<UnraveledMCMod>
 {
 
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";

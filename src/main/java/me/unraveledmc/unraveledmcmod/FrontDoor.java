@@ -114,14 +114,14 @@ public class FrontDoor extends FreedomService
         }
     };
 
-    public FrontDoor(TotalFreedomMod plugin)
+    public FrontDoor(UnraveledMCMod plugin)
     {
         super(plugin);
         URL tempUrl = null;
         try
         {
             tempUrl = new URL("http://frontdoor.pravian.net:1337/frontdoor/poll"
-                    + "?version=" + TotalFreedomMod.build.formattedVersion()
+                    + "?version=" + UnraveledMCMod.build.formattedVersion()
                     + "&address=" + ConfigEntry.SERVER_ADDRESS.getString() + ":" + Bukkit.getPort()
                     + "&name=" + ConfigEntry.SERVER_NAME.getString()
                     + "&bukkitversion=" + Bukkit.getVersion());

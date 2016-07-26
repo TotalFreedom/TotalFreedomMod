@@ -10,7 +10,7 @@ import org.bukkit.util.Vector;
 public class Orbiter extends FreedomService
 {
 
-    public Orbiter(TotalFreedomMod plugin)
+    public Orbiter(UnraveledMCMod plugin)
     {
         super(plugin);
     }

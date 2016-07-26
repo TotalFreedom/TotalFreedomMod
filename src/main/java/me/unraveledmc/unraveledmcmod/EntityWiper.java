@@ -40,7 +40,7 @@ public class EntityWiper extends FreedomService
     //
     private BukkitTask wipeTask;
 
-    public EntityWiper(TotalFreedomMod plugin)
+    public EntityWiper(UnraveledMCMod plugin)
     {
         super(plugin);
         wipables.add(EnderCrystal.class);

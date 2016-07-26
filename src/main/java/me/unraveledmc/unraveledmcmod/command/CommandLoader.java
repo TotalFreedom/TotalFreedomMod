@@ -2,7 +2,7 @@ package me.unraveledmc.unraveledmcmod.command;
 
 import lombok.Getter;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import net.pravian.aero.command.handler.SimpleCommandHandler;
 import org.bukkit.ChatColor;
@@ -12,9 +12,9 @@ public class CommandLoader extends FreedomService
     public int totalCommands;
 
     @Getter
-    private final SimpleCommandHandler<TotalFreedomMod> handler;
+    private final SimpleCommandHandler<UnraveledMCMod> handler;
 
-    public CommandLoader(TotalFreedomMod plugin)
+    public CommandLoader(UnraveledMCMod plugin)
     {
         super(plugin);
 

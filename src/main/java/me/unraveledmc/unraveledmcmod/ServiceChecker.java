@@ -38,7 +38,7 @@ public class ServiceChecker extends FreedomService
     @Getter
     private String version = "Mojang";
 
-    public ServiceChecker(TotalFreedomMod plugin)
+    public ServiceChecker(UnraveledMCMod plugin)
     {
         super(plugin);
 

@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.caging;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.bukkit.ChatColor;
@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class Cager extends FreedomService
 {
 
-    public Cager(TotalFreedomMod plugin)
+    public Cager(UnraveledMCMod plugin)
     {
         super(plugin);
     }

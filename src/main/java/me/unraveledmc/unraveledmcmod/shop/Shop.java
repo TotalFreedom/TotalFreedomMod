@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Map;
 import lombok.Getter;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
@@ -28,7 +28,7 @@ public class Shop extends FreedomService
     @Getter
     private final File configFolder;
 
-    public Shop(TotalFreedomMod plugin)
+    public Shop(UnraveledMCMod plugin)
     {
         super(plugin);
 

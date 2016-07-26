@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class Fuckoff extends FreedomService
 {
 
-    public Fuckoff(TotalFreedomMod plugin)
+    public Fuckoff(UnraveledMCMod plugin)
     {
         super(plugin);
     }

@@ -31,7 +31,7 @@ public class LoginProcess extends FreedomService
     @Setter
     private boolean lockdownEnabled = false;
 
-    public LoginProcess(TotalFreedomMod plugin)
+    public LoginProcess(UnraveledMCMod plugin)
     {
         super(plugin);
     }

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDaemon;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
@@ -58,7 +58,7 @@ public class Module_file extends HTTPDModule
         MIME_TYPES.put("class", "application/octet-stream");
     }
 
-    public Module_file(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
+    public Module_file(UnraveledMCMod plugin, NanoHTTPD.HTTPSession session)
     {
         super(plugin, session);
     }

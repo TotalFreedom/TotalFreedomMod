@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.command;
 
 import java.util.Arrays;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
@@ -19,9 +19,9 @@ import org.bukkit.entity.Player;
 public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends AbstractCommandExecutor<C>
 {
 
-    private final TotalFreedomMod plugin;
+    private final UnraveledMCMod plugin;
 
-    public FreedomCommandExecutor(TotalFreedomMod plugin, AeroCommandHandler<?> handler, String name, C command)
+    public FreedomCommandExecutor(UnraveledMCMod plugin, AeroCommandHandler<?> handler, String name, C command)
     {
         super(handler, name, command);
         this.plugin = plugin;
@@ -165,9 +165,9 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
     public static class FreedomExecutorFactory implements AeroCommandExecutorFactory
     {
 
-        private final TotalFreedomMod plugin;
+        private final UnraveledMCMod plugin;
 
-        public FreedomExecutorFactory(TotalFreedomMod plugin)
+        public FreedomExecutorFactory(UnraveledMCMod plugin)
         {
             this.plugin = plugin;
         }

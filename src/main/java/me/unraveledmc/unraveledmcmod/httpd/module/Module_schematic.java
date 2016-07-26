@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.httpd.HTMLGenerationTools;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDPageBuilder;
@@ -39,7 +39,7 @@ public class Module_schematic extends HTTPDModule
             + "<button type=\"submit\">Submit</button>\n"
             + "</form>";
 
-    public Module_schematic(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
+    public Module_schematic(UnraveledMCMod plugin, NanoHTTPD.HTTPSession session)
     {
         super(plugin, session);
     }

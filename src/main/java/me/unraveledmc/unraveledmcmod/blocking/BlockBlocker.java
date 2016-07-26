@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.blocking;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 public class BlockBlocker extends FreedomService
 {
 
-    public BlockBlocker(TotalFreedomMod plugin)
+    public BlockBlocker(UnraveledMCMod plugin)
     {
         super(plugin);
     }

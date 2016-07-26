@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
@@ -28,7 +28,7 @@ public class CommandBlocker extends FreedomService
     private final Map<String, CommandBlockerEntry> entryList = Maps.newHashMap();
     private final List<String> unknownCommands = Lists.newArrayList();
 
-    public CommandBlocker(TotalFreedomMod plugin)
+    public CommandBlocker(UnraveledMCMod plugin)
     {
         super(plugin);
     }

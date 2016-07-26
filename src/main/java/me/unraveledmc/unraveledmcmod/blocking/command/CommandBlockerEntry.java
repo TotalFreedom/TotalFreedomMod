@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.blocking.command;
 
 import lombok.Getter;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -39,7 +39,7 @@ public class CommandBlockerEntry
     {
         if (action == CommandBlockerAction.BLOCK_AND_EJECT && sender instanceof Player)
         {
-            TotalFreedomMod.plugin().ae.autoEject((Player) sender, "You used a prohibited command: " + command);
+            UnraveledMCMod.plugin().ae.autoEject((Player) sender, "You used a prohibited command: " + command);
             FUtil.bcastMsg(sender.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
             return;
         }

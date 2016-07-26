@@ -21,7 +21,7 @@ public class Announcer extends FreedomService
     private String prefix;
     private BukkitTask announcer;
 
-    public Announcer(TotalFreedomMod plugin)
+    public Announcer(UnraveledMCMod plugin)
     {
         super(plugin);
     }

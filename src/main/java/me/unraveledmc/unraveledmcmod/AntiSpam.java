@@ -20,7 +20,7 @@ public class AntiSpam extends FreedomService
     //
     public BukkitTask cycleTask = null;
 
-    public AntiSpam(TotalFreedomMod plugin)
+    public AntiSpam(UnraveledMCMod plugin)
     {
         super(plugin);
     }

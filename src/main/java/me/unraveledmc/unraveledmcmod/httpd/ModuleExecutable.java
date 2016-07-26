@@ -6,7 +6,7 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.httpd.module.HTTPDModule;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import net.pravian.aero.component.PluginComponent;
@@ -33,7 +33,7 @@ public abstract class ModuleExecutable
             }
 
             // Sync to server thread
-            return Bukkit.getScheduler().callSyncMethod(TotalFreedomMod.plugin(), new Callable<NanoHTTPD.Response>()
+            return Bukkit.getScheduler().callSyncMethod(UnraveledMCMod.plugin(), new Callable<NanoHTTPD.Response>()
             {
                 @Override
                 public NanoHTTPD.Response call() throws Exception
@@ -52,12 +52,12 @@ public abstract class ModuleExecutable
 
     public abstract NanoHTTPD.Response getResponse(NanoHTTPD.HTTPSession session);
 
-    public static ModuleExecutable forClass(final TotalFreedomMod plugin, Class<? extends HTTPDModule> clazz, boolean async)
+    public static ModuleExecutable forClass(final UnraveledMCMod plugin, Class<? extends HTTPDModule> clazz, boolean async)
     {
         final Constructor<? extends HTTPDModule> cons;
         try
         {
-            cons = clazz.getConstructor(TotalFreedomMod.class, NanoHTTPD.HTTPSession.class);
+            cons = clazz.getConstructor(UnraveledMCMod.class, NanoHTTPD.HTTPSession.class);
         }
         catch (Exception ex)
         {

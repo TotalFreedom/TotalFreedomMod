@@ -3,7 +3,7 @@ package me.unraveledmc.unraveledmcmod.bridge;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.bukkit.Bukkit;
@@ -14,7 +14,7 @@ public class EssentialsBridge extends FreedomService
 
     private Essentials essentialsPlugin = null;
 
-    public EssentialsBridge(TotalFreedomMod plugin)
+    public EssentialsBridge(UnraveledMCMod plugin)
     {
         super(plugin);
     }

@@ -20,7 +20,7 @@ public class Muter extends FreedomService
 
     public static final List<String> MUTE_COMMANDS = Arrays.asList(StringUtils.split("say,me,msg,tell,reply,mail", ","));
 
-    public Muter(TotalFreedomMod plugin)
+    public Muter(UnraveledMCMod plugin)
     {
         super(plugin);
     }

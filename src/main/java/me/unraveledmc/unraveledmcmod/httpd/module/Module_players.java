@@ -1,6 +1,6 @@
 package me.unraveledmc.unraveledmcmod.httpd.module;
 
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 public class Module_players extends HTTPDModule
 {
 
-    public Module_players(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
+    public Module_players(UnraveledMCMod plugin, NanoHTTPD.HTTPSession session)
     {
         super(plugin, session);
     }

@@ -1,14 +1,14 @@
 package me.unraveledmc.unraveledmcmod.httpd.module;
 
 import java.io.File;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
 
 public class Module_logs extends Module_file
 {
 
-    public Module_logs(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
+    public Module_logs(UnraveledMCMod plugin, NanoHTTPD.HTTPSession session)
     {
         super(plugin, session);
     }

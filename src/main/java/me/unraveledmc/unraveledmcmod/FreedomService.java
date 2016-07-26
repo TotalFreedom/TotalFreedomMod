@@ -2,10 +2,10 @@ package me.unraveledmc.unraveledmcmod;
 
 import net.pravian.aero.component.service.AbstractService;
 
-public abstract class FreedomService extends AbstractService<TotalFreedomMod>
+public abstract class FreedomService extends AbstractService<UnraveledMCMod>
 {
 
-    public FreedomService(TotalFreedomMod plugin)
+    public FreedomService(UnraveledMCMod plugin)
     {
         super(plugin);
     }

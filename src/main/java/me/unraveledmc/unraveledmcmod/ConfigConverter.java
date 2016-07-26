@@ -14,12 +14,12 @@ import net.pravian.aero.component.PluginComponent;
 import net.pravian.aero.config.YamlConfig;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class ConfigConverter extends PluginComponent<TotalFreedomMod>
+public class ConfigConverter extends PluginComponent<UnraveledMCMod>
 {
 
     public static final int CURRENT_CONFIG_VERSION = 1;
 
-    public ConfigConverter(TotalFreedomMod plugin)
+    public ConfigConverter(UnraveledMCMod plugin)
     {
         super(plugin);
     }

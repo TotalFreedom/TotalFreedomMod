@@ -14,7 +14,7 @@ import static me.unraveledmc.unraveledmcmod.util.FUtil.SAVED_FLAGS_FILENAME;
 public class SavedFlags extends FreedomService
 {
 
-    public SavedFlags(TotalFreedomMod plugin)
+    public SavedFlags(UnraveledMCMod plugin)
     {
         super(plugin);
     }
@@ -34,7 +34,7 @@ public class SavedFlags extends FreedomService
     {
         Map<String, Boolean> flags = null;
 
-        File input = new File(TotalFreedomMod.plugin().getDataFolder(), SAVED_FLAGS_FILENAME);
+        File input = new File(UnraveledMCMod.plugin().getDataFolder(), SAVED_FLAGS_FILENAME);
         if (input.exists())
         {
             try

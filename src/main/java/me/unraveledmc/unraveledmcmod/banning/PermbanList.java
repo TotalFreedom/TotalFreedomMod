@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 import lombok.Getter;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
@@ -25,7 +25,7 @@ public class PermbanList extends FreedomService
     @Getter
     private final Set<String> permbannedIps = Sets.newHashSet();
 
-    public PermbanList(TotalFreedomMod plugin)
+    public PermbanList(UnraveledMCMod plugin)
     {
         super(plugin);
     }

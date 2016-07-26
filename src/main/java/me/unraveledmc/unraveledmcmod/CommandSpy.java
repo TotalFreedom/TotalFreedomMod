@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 public class CommandSpy extends FreedomService
 {
 
-    public CommandSpy(TotalFreedomMod plugin)
+    public CommandSpy(UnraveledMCMod plugin)
     {
         super(plugin);
     }

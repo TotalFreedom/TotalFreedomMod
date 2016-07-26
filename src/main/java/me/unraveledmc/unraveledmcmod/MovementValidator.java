@@ -11,7 +11,7 @@ public class MovementValidator extends FreedomService
 
     public static final int MAX_XZ_COORD = 30000000;
 
-    public MovementValidator(TotalFreedomMod plugin)
+    public MovementValidator(UnraveledMCMod plugin)
     {
         super(plugin);
     }

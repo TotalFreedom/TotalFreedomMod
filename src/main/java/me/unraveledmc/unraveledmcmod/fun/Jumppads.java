@@ -5,7 +5,7 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public class Jumppads extends FreedomService
     @Setter
     private double strength = 0.4;
 
-    public Jumppads(TotalFreedomMod plugin)
+    public Jumppads(UnraveledMCMod plugin)
     {
         super(plugin);
     }

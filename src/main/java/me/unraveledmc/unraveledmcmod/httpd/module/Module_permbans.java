@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.httpd.module;
 
 import java.io.File;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.banning.PermbanList;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDaemon;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
@@ -9,7 +9,7 @@ import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
 public class Module_permbans extends HTTPDModule
 {
 
-    public Module_permbans(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
+    public Module_permbans(UnraveledMCMod plugin, NanoHTTPD.HTTPSession session)
     {
         super(plugin, session);
     }

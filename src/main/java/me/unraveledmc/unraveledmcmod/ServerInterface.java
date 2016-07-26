@@ -15,7 +15,7 @@ public class ServerInterface extends FreedomService
 
     public static final String COMPILE_NMS_VERSION = "v1_10_R1";
 
-    public ServerInterface(TotalFreedomMod plugin)
+    public ServerInterface(UnraveledMCMod plugin)
     {
         super(plugin);
     }
@@ -36,7 +36,7 @@ public class ServerInterface extends FreedomService
 
         if (!COMPILE_NMS_VERSION.equals(nms))
         {
-            FLog.warning(TotalFreedomMod.pluginName + " is compiled for " + COMPILE_NMS_VERSION + " but the server is running version " + nms + "!");
+            FLog.warning(UnraveledMCMod.pluginName + " is compiled for " + COMPILE_NMS_VERSION + " but the server is running version " + nms + "!");
             FLog.warning("This might result in unexpected behaviour!");
         }
     }

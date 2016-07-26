@@ -1,14 +1,14 @@
 package me.unraveledmc.unraveledmcmod.world;
 
 import lombok.Getter;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import net.pravian.aero.component.PluginComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-public abstract class CustomWorld extends PluginComponent<TotalFreedomMod>
+public abstract class CustomWorld extends PluginComponent<UnraveledMCMod>
 {
 
     @Getter

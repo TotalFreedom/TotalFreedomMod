@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.httpd.module;
 
 import java.util.Collection;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 public class Module_list extends HTTPDModule
 {
 
-    public Module_list(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
+    public Module_list(UnraveledMCMod plugin, NanoHTTPD.HTTPSession session)
     {
         super(plugin, session);
     }

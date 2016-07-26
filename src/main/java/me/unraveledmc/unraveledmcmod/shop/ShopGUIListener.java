@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.shop;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
@@ -16,7 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ShopGUIListener extends FreedomService
 {
-    public ShopGUIListener(TotalFreedomMod plugin)
+    public ShopGUIListener(UnraveledMCMod plugin)
     {
         super(plugin);
     }

@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.world;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
 import static me.unraveledmc.unraveledmcmod.util.FUtil.playerMsg;
@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import static me.unraveledmc.unraveledmcmod.util.FUtil.playerMsg;
 
 public class WorldManager extends FreedomService
 {
@@ -23,7 +24,7 @@ public class WorldManager extends FreedomService
     public Flatlands flatlands;
     public AdminWorld adminworld;
 
-    public WorldManager(TotalFreedomMod plugin)
+    public WorldManager(UnraveledMCMod plugin)
     {
         super(plugin);
 

@@ -7,14 +7,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.EnumMap;
 import java.util.List;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import net.pravian.aero.component.PluginComponent;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class MainConfig extends PluginComponent<TotalFreedomMod>
+public class MainConfig extends PluginComponent<UnraveledMCMod>
 {
 
     public static final String CONFIG_FILENAME = "config.yml";
@@ -22,7 +22,7 @@ public class MainConfig extends PluginComponent<TotalFreedomMod>
     private final EnumMap<ConfigEntry, Object> entries;
     private final ConfigDefaults defaults;
 
-    public MainConfig(TotalFreedomMod plugin)
+    public MainConfig(UnraveledMCMod plugin)
     {
         super(plugin);
 
@@ -263,7 +263,7 @@ public class MainConfig extends PluginComponent<TotalFreedomMod>
 
     private InputStream getDefaultConfig()
     {
-        return plugin.getResource(TotalFreedomMod.CONFIG_FILENAME);
+        return plugin.getResource(UnraveledMCMod.CONFIG_FILENAME);
     }
 
     public ConfigDefaults getDefaults()

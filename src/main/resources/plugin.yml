@@ -1,9 +1,9 @@
 name: UnraveledMCMod
-main: me.totalfreedom.totalfreedommod.TotalFreedomMod
+main: me.unraveledmc.unraveledmcmod.UnraveledMCMod
 version: ${tfm.build.version}
 description: Plugin for the UnraveledMC server.
 depend: [Aero, WorldEdit]
-softdepend: [BukkitTelnet, UMC-Essentials]
-authors: [Madgeek1450, Prozza, PinchTheFinch, CreeperSeth, aggelosQQ]
+softdepend: [BukkitTelnet, UMC-Essentials, LibsDisguises]
+authors: [Madgeek1450, Prozza, CreeperSeth, AwesomePinch(CreeperIvanYT), aggelosQQ]
 
 # plugin.yml is no longer used to define commands.

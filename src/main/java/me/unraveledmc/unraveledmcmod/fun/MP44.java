@@ -1,7 +1,7 @@
 package me.unraveledmc.unraveledmcmod.fun;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class MP44 extends FreedomService
 {
 
-    public MP44(TotalFreedomMod plugin)
+    public MP44(UnraveledMCMod plugin)
     {
         super(plugin);
     }

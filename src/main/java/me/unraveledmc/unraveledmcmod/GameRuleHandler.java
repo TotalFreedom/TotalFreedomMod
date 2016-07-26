@@ -14,7 +14,7 @@ public class GameRuleHandler extends FreedomService
 
     private final Map<GameRule, Boolean> rules = new EnumMap<>(GameRule.class);
 
-    public GameRuleHandler(TotalFreedomMod plugin)
+    public GameRuleHandler(UnraveledMCMod plugin)
     {
         super(plugin);
 

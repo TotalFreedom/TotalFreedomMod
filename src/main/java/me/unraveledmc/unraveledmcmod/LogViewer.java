@@ -21,7 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class LogViewer extends FreedomService
 {
 
-    public LogViewer(TotalFreedomMod plugin)
+    public LogViewer(UnraveledMCMod plugin)
     {
         super(plugin);
     }

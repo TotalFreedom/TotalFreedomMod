@@ -44,7 +44,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mcstats.Metrics;
 
-public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
+public class UnraveledMCMod extends AeroPlugin<UnraveledMCMod>
 {
 
     public static final String CONFIG_FILENAME = "config.yml";
@@ -53,13 +53,13 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     //
     public static String pluginName;
     public static String pluginVersion = "1.5.3";
-    public static String buildDate = "7/25/2016";
+    public static String buildDate = "7/26/2016";
     public static String compiledBy = "CreeperSeth";
     //
     public MainConfig config;
     //
     // Services
-    public ServiceManager<TotalFreedomMod> services;
+    public ServiceManager<UnraveledMCMod> services;
     public ServerInterface si;
     public SavedFlags sf;
     public WorldManager wm;
@@ -108,7 +108,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Lightning ln;
     //
     // Bridges
-    public ServiceManager<TotalFreedomMod> bridges;
+    public ServiceManager<UnraveledMCMod> bridges;
     public BukkitTelnetBridge btb;
     public EssentialsBridge esb;
     public LibsDisguisesBridge ldb;
@@ -117,7 +117,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     @Override
     public void load()
     {
-        TotalFreedomMod.pluginName = plugin.getDescription().getName();
+        UnraveledMCMod.pluginName = plugin.getDescription().getName();
 
         FLog.setPluginLogger(plugin.getLogger());
         FLog.setServerLogger(server.getLogger());
@@ -129,7 +129,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public void enable()
     {
         FLog.info("Created by Madgeek1450 and Prozza");
-        FLog.info("Modified by CreeperSeth, CreeperIvanYT(AwesomePinch), and aggelosQQ");
+        FLog.info("Modified by CreeperSeth, AwesomePinch(CreeperIvanYT), and aggelosQQ");
         FLog.info("Version " + pluginVersion);
 
         final MethodTimer timer = new MethodTimer();
@@ -146,7 +146,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         new ConfigConverter(plugin).convert();
 
         BackupManager backups = new BackupManager(this);
-        backups.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
+        backups.createBackups(UnraveledMCMod.CONFIG_FILENAME, true);
         backups.createBackups(AdminList.CONFIG_FILENAME);
         backups.createBackups(PermbanList.CONFIG_FILENAME);
 
@@ -266,7 +266,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         public String date;
         public String head;
 
-        public void load(TotalFreedomMod plugin)
+        public void load(UnraveledMCMod plugin)
         {
             try
             {
@@ -297,13 +297,13 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         }
     }
 
-    public static TotalFreedomMod plugin()
+    public static UnraveledMCMod plugin()
     {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
         {
             if (plugin.getName().equalsIgnoreCase(pluginName))
             {
-                return (TotalFreedomMod) plugin;
+                return (UnraveledMCMod) plugin;
             }
         }
         return null;

@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.command.Command_logs;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
@@ -38,7 +38,7 @@ public class AdminList extends FreedomService
     //
     private final YamlConfig config;
 
-    public AdminList(TotalFreedomMod plugin)
+    public AdminList(UnraveledMCMod plugin)
     {
         super(plugin);
 

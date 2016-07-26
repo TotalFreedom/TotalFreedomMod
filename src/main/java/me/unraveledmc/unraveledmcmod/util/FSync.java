@@ -1,6 +1,6 @@
 package me.unraveledmc.unraveledmcmod.util;
 
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ public class FSync
 
     public static void playerMsg(final Player player, final String message)
     {
-        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
+        final UnraveledMCMod plugin = UnraveledMCMod.plugin();
         new BukkitRunnable()
         {
 
@@ -26,7 +26,7 @@ public class FSync
 
     public static void playerKick(final Player player, final String reason)
     {
-        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
+        final UnraveledMCMod plugin = UnraveledMCMod.plugin();
         new BukkitRunnable()
         {
 
@@ -41,7 +41,7 @@ public class FSync
 
     public static void adminChatMessage(final CommandSender sender, final String message)
     {
-        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
+        final UnraveledMCMod plugin = UnraveledMCMod.plugin();
         new BukkitRunnable()
         {
 
@@ -56,7 +56,7 @@ public class FSync
 
     public static void autoEject(final Player player, final String kickMessage)
     {
-        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
+        final UnraveledMCMod plugin = UnraveledMCMod.plugin();
         new BukkitRunnable()
         {
 
@@ -71,7 +71,7 @@ public class FSync
 
     public static void bcastMsg(final String message, final ChatColor color)
     {
-        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
+        final UnraveledMCMod plugin = UnraveledMCMod.plugin();
         new BukkitRunnable()
         {
 

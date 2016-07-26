@@ -7,7 +7,7 @@ import me.totalfreedom.bukkittelnet.api.TelnetCommandEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetRequestDataTagsEvent;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
 import me.unraveledmc.unraveledmcmod.util.FLog;
@@ -21,7 +21,7 @@ public class BukkitTelnetBridge extends FreedomService
 {
     private BukkitTelnet bukkitTelnetPlugin = null;
 
-    public BukkitTelnetBridge(TotalFreedomMod plugin)
+    public BukkitTelnetBridge(UnraveledMCMod plugin)
     {
         super(plugin);
     }

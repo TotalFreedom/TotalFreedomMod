@@ -4,7 +4,7 @@ import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import me.unraveledmc.unraveledmcmod.FreedomService;
-import me.unraveledmc.unraveledmcmod.TotalFreedomMod;
+import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -16,7 +16,7 @@ public class WorldEditBridge extends FreedomService
     //
     private WorldEditPlugin worldedit = null;
 
-    public WorldEditBridge(TotalFreedomMod plugin)
+    public WorldEditBridge(UnraveledMCMod plugin)
     {
         super(plugin);
         listener = new WorldEditListener(plugin);
