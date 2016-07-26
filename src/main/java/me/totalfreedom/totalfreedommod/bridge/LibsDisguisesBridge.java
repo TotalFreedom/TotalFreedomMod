@@ -97,4 +97,9 @@ public class LibsDisguisesBridge extends FreedomService
             FLog.severe(ex);
         }
     }
+    
+    public boolean isEnabled()
+    {
+        return getLibsDisguisesPlugin().isEnabled();
+    }
 }
