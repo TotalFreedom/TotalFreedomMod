@@ -7,7 +7,7 @@
 server:
   # You should change this to your server's name
   name: UnraveledMC
-  
+
   # The address your server is located at. Please do not include the port.
   address: play.unraveledmc.com
 
@@ -19,11 +19,11 @@ server:
 
   # All players who show up as executive
   execs:
-    - Dusty01
+    - Dusty01_
     - samennis1
     - XeonXeoda
-    
-    # All players who show up as master builder
+
+  # All players who show up as master builder
   master_builders: []
 
   # URL players should appeal for bans at
@@ -38,8 +38,8 @@ motd:
   #What shows up on line 1
   line_one: '&lUnraveledMC &l- &lFree &lOP'
   #What shows up on line 2
-  line_two: 'Running on %mcversion%'
-  
+  line_two: 'Running on %mcversion%'  
+
 # Should players be opped on join
 op_on_join: true
 
@@ -56,7 +56,7 @@ shop:
   
   # How much should the price be for buying custom login messages
   login_message_price: 50
-
+  
 # Admins
 admins:
   # Message to display to admins when they login (supports color codes and is multiple line)
@@ -77,8 +77,7 @@ admins:
     # Good in the case of a security issue
     enabled: true
     # Password, it can have spaces!
-    password: Sample Password
-    
+
   # Admin-Only Mode
   admin_only_mode: false
   
@@ -151,7 +150,6 @@ blocked_commands:
   - 'n:b:/pardon-ip:_'
   - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
-  - 'n:b:/enderchest:_'
   - 'n:b:/spreadplayers:_'
   - 'n:b:/execute:_'
   - 'n:b:/blockdata:_'
@@ -160,19 +158,20 @@ blocked_commands:
   - 'n:b:/save-on:_'
   - 'n:b:/save-off:_'
   - 'n:b:/playsound:_'
-  - 'n:b:/skinrestorer:_'
+  - 'n:b:/skinsrestorer:_'
   - 'n:b:/packet:_'
   - 'n:b:/thaw:_'
   - 'n:b:/setjail:_'
-  - 'n:b:/tfbanlist:Use /banlist to see and wipe the ban list'
-  - 'n:b:/tfipbanlist:Use /banlist to see and wipe the ban list'
   - 'n:b:/testfor:_'
   - 'n:b:/testforblock:_'
   - 'n:b:/testforblocks:_'
   - 'n:b:/packet_filter:_'
-  - 'n:b:/viaver:_'
-  - 'n:b:/viaversion:_'
-  - 'n:b:/viainfo:_'
+  - 'n:b:/disguiseradius:_'
+  - 'n:b:/undisguiseradius:_'
+  - 'n:b:/disguiseplayer:_'
+  - 'n:b:/undisguiseplayer:_'
+  - 'n:b:/disguiseentity:_'
+  - 'n:b:/undisguiseentity:_'
 
   # Superadmin commands
   - 's:b:/kick:_'
@@ -216,7 +215,17 @@ blocked_commands:
   - 's:b:/supertrails:_'
   - 's:b:/reaction:_'
   - 's:b:/protocol:_'
-  - 's:b:/discord logout:&eOnly administrators may disable the bot.'
+  - 's:b:/tablist:_'
+  - 's:b:/sblist:&eOnly administrators may use this.'
+  - 's:b:/adminvote:&cOnly administrators can do that, please use /vote'
+  - 's:b:/av:&cOnly administrators can do that, please use /vote'
+  - 's:b:/betterchairsreload:_'
+  - 's:b:/lb reload:&eOnly administrators may reload the plugin.'
+  - 's:b:/enderchest:_'
+  
+  # Senior console only commands
+  - 'c:b:/discord logout:&eOnly senior administrators in the console may log out the bot.'
+  - 'c:b:/sbclear:&eOnly senior administrators in the console may clear the box.'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
@@ -253,7 +262,7 @@ lightning_swing_enabled: true
 # Moblimiter
 moblimiter:
   enabled: true
-  max: 50
+  max: 500
   disable:
     dragon: true
     ghast: true
@@ -300,7 +309,7 @@ announcer:
     - 'You may view all online administrators via "/list -a"'
     - 'Save your buildings via WorldEdit! http://unraveledmc.com/forum/ for more information!'
     - 'Famous players, such as Notch, are always fake! We are an offline/cracked server!'
-    - 'aggelosQQ and PinchTheFinch are the owners of UnraveledMC.'
+    - 'aggelosQQ and AwesomePinch are the owners of UnraveledMC.'
     - 'Server lagging?  Check the lag via "/tps"'
     - 'You are allowed to record and stream videos on UnraveledMC.'
     - 'Player vs player while in creative or god mode it forbidden!'
@@ -309,6 +318,8 @@ announcer:
     - 'Serial griefing and trolling will result in a permanent ban!'
     - 'UnraveledMC does not accept any form of donations!'
     - 'Racism, nazism, and sexism are strictly forbidden!'
+    - 'You can apply for master builder at http://unraveledmc.com/forum/'
+    - 'Ever see players with colored chat and custom login messages? You can get them by doing /shop!'
 
 # Famous players - cannot be banned by username
 famous_players:
@@ -351,6 +362,11 @@ famous_players:
   - gizzy14gazza
   - furiousdestroyer
   - pewdie
+  - thecampingrusher
+  - logdotzip
+  - ssundee
+  - mrcrainer
+  - achileis
 
 # Pet Protect - Prevent tamed pets from being killed.
 petprotect:
