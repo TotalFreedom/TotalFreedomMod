@@ -5,6 +5,7 @@ import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
+import me.unraveledmc.unraveledmcmod.shop.ShopData;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import net.pravian.aero.util.ChatUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -205,9 +206,13 @@ public class RankManager extends FreedomService
         }
         if (!plugin.al.isAdmin(player) && ConfigEntry.SERVER_MASTER_BUILDERS.getList().contains(player.getName()))
         {
+            ShopData sd = plugin.sh.getData(player);
             final Displayable display = getDisplay(player);
             String loginMsg = display.getColoredLoginMessage();
-            FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + loginMsg);
+            if (sd.getLoginMessage() == "none")
+            {
+                FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + loginMsg);
+            }
             String displayName = display.getColor() + player.getName();
             plugin.pl.getPlayer(player).setTag(display.getColoredTag());
             try
