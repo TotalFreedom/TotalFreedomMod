@@ -61,7 +61,7 @@ public class Command_playerinfo extends FreedomCommand
             msg("Tag: " + (playerdata.getTag() == null ? "None" : playerdata.getTag()), ChatColor.WHITE);
             msg("Coins: " + sd.getCoins(), ChatColor.DARK_PURPLE);
             msg("Has colored chat: " + (sd.isColoredchat() ? ChatColor.GREEN + "true" : ChatColor.RED + "false"), ChatColor.BLUE);
-            msg("Can set custom login messages: " + (plugin.al.isAdmin(player) ? ChatColor.GREEN + "true" : (sd.isCustomLoginMessage() ? ChatColor.GREEN + "true" : "false")));
+            msg("Can set custom login messages: " + (plugin.al.isAdmin(player) ? ChatColor.GREEN + "true" : (sd.isCustomLoginMessage() ? ChatColor.GREEN + "true" : ChatColor.RED + "false")));
             msg("Custom login message: " + (plugin.al.isAdmin(player) ? (plugin.al.getAdmin(player).hasLoginMessage() ? ChatColor.AQUA + FUtil.colorize(plugin.al.getAdmin(player).getLoginMessage()) : "None") : sd.getLoginMessage().equals("none") ? "None" : ChatColor.AQUA + FUtil.colorize(sd.getLoginMessage())), ChatColor.GOLD);
             return true;
         }
