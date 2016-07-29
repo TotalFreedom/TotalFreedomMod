@@ -4,6 +4,8 @@ import me.unraveledmc.unraveledmcmod.FreedomService;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
+import me.unraveledmc.unraveledmcmod.util.FLog;
+import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.block.Action;
 
 public class InteractBlocker extends FreedomService
 {
@@ -97,6 +100,31 @@ public class InteractBlocker extends FreedomService
                 player.sendMessage(ChatColor.GRAY + "TNT minecarts are currently disabled.");
                 event.setCancelled(true);
                 break;
+            }
+        }
+    }
+    
+     @EventHandler(priority = EventPriority.HIGH)
+    public void onSignRightClick(PlayerInteractEvent event)
+    {
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK)
+        {
+            switch(event.getClickedBlock().getType())
+            {
+                case SIGN:
+                case SIGN_POST:
+                case WALL_SIGN:
+                {
+                    FLog.warning(event.getPlayer().getName() + " just right clicked a possible command sign at " + FUtil.formatLocation(event.getClickedBlock().getLocation()));
+                    for (Player player : server.getOnlinePlayers())
+                    {
+                        if (plugin.al.isAdmin(player))
+                        {
+                            player.sendMessage(ChatColor.RED + "WARNING: " + event.getPlayer().getName() + " just right clicked a possible command sign at " + FUtil.formatLocation(event.getClickedBlock().getLocation()));
+                        }
+                    }
+                    event.setCancelled(true);
+                }
             }
         }
     }
