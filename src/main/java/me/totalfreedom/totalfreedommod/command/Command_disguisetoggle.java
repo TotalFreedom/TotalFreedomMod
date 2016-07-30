@@ -1,50 +1,37 @@
-package me.totalfreedom.totalfreedommod.command;
+  package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.command.Command;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
-
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Toggle the disguise plugin", usage = "/<command>", aliases = "dtoggle")
-public class Command_disguisetoggle extends FreedomCommand
-{
-
-    @Override
-    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
-    {
-        
-        final PluginManager pm = server.getPluginManager();
-        
-        Plugin LibsDisguises = null;
-        
-        if (server.getPluginManager().getPlugin("LibsDisguises") != null)
-        {
-            LibsDisguises = pm.getPlugin("LibsDisguises");
-        }
-        else
-        {
-            msg("LibsDisguises has not been found.");
-            return true;
-        }
-        
-        Boolean enabled = pm.isPluginEnabled(LibsDisguises);
-        
-        FUtil.adminAction(sender.getName(), (!enabled ? "Enabling" : "Disabling") + " LibsDisguises", true);
-        
-        if (enabled)
-        {
-            plugin.ldb.undisguiseAll(true);
-            pm.disablePlugin(LibsDisguises);
-        }
-        else
-        {
-            pm.enablePlugin(LibsDisguises);
-        }
-
-        return true;
-    }
-}
+  import me.libraryaddict.disguise.DisallowedDisguises;
+  import me.totalfreedom.totalfreedommod.rank.Rank;
+  import me.totalfreedom.totalfreedommod.util.FUtil;
+  import org.bukkit.command.Command;
+  import org.bukkit.ChatColor;
+  import org.bukkit.command.CommandSender;
+  import org.bukkit.entity.Player;
+  
+  @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+  @CommandParameters(description = "Toggle disguises", usage = "/<command>", aliases = "dtoggle")
+  public class Command_disguisetoggle extends FreedomCommand
+  {
+  
+      @Override
+      public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+      {
+          
+          if (!DisallowedDisguises.disabled)
+          {
+              
+              plugin.ldb.undisguiseAll(true);
+              plugin.ldb.enableDisguises(false);
+          }
+              
+          else
+          {
+              plugin.ldb.enableDisguises(true);
+          }
+          
+          FUtil.adminAction(sender.getName(), (DisallowedDisguises.disabled ? "Enabling" : "Disabling") + " Disguises", false);
+          sender.sendMessage(ChatColor.DARK_GRAY + "Disguises" + (DisallowedDisguises.disabled ? "enabled." : "disabled."));
+          
+          return true;
+      }
+  }
