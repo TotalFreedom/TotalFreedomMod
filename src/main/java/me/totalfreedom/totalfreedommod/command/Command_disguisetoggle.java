@@ -20,9 +20,9 @@ public class Command_disguisetoggle extends FreedomCommand
 
         FUtil.adminAction(sender.getName(), (DisallowedDisguises.disabled ? "Enabling" : "Disabling") + " Disguises", false);
         sender.sendMessage(ChatColor.DARK_GRAY + "Disguises" + (DisallowedDisguises.disabled ? "enabled." : "disabled."));
+        
         if (!DisallowedDisguises.disabled)
         {
-
             plugin.ldb.undisguiseAll(true);
             plugin.ldb.enableDisguises(false);
         }
