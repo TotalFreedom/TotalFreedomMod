@@ -69,6 +69,18 @@ public class LibsDisguisesBridge extends FreedomService
         return null;
     }
     
+    public void enableDisguises(Boolean state)
+    {
+        if(state)
+        {
+            DisguiseAPI.enableDisguises();
+        }
+        else
+        {
+            DisguiseAPI.disableDisguises();
+        }
+    }
+    
     public void undisguiseAll(Boolean admins)
     {
         try
