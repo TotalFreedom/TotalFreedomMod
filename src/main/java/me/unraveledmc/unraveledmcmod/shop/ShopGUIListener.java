@@ -109,7 +109,7 @@ public class ShopGUIListener extends FreedomService
                 p.closeInventory();
                 p.sendMessage(ChatColor.GREEN + "Your login message is now " + createLoginMessage(p, sd.getLoginMessage()));
             }
-                        else if (is.getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "motherfuckin' pincher"))
+            else if (is.getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "motherfuckin' pincher"))
             {
                 sd.setLoginMessage("a &9motherfuckin' &bpincher");
                 plugin.sh.save(sd);
