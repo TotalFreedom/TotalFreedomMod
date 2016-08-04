@@ -53,7 +53,7 @@ public class Command_smite extends FreedomCommand
 
         if (reason != null)
         {
-            FUtil.bcastMsg("  Reason: " + reason, ChatColor.RED);
+            FUtil.bcastMsg("Reason: " + reason + " (" + sender.getName() + ")", ChatColor.RED);
         }
 
         // Deop
