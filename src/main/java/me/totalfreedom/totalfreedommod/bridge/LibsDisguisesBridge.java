@@ -71,6 +71,13 @@ public class LibsDisguisesBridge extends FreedomService
     
     public void enableDisguises(Boolean state)
     {
+      final LibsDisguises libsDisguises = getLibsDisguisesPlugin();
+      
+      if (libsDisguises == null)
+       {
+        return;
+       }
+            
         if(state)
         {
             DisguiseAPI.enableDisguises();
