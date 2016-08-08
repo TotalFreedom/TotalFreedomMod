@@ -31,7 +31,7 @@ public class Command_adminhelp extends FreedomCommand
         String message = StringUtils.join(ArrayUtils.subarray(args, 0, args.length), " ");
  
     plugin.cm.adminHelp(playerSender, message);
-    msg(ChatColor.GOLD + "Thank you for your report! All online admins have been notified.");
+    msg(ChatColor.GOLD + "Thank you! All online admins have been notified.");
 
     return true;
     }
