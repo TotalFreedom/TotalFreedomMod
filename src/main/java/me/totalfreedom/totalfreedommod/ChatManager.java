@@ -123,6 +123,15 @@ public class ChatManager extends FreedomService
                 playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
             }
         }
+         public void adminHelp(Player sender, String message) {
+       for (Player player : server.getOnlinePlayers())
+        {
+            if (plugin.al.isAdmin(player))
+            {
+                playerMsg(player, ChatColor.RED + "[ADMINHELP] " + ChatColor.GOLD + sender.getName() + ": " + message);
+            }
+        }
+    }
     }
 
 }
