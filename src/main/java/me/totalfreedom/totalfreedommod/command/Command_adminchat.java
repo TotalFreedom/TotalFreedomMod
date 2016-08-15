@@ -1,12 +1,12 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.rank.*;
+import org.bukkit.entity.*;
+import org.bukkit.command.*;
+import me.totalfreedom.totalfreedommod.*;
+import org.apache.commons.lang3.*;
+import me.totalfreedom.totalfreedommod.player.*;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(
@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
         aliases = "o,ac")
 public class Command_adminchat extends FreedomCommand
 {
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -33,9 +32,13 @@ public class Command_adminchat extends FreedomCommand
         }
         else
         {
-            plugin.cm.adminChat(sender, StringUtils.join(args, " "));
+            if(StringUtils.join(args, " ").contains("&k") || StringUtils.join(args, " ").contains("&0") || StringUtils.join(args, " ").contains("&m"))
+            {
+                msg("You can't use Forbidden Colors!");
+                return true; 
+            }
+            plugin.cm.adminChat(sender, FUtil.colorize(StringUtils.join(args, " ")));
         }
-
         return true;
     }
 }

@@ -27,6 +27,8 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.scheduler.BukkitTask;
 
 public class FUtil
@@ -368,10 +370,17 @@ public class FUtil
     {
         return CHAT_COLOR_POOL.get(RANDOM.nextInt(CHAT_COLOR_POOL.size()));
     }
-
-    public static String colorize(String string)
+    
+public static String colorize(String string)
     {
-        return ChatColor.translateAlternateColorCodes('&', string);
+        String message = string;
+        String[] banned = {"&k","&n","m","&0"};
+        String[] n = {"","","",""};
+        for(String code : banned)
+        {
+            message = StringUtils.replaceEach(message, banned, n);
+        }
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
     public static Date getUnixDate(long unix)
