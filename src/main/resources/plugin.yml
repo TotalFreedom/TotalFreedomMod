@@ -1,6 +1,6 @@
 name: TotalFreedomMod
 main: me.totalfreedom.totalfreedommod.TotalFreedomMod
-version: 5.0
+version: ${tfm.build.version}
 description: Plugin for the Total Freedom server.
 depend: [Aero, WorldEdit]
 softdepend: [BukkitTelnet, Essentials, LibsDisguises]
