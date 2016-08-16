@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "See who has a block and optionally smite.", usage = "/<command> <item> [smite]", aliases = "wh")
+@CommandParameters(description = "See who has a block and optionally smite.", usage = "/<command> <item> [clear|smite]", aliases = "wh")
 public class Command_whohas extends FreedomCommand
 {
 
@@ -24,8 +24,9 @@ public class Command_whohas extends FreedomCommand
             return false;
         }
 
-        final boolean doSmite = args.length >= 2 && "smite".equalsIgnoreCase(args[1]);
-
+        final boolean doClear = args.length >= 2 && "clear".equalsIgnoreCase(args[1]);
+		final boolean doSmite = args.length >= 2 && "smite".equalsIgnoreCase(args[1]);
+		
         final String materialName = args[0];
         Material material = Material.matchMaterial(materialName);
         if (material == null)
@@ -47,16 +48,25 @@ public class Command_whohas extends FreedomCommand
 
         final List<String> players = new ArrayList<>();
 
+        int amount = 0;
         for (final Player player : server.getOnlinePlayers())
         {
             if (player.getInventory().contains(material))
             {
                 players.add(player.getName());
-                if (doSmite && !plugin.al.isAdmin(player))
+                if (doClear && !plugin.al.isAdmin(player))
+                {
+                    amount += player.getInventory().clear(material.getId(), -1);
+                }
+				else if (doSmite && !plugin.al.isAdmin(player))
                 {
                     Command_smite.smite(player);
                 }
             }
+        }
+        if(doClear)
+        {
+            msg("Cleared " + String.valueOf(amount) + " items.");
         }
 
         if (players.isEmpty())
