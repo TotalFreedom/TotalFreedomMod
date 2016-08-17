@@ -68,17 +68,17 @@ public class LibsDisguisesBridge extends FreedomService
         }
         return null;
     }
-    
+
     public void enableDisguises(Boolean state)
     {
-      final LibsDisguises libsDisguises = getLibsDisguisesPlugin();
-      
-      if (libsDisguises == null)
-       {
-        return;
-       }
-            
-        if(state)
+        final LibsDisguises libsDisguises = getLibsDisguisesPlugin();
+
+        if (libsDisguises == null)
+        {
+            return;
+        }
+
+        if (state)
         {
             DisguiseAPI.enableDisguises();
         }
@@ -87,18 +87,18 @@ public class LibsDisguisesBridge extends FreedomService
             DisguiseAPI.disableDisguises();
         }
     }
-    
+
     public void undisguiseAll(Boolean admins)
     {
         try
         {
             final LibsDisguises libsDisguises = getLibsDisguisesPlugin();
-            
+
             if (libsDisguises == null)
             {
                 return;
             }
-            
+
             for (Player player : server.getOnlinePlayers())
             {
                 if (DisguiseAPI.isDisguised(player))
@@ -116,7 +116,7 @@ public class LibsDisguisesBridge extends FreedomService
             FLog.severe(ex);
         }
     }
-    
+
     public boolean isEnabled()
     {
         return getLibsDisguisesPlugin().isEnabled();
