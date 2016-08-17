@@ -15,6 +15,12 @@ public class Command_undisguiseall extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        
+        if(plugin.ldb.getLibsDisguisesPlugin() == null) {
+           msg("libsDisguises is not enabled.");
+           return true;
+        }
+        
         if (DisallowedDisguises.disabled)
         {
             msg("Disguises are not enabled.");
