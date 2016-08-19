@@ -70,6 +70,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public LoginProcess lp;
     public AntiNuke nu;
     public AntiSpam as;
+    public AntiSpambot ab;
     public PlayerList pl;
     public Announcer an;
     public ChatManager cm;
@@ -161,6 +162,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         lp = services.registerService(LoginProcess.class);
         nu = services.registerService(AntiNuke.class);
         as = services.registerService(AntiSpam.class);
+        ab = services.registerService(AntiSpambot.class);
 
         pl = services.registerService(PlayerList.class);
         an = services.registerService(Announcer.class);
