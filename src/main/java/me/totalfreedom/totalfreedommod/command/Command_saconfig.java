@@ -74,6 +74,12 @@ public class Command_saconfig extends FreedomCommand
                     return true;
                 }
 
+                if (rank.isConsole())
+                {
+                    msg("You cannot set players to a console rank");
+                    return true;
+                }
+
                 if (!rank.isAtLeast(Rank.SUPER_ADMIN))
                 {
                     msg("Rank must be superadmin or higher.", ChatColor.RED);
