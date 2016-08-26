@@ -107,7 +107,6 @@ blocked_commands:
   - 'n:b:/execute:_'
   - 'n:b:/blockdata:_'
   - 'n:b:/clearhistory:_'
-  - 'n:b:/save-all:_'
   - 'n:b:/save-on:_'
   - 'n:b:/save-off:_'
   - 'n:b:/playsound:_'
@@ -122,6 +121,7 @@ blocked_commands:
   - 'n:b:/tfipbanlist:Use /banlist to see and wipe the ban list'
 
   # Superadmin commands
+  - 's:b:/save-all:_'
   - 's:b:/kick:_'
   - 's:b:/socialspy:_'
   - 's:b:/replaceitem:_'
