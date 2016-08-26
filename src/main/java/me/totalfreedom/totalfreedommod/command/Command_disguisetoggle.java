@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.libraryaddict.disguise.DisallowedDisguises;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;
@@ -15,22 +16,25 @@ public class Command_disguisetoggle extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (plugin.ldb.getLibsDisguisesPlugin() == null)
+        if (!plugin.ldb.isPluginEnabled())
         {
             msg(ChatColor.RED + "LibsDisguises is not enabled.");
             return true;
         }
 
-        boolean newState = !plugin.ldb.isPluginEnabled();
-        FUtil.adminAction(sender.getName(), (newState ? "Enabling" : "Disabling") + " disguises", false);
+        FUtil.adminAction(sender.getName(), (DisallowedDisguises.disabled ? "Enabling" : "Disabling") + " Disguises", false);
 
-        if (!newState)
+        if (plugin.ldb.isDisguisesEnabled())
         {
             plugin.ldb.undisguiseAll(true);
+            plugin.ldb.setDisguisesEnabled(false);
         }
-        plugin.ldb.setPluginEnabled(newState);
+        else
+        {
+            plugin.ldb.setDisguisesEnabled(true);
+        }
 
-        msg("Disguises are now " + (newState ? "enabled." : "disabled."));
+        msg("Enabled " + (DisallowedDisguises.disabled ? "enabled." : "disabled."));
 
         return true;
     }

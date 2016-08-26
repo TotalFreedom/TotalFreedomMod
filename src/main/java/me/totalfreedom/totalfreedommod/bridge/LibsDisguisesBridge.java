@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
+import me.libraryaddict.disguise.DisallowedDisguises;
 import me.libraryaddict.disguise.LibsDisguises;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.totalfreedom.totalfreedommod.FreedomService;
@@ -49,6 +50,7 @@ public class LibsDisguisesBridge extends FreedomService
                 FLog.severe(ex);
             }
         }
+
         return libsDisguisesPlugin;
     }
 
@@ -98,25 +100,28 @@ public class LibsDisguisesBridge extends FreedomService
         }
     }
 
-    public boolean setPluginEnabled(boolean enabled)
+    public void setDisguisesEnabled(boolean state)
     {
-        Plugin ld = getLibsDisguisesPlugin();
+        final LibsDisguises libsDisguises = getLibsDisguisesPlugin();
 
-        if (ld == null)
+        if (libsDisguises == null)
         {
-            return false;
+            return;
         }
 
-        if (enabled)
+        if (state)
         {
-            server.getPluginManager().enablePlugin(ld);
+            DisguiseAPI.enableDisguises();
         }
         else
         {
-            server.getPluginManager().disablePlugin(ld);
+            DisguiseAPI.disableDisguises();
         }
+    }
 
-        return true;
+    public boolean isDisguisesEnabled()
+    {
+        return !DisallowedDisguises.disabled;
     }
 
     public boolean isPluginEnabled()
