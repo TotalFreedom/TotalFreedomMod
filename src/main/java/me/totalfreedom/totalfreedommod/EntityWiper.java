@@ -1,15 +1,18 @@
 package me.totalfreedom.totalfreedommod;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.AreaEffectCloud;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EnderSignal;
@@ -34,7 +37,8 @@ import org.bukkit.scheduler.BukkitTask;
 public class EntityWiper extends FreedomService
 {
 
-    private static final long WIPE_RATE = 5 * 20L;
+    public static final long WIPE_RATE = 5 * 20L;
+    public static final int CHUNK_ENTITY_MAX = 30;
     //
     private final List<Class<? extends Entity>> wipables = new ArrayList<>();
     //
@@ -53,6 +57,9 @@ public class EntityWiper extends FreedomService
         wipables.add(ThrownPotion.class);
         wipables.add(ThrownExpBottle.class);
         wipables.add(AreaEffectCloud.class);
+        wipables.add(Minecart.class);
+        wipables.add(Boat.class);
+        wipables.add(FallingBlock.class);
     }
 
     @Override
@@ -69,7 +76,7 @@ public class EntityWiper extends FreedomService
             @Override
             public void run()
             {
-                wipeEntities(!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean(), false);
+                wipeEntities();
             }
         }.runTaskTimer(plugin, WIPE_RATE, WIPE_RATE);
 
@@ -82,32 +89,11 @@ public class EntityWiper extends FreedomService
         wipeTask = null;
     }
 
-    public boolean canWipe(Entity entity, boolean wipeExplosives, boolean wipeVehicles)
+    public boolean isWipeable(Entity entity)
     {
-        if (wipeExplosives)
+        for (Class<? extends Entity> c : wipables)
         {
-            if (Explosive.class.isAssignableFrom(entity.getClass()))
-            {
-                return true;
-            }
-        }
-
-        if (wipeVehicles)
-        {
-            if (Boat.class.isAssignableFrom(entity.getClass()))
-            {
-                return true;
-            }
-            else if (Minecart.class.isAssignableFrom(entity.getClass()))
-            {
-                return true;
-            }
-        }
-
-        Iterator<Class<? extends Entity>> it = wipables.iterator();
-        while (it.hasNext())
-        {
-            if (it.next().isAssignableFrom(entity.getClass()))
+            if (c.isAssignableFrom(entity.getClass()))
             {
                 return true;
             }
@@ -116,22 +102,70 @@ public class EntityWiper extends FreedomService
         return false;
     }
 
-    public int wipeEntities(boolean wipeExplosives, boolean wipeVehicles)
+    public int wipeEntities()
     {
         int removed = 0;
-
         Iterator<World> worlds = Bukkit.getWorlds().iterator();
         while (worlds.hasNext())
         {
-            Iterator<Entity> entities = worlds.next().getEntities().iterator();
-            while (entities.hasNext())
+            removed += wipeEntities(worlds.next());
+        }
+
+        return removed;
+    }
+
+    public int wipeEntities(World world)
+    {
+        int removed = 0;
+
+        boolean wipeExpl = ConfigEntry.ALLOW_EXPLOSIONS.getBoolean();
+        Iterator<Entity> entities = world.getEntities().iterator();
+
+        // Organise the entities in the world
+        Map<Chunk, List<Entity>> cem = new HashMap<>();
+        while (entities.hasNext())
+        {
+            final Entity entity = entities.next();
+
+            // Explosives
+            if (wipeExpl && Explosive.class.isAssignableFrom(entity.getClass()))
             {
-                Entity entity = entities.next();
-                if (canWipe(entity, wipeExplosives, wipeVehicles))
-                {
-                    entity.remove();
-                    removed++;
-                }
+                entity.remove();
+                removed++;
+            }
+
+            // Only wipeable entities can be wiped (duh!)
+            if (!isWipeable(entity))
+            {
+                continue;
+            }
+
+            Chunk c = entity.getLocation().getChunk();
+            List<Entity> cel = cem.get(c);
+            if (cel == null)
+            {
+                cem.put(c, new ArrayList<>(Arrays.asList(entity)));
+            }
+            else
+            {
+                cel.add(entity);
+            }
+        }
+
+        // Now purge the entities if necessary
+        for (Chunk c : cem.keySet())
+        {
+            List<Entity> cel = cem.get(c);
+
+            if (cel.size() < CHUNK_ENTITY_MAX)
+            {
+                continue;
+            }
+
+            // Too many entities in this chunk, wipe them all
+            for (Entity e : cel)
+            {
+                e.remove();
             }
         }
 
