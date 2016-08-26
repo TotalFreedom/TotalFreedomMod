@@ -23,7 +23,7 @@ public class Command_stfu extends FreedomCommand
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("list"))
+        if (args[0].equals("list"))
         {
             msg("Muted players:");
             FPlayer info;
@@ -45,7 +45,7 @@ public class Command_stfu extends FreedomCommand
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("purge"))
+        if (args[0].equals("purge"))
         {
             FUtil.adminAction(sender.getName(), "Unmuting all players.", true);
             FPlayer info;
@@ -63,7 +63,7 @@ public class Command_stfu extends FreedomCommand
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("all"))
+        if (args[0].equals("all"))
         {
             FUtil.adminAction(sender.getName(), "Muting all non-Superadmins", true);
 
@@ -83,10 +83,16 @@ public class Command_stfu extends FreedomCommand
             return true;
         }
 
+        // -s option (smite)
         boolean smite = args[0].equals("-s");
         if (smite)
         {
             args = ArrayUtils.subarray(args, 1, args.length);
+
+            if (args.length < 1)
+            {
+                return false;
+            }
         }
 
         final Player player = getPlayer(args[0]);
