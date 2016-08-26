@@ -29,6 +29,7 @@ import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -37,7 +38,8 @@ import org.bukkit.scheduler.BukkitTask;
 public class EntityWiper extends FreedomService
 {
 
-    public static final long WIPE_RATE = 5 * 20L;
+    public static final long ENTITY_WIPE_RATE = 5 * 20L;
+    public static final long ITEM_DESPAWN_RATE = 20L * 20L;
     public static final int CHUNK_ENTITY_MAX = 30;
     //
     private final List<Class<? extends Entity>> wipables = new ArrayList<>();
@@ -78,7 +80,7 @@ public class EntityWiper extends FreedomService
             {
                 wipeEntities();
             }
-        }.runTaskTimer(plugin, WIPE_RATE, WIPE_RATE);
+        }.runTaskTimer(plugin, ENTITY_WIPE_RATE, ENTITY_WIPE_RATE);
 
     }
 
@@ -172,22 +174,21 @@ public class EntityWiper extends FreedomService
         return removed;
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onContainerBreak(BlockBreakEvent event)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onItemSpawn(ItemSpawnEvent event)
     {
-        if (!ConfigEntry.AUTO_ENTITY_WIPE.getBoolean())
-        {
-            return;
-        }
+        final Item entity = event.getEntity();
 
-        BlockState state = event.getBlock().getState();
-        if (!(state instanceof InventoryHolder))
+        new BukkitRunnable()
         {
-            return;
-        }
 
-        Inventory inv = ((InventoryHolder) state).getInventory();
-        inv.clear();
+            @Override
+            public void run()
+            {
+                entity.remove();
+            }
+        }.runTaskLater(plugin, ITEM_DESPAWN_RATE);
+
     }
 
 }
