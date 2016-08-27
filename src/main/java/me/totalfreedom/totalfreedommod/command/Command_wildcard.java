@@ -39,6 +39,7 @@ public class Command_wildcard extends FreedomCommand
         if (BLOCKED_COMMANDS.contains(runCmd.getName()))
         {
             msg("Did you really think that was going to work?", ChatColor.RED);
+            return true;
         }
 
         String baseCommand = StringUtils.join(args, " ");
