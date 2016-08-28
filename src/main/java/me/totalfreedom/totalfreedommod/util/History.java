@@ -18,10 +18,10 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 
 public class History
 {
-
     public static void reportHistory(final CommandSender sender, final String username)
     {
-        new BukkitRunnable() {
+        new BukkitRunnable() 
+        {
             @Override
             public void run()
             {
