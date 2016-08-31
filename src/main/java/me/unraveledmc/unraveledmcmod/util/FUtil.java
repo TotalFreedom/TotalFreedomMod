@@ -39,7 +39,7 @@ public class FUtil
     // Leave the DEVELOPERS List alone, those are the TotalFreedom Developers.
     // If a new DEVELOPER is added, list them under the UMCDEVS List.
     // Ruby_Rose is CreeperSeth's cracked alt account
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "Wild1145", "WickedGamingUK");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "Wild1145", "WickedGamingUK", "aggelosQQ");
     public static final List<String> UMCDEVS = Arrays.asList("CreeperSeth", "Ruby_Rose", "OxLemonxO");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
