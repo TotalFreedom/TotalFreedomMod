@@ -44,6 +44,7 @@ public class Command_premium extends FreedomCommand
             {
                 try
                 {
+                    //Contact the api
                     final URL getUrl = new URL("http://axis.iaero.me/accstatus?username=" + name + "&format=plain");
                     final URLConnection urlConnection = getUrl.openConnection();
                     // Read the response
