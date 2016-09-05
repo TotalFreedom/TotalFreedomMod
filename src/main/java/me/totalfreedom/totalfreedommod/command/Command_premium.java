@@ -49,6 +49,8 @@ public class Command_premium extends FreedomCommand
                     // Read the response
                     final BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     final String message = ("FREE".equalsIgnoreCase(in.readLine()) ? ChatColor.RED + "No" : ChatColor.DARK_GREEN + "Yes");
+                    //Have to show what api was used.
+                    msg(ChatColor.RED + "Api used: https://axis.iaero.me");
                     in.close();
 
                     if (!plugin.isEnabled())
