@@ -53,7 +53,7 @@ public class ShopGUIListener extends FreedomService
             int coins = sd.getCoins();
             int coloredChatPrice = ConfigEntry.SHOP_COLORED_CHAT_PRICE.getInteger();
             int customLoginMessagePrice = ConfigEntry.SHOP_LOGIN_MESSAGE_PRICE.getInteger();
-            int thorHammerPrice = ConfigEntry.SHOP_LOGIN_MESSAGE_PRICE.getInteger();
+            int thorHammerPrice = ConfigEntry.SHOP_THOR_HAMMER_PRICE.getInteger();
             if (is.getType().equals(Material.BOOK_AND_QUILL) && !sd.isColoredchat() && canOfford(coloredChatPrice, coins))
             {
                 sd.setCoins(coins - coloredChatPrice);
