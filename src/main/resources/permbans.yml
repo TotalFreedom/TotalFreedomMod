@@ -1,8 +1,0 @@
-# UnraveledMC Mod - permbans.yml
-#
-badplayer1:
-  - 123.123.123.123
-  - 321.321.321.321
-badplayer2:
-  - 111.111.111.111
-badplayer3: []

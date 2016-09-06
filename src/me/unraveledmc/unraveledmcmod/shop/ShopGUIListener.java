@@ -53,12 +53,13 @@ public class ShopGUIListener extends FreedomService
             int coins = sd.getCoins();
             int coloredChatPrice = ConfigEntry.SHOP_COLORED_CHAT_PRICE.getInteger();
             int customLoginMessagePrice = ConfigEntry.SHOP_LOGIN_MESSAGE_PRICE.getInteger();
+            int thorHammerPrice = ConfigEntry.SHOP_LOGIN_MESSAGE_PRICE.getInteger();
             if (is.getType().equals(Material.BOOK_AND_QUILL) && !sd.isColoredchat() && canOfford(coloredChatPrice, coins))
             {
                 sd.setCoins(coins - coloredChatPrice);
                 sd.setColoredchat(true);
                 plugin.sh.save(sd);
-                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought " + ChatColor.BLUE + " Colored Chat" + ChatColor.GREEN + "! You may now use colored codes in chat, do /einfo colors for more information.");
+                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought " + ChatColor.BLUE + "Colored Chat" + ChatColor.GREEN + "! You may now use colored codes in chat, do /einfo colors for more information.");
                 event.setCancelled(true);
                 p.closeInventory();
             }
@@ -67,7 +68,16 @@ public class ShopGUIListener extends FreedomService
                 sd.setCoins(coins - customLoginMessagePrice);
                 sd.setCustomLoginMessage(true);
                 plugin.sh.save(sd);
-                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought" + ChatColor.BLUE + " custom login messages" + ChatColor.GREEN + "! Use /loginmessage to set one!");
+                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought " + ChatColor.BLUE + "Custom Login Messages" + ChatColor.GREEN + "! Do /loginmessage to set one!");
+                event.setCancelled(true);
+                p.closeInventory();
+            }
+            else if (is.getType().equals(Material.IRON_PICKAXE) && !sd.isThorHammer() && canOfford(thorHammerPrice, coins))
+            {
+                sd.setCoins(coins - thorHammerPrice);
+                sd.setThorHammer(true);
+                plugin.sh.save(sd);
+                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought " + ChatColor.BLUE + "Thor's Hammer" + ChatColor.GREEN + "! Do /thorhammer to get one!");
                 event.setCancelled(true);
                 p.closeInventory();
             }

@@ -1,9 +1,9 @@
-# UnraveledMC Mod - config.yml
+#
+# UnraveledMCMod Configuration
+# by Madgeek1450, Prozza, and CreeperSeth
 #
 
-# <>------------------<>
-#       Main Config
-# <>------------------<>
+# Generic server information
 server:
   # You should change this to your server's name
   name: UnraveledMC
@@ -11,67 +11,74 @@ server:
   # The address your server is located at. Please do not include the port.
   address: play.unraveledmc.com
 
+  # All players who show up as owner
+  owners:
+    - CatThatPinches
+    - aggelosQQ
+    - CreeperIvanYT
+
+  # All players who show up as executive
+  execs:
+    - Dusty01_
+    - XeonXeoda
+    - OxLemonxO
+
+  # All players who show up as master builder
+  master_builders: []
+
   # URL players should appeal for bans at
   ban_url: http://unraveledmc.com/forum/
 
   # URL players should appeal for permanent bans at
   permban_url: http://unraveledmc.com/forum/
-
-# <>------------------<>
-#       Motd Config
-# <>------------------<>
+# Shown at the server list
 motd:
   # Every word in the MOTD will be a different color unless prefixed by a color code
   colorful_motd: true
-  
-  # What shows up on the first line?
+  #What shows up on line 1
   line_one: '&lUnraveledMC &l- &lFree &lOP'
+  #What shows up on line 2
+  line_two: 'Running on %mcversion%'  
+
+# Should players be opped on join
+op_on_join: true
+
+# The shop
+shop:
+  # Enable the shop
+  enabled: true
   
-  # What shows up on the next line?
-  line_two: 'Running on %mcversion%'
+  # Shop prefix
+  prefix: '&7&l[&8&lUMC Shop&7&l]'
   
-# <>------------------<>
-#     Ranking Config
-# <>------------------<>
+  # How much should the price be for buying colored chat
+  colored_chat_price: 35
+  
+  # How much should the price be for buying custom login messages
+  login_message_price: 50
+  
+  # How much should the price be for buying Thor's hammer
+  thor_hammer_price: 160
+  
+# Admins
 admins:
-  # Who is the owner?
-  owners:
-    - AwesomePinch
-    - aggelosQQ
-    - CreeperIvanYT
-
-  # Who is the executives?
-  execs:
-    - Dusty01_
-    - OxLemonxO
-    - XeonXeoda
-
-  # Who is a Master Builder?
-  master_builders: []
-
-  # <>------------------<>
-  #      Admin Config
-  # <>------------------<>
-  
-  # Message that shows when admins log on
+  # Message to display to admins when they login (supports color codes and is multiple line)
   admin_login_message:
     - '&2Welcome back admin!'
     - '&cBe sure to keep an eye on the ops!'
   
-  # Adminlist
+  # Admin list
   adminlist:
     # The amount of hours after which admins may be removed from the admin list
     clean_threshold_hours: 167
-    
-    # Give the default CONSOLE senior admin privileges. ( Handy in development environments. )
+    # Give the default CONSOLE senior admin privileges.
+    # Handy in development environments.
     console_is_senior: true
     
-  # Self Verification System
+  # Self verification system
   selfverify:
-    
-    # Is this enabled?
+    # Good in the case of a security issue
     enabled: true
-    
     # Password, it can have spaces!
     password: 'Sample Password'
 
@@ -82,30 +89,8 @@ admins:
   noadmin_ips:
     - 167.114.97.16
 
-# Will players be oped when they join the server?
-op_on_join: true
-
-# <>------------------<>
-#       Shop Config
-# <>------------------<>
-shop:
-  # Is the shop enabled?
-  enabled: true
-  
-  # What is the prefix of this shop
-  prefix: '&7&l[&8&lUMC Shop&7&l]'
-  
-  # How much should the price be for buying colored chat
-  colored_chat_price: 35
-  
-  # How much should the price be for buying custom login messages
-  login_message_price: 50
-
-# <>------------------<>
-#     ForceIp Config
-# <>------------------<>
+# ForceIP configuration
 forceip:
-  # Is forceip enabled?
   enabled: false
 
   # The port players should use to connect to your server; only applies to forceip
@@ -126,7 +111,13 @@ allow:
   tnt_minecarts: false
   explosions: false
 
-# <>---------------------------------------------------------------------------------------------<>
+# Blocked commands:
+#
+# How blocked commands work:
+# All sections described below are delimited by colon characters.
+# Make sure that you block a command by its main command name, not an alias
+# as all aliases are blocked by default. Commands are case-insensitive.
+#
 # * The first section is a letter which indicates which rank may use this command
 #   Valid ranks:
 #   n - Nobody (Completely disabled)
@@ -140,7 +131,19 @@ allow:
 #   b - Block the command
 #   a - Block the command and auto-eject that player (for ops and below)
 #   u - Block the command and Return an "Unknown command" message (Used to hide commands)
-# <>-----------------------------------------------------------------------------------------------<>
+#
+# * The third section is the command to be blocked, prefixed with a slash
+#
+# * The fourth section is the message to send to the player when executing that command.
+#   This should be ommited if unwanted. ChatColors are supported with the &-key. By default
+#   -the starting ChatColor is set to gray. You can use the default 'That command is blocked.' message
+#   by using a single underscore.
+#
+# Examples:
+#   - 'n:b:/mail sendall:&4You can't send mails to everyone!'
+#   - 's:a:/stop'
+#   - 'n:b:/ban:_'
+#
 blocked_commands:
     # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
@@ -290,9 +293,7 @@ host_sender_names:
   - rcon
   - remotebukkit
 
-# <>------------------<>
-#    Announcer Config
-# <>------------------<>
+# Announcer
 announcer:
   enabled: true
 
@@ -325,9 +326,7 @@ announcer:
     - 'You can apply for master builder at http://unraveledmc.com/forum/'
     - 'Ever see players with colored chat and custom login messages? You can get them by doing /shop!'
 
-# <>------------------<>
-#  FamousPlayer Config
-# <>------------------<>
+# Famous players - cannot be banned by username
 famous_players:
   - honeydew
   - xephos

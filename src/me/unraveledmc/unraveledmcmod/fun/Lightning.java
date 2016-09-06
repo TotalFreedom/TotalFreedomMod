@@ -2,6 +2,7 @@ package me.unraveledmc.unraveledmcmod.fun;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
+import me.unraveledmc.unraveledmcmod.shop.ShopData;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
@@ -11,6 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.ChatColor;
+import org.bukkit.enchantments.Enchantment;
 
 public class Lightning extends FreedomService
 {
@@ -36,13 +41,32 @@ public class Lightning extends FreedomService
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         Player p = event.getPlayer();
-        if (lpl.contains(p))
+        Location l = p.getTargetBlock((Set<Material>)null, 600).getLocation();
+        ShopData sd = plugin.sh.getData(p);
+        if (sd.isThorHammer() && event.getItem().equals(getThorHammer()))
         {
-            Location l = p.getTargetBlock((Set<Material>)null, 600).getLocation();
+        	p.getWorld().strikeLightning(l);
+        }
+        else if (lpl.contains(p))
+        {
             for (int i = 0; i < amount; i++)
             {
                 p.getWorld().strikeLightning(l);
             }
         }
+    }
+    
+    public ItemStack getThorHammer()
+    {
+    	ItemStack hammer = new ItemStack(Material.IRON_PICKAXE);
+    	ItemMeta hammerMeta = hammer.getItemMeta();
+    	hammerMeta.setDisplayName(ChatColor.RED + "Thor's Hammer");
+    	List<String> lore = new ArrayList();
+    	lore.add(ChatColor.BLUE + "Use this to smite down lil' shits");
+    	lore.add(ChatColor.BLUE + "that want to get on your level");
+    	hammerMeta.setLore(lore);
+    	hammerMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 1, true);
+    	hammer.setItemMeta(hammerMeta);
+    	return hammer;
     }
 }

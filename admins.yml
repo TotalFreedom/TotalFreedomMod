@@ -1,6 +1,6 @@
-# UnraveledMC Mod - admins.yml
 #
-
+# UnraveledMCMod Admin List
+#
 creeperseth:
   username: creeperseth
   active: true
@@ -19,7 +19,7 @@ awesomepinch:
   last_login: Wed, 2 Apr 2016 16:08:39 +0200
   login_message: 'the &9Owner&b of &7Unraveled&8MC&b!'
   
-  aggelosqq:
+aggelosqq:
   username: aggelosqq
   active: true
   rank: SENIOR_ADMIN

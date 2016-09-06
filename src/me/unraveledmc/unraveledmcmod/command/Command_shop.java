@@ -21,6 +21,7 @@ public class Command_shop extends FreedomCommand
 {
     public final int coloredChatPrice = ConfigEntry.SHOP_COLORED_CHAT_PRICE.getInteger();
     public final int customLoginMessagePrice = ConfigEntry.SHOP_LOGIN_MESSAGE_PRICE.getInteger();
+    public final int thorHammerPrice = ConfigEntry.SHOP_THOR_HAMMER_PRICE.getInteger();
     public int coins;
     
 
@@ -37,6 +38,7 @@ public class Command_shop extends FreedomCommand
         coins = sd.getCoins();
         Boolean hasColoredChat = sd.isColoredchat();
         Boolean hasCustomLoginMessages = sd.isCustomLoginMessage();
+        Boolean hasThorHammer = sd.isThorHammer();
         Inventory i = server.createInventory(null, 36, plugin.sh.GUIName);
         for (int slot = 0; slot < 36; slot++)
         {
@@ -50,6 +52,8 @@ public class Command_shop extends FreedomCommand
         i.setItem(10, coloredChat);
         ItemStack customLoginMessage = newShopItem(new ItemStack(Material.NAME_TAG), ChatColor.BLUE, "Custom Login Messages", customLoginMessagePrice, hasCustomLoginMessages);
         i.setItem(12, customLoginMessage);
+        ItemStack thorHammer = newShopItem(new ItemStack(Material.IRON_PICKAXE), ChatColor.GREEN, "Thor's Hammer", thorHammerPrice, hasThorHammer);
+        i.setItem(14, thorHammer);
         ItemStack coins = new ItemStack(Material.GOLD_NUGGET);
         ItemMeta m = coins.getItemMeta();
         m.setDisplayName(FUtil.colorize("&c&lYou have &e&l" + sd.getCoins() + "&c&l coins"));
@@ -107,9 +111,12 @@ public class Command_shop extends FreedomCommand
 }
 /*
         Shop layout:
+        
+        Dimensions: 9x4
+        Key: c = Chat Color, l = login message, t = Thor's hammer, $ = coins}
 
         ---------
-        -c-l-----
+        -c-l-t---
         ---------
         --------$
 */

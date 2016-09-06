@@ -32,6 +32,9 @@ public enum ConfigEntry
     //
     SERVER_NAME(String.class, "server.name"),
     SERVER_ADDRESS(String.class, "server.address"),
+    SERVER_OWNERS(List.class, "server.owners"),
+    SERVER_EXECS(List.class, "server.execs"),
+    SERVER_MASTER_BUILDERS(List.class, "server.master_builders"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
     //
@@ -45,10 +48,8 @@ public enum ConfigEntry
     SHOP_PREFIX(String.class, "shop.prefix"),
     SHOP_COLORED_CHAT_PRICE(Integer.class, "shop.colored_chat_price"),
     SHOP_LOGIN_MESSAGE_PRICE(Integer.class, "shop.login_message_price"),
+    SHOP_THOR_HAMMER_PRICE(Integer.class, "shop.thor_hammer_price"),
     //
-    SERVER_OWNERS(List.class, "admins.owners"),
-    SERVER_EXECS(List.class, "admins.execs"),
-    SERVER_MASTER_BUILDERS(List.class, "admins.master_builders"),
     ADMIN_LOGIN_MESSAGE(List.class, "admins.admin_login_message"),
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "admins.adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "admins.adminlist.console_is_senior"),
@@ -56,7 +57,6 @@ public enum ConfigEntry
     VERIFY_PASSWORD(String.class, "admins.selfverify.password"),
     ADMIN_ONLY_MODE(Boolean.class, "admins.admin_only_mode"),
     NOADMIN_IPS(List.class, "admins.noadmin_ips"),
-    //
     DISABLE_NIGHT(Boolean.class, "disable.night"),
     DISABLE_WEATHER(Boolean.class, "disable.weather"),
     //

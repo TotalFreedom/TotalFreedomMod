@@ -36,7 +36,7 @@ public class Command_saconfig extends FreedomCommand
 
             case "clean":
             {
-                checkRank(Rank.SENIOR_ADMIN);
+                checkRank(Rank.TELNET_ADMIN);
 
                 FUtil.adminAction(sender.getName(), "Cleaning the admin list", true);
                 plugin.al.deactivateOldEntries(true);
@@ -47,7 +47,7 @@ public class Command_saconfig extends FreedomCommand
 
             case "reload":
             {
-                checkRank(Rank.SENIOR_ADMIN);
+                checkRank(Rank.SUPER_ADMIN);
 
                 FUtil.adminAction(sender.getName(), "Reloading the admin list", true);
                 plugin.al.load();
@@ -201,7 +201,7 @@ public class Command_saconfig extends FreedomCommand
                     return false;
                 }
 
-                checkRank(Rank.SENIOR_ADMIN);
+                checkRank(Rank.TELNET_ADMIN);
 
                 Player player = getPlayer(args[1]);
                 Admin admin = player != null ? plugin.al.getAdmin(player) : plugin.al.getEntryByName(args[1]);

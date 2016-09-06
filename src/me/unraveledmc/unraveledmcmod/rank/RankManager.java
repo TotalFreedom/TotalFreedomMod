@@ -57,7 +57,7 @@ public class RankManager extends FreedomService
         }
         
         // UMC Developers always show up
-        if (FUtil.UMCDEVS.contains(player.getName()))
+        if (FUtil.UMCDEVS.contains(player.getName()) && !ConfigEntry.SERVER_OWNERS.getList().contains(player.getName()))
         {
             return Title.UMCDEV;
         }
