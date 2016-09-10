@@ -176,7 +176,7 @@ public class CageData
 
                         block.setType(material);
                     }
-                    else // Darth mode
+                    else // Pinch mode
                     {
                         if (Math.abs(xOffset) == length && Math.abs(yOffset) == length && Math.abs(zOffset) == length)
                         {
@@ -187,7 +187,7 @@ public class CageData
                         block.setType(Material.SKULL);
                         final Skull skull = (Skull) block.getState();
                         skull.setSkullType(SkullType.PLAYER);
-                        skull.setOwner("Prozza");
+                        skull.setOwner("CatThatPinches");
                         skull.update();
                     }
                 }
