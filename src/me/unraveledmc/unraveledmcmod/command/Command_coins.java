@@ -17,7 +17,6 @@ public class Command_coins extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
         if (!ConfigEntry.SHOP_ENABLED.getBoolean())
         {
             msg("The shop is currently disabled!", ChatColor.RED);
