@@ -17,39 +17,47 @@ public class Command_coins extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+
         if (!ConfigEntry.SHOP_ENABLED.getBoolean())
         {
             msg("The shop is currently disabled!", ChatColor.RED);
             return true;
         }
-        Player p;
+
         final String prefix = FUtil.colorize(ConfigEntry.SHOP_PREFIX.getString() + " ");
+
+        if (senderIsConsole)
+        {
+            msg(prefix + ChatColor.RED + "You are not a player, use /coins <playername>");
+            return true;
+        }
+
+        ShopData sd = plugin.sh.getData(playerSender);
+        String playerName = sender.getName();
+
         if (args.length > 0)
         {
-            if (getPlayer(args[0]) != null)
+            Player p = getPlayer(args[0]);
+            
+            if (p == null)
             {
-                p = getPlayer(args[0]);
+                playerName = args[0];
+                sd = plugin.sh.getData(args[0]);
             }
             else
             {
-                msg(PLAYER_NOT_FOUND);
-                return true;
+                playerName = p.getName();
+                sd = plugin.sh.getData(p);
             }
         }
-        else
+
+        if (sd == null)
         {
-            if (senderIsConsole)
-            {
-                msg(prefix + ChatColor.RED + "You are not a player, use /coins <playername>");
-                return true;
-            }
-            else
-            {
-                p = playerSender;
-            }
+            msg(PLAYER_NOT_FOUND);
+            return true;
         }
-        ShopData sd = plugin.sh.getData(p);
-        msg(prefix + ChatColor.GREEN + (args.length > 0 ? p.getName() + " has " : "You have ") + ChatColor.RED + sd.getCoins() + ChatColor.GREEN + " coins.");
+        
+        msg(prefix + ChatColor.GREEN + (args.length > 0 ? playerName + " has " : "You have ") + ChatColor.RED + sd.getCoins() + ChatColor.GREEN + " coins.");
         return true;
     }
 }
