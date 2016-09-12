@@ -25,13 +25,13 @@ public class Command_coins extends FreedomCommand
 
         final String prefix = FUtil.colorize(ConfigEntry.SHOP_PREFIX.getString() + " ");
         
-        if(args.length == 0}
+        if (args.length == 0)
         {
-          if (senderIsConsole)
-          {
-            msg(prefix + ChatColor.RED + "You are not a player, use /coins <playername>");
-            return true;
-          }    
+            if (senderIsConsole)
+            {
+                msg(prefix + ChatColor.RED + "You are not a player, use /coins <playername>");
+                return true;
+            }
         }
         
         ShopData sd = plugin.sh.getData(playerSender);
