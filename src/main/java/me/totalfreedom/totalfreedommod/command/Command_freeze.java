@@ -60,7 +60,7 @@ public class Command_freeze extends FreedomCommand
         fd.setFrozen(!fd.isFrozen());
 
         msg(player.getName() + " has been " + (fd.isFrozen() ? "frozen" : "unfrozen") + ".");
-        msg(player, "You have been " + (fd.isFrozen() ? "frozen" : "unfrozen") + ".", ChatColor.AQUA);
+        msg(player, "You have been " + (fd.isFrozen() ? "frozen" : "unfrozen") + "by" + ChatColor.YELLOW + sender.getName() + ".", ChatColor.AQUA);
 
         return true;
     }
