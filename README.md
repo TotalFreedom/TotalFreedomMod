@@ -9,3 +9,5 @@ You may download official binaries from the [releases page](https://github.com/T
 
 ### Contributing ###
 Please see [CONTRIBUTING.md](CONTRIBUTING.md) if you are interested in developing TotalFreedomMod. For information on how TotalFreedomMod is licensed, please see [LICENSE.md](LICENSE.md).
+
+You may download precompiled versions, including prereleases, at TotalFreedom's official repository's [release page](https://github.com/TotalFreedom/TotalFreedomMod/releases).
