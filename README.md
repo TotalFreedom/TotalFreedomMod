@@ -9,3 +9,7 @@ You may download official binaries from the [releases page](https://github.com/T
 
 ### Contributing ###
 Please see [CONTRIBUTING.md](CONTRIBUTING.md) if you are interested in developing TotalFreedomMod. For information on how TotalFreedomMod is licensed, please see [LICENSE.md](LICENSE.md).
+
+Dependences:
+
+TotalFreedomMod now has some dependencies, without these, the server and plugin will cause problems. Worldedit is the most key dependence, without it rollback and /gtfo will fail to work. Please ensure that it is downloaded and installed on your server before attempting to run this plugin!
