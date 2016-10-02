@@ -11,7 +11,6 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.EnderCrystal;
@@ -28,10 +27,7 @@ import org.bukkit.entity.ThrownExpBottle;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -40,7 +36,7 @@ public class EntityWiper extends FreedomService
 
     public static final long ENTITY_WIPE_RATE = 5 * 20L;
     public static final long ITEM_DESPAWN_RATE = 20L * 20L;
-    public static final int CHUNK_ENTITY_MAX = 30;
+    public static final int CHUNK_ENTITY_MAX = 20;
     //
     private final List<Class<? extends Entity>> wipables = new ArrayList<>();
     //
@@ -78,7 +74,7 @@ public class EntityWiper extends FreedomService
             @Override
             public void run()
             {
-                wipeEntities();
+                wipeEntities(false);
             }
         }.runTaskTimer(plugin, ENTITY_WIPE_RATE, ENTITY_WIPE_RATE);
 
@@ -104,19 +100,19 @@ public class EntityWiper extends FreedomService
         return false;
     }
 
-    public int wipeEntities()
+    public int wipeEntities(boolean force)
     {
         int removed = 0;
         Iterator<World> worlds = Bukkit.getWorlds().iterator();
         while (worlds.hasNext())
         {
-            removed += wipeEntities(worlds.next());
+            removed += wipeEntities(worlds.next(), force);
         }
 
         return removed;
     }
 
-    public int wipeEntities(World world)
+    public int wipeEntities(World world, boolean force)
     {
         int removed = 0;
 
@@ -159,7 +155,7 @@ public class EntityWiper extends FreedomService
         {
             List<Entity> cel = cem.get(c);
 
-            if (cel.size() < CHUNK_ENTITY_MAX)
+            if (!force && cel.size() < CHUNK_ENTITY_MAX)
             {
                 continue;
             }

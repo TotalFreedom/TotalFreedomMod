@@ -19,7 +19,7 @@ public class Command_purgeall extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Purging all player data", true);
 
         // Purge entities
-        plugin.ew.wipeEntities();
+        plugin.ew.wipeEntities(true);
 
         for (Player player : server.getOnlinePlayers())
         {
