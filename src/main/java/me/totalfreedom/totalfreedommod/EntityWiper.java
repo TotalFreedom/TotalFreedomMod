@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.entity.AreaEffectCloud;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EnderSignal;
@@ -58,6 +59,7 @@ public class EntityWiper extends FreedomService
         wipables.add(Minecart.class);
         wipables.add(Boat.class);
         wipables.add(FallingBlock.class);
+        wipables.add(ArmorStand.class);
     }
 
     @Override
