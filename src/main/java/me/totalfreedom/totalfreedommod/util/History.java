@@ -68,17 +68,14 @@ public class History
         if (oldNames.length == 1)
         {
             sender.sendMessage(ChatColor.GREEN + oldNames[0].getName() + ChatColor.GOLD + " has never changed their name.");
+            return;
         }
-        else
+        sender.sendMessage(ChatColor.GOLD + "Original name: " + ChatColor.GREEN + oldNames[0].getName());
+        for (int i = 1; i < oldNames.length; i++)
         {
-            sender.sendMessage(ChatColor.GOLD + "Original name: " + ChatColor.GREEN + oldNames[0].getName());
-
-            for (int i = 1; i < oldNames.length; i++)
-            {
-                Date date = new Date(oldNames[i].getChangedToAt());
-                String formattedDate = df.format(date);
-                sender.sendMessage(ChatColor.BLUE + formattedDate + ChatColor.GOLD + " changed to " + ChatColor.GREEN + oldNames[i].getName());
-            }
+             Date date = new Date(oldNames[i].getChangedToAt());
+             String formattedDate = df.format(date);
+             sender.sendMessage(ChatColor.BLUE + formattedDate + ChatColor.GOLD + " changed to " + ChatColor.GREEN + oldNames[i].getName());
         }
     }
 }
