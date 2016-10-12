@@ -18,6 +18,8 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 
 public class History
 {
+    public static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    
     public static void reportHistory(final CommandSender sender, final String username)
     {
         new BukkitRunnable() 
@@ -46,14 +48,17 @@ public class History
                     }
                     catch (Exception ex)
                     {
+                        synchronized
+                        {
+                          sender.sendMessage(ChatColor.RED + "Error, check logs for more details.");
+                        }
+                        
                         FLog.severe(ex);
                     }
-
                     if (history == null)
                     {
                         sender.sendMessage(ChatColor.RED + "Player not found!");
                     }
-
                 }
             }
         }.runTaskAsynchronously(TotalFreedomMod.plugin());
@@ -71,8 +76,7 @@ public class History
 
             for (int i = 1; i < oldNames.length; i++)
             {
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = new Date(oldNames[i].changedToAt);
+                Date date = new Date(oldNames[i].getChangedToAt());
                 String formattedDate = df.format(date);
                 sender.sendMessage(ChatColor.BLUE + formattedDate + ChatColor.GOLD + " changed to " + ChatColor.GREEN + oldNames[i].getName());
             }
@@ -80,10 +84,10 @@ public class History
     }
 }
 
-class FName implements Comparable<FName>
+private class FName implements Comparable<FName>
 {
-    public String name;
-    public long changedToAt;
+    private String name;
+    private long changedToAt;
 
     @Override
     public int compareTo(FName other)
@@ -95,4 +99,8 @@ class FName implements Comparable<FName>
     {
         return name;
     }
+    public long getChangedToAt()
+    {
+        return changedToAt;
+     }
 }
