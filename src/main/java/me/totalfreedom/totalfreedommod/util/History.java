@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedomMod.util.FSync;
 
 public class History
 {
@@ -22,6 +23,8 @@ public class History
     
     public static void reportHistory(final CommandSender sender, final String username)
     {
+        Player player = Bukkit.getPlayer(sender.getName());
+        
         new BukkitRunnable() 
         {
             @Override
@@ -48,16 +51,12 @@ public class History
                     }
                     catch (Exception ex)
                     {
-                        synchronized
-                        {
-                          sender.sendMessage(ChatColor.RED + "Error, check logs for more details.");
-                        }
-                        
+                        FSync.playerMsg(player, ChatColor.RED + "Error, see logs for more details.");
                         FLog.severe(ex);
                     }
                     if (history == null)
                     {
-                        sender.sendMessage(ChatColor.RED + "Player not found!");
+                        FSync.playerMsg(player, ChatColor.RED + "Player not found!");
                     }
                 }
             }
