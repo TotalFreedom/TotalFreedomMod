@@ -47,7 +47,7 @@ public class History
                         conn.disconnect();
                         Arrays.sort(oldNames);
                         history = new FHistory(uuid, oldNames);
-                        printHistory(sender, oldNames);
+                        printHistory(player, oldNames);
                     }
                     catch (Exception ex)
                     {
@@ -63,11 +63,11 @@ public class History
         }.runTaskAsynchronously(TotalFreedomMod.plugin());
     }
 
-    private static void printHistory(CommandSender sender, FName[] oldNames)  
+    private static void printHistory(Player player, FName[] oldNames)  
     {
         if (oldNames.length == 1)
         {
-            sender.sendMessage(ChatColor.GREEN + oldNames[0].getName() + ChatColor.GOLD + " has never changed their name.");
+            FSync.playerMsg(player, ChatColor.GREEN + oldNames[0].getName() + ChatColor.GOLD + " has never changed their name.");
             return;
         }
         sender.sendMessage(ChatColor.GOLD + "Original name: " + ChatColor.GREEN + oldNames[0].getName());
@@ -75,7 +75,7 @@ public class History
         {
              Date date = new Date(oldNames[i].getChangedToAt());
              String formattedDate = df.format(date);
-             sender.sendMessage(ChatColor.BLUE + formattedDate + ChatColor.GOLD + " changed to " + ChatColor.GREEN + oldNames[i].getName());
+             FSync.playerMsg(player, ChatColor.BLUE + formattedDate + ChatColor.GOLD + " changed to " + ChatColor.GREEN + oldNames[i].getName());
         }
     }
 }
