@@ -19,20 +19,17 @@ import me.totalfreedom.totalfreedomMod.util.FSync;
 
 public class History
 {
-    public static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
-    public static void reportHistory(final CommandSender sender, final String username)
+    public static void reportHistory(final CommandSender sender, final String username
     {
-        Player player = Bukkit.getPlayer(sender.getName());
-        
         new BukkitRunnable() 
         {
             @Override
             public void run()
             {
-                UUID uuid;
                 FHistory history = null;
-                uuid = UUIDFetcher.fetch(username);
+                UUID uuid = UUIDFetcher.fetch(username);
                 if (uuid != null)
                 {
                     Gson gson = new GsonBuilder().create();
@@ -47,27 +44,27 @@ public class History
                         conn.disconnect();
                         Arrays.sort(oldNames);
                         history = new FHistory(uuid, oldNames);
-                        printHistory(player, oldNames);
+                        printHistory(sender, oldNames);
                     }
                     catch (Exception ex)
                     {
-                        FSync.playerMsg(player, ChatColor.RED + "Error, see logs for more details.");
+                        FSync.playerMsg(sender, ChatColor.RED + "Error, see logs for more details.");
                         FLog.severe(ex);
                     }
                     if (history == null)
                     {
-                        FSync.playerMsg(player, ChatColor.RED + "Player not found!");
+                        FSync.playerMsg(sender, ChatColor.RED + "Player not found!");
                     }
                 }
             }
         }.runTaskAsynchronously(TotalFreedomMod.plugin());
     }
 
-    private static void printHistory(Player player, FName[] oldNames)  
+    private static void printHistory(CommandSender sender, FName[] oldNames)  
     {
         if (oldNames.length == 1)
         {
-            FSync.playerMsg(player, ChatColor.GREEN + oldNames[0].getName() + ChatColor.GOLD + " has never changed their name.");
+            FSync.playerMsg(sender, ChatColor.GREEN + oldNames[0].getName() + ChatColor.GOLD + " has never changed their name.");
             return;
         }
         sender.sendMessage(ChatColor.GOLD + "Original name: " + ChatColor.GREEN + oldNames[0].getName());
@@ -75,7 +72,7 @@ public class History
         {
              Date date = new Date(oldNames[i].getChangedToAt());
              String formattedDate = df.format(date);
-             FSync.playerMsg(player, ChatColor.BLUE + formattedDate + ChatColor.GOLD + " changed to " + ChatColor.GREEN + oldNames[i].getName());
+             FSync.playerMsg(sender, ChatColor.BLUE + formattedDate + ChatColor.GOLD + " changed to " + ChatColor.GREEN + oldNames[i].getName());
         }
     }
 }
