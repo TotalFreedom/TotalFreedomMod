@@ -11,8 +11,12 @@ import java.util.UUID;
 
 private class FetchedUuid
 {
-
-    public final String id;
+    private String id;
+    
+    public static String getID() 
+    {
+      return id;
+    } 
 }
 
 // UUIDFetcher retrieves UUIDs from usernames via web requests to Mojang.
@@ -47,7 +51,7 @@ public class UUIDFetcher
                 return null;
             }
 
-            String idd = id[0].id;
+            String idd = id[0].getID();
 
             uuid = UUID.fromString(idd.substring(0, 8) + "-" + idd.substring(8, 12)
                     + "-" + idd.substring(12, 16) + "-" + idd.substring(16, 20) + "-"
