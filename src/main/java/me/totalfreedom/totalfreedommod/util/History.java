@@ -21,7 +21,7 @@ public class History
 {
     public static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
-    public static void reportHistory(final CommandSender sender, final String username
+    public static void reportHistory(final CommandSender sender, final String username)
     {
         new BukkitRunnable() 
         {
