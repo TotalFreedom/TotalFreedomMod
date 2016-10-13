@@ -67,7 +67,7 @@ public class History
             FSync.playerMsg(sender, ChatColor.GREEN + oldNames[0].getName() + ChatColor.GOLD + " has never changed their name.");
             return;
         }
-        sender.sendMessage(ChatColor.GOLD + "Original name: " + ChatColor.GREEN + oldNames[0].getName());
+        FSync.playerMsg(sender, ChatColor.GOLD + "Original name: " + ChatColor.GREEN + oldNames[0].getName());
         for (int i = 1; i < oldNames.length; i++)
         {
              Date date = new Date(oldNames[i].getChangedToAt());
