@@ -15,7 +15,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedomMod.util.FSync;
 
 public class History
 {
