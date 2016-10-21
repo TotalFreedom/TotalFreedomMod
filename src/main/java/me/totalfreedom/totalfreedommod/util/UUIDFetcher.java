@@ -11,7 +11,7 @@ import java.util.UUID;
 
 private class FetchedUuid
 {
-    private String id;
+    private static String id;
     
     public static String getID() 
     {
