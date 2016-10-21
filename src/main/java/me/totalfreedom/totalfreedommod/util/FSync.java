@@ -33,7 +33,7 @@ public class FSync
             @Override
             public void run()
             {
-                sender.sendMessage(message)
+                sender.sendMessage(message);
             }
 
         }.runTask(plugin);
