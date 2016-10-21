@@ -28,7 +28,6 @@ public class History
             @Override
             public void run()
             {
-                FHistory history = null;
                 UUID uuid = UUIDFetcher.fetch(username);
                 if (uuid != null)
                 {
@@ -40,10 +39,14 @@ public class History
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));  
                         FName[] oldNames = gson.fromJson(reader, FName[].class);
+                        if (oldNames == null)
+                        {
+                           FSync.playerMsg(sender, ChatColor.RED + "Player not found!");
+                           return;
+                        }
                         reader.close();
                         conn.disconnect();
                         Arrays.sort(oldNames);
-                        history = new FHistory(uuid, oldNames);
                         printHistory(sender, oldNames);
                     }
                     catch (Exception ex)
@@ -51,10 +54,10 @@ public class History
                         FSync.playerMsg(sender, ChatColor.RED + "Error, see logs for more details.");
                         FLog.severe(ex);
                     }
-                    if (history == null)
-                    {
-                        FSync.playerMsg(sender, ChatColor.RED + "Player not found!");
-                    }
+                }
+                else
+                {
+                    FSync.playerMsg(sender, ChatColor.RED + "Player not found!");
                 }
             }
         }.runTaskAsynchronously(TotalFreedomMod.plugin());
