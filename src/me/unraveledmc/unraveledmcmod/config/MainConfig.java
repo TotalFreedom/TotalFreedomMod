@@ -199,7 +199,7 @@ public class MainConfig extends PluginComponent<UnraveledMCMod>
             FLog.severe(ex);
         }
     }
-
+    
     public List getList(ConfigEntry entry)
     {
         try

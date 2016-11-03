@@ -2,10 +2,13 @@ package me.unraveledmc.unraveledmcmod.fun;
 
 import me.unraveledmc.unraveledmcmod.FreedomService;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
+import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.shop.ShopData;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 import org.bukkit.Material;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -20,6 +23,8 @@ import org.bukkit.enchantments.Enchantment;
 public class Lightning extends FreedomService
 {
      public static List<Player> lpl = new ArrayList();
+     public HashMap<String, Long> cooldowns = new HashMap<String, Long>();
+     public int cooldownTime = 60;
      public static int amount = 1;
 
     public Lightning(UnraveledMCMod plugin)
@@ -43,8 +48,20 @@ public class Lightning extends FreedomService
         Player p = event.getPlayer();
         Location l = p.getTargetBlock((Set<Material>)null, 600).getLocation();
         ShopData sd = plugin.sh.getData(p);
-        if (sd.isThorHammer() && event.getItem().equals(getThorHammer()))
+        if (sd.isThorHammer() && event.getItem() != null && event.getItem().equals(getThorHammer()))
         {
+        	// Cool down time in seconds
+        	long cooldownTime = 5;
+            if(cooldowns.containsKey(p.getName()))
+            {
+                long secondsLeft = ((cooldowns.get(p.getName()) / 1000) + cooldownTime) - (System.currentTimeMillis() / 1000);
+                if(secondsLeft > 0)
+                {
+                    p.sendMessage(ChatColor.RED + "You cant use the Thor hamer for another " + secondsLeft + " seconds!");
+                    return;
+                }
+            }
+            cooldowns.put(p.getName(), System.currentTimeMillis());
         	p.getWorld().strikeLightning(l);
         }
         else if (lpl.contains(p))

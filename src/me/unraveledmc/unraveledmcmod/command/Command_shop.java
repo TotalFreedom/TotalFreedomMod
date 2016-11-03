@@ -54,6 +54,7 @@ public class Command_shop extends FreedomCommand
         i.setItem(12, customLoginMessage);
         ItemStack thorHammer = newShopItem(new ItemStack(Material.IRON_PICKAXE), ChatColor.GREEN, "Thor's Hammer", thorHammerPrice, hasThorHammer);
         i.setItem(14, thorHammer);
+        // Coins
         ItemStack coins = new ItemStack(Material.GOLD_NUGGET);
         ItemMeta m = coins.getItemMeta();
         m.setDisplayName(FUtil.colorize("&c&lYou have &e&l" + sd.getCoins() + "&c&l coins"));

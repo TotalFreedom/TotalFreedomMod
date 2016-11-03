@@ -2,6 +2,8 @@ package me.unraveledmc.unraveledmcmod.command;
 
 import me.unraveledmc.unraveledmcmod.rank.Rank;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
+import net.md_5.bungee.api.ChatColor;
+
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,7 +19,7 @@ public class Command_consolesay extends FreedomCommand
     {
         if (args.length > 0)
         {
-            FUtil.bcastMsg(String.format("§7[CONSOLE]§f<§c%s§f> %s", sender.getName(), StringUtils.join(args, " ")));
+            FUtil.bcastMsg(String.format(ChatColor.GRAY + "[CONSOLE]" + ChatColor.WHITE + " <" + ChatColor.RED + "%s" + ChatColor.WHITE + "> %s", sender.getName(), StringUtils.join(args, " ")));
         }
         return true;
     }

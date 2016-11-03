@@ -28,12 +28,6 @@ public class Command_kick extends FreedomCommand
             return true;
         }
 
-        if (isAdmin(player))
-        {
-            msg("Admins can not be kicked", ChatColor.RED);
-            return true;
-        }
-
         String reason = null;
         if (args.length > 1)
         {

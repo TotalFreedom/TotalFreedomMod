@@ -35,27 +35,12 @@ public class Command_playerinfo extends FreedomCommand
         if (args.length == 1)
         {
             msg("Name: " + player.getName(), ChatColor.AQUA);
-            msg("Opped: " + (player.isOp() ? "§atrue" : "§cfalse"), ChatColor.LIGHT_PURPLE);
-            if (player.getGameMode().equals(GameMode.SURVIVAL))
-            {
-                msg("Gamemode: survival", ChatColor.DARK_BLUE);
-            }
-            else if (player.getGameMode().equals(GameMode.CREATIVE))
-            {
-                msg("Gamemode: creative", ChatColor.DARK_BLUE);
-            }
-            else if (player.getGameMode().equals(GameMode.ADVENTURE))
-            {
-                msg("Gamemode: adventure", ChatColor.DARK_BLUE);
-            }
-            else if (player.getGameMode().equals(GameMode.SPECTATOR))
-            {
-                msg("Gamemode: spectator", ChatColor.DARK_BLUE);
-            }
+            msg("Opped: " + (player.isOp() ? ChatColor.GREEN + "true" : ChatColor.RED + "false"), ChatColor.LIGHT_PURPLE);
+            msg("Gamemode: " + player.getGameMode().name(), ChatColor.DARK_BLUE);
             msg("IPs: " + StringUtils.join(plugin.pl.getData(player).getIps(), ", "), ChatColor.GREEN);
             msg("Rank: " + plugin.rm.getDisplay(player).getColor() + plugin.rm.getDisplay(player).getName(), ChatColor.LIGHT_PURPLE);
             msg("Last command: " + playerdata.getLastCommand());
-            msg("Muted: " + (playerdata.isMuted() ? ChatColor.GREEN + "true" : ChatColor.RED + "§cfalse"), ChatColor.DARK_AQUA);
+            msg("Muted: " + (playerdata.isMuted() ? ChatColor.GREEN + "true" : ChatColor.RED + "false"), ChatColor.DARK_AQUA);
             msg("Commandspy: " + (playerdata.cmdspyEnabled() ? ChatColor.GREEN + "true" : ChatColor.RED + "false"), ChatColor.RED);
             msg("Location: World: " + player.getLocation().getWorld().getName() + " X: " + player.getLocation().getBlockX() + " Y: " + player.getLocation().getBlockY() + " Z: " + player.getLocation().getBlockZ(), ChatColor.WHITE);
             msg("Tag: " + (playerdata.getTag() == null ? "None" : playerdata.getTag()), ChatColor.WHITE);

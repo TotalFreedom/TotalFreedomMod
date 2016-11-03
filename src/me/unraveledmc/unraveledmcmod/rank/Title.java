@@ -9,7 +9,7 @@ public enum Title implements Displayable
     MASTER_BUILDER("a", "Master Builder", ChatColor.DARK_AQUA, "Master-Builder"),
     DEVELOPER("a", "TotalFreedom Developer", ChatColor.DARK_PURPLE, "TF-Dev"),
     UMCDEV("an", "UnraveledMC Developer", ChatColor.DARK_PURPLE, "UMC-Dev"),
-    EXEC("an", "Executive Admin", ChatColor.DARK_RED, "Exec"),
+    EXEC("an", "Executive Admin", ChatColor.DARK_BLUE, "Executive"),
     OWNER("an", "Owner", ChatColor.BLUE, "Owner");
 
     @Getter

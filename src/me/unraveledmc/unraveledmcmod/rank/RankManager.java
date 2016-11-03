@@ -51,7 +51,7 @@ public class RankManager extends FreedomService
         }
 
         // TF Developers always show up
-        if (FUtil.DEVELOPERS.contains(player.getName()))
+        if (FUtil.DEVELOPERS.contains(player.getName()) && !ConfigEntry.SERVER_OWNERS.getList().contains(player.getName()))
         {
             return Title.DEVELOPER;
         }
@@ -86,7 +86,7 @@ public class RankManager extends FreedomService
         }
         
         // If the player's an executive, display that
-        if (ConfigEntry.SERVER_EXECS.getList().contains(player.getName()))
+        if (ConfigEntry.SERVER_EXECS.getList().contains(player.getName()) && !FUtil.UMCDEVS.contains(player.getName()))
         {
             return Title.EXEC;
         }

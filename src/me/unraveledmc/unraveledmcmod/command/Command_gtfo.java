@@ -1,9 +1,15 @@
 package me.unraveledmc.unraveledmcmod.command;
 
 import me.unraveledmc.unraveledmcmod.banning.Ban;
+import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
+import me.unraveledmc.unraveledmcmod.player.PlayerData;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import net.pravian.aero.util.Ips;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -14,7 +20,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Makes someone GTFO (deop and ip ban by username).", usage = "/<command> <partialname>")
+@CommandParameters(description = "Bans a player", usage = "/<command> <username> [reason]", aliases = "ban")
 public class Command_gtfo extends FreedomCommand
 {
 
@@ -26,12 +32,58 @@ public class Command_gtfo extends FreedomCommand
             return false;
         }
 
-        final Player player = getPlayer(args[0]);
+        String username;
+        final List<String> ips = new ArrayList<>();
 
+        final Player player = getPlayer(args[0]);
         if (player == null)
         {
-            msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
-            return true;
+            final PlayerData entry = plugin.pl.getData(args[0]);
+
+            if (entry == null)
+            {
+                msg("Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
+                return true;
+            }
+
+            username = entry.getUsername();
+            ips.addAll(entry.getIps());
+        }
+        else
+        {
+            final PlayerData entry = plugin.pl.getData(player);
+            username = player.getName();
+            ips.addAll(entry.getIps());
+            // Undo WorldEdits
+            try
+            {
+                plugin.web.undo(player, 15);
+            }
+            catch (NoClassDefFoundError ex)
+            {
+            }
+            // Rollback
+            plugin.rb.rollback(player.getName());
+
+            // Deop
+            player.setOp(false);
+
+            // Gamemode suvival
+            player.setGameMode(GameMode.SURVIVAL);
+
+            // Clear inventory
+            player.getInventory().clear();
+
+            // Strike with lightning
+            final Location targetPos = player.getLocation();
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
+                    targetPos.getWorld().strikeLightning(strike_pos);
+                }
+            }
         }
 
         String reason = null;
@@ -40,41 +92,19 @@ public class Command_gtfo extends FreedomCommand
             reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         }
 
-        FUtil.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
-
-        // Undo WorldEdits
-        try
+        if (player != null)
         {
-            plugin.web.undo(player, 15);
-        }
-        catch (NoClassDefFoundError ex)
-        {
+        	FUtil.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
         }
 
-        // Rollback
-        plugin.rb.rollback(player.getName());
-
-        // Deop
-        player.setOp(false);
-
-        // Gamemode suvival
-        player.setGameMode(GameMode.SURVIVAL);
-
-        // Clear inventory
-        player.getInventory().clear();
-
-        // Strike with lightning
-        final Location targetPos = player.getLocation();
-        for (int x = -1; x <= 1; x++)
+        // Ban player
+        Ban ban = Ban.forPlayerName(username, sender, null, reason);
+        for (String ip : ips)
         {
-            for (int z = -1; z <= 1; z++)
-            {
-                final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                targetPos.getWorld().strikeLightning(strike_pos);
-            }
+            ban.addIp(ip);
+            ban.addIp(FUtil.getFuzzyIp(ip));
         }
-
-        String ip = FUtil.getFuzzyIp(Ips.getIp(player));
+        plugin.bm.addBan(ban);
 
         // Broadcast
         final StringBuilder bcast = new StringBuilder()
@@ -82,20 +112,20 @@ public class Command_gtfo extends FreedomCommand
                 .append(sender.getName())
                 .append(" - ")
                 .append("Banning: ")
-                .append(player.getName())
-                .append(", IP: ")
-                .append(ip);
+                .append(username)
+                .append(", IPs: ")
+                .append(StringUtils.join(ips, ", "));
         if (reason != null)
         {
             bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
         }
         FUtil.bcastMsg(bcast.toString());
-
-        // Ban player
-        plugin.bm.addBan(Ban.forPlayerFuzzy(player, sender, null, reason));
-
+        
         // Kick player
-        player.kickPlayer(ChatColor.RED + "GTFO");
+        if (player != null)
+        {
+	        player.kickPlayer(ban.bakeKickMessage());
+        }
 
         return true;
     }

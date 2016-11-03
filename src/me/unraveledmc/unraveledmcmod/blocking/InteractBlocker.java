@@ -115,14 +115,6 @@ public class InteractBlocker extends FreedomService
                 case SIGN_POST:
                 case WALL_SIGN:
                 {
-                    FLog.warning(event.getPlayer().getName() + " just right clicked a possible command sign at " + FUtil.formatLocation(event.getClickedBlock().getLocation()));
-                    for (Player player : server.getOnlinePlayers())
-                    {
-                        if (plugin.al.isAdmin(player))
-                        {
-                            player.sendMessage(ChatColor.RED + "WARNING: " + event.getPlayer().getName() + " just right clicked a possible command sign at " + FUtil.formatLocation(event.getClickedBlock().getLocation()));
-                        }
-                    }
                     event.setCancelled(true);
                 }
             }

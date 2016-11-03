@@ -148,13 +148,6 @@ public class Command_whitelist extends FreedomCommand
             return true;
         }
 
-        // all commands past this line are console/telnet only
-        if (!senderIsConsole)
-        {
-            noPerms();
-            return true;
-        }
-
         //purge
         if (args[0].equalsIgnoreCase("purge"))
         {

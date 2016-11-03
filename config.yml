@@ -19,8 +19,9 @@ server:
 
   # All players who show up as executive
   execs:
+    - CreeperSeth
     - Dusty01_
-    - XeonXeoda
+    - FishballXeoda
     - OxLemonxO
 
   # All players who show up as master builder
@@ -55,10 +56,10 @@ shop:
   colored_chat_price: 35
   
   # How much should the price be for buying custom login messages
-  login_message_price: 50
+  login_message_price: 40
   
   # How much should the price be for buying Thor's hammer
-  thor_hammer_price: 160
+  thor_hammer_price: 100
   
 # Admins
 admins:
@@ -148,7 +149,6 @@ blocked_commands:
     # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
-  - 'n:b:/ban:_'
   - 'n:b:/pardon:_'
   - 'n:b:/ban-ip:_'
   - 'n:b:/pardon-ip:_'
@@ -229,7 +229,7 @@ blocked_commands:
   - 's:b:/enderchest:_'
   
   # Senior console only commands
-  - 'c:b:/discord logout:&eOnly senior administrators in the console may log out the bot.'
+  - 'c:b:/discord:&eOnly senior administrators in the console may use that command.'
   - 'c:b:/sbclear:&eOnly senior administrators in the console may clear the box.'
 
   # Superadmin commands - Auto-eject

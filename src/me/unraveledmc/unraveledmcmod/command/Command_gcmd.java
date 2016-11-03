@@ -31,9 +31,14 @@ public class Command_gcmd extends FreedomCommand
 
         if (plugin.cb.isCommandBlocked(outCommand, sender))
         {
+        	msg("The command you are trying to send is blocked");
             return true;
         }
-
+        if (plugin.al.isAdmin(player))
+        {
+        	msg("You can not force an admin to run a command");
+        	return true;
+        }
         try
         {
             msg("Sending command as " + player.getName() + ": " + outCommand);
