@@ -62,6 +62,7 @@ public class Command_gcmd extends FreedomCommand
                 if (server.dispatchCommand(player, outCommand))
                 {
                     msg("Command sent.");
+                    player.sendMessage(sender + " just ran the command " + outCommand + " on you!");
                 }
                 else
                 {
