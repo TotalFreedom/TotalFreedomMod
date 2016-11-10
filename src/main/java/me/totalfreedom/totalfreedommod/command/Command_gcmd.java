@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank._ADMIN, source = SourceType.ONLY_IN_GAME, blockHostConsole = true)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME, blockHostConsole = true)
 @CommandParameters(description = "Send a command as someone else.", usage = "/<command> <fromname> <outcommand>")
 public class Command_gcmd extends FreedomCommand
 {
