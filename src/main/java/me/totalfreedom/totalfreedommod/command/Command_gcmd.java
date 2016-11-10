@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME, blockHostConsole = true)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Send a command as someone else.", usage = "/<command> <fromname> <outcommand>")
 public class Command_gcmd extends FreedomCommand
 {
@@ -44,8 +44,9 @@ public class Command_gcmd extends FreedomCommand
             }
 
             String outCommand = StringUtils.join(args, " ", 1, args.length);
-
-            if (BLOCKED_COMMANDS.contains(outCommand))
+            Command runCmd = server.getPluginCommand(args[1]);
+            
+            if (BLOCKED_COMMANDS.contains(runCmd.getName()))
             {
                 msg("Blocked. Yes, I mean blocked.", ChatColor.RED);
                 return true;
@@ -62,7 +63,7 @@ public class Command_gcmd extends FreedomCommand
                 if (server.dispatchCommand(player, outCommand))
                 {
                     msg("Command sent.");
-                    player.sendMessage(sender + " just ran the command " + outCommand + " on you!");
+                    player.sendMessage(sender.getName() + " just ran the command: /" + outCommand + " as you!");
                 }
                 else
                 {
@@ -76,7 +77,7 @@ public class Command_gcmd extends FreedomCommand
         }
         catch (Exception e)
         {
-            return false;
+            msg("/gcmd <fromname> <outcommand>");
         }
         return true;
 
