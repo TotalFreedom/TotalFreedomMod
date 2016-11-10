@@ -76,7 +76,7 @@ public class Command_gcmd extends FreedomCommand
         }
         catch (Exception e)
         {
-            msg("/gcmd <fromname> <outcommand>");
+            return false;
         }
         return true;
 
