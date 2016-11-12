@@ -23,6 +23,16 @@ server:
     - Dusty01_
     - FishballXeoda
     - OxLemonxO
+    
+  # All players who show up as president
+  pres:
+    - Donald_Trump
+    - Trump
+    - Mr. Trump
+    - DonaldJTrump
+    - Obama
+    - Barack_Obama
+    - BarackHObama
 
   # All players who show up as master builder
   master_builders: []
