@@ -91,6 +91,12 @@ public class RankManager extends FreedomService
             return Title.EXEC;
         }
         return rank;
+        
+        // If the player's a president, display that
+        if (ConfigEntry.SERVER_PRES.getList().contains(player.getName()))
+        {
+            return Title.PRESIDENT;    
+        }
     }
 
     public Rank getRank(CommandSender sender)
