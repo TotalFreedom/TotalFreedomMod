@@ -34,7 +34,7 @@ public class Command_disguisetoggle extends FreedomCommand
             plugin.ldb.setDisguisesEnabled(true);
         }
 
-        msg("Enabled " + (DisallowedDisguises.disabled ? "enabled." : "disabled."));
+        msg("Disguises " + (!DisallowedDisguises.disabled ? "enabled." : "disabled."));
 
         return true;
     }
