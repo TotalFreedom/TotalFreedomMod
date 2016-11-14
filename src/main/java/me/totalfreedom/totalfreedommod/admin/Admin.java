@@ -29,7 +29,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     private boolean active = true;
     @Getter
     @Setter
-    private Rank rank = Rank.ADMIN;
+    private Rank rank = Rank.SUPER_ADMIN;
     @Getter
     private final List<String> ips = Lists.newArrayList();
     private final List<String> names = Lists.newArrayList();
