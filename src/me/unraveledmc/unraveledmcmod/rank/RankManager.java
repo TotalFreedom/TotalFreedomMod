@@ -90,13 +90,14 @@ public class RankManager extends FreedomService
         {
             return Title.EXEC;
         }
-        return rank;
         
         // If the player's a president, display that
         if (ConfigEntry.SERVER_PRES.getList().contains(player.getName()))
         {
             return Title.PRESIDENT;    
         }
+        
+        return rank;
     }
 
     public Rank getRank(CommandSender sender)
@@ -215,7 +216,7 @@ public class RankManager extends FreedomService
             ShopData sd = plugin.sh.getData(player);
             final Displayable display = getDisplay(player);
             String loginMsg = display.getColoredLoginMessage();
-            if (sd.getLoginMessage() == "none")
+            if ("none".equals(sd.getLoginMessage()))
             {
                 FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + loginMsg);
             }
