@@ -13,7 +13,7 @@ import org.bukkit.craftbukkit.v1_11_R1.CraftServer;
 public class ServerInterface extends FreedomService
 {
 
-    public static final String COMPILE_NMS_VERSION = "v1_10_R1";
+    public static final String COMPILE_NMS_VERSION = "v1_11_R1";
 
     public ServerInterface(TotalFreedomMod plugin)
     {
