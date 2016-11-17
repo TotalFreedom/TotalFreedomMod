@@ -58,6 +58,15 @@ allow:
   water_place: false
   tnt_minecarts: false
   explosions: false
+  
+blocked_gcmd_commands:
+  - wildcard
+  - gtfo
+  - saconfig
+  - gcmd
+  - glist
+  - tban
+  - tempban
 
 # Blocked commands:
 #
