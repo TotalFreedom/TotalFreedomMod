@@ -2,7 +2,9 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.Arrays;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,16 +16,7 @@ import org.bukkit.entity.Player;
 public class Command_gcmd extends FreedomCommand
 {
 
-    public static final List<String> BLOCKED_COMMANDS = Arrays.asList(
-            "wildcard",
-            "gtfo",
-            "doom",
-            "saconfig",
-            "gcmd",
-            "glist",
-            "tban",
-            "tempban"
-    );
+    public static final List<String> BLOCKED_COMMANDS = (List<String>) ConfigEntry.BLOCKED_GCMD_COMMANDS.getList();
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -45,7 +38,7 @@ public class Command_gcmd extends FreedomCommand
 
             String outCommand = StringUtils.join(args, " ", 1, args.length);
             Command runCmd = server.getPluginCommand(args[1]);
-            
+
             if (BLOCKED_COMMANDS.contains(runCmd.getName()))
             {
                 msg("Blocked. Yes, I mean blocked.", ChatColor.RED);
@@ -63,8 +56,8 @@ public class Command_gcmd extends FreedomCommand
                 if (server.dispatchCommand(player, outCommand))
                 {
                     msg("Command sent.");
-                    player.sendMessage(sender.getName() + " just ran the command: [/" + outCommand + "]" + " as you");
-                    FLog.info("User: " + sender.getName() + " just ran the command: [/" + outCommand + "]" + " as " + player.getName());
+                    player.sendMessage(sender.getName() + " just ran the command: [/" + outCommand + "]" + " as you!");
+                    FLog.info("Alert! User: " + sender.getName() + " just ran the command: [/" + outCommand + "]" + " as " + player.getName());
                 }
                 else
                 {
