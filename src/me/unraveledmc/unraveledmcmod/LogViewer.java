@@ -1,5 +1,6 @@
 package me.unraveledmc.unraveledmcmod;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
-import me.unraveledmc.unraveledmcmod.command.Command_logs;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import org.apache.commons.lang3.StringUtils;
@@ -102,7 +102,7 @@ public class LogViewer extends FreedomService
                         }.runTask(plugin);
                     }
                 }
-                catch (Exception ex)
+                catch (IOException | IllegalArgumentException | IllegalStateException ex)
                 {
                     FLog.severe(ex);
                 }

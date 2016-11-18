@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
+import me.unraveledmc.unraveledmcmod.util.FLog;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -105,6 +106,7 @@ public class Metrics
      */
     private volatile BukkitTask task = null;
 
+    @SuppressWarnings("OverridableMethodCallInConstructor")
     public Metrics(final Plugin plugin) throws IOException
     {
         if (plugin == null)
@@ -234,7 +236,7 @@ public class Metrics
                     {
                         if (debug)
                         {
-                            Bukkit.getLogger().log(Level.INFO, "[Metrics] " + e.getMessage());
+                            Bukkit.getLogger().log(Level.INFO, "[Metrics] {0}", e.getMessage());
                         }
                     }
                 }
@@ -258,19 +260,11 @@ public class Metrics
                 // Reload the metrics file
                 configuration.load(getConfigFile());
             }
-            catch (IOException ex)
+            catch (IOException | InvalidConfigurationException ex)
             {
                 if (debug)
                 {
-                    Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
-                }
-                return true;
-            }
-            catch (InvalidConfigurationException ex)
-            {
-                if (debug)
-                {
-                    Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
+                    Bukkit.getLogger().log(Level.INFO, "[Metrics] {0}", ex.getMessage());
                 }
                 return true;
             }
@@ -350,6 +344,7 @@ public class Metrics
     /**
      * Generic method that posts a plugin to the metrics website
      */
+    @SuppressWarnings("ConvertToTryWithResources")
     private void postPlugin(final boolean isPing) throws IOException
     {
         // Server software specific section
@@ -547,7 +542,7 @@ public class Metrics
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            FLog.warning(e);
         }
         finally
         {
@@ -665,7 +660,7 @@ public class Metrics
                     if (chr < ' ')
                     {
                         String t = "000" + Integer.toHexString(chr);
-                        builder.append("\\u" + t.substring(t.length() - 4));
+                        builder.append("\\u").append(t.substring(t.length() - 4));
                     }
                     else
                     {

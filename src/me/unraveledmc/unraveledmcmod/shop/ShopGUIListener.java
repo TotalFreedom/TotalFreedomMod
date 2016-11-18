@@ -3,7 +3,6 @@ package me.unraveledmc.unraveledmcmod.shop;
 import me.unraveledmc.unraveledmcmod.FreedomService;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
-import me.unraveledmc.unraveledmcmod.rank.Rank;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;

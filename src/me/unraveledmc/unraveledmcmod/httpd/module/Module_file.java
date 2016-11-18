@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 /*
  * This class was adapted from https://github.com/NanoHttpd/nanohttpd/blob/master/webserver/src/main/java/fi/iki/elonen/SimpleWebServer.java
  */
+@SuppressWarnings("Convert2Lambda")
 public class Module_file extends HTTPDModule
 {
 
@@ -75,23 +76,21 @@ public class Module_file extends HTTPDModule
         while (st.hasMoreTokens())
         {
             String tok = st.nextToken();
-            if (tok.equals("/"))
-            {
-                newUri += "/";
-            }
-            else if (tok.equals(" "))
-            {
-                newUri += "%20";
-            }
-            else
-            {
-                try
-                {
-                    newUri += URLEncoder.encode(tok, "UTF-8");
-                }
-                catch (UnsupportedEncodingException ignored)
-                {
-                }
+            switch (tok) {
+                case "/":
+                    newUri += "/";
+                    break;
+                case " ":
+                    newUri += "%20";
+                    break;
+                default:
+                    try
+                    {
+                        newUri += URLEncoder.encode(tok, "UTF-8");
+                    }
+                    catch (UnsupportedEncodingException ignored)
+                    {
+                    }   break;
             }
         }
         return newUri;

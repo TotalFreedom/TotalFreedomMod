@@ -39,6 +39,6 @@ public class Module_list extends HTTPDModule
     @Override
     public String getTitle()
     {
-        return "Total Freedom - Online Users";
+        return "UnraveledMC - Online Users";
     }
 }

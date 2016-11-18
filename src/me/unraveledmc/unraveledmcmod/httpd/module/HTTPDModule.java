@@ -1,11 +1,12 @@
 package me.unraveledmc.unraveledmcmod.httpd.module;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Getter;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDPageBuilder;
+import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD.HTTPSession;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD.Method;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD.Response;
@@ -66,7 +67,7 @@ public abstract class HTTPDModule extends PluginComponent<UnraveledMCMod>
         {
             session.parseBody(files);
         }
-        catch (Exception ex)
+        catch (IOException | NanoHTTPD.ResponseException ex)
         {
             FLog.severe(ex);
         }

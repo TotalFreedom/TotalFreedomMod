@@ -5,7 +5,6 @@ import me.unraveledmc.unraveledmcmod.shop.ShopData;
 import me.unraveledmc.unraveledmcmod.util.FLog;
 import me.unraveledmc.unraveledmcmod.util.FSync;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
-import static me.unraveledmc.unraveledmcmod.util.FUtil.playerMsg;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

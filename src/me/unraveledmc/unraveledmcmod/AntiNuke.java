@@ -54,7 +54,6 @@ public class AntiNuke extends FreedomService
         {
             outOfRange = true;
         }
-
         if (outOfRange)
         {
             if (fPlayer.incrementAndGetFreecamDestroyCount() > ConfigEntry.FREECAM_TRIGGER_COUNT.getInteger())
@@ -68,7 +67,6 @@ public class AntiNuke extends FreedomService
                 return;
             }
         }
-
         if (fPlayer.incrementAndGetBlockDestroyCount() > ConfigEntry.NUKE_MONITOR_COUNT_BREAK.getInteger())
         {
             FUtil.bcastMsg(player.getName() + " is breaking blocks too fast!", ChatColor.RED);
