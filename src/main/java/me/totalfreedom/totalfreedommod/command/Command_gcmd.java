@@ -56,8 +56,8 @@ public class Command_gcmd extends FreedomCommand
                 if (server.dispatchCommand(player, outCommand))
                 {
                     msg("Command sent.");
-                    player.sendMessage(sender.getName() + " just ran the command: [/" + outCommand + "]" + " as you!");
-                    FLog.info("Alert! User: " + sender.getName() + " just ran the command: [/" + outCommand + "]" + " as " + player.getName());
+                    player.sendMessage(sender.getName() + " just ran the command: [/" + outCommand + "]" + " as you");
+                    FLog.info("User: " + sender.getName() + " just ran the command: [/" + outCommand + "]" + " as " + player.getName());
                 }
                 else
                 {
