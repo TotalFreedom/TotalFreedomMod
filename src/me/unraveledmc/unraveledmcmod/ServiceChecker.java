@@ -218,17 +218,17 @@ public class ServiceChecker extends FreedomService
 
         public void setColor(String color)
         {
-            if ("green".equals(color))
-            {
-                this.color = ChatColor.DARK_GREEN;
-            }
-            else if ("yellow".equals(color))
-            {
-                this.color = ChatColor.YELLOW;
-            }
-            else
-            {
-                this.color = ChatColor.RED;
+            if (null != color)
+            switch (color) {
+                case "green":
+                    this.color = ChatColor.DARK_GREEN;
+                    break;
+                case "yellow":
+                    this.color = ChatColor.YELLOW;
+                    break;
+                default:
+                    this.color = ChatColor.RED;
+                    break;
             }
         }
     }

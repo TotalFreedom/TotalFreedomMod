@@ -1,6 +1,5 @@
 package me.unraveledmc.unraveledmcmod;
 
-import com.google.common.collect.Lists;
 import java.util.regex.Pattern;
 import java.util.List;
 import java.util.ArrayList;

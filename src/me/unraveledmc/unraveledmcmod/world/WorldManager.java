@@ -4,7 +4,6 @@ import me.unraveledmc.unraveledmcmod.FreedomService;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
-import static me.unraveledmc.unraveledmcmod.util.FUtil.playerMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

@@ -48,7 +48,7 @@ public class HTTPDaemon extends FreedomService
             return;
         }
 
-        port = ConfigEntry.HTTPD_PORT.getInteger();;
+        port = ConfigEntry.HTTPD_PORT.getInteger();
         httpd = new HTTPD(port);
 
         // Modules

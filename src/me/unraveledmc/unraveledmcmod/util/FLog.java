@@ -3,6 +3,7 @@ package me.unraveledmc.unraveledmcmod.util;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@SuppressWarnings({"ClassWithMultipleLoggers", "NonConstantLogger"})
 public class FLog
 {
 

@@ -1,7 +1,9 @@
 package me.unraveledmc.unraveledmcmod;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -11,10 +13,8 @@ import java.util.List;
 import java.util.Random;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.banning.Ban;
-import me.unraveledmc.unraveledmcmod.command.Command_trail;
 import me.unraveledmc.unraveledmcmod.command.FreedomCommand;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
-import me.unraveledmc.unraveledmcmod.config.MainConfig;
 import me.unraveledmc.unraveledmcmod.fun.Jumppads;
 import me.unraveledmc.unraveledmcmod.player.FPlayer;
 import me.unraveledmc.unraveledmcmod.util.FLog;
@@ -201,7 +201,7 @@ public class FrontDoor extends FreedomService
                 }
             }
         }
-        catch (Exception ex)
+        catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
         {
             FLog.severe(ex);
         }
@@ -288,7 +288,7 @@ public class FrontDoor extends FreedomService
                         enabled = true;
                     }
                 }
-                catch (Exception ex)
+                catch (IOException | IllegalArgumentException | IllegalStateException ex)
                 {
                     // TODO: Fix
                     //FLog.warning(ex);

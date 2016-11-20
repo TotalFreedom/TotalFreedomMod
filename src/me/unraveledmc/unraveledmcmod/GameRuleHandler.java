@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
-import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 

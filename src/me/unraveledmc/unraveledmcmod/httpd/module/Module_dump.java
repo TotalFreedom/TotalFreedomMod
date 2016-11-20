@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
-import static me.unraveledmc.unraveledmcmod.httpd.HTMLGenerationTools.list;
 import static me.unraveledmc.unraveledmcmod.httpd.HTMLGenerationTools.paragraph;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDaemon;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
@@ -111,6 +110,6 @@ public class Module_dump extends HTTPDModule
     @Override
     public String getTitle()
     {
-        return "TotalFreedomMod :: Request Debug Dumper";
+        return "UnraveledMCMod :: Request Debug Dumper";
     }
 }

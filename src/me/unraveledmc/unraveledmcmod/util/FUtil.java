@@ -29,6 +29,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
+@SuppressWarnings("Convert2Lambda")
 public class FUtil
 {
 

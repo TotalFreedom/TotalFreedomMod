@@ -190,7 +190,7 @@ public final class AdminWorld extends CustomWorld
     public boolean canAccessWorld(final Player player)
     {
         long currentTimeMillis = System.currentTimeMillis();
-        if (cacheLastCleared == null || cacheLastCleared.longValue() + CACHE_CLEAR_FREQUENCY <= currentTimeMillis)
+        if (cacheLastCleared == null || cacheLastCleared + CACHE_CLEAR_FREQUENCY <= currentTimeMillis)
         {
             cacheLastCleared = currentTimeMillis;
             accessCache.clear();

@@ -59,9 +59,10 @@ public class Module_schematic extends HTTPDModule
 
     public String title()
     {
-        return "TotalFreedomMod :: Schematic Manager";
+        return "UnraveledMCMod :: Schematic Manager";
     }
 
+    @SuppressWarnings("Convert2Lambda")
     public String body() throws ResponseOverrideException
     {
         if (!SCHEMATIC_FOLDER.exists())

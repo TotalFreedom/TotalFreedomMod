@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.admin.AdminList;
 import me.unraveledmc.unraveledmcmod.banning.PermbanList;
@@ -50,7 +51,7 @@ public class ConfigConverter extends PluginComponent<UnraveledMCMod>
             }
             catch (IOException ex)
             {
-                logger.severe("Could not backup file: " + file.getName());
+                logger.log(Level.SEVERE, "Could not backup file: {0}", file.getName());
                 logger.severe(ex);
             }
         }
@@ -86,7 +87,7 @@ public class ConfigConverter extends PluginComponent<UnraveledMCMod>
             ConfigurationSection asec = admins.getConfigurationSection(uuid);
             if (asec == null)
             {
-                logger.warning("Invalid superadmin format for admin: " + uuid);
+                logger.log(Level.WARNING, "Invalid superadmin format for admin: {0}", uuid);
                 continue;
             }
 
@@ -125,7 +126,7 @@ public class ConfigConverter extends PluginComponent<UnraveledMCMod>
         }
         newYaml.save();
 
-        logger.info("Converted " + conversions.size() + " admins");
+        logger.log(Level.INFO, "Converted {0} admins", conversions.size());
     }
 
     private void convertPermbans(File oldFile)

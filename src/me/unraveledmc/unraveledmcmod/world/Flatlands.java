@@ -3,7 +3,6 @@ package me.unraveledmc.unraveledmcmod.world;
 import java.io.File;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.util.FLog;
-import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

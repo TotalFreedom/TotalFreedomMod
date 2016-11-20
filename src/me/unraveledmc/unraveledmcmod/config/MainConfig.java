@@ -1,7 +1,6 @@
 package me.unraveledmc.unraveledmcmod.config;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,6 +21,7 @@ public class MainConfig extends PluginComponent<UnraveledMCMod>
     private final EnumMap<ConfigEntry, Object> entries;
     private final ConfigDefaults defaults;
 
+    @SuppressWarnings("OverridableMethodCallInConstructor")
     public MainConfig(UnraveledMCMod plugin)
     {
         super(plugin);
@@ -276,6 +276,7 @@ public class MainConfig extends PluginComponent<UnraveledMCMod>
 
         private YamlConfiguration defaults = null;
 
+        @SuppressWarnings("ConvertToTryWithResources")
         private ConfigDefaults(InputStream defaultConfig)
         {
             try
@@ -285,11 +286,7 @@ public class MainConfig extends PluginComponent<UnraveledMCMod>
                 defaults.load(isr);
                 isr.close();
             }
-            catch (IOException ex)
-            {
-                FLog.severe(ex);
-            }
-            catch (InvalidConfigurationException ex)
+            catch (IOException | InvalidConfigurationException ex)
             {
                 FLog.severe(ex);
             }

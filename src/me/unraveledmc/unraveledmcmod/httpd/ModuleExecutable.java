@@ -3,15 +3,14 @@ package me.unraveledmc.unraveledmcmod.httpd;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.Callable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.ExecutionException;
 import lombok.Getter;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.httpd.module.HTTPDModule;
 import me.unraveledmc.unraveledmcmod.util.FLog;
-import net.pravian.aero.component.PluginComponent;
 import org.bukkit.Bukkit;
 
+@SuppressWarnings("Convert2Lambda")
 public abstract class ModuleExecutable
 {
 
@@ -43,7 +42,7 @@ public abstract class ModuleExecutable
             }).get();
 
         }
-        catch (Exception ex)
+        catch (InterruptedException | ExecutionException ex)
         {
             FLog.severe(ex);
         }
@@ -59,7 +58,7 @@ public abstract class ModuleExecutable
         {
             cons = clazz.getConstructor(UnraveledMCMod.class, NanoHTTPD.HTTPSession.class);
         }
-        catch (Exception ex)
+        catch (NoSuchMethodException | SecurityException ex)
         {
             throw new IllegalArgumentException("Improperly defined module!");
         }
@@ -73,7 +72,7 @@ public abstract class ModuleExecutable
                 {
                     return cons.newInstance(plugin, session).getResponse();
                 }
-                catch (Exception ex)
+                catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
                 {
                     FLog.severe(ex);
                     return null;
