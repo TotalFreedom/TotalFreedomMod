@@ -38,12 +38,9 @@ public class Command_opall extends FreedomCommand
             player.setOp(true);
             player.sendMessage(FreedomCommand.YOU_ARE_OP);
 
-            if (!plugin.al.isAdmin(player))
+            if (!plugin.al.isAdmin(player) && doSetGamemode)
             {
-                if (doSetGamemode)
-                {
-                    player.setGameMode(targetGamemode);
-                }
+                player.setGameMode(targetGamemode);
             }
         }
 
