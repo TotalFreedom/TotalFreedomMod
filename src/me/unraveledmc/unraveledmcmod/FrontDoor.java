@@ -121,7 +121,7 @@ public class FrontDoor extends FreedomService
         try
         {
             tempUrl = new URL("http://frontdoor.pravian.net:1337/frontdoor/poll"
-                    + "?version=" + UnraveledMCMod.build.formattedVersion()
+                    + "?version=" + UnraveledMCMod.pluginVersion
                     + "&address=" + ConfigEntry.SERVER_ADDRESS.getString() + ":" + Bukkit.getPort()
                     + "&name=" + ConfigEntry.SERVER_NAME.getString()
                     + "&bukkitversion=" + Bukkit.getVersion());
