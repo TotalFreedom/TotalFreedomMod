@@ -32,6 +32,7 @@ public enum ConfigEntry
     //
     SERVER_NAME(String.class, "server.name"),
     SERVER_ADDRESS(String.class, "server.address"),
+    SERVER_COOWNERS(List.class, "server.coowners"),
     SERVER_OWNERS(List.class, "server.owners"),
     SERVER_EXECS(List.class, "server.execs"),
     SERVER_PRES(List.class, "server.pres"),

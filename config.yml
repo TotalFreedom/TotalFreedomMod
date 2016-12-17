@@ -17,6 +17,9 @@ server:
     - aggelosQQ
     - CreeperIvanYT
 
+  # All players who show up as co-owner
+  coowners: []
+
   # All players who show up as executive
   execs:
     - CreeperSeth

@@ -72,7 +72,7 @@ public class FUtil
 
     public static boolean isExecutive(String name)
     {
-        if (!ConfigEntry.SERVER_EXECS.getList().contains(name) && !ConfigEntry.SERVER_OWNERS.getList().contains(name) && !UMCDEVS.contains(name))
+        if (!ConfigEntry.SERVER_EXECS.getList().contains(name) && !ConfigEntry.SERVER_OWNERS.getList().contains(name) && !UMCDEVS.contains(name) && !ConfigEntry.SERVER_COOWNERS.getList().contains(name))
         {
             return false;
         }
