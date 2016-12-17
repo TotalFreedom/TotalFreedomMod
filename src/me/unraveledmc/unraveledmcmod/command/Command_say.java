@@ -40,7 +40,7 @@ public class Command_say extends FreedomCommand
             }
         }
 
-        FUtil.bcastMsg(String.format("[Admin:%s] %s", sender.getName(), message), ChatColor.GOLD);
+        FUtil.bcastMsg(String.format("[Shout:%s] %s", sender.getName(), message), ChatColor.GOLD);
 
         return true;
     }
