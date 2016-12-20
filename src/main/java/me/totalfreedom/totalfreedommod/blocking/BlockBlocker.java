@@ -116,6 +116,14 @@ public class BlockBlocker extends FreedomService
                 event.setCancelled(true);
                 break;
             }
+            case CHEST:
+            case TRAPPED_CHEST:
+            {
+                FLog.info(String.format("%s placed chest @ %s", player.getName(), FUtil.formatLocation(event.getBlock().getLocation())));
+
+                event.setCancelled(false);
+                break;
+            }
         }
     }
 
