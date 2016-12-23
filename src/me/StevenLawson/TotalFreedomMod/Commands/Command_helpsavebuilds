@@ -1,0 +1,23 @@
+package me.StevenLawson.TotalFreedomMod.Commands;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+@CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH, blockHostConsole = true)
+@CommandParameters(description = "Tell players how to save their builds", usage = "/<command>")
+public class Command_helpsavebuilds extends TFM_Command
+{
+    @Override
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
+        playerMsg(ChatColor.GREEN + "1, Type: //wand");
+        playerMsg(ChatColor.GREEN + "2, Select the region you want to save");
+        playerMsg(ChatColor.GREEN + "3, Copy the region with //copy");
+        playerMsg(ChatColor.GREEN + "4, //schem save BuildName");
+        playerMsg(ChatColor.GREEN + "5, To load your build do //schem load BuildName and paste it with //paste");
+ 
+        return true;
+    }
+}
