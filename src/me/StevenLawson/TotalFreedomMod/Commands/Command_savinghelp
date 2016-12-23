@@ -1,0 +1,34 @@
+package me.StevenLawson.TotalFreedomMod.Commands;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Clears a player's chat, leave blank to clear public chat.", usage = "/<command> <playername>")
+public class Command_cc extends TFM_Command
+{
+    @Override
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
+        
+        if (args.length == 0)
+        {
+            Player player = (Player) sender;
+            
+            sender.sendMessage(ChatColor.RED + "How to save your builds:");
+            sender.sendMessage(ChatColor.RED + "[1] Do //wand");
+            sender.sendMessage(ChatColor.RED + "[2] Left click the bottom corner of your region to save.");
+            sender.sendMessage(ChatColor.RED + "[3] Right click the top corner on the other side of your region to save.");
+            sender.sendMessage(ChatColor.RED + "[4] Go on to the ground (you don't have to but its recommended because its easier to load your builds.");
+            sender.sendMessage(ChatColor.RED + "[5] Do //copy");
+            sender.sendMessage(ChatColor.RED + "[6] Finally, do //schem save <build name>");
+            sender.sendMessage(ChatColor.YELLOW + "To load your saved build, do //schem load <your saved build name>");
+            
+            return true;
+        }
+        
+        return true;
+    }
+}
