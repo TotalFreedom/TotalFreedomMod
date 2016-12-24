@@ -291,7 +291,7 @@ public class FPlayer
             @Override
             public void run()
             {
-                FUtil.adminAction("TotalFreedom", "Unmuting " + getPlayer().getName(), false);
+                FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Unmuting " + getPlayer().getName(), false);
                 setMuted(false);
             }
         }.runTaskLater(plugin, AUTO_PURGE_TICKS);

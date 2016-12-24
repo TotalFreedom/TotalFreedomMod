@@ -21,10 +21,9 @@ import org.bukkit.enchantments.Enchantment;
 @SuppressWarnings("LocalVariableHidesMemberVariable")
 public class Lightning extends FreedomService
 {
-     public static List<Player> lpl = new ArrayList();
-     public HashMap<String, Long> cooldowns = new HashMap<String, Long>();
-     public int cooldownTime = 60;
-     public static int amount = 1;
+    public static List<Player> lpl = new ArrayList();
+    public HashMap<String, Long> cooldowns = new HashMap<String, Long>();
+    public static int amount = 1;
 
     public Lightning(UnraveledMCMod plugin)
     {
@@ -51,7 +50,7 @@ public class Lightning extends FreedomService
         {
         	// Cool down time in seconds
         	long cooldownTime = 5;
-            if(cooldowns.containsKey(p.getName()))
+            if (cooldowns.containsKey(p.getName()))
             {
                 long secondsLeft = ((cooldowns.get(p.getName()) / 1000) + cooldownTime) - (System.currentTimeMillis() / 1000);
                 if(secondsLeft > 0)
@@ -82,6 +81,7 @@ public class Lightning extends FreedomService
     	lore.add(ChatColor.BLUE + "that want to get on your level");
     	hammerMeta.setLore(lore);
     	hammerMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 1, true);
+    	hammerMeta.setUnbreakable(true);
     	hammer.setItemMeta(hammerMeta);
     	return hammer;
     }

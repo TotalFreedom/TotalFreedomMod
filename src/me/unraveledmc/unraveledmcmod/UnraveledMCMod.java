@@ -26,6 +26,7 @@ import me.unraveledmc.unraveledmcmod.fun.ItemFun;
 import me.unraveledmc.unraveledmcmod.fun.Jumppads;
 import me.unraveledmc.unraveledmcmod.fun.Landminer;
 import me.unraveledmc.unraveledmcmod.fun.Lightning;
+import me.unraveledmc.unraveledmcmod.fun.CrescentRose;
 import me.unraveledmc.unraveledmcmod.fun.MP44;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDaemon;
 import me.unraveledmc.unraveledmcmod.player.PlayerList;
@@ -53,7 +54,7 @@ public class UnraveledMCMod extends AeroPlugin<UnraveledMCMod>
     //
     public static String pluginName;
     public static String pluginVersion = "1.6.0";
-    public static String buildDate = "12/17/2016";
+    public static String buildDate = "12/23/2016";
     public static String compiledBy = "CreeperSeth";
     //
     public MainConfig config;
@@ -106,6 +107,7 @@ public class UnraveledMCMod extends AeroPlugin<UnraveledMCMod>
     public Trailer tr;
     public HTTPDaemon hd;
     public Lightning ln;
+    public CrescentRose cr;
     //
     // Bridges
     public ServiceManager<UnraveledMCMod> bridges;
@@ -129,7 +131,7 @@ public class UnraveledMCMod extends AeroPlugin<UnraveledMCMod>
     public void enable()
     {
         FLog.info("Created by Madgeek1450 and Prozza");
-        FLog.info("Modified by CreeperSeth, AwesomePinch(CreeperIvanYT), and aggelosQQ");
+        FLog.info("Modified by CreeperSeth, AwesomePinch, and aggelosQQ");
         FLog.info("Version " + pluginVersion);
 
         final MethodTimer timer = new MethodTimer();
@@ -203,6 +205,7 @@ public class UnraveledMCMod extends AeroPlugin<UnraveledMCMod>
         it = services.registerService(ItemFun.class);
         lm = services.registerService(Landminer.class);
         ln = services.registerService(Lightning.class);
+        cr = services.registerService(CrescentRose.class);
         mp = services.registerService(MP44.class);
         jp = services.registerService(Jumppads.class);
         tr = services.registerService(Trailer.class);

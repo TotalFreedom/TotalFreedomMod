@@ -17,7 +17,7 @@ public class Command_thorhammer extends FreedomCommand
     	ShopData sd = plugin.sh.getData(playerSender);
     	if (!sd.isThorHammer())
     	{
-    		msg("You have not purchased Thor's hammer from the shop!", ChatColor.RED);
+    		msg("You have not yet purchased Thor's hammer from the shop!", ChatColor.RED);
     		return true;
     	}
     	playerSender.getInventory().addItem(plugin.ln.getThorHammer());

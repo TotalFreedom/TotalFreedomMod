@@ -1,6 +1,7 @@
 package me.unraveledmc.unraveledmcmod.command;
 
 import me.unraveledmc.unraveledmcmod.rank.Rank;
+import me.unraveledmc.unraveledmcmod.admin.Admin;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -39,8 +40,19 @@ public class Command_say extends FreedomCommand
                 return true;
             }
         }
-
-        FUtil.bcastMsg(String.format("[Shout:%s] %s", sender.getName(), message), ChatColor.GOLD);
+        
+        String color = "&d";
+        
+        if (!senderIsConsole)
+        {
+        	 Admin admin = plugin.al.getAdmin(playerSender);
+        	 if (admin.hasCustomShoutColor())
+        	 {
+        		 color = admin.getShoutColor();
+        	 }
+        }
+        
+        FUtil.bcastMsg(String.format("%s[Shout:%s] %s", FUtil.colorize(color), sender.getName(), message));
 
         return true;
     }

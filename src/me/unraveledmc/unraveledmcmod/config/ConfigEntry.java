@@ -51,6 +51,8 @@ public enum ConfigEntry
     SHOP_COLORED_CHAT_PRICE(Integer.class, "shop.colored_chat_price"),
     SHOP_LOGIN_MESSAGE_PRICE(Integer.class, "shop.login_message_price"),
     SHOP_THOR_HAMMER_PRICE(Integer.class, "shop.thor_hammer_price"),
+    SHOP_CRESCENT_ROSE_PRICE(Integer.class, "shop.crescent_rose_price"),
+    SHOP_CRESCENT_ROSE_USE_PRICE(Integer.class, "shop.crescent_rose_use_price"),
     //
     ADMIN_LOGIN_MESSAGE(List.class, "admins.admin_login_message"),
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "admins.adminlist.clean_threshold_hours"),

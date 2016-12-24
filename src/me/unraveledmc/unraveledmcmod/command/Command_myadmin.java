@@ -157,6 +157,28 @@ public class Command_myadmin extends FreedomCommand
                 plugin.al.updateTables();
                 return true;
             }
+            
+            case "setshoutcolor":
+            {
+            	if (args.length < 2)
+                {
+                    return false;
+                }
+            	
+            	if (!FUtil.isExecutive(target.getName()))
+            	{
+            		msg("Only executives can set custom shout colors!", ChatColor.RED);
+            		return true;
+            	}
+            	else
+            	{
+            		FUtil.adminAction(sender.getName(), "Setting custom shout color" + (init == null ? "" : " for " + targetPlayer.getName()), false);
+                    target.setShoutColor(args[1]);
+                    plugin.al.save();
+                    plugin.al.updateTables();
+                    return true;
+            	}
+            }
 
             default:
             {

@@ -34,6 +34,9 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private boolean thorHammer = false;
+    @Getter
+    @Setter
+    private boolean crescentRose = false;
 
     public ShopData(Player player)
     {
@@ -56,6 +59,7 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         this.customLoginMessage = cs.getBoolean("customLoginMessage", customLoginMessage);
         this.loginMessage = cs.getString("loginMessage", loginMessage);
         this.thorHammer = cs.getBoolean("thorHammer", thorHammer);
+        this.crescentRose = cs.getBoolean("crescentRose", crescentRose);
     }
 
     @Override
@@ -69,6 +73,7 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("customLoginMessage", customLoginMessage);
         cs.set("loginMessage", loginMessage);
         cs.set("thorHammer", thorHammer);
+        cs.set("crescentRose", crescentRose);
     }
 
     public List<String> getIps()

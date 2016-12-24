@@ -23,6 +23,11 @@ public class Command_onlinemode extends FreedomCommand
         }
         else
         {
+        	if (!FUtil.isExecutive(sender.getName()))
+        	{
+        		msg("Sorry, but this command is only available for executives.", ChatColor.RED);
+        		return true;
+        	}
             boolean onlineMode;
 
             if (!plugin.al.isTelnetAdmin(sender))

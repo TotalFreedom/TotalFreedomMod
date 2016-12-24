@@ -38,6 +38,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String loginMessage = null;
+    @Getter
+    @Setter
+    private String shoutColor = null;
 
     public Admin(Player player)
     {
@@ -60,6 +63,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n")
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")
+                .append("- Shout Color: ").append(shoutColor).append("\n")
                 .append("- Rank: ").append(rank.getName()).append("\n")
                 .append("- Is Active: ").append(active);
 
@@ -84,6 +88,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         ips.addAll(cs.getStringList("ips"));
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         loginMessage = cs.getString("login_message", null);
+        shoutColor = cs.getString("shout_color", null);
     }
 
     @Override
@@ -96,6 +101,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
+        cs.set("shout_color", shoutColor);
     }
 
     public boolean isAtLeast(Rank pRank)
@@ -106,6 +112,11 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     public boolean hasLoginMessage()
     {
         return loginMessage != null && !loginMessage.isEmpty();
+    }
+    
+    public boolean hasCustomShoutColor()
+    {
+        return shoutColor != null && !shoutColor.isEmpty();
     }
 
     // Util IP methods

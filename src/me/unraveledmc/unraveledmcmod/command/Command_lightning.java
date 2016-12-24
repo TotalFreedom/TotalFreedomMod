@@ -25,7 +25,7 @@ public class Command_lightning extends FreedomCommand
         {
             try
             {
-                Lightning.amount = Math.max(1, Math.min(15, Integer.parseInt(args[0])));
+                Lightning.amount = Math.max(1, Math.min(30, Integer.parseInt(args[0])));
                 msg("Set lightning bolt count to " + Lightning.amount);
                 return true;
             }

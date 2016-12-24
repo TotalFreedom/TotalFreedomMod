@@ -13,18 +13,21 @@ server:
 
   # All players who show up as owner
   owners:
-    - CatThatPinches
+    - AwesomePinch
     - aggelosQQ
-    - CreeperIvanYT
+    - UnraveledMC
 
   # All players who show up as co-owner
-  coowners: []
+  coowners:
+    - CreeperSeth
 
   # All players who show up as executive
   execs:
+    - AwesomePinch
+    - aggelosQQ
     - CreeperSeth
     - Dusty01_
-    - FishballXeoda
+    - Typhlosion147
     - OxLemonxO
     
   # All players who show up as president
@@ -66,13 +69,19 @@ shop:
   prefix: '&7&l[&8&lUMC Shop&7&l]'
   
   # How much should the price be for buying colored chat
-  colored_chat_price: 35
+  colored_chat_price: 50
   
   # How much should the price be for buying custom login messages
-  login_message_price: 40
+  login_message_price: 100
   
   # How much should the price be for buying Thor's hammer
-  thor_hammer_price: 100
+  thor_hammer_price: 150
+  
+  # How much should the price be for buying Crescent Rose
+  crescent_rose_price: 420
+  
+  # How much should it cost a player to use Crescent Rose per attack
+  crescent_rose_use_price: 50
   
 # Admins
 admins:
@@ -160,11 +169,10 @@ allow:
 #
 blocked_commands:
     # Disabled commands
+  - 'n:b:/socialspy:&cEw why the fuck are you using socialspy? Commandspy shows ALL the commands'
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
-  - 'n:b:/pardon:_'
   - 'n:b:/ban-ip:_'
-  - 'n:b:/pardon-ip:_'
   - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/spreadplayers:_'
@@ -174,7 +182,6 @@ blocked_commands:
   - 'n:b:/save-all:_'
   - 'n:b:/save-on:_'
   - 'n:b:/save-off:_'
-  - 'n:b:/playsound:_'
   - 'n:b:/skinsrestorer:_'
   - 'n:b:/packet:_'
   - 'n:b:/thaw:_'
@@ -189,17 +196,26 @@ blocked_commands:
   - 'n:b:/undisguiseplayer:_'
   - 'n:b:/disguiseentity:_'
   - 'n:b:/undisguiseentity:_'
-
+  - 'n:b:/spawnmob:_'
+  - 'n:b:/maintenance:_'
+  - 'n:b:/kill:_'
+  - 'n:b:/tellraw:&clol nope'
+  - 'n:b:/title:&clol nope'
+  - 'n:b:/tpall:&cYou may not use this command.'
+  - 'n:b:/summon LightningBolt:&ePlease use &c/thorhammer &einstead.'
+  - 'n:b:/clone:&cThis command has been disabled due to misuse.'
+  - 'n:b:/mail sendall:_'
+  - 'n:b:/entitydata:_'
+  - 'n:b:/setworldspawn:_'
+  - 'n:b:/trigger:_'
+  
   # Superadmin commands
   - 's:b:/kick:_'
   - 's:b:/tool:_'
-  - 's:b:/socialspy:_'
   - 's:b:/replaceitem:_'
-  - 's:b:/kill:_'
   - 's:b://generate:_'
   - 's:b://:_'
   - 's:b:/superpickaxe:_'
-  - 's:b:/brush:_'
   - 's:b:/size:_'
   - 's:b://mask:_'
   - 's:b:/mat:_'
@@ -207,20 +223,16 @@ blocked_commands:
   - 's:b:/scoreboard:_'
   - 's:b:/setspawn:_'
   - 's:b://snow:_'
-  - 's:b:/tellraw:_'
   - 's:b:/forestgen:_'
   - 's:b:/setidletimeout:_'
-  - 's:b:/mail sendall:_'
   - 's:b:/eco reset:_'
   - 's:b:/mask:_'
   - 's:b:/gmask:_'
   - 's:b:/lrbuild:_'
   - 's:b:/defaultgamemode:_'
   - 's:b:/reload:_'
-  - 's:b:/title:_'
   - 's:b:/worldborder:_'
   - 's:b:/weather:_'
-  - 's:b:/tpall:_'
   - 's:b:/setblock:_'
   - 's:b:/green:_'
   - 's:b:/gamerule:_'
@@ -234,20 +246,40 @@ blocked_commands:
   - 's:b:/reaction:_'
   - 's:b:/protocol:_'
   - 's:b:/tablist:_'
+  - 's:b:/aba:_'
+  - 's:b:/ab:_'
+  - 's:b:/timer:_'  
   - 's:b:/sblist:&eOnly administrators may use this.'
   - 's:b:/adminvote:&cOnly administrators can do that, please use /vote'
   - 's:b:/av:&cOnly administrators can do that, please use /vote'
   - 's:b:/betterchairsreload:_'
   - 's:b:/lb reload:&eOnly administrators may reload the plugin.'
   - 's:b:/enderchest:_'
-  
-  # Senior console only commands
-  - 'c:b:/discord:&eOnly senior administrators in the console may use that command.'
-  - 'c:b:/sbclear:&eOnly senior administrators in the console may clear the box.'
+  - 's:b:/tphere:&cOnly administrators can use that! Please use /tpahere instead!'
+  - 's:b:/tpo:&cOnly administrators can use that! Please use /tp(a) instead!'
+  - 's:b:/tpohere:&cOnly administrators can use that! Please use /tpahere instead!'
+  - 's:b://count:&cThis command has been disabled due to abuse.'
+  - 's:b:/pardon:_'
+  - 's:b:/pardon-ip:_' 
+  - 's:b:/ban:You must be an admin to use this command.'
+  - 's:b:/locate:_'
+  - 's:b:/playsound:_'
+  - 's:b:/stopsound:_'
+  - 's:b:/world:&cJust stay in the flatlands.'
+  - 's:b:/summon:&cThe summon command is useless here.'
+  - 's:b:/particle:_'
+  - 's:b:/stop:_'
+  - 's:b:/restart:_'
 
-  # Superadmin commands - Auto-eject
-  - 's:a:/stop:_'
-  - 's:a:/restart:_'
+  # Senior admin only commands
+  - 'c:b:/discord:&eOnly senior administrators may use that command.'
+  - 'c:b:/sbclear:&eOnly senior administrators may clear the box.'
+  - 'c:b:/sensibility:&eOnly senior administrators may use that.'
+  - 'c:b:/advancedcore:&eOnly senior administrators may use that.'
+  - 'c:b:/terminal:&eOnly senior administrators may use that.'
+
+  # Telnet admin only commands
+  - 't:b:/whitelist on:&eOnly telnet administrators+ may use that using the telnet console.'
 
 # Automatically wipe dropped objects
 auto_wipe: true
@@ -279,8 +311,8 @@ lightning_swing_enabled: true
 
 # Moblimiter
 moblimiter:
-  enabled: true
-  max: 500
+  enabled: false
+  max: 2000
   disable:
     dragon: true
     ghast: true
@@ -314,9 +346,10 @@ announcer:
   interval: 600
 
   # Prefix for all announcements
-  prefix: '&5[&eUnraveledMC&5] &b'
+  prefix: '&e&l[&7&lUnraveled&8&lMC&e&l] &6&l>> &e&l'
 
   announcements:
+    - 'If you want to apply for Super Admin, just do /ai! It gives you all information needed.'
     - 'Be sure to visit our forums at &6http://unraveledmc.com/forum/'
     - 'You can always review the server rules here: &6http://unraveledmc.com/forum/'
     - 'If you are not OP, be sure to ask!'
@@ -326,8 +359,8 @@ announcer:
     - 'Interested in becoming admin? Do "/ai" for more information!'
     - 'You may view all online administrators via "/list -a"'
     - 'Save your buildings via WorldEdit! http://unraveledmc.com/forum/ for more information!'
-    - 'Famous players, such as Notch, are always fake! We are an offline/cracked server!'
-    - 'aggelosQQ and AwesomePinch are the owners of UnraveledMC.'
+    #- 'Famous players, such as Notch, are always fake! We are an offline/cracked server!'
+    - 'aggelosQQ, AwesomePinch, and CreeperSeth are the owners of UnraveledMC.'
     - 'Server lagging?  Check the lag via "/tps"'
     - 'You are allowed to record and stream videos on UnraveledMC.'
     - 'Player vs player while in creative or god mode it forbidden!'
@@ -338,6 +371,7 @@ announcer:
     - 'Racism, nazism, and sexism are strictly forbidden!'
     - 'You can apply for master builder at http://unraveledmc.com/forum/'
     - 'Ever see players with colored chat and custom login messages? You can get them by doing /shop!'
+    - 'Vote for us to receive &6&l5 Coins&a&l! &b&l/vote'
 
 # Famous players - cannot be banned by username
 famous_players:

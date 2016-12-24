@@ -53,6 +53,7 @@ public class ShopGUIListener extends FreedomService
             int coloredChatPrice = ConfigEntry.SHOP_COLORED_CHAT_PRICE.getInteger();
             int customLoginMessagePrice = ConfigEntry.SHOP_LOGIN_MESSAGE_PRICE.getInteger();
             int thorHammerPrice = ConfigEntry.SHOP_LOGIN_MESSAGE_PRICE.getInteger();
+            int crescentRosePrice = ConfigEntry.SHOP_CRESCENT_ROSE_PRICE.getInteger();
             if (is.getType().equals(Material.BOOK_AND_QUILL) && !sd.isColoredchat() && canOfford(coloredChatPrice, coins))
             {
                 sd.setCoins(coins - coloredChatPrice);
@@ -77,6 +78,15 @@ public class ShopGUIListener extends FreedomService
                 sd.setThorHammer(true);
                 plugin.sh.save(sd);
                 p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought " + ChatColor.BLUE + "Thor's Hammer" + ChatColor.GREEN + "! Do /thorhammer to get one!");
+                event.setCancelled(true);
+                p.closeInventory();
+            }
+            else if (is.getType().equals(Material.DIAMOND_HOE) && !sd.isCrescentRose() && canOfford(crescentRosePrice, coins))
+            {
+                sd.setCoins(coins - crescentRosePrice);
+                sd.setCrescentRose(true);
+                plugin.sh.save(sd);
+                p.sendMessage(prefix + ChatColor.GREEN + "You have successfully bought " + ChatColor.RED + "Crescent Rose" + ChatColor.GREEN + "! Do /crescentrose to get one!");
                 event.setCancelled(true);
                 p.closeInventory();
             }
