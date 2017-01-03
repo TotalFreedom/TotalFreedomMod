@@ -359,7 +359,7 @@ announcer:
     - 'Interested in becoming admin? Do "/ai" for more information!'
     - 'You may view all online administrators via "/list -a"'
     - 'Save your buildings via WorldEdit! http://unraveledmc.com/forum/ for more information!'
-    #- 'Famous players, such as Notch, are always fake! We are an offline/cracked server!'
+    - 'Famous players, such as Notch, are always fake! We are an offline/cracked server!'
     - 'aggelosQQ, AwesomePinch, and CreeperSeth are the owners of UnraveledMC.'
     - 'Server lagging?  Check the lag via "/tps"'
     - 'You are allowed to record and stream videos on UnraveledMC.'
