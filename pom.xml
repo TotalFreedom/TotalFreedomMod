@@ -91,9 +91,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.TotalFreedom</groupId>
-            <artifactId>TF-WorldEdit</artifactId>
-            <version>63626093f3</version>
+            <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>6.1.0-TF</version>
         </dependency>
 
         <dependency>
