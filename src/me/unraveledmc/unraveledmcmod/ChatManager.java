@@ -13,11 +13,18 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import static me.unraveledmc.unraveledmcmod.util.FUtil.playerMsg;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ChatManager extends FreedomService
 {
     public static ChatColor acc = ChatColor.GOLD;
     public static boolean acr = false;
     public static boolean acn = false;
+    public static final List<String> GRATIS_IPS = Arrays.asList(new String[]
+    	    {
+    	        "myserver.gs", "serv.nu", "g-s.nu", "mygs.co"
+    	    });
 
     public ChatManager(UnraveledMCMod plugin)
     {
@@ -53,7 +60,7 @@ public class ChatManager extends FreedomService
         ShopData sd = plugin.sh.getData(player);
         String message = event.getMessage().trim();
         
-        if(!sd.isColoredchat())
+        if (!sd.isColoredchat())
         {
             // Strip color from messages
             message = ChatColor.stripColor(message);
@@ -62,6 +69,11 @@ public class ChatManager extends FreedomService
         {
             // Format color
             message = FUtil.colorize(message);
+        }
+        
+        // Execs can use formatting :^)
+        if (!FUtil.isExecutive(player.getName()))
+        {
             message = message.replaceAll(ChatColor.BOLD.toString(), "&l");
             message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
             message = message.replaceAll(ChatColor.ITALIC.toString(), "&o");
@@ -90,6 +102,19 @@ public class ChatManager extends FreedomService
             if (((float) caps / (float) message.length()) > 0.65) //Compute a ratio so that longer sentences can have more caps.
             {
                 message = message.toLowerCase();
+            }
+        }
+        
+        if (!plugin.al.isAdmin(player))
+        {
+        	for (String ip : GRATIS_IPS)
+            {
+                if (message.toLowerCase().contains(ip))
+                {
+                    player.sendMessage(ChatColor.RED + "Ew, stop trying to advertise your horrible gratis server. Get real hosting.");
+                    event.setCancelled(true);
+                    return;
+                }
             }
         }
 

@@ -3,6 +3,7 @@ package me.unraveledmc.unraveledmcmod.command;
 import me.unraveledmc.unraveledmcmod.banning.Ban;
 import me.unraveledmc.unraveledmcmod.rank.Rank;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
+import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -55,7 +56,7 @@ public class Command_tban extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Tempbanning: " + player.getName() + " for 5 minutes.", true);
         plugin.bm.addBan(Ban.forPlayer(player, sender, FUtil.parseDateOffset("5m"), reason));
 
-        player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
+        player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read " + ConfigEntry.SERVER_BAN_URL.getString() +  " for more info.");
 
         return true;
     }
