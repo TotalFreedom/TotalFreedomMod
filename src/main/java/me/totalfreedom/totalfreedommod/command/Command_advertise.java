@@ -26,7 +26,7 @@ public class Command_advertise extends FreedomCommand
         
         if (cooldown.contains(playerSender))
         {
-            playerSender.sendMessage(ChatColor.RED + "You must wait 10 minutes to make another advertisement.");
+            msg("You must wait 10 minutes to make another advertisement.");
             return true;
         }
         
