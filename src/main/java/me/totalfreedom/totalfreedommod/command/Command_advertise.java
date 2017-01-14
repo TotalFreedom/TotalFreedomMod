@@ -30,7 +30,7 @@ public class Command_advertise extends FreedomCommand
             return true;
         }
         
-        if (args.length > 1)
+        if (args.length == 0)
         {
             return false;
         }
