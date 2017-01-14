@@ -23,11 +23,10 @@ public class Command_advertise extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        Player p = (Player) sender;
         
-        if (cooldown.contains(p))
+        if (cooldown.contains(playerSender))
         {
-            p.sendMessage(ChatColor.RED + "You must wait 10 minutes to make another advertisement.");
+            playerSender.sendMessage(ChatColor.RED + "You must wait 10 minutes to make another advertisement.");
             return true;
         }
         
@@ -40,15 +39,15 @@ public class Command_advertise extends FreedomCommand
         Bukkit.broadcastMessage(ChatColor.GREEN + "[Advertisement] " + ChatColor.GOLD + sender.getName() + ChatColor.GREEN + "] " + ChatColor.DARK_GREEN + message);
         
         // Begin cooldown
-        cooldown.add(p);
+        cooldown.add(playerSender);
         
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
         {
             public void run()
             {
                 // End cooldown
-                p.sendMessage(ChatColor.GRAY + "You may now make another advertisement.");
-                cooldown.remove(p);
+                msg("You may now make another advertisement.");
+                cooldown.remove(playerSender);
             }
         }, 600L * 20L); 
     }
