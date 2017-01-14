@@ -30,13 +30,13 @@ public class Command_advertise extends FreedomCommand
             return true;
         }
         
-        if (args.length < 1)
+        if (args.length > 1)
         {
             return false;
         }
         
         String message = StringUtils.join(args, " ", 0, args.length);
-        Bukkit.broadcastMessage(ChatColor.GREEN + "[Advertisement] " + ChatColor.GOLD + sender.getName() + ChatColor.GREEN + "] " + ChatColor.DARK_GREEN + message);
+        Bukkit.broadcastMessage(ChatColor.GREEN + "[Advertisement] " + ChatColor.GOLD + sender.getName() + ChatColor.GREEN + "> " + ChatColor.DARK_GREEN + message);
         
         // Begin cooldown
         cooldown.add(playerSender);
