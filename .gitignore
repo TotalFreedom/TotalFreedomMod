@@ -1,4 +1,9 @@
-# TFM excludes
+# other excludes
+CONTRIBUTING.MD
+LICENSE.MD
+README.MD
+
+# UMCM excludes
 /lib
 build.properties
 
@@ -32,3 +37,4 @@ manifest.mf
 .Trashes
 ehthumbs.db
 Thumbs.db
+/nbproject/
