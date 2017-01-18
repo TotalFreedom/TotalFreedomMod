@@ -1,0 +1,10 @@
+#
+# UnraveledMCMod Permanent Bans
+#
+
+naughtyplayer1:
+  - 123.123.123.123
+  - 321.321.321.321
+naughtyplayer2:
+  - 111.111.111.111
+naughtyplayer3: []

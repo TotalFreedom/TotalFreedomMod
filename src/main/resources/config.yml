@@ -1,0 +1,462 @@
+#
+# UnraveledMCMod Configuration
+# by Madgeek1450, Prozza, and CreeperSeth
+#
+
+# Generic server information
+server:
+  # You should change this to your server's name
+  name: UnraveledMC
+
+  # The address your server is located at. Please do not include the port.
+  address: play.unraveledmc.com
+
+  # All players who show up as owner
+  owners:
+    - AwesomePinch
+    - aggelosQQ
+    - UnraveledMC
+
+  # All players who show up as co-owner
+  coowners:
+    - CreeperSeth
+
+  # All players who show up as executive
+  execs:
+    - AwesomePinch
+    - aggelosQQ
+    - CreeperSeth
+    - Dusty01_
+    - Typhlosion147
+    - OxLemonxO
+    
+  # All players who show up as president
+  pres:
+    - Donald_Trump
+    - Trump
+    - Mr_Trump
+    - DonaldJTrump
+    - Obama
+    - Barack_Obama
+    - BarackHObama
+
+  # All players who show up as master builder
+  master_builders: []
+
+  # URL players should appeal for bans at
+  ban_url: http://unraveledmc.com/forum/
+
+  # URL players should appeal for permanent bans at
+  permban_url: http://unraveledmc.com/forum/
+  
+# Shown at the server list
+motd:
+  # Every word in the MOTD will be a different color unless prefixed by a color code
+  colorful_motd: true
+
+  # What shows up on line 1
+  line_one: '&lUnraveledMC &l- &lFree &lOP'
+  
+  # What shows up on line 2
+  line_two: 'Running on %mcversion%'  
+
+# The discord bot self verification system
+verification:
+  # Should this be enabled?
+  enable: false
+  
+  # If you do not know the bot token or don't have a bot created, you can do so at https://discordapp.com/developers/applications/me
+  # A token must be specified if you have enabled verification
+  token: ''
+
+# Should players be opped on join
+op_on_join: true
+
+# The shop
+shop:
+  # Enable the shop
+  enabled: true
+  
+  # Shop prefix
+  prefix: '&7&l[&8&lUMC Shop&7&l]'
+  
+  # How much should the price be for buying colored chat
+  colored_chat_price: 50
+  
+  # How much should the price be for buying custom login messages
+  login_message_price: 100
+  
+  # How much should the price be for buying Thor's hammer
+  thor_hammer_price: 150
+  
+  # How much should the price be for buying Crescent Rose
+  crescent_rose_price: 420
+  
+  # How much should it cost a player to use Crescent Rose per attack
+  crescent_rose_use_price: 50
+  
+# Admins
+admins:
+  # Message to display to admins when they login (supports color codes and is multiple line)
+  admin_login_message:
+    - '&2Welcome back admin!'
+    - '&cBe sure to keep an eye on the ops!'
+  
+  # Admin list
+  adminlist:
+    # The amount of hours after which admins may be removed from the admin list
+    clean_threshold_hours: 167
+    # Give the default CONSOLE senior admin privileges.
+    # Handy in development environments.
+    console_is_senior: true
+
+  # Admin-Only Mode
+  admin_only_mode: false
+  
+  # IPs that can not be supered
+  noadmin_ips:
+    - 167.114.97.16
+
+# ForceIP configuration
+forceip:
+  enabled: false
+
+  # The port players should use to connect to your server; only applies to forceip
+  port: 25565
+
+  # The kick message sent to players when logging in with the wrong hostname
+  kickmsg: You have been kicked from the server - Please connect using %address%
+
+
+# Blocking certain events
+allow:
+  fire_place: false
+  fire_spread: false
+  fluid_spread: false
+  lava_place: false
+  lava_damage: false
+  water_place: false
+  tnt_minecarts: false
+  explosions: false
+
+# Blocked commands:
+#
+# How blocked commands work:
+# All sections described below are delimited by colon characters.
+# Make sure that you block a command by its main command name, not an alias
+# as all aliases are blocked by default. Commands are case-insensitive.
+#
+# * The first section is a letter which indicates which rank may use this command
+#   Valid ranks:
+#   n - Nobody (Completely disabled)
+#   c - Senior Admins (Console)
+#   t - Telnet Admins (Console)
+#   s - Super Admins (Any in-game admin)
+#   o - Ops (Non-Ops won't be able to use it)
+#
+# * The second section is a letter which indicates what to do when a player executes that command.
+#   Valid actions:
+#   b - Block the command
+#   a - Block the command and auto-eject that player (for ops and below)
+#   u - Block the command and Return an "Unknown command" message (Used to hide commands)
+#
+# * The third section is the command to be blocked, prefixed with a slash
+#
+# * The fourth section is the message to send to the player when executing that command.
+#   This should be ommited if unwanted. ChatColors are supported with the &-key. By default
+#   -the starting ChatColor is set to gray. You can use the default 'That command is blocked.' message
+#   by using a single underscore.
+#
+# Examples:
+#   - 'n:b:/mail sendall:&4You can't send mails to everyone!'
+#   - 's:a:/stop'
+#   - 'n:b:/ban:_'
+#
+blocked_commands:
+    # Disabled commands
+  - 'n:b:/socialspy:&cEw why the fuck are you using socialspy? Commandspy shows ALL the commands'
+  - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
+  - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
+  - 'n:b:/ban-ip:_'
+  - 'n:b:/toggledownfall:_'
+  - 'n:b:/effect:Please use /potion to set effects.'
+  - 'n:b:/spreadplayers:_'
+  - 'n:b:/execute:_'
+  - 'n:b:/blockdata:_'
+  - 'n:b:/clearhistory:_'
+  - 'n:b:/save-all:_'
+  - 'n:b:/save-on:_'
+  - 'n:b:/save-off:_'
+  - 'n:b:/skinsrestorer:_'
+  - 'n:b:/packet:_'
+  - 'n:b:/thaw:_'
+  - 'n:b:/setjail:_'
+  - 'n:b:/testfor:_'
+  - 'n:b:/testforblock:_'
+  - 'n:b:/testforblocks:_'
+  - 'n:b:/packet_filter:_'
+  - 'n:b:/disguiseradius:_'
+  - 'n:b:/undisguiseradius:_'
+  - 'n:b:/disguiseplayer:_'
+  - 'n:b:/undisguiseplayer:_'
+  - 'n:b:/disguiseentity:_'
+  - 'n:b:/undisguiseentity:_'
+  - 'n:b:/spawnmob:_'
+  - 'n:b:/maintenance:_'
+  - 'n:b:/kill:_'
+  - 'n:b:/tellraw:&clol nope'
+  - 'n:b:/title:&clol nope'
+  - 'n:b:/tpall:&cYou may not use this command.'
+  - 'n:b:/summon LightningBolt:&ePlease use &c/thorhammer &einstead.'
+  - 'n:b:/clone:&cThis command has been disabled due to misuse.'
+  - 'n:b:/mail sendall:_'
+  - 'n:b:/entitydata:_'
+  - 'n:b:/setworldspawn:_'
+  - 'n:b:/trigger:_'
+  
+  # Superadmin commands
+  - 's:b:/kick:_'
+  - 's:b:/tool:_'
+  - 's:b:/replaceitem:_'
+  - 's:b://generate:_'
+  - 's:b://:_'
+  - 's:b:/superpickaxe:_'
+  - 's:b:/size:_'
+  - 's:b://mask:_'
+  - 's:b:/mat:_'
+  - 's:b://butcher:_'
+  - 's:b:/scoreboard:_'
+  - 's:b:/setspawn:_'
+  - 's:b://snow:_'
+  - 's:b:/forestgen:_'
+  - 's:b:/setidletimeout:_'
+  - 's:b:/eco reset:_'
+  - 's:b:/mask:_'
+  - 's:b:/gmask:_'
+  - 's:b:/lrbuild:_'
+  - 's:b:/defaultgamemode:_'
+  - 's:b:/reload:_'
+  - 's:b:/worldborder:_'
+  - 's:b:/weather:_'
+  - 's:b:/setblock:_'
+  - 's:b:/green:_'
+  - 's:b:/gamerule:_'
+  - 's:b:/togglejail:_'
+  - 's:b:/fill:_'
+  - 's:b:/flood:_'
+  - 's:b:/coreprotect:_'
+  - 's:b:/core:_'
+  - 's:b:/co:_'
+  - 's:b:/supertrails:_'
+  - 's:b:/reaction:_'
+  - 's:b:/protocol:_'
+  - 's:b:/tablist:_'
+  - 's:b:/aba:_'
+  - 's:b:/ab:_'
+  - 's:b:/timer:_'  
+  - 's:b:/sblist:&eOnly administrators may use this.'
+  - 's:b:/adminvote:&cOnly administrators can do that, please use /vote'
+  - 's:b:/av:&cOnly administrators can do that, please use /vote'
+  - 's:b:/betterchairsreload:_'
+  - 's:b:/lb reload:&eOnly administrators may reload the plugin.'
+  - 's:b:/enderchest:_'
+  - 's:b:/tphere:&cOnly administrators can use that! Please use /tpahere instead!'
+  - 's:b:/tpo:&cOnly administrators can use that! Please use /tp(a) instead!'
+  - 's:b:/tpohere:&cOnly administrators can use that! Please use /tpahere instead!'
+  - 's:b://count:&cThis command has been disabled due to abuse.'
+  - 's:b:/pardon:_'
+  - 's:b:/pardon-ip:_' 
+  - 's:b:/ban:You must be an admin to use this command.'
+  - 's:b:/locate:_'
+  - 's:b:/playsound:_'
+  - 's:b:/stopsound:_'
+  - 's:b:/world:&cJust stay in the flatlands.'
+  - 's:b:/summon:&cThe summon command is useless here.'
+  - 's:b:/particle:_'
+  - 's:b:/stop:_'
+  - 's:b:/restart:_'
+
+  # Senior admin only commands
+  - 'c:b:/discord:&eOnly senior administrators may use that command.'
+  - 'c:b:/sbclear:&eOnly senior administrators may clear the box.'
+  - 'c:b:/sensibility:&eOnly senior administrators may use that.'
+  - 'c:b:/advancedcore:&eOnly senior administrators may use that.'
+  - 'c:b:/terminal:&eOnly senior administrators may use that.'
+
+  # Telnet admin only commands
+  - 't:b:/whitelist on:&eOnly telnet administrators+ may use that using the telnet console.'
+
+# Automatically wipe dropped objects
+auto_wipe: true
+
+# Nuking prevention
+nukemonitor:
+  enabled: true
+  count_break: 100
+  count_place: 40
+  range: 10.0
+
+freecam_trigger_count: 10
+explosive_radius: 4.0
+
+# Show all attempted commands in the log, will result in duplicate log messages
+preprocess_log: true
+
+# Disable certain events
+disable:
+  night: true
+  weather: true
+
+
+# Enable misc. features
+landmines_enabled: false
+mp44_enabled: false
+tossmob_enabled: false
+lightning_swing_enabled: true
+
+# Moblimiter
+moblimiter:
+  enabled: false
+  max: 2000
+  disable:
+    dragon: true
+    ghast: true
+    slime: true
+    giant: true
+
+# Flatlands
+flatlands:
+  generate: true
+
+  # Flatlands generation parameters - Uses CleanroomGenerator syntax - http://dev.bukkit.org/server-mods/cleanroomgenerator/
+  generate_params: 16,stone,32,dirt,1,grass
+
+# Protected Areas - Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
+protectarea:
+  enabled: true
+  auto_protect_spawnpoints: true
+  auto_protect_radius: 25.0
+
+# Host Sender Names - Names that indicate automated services or host-based consoles you want to block from using some commands.
+# Make sure these are all lower-case.
+host_sender_names:
+  - rcon
+  - remotebukkit
+
+# Announcer
+announcer:
+  enabled: true
+
+  # Interval between announcements, in seconds.
+  interval: 600
+
+  # Prefix for all announcements
+  prefix: '&e&l[&7&lUnraveled&8&lMC&e&l] &6&l>> &e&l'
+
+  announcements:
+    - 'If you want to apply for Super Admin, just do /ai! It gives you all information needed.'
+    - 'Be sure to visit our forums at &6http://unraveledmc.com/forum/'
+    - 'You can always review the server rules here: &6http://unraveledmc.com/forum/'
+    - 'If you are not OP, be sure to ask!'
+    - 'Somebody breaking the rules? Report it! /report <user> <reason>'
+    - 'Griefing is not allowed!'
+    - 'Hacked clients are allowed!'
+    - 'Interested in becoming admin? Do "/ai" for more information!'
+    - 'You may view all online administrators via "/list -a"'
+    - 'Save your buildings via WorldEdit! http://unraveledmc.com/forum/ for more information!'
+    - 'Famous players, such as Notch, are always fake! We are an offline/cracked server!'
+    - 'aggelosQQ, AwesomePinch, and CreeperSeth are the owners of UnraveledMC.'
+    - 'Server lagging?  Check the lag via "/tps"'
+    - 'You are allowed to record and stream videos on UnraveledMC.'
+    - 'Player vs player while in creative or god mode it forbidden!'
+    - 'Spawn killing is forbidden!'
+    - 'Invisible potions are allowed!'
+    - 'Serial griefing and trolling will result in a permanent ban!'
+    - 'UnraveledMC does not accept any form of donations!'
+    - 'Racism, nazism, and sexism are strictly forbidden!'
+    - 'You can apply for master builder at http://unraveledmc.com/forum/'
+    - 'Ever see players with colored chat and custom login messages? You can get them by doing /shop!'
+    - 'Vote for us to receive &6&l5 Coins&a&l! &b&l/vote'
+
+# Famous players - cannot be banned by username
+famous_players:
+  - honeydew
+  - xephos
+  - captainsparklez
+  - truemu
+  - kiershar
+  - fvdisco
+  - sethbling
+  - notch
+  - jeb_
+  - gamechap
+  - bertiechap
+  - vechs
+  - antvenom
+  - chimneyswift
+  - deadmau5
+  - etho
+  - ethoslab
+  - skydoesminecraft
+  - skythekidrs
+  - tobyturner
+  - xxslyfoxhoundxx
+  - paulsoaresjr
+  - sips_
+  - deadlox
+  - xxslyxx
+  - jeromeasf
+  - dinnerbone
+  - grumm
+  - grum
+  - evilseph
+  - cavemanfilms
+  - herobrine
+  - whiteboy7thst
+  - stampylonghead
+  - stampylongnose
+  - dantdm
+  - gizzy14gazza
+  - furiousdestroyer
+  - pewdie
+  - thecampingrusher
+  - logdotzip
+  - ssundee
+  - mrcrainer
+  - achileis
+
+# Pet Protect - Prevent tamed pets from being killed.
+petprotect:
+  enabled: true
+
+# Logviewer
+logs:
+  url: ''
+  secret: ''
+
+# Mojang service checker
+service_checker_url: http://status.mojang.com/check
+
+# HTTPD server
+httpd:
+  enabled: true
+  port: 28366
+  public_folder: ././././././././var/www/html
+
+# Inactivity Auto-Kick (Requires Essentials)
+autokick:
+  enabled: true
+
+  # Percentage of server player capacity used at which players will be automatically kicked for being inactive. Range: 0.0 - 1.0
+  threshold: 0.9
+
+  # Time, in seconds, after which a player should be kicked when inactive
+  time: 120
+
+# Players with access to the overlord command
+overlord_ips:
+  - 176.56.237.227
+  - 192.184.86.138
+  - 107.191.101.27
+  - 178.62.117.94
+  - 141.101.104.243
