@@ -23,8 +23,8 @@ public enum Title implements Displayable
     {
         this.determiner = determiner;
         this.name = name;
-        this.tag = "[" + tag + "]";
-        this.coloredTag = ChatColor.DARK_GRAY + "[" + color + tag + ChatColor.DARK_GRAY + "]" + color;
+        this.tag = "(" + tag + ")";
+        this.coloredTag = ChatColor.DARK_GRAY + "(" + color + tag + ChatColor.DARK_GRAY + ")" + color;
         this.color = color;
     }
 

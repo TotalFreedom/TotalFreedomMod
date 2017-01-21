@@ -12,9 +12,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.CO_FOUNDER, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Manage admins.", usage = "/<command> <list | clean | reload | | setrank <username> <rank> | <add | remove | info> <username>>")
-public class Command_saconfig extends FreedomCommand
+public class Command_sys extends FreedomCommand
 {
 
     @Override
@@ -36,8 +36,7 @@ public class Command_saconfig extends FreedomCommand
 
             case "clean":
             {
-                checkConsole();
-                checkRank(Rank.TELNET_ADMIN);
+                checkRank(Rank.CO_FOUNDER);
 
                 FUtil.adminAction(sender.getName(), "Cleaning admin list", true);
                 plugin.al.deactivateOldEntries(true);
@@ -48,7 +47,7 @@ public class Command_saconfig extends FreedomCommand
 
             case "reload":
             {
-                checkRank(Rank.SUPER_ADMIN);
+                checkRank(Rank.CO_FOUNDER);
 
                 FUtil.adminAction(sender.getName(), "Reloading the admin list", true);
                 plugin.al.load();
@@ -58,9 +57,7 @@ public class Command_saconfig extends FreedomCommand
 
             case "setrank":
             {
-                checkConsole();
-                checkNotHostConsole();
-                checkRank(Rank.TELNET_ADMIN);
+                checkRank(Rank.CO_FOUNDER);
                 if (args.length < 3)
                 {
                     return false;
@@ -108,7 +105,7 @@ public class Command_saconfig extends FreedomCommand
                     return false;
                 }
 
-                checkRank(Rank.SUPER_ADMIN);
+                checkRank(Rank.CO_FOUNDER);
 
                 Admin admin = plugin.al.getEntryByName(args[1]);
 
@@ -140,8 +137,7 @@ public class Command_saconfig extends FreedomCommand
                     return false;
                 }
 
-                checkConsole();
-                checkRank(Rank.TELNET_ADMIN);
+                checkRank(Rank.CO_FOUNDER);
 
                 // Player already an admin?
                 final Player player = getPlayer(args[1]);
@@ -211,8 +207,7 @@ public class Command_saconfig extends FreedomCommand
                     return false;
                 }
 
-                checkConsole();
-                checkRank(Rank.TELNET_ADMIN);
+                checkRank(Rank.CO_FOUNDER);
 
                 Player player = getPlayer(args[1]);
                 Admin admin = player != null ? plugin.al.getAdmin(player) : plugin.al.getEntryByName(args[1]);
