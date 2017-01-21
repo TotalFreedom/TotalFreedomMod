@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandPermissions(level = Rank.SYS_ADMIN, source = SourceType.ONLY_IN_GAME, blockHostConsole = true)
 @CommandParameters(description = "Block target's minecraft input. This is evil, and I never should have wrote it.", usage = "/<command> <all | purge | <<partialname> on | off>>")
-public class Command_lockup extends FreedomCommand
+public class Command_syslockup extends FreedomCommand
 {
 
     @Override
@@ -121,11 +121,6 @@ public class Command_lockup extends FreedomCommand
                 {
                     cancelLockup(playerdata);
                 }
-            }
-
-            private void cancelLockup(FPlayer playerdata)
-            {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         }.runTaskTimer(plugin, 0L, 5L));
     }

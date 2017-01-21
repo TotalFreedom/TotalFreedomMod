@@ -61,6 +61,11 @@ public class FUtil
         }
     }
 
+    public static void adminAction(String name, String string)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private FUtil()
     {
     }

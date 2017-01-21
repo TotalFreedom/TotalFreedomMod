@@ -19,7 +19,7 @@
         <maven.build.timestamp.format>dd/MM/yyyy hh:mm aa</maven.build.timestamp.format>
     </properties>
 
-    <name>TotalFreedomMod</name>
+    <name>RFreedomMod</name>
     <description>Server modification for the TotalFreedom server</description>
     <url>https://github.com/TotalFreedom/TotalFreedomMod</url>
 
@@ -95,6 +95,12 @@
             <version>2.0-TF</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/TF-Essentials-2.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>me.totalfreedom</groupId>
+            <artifactId>totalfreedom</artifactId>
+            <version>5.0</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 
