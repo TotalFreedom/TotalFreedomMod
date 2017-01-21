@@ -36,9 +36,6 @@ server:
     - Trump
     - Mr_Trump
     - DonaldJTrump
-    - Obama
-    - Barack_Obama
-    - BarackHObama
 
   # All players who show up as master builder
   master_builders: []
