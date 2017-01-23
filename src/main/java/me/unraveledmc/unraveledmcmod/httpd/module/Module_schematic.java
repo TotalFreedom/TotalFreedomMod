@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.admin.Admin;
+import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.httpd.HTMLGenerationTools;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDPageBuilder;
 import me.unraveledmc.unraveledmcmod.httpd.HTTPDaemon;
@@ -59,7 +60,7 @@ public class Module_schematic extends HTTPDModule
 
     public String title()
     {
-        return "UnraveledMCMod :: Schematic Manager";
+        return ConfigEntry.SERVER_NAME.getString() + " - Schematic Manager";
     }
 
     @SuppressWarnings("Convert2Lambda")

@@ -50,11 +50,9 @@ public class UnraveledMCMod extends AeroPlugin<UnraveledMCMod>
 
     public static final String CONFIG_FILENAME = "config.yml";
     //
-    public static final BuildProperties build = new BuildProperties();
-    //
     public static String pluginName;
-    public static String pluginVersion = "1.8.0";
-    public static String buildDate = "1/18/2017";
+    public static String pluginVersion = "1.8.2";
+    public static String buildDate = "1/21/2017";
     public static String compiledBy = "CreeperSeth";
     //
     public MainConfig config;
@@ -124,8 +122,6 @@ public class UnraveledMCMod extends AeroPlugin<UnraveledMCMod>
 
         FLog.setPluginLogger(plugin.getLogger());
         FLog.setServerLogger(server.getLogger());
-
-        build.load(plugin);
     }
 
     @Override
@@ -259,47 +255,6 @@ public class UnraveledMCMod extends AeroPlugin<UnraveledMCMod>
         server.getScheduler().cancelTasks(plugin);
 
         FLog.info("Plugin disabled");
-    }
-
-    public static class BuildProperties
-    {
-
-        public String author;
-        public String codename;
-        public String version;
-        public String number;
-        public String date;
-        public String head;
-
-        public void load(UnraveledMCMod plugin)
-        {
-            try
-            {
-                final Properties props;
-                try (InputStream in = plugin.getResource("build.properties"))
-                {
-                    props = new Properties();
-                    props.load(in);
-                }
-
-                author = props.getProperty("program.build.author", "CreeperSeth");
-                codename = props.getProperty("program.build.codename", "UnraveledMCMod");
-                version = props.getProperty("program.build.version", pluginVersion);
-                number = props.getProperty("program.build.number", pluginVersion);
-                date = props.getProperty("program.build.date", buildDate);
-                head = props.getProperty("program.build.head", "CreeperSeth");
-            }
-            catch (Exception ex)
-            {
-                FLog.severe("Could not load build properties! Did you compile with Netbeans/ANT?");
-                FLog.severe(ex);
-            }
-        }
-
-        public String formattedVersion()
-        {
-            return pluginVersion + "." + number + " (" + head + ")";
-        }
     }
 
     public static UnraveledMCMod plugin()

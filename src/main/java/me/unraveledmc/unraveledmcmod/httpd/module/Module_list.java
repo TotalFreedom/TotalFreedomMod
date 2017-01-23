@@ -2,6 +2,7 @@ package me.unraveledmc.unraveledmcmod.httpd.module;
 
 import java.util.Collection;
 import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
+import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.httpd.NanoHTTPD;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -39,6 +40,6 @@ public class Module_list extends HTTPDModule
     @Override
     public String getTitle()
     {
-        return "UnraveledMC - Online Users";
+        return ConfigEntry.SERVER_NAME.getString() + " - Online Users";
     }
 }

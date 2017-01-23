@@ -5,44 +5,33 @@ import me.unraveledmc.unraveledmcmod.UnraveledMCMod;
 import me.unraveledmc.unraveledmcmod.config.ConfigEntry;
 import me.unraveledmc.unraveledmcmod.shop.ShopData;
 import me.unraveledmc.unraveledmcmod.util.FUtil;
-
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.bukkit.util.Vector;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Location;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.GameMode;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.Sound;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.block.Action;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.Particle;
 import org.bukkit.FireworkEffect;
 import org.bukkit.entity.Firework;
-import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.EntityEffect;
 
 @SuppressWarnings("LocalVariableHidesMemberVariable")
 public class CrescentRose extends FreedomService
@@ -140,6 +129,7 @@ public class CrescentRose extends FreedomService
                     {
                         int coins_needed = use_price - sd.getCoins();
                         FUtil.playerMsg(p, ChatColor.RED + "You only have " + ChatColor.DARK_RED + sd.getCoins() + ChatColor.RED + " coins. You need " + ChatColor.DARK_RED + coins_needed + ChatColor.RED + " more coins to use Crescent Rose!");
+                        return;
                     }
                 }
                 if (cooldowns.containsKey(p.getName()))
@@ -189,6 +179,7 @@ public class CrescentRose extends FreedomService
                         {
                             int coins_needed = use_price - sd.getCoins();
                             FUtil.playerMsg(p, ChatColor.RED + "You only have " + ChatColor.DARK_RED + sd.getCoins() + ChatColor.RED + " coins. You need " + ChatColor.DARK_RED + coins_needed + ChatColor.RED + " more coins to use Crescent Rose!");
+                            return;
                         }
                     }
                     if (cooldowns.containsKey(p.getName()))
