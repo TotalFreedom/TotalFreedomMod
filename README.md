@@ -2,7 +2,7 @@
 A server modification for the UnraveledMC server
 
 
-Please read the following below:
+Please read the following below for the original README. The bottom section is for this mod. As stated below, you may NOT share modified compiled versions of this plugin.
 # TotalFreedomMod #
 
 TotalFreedomMod is a CraftBukkit server plugin designed primarily to support the [Official TotalFreedom Minecraft Server](http://totalfreedom.me/). However, you are more than welcome to adapt the source for your own server.
