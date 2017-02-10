@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreeedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDPageBuilder;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
@@ -55,6 +56,7 @@ public class Module_logfile extends HTTPDModule
         if (!LOG_FOLDER.exists())
         {
             return HTMLGenerationTools.paragraph("Can't find the logs folder.");
+            FLog.warning("The logfile module failed to find the logs folder.");
         }
 
         final StringBuilder out = new StringBuilder();
@@ -69,6 +71,7 @@ public class Module_logfile extends HTTPDModule
                 if (!isAuthorized(remoteAddress))
                 {
                     out.append(HTMLGenerationTools.paragraph("Log files access denied: Your IP, " + remoteAddress + ", is not registered to a superadmin on this server."));
+                    FLog.info("An unregistered IP (" + remoteAddress ") has tried to access the log files");
                 }
                 else
                 {
@@ -105,6 +108,7 @@ public class Module_logfile extends HTTPDModule
                 if (!isAuthorized(remoteAddress))
                 {
                     out.append(HTMLGenerationTools.paragraph("Log files access denied: Your IP, " + remoteAddress + ", is not registered to a superadmin on this server."));
+                    FLog.info("An unregistered IP (" + remoteAddress ") has tried to download a log file");
                 }
                 else
                 {
