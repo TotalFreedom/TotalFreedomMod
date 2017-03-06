@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Bans or unbans any player, even those who are not logged in anymore.", usage = "/<command> <purge | ban <username> [reason] | unban <username>>")
+@CommandParameters(description = "Bans or unbans any player, even those who are not logged in anymore.", usage = "/<command> <purge | ban <username> [reason] | unban <username> | banip <ip> <reason> | unbanip <ip>>")
 public class Command_glist extends FreedomCommand
 {
 
@@ -43,11 +43,18 @@ public class Command_glist extends FreedomCommand
             return false;
         }
 
-        String username;
+        String username = null;
         final List<String> ips = new ArrayList<>();
-
+        boolean usingIp = false;
+        String banIp = null;
+        if (args[1].matches("^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))$"))
+        {
+            usingIp = true;
+            banIp = args[1];
+        }
         final Player player = getPlayer(args[1]);
-        if (player == null)
+
+        if (player == null && !usingIp)
         {
             final PlayerData entry = plugin.pl.getData(args[1]);
 
@@ -60,25 +67,25 @@ public class Command_glist extends FreedomCommand
             username = entry.getUsername();
             ips.addAll(entry.getIps());
         }
-        else
+
+        else if (player != null && !usingIp)
         {
             final PlayerData entry = plugin.pl.getData(player);
-            username = player.getName();
+            username = entry.getUsername();
             ips.addAll(entry.getIps());
         }
 
         if ("ban".equals(args[0]))
         {
-            FUtil.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
-
             final String reason = args.length > 2 ? StringUtils.join(args, " ", 2, args.length) : null;
-
             Ban ban = Ban.forPlayerName(username, sender, null, reason);
             for (String ip : ips)
             {
                 ban.addIp(ip);
                 ban.addIp(FUtil.getFuzzyIp(ip));
             }
+            FUtil.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
+
             plugin.bm.addBan(ban);
 
             if (player != null)
@@ -110,6 +117,46 @@ public class Command_glist extends FreedomCommand
             return true;
         }
 
-        return false;
+        if ("banip".equals(args[0]))
+        {
+            if (banIp == null)
+            {
+                msg("Please specify an IP");
+                return true;
+            }
+
+            final String reason = args.length > 2 ? StringUtils.join(args, " ", 2, args.length) : null;
+            Ban ban = Ban.forPlayerIp(banIp, sender, null, reason);
+            plugin.bm.addBan(ban);
+            FUtil.adminAction(sender.getName(), "Banning IPs: " + StringUtils.join(banIp, ", "), true);
+            return true;
+        }
+
+        if ("unbanip".equals(args[0]))
+        {
+            if (banIp == null)
+            {
+                msg("Please specify an IP");
+                return true;
+            }
+
+            FUtil.adminAction(sender.getName(), "Unbanning IPs: " + StringUtils.join(banIp, ", "), true);
+            Ban ban = plugin.bm.getByIp(banIp);
+            if (ban != null)
+            {
+                plugin.bm.removeBan(ban);
+                plugin.bm.unbanIp(banIp);
+            }
+            ban = plugin.bm.getByIp(FUtil.getFuzzyIp(banIp));
+            if (ban != null)
+            {
+                plugin.bm.removeBan(ban);
+                plugin.bm.unbanIp(banIp);
+            }
+            return true;
+        }
+
+        return true;
     }
+
 }
