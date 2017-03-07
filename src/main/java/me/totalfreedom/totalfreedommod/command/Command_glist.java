@@ -47,7 +47,7 @@ public class Command_glist extends FreedomCommand
         final List<String> ips = new ArrayList<>();
         boolean usingIp = false;
         String banIp = null;
-        if (args[1].matches("^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))$"))
+        if (args[1].matches("^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))$") || args[1].matches("^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([*])\\.([*])$"))
         {
             usingIp = true;
             banIp = args[1];
@@ -77,6 +77,11 @@ public class Command_glist extends FreedomCommand
 
         if ("ban".equals(args[0]))
         {
+            if (usingIp)
+            {
+                msg("Please specify a player, not an ip.");
+                return true;
+            }
             final String reason = args.length > 2 ? StringUtils.join(args, " ", 2, args.length) : null;
             Ban ban = Ban.forPlayerName(username, sender, null, reason);
             for (String ip : ips)
@@ -84,7 +89,7 @@ public class Command_glist extends FreedomCommand
                 ban.addIp(ip);
                 ban.addIp(FUtil.getFuzzyIp(ip));
             }
-            FUtil.adminAction(sender.getName(), "Banning IP: " + banIp, true);
+            FUtil.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
 
             plugin.bm.addBan(ban);
 
@@ -97,7 +102,12 @@ public class Command_glist extends FreedomCommand
 
         if ("unban".equals(args[0]))
         {
-            FUtil.adminAction(sender.getName(), "Unbanning IP: " + banIp, true);
+            if (usingIp)
+            {
+                msg("Please specify a player, not an ip.");
+                return true;
+            }
+            FUtil.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
             plugin.bm.removeBan(plugin.bm.getByUsername(username));
 
             for (String ip : ips)
@@ -117,7 +127,7 @@ public class Command_glist extends FreedomCommand
             return true;
         }
 
-        if ("banip".equals(args[0]))
+        if ("banip".equals(args[0]) || "ipban".equals(args[0]))
         {
             if (banIp == null)
             {
@@ -128,11 +138,11 @@ public class Command_glist extends FreedomCommand
             final String reason = args.length > 2 ? StringUtils.join(args, " ", 2, args.length) : null;
             Ban ban = Ban.forPlayerIp(banIp, sender, null, reason);
             plugin.bm.addBan(ban);
-            FUtil.adminAction(sender.getName(), "Banning IPs: " + StringUtils.join(banIp, ", "), true);
+            FUtil.adminAction(sender.getName(), "Banning IP: " + banIp, true);
             return true;
         }
 
-        if ("unbanip".equals(args[0]))
+        if ("unbanip".equals(args[0]) || "pardonip".equals(args[0]))
         {
             if (banIp == null)
             {
@@ -140,7 +150,7 @@ public class Command_glist extends FreedomCommand
                 return true;
             }
 
-            FUtil.adminAction(sender.getName(), "Unbanning IPs: " + StringUtils.join(banIp, ", "), true);
+            FUtil.adminAction(sender.getName(), "Unbanning IP: " + banIp, true);
             Ban ban = plugin.bm.getByIp(banIp);
             if (ban != null)
             {
