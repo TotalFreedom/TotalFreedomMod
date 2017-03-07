@@ -28,17 +28,26 @@ public class CommandSpy extends FreedomService
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
+        // Gets everyone online
         for (Player player : server.getOnlinePlayers())
         {
-            Rank recieverRank = plugin.rm.getRank(player);
-            Rank playerRank = plugin.rm.getRank(event.getPlayer());
+            // Used for when the actual cmdspy message has to be sent
+            final boolean sendMessage = plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).cmdspyEnabled();
+            // Rank of everyone on the server, if they have sufficient perms they become the 'reciever'
+            final Rank recieverRank = plugin.rm.getRank(player);
+            // Any player executing a command falls under this.
+            final Rank playerRank = plugin.rm.getRank(event.getPlayer());
+
+            // If the rank of the reciever is less then or equal to the rank of the command executer, do not send the cmdspy message. Also check if you are the executer of the command
             if (playerRank.ordinal() >= recieverRank.ordinal() || player.equals(event.getPlayer()))
             {
                 return;
             }
 
-            if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).cmdspyEnabled())
+            // boolean sendMessage is used here
+            if (sendMessage)
             {
+                // Sends the cmdspy message if no return; statement has been met
                 FUtil.playerMsg(player, event.getPlayer().getName() + ": " + event.getMessage());
             }
         }
