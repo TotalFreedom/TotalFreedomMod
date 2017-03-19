@@ -1,16 +1,16 @@
-package com.commodore.pixellibertymod.httpd.module;
+package me.totalfreedom.totalfreedommod.httpd.module;
 
-import com.commodore.pixellibertymod.PixelLibertyMod;
-import com.commodore.pixellibertymod.admin.Admin;
-import com.commodore.pixellibertymod.banning.BanManager;
-import com.commodore.pixellibertymod.httpd.HTTPDaemon;
-import com.commodore.pixellibertymod.httpd.NanoHTTPD;
-import com.commodore.pixellibertymod.util.FLog;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.Admin;
+import me.totalfreedom.totalfreedommod.BanManager;
+import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
+import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import java.io.File;
 
 public class Module_bans extends HTTPDModule {
 
-    public Module_bans(PixelLibertyMod plugin, NanoHTTPD.HTTPSession session) {
+    public Module_bans(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session) {
         super(plugin, session);
     }
 
