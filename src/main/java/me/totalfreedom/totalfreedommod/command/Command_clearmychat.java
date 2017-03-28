@@ -17,7 +17,7 @@ public class Command_clearmychat extends F_Command
         {
             msg("");
         }
-        msg(ChatColor.RED + "You have cleared your own chat!");
+        msg("You have cleared your own chat!", ChatColor.RED);
         return true;
     }
 }
