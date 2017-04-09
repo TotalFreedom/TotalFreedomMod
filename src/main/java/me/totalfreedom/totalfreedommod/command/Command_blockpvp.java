@@ -11,8 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [[-s] <player> [reason] | list | purge | all]", aliases = "mute")
-public class Command_stfu extends FreedomCommand
+@CommandParameters(description = "Toggle PVP mode for players.", usage = "/<command> [[-s] <player> [reason] | list | purge | all]", aliases = "pvpblock,pvpmode,pvpman,pvman")
+public class Command_blockpvp extends FreedomCommand
 {
 
     @Override
@@ -25,13 +25,13 @@ public class Command_stfu extends FreedomCommand
 
         if (args[0].equals("list"))
         {
-            msg("Muted players:");
+            msg("Disabled PVP mode players:");
             FPlayer info;
             int count = 0;
             for (Player mp : server.getOnlinePlayers())
             {
                 info = plugin.pl.getPlayer(mp);
-                if (info.isMuted())
+                if (info.isPVPBlock())
                 {
                     msg("- " + mp.getName());
                     count++;
@@ -47,25 +47,25 @@ public class Command_stfu extends FreedomCommand
 
         if (args[0].equals("purge"))
         {
-            FUtil.adminAction(sender.getName(), "Unmuting all players.", true);
+            FUtil.adminAction(sender.getName(), "Enabling PVP mode for all players.", true);
             FPlayer info;
             int count = 0;
             for (Player mp : server.getOnlinePlayers())
             {
                 info = plugin.pl.getPlayer(mp);
-                if (info.isMuted())
+                if (info.isPVPBlock())
                 {
-                    info.setMuted(false);
+                    info.setPVPBlock(false);
                     count++;
                 }
             }
-            msg("Unmuted " + count + " players.");
+            msg("Enabling PVP mode for " + count + " players.");
             return true;
         }
 
         if (args[0].equals("all"))
         {
-            FUtil.adminAction(sender.getName(), "Muting all non-Superadmins", true);
+            FUtil.adminAction(sender.getName(), "Disabling PVP mode for all non-Superadmins", true);
 
             FPlayer playerdata;
             int counter = 0;
@@ -74,12 +74,12 @@ public class Command_stfu extends FreedomCommand
                 if (!plugin.al.isAdmin(player))
                 {
                     playerdata = plugin.pl.getPlayer(player);
-                    playerdata.setMuted(true);
+                    playerdata.setPVPBlock(true);
                     counter++;
                 }
             }
 
-            msg("Muted " + counter + " players.");
+            msg("Disabling PVP mode for " + counter + " players.");
             return true;
         }
 
@@ -109,24 +109,24 @@ public class Command_stfu extends FreedomCommand
         }
 
         FPlayer playerdata = plugin.pl.getPlayer(player);
-        if (playerdata.isMuted())
+        if (playerdata.isPVPBlock())
         {
-            FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
-            playerdata.setMuted(false);
-            msg("Unmuted " + player.getName());
+            FUtil.adminAction(sender.getName(), "Enabling PVP mode for " + player.getName(), true);
+            playerdata.setPVPBlock(false);
+            msg("Enabling PVP mode for  " + player.getName());
 
-            msg(player, "You have been unmuted.", ChatColor.RED);
+            msg(player, "Your PVP mode have been enabled.", ChatColor.GREEN);
         }
         else
         {
             if (plugin.al.isAdmin(player))
             {
-                msg(player.getName() + " is a superadmin, and can't be muted.");
+                msg(player.getName() + " is a superadmin, and his PVP mode can't be disabled.");
                 return true;
             }
 
-            FUtil.adminAction(sender.getName(), "Muting " + player.getName(), true);
-            playerdata.setMuted(true);
+            FUtil.adminAction(sender.getName(), "Disabling PVP mode for " + player.getName(), true);
+            playerdata.setPVPBlock(true);
 
             if (smite)
             {
@@ -135,14 +135,14 @@ public class Command_stfu extends FreedomCommand
 
             if (reason != null)
             {
-                msg(player, "You have been muted. Reason: " + reason, ChatColor.RED);
+                msg(player, "Your PVP Mode has been disabled. Reason: " + reason, ChatColor.RED);
             }
             else
             {
-                msg(player, "You have been muted.", ChatColor.RED);
+                msg(player, "Your PVP Mode has been disabled.", ChatColor.RED);
             }
 
-            msg("Muted " + player.getName());
+            msg("Disabled PVP mode for " + player.getName());
 
         }
 

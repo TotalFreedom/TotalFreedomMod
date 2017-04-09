@@ -2,10 +2,16 @@ package me.totalfreedom.totalfreedommod.admin;
 
 import com.google.common.collect.Lists;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import me.totalfreedom.bukkittelnet.BukkitTelnet;
+import me.totalfreedom.bukkittelnet.session.ClientSession;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.base.ConfigLoadable;
 import net.pravian.aero.base.ConfigSavable;
@@ -25,7 +31,6 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Setter
     private String name;
     @Getter
-    @Setter
     private boolean active = true;
     @Getter
     @Setter
@@ -136,6 +141,31 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     public void clearIPs()
     {
         ips.clear();
+    }
+
+    public void setActive(boolean active)
+    {
+        this.active = active;
+        if (getRank().isAtLeast(Rank.TELNET_ADMIN) && active == false)
+        {
+            BukkitTelnet telnet = TotalFreedomMod.plugin().btb.getBukkitTelnetPlugin();
+            Set<ClientSession> allSessions = telnet.appender.getSessions();
+            Iterator<ClientSession> allSessionsIterator = allSessions.iterator();
+            if ((!allSessions.isEmpty()))
+            {
+                while (allSessionsIterator.hasNext())
+                {
+                    ClientSession session = allSessionsIterator.next();
+                    if (session.getUserName().equalsIgnoreCase(getName()))
+                    {
+                        ClientSession removedSession = session;
+                        telnet.appender.removeSession(removedSession);
+                        removedSession.syncTerminateSession();
+                        FLog.info("1 telnet admin session removed.");
+                    }
+                }
+            }
+        }
     }
 
     @Override

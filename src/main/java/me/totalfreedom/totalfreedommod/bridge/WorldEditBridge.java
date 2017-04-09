@@ -34,7 +34,7 @@ public class WorldEditBridge extends FreedomService
         listener.unregister();
     }
 
-    public void undo(Player player, int count)
+        public void undo(Player player, int count)
     {
         try
         {
@@ -47,6 +47,29 @@ public class WorldEditBridge extends FreedomService
                     for (int i = 0; i < count; i++)
                     {
                         session.undo(session.getBlockBag(bukkitPlayer), bukkitPlayer);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            FLog.severe(ex);
+        }
+    }
+    
+    public void redo(Player player, int count)
+    {
+        try
+        {
+            LocalSession session = getPlayerSession(player);
+            if (session != null)
+            {
+                final BukkitPlayer bukkitPlayer = getBukkitPlayer(player);
+                if (bukkitPlayer != null)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        session.redo(session.getBlockBag(bukkitPlayer), bukkitPlayer);
                     }
                 }
             }

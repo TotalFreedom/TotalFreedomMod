@@ -11,8 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [[-s] <player> [reason] | list | purge | all]", aliases = "mute")
-public class Command_stfu extends FreedomCommand
+@CommandParameters(description = "Blocks all block placing for player with brute force.", usage = "/<command> [[-s] <player> [reason] | list | purge | all]", aliases = "editmute")
+public class Command_blockedit extends FreedomCommand
 {
 
     @Override
@@ -25,13 +25,13 @@ public class Command_stfu extends FreedomCommand
 
         if (args[0].equals("list"))
         {
-            msg("Muted players:");
+            msg("Blocked block edits players:");
             FPlayer info;
             int count = 0;
             for (Player mp : server.getOnlinePlayers())
             {
                 info = plugin.pl.getPlayer(mp);
-                if (info.isMuted())
+                if (info.isEditBlock())
                 {
                     msg("- " + mp.getName());
                     count++;
@@ -47,25 +47,25 @@ public class Command_stfu extends FreedomCommand
 
         if (args[0].equals("purge"))
         {
-            FUtil.adminAction(sender.getName(), "Unmuting all players.", true);
+            FUtil.adminAction(sender.getName(), "Unblocking block edits for all players.", true);
             FPlayer info;
             int count = 0;
             for (Player mp : server.getOnlinePlayers())
             {
                 info = plugin.pl.getPlayer(mp);
-                if (info.isMuted())
+                if (info.isEditBlock())
                 {
-                    info.setMuted(false);
+                    info.setEditBlocked(false);
                     count++;
                 }
             }
-            msg("Unmuted " + count + " players.");
+            msg("Unblocked all block edit for " + count + " players.");
             return true;
         }
 
         if (args[0].equals("all"))
         {
-            FUtil.adminAction(sender.getName(), "Muting all non-Superadmins", true);
+            FUtil.adminAction(sender.getName(), "Blocking block edits for all non-Superadmins", true);
 
             FPlayer playerdata;
             int counter = 0;
@@ -74,12 +74,12 @@ public class Command_stfu extends FreedomCommand
                 if (!plugin.al.isAdmin(player))
                 {
                     playerdata = plugin.pl.getPlayer(player);
-                    playerdata.setMuted(true);
+                    playerdata.setEditBlocked(true);
                     counter++;
                 }
             }
 
-            msg("Muted " + counter + " players.");
+            msg("Blocked all block edit for " + counter + " players.");
             return true;
         }
 
@@ -109,24 +109,24 @@ public class Command_stfu extends FreedomCommand
         }
 
         FPlayer playerdata = plugin.pl.getPlayer(player);
-        if (playerdata.isMuted())
+        if (playerdata.isEditBlock())
         {
-            FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
-            playerdata.setMuted(false);
-            msg("Unmuted " + player.getName());
+            FUtil.adminAction(sender.getName(), "Unblocking all block edits for " + player.getName(), true);
+            playerdata.setEditBlocked(false);
+            msg("Unblocking all block edits for " + player.getName());
 
-            msg(player, "You have been unmuted.", ChatColor.RED);
+            msg(player, "You block edits have been unblocked.", ChatColor.RED);
         }
         else
         {
             if (plugin.al.isAdmin(player))
             {
-                msg(player.getName() + " is a superadmin, and can't be muted.");
+                msg(player.getName() + " is a superadmin, and his block edits can't be blocked .");
                 return true;
             }
 
-            FUtil.adminAction(sender.getName(), "Muting " + player.getName(), true);
-            playerdata.setMuted(true);
+            FUtil.adminAction(sender.getName(), "Blocking block edits for " + player.getName(), true);
+            playerdata.setEditBlocked(true);
 
             if (smite)
             {
@@ -135,14 +135,14 @@ public class Command_stfu extends FreedomCommand
 
             if (reason != null)
             {
-                msg(player, "You have been muted. Reason: " + reason, ChatColor.RED);
+                msg(player, "You block edits have been blocked. Reason: " + reason, ChatColor.RED);
             }
             else
             {
-                msg(player, "You have been muted.", ChatColor.RED);
+                msg(player, "You block edits have been blocked.", ChatColor.RED);
             }
 
-            msg("Muted " + player.getName());
+            msg("Blocked all block edits for " + player.getName());
 
         }
 

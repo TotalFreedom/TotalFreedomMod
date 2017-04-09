@@ -11,20 +11,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Shows (and optionally clears) invisisible players", usage = "/<command> [clear]")
+@CommandParameters(description = "Shows (optionally smites) invisisible players", usage = "/<command> (smite)")
 public class Command_invis extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        boolean clear = false;
+        boolean smite = false;
         if (args.length >= 1)
         {
-            if (args[0].equalsIgnoreCase("clear"))
+            if (args[0].equalsIgnoreCase("smite"))
             {
-                FUtil.adminAction(sender.getName(), "Clearing invisibility for all players", false);
-                clear = true;
+                FUtil.adminAction(sender.getName(), "Smiting all invisible players", true);
+                smite = true;
             }
             else
             {
@@ -33,17 +33,17 @@ public class Command_invis extends FreedomCommand
         }
 
         List<String> players = new ArrayList<>();
-        int clears = 0;
+        int smites = 0;
 
         for (Player player : server.getOnlinePlayers())
         {
             if (player.hasPotionEffect(PotionEffectType.INVISIBILITY))
             {
                 players.add(player.getName());
-                if (clear && !plugin.al.isAdmin(player))
+                if (smite && !plugin.al.isAdmin(player))
                 {
-                    player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                    clears++;
+                    player.setHealth(0.0);
+                    smites++;
                 }
             }
         }
@@ -54,9 +54,9 @@ public class Command_invis extends FreedomCommand
             return true;
         }
 
-        if (clear)
+        if (smite)
         {
-            msg("Cleared invisibility effect from " + clears + " players");
+            msg("Smitten " + smites + " players");
         }
         else
         {

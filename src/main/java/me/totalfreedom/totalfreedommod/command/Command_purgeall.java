@@ -37,6 +37,18 @@ public class Command_purgeall extends FreedomCommand
                 fPlayer.setCommandsBlocked(false);
             }
 
+            // Enables PVP mode for all players
+            if (fPlayer.isPVPBlock())
+            {
+                fPlayer.setPVPBlock(false);
+            }
+
+            // Unblock Edit Permission for all players
+            if (fPlayer.isEditBlock())
+            {
+                fPlayer.setEditBlocked(false);
+            }
+
             // Stop orbiting
             if (fPlayer.isOrbiting())
             {

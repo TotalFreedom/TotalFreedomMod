@@ -25,6 +25,8 @@ public class Command_toggle extends FreedomCommand
             msg("- fluidspread");
             msg("- lavadmg");
             msg("- firespread");
+            msg("- firework");
+            msg("- redstone");
             msg("- prelog");
             msg("- lockdown");
             msg("- petprotect");
@@ -95,6 +97,19 @@ public class Command_toggle extends FreedomCommand
         if (args[0].equals("entitywipe"))
         {
             toggle("Automatic entity wiping is", ConfigEntry.AUTO_ENTITY_WIPE);
+            return true;
+        }
+
+        if (args[0].equals("firework"))
+        {
+            toggle("Firework explosion is", ConfigEntry.ALLOW_FIREWORK_EXPLOSION);
+            return true;
+        }
+
+        if (args[0].equals("redstone"))
+        {
+            toggle("Redstone Circuits and machines are now", ConfigEntry.ALLOW_REDSTONE);
+
             return true;
         }
 

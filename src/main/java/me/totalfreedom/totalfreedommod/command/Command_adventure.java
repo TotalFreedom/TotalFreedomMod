@@ -7,9 +7,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Quickly change your own gamemode to spectator.", usage = "/<command>", aliases = "gmsp")
-public class Command_spectator extends FreedomCommand
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
+@CommandParameters(description = "Quickly change your own gamemode to adventure, or define someone's username to change theirs.", usage = "/<command> <-a | [partialname]>", aliases = "gmad")
+public class Command_adventure extends FreedomCommand
 {
 
     @Override
@@ -23,12 +23,23 @@ public class Command_spectator extends FreedomCommand
                 return true;
             }
 
-            playerSender.setGameMode(GameMode.SPECTATOR);
-            msg("Gamemode set to spectator.");
+            playerSender.setGameMode(GameMode.ADVENTURE);
+            msg("Gamemode set to adventure.");
             return true;
         }
 
         checkRank(Rank.SUPER_ADMIN);
+
+        if (args[0].equals("-ad"))
+        {
+            for (Player targetPlayer : server.getOnlinePlayers())
+            {
+                targetPlayer.setGameMode(GameMode.ADVENTURE);
+            }
+
+            FUtil.adminAction(sender.getName(), "Changing everyone's gamemode to adventure", false);
+            return true;
+        }
 
         Player player = getPlayer(args[0]);
 
@@ -38,9 +49,9 @@ public class Command_spectator extends FreedomCommand
             return true;
         }
 
-        msg("Setting " + player.getName() + " to game mode spectator");
-        msg(player, sender.getName() + " set your game mode to spectator");
-        player.setGameMode(GameMode.SPECTATOR);
+        msg("Setting " + player.getName() + " to game mode adventure");
+        msg(player, sender.getName() + " set your game mode to adventure");
+        player.setGameMode(GameMode.ADVENTURE);
 
         return true;
     }

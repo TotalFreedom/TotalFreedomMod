@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.bridge;
 
 import java.util.Iterator;
 import java.util.Map;
+import me.totalfreedom.bukkittelnet.BukkitTelnet;
 import me.totalfreedom.bukkittelnet.api.TelnetCommandEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetRequestDataTagsEvent;
@@ -9,12 +10,16 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.plugin.Plugin;
 
 public class BukkitTelnetBridge extends FreedomService
 {
+
+    private BukkitTelnet bukkitTelnetPlugin = null;
 
     public BukkitTelnetBridge(TotalFreedomMod plugin)
     {
@@ -29,6 +34,30 @@ public class BukkitTelnetBridge extends FreedomService
     @Override
     protected void onStop()
     {
+    }
+
+    public BukkitTelnet getBukkitTelnetPlugin()
+    {
+        if (bukkitTelnetPlugin == null)
+        {
+            try
+            {
+                final Plugin bukkitTelnet = server.getPluginManager().getPlugin("BukkitTelnet");
+                if (bukkitTelnet != null)
+                {
+                    if (bukkitTelnet instanceof BukkitTelnet)
+                    {
+                        bukkitTelnetPlugin = (BukkitTelnet) bukkitTelnet;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                FLog.severe(ex);
+            }
+        }
+
+        return bukkitTelnetPlugin;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
