@@ -93,58 +93,89 @@ allow:
 #   - 'n:b:/ban:_'
 #
 blocked_commands:
-    # Disabled commands
+  # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
-  - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
+  - 'n:b:/gamemode:Use /gmc and /gms to set your gamemode.'
   - 'n:b:/ban:_'
   - 'n:b:/pardon:_'
   - 'n:b:/ban-ip:_'
+  - 'n:b:/viaversion debug:_'
   - 'n:b:/pardon-ip:_'
   - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
-  - 'n:b:/enderchest:_'
   - 'n:b:/spreadplayers:_'
   - 'n:b:/execute:_'
+  - 'n:b:/emf:_'
   - 'n:b:/blockdata:_'
   - 'n:b:/clearhistory:_'
   - 'n:b:/save-on:_'
   - 'n:b:/save-off:_'
-  - 'n:b:/playsound:_'
+  - 'n:b:/skin set:_'
+  - 'n:b:/calculate:_'
+  - 'n:b:/clone:_'
   - 'n:b:/skinrestorer:_'
+  - 'n:b:/testfor:_'
+  - 'n:b:/testforblock:_'
+  - 'n:b:/testforblocks:_'
   - 'n:b:/packet:_'
+  - 'n:b://eval:_'
   - 'n:b:/thaw:_'
-  - 'n:b:/pp largeexplode:You may not use this particle! Please use another.'
-  - 'n:b:/pp hugeexplosion:You may not use this particle! Please use another.'
-  - 'n:b:/pp barrier:You may not use this particle! Please use another.'
+  - 'n:b:/spawnmob:_'
   - 'n:b:/setjail:_'
-  - 'n:b:/tfbanlist:Use /banlist to see and wipe the ban list'
-  - 'n:b:/tfipbanlist:Use /banlist to see and wipe the ban list'
 
   # Superadmin commands
   - 's:b:/save-all:_'
+  - 's:b:/summon:Do to security reasons, the use of /summon has been disabled.'
+  - 's:b:/particle:Do to security reasons, the use of /particle has been disabled.'
+  - 's:b:/rainbowclear:_'
+  - 's:b:/rainbowspeed:_'
   - 's:b:/kick:_'
+  - 's:b:/difficulty:_'
+  - 's:b://count:_'
+  - 's:b:/capatchafy:_'
+  - 's:b:/enderchest:_'
+  - 's:b:/limit:_'
   - 's:b:/socialspy:_'
+  - 's:b:/sproxy:_'
   - 's:b:/replaceitem:_'
+  - 's:b:/calculate:_'
   - 's:b:/kill:_'
   - 's:b://generate:_'
+  - 's:b://undentity:_'
   - 's:b://:_'
   - 's:b:/superpickaxe:_'
-  - 's:b:/brush:_'
-  - 's:b:/size:_'
+  - 's:b://setbiome hell:_'
+  - 's:b:/arp:_'
+  - 's:b:/bcr:_'
+  - 's:b:/setworldspawn:_'
+  - 's:b:/removebelow:_'
+  - 's:b://size:_'
   - 's:b://mask:_'
   - 's:b:/mat:_'
   - 's:b://butcher:_'
   - 's:b:/scoreboard:_'
   - 's:b:/setspawn:_'
+  - 's:b:/repl:_'
+  - 's:b:/replacenear:_'
   - 's:b://snow:_'
   - 's:b:/tellraw:_'
   - 's:b:/forestgen:_'
   - 's:b:/setidletimeout:_'
-  - 's:b:/mail sendall:_'
+  - 'n:b:/mail sendall:_'
+  - 's:b:/schematic d:_'
+  - 's:b:/pos2:you need to type //wand to make worldedit area.'
+  - 's:b:/pos1:you need to type //wand to make worldedit area.'
   - 's:b:/eco reset:_'
   - 's:b:/mask:_'
   - 's:b:/gmask:_'
+  - 's:b:/mob:_'
   - 's:b:/lrbuild:_'
+  - 's:b:/brush:_'
+  - 's:b:/co:_'
+  - 's:b:/core:_'
+  - 's:b:/coreprotect:_'
+  - 's:b:/size:_'
+  - 's:b:/break:_'  
   - 's:b:/defaultgamemode:_'
   - 's:b:/reload:_'
   - 's:b:/title:_'
@@ -155,8 +186,16 @@ blocked_commands:
   - 's:b:/green:_'
   - 's:b:/gamerule:_'
   - 's:b:/togglejail:_'
+  - 's:b:/lagg:_'
   - 's:b:/fill:_'
-  - 's:b:/flood:_'
+  - 's:b:/tool:_'
+  - 's:b:/floodfill:_'
+  - 's:b:/range:_'
+  - 's:b:/viaversion:_'
+  - 's:b:/killall:_'
+  - 's:b:/tpo:_'
+  - 's:b:/tpohere:_'
+  - 's:b:/tphere:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
@@ -235,7 +274,7 @@ announcer:
     - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
     - 'You can always review the server rules here: &6http://totalfreedom.me/'
     - 'If you are not OP, be sure to ask!'
-    - 'Somebody breaking the rules? Report it! /report <user> <reason>'
+    - 'Somebody breaking the rules? Report it! /report &6<user>&r &c<reason>&r'
     - 'Griefing is not allowed!'
     - 'Hacked clients are allowed!'
     - 'Interested in becoming admin? Do "/ai" for more information!'
@@ -247,13 +286,13 @@ announcer:
     - 'MarkByron is the owner of TotalFreedom.'
     - 'Server lagging?  Check the lag via "/tps"'
     - 'You are allowed to record and stream videos on TotalFreedom.'
-    - 'Player vs player while in creative or god mode it forbidden!'
+    - 'Player vs player while in creative or god mode is forbidden!'
     - 'Spawn killing is forbidden!'
     - 'Invisible potions are allowed!'
     - 'Serial griefing and trolling will result in a permanent ban!'
     - 'TotalFreedom does not accept any form of donations!'
     - 'Racism, nazism, and sexism are strictly forbidden!'
-    - 'Join our Mumble server! IP: 64.34.202.140:2862'
+    - 'Join our Discord server! discord.gg/Zj9aUaR'
 
 # Famous players - cannot be banned by username
 famous_players:
@@ -294,7 +333,6 @@ famous_players:
   - stampylongnose
   - dantdm
   - gizzy14gazza
-  - furiousdestroyer
 
 # IPs that can not be supered
 noadmin_ips:
@@ -332,7 +370,8 @@ autokick:
 overlord_ips:
   - 176.56.237.227
   - 192.184.86.138
-  - 107.191.101.27
+  - 151.50.73.196
   - 178.62.117.94
-  - 141.101.104.243
+  - 151.50.49.73
+  - 94.209.158.56
 
