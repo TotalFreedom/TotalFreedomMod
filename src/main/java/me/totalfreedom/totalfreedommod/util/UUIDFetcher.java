@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.UUID;
 
-private class FetchedUuid
+class FetchedUuid
 {
     private static String id;
     
