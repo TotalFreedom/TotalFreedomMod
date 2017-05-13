@@ -79,7 +79,7 @@ public class History
     }
 }
 
-private class FName implements Comparable<FName>
+class FName implements Comparable<FName>
 {
     private String name;
     private long changedToAt;
