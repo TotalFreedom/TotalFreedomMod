@@ -16,10 +16,16 @@ public class Command_verified extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
  {
-        FUtil.bcastMsg(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Imposter" + ChatColor.GRAY + "] " 
-        + ChatColor.WHITE + "< " + ChatColor.RESET + "" + sender.getName() + ChatColor.WHITE + "> "
-        + ChatColor.YELLOW + "Has verified and is requesting to be added!"
-        );
+        
+        for (Player player : server.getOnlinePlayers())   
+        {
+            
+            if (isAdmin(player))
+            {
+            FUtil.bcastMsg(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Imposter" + ChatColor.GRAY + "] " 
+             + ChatColor.WHITE + "< " + ChatColor.RESET + "" + sender.getName() + ChatColor.WHITE + "> "
+             + ChatColor.YELLOW + "Has verified and is requesting to be added!");
+       }
 
         return true;
     }
