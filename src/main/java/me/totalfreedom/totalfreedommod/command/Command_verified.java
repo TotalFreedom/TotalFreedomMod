@@ -22,7 +22,7 @@ public class Command_verified extends FreedomCommand
             
             if (isAdmin(player))
             {
-            FUtil.bcastMsg(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Imposter" + ChatColor.GRAY + "] " 
+             msg(ChatColor.GRAY + "[" + ChatColor.YELLOW + "Imposter" + ChatColor.GRAY + "] " 
              + ChatColor.WHITE + "< " + ChatColor.RESET + "" + sender.getName() + ChatColor.WHITE + "> "
              + ChatColor.YELLOW + "Has verified and is requesting to be added!");
        }
