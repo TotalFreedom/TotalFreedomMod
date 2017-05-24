@@ -138,6 +138,14 @@
             <version>913a577436</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>me.libaryaddict.disguise</groupId>
+            <artifactId>LibsDisguises</artifactId>
+            <version>9.0.9</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/LibsDisguises-9.0.9.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

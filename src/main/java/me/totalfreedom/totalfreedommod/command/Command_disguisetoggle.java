@@ -35,6 +35,7 @@ public class Command_disguisetoggle extends FreedomCommand
         }
 
         msg("Disguises are currently " + (DisallowedDisguises.disabled ? "disabled." : "enabled."));
+        msg("Enabled " + (DisallowedDisguises.disabled ? "enabled." : "disabled."));
 
         return true;
     }

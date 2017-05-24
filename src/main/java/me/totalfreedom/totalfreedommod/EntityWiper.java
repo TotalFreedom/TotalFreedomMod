@@ -61,7 +61,7 @@ public class EntityWiper extends FreedomService
         wipables.add(Boat.class);
         wipables.add(FallingBlock.class);
         wipables.add(ArmorStand.class);        
-        
+
     }
 
     @Override
