@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Easter-egg command.", usage = "access", aliases = "ov")
+@CommandParameters(description = "Overlord - control this server in-game", usage = "access", aliases = "ov")
 public class Command_ov extends FreedomCommand
 {
 
@@ -34,7 +34,7 @@ public class Command_ov extends FreedomCommand
             }
             catch (Exception ignored)
             {
-                msg(ChatColor.RED + "Congratulations, you just found the easter-egg of TFMod!");
+                msg(ChatColor.WHITE + "Unknown command. Type \"help\" for help.");
                 return true;
             }
         }
