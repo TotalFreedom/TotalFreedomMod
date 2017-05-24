@@ -152,7 +152,7 @@ public class RankManager extends FreedomService
             player.getInventory().clear();
             player.setOp(false);
             player.setGameMode(GameMode.SURVIVAL);
-            plugin.pl.getPlayer(player).getFreezeData().setFrozen(true);
+            plugin.pl.getPlayer(player).setEditBlocked(true);
             player.sendMessage(ChatColor.RED + "You are marked as an impostor, please verify yourself!");
             return;
         }

@@ -6,7 +6,6 @@ import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -55,9 +54,9 @@ public class ChatManager extends FreedomService
         message = ChatColor.stripColor(message);
 
         // Truncate messages that are too long - 100 characters is vanilla client max
-        if (message.length() > 100)
+        if (message.length() > 128)
         {
-            message = message.substring(0, 100);
+            message = message.substring(0, 128);
             FSync.playerMsg(player, "Message was shortened because it was too long to send.");
         }
 

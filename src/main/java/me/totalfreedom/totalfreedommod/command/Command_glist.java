@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.banning.Ban;
@@ -12,13 +13,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Bans or unbans any player, even those who are not logged in anymore.", usage = "/<command> <purge | ban <username> [reason] | unban <username> | banip <ip> <reason> | unbanip <ip>>")
+@CommandParameters(description = "Bans or unbans any player, even those who are not logged in anymore.", usage = "/<command> <purge | ban <username> [reason] | unban <username> | banip <ip> <reason> | unbanip <ip> | nameban <name> | unbanname <name>>")
 public class Command_glist extends FreedomCommand
 {
+
+    private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+
         if (args.length < 1)
         {
             return false;
@@ -98,6 +102,36 @@ public class Command_glist extends FreedomCommand
                 player.kickPlayer(ban.bakeKickMessage());
             }
             return true;
+        }
+
+        if ("nameban".equals(args[0]))
+        {
+            if (usingIp)
+            {
+                msg("Please specify a IGN, not an ip.");
+                return true;
+            }
+            final String reason = args.length > 2 ? StringUtils.join(args, " ", 2, args.length) : null;
+            Ban ban = Ban.forPlayerName(username, sender, null, reason);
+            FUtil.adminAction(sender.getName(), "Banning IGN: " + username, true);
+            plugin.bm.addBan(ban);
+
+            if (player != null)
+            {
+                player.kickPlayer(ban.bakeKickMessage());
+            }
+            return true;
+        }
+
+        if ("unbanname".equals(args[0]))
+        {
+            if (usingIp)
+            {
+                msg("Please specify a IGN, not an ip.");
+                return true;
+            }
+            FUtil.adminAction(sender.getName(), "Unbanning IGN: " + username, true);
+            plugin.bm.removeBan(plugin.bm.getByUsername(username));
         }
 
         if ("unban".equals(args[0]))

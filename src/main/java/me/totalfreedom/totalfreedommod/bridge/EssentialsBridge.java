@@ -4,6 +4,7 @@ import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.command.Command_vanish;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -16,6 +17,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
@@ -39,6 +41,7 @@ public class EssentialsBridge extends FreedomService
     @Override
     protected void onStop()
     {
+        Command_vanish.vanished.clear();
     }
 
     public Essentials getEssentialsPlugin()
@@ -215,6 +218,17 @@ public class EssentialsBridge extends FreedomService
                 }
 
             }.runTaskLater(this.plugin, 20);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerQuitEvent(final PlayerQuitEvent event)
+    {
+        Player player = event.getPlayer();
+
+        if (Command_vanish.vanished.contains(player))
+        {
+            Command_vanish.vanished.remove(player);
         }
     }
 

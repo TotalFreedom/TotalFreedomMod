@@ -55,11 +55,13 @@ public class Command_rainbownick extends FreedomCommand
         }
 
         final StringBuilder newNick = new StringBuilder();
-
+        //Splits all the letters in the nick you specified
         final char[] chars = nickPlain.toCharArray();
+        // Runs through all those letters applying the code inside them to each letter
         for (char c : chars)
         {
-            newNick.append(FUtil.RainbowChatColor()).append(c);
+            //Appends a color and a letter this should work,.s
+            newNick.append(FUtil.rainbowChatColor()).append(c);
         }
 
         newNick.append(ChatColor.WHITE);

@@ -108,6 +108,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public EssentialsBridge esb;
     public LibsDisguisesBridge ldb;
     public WorldEditBridge web;
+    public CoreProtectDatabase cpd;
 
     @Override
     public void load()
@@ -213,6 +214,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         esb = bridges.registerService(EssentialsBridge.class);
         ldb = bridges.registerService(LibsDisguisesBridge.class);
         web = bridges.registerService(WorldEditBridge.class);
+        cpd = bridges.registerService(CoreProtectDatabase.class);
         bridges.start();
         // ProtocolLibrary.getProtocolManager().addPacketListener(new AntiCreativeExploit(this));
         //  ProtocolLibrary.getProtocolManager().addPacketListener(new AntiItemExploit(this));

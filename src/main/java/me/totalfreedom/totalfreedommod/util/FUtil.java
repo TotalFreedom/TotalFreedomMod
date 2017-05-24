@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class FUtil
     //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "Wild1145", "WickedGamingUK", "aggelosQQ");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "Wild1145", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "marcocorriero", "Commodore64x");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final Map<String, ChatColor> CHAT_RAINBOW_NAMES = new HashMap<>();
@@ -54,6 +55,7 @@ public class FUtil
             ChatColor.RED,
             ChatColor.LIGHT_PURPLE,
             ChatColor.YELLOW);
+
     public static final List<ChatColor> CHAT_RAINBOW = Arrays.asList(
             ChatColor.DARK_RED,
             ChatColor.RED,
@@ -152,6 +154,15 @@ public class FUtil
     public static boolean deleteFolder(final File file)
     {
         if (file.exists() && file.isDirectory())
+        {
+            return FileUtils.deleteQuietly(file);
+        }
+        return false;
+    }
+
+    public static boolean deleteFile(final File file)
+    {
+        if (file.exists())
         {
             return FileUtils.deleteQuietly(file);
         }
@@ -379,7 +390,8 @@ public class FUtil
             catch (NoSuchFieldException | IllegalAccessException ex)
             {
             }
-        } while (checkClass.getSuperclass() != Object.class
+        }
+        while (checkClass.getSuperclass() != Object.class
                 && ((checkClass = checkClass.getSuperclass()) != null));
 
         return null;
@@ -390,9 +402,16 @@ public class FUtil
         return CHAT_COLOR_POOL.get(RANDOM.nextInt(CHAT_COLOR_POOL.size()));
     }
 
-    public static ChatColor RainbowChatColor()
+    private static Iterator<ChatColor> color = CHAT_RAINBOW.iterator();
+
+    public static ChatColor rainbowChatColor()
     {
-        return CHAT_RAINBOW.get(RANDOM.nextInt(CHAT_RAINBOW.size()));
+        if (color.hasNext())
+        {
+            return (ChatColor) color.next();
+        }
+        color = CHAT_RAINBOW.iterator();
+        return (ChatColor) color.next();
     }
 
     public static String colorize(String string)

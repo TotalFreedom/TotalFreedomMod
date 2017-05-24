@@ -54,7 +54,7 @@ public class Command_vanish extends FreedomCommand
         else if (!(vanished.contains(playerSender)))
         {
             msg(ChatColor.GOLD + "You have been vanished.");
-            FUtil.bcastMsg(playerSender.getName() + " left the game.", ChatColor.YELLOW);
+            FUtil.bcastMsg(playerSender.getName() + " left the game", ChatColor.YELLOW);
             FLog.info(playerSender.getName() + " is now vanished.");
             for (Player player : server.getOnlinePlayers())
             {

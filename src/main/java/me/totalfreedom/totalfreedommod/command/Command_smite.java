@@ -19,6 +19,7 @@ public class Command_smite extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+
         if (args.length < 1)
         {
             return false;

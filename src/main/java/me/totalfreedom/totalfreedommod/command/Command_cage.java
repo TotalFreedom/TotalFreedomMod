@@ -3,21 +3,21 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-
 @CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [custom | block] [Block name | Player name(for skull)]")
 public class Command_cage extends FreedomCommand
 {
 
     public static String playerSkullName;
+
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -103,7 +103,6 @@ public class Command_cage extends FreedomCommand
 
         Location targetPos = player.getLocation().clone().add(0, 1, 0);
         playerdata.getCageData().cage(targetPos, outerMaterial, innerMaterial);
-
         player.setGameMode(GameMode.SURVIVAL);
 
         if (outerMaterial != Material.SKULL)

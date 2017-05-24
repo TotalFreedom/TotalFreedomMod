@@ -5,6 +5,7 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -100,6 +102,18 @@ public class EventBlocker extends FreedomService
         if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onFrost(EntityBlockFormEvent ev)
+    {
+        if (!ConfigEntry.ALLOW_FROSTWALKER.getBoolean())
+        {
+            if ((ev.getEntity() instanceof Player))
+            {
+                ev.setCancelled(true);
+            }
         }
     }
 

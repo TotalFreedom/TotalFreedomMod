@@ -35,8 +35,10 @@ public class FPlayer
     private Player player;
     //
     private BukkitTask unmuteTask;
+    private BukkitTask UnlockRedstoneTask;
     private BukkitTask unblockEditTask;
     private BukkitTask isPVPBlocked;
+    private BukkitTask isPVPProtect;
 
     @Getter
     private final FreezeData freezeData = new FreezeData(this);
@@ -306,7 +308,6 @@ public class FPlayer
         {
             return;
         }
-
         if (getPlayer() == null)
         {
             return;
@@ -346,7 +347,7 @@ public class FPlayer
             @Override
             public void run()
             {
-                FUtil.adminAction("TotalFreedom", "Unblocking block edits for" + getPlayer().getName(), false);
+                FUtil.adminAction("TotalFreedom", "Unblocking block edits for " + getPlayer().getName(), false);
                 setEditBlocked(false);
             }
         }.runTaskLater(plugin, AUTO_PURGE_TICKS);

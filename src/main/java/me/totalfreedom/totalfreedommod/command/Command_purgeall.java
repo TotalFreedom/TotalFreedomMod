@@ -25,6 +25,11 @@ public class Command_purgeall extends FreedomCommand
         {
             FPlayer fPlayer = plugin.pl.getPlayer(player);
 
+            if (plugin.al.isAdminImpostor(player))
+            {
+                return false;
+            }
+
             // Unmute all players
             if (fPlayer.isMuted())
             {

@@ -11,6 +11,7 @@ public enum ConfigEntry
     //
     ALLOW_EXPLOSIONS(Boolean.class, "allow.explosions"),
     ALLOW_FIRE_PLACE(Boolean.class, "allow.fire_place"),
+    ALLOW_FROSTWALKER(Boolean.class, "allow.frostwalker"),
     ALLOW_FIRE_SPREAD(Boolean.class, "allow.fire_spread"),
     ALLOW_FLUID_SPREAD(Boolean.class, "allow.fluid_spread"),
     ALLOW_LAVA_DAMAGE(Boolean.class, "allow.lava_damage"),
@@ -112,8 +113,10 @@ public enum ConfigEntry
     BLOCK_BOLD(Boolean.class, "formats.bold"),
     BLOCK_STRIKETHROUGH(Boolean.class, "formats.strikethrough"),
     BLOCK_UNDERLINE(Boolean.class, "formats.underline"),
-    BLOCK_ITALIC(Boolean.class, "formats.italic");
+    BLOCK_ITALIC(Boolean.class, "formats.italic"),
     //
+    COREPROTECT_WIPER_ENABLED(Boolean.class, "coreprotect.wiper_enabled"),
+    COREPROTECT_FILE_LIMIT(Integer.class, "coreprotect.file_limit");
     private final Class<?> type;
     private final String configName;
 

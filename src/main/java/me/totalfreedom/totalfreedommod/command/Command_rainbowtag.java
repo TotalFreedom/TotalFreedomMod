@@ -26,7 +26,7 @@ public class Command_rainbowtag extends FreedomCommand
 
         for (char c : ChatColor.stripColor(FUtil.colorize(StringUtils.join(args, " "))).toCharArray())
         {
-            tag.append(FUtil.RainbowChatColor()).append(c);
+            tag.append(FUtil.rainbowChatColor()).append(c);
         }
 
         String tagStr = tag.toString();
