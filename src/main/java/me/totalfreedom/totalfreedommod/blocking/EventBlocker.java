@@ -5,6 +5,7 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
@@ -12,12 +13,17 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
@@ -99,6 +105,18 @@ public class EventBlocker extends FreedomService
         }
     }
 
+    @EventHandler
+    public void onFrost(EntityBlockFormEvent ev)
+    {
+        if (!ConfigEntry.ALLOW_FROSTWALKER.getBoolean())
+        {
+            if ((ev.getEntity() instanceof Player))
+            {
+                ev.setCancelled(true);
+            }
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDeath(EntityDeathEvent event)
     {
@@ -169,4 +187,39 @@ public class EventBlocker extends FreedomService
         event.setCancelled(true);
     }
 
+    @EventHandler(priority = EventPriority.HIGH)
+    public void FireworkExplodeEvent(FireworkExplodeEvent event)
+    {
+        if (!ConfigEntry.ALLOW_FIREWORK_EXPLOSION.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void BlockPistonRetractEvent(BlockPistonRetractEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void BlockPistonExtendEvent(BlockPistonExtendEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void BlockRedstoneEvent(BlockRedstoneEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setNewCurrent(0);
+        }
+    }
 }

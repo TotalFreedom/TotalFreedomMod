@@ -3,8 +3,8 @@ package me.totalfreedom.totalfreedommod.command;
 import me.libraryaddict.disguise.DisallowedDisguises;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.command.Command;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -34,6 +34,7 @@ public class Command_disguisetoggle extends FreedomCommand
             plugin.ldb.setDisguisesEnabled(true);
         }
 
+        msg("Disguises are currently " + (DisallowedDisguises.disabled ? "disabled." : "enabled."));
         msg("Enabled " + (DisallowedDisguises.disabled ? "enabled." : "disabled."));
 
         return true;

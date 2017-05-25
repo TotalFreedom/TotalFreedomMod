@@ -4,13 +4,15 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
+import me.totalfreedom.bukkittelnet.BukkitTelnet;
+import me.totalfreedom.bukkittelnet.session.ClientSession;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.command.Command_logs;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -272,6 +274,26 @@ public class AdminList extends FreedomService
 
     public boolean removeAdmin(Admin admin)
     {
+        if (admin.getRank().isAtLeast(Rank.TELNET_ADMIN))
+        {
+            BukkitTelnet telnet = plugin.btb.getBukkitTelnetPlugin();
+            Set<ClientSession> allSessions = telnet.appender.getSessions();
+            Iterator<ClientSession> allSessionsIterator = allSessions.iterator();
+            if ((!allSessions.isEmpty()))
+            {
+                while (allSessionsIterator.hasNext())
+                {
+                    ClientSession session = allSessionsIterator.next();
+                    if (session.getUserName().equalsIgnoreCase(admin.getName()))
+                    {
+                        ClientSession removedSession = session;
+                        telnet.appender.removeSession(removedSession);
+                        removedSession.syncTerminateSession();
+                        FLog.info("1 telnet admin session removed.");
+                    }
+                }
+            }
+        }
         // Remove admin, update views
         if (allAdmins.remove(admin.getConfigKey()) == null)
         {

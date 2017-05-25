@@ -18,7 +18,10 @@ public class Command_wipeflatlands extends FreedomCommand
         plugin.sf.setSavedFlag("do_wipe_flatlands", true);
 
         FUtil.bcastMsg("Server is going offline for flatlands wipe.", ChatColor.GRAY);
-
+        if (server.getPluginManager().isPluginEnabled("CoreProtect"))
+        {
+            plugin.cpd.deleteFlatlandsDatabase();
+        }
         for (Player player : server.getOnlinePlayers())
         {
             player.kickPlayer("Server is going offline for flatlands wipe, come back in a few minutes.");

@@ -10,6 +10,7 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Effect;
 import org.bukkit.World;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.ArmorStand;
@@ -59,7 +60,8 @@ public class EntityWiper extends FreedomService
         wipables.add(Minecart.class);
         wipables.add(Boat.class);
         wipables.add(FallingBlock.class);
-        wipables.add(ArmorStand.class);
+        wipables.add(ArmorStand.class);        
+
     }
 
     @Override

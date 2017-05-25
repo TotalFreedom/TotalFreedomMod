@@ -181,8 +181,8 @@ public class PlayerList extends FreedomService
     public void onPlayerQuit(PlayerQuitEvent event)
     {
         final String ip = Ips.getIp(event.getPlayer());
-        playerMap.remove(ip);
-        dataMap.remove(ip);
+        // playerMap.remove(ip);
+        // dataMap.remove(ip);
     }
 
     public Collection<FPlayer> getLoadedPlayers()

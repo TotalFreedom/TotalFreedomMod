@@ -30,8 +30,8 @@ public class BanManager extends FreedomService
     private final Map<String, Ban> ipBans = Maps.newHashMap();
     private final Map<String, Ban> nameBans = Maps.newHashMap();
     private final List<String> unbannableUsernames = Lists.newArrayList();
-    //
-    private final YamlConfig config;
+    public static final String CONFIG_FILENAME = "bans.yml";
+    public final YamlConfig config;
 
     public BanManager(TotalFreedomMod plugin)
     {

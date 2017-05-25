@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -16,19 +17,23 @@ public class Command_kick extends FreedomCommand
     @Override
     protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        final Admin admin = plugin.al.getAdmin(sender);
+
         if (args.length == 0)
         {
             return false;
         }
 
-        Player player = getPlayer(args[0]);
-        if (player == null)
+        Player init = getPlayer(args[0]);
+        if (init == null)
         {
             msg(PLAYER_NOT_FOUND);
             return true;
         }
 
-        if (isAdmin(player))
+        Player targetPlayer = getPlayer(args[0]);
+
+        if (isAdmin(init) && admin.getRank() == Rank.SUPER_ADMIN || isAdmin(init) && admin.getRank() == Rank.TELNET_ADMIN)
         {
             msg("Admins can not be kicked", ChatColor.RED);
             return true;
@@ -47,14 +52,14 @@ public class Command_kick extends FreedomCommand
         if (reason != null)
         {
             builder.append("\n").append(ChatColor.RED).append("Reason: ").append(ChatColor.GOLD).append(reason);
-            FUtil.adminAction(sender.getName(), "Kicking " + player.getName() + " - Reason: " + reason, true);
+            FUtil.adminAction(sender.getName(), "Kicking " + targetPlayer.getName() + " - Reason: " + reason, true);
         }
         else
         {
-            FUtil.adminAction(sender.getName(), "Kicking " + player.getName(), true);
+            FUtil.adminAction(sender.getName(), "Kicking " + targetPlayer.getName(), true);
         }
 
-        player.kickPlayer(builder.toString());
+        targetPlayer.kickPlayer(builder.toString());
         return true;
     }
 
