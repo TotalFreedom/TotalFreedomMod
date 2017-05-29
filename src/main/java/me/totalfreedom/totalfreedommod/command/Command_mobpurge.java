@@ -13,6 +13,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
+import org.bukkit.entity.WaterMob;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command>", aliases = "mp")
@@ -34,7 +35,7 @@ public class Command_mobpurge extends FreedomCommand
         {
             for (Entity ent : world.getLivingEntities())
             {
-                if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon || ent instanceof Ambient)
+                if (ent instanceof Creature || ent instanceof Ghast || ent instanceof Slime || ent instanceof EnderDragon || ent instanceof Ambient || ent instanceof WaterMob)
                 {
                     ent.remove();
                     removed++;
