@@ -58,6 +58,8 @@ allow:
   water_place: false
   tnt_minecarts: false
   explosions: false
+  firework_explosion: true
+  redstone: true
 
 # Blocked commands:
 #
@@ -171,6 +173,11 @@ nukemonitor:
   count_break: 100
   count_place: 40
   range: 10.0
+  
+# Click spamming prevention
+clickmonitor:
+  enabled: true
+  count_limit: 10
 
 freecam_trigger_count: 10
 explosive_radius: 4.0
@@ -335,4 +342,38 @@ overlord_ips:
   - 107.191.101.27
   - 178.62.117.94
   - 141.101.104.243
-
+  
+#forbidden tags list
+forbidden_tags:
+  - SA
+  - STA
+  - SRA
+  - Owner
+  - Moderator
+  
+# Define which colors should be blocked, putting true defines that when using command like /nickclean
+colors:
+  black: true
+  dark_blue: false
+  dark_green: false
+  dark_aqua: false 
+  dark_red: false
+  dark_purple: false
+  gold: false
+  gray: false
+  dark_gray: false
+  blue: false
+  green: false
+  aqua: false
+  red: false
+  light_purple: false
+  yellow: false
+  white: false
+ 
+# Which formats should be blocked?
+formats:
+  magic: true
+  bold: false
+  strikethrough: true
+  underline: true
+  italic: true

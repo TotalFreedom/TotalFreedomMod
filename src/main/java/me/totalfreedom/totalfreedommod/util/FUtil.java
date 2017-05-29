@@ -39,6 +39,8 @@ public class FUtil
     public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "Wild1145", "WickedGamingUK", "aggelosQQ");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
+    public static final Map<String, ChatColor> CHAT_RAINBOW_NAMES = new HashMap<>();
+    public static List<String> BLOCKED_CODES = new ArrayList();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
             ChatColor.DARK_BLUE,
             ChatColor.DARK_GREEN,
@@ -52,6 +54,19 @@ public class FUtil
             ChatColor.RED,
             ChatColor.LIGHT_PURPLE,
             ChatColor.YELLOW);
+    public static final List<ChatColor> CHAT_RAINBOW = Arrays.asList(
+            ChatColor.DARK_RED,
+            ChatColor.RED,
+            ChatColor.GOLD,
+            ChatColor.YELLOW,
+            ChatColor.GREEN,
+            ChatColor.DARK_GREEN,
+            ChatColor.AQUA,
+            ChatColor.DARK_AQUA,
+            ChatColor.BLUE,
+            ChatColor.DARK_BLUE,
+            ChatColor.DARK_PURPLE,
+            ChatColor.LIGHT_PURPLE);
 
     static
     {
@@ -59,6 +74,12 @@ public class FUtil
         {
             CHAT_COLOR_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
         }
+
+        for (ChatColor chatColor : CHAT_RAINBOW)
+        {
+            CHAT_RAINBOW_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
+        }
+
     }
 
     private FUtil()
@@ -369,6 +390,11 @@ public class FUtil
         return CHAT_COLOR_POOL.get(RANDOM.nextInt(CHAT_COLOR_POOL.size()));
     }
 
+    public static ChatColor RainbowChatColor()
+    {
+        return CHAT_RAINBOW.get(RANDOM.nextInt(CHAT_RAINBOW.size()));
+    }
+
     public static String colorize(String string)
     {
         return ChatColor.translateAlternateColorCodes('&', string);
@@ -400,4 +426,99 @@ public class FUtil
         return packageName.substring(packageName.lastIndexOf('.') + 1);
     }
 
+    public static void findBlockedCodes()
+    {
+        if (ConfigEntry.BLOCK_BLACK.getBoolean())
+        {
+            BLOCKED_CODES.add("0");
+        }
+        if (ConfigEntry.BLOCK_DARK_BLUE.getBoolean())
+        {
+            BLOCKED_CODES.add("1");
+        }
+        if (ConfigEntry.BLOCK_DARK_GREEN.getBoolean())
+        {
+            BLOCKED_CODES.add("2");
+        }
+        if (ConfigEntry.BLOCK_DARK_AQUA.getBoolean())
+        {
+            BLOCKED_CODES.add("3");
+        }
+        if (ConfigEntry.BLOCK_DARK_RED.getBoolean())
+        {
+            BLOCKED_CODES.add("4");
+        }
+        if (ConfigEntry.BLOCK_DARK_PURPLE.getBoolean())
+        {
+            BLOCKED_CODES.add("5");
+        }
+        if (ConfigEntry.BLOCK_GOLD.getBoolean())
+        {
+            BLOCKED_CODES.add("6");
+        }
+        if (ConfigEntry.BLOCK_GRAY.getBoolean())
+        {
+            BLOCKED_CODES.add("7");
+        }
+        if (ConfigEntry.BLOCK_DARK_GRAY.getBoolean())
+        {
+            BLOCKED_CODES.add("8");
+        }
+        if (ConfigEntry.BLOCK_BLUE.getBoolean())
+        {
+            BLOCKED_CODES.add("9");
+        }
+        if (ConfigEntry.BLOCK_GREEN.getBoolean())
+        {
+            BLOCKED_CODES.add("a");
+        }
+        if (ConfigEntry.BLOCK_AQUA.getBoolean())
+        {
+            BLOCKED_CODES.add("b");
+        }
+        if (ConfigEntry.BLOCK_RED.getBoolean())
+        {
+            BLOCKED_CODES.add("c");
+        }
+        if (ConfigEntry.BLOCK_LIGHT_PURPLE.getBoolean())
+        {
+            BLOCKED_CODES.add("d");
+        }
+        if (ConfigEntry.BLOCK_YELLOW.getBoolean())
+        {
+            BLOCKED_CODES.add("e");
+        }
+        if (ConfigEntry.BLOCK_WHITE.getBoolean())
+        {
+            BLOCKED_CODES.add("f");
+        }
+
+        if (ConfigEntry.BLOCK_MAGIC.getBoolean())
+        {
+            BLOCKED_CODES.add("k");
+        }
+
+        if (ConfigEntry.BLOCK_BOLD.getBoolean())
+        {
+            BLOCKED_CODES.add("l");
+        }
+        if (ConfigEntry.BLOCK_STRIKETHROUGH.getBoolean())
+        {
+            BLOCKED_CODES.add("m");
+        }
+        if (ConfigEntry.BLOCK_UNDERLINE.getBoolean())
+        {
+            BLOCKED_CODES.add("n");
+        }
+        if (ConfigEntry.BLOCK_ITALIC.getBoolean())
+        {
+            BLOCKED_CODES.add("o");
+        }
+
+        if (BLOCKED_CODES.isEmpty())
+        {
+            BLOCKED_CODES.add("@");
+        }
+
+    }
 }

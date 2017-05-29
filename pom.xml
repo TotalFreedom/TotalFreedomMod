@@ -59,10 +59,10 @@
 
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.10</version>
+            <artifactId>spigot-server</artifactId>
+            <version>1.11</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Spigot-1.10.jar</systemPath>
+            <systemPath>${project.basedir}/lib/Spigot-1.11.jar</systemPath>
         </dependency>
 
         <dependency>

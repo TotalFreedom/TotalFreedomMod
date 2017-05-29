@@ -10,8 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Gives you a tag with random colors", usage = "/<command> <tag>", aliases = "tn")
-public class Command_tagnyan extends FreedomCommand
+@CommandParameters(description = "Gives you a tag with Rainbow", usage = "/<command> <tag>", aliases = "tn")
+public class Command_rainbowtag extends FreedomCommand
 {
 
     @Override
@@ -26,7 +26,7 @@ public class Command_tagnyan extends FreedomCommand
 
         for (char c : ChatColor.stripColor(FUtil.colorize(StringUtils.join(args, " "))).toCharArray())
         {
-            tag.append(FUtil.randomChatColor()).append(c);
+            tag.append(FUtil.RainbowChatColor()).append(c);
         }
 
         String tagStr = tag.toString();

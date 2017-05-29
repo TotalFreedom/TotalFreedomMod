@@ -109,7 +109,6 @@ public class BlockBlocker extends FreedomService
                 break;
             }
             case STRUCTURE_BLOCK:
-            case STRUCTURE_VOID:
             {
                 player.sendMessage(ChatColor.GRAY + "Structure blocks are disabled.");
 

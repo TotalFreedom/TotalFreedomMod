@@ -1,5 +1,7 @@
 package me.totalfreedom.totalfreedommod;
 
+import java.util.List;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
@@ -29,6 +31,7 @@ public class ChatManager extends FreedomService
     protected void onStop()
     {
     }
+    public static final List<String> FORBIDDEN_WORDS = (List<String>) ConfigEntry.FORBIDDEN_WORDS.getList();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerChatFormat(AsyncPlayerChatEvent event)
