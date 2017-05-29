@@ -59,3 +59,4 @@ public class Command_wildcard extends FreedomCommand
 
         return true;
     }
+}
