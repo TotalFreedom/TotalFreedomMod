@@ -146,26 +146,18 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     public void setActive(boolean active)
     {
         this.active = active;
+
+        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
+
         if (getRank().isAtLeast(Rank.TELNET_ADMIN) && active == false)
         {
-            BukkitTelnet telnet = TotalFreedomMod.plugin().btb.getBukkitTelnetPlugin();
-            Set<ClientSession> allSessions = telnet.appender.getSessions();
-            Iterator<ClientSession> allSessionsIterator = allSessions.iterator();
-            if ((!allSessions.isEmpty()))
+            if (plugin.btb != null)
             {
-                while (allSessionsIterator.hasNext())
-                {
-                    ClientSession session = allSessionsIterator.next();
-                    if (session.getUserName().equalsIgnoreCase(getName()))
-                    {
-                        ClientSession removedSession = session;
-                        telnet.appender.removeSession(removedSession);
-                        removedSession.syncTerminateSession();
-                        FLog.info("1 telnet admin session removed.");
-                    }
-                }
+                plugin.btb.killTelnetSessions(getName());
             }
         }
+
+        plugin.lv.deactivateSuperadmin(this);
     }
 
     @Override

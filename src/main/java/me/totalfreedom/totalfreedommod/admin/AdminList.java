@@ -276,24 +276,12 @@ public class AdminList extends FreedomService
     {
         if (admin.getRank().isAtLeast(Rank.TELNET_ADMIN))
         {
-            BukkitTelnet telnet = plugin.btb.getBukkitTelnetPlugin();
-            Set<ClientSession> allSessions = telnet.appender.getSessions();
-            Iterator<ClientSession> allSessionsIterator = allSessions.iterator();
-            if ((!allSessions.isEmpty()))
+            if (plugin.btb != null)
             {
-                while (allSessionsIterator.hasNext())
-                {
-                    ClientSession session = allSessionsIterator.next();
-                    if (session.getUserName().equalsIgnoreCase(admin.getName()))
-                    {
-                        ClientSession removedSession = session;
-                        telnet.appender.removeSession(removedSession);
-                        removedSession.syncTerminateSession();
-                        FLog.info("1 telnet admin session removed.");
-                    }
-                }
+                plugin.btb.killTelnetSessions(admin.getName());
             }
         }
+
         // Remove admin, update views
         if (allAdmins.remove(admin.getConfigKey()) == null)
         {
@@ -367,7 +355,6 @@ public class AdminList extends FreedomService
             }
 
             admin.setActive(false);
-            plugin.lv.deactivateSuperadmin(admin);
         }
 
         save();
