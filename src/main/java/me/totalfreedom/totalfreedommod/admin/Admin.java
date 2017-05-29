@@ -32,6 +32,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     private Rank rank = Rank.SUPER_ADMIN;
     @Getter
     private final List<String> ips = Lists.newArrayList();
+    private final List<String> names = Lists.newArrayList();
     @Getter
     @Setter
     private Date lastLogin = new Date();
@@ -43,6 +44,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     {
         this.configKey = player.getName().toLowerCase();
         this.name = player.getName();
+        this.names.add(player.getName());
         this.ips.add(Ips.getIp(player));
     }
 
@@ -72,12 +74,16 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         name = player.getName();
         ips.clear();
         ips.add(Ips.getIp(player));
+        names.clear();
+        names.add(player.getName());
     }
 
     @Override
     public void loadFrom(ConfigurationSection cs)
     {
         name = cs.getString("username", configKey);
+        names.clear();
+        names.addAll(cs.getStringList("all_known_names"));
         active = cs.getBoolean("active", true);
         rank = Rank.findRank(cs.getString("rank"));
         ips.clear();
@@ -91,6 +97,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     {
         Validate.isTrue(isValid(), "Could not save admin entry: " + name + ". Entry not valid!");
         cs.set("username", name);
+        cs.set("all_known_names", names);
         cs.set("active", active);
         cs.set("rank", rank.toString());
         cs.set("ips", Lists.newArrayList(ips));
