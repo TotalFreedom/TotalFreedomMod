@@ -79,7 +79,7 @@ public class History
         }
     }
 
-    static class FName implements Comparable<FName>
+    private static class FName implements Comparable<FName>
     {
 
         private String name;
