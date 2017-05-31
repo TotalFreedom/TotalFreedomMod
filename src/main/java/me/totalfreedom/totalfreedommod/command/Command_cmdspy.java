@@ -17,6 +17,14 @@ public class Command_cmdspy extends FreedomCommand
 
         FPlayer playerdata = plugin.pl.getPlayer(playerSender);
         playerdata.setCommandSpy(!playerdata.cmdspyEnabled());
+        if (playerdata.cmdspyEnabled() == true)
+        {
+            plugin.al.setCommandSpyActive(true, playerSender);
+        } else
+        {
+            plugin.al.setCommandSpyActive(false, playerSender);
+        }
+
         msg("CommandSpy " + (playerdata.cmdspyEnabled() ? "enabled." : "disabled."));
 
         return true;

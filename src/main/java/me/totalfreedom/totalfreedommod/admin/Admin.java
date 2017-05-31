@@ -38,6 +38,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String loginMessage = null;
+    @Getter
+    @Setter
+    private boolean commandSpyStatus = true;
 
     public Admin(Player player)
     {
@@ -61,7 +64,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")
                 .append("- Rank: ").append(rank.getName()).append("\n")
-                .append("- Is Active: ").append(active);
+                .append("- Is Active: ").append(active).append("\n")
+                .append("- CommandSpy Active: ").append(commandSpyStatus);
 
         return output.toString();
     }
@@ -96,6 +100,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
+        cs.set("commandspy_isactive", commandspystatus);
     }
 
     public boolean isAtLeast(Rank pRank)
@@ -107,6 +112,10 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     {
         return loginMessage != null && !loginMessage.isEmpty();
     }
+
+    public boolean commandSpyIsActive{
+        return commandSpyStatus
+}
 
     // Util IP methods
     public void addIp(String ip)

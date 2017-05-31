@@ -146,6 +146,15 @@ public class LoginProcess extends FreedomService
             return;
         }
 
+        // Command Spy Retaining Status
+
+        if (isAdmin) // Player is superadmin
+        {
+
+
+
+        }
+
         // Player is not an admin
         // Server full check
         if (server.getOnlinePlayers().size() >= server.getMaxPlayers())
@@ -196,7 +205,7 @@ public class LoginProcess extends FreedomService
 
                 if (lockdownEnabled)
                 {
-                    FUtil.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
+                    FUtil.playerMsg(player, "Warning: Server is currently in lockdown-mode, new players will not be able to join!", ChatColor.RED);
                 }
             }
         }.runTaskLater(plugin, 20L * 1L);

@@ -238,6 +238,31 @@ public class AdminList extends FreedomService
         return getEntryByName(player.getName()) != null && !isAdmin(player);
     }
 
+    public boolean isCommandSpyActive(Player player){
+        final Admin admin = getAdmin(player);
+        if(admin.commandSpyIsActive)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public boolean setCommandSpyActive(boolean status, Player player){
+        final Admin admin = getAdmin(player);
+
+        if (status == true)
+        {
+            admin.commandSpyIsActive = true;
+        }
+        else{
+            admin.commandSpyIsActive = false;
+        }
+    }
+
+
     public boolean isIdentityMatched(Player player)
     {
         if (Bukkit.getOnlineMode())
