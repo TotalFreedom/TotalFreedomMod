@@ -51,7 +51,7 @@ public class ChatManager extends FreedomService
         // Strip color from messages
         message = ChatColor.stripColor(message);
 
-        // Truncate messages that are too long - 100 characters is vanilla client max
+        // Truncate messages that are too long - 250 characters is vanilla client max
         if (message.length() > 250)
         {
             message = message.substring(0, 250);
