@@ -149,15 +149,18 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
 
         final TotalFreedomMod plugin = TotalFreedomMod.plugin();
 
-        if (getRank().isAtLeast(Rank.TELNET_ADMIN) && active == false)
-        {
-            if (plugin.btb != null)
-            {
-                plugin.btb.killTelnetSessions(getName());
-            }
-        }
+		if (!active)
+		{
+			if (getRank().isAtLeast(Rank.TELNET_ADMIN))
+			{
+				if (plugin.btb != null)
+				{
+					plugin.btb.killTelnetSessions(getName());
+				}
+			}
 
-        plugin.lv.deactivateSuperadmin(this);
+			plugin.lv.deactivateSuperadmin(this);
+		}
     }
 
     @Override
