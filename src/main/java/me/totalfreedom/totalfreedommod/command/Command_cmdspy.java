@@ -15,14 +15,12 @@ public class Command_cmdspy extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
         Admin admin = getAdmin((Player) sender);
         FPlayer playerdata = plugin.pl.getPlayer(playerSender);
         playerdata.setCommandSpy(!playerdata.cmdspyEnabled());
         if (playerdata.cmdspyEnabled())
         {
             admin.setCommandSpy(true);
-
         }
         else
         {

@@ -44,6 +44,7 @@ public class CommandSpy extends FreedomService
         }
     }
 
+    // This will check if the user joining has command spy enabled, and if they are an admin. If they are not an admin it will ensure their command spy access has been removed, and if they are it will check to see if the admin has left command spy enabled or not on previous use.
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
@@ -54,7 +55,6 @@ public class CommandSpy extends FreedomService
         {
             if (admin.hasCommandSpy())
             {
-
                 playerdata.setCommandSpy(playerdata.cmdspyEnabled());
             }
             else
