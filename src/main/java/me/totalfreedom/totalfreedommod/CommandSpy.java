@@ -51,13 +51,15 @@ public class CommandSpy extends FreedomService
             if (plugin.al.isCommandSpyActive(event.getPlayer()))
             {
                 FPlayer playerdata = plugin.pl.getPlayer(event.getPlayer());
-                playerdata.setCommandSpy(playerdata.cmdspyEnabled() == true);
-            } else
+                playerdata.setCommandSpy(playerdata.cmdspyEnabled());
+            }
+            else
             {
                 FPlayer playerdata = plugin.pl.getPlayer(event.getPlayer());
                 playerdata.setCommandSpy(playerdata.cmdspyEnabled() == false);
             }
-        } else
+        }
+        else
         {
             FPlayer playerdata = plugin.pl.getPlayer(event.getPlayer());
             playerdata.setCommandSpy(playerdata.cmdspyEnabled() == false);

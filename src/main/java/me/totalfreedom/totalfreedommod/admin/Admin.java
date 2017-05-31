@@ -1,8 +1,10 @@
 package me.totalfreedom.totalfreedommod.admin;
 
 import com.google.common.collect.Lists;
+
 import java.util.Date;
 import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -100,7 +102,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
-        cs.set("commandspy_isactive", commandspystatus);
+        cs.set("commandspy_isactive", commandSpyStatus);
     }
 
     public boolean isAtLeast(Rank pRank)
@@ -113,9 +115,11 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         return loginMessage != null && !loginMessage.isEmpty();
     }
 
-    public boolean commandSpyIsActive{
-        return commandSpyStatus
-}
+    public boolean commandSpyIsActive()
+
+    {
+        return commandSpyStatus;
+    }
 
     // Util IP methods
     public void addIp(String ip)

@@ -3,10 +3,12 @@ package me.totalfreedom.totalfreedommod.admin;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
@@ -238,9 +240,10 @@ public class AdminList extends FreedomService
         return getEntryByName(player.getName()) != null && !isAdmin(player);
     }
 
-    public boolean isCommandSpyActive(Player player){
+    public boolean isCommandSpyActive(Player player)
+    {
         final Admin admin = getAdmin(player);
-        if(admin.commandSpyIsActive)
+        if (admin.commandSpyIsActive)
         {
             return true;
         }
@@ -250,14 +253,16 @@ public class AdminList extends FreedomService
         }
     }
 
-    public boolean setCommandSpyActive(boolean status, Player player){
+    public boolean setCommandSpyActive(boolean status, Player player)
+    {
         final Admin admin = getAdmin(player);
 
-        if (status == true)
+        if (status)
         {
             admin.commandSpyIsActive = true;
         }
-        else{
+        else
+        {
             admin.commandSpyIsActive = false;
         }
     }
