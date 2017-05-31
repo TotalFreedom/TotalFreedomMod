@@ -52,9 +52,9 @@ public class ChatManager extends FreedomService
         message = ChatColor.stripColor(message);
 
         // Truncate messages that are too long - 100 characters is vanilla client max
-        if (message.length() > 100)
+        if (message.length() > 250)
         {
-            message = message.substring(0, 100);
+            message = message.substring(0, 250);
             FSync.playerMsg(player, "Message was shortened because it was too long to send.");
         }
 
