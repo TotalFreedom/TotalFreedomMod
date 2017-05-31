@@ -146,15 +146,6 @@ public class LoginProcess extends FreedomService
             return;
         }
 
-        // Command Spy Retaining Status
-
-        if (isAdmin) // Player is superadmin
-        {
-
-
-
-        }
-
         // Player is not an admin
         // Server full check
         if (server.getOnlinePlayers().size() >= server.getMaxPlayers())
