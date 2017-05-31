@@ -116,7 +116,6 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     }
 
     public boolean commandSpyIsActive()
-
     {
         return commandSpyStatus;
     }
