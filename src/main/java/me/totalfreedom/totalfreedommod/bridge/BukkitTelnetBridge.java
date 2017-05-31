@@ -1,20 +1,26 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
+import me.totalfreedom.bukkittelnet.BukkitTelnet;
 import me.totalfreedom.bukkittelnet.api.TelnetCommandEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetRequestDataTagsEvent;
+import me.totalfreedom.bukkittelnet.session.ClientSession;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import static org.bukkit.Bukkit.getName;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.plugin.Plugin;
 
 public class BukkitTelnetBridge extends FreedomService
 {
+
+    private BukkitTelnet bukkitTelnetPlugin = null;
 
     public BukkitTelnetBridge(TotalFreedomMod plugin)
     {
@@ -29,6 +35,30 @@ public class BukkitTelnetBridge extends FreedomService
     @Override
     protected void onStop()
     {
+    }
+
+    public BukkitTelnet getBukkitTelnetPlugin()
+    {
+        if (bukkitTelnetPlugin == null)
+        {
+            try
+            {
+                final Plugin bukkitTelnet = server.getPluginManager().getPlugin("BukkitTelnet");
+                if (bukkitTelnet != null)
+                {
+                    if (bukkitTelnet instanceof BukkitTelnet)
+                    {
+                        bukkitTelnetPlugin = (BukkitTelnet) bukkitTelnet;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                FLog.severe(ex);
+            }
+        }
+
+        return bukkitTelnetPlugin;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -92,6 +122,47 @@ public class BukkitTelnetBridge extends FreedomService
             playerTags.put("tfm.playerdata.getTag", plugin.pl.getPlayer(player).getTag());
 
             playerTags.put("tfm.essentialsBridge.getNickname", plugin.esb.getNickname(player.getName()));
+        }
+    }
+
+    public void killTelnetSessions(final String name)
+    {
+        try
+        {
+            final List<ClientSession> sessionsToRemove = new ArrayList<>();
+
+            final BukkitTelnet telnet = getBukkitTelnetPlugin();
+            if (telnet != null)
+            {
+                final Iterator<ClientSession> it = telnet.appender.getSessions().iterator();
+                while (it.hasNext())
+                {
+                    final ClientSession session = it.next();
+                    if (name != null && name.equalsIgnoreCase(session.getUserName()))
+                    {
+                        sessionsToRemove.add(session);
+                    }
+                }
+
+                for (final ClientSession session : sessionsToRemove)
+                {
+                    try
+                    {
+                        telnet.appender.removeSession(session);
+                        session.syncTerminateSession();
+                    }
+                    catch (Exception ex)
+                    {
+                        FLog.severe("Error removing single telnet session: " + ex.getMessage());
+                    }
+                }
+
+                FLog.info(sessionsToRemove.size() + " telnet session(s) removed.");
+            }
+        }
+        catch (Exception ex)
+        {
+            FLog.severe("Error removing telnet sessions: " + ex.getMessage());
         }
     }
 }

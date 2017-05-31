@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
@@ -13,11 +14,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 public class AutoEject extends FreedomService
 {
 
     private final Map<String, Integer> ejects = new HashMap<>(); // ip -> amount
+
+    private final Map<Player, String> punishment = new HashMap<>();
 
     public AutoEject(TotalFreedomMod plugin)
     {
@@ -67,7 +73,6 @@ public class AutoEject extends FreedomService
         player.setOp(false);
         player.setGameMode(GameMode.SURVIVAL);
         player.getInventory().clear();
-
         switch (method)
         {
             case STRIKE_ONE:
@@ -111,6 +116,56 @@ public class AutoEject extends FreedomService
     {
 
         STRIKE_ONE, STRIKE_TWO, STRIKE_THREE;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerJoin(PlayerJoinEvent event)
+    {
+        Player player = event.getPlayer();
+        if (plugin.al.isAdmin(player))
+        {
+            return;
+        }
+
+        FPlayer fPlayer = plugin.pl.getPlayer(player);
+        if (fPlayer.isMuted())
+        {
+            fPlayer.setMuted(true);
+        }
+
+        if (fPlayer.allCommandsBlocked())
+        {
+            fPlayer.setCommandsBlocked(true);
+        }
+
+        if (fPlayer.isPVPBlock())
+        {
+            fPlayer.setPVPBlock(true);
+        }
+
+        if (fPlayer.isEditBlock())
+        {
+            fPlayer.setEditBlocked(true);
+        }
+
+        if (fPlayer.isOrbiting())
+        {
+            double strength = 10.0;
+            fPlayer.startOrbiting(strength);
+        }
+
+        if (fPlayer.getFreezeData().isFrozen())
+        {
+            fPlayer.getFreezeData().setFrozen(true);
+        }
+
+        /*
+         if (fPlayer.getCageData().isCaged()) {
+         fPlayer.getCageData().setCaged(true);
+         player.setGameMode(GameMode.SURVIVAL);
+
+         }
+         */
     }
 
 }

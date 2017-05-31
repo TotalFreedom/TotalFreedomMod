@@ -70,7 +70,7 @@ public class Command_gtfo extends FreedomCommand
             for (int z = -1; z <= 1; z++)
             {
                 final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                targetPos.getWorld().strikeLightning(strike_pos);
+                targetPos.getWorld().strikeLightningEffect(strike_pos);
             }
         }
 
@@ -91,6 +91,9 @@ public class Command_gtfo extends FreedomCommand
 
         // Ban player
         plugin.bm.addBan(Ban.forPlayerFuzzy(player, sender, null, reason));
+
+        // Kill player
+        player.setHealth(0.0);
 
         // Kick player
         player.kickPlayer(ChatColor.RED + "GTFO");

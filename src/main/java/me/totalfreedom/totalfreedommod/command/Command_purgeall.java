@@ -19,11 +19,16 @@ public class Command_purgeall extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Purging all player data", true);
 
         // Purge entities
-        plugin.ew.wipeEntities();
+        plugin.ew.wipeEntities(true);
 
         for (Player player : server.getOnlinePlayers())
         {
             FPlayer fPlayer = plugin.pl.getPlayer(player);
+
+            if (plugin.al.isAdminImpostor(player))
+            {
+                return false;
+            }
 
             // Unmute all players
             if (fPlayer.isMuted())
@@ -35,6 +40,18 @@ public class Command_purgeall extends FreedomCommand
             if (fPlayer.allCommandsBlocked())
             {
                 fPlayer.setCommandsBlocked(false);
+            }
+
+            // Enables PVP mode for all players
+            if (fPlayer.isPVPBlock())
+            {
+                fPlayer.setPVPBlock(false);
+            }
+
+            // Unblock Edit Permission for all players
+            if (fPlayer.isEditBlock())
+            {
+                fPlayer.setEditBlocked(false);
             }
 
             // Stop orbiting
