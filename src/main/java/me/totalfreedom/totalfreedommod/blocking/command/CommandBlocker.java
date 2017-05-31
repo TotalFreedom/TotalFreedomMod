@@ -131,13 +131,6 @@ public class CommandBlocker extends FreedomService
         }
     }
 
-    /*
-     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-     public void onServerCommand(ServerCommandEvent event) { CommandSender
-     sender = event.getSender(); String command = event.getCommand(); if
-     (sender.getName().equals("Rcon")) { if (isCommandBlocked(command, sender,
-     true)) { event.setCancelled(true); } } }
-     */
     public boolean isCommandBlocked(String command, CommandSender sender)
     {
         return isCommandBlocked(command, sender, false);

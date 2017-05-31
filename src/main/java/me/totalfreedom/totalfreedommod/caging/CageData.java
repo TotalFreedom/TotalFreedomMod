@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.caging;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
-import me.totalfreedom.totalfreedommod.command.Command_cage;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,7 +35,7 @@ public class CageData
     {
         if (cage)
         {
-            cage(fPlayer.getPlayer().getLocation(), Material.GLASS, Material.AIR);
+            cage(fPlayer.getPlayer().getLocation(), Material.GLASS, Material.GLASS);
         }
         else
         {
@@ -188,7 +187,7 @@ public class CageData
                         block.setType(Material.SKULL);
                         final Skull skull = (Skull) block.getState();
                         skull.setSkullType(SkullType.PLAYER);
-                        skull.setOwner(Command_cage.playerSkullName);
+                        skull.setOwner("Prozza");
                         skull.update();
                     }
                 }

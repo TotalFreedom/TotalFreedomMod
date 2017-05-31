@@ -2,16 +2,8 @@ package me.totalfreedom.totalfreedommod.bridge;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-// These imports are not in the latest releases of WorldEdit, and the new versions of WorldEdit do not build properly. This will need to be reverted once the new WorldEdit builds are building properly.
-//
-//import me.totalfreedom.worldedit.LimitChangedEvent;
-//import me.totalfreedom.worldedit.SelectionChangedEvent;
-//
-//The following two imports are a temporary measure as mentioned above.
-//
-import me.StevenLawson.worldedit.LimitChangedEvent;
-import me.StevenLawson.worldedit.SelectionChangedEvent;
-//
+import me.totalfreedom.worldedit.LimitChangedEvent;
+import me.totalfreedom.worldedit.SelectionChangedEvent;
 import net.pravian.aero.component.PluginListener;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

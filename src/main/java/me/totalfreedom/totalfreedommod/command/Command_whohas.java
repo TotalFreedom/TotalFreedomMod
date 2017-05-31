@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "See who has a block and optionally clears the item.", usage = "/<command> <item> clear", aliases = "wh")
+@CommandParameters(description = "See who has a block and optionally smite.", usage = "/<command> <item> [smite]", aliases = "wh")
 public class Command_whohas extends FreedomCommand
 {
 
@@ -24,7 +24,7 @@ public class Command_whohas extends FreedomCommand
             return false;
         }
 
-        final boolean doClear = args.length >= 2 && "clear".equalsIgnoreCase(args[1]);
+        final boolean doSmite = args.length >= 2 && "smite".equalsIgnoreCase(args[1]);
 
         final String materialName = args[0];
         Material material = Material.matchMaterial(materialName);
@@ -52,9 +52,9 @@ public class Command_whohas extends FreedomCommand
             if (player.getInventory().contains(material))
             {
                 players.add(player.getName());
-                if (doClear && !plugin.al.isAdmin(player))
+                if (doSmite && !plugin.al.isAdmin(player))
                 {
-                    player.getInventory().remove(material);
+                    Command_smite.smite(player);
                 }
             }
         }

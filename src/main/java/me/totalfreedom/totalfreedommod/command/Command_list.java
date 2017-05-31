@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f | -v]", aliases = "who")
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f]", aliases = "who")
 public class Command_list extends FreedomCommand
 {
 
@@ -22,7 +22,6 @@ public class Command_list extends FreedomCommand
 
         PLAYERS,
         ADMINS,
-        VANISHED_ADMINS,
         FAMOUS_PLAYERS,
         IMPOSTORS;
     }
@@ -54,9 +53,6 @@ public class Command_list extends FreedomCommand
                 case "-a":
                     listFilter = ListFilter.ADMINS;
                     break;
-                case "-v":
-                    listFilter = ListFilter.VANISHED_ADMINS;
-                    break;
                 case "-i":
                     listFilter = ListFilter.IMPOSTORS;
                     break;
@@ -72,15 +68,10 @@ public class Command_list extends FreedomCommand
             listFilter = ListFilter.PLAYERS;
         }
 
-        if (listFilter == ListFilter.VANISHED_ADMINS && !plugin.al.isAdmin(playerSender))
-        {
-            msg("/list [-a | -i | -f ]", ChatColor.WHITE);
-            return true;
-        }
         final StringBuilder onlineStats = new StringBuilder();
         final StringBuilder onlineUsers = new StringBuilder();
 
-        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - Command_vanish.vanished.size());
+        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size());
         onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(server.getMaxPlayers());
         onlineStats.append(ChatColor.BLUE).append(" players online.");
 
@@ -88,16 +79,6 @@ public class Command_list extends FreedomCommand
         for (Player player : server.getOnlinePlayers())
         {
             if (listFilter == ListFilter.ADMINS && !plugin.al.isAdmin(player))
-            {
-                continue;
-            }
-
-            if (listFilter == ListFilter.ADMINS && Command_vanish.vanished.contains(player))
-            {
-                continue;
-            }
-
-            if (listFilter == ListFilter.VANISHED_ADMINS && !Command_vanish.vanished.contains(player))
             {
                 continue;
             }
@@ -112,10 +93,6 @@ public class Command_list extends FreedomCommand
                 continue;
             }
 
-            if (listFilter == ListFilter.PLAYERS && Command_vanish.vanished.contains(player))
-            {
-                continue;
-            }
             Displayable display = plugin.rm.getDisplay(player);
 
             names.add(display.getColoredTag() + player.getName());
@@ -137,7 +114,7 @@ public class Command_list extends FreedomCommand
             sender.sendMessage(onlineStats.toString());
             sender.sendMessage(onlineUsers.toString());
         }
-        names.clear();
+
         return true;
     }
 }

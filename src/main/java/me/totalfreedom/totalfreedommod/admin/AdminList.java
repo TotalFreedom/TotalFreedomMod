@@ -4,15 +4,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
-import me.totalfreedom.bukkittelnet.BukkitTelnet;
-import me.totalfreedom.bukkittelnet.session.ClientSession;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.command.Command_logs;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -274,14 +272,6 @@ public class AdminList extends FreedomService
 
     public boolean removeAdmin(Admin admin)
     {
-        if (admin.getRank().isAtLeast(Rank.TELNET_ADMIN))
-        {
-            if (plugin.btb != null)
-            {
-                plugin.btb.killTelnetSessions(admin.getName());
-            }
-        }
-
         // Remove admin, update views
         if (allAdmins.remove(admin.getConfigKey()) == null)
         {
@@ -355,6 +345,7 @@ public class AdminList extends FreedomService
             }
 
             admin.setActive(false);
+            plugin.lv.deactivateSuperadmin(admin);
         }
 
         save();

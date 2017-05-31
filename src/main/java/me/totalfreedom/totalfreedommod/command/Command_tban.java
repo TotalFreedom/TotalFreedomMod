@@ -48,11 +48,9 @@ public class Command_tban extends FreedomCommand
             for (int z = -1; z <= 1; z++)
             {
                 final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                targetPos.getWorld().strikeLightningEffect(strike_pos);
+                targetPos.getWorld().strikeLightning(strike_pos);
             }
         }
-        //Kill player as Smite has been replaced with an effect.
-        player.setHealth(0.0);
 
         FUtil.adminAction(sender.getName(), "Tempbanning: " + player.getName() + " for 5 minutes.", true);
         plugin.bm.addBan(Ban.forPlayer(player, sender, FUtil.parseDateOffset("5m"), reason));

@@ -46,10 +46,6 @@ public class Command_potion extends FreedomCommand
                 FUtil.adminAction(sender.getName(), "Cleared all potion effects from all players", true);
                 for (Player target : server.getOnlinePlayers())
                 {
-                    if (plugin.al.isAdmin(target))
-                    {
-                        continue;
-                    }
                     for (PotionEffect potion_effect : target.getActivePotionEffects())
                     {
                         target.removePotionEffect(potion_effect.getType());

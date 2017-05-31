@@ -200,12 +200,6 @@ public class Command_saconfig extends FreedomCommand
                         fPlayer.getFreezeData().setFrozen(false);
                         msg(player.getPlayer(), "You have been unfrozen.");
                     }
-
-                    if (plugin.pl.getPlayer(player).isEditBlock())
-                    {
-                        plugin.pl.getPlayer(player).setEditBlocked(false);
-                        msg(player.getPlayer(), "You edits has been unblocked.");
-                    }
                 }
 
                 return true;

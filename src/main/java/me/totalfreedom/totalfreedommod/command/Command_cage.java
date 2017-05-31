@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,11 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [custom | block] [Block name | Player name(for skull)]")
+@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [outermaterial] [innermaterial]>")
 public class Command_cage extends FreedomCommand
 {
-
-    public static String playerSkullName;
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -62,29 +59,22 @@ public class Command_cage extends FreedomCommand
 
         if (args.length >= 2)
         {
-            if (null != args[1])
+            if ("off".equals(args[1]))
             {
-                switch (args[1])
-                {
-                    case "off":
-                        FUtil.adminAction(sender.getName(), "Uncaging " + player.getName(), true);
-                        playerdata.getCageData().setCaged(false);
+                FUtil.adminAction(sender.getName(), "Uncaging " + player.getName(), true);
+                playerdata.getCageData().setCaged(false);
 
-                        return true;
-                    case "custom":
-                        outerMaterial = Material.SKULL;
-                        playerSkullName = args[2];
-                        break;
-                    case "block":
-                        if (Material.matchMaterial(args[2]) != null)
-                        {
-                            outerMaterial = Material.matchMaterial(args[2]);
-                        }
-                        else
-                        {
-                            sender.sendMessage(ChatColor.RED + "Invalid block!");
-                        }
-                        break;
+                return true;
+            }
+            else
+            {
+                if ("darth".equalsIgnoreCase(args[1]))
+                {
+                    outerMaterial = Material.SKULL;
+                }
+                else if (Material.matchMaterial(args[1]) != null)
+                {
+                    outerMaterial = Material.matchMaterial(args[1]);
                 }
             }
         }
@@ -103,6 +93,7 @@ public class Command_cage extends FreedomCommand
 
         Location targetPos = player.getLocation().clone().add(0, 1, 0);
         playerdata.getCageData().cage(targetPos, outerMaterial, innerMaterial);
+
         player.setGameMode(GameMode.SURVIVAL);
 
         if (outerMaterial != Material.SKULL)
@@ -111,7 +102,7 @@ public class Command_cage extends FreedomCommand
         }
         else
         {
-            FUtil.adminAction(sender.getName(), "Caging " + player.getName() + " in " + playerSkullName, true);
+            FUtil.adminAction(sender.getName(), "Caging " + player.getName() + " in PURE_DARTH", true);
         }
 
         return true;

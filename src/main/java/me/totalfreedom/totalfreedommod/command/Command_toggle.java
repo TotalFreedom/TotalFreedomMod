@@ -22,11 +22,9 @@ public class Command_toggle extends FreedomCommand
             msg("- waterplace");
             msg("- fireplace");
             msg("- lavaplace");
-            msg("- frostwalk");
             msg("- fluidspread");
             msg("- lavadmg");
             msg("- firespread");
-            msg("- firework");
             msg("- prelog");
             msg("- lockdown");
             msg("- petprotect");
@@ -39,11 +37,6 @@ public class Command_toggle extends FreedomCommand
         if (args[0].equals("waterplace"))
         {
             toggle("Water placement is", ConfigEntry.ALLOW_WATER_PLACE);
-            return true;
-        }
-        if (args[0].equals("frostwalk"))
-        {
-            toggle("Frost walker enchantment is ", ConfigEntry.ALLOW_FROSTWALKER);
             return true;
         }
 
@@ -102,12 +95,6 @@ public class Command_toggle extends FreedomCommand
         if (args[0].equals("entitywipe"))
         {
             toggle("Automatic entity wiping is", ConfigEntry.AUTO_ENTITY_WIPE);
-            return true;
-        }
-
-        if (args[0].equals("firework"))
-        {
-            toggle("Firework explosion is", ConfigEntry.ALLOW_FIREWORK_EXPLOSION);
             return true;
         }
 

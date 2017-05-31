@@ -43,28 +43,8 @@
 
     <repositories>
         <repository>
-            <id>dmulloy2-repo</id>
-            <url>http://repo.dmulloy2.net/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>ess-repo</id>
-            <url>http://repo.ess3.net</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>elmakers-repo</id>
-            <url>http://maven.elmakers.com/repository/</url>
-        </repository>
-        <repository>
-            <id>sk89q-snapshots</id>
-            <url>http://maven.sk89q.com/artifactory/repo</url>
+            <id>spigot</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -73,70 +53,48 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.14</version>
+            <version>1.16.6</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.11.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <version>1.10</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Spigot-1.10.jar</systemPath>
         </dependency>
 
         <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib-API</artifactId>
-            <version>4.1.0</version>
+            <groupId>net.pravian</groupId>
+            <artifactId>aero</artifactId>
+            <version>2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Aero-2.0.jar</systemPath>
         </dependency>
 
         <dependency>
-            <groupId>com.github.Pravian</groupId>
-            <artifactId>Aero</artifactId>
-            <version>a0e1dc5</version>
-            <scope>provided</scope>
+            <groupId>net.totalfreedom</groupId>
+            <artifactId>bukkittelnet</artifactId>
+            <version>4.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/BukkitTelnet-4.3.jar</systemPath>
         </dependency>
 
         <dependency>
-            <groupId>com.github.TotalFreedom</groupId>
-            <artifactId>BukkitTelnet</artifactId>
-            <version>v4.4</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
+            <groupId>net.totalfreedom</groupId>
+            <artifactId>tf-worldedit</artifactId>
             <version>6.1.0-TF</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/TF-WorldEdit-6.1.1.jar</systemPath>
         </dependency>
 
         <dependency>
-            <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
-            <artifactId>worldedit-core</artifactId>
-            <version>6.1.0-TF</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.11.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.ess3</groupId>
-            <artifactId>Essentials</artifactId>
-            <version>2.13.1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.TotalFreedom</groupId>
-            <artifactId>TF-LibsDisguises</artifactId>
-            <version>913a577436</version>
-            <scope>provided</scope>
+            <groupId>net.totalfreedom</groupId>
+            <artifactId>tf-essentials</artifactId>
+            <version>2.0-TF</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/TF-Essentials-2.1.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -167,8 +125,8 @@
                 <configuration>
                     <outputFileName>TotalFreedomMod.jar</outputFileName>
                     <compilerVersion>1.7</compilerVersion>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
 

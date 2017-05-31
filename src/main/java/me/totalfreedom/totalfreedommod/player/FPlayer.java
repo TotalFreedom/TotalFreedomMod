@@ -35,11 +35,6 @@ public class FPlayer
     private Player player;
     //
     private BukkitTask unmuteTask;
-    private BukkitTask UnlockRedstoneTask;
-    private BukkitTask unblockEditTask;
-    private BukkitTask isPVPBlocked;
-    private BukkitTask isPVPProtect;
-
     @Getter
     private final FreezeData freezeData = new FreezeData(this);
     @Getter
@@ -49,7 +44,6 @@ public class FPlayer
     private int totalBlockPlace = 0;
     private int freecamDestroyCount = 0;
     private int freecamPlaceCount = 0;
-    private int clickAmount = 0;
     @Getter
     private final CageData cageData = new CageData(this);
     private boolean isOrbiting = false;
@@ -65,7 +59,6 @@ public class FPlayer
     private String lastMessage = "";
     private boolean inAdminchat = false;
     private boolean allCommandsBlocked = false;
-    private boolean isInvsee = false;
     @Getter
     @Setter
     private boolean superadminIdVerified = false;
@@ -106,16 +99,6 @@ public class FPlayer
         }
 
         return player;
-    }
-
-    public boolean isInvsee()
-    {
-        return isInvsee;
-    }
-
-    public void setInvsee(boolean invsee)
-    {
-        this.isInvsee = invsee;
     }
 
     public boolean isOrbiting()
@@ -202,16 +185,6 @@ public class FPlayer
     public void resetFreecamPlaceCount()
     {
         this.freecamPlaceCount = 0;
-    }
-
-    public int incrementAndGetClickAmount()
-    {
-        return this.clickAmount++;
-    }
-
-    public void resetClickAmount()
-    {
-        this.clickAmount = 0;
     }
 
     public void enableMobThrower(EntityType mobThrowerCreature, double mobThrowerSpeed)
@@ -308,6 +281,7 @@ public class FPlayer
         {
             return;
         }
+
         if (getPlayer() == null)
         {
             return;
@@ -319,66 +293,6 @@ public class FPlayer
             {
                 FUtil.adminAction("TotalFreedom", "Unmuting " + getPlayer().getName(), false);
                 setMuted(false);
-            }
-        }.runTaskLater(plugin, AUTO_PURGE_TICKS);
-    }
-
-    public boolean isEditBlock()
-    {
-        return unblockEditTask != null;
-    }
-
-    public void setEditBlocked(boolean editmuted)
-    {
-        FUtil.cancel(unblockEditTask);
-        unblockEditTask = null;
-
-        if (!editmuted)
-        {
-            return;
-        }
-
-        if (getPlayer() == null)
-        {
-            return;
-        }
-        unblockEditTask = new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                FUtil.adminAction("TotalFreedom", "Unblocking block edits for " + getPlayer().getName(), false);
-                setEditBlocked(false);
-            }
-        }.runTaskLater(plugin, AUTO_PURGE_TICKS);
-    }
-
-    public boolean isPVPBlock()
-    {
-        return isPVPBlocked != null;
-    }
-
-    public void setPVPBlock(boolean pvpblocked)
-    {
-        FUtil.cancel(isPVPBlocked);
-        isPVPBlocked = null;
-
-        if (!pvpblocked)
-        {
-            return;
-        }
-
-        if (getPlayer() == null)
-        {
-            return;
-        }
-        isPVPBlocked = new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                FUtil.adminAction("TotalFreedom", "Enabiling PVP mode for " + getPlayer().getName(), false);
-                setPVPBlock(false);
             }
         }.runTaskLater(plugin, AUTO_PURGE_TICKS);
     }

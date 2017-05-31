@@ -44,14 +44,12 @@ public class Command_premium extends FreedomCommand
             {
                 try
                 {
-                    final URL getUrl = new URL("http://axis.iaero.me/accstatus?username=" + name + "&format=plain");
+                    final URL getUrl = new URL("https://minecraft.net/haspaid.jsp?user=" + name);
                     final URLConnection urlConnection = getUrl.openConnection();
-                    final String message;
-                    try ( // Read the response
-                            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream())))
-                    {
-                        message = (!"PREMIUM".equalsIgnoreCase(in.readLine()) ? ChatColor.RED + "No" : ChatColor.DARK_GREEN + "Yes");
-                    }
+                    // Read the response
+                    final BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    final String message = ("false".equalsIgnoreCase(in.readLine()) ? ChatColor.RED + "No" : ChatColor.DARK_GREEN + "Yes");
+                    in.close();
 
                     if (!plugin.isEnabled())
                     {

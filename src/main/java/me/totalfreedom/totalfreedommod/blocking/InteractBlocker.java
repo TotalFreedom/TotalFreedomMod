@@ -83,19 +83,6 @@ public class InteractBlocker extends FreedomService
                 break;
             }
 
-            case FIREWORK:
-            {
-                if (plugin.al.isAdmin(player) || ConfigEntry.ALLOW_FIREWORK_EXPLOSION.getBoolean())
-                {
-                    break;
-                }
-
-                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                player.sendMessage(ChatColor.GRAY + "Firework rockets are currently disabled.");
-                event.setCancelled(true);
-                break;
-            }
-
             case EXPLOSIVE_MINECART:
             {
                 if (ConfigEntry.ALLOW_TNT_MINECARTS.getBoolean())
@@ -114,24 +101,6 @@ public class InteractBlocker extends FreedomService
             case WALL_SIGN:
             {
                 player.sendMessage(ChatColor.GRAY + "Sign interaction is currently disabled.");
-                break;
-            }
-        }
-
-        FPlayer fPlayer = plugin.pl.getPlayerSync(event.getPlayer());
-
-        if (!fPlayer.isPVPBlock())
-        {
-            return;
-        }
-
-        switch (event.getMaterial())
-        {
-            case BOW:
-            {
-                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.AIR, 1));
-                player.sendMessage(ChatColor.GRAY + "Bow interacting during PVP block is blocked.");
-                event.setCancelled(true);
                 break;
             }
         }

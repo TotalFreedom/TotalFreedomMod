@@ -55,8 +55,6 @@ public class AntiSpam extends FreedomService
             playerdata.resetMsgCount();
             playerdata.resetBlockDestroyCount();
             playerdata.resetBlockPlaceCount();
-            playerdata.resetClickAmount();
-            // Done.
         }
     }
 

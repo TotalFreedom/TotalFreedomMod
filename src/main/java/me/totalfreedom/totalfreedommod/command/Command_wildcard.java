@@ -52,9 +52,9 @@ public class Command_wildcard extends FreedomCommand
 
         for (Player player : server.getOnlinePlayers())
         {
-            String runCommand = baseCommand.replaceAll("\\x3f", player.getName());
-            msg("Running Command: " + runCommand);
-            server.dispatchCommand(sender, runCommand);
+            baseCommand = baseCommand.replaceAll("\\x3f", player.getName());
+            msg("Running Command: " + baseCommand);
+            server.dispatchCommand(sender, baseCommand);
         }
 
         return true;

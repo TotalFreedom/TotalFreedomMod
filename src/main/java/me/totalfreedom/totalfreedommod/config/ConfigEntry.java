@@ -5,21 +5,19 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 
 public enum ConfigEntry
 {
+
     FORCE_IP_ENABLED(Boolean.class, "forceip.enabled"),
     FORCE_IP_PORT(Integer.class, "forceip.port"),
     FORCE_IP_KICKMSG(String.class, "forceip.kickmsg"),
     //
     ALLOW_EXPLOSIONS(Boolean.class, "allow.explosions"),
     ALLOW_FIRE_PLACE(Boolean.class, "allow.fire_place"),
-    ALLOW_FROSTWALKER(Boolean.class, "allow.frostwalker"),
     ALLOW_FIRE_SPREAD(Boolean.class, "allow.fire_spread"),
     ALLOW_FLUID_SPREAD(Boolean.class, "allow.fluid_spread"),
     ALLOW_LAVA_DAMAGE(Boolean.class, "allow.lava_damage"),
     ALLOW_LAVA_PLACE(Boolean.class, "allow.lava_place"),
     ALLOW_TNT_MINECARTS(Boolean.class, "allow.tnt_minecarts"),
     ALLOW_WATER_PLACE(Boolean.class, "allow.water_place"),
-    ALLOW_FIREWORK_EXPLOSION(Boolean.class, "allow.firework_explosion"),
-    ALLOW_REDSTONE(Boolean.class, "allow.redstone"),
     //
     MOB_LIMITER_ENABLED(Boolean.class, "moblimiter.enabled"),
     MOB_LIMITER_MAX(Integer.class, "moblimiter.max"),
@@ -63,9 +61,6 @@ public enum ConfigEntry
     NUKE_MONITOR_COUNT_PLACE(Integer.class, "nukemonitor.count_place"),
     NUKE_MONITOR_RANGE(Double.class, "nukemonitor.range"),
     //
-    CLICK_MONITOR_ENABLED(Boolean.class, "clickmonitor.enabled"),
-    CLICK_COUNT_LIMIT(Integer.class, "clickmonitor.count_limit"),
-    //
     AUTOKICK_THRESHOLD(Double.class, "autokick.threshold"),
     AUTOKICK_TIME(Integer.class, "autokick.time"),
     //
@@ -89,34 +84,8 @@ public enum ConfigEntry
     OVERLORD_IPS(List.class, "overlord_ips"),
     NOADMIN_IPS(List.class, "noadmin_ips"),
     ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
-    AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
+    AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe");
     //
-    FORBIDDEN_WORDS(List.class, "forbidden_tags"),
-    //
-    BLOCK_BLACK(Boolean.class, "colors.black"),
-    BLOCK_DARK_BLUE(Boolean.class, "colors.dark_blue"),
-    BLOCK_DARK_GREEN(Boolean.class, "colors.dark_green"),
-    BLOCK_DARK_AQUA(Boolean.class, "colors.dark_aqua"),
-    BLOCK_DARK_RED(Boolean.class, "colors.dark_red"),
-    BLOCK_DARK_PURPLE(Boolean.class, "colors.dark_purple"),
-    BLOCK_GOLD(Boolean.class, "colors.gold"),
-    BLOCK_GRAY(Boolean.class, "colors.gray"),
-    BLOCK_DARK_GRAY(Boolean.class, "colors.dark_gray"),
-    BLOCK_BLUE(Boolean.class, "colors.blue"),
-    BLOCK_GREEN(Boolean.class, "colors.green"),
-    BLOCK_AQUA(Boolean.class, "colors.aqua"),
-    BLOCK_RED(Boolean.class, "colors.red"),
-    BLOCK_LIGHT_PURPLE(Boolean.class, "colors.light_purple"),
-    BLOCK_YELLOW(Boolean.class, "colors.yellow"),
-    BLOCK_WHITE(Boolean.class, "colors.white"),
-    BLOCK_MAGIC(Boolean.class, "formats.magic"),
-    BLOCK_BOLD(Boolean.class, "formats.bold"),
-    BLOCK_STRIKETHROUGH(Boolean.class, "formats.strikethrough"),
-    BLOCK_UNDERLINE(Boolean.class, "formats.underline"),
-    BLOCK_ITALIC(Boolean.class, "formats.italic"),
-    //
-    COREPROTECT_WIPER_ENABLED(Boolean.class, "coreprotect.wiper_enabled"),
-    COREPROTECT_FILE_LIMIT(Integer.class, "coreprotect.file_limit");
     private final Class<?> type;
     private final String configName;
 

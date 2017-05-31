@@ -36,7 +36,7 @@ public class Module_players extends HTTPDModule
         }
 
         // Admins
-        for (Admin admin : plugin.al.getActiveAdmins())
+        for (Admin admin : plugin.al.getAllAdmins().values())
         {
             final String username = admin.getName();
 

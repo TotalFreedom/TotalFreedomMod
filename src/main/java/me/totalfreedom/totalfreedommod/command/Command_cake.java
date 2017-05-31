@@ -28,7 +28,7 @@ public class Command_cake extends FreedomCommand
         final String[] words = CAKE_LYRICS.split(" ");
         for (final String word : words)
         {
-            output.append(FUtil.rainbowChatColor()).append(word).append(" ");
+            output.append(ChatColor.COLOR_CHAR).append(Integer.toHexString(1 + random.nextInt(14))).append(word).append(" ");
         }
 
         final ItemStack heldItem = new ItemStack(Material.CAKE);
