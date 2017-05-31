@@ -42,7 +42,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     private String loginMessage = null;
     @Getter
     @Setter
-    private boolean commandSpyStatus = true;
+    private Boolean commandSpy = true;
 
     public Admin(Player player)
     {
@@ -67,7 +67,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")
                 .append("- Rank: ").append(rank.getName()).append("\n")
                 .append("- Is Active: ").append(active).append("\n")
-                .append("- CommandSpy Active: ").append(commandSpyStatus);
+                .append("- CommandSpy: ").append(commandSpy);
 
         return output.toString();
     }
@@ -102,7 +102,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
-        cs.set("commandspy_isactive", commandSpyStatus);
+        cs.set("commandspy", commandSpy);
     }
 
     public boolean isAtLeast(Rank pRank)
@@ -115,9 +115,14 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         return loginMessage != null && !loginMessage.isEmpty();
     }
 
-    public boolean commandSpyIsActive()
+    public Boolean hasCommandSpy()
     {
-        return commandSpyStatus;
+        return commandSpy;
+    }
+
+    public Boolean setCommandSpy(boolean commandSpyStatus)
+    {
+        commandSpy = commandSpyStatus;
     }
 
     // Util IP methods
