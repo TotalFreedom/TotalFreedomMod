@@ -179,7 +179,7 @@ public class FrontDoor extends FreedomService
                 {
                     allowedPlayers.add(player);
                 }
-				if (!FUtil.FOUNDER.contains(player.getName()))
+		if (!FUtil.FOUNDER.contains(player.getName()))
                 {
                     allowedPlayers.add(player);
                 }
