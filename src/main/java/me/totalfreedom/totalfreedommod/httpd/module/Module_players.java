@@ -28,6 +28,7 @@ public class Module_players extends HTTPDModule
         final JSONArray telnetadmins = new JSONArray();
         final JSONArray senioradmins = new JSONArray();
         final JSONArray developers = new JSONArray();
+        final JSONArray founder = new JSONArray();
 
         // All online players
         for (Player player : Bukkit.getOnlinePlayers())
@@ -56,12 +57,14 @@ public class Module_players extends HTTPDModule
 
         // Developers
         developers.addAll(FUtil.DEVELOPERS);
+        founder.addAll(FUtil.FOUNDER);
 
         responseObject.put("players", players);
         responseObject.put("superadmins", superadmins);
         responseObject.put("telnetadmins", telnetadmins);
         responseObject.put("senioradmins", senioradmins);
         responseObject.put("developers", developers);
+        responseObject.put("founder", founder);
 
         final NanoHTTPD.Response response = new NanoHTTPD.Response(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_JSON, responseObject.toString());
         response.addHeader("Access-Control-Allow-Origin", "*");
