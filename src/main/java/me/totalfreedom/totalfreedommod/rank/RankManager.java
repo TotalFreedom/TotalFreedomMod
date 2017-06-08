@@ -55,6 +55,12 @@ public class RankManager extends FreedomService
             return Title.DEVELOPER;
         }
 
+        // Founder always show up
+        if (FUtil.FOUNDER.contains(player.getName()))
+        {
+            return Title.FOUNDER;
+        }
+
         final Rank rank = getRank(player);
 
         // Non-admins don't have titles, display actual rank
@@ -152,13 +158,13 @@ public class RankManager extends FreedomService
             player.getInventory().clear();
             player.setOp(false);
             player.setGameMode(GameMode.SURVIVAL);
-            plugin.pl.getPlayer(player).getFreezeData().setFrozen(true);
+            plugin.pl.getPlayer(player).setEditBlocked(true);
             player.sendMessage(ChatColor.RED + "You are marked as an impostor, please verify yourself!");
             return;
         }
 
         // Set display
-        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()))
+        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()) || FUtil.FOUNDER.contains(player.getName()))
         {
             final Displayable display = getDisplay(player);
             String loginMsg = display.getColoredLoginMessage();
