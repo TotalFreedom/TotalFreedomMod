@@ -384,7 +384,7 @@ public class FUtil
             {
                 CHAT_COLOR_ITERATOR = CHAT_COLOR_POOL.iterator(); //Restart from first colour if there are no more colours in iterator.
             }
-            newString.append(FUtil.CHAT_COLOR_ITERATOR.next()).append(c);
+            newString.append(CHAT_COLOR_ITERATOR.next()).append(c);
         }
         
         return newString.toString();
