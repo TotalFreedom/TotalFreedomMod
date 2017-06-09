@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.Iterator;
-import static me.totalfreedom.totalfreedommod.command.Command_tag.FORBIDDEN_WORDS;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +24,7 @@ public class Command_rainbowtag extends FreedomCommand
 
         final String tag = FUtil.rainbowify(ChatColor.stripColor(FUtil.colorize(StringUtils.join(args, " "))));
         
-        for (String word : FORBIDDEN_WORDS) 
+        for (String word : Command_tag.FORBIDDEN_WORDS) 
         {
             if (tag.contains(word))
             {
