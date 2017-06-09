@@ -6,6 +6,7 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import static org.bukkit.Bukkit.getServer;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -42,17 +43,33 @@ public class Command_gtfo extends FreedomCommand
 
         FUtil.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
 
-        // Undo WorldEdits
-        try
+        //checks if there is CoreProtect loaded and installed , if not it skips the rollback and uses coreprotect directly
+        if (!getServer().getPluginManager().isPluginEnabled("CoreProtect"))
         {
-            plugin.web.undo(player, 15);
-        }
-        catch (NoClassDefFoundError ex)
-        {
+            // Undo WorldEdits
+            try
+            {
+                plugin.web.undo(player, 15);
+            }
+            catch (NoClassDefFoundError ex)
+            {
+            }
+
+            // Rollback
+            plugin.rb.rollback(player.getName());
+
         }
 
-        // Rollback
-        plugin.rb.rollback(player.getName());
+        if (getServer().getPluginManager().isPluginEnabled("CoreProtect"))
+        {
+            try
+            {
+                server.dispatchCommand(sender, "co rollback t:1d r:#global u:" + player.getName());
+            }
+            catch (NoClassDefFoundError ex)
+            {
+            }
+        }
 
         // Deop
         player.setOp(false);
@@ -70,7 +87,7 @@ public class Command_gtfo extends FreedomCommand
             for (int z = -1; z <= 1; z++)
             {
                 final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                targetPos.getWorld().strikeLightning(strike_pos);
+                targetPos.getWorld().strikeLightningEffect(strike_pos);
             }
         }
 
@@ -91,6 +108,9 @@ public class Command_gtfo extends FreedomCommand
 
         // Ban player
         plugin.bm.addBan(Ban.forPlayerFuzzy(player, sender, null, reason));
+
+        // Kill player
+        player.setHealth(0.0);
 
         // Kick player
         player.kickPlayer(ChatColor.RED + "GTFO");
