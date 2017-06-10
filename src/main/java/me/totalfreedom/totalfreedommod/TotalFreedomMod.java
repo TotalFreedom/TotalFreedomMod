@@ -97,6 +97,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Jumppads jp;
     public Trailer tr;
     public HTTPDaemon hd;
+    public Invsee iv;
+    public Vanish va;
     //
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
@@ -187,6 +189,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         ew = services.registerService(EntityWiper.class);
         fd = services.registerService(FrontDoor.class);
         sp = services.registerService(ServerPing.class);
+        iv = services.registerService(Invsee.class);
+        va = services.registerService(Vanish.class);
 
         // Fun
         it = services.registerService(ItemFun.class);
