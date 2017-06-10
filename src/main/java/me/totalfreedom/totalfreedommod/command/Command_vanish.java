@@ -8,6 +8,7 @@ import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,6 +27,7 @@ public class Command_vanish extends FreedomCommand
         String loginMsg = display.getColoredLoginMessage();
         String displayName = display.getColor() + playerSender.getName();
         Admin admin = getAdmin(playerSender);
+        
         final FPlayer fPlayer = plugin.pl.getPlayer(playerSender);
         if (fPlayer.isVanish())
         {
@@ -44,7 +46,7 @@ public class Command_vanish extends FreedomCommand
                 player.showPlayer(playerSender);
             }
             plugin.esb.setVanished(playerSender.getName(), false);
-            playerSender.removePotionEffect(PotionEffectType.INVISIBILITY);
+            playerSender.setGameMode(GameMode.CREATIVE);
             playerSender.setPlayerListName(StringUtils.substring(displayName, 0, 16));
             fPlayer.setVanish(false);
 
@@ -60,7 +62,7 @@ public class Command_vanish extends FreedomCommand
                 player.hidePlayer(playerSender);
             }
             plugin.esb.setVanished(playerSender.getName(), true);
-            playerSender.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 1000000, true, false));
+            playerSender.setGameMode(GameMode.SPECTATOR);
             fPlayer.setVanish(true);
             return true;
         }
