@@ -23,7 +23,6 @@ public class Command_invsee extends FreedomCommand
         }
 
         Player player = getPlayer(args[0]);
-
         if (player == null)
         {
             msg("This player is not online.");
@@ -40,14 +39,13 @@ public class Command_invsee extends FreedomCommand
         {
             msg("You can't spy on admins!");
             return true;
-
         }
 
         playerSender.closeInventory();
         FPlayer fPlayer = plugin.pl.getPlayer(playerSender);
         fPlayer.setInvsee(true);
         Inventory playerInv = player.getInventory();
-        playerSender.openInventory(playerInv);
+        playerSender.openInventory(playerInv);    
         return true;
     }
 
