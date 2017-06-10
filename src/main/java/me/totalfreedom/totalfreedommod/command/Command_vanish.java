@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Vanish yourself.", usage = "/<command>", aliases = "v")
+@CommandParameters(description = "Vanish yourself.", usage = "/<command>")
 public class Command_vanish extends FreedomCommand
 {
 
