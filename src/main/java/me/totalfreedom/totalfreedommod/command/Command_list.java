@@ -2,9 +2,11 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,14 +14,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -v]", aliases = "who")
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f]", aliases = "who")
 public class Command_list extends FreedomCommand
 {
 
     private static enum ListFilter
     {
+
         PLAYERS,
         ADMINS,
+        FAMOUS_PLAYERS,
         VANISHED_ADMINS,
         IMPOSTORS;
     }
@@ -31,6 +35,18 @@ public class Command_list extends FreedomCommand
         {
             return false;
         }
+
+        if (FUtil.isFromHostConsole(sender.getName()))
+        {
+            final List<String> names = new ArrayList<>();
+            for (Player player : server.getOnlinePlayers())
+            {
+                names.add(player.getName());
+            }
+            msg("There are " + names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "), ChatColor.WHITE);
+            return true;
+        }
+
         final ListFilter listFilter;
         if (args.length == 1)
         {
@@ -39,11 +55,14 @@ public class Command_list extends FreedomCommand
                 case "-a":
                     listFilter = ListFilter.ADMINS;
                     break;
+                case "-i":
+                    listFilter = ListFilter.IMPOSTORS;
+                    break;
                 case "-v":
                     listFilter = ListFilter.VANISHED_ADMINS;
                     break;
-                case "-i":
-                    listFilter = ListFilter.IMPOSTORS;
+                case "-f":
+                    listFilter = ListFilter.FAMOUS_PLAYERS;
                     break;
                 default:
                     return false;
@@ -53,14 +72,13 @@ public class Command_list extends FreedomCommand
         {
             listFilter = ListFilter.PLAYERS;
         }
-
         if (listFilter == ListFilter.VANISHED_ADMINS && !isAdmin(playerSender))
         {
-            msg("You can't view vanished admins.");
-            return true;
+            return false;
         }
         final StringBuilder onlineStats = new StringBuilder();
         final StringBuilder onlineUsers = new StringBuilder();
+
         int vanished = 0;
         for (Player player : server.getOnlinePlayers())
         {
@@ -70,6 +88,7 @@ public class Command_list extends FreedomCommand
                 vanished += 1;
             }
         }
+
         onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - vanished);
         onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(server.getMaxPlayers());
         onlineStats.append(ChatColor.BLUE).append(" players online.");
@@ -98,10 +117,15 @@ public class Command_list extends FreedomCommand
                 continue;
             }
 
+            if (listFilter == ListFilter.FAMOUS_PLAYERS && !ConfigEntry.FAMOUS_PLAYERS.getList().contains(player.getName().toLowerCase()))
+            {
+                continue;
+            }
             if (listFilter == ListFilter.PLAYERS && fPlayer.isVanish())
             {
                 continue;
             }
+
             Displayable display = plugin.rm.getDisplay(player);
 
             names.add(display.getColoredTag() + player.getName());
@@ -114,7 +138,7 @@ public class Command_list extends FreedomCommand
         onlineUsers.append(": ");
         onlineUsers.append(StringUtils.join(names, ChatColor.WHITE + ", "));
 
-        if (isConsole())
+        if (senderIsConsole)
         {
             sender.sendMessage(ChatColor.stripColor(onlineStats.toString()));
             sender.sendMessage(ChatColor.stripColor(onlineUsers.toString()));
@@ -124,7 +148,7 @@ public class Command_list extends FreedomCommand
             sender.sendMessage(onlineStats.toString());
             sender.sendMessage(onlineUsers.toString());
         }
-        names.clear();
+
         return true;
     }
 }
