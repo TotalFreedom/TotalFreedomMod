@@ -140,25 +140,22 @@ public class EssentialsBridge extends FreedomService
 
     public Boolean isVanished(String username)
     {
-
         final User user = getEssentialsUser(username);
         if (user != null)
         {
             return user.isVanished();
         }
-
+        
         return null;
     }
 
     public void setVanished(String username, boolean vanished)
     {
-
         final IUser user = getEssentialsUser(username);
         if (user != null)
         {
             user.setVanished(vanished);
         }
-
     }
 
 }
