@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Look into another player's inventory, optionally take items out.", usage = "/<command> <player>", aliases = "inv,insee")
+@CommandParameters(description = "Look into another player's inventory, optionally take items out.", usage = "/<command> <player>")
 public class Command_invsee extends FreedomCommand
 {
 
