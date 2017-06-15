@@ -104,6 +104,14 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/LibsDisguises-9.0.9.jar</systemPath>
         </dependency>
+
+        <dependency>
+            <groupId>net.coreprotect</groupId>
+            <artifactId>CoreProtect</artifactId>
+            <version>2.14.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CoreProtect_2.14.2.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>
