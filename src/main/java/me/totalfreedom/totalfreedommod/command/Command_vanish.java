@@ -46,7 +46,6 @@ public class Command_vanish extends FreedomCommand
                 player.showPlayer(playerSender);
             }
             plugin.esb.setVanished(playerSender.getName(), false);
-            playerSender.setGameMode(GameMode.CREATIVE);
             playerSender.setPlayerListName(StringUtils.substring(displayName, 0, 16));
             fPlayer.setVanish(false);
 
@@ -62,7 +61,6 @@ public class Command_vanish extends FreedomCommand
                 player.hidePlayer(playerSender);
             }
             plugin.esb.setVanished(playerSender.getName(), true);
-            playerSender.setGameMode(GameMode.SPECTATOR);
             fPlayer.setVanish(true);
             return true;
         }
