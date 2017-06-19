@@ -24,7 +24,7 @@ public class Command_blockedit extends FreedomCommand
 
         if (args[0].equals("list"))
         {
-            msg("Blocked block edits players:");
+            msg("Block modification is disallowed for these players:");
             FPlayer info;
             int count = 0;
             for (Player mp : server.getOnlinePlayers())
