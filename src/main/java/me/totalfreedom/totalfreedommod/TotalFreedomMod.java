@@ -84,6 +84,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Freezer fm;
     public Orbiter or;
     public Muter mu;
+    public EditBlocker ebl;
+    public PvPBlocker pbl;
     public Fuckoff fo;
     public AutoKick ak;
     public AutoEject ae;
@@ -179,6 +181,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         fm = services.registerService(Freezer.class);
         or = services.registerService(Orbiter.class);
         mu = services.registerService(Muter.class);
+        ebl = services.registerService(EditBlocker.class);
+        pbl = services.registerService(PvPBlocker.class);
         fo = services.registerService(Fuckoff.class);
         ak = services.registerService(AutoKick.class);
         ae = services.registerService(AutoEject.class);
