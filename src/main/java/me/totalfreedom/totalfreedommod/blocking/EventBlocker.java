@@ -168,5 +168,32 @@ public class EventBlocker extends FreedomService
     {
         event.setCancelled(true);
     }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void BlockPistonRetractEvent(BlockPistonRetractEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
 
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void BlockPistonExtendEvent(BlockPistonExtendEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void BlockRedstoneEvent(BlockRedstoneEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setNewCurrent(0);
+        }
+    }
+    
 }
