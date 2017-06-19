@@ -58,6 +58,7 @@ allow:
   water_place: false
   tnt_minecarts: false
   explosions: false
+  redstone: true
 
 # Blocked commands:
 #
