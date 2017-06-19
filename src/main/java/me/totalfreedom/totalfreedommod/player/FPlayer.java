@@ -61,6 +61,12 @@ public class FPlayer
     private boolean allCommandsBlocked = false;
     @Getter
     @Setter
+    private boolean blockEditsBlocked = false;
+    @Getter
+    @Setter
+    private boolean pvpBlocked = false;
+    @Getter
+    @Setter
     private boolean superadminIdVerified = false;
     private String lastCommand = "";
     private boolean cmdspyEnabled = false;
