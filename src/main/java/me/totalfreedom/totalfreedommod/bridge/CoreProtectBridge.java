@@ -38,34 +38,10 @@ public class CoreProtectBridge extends FreedomService
     @Override
     protected void onStart()
     {
-        final long interval = 10 * 20L;
-        final File databaseFile = getDatabase();
-
-        if (!ConfigEntry.COREPROTECT_AUTO_WIPING_ENABLED.getBoolean() || getCoreProtect() == null)
+        if (ConfigEntry.COREPROTECT_AUTO_WIPING_ENABLED.getBoolean() && getCoreProtect() != null)
         {
-            return;
+            createAutomaticWiper();
         }
-
-        wiper = new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                final CoreProtect coreProtect = getCoreProtect();
-                double bytes = databaseFile.length();
-                double kilobytes = (bytes / 1024);
-                double megabytes = (kilobytes / 1024);
-                double gigabytes = (megabytes / 1024);
-                if (gigabytes > ConfigEntry.COREPROTECT_FILE_LIMIT.getInteger())
-                {
-                    FLog.info("The CoreProtect log file has grown too big for the server to cope, the data will be wiped!");
-                    PluginManager pluginManager = server.getPluginManager();
-                    pluginManager.disablePlugin(coreProtect);
-                    FUtil.deleteFolder(databaseFile);
-                    pluginManager.enablePlugin(coreProtect);
-                }
-            }
-        }.runTaskTimer(plugin, interval, interval);
     }
 
     @Override
@@ -172,6 +148,33 @@ public class CoreProtectBridge extends FreedomService
         }
 
         return(new File(getCoreProtect().getDataFolder(), "database.db"));
+    }
+    
+    private void createAutomaticWiper()
+    {
+        final long interval = 10 * 20L;
+        final File databaseFile = getDatabase();
+
+        wiper = new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                final CoreProtect coreProtect = getCoreProtect();
+                double bytes = databaseFile.length();
+                double kilobytes = (bytes / 1024);
+                double megabytes = (kilobytes / 1024);
+                double gigabytes = (megabytes / 1024);
+                if (gigabytes > ConfigEntry.COREPROTECT_FILE_LIMIT.getInteger())
+                {
+                    FLog.info("The CoreProtect log file has grown too big for the server to cope, the data will be wiped!");
+                    PluginManager pluginManager = server.getPluginManager();
+                    pluginManager.disablePlugin(coreProtect);
+                    FUtil.deleteFolder(databaseFile);
+                    pluginManager.enablePlugin(coreProtect);
+                }
+            }
+        }.runTaskTimer(plugin, interval, interval);
     }
     
     // Wipes DB for the specified world
