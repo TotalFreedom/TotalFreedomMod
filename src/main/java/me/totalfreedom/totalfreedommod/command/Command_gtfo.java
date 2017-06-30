@@ -21,6 +21,7 @@ public class Command_gtfo extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+
         if (args.length == 0)
         {
             return false;

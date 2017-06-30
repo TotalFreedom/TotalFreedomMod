@@ -13,6 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 
 public class Cager extends FreedomService
 {
@@ -85,6 +86,18 @@ public class Cager extends FreedomService
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event)
+    {
+        FPlayer player = plugin.pl.getPlayer(event.getPlayer());
+        CageData cage = player.getCageData();
+
+        if (cage.isCaged())
+        {
+            cage.playerQuit();
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onPlayerKick(PlayerKickEvent event)
     {
         FPlayer player = plugin.pl.getPlayer(event.getPlayer());
         CageData cage = player.getCageData();
