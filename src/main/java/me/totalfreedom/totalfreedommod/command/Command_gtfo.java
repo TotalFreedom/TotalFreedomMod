@@ -79,8 +79,7 @@ public class Command_gtfo extends FreedomCommand
         // Broadcast
         final StringBuilder bcast = new StringBuilder()
                 .append(ChatColor.RED)
-                .append(sender.getName())
-                .append(" - Banning: ")
+                .append("Banning: ")
                 .append(player.getName())
                 .append(", IP: ")
                 .append(ip);
