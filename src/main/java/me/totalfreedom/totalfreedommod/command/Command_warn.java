@@ -46,7 +46,7 @@ public class Command_warn extends FreedomCommand
 
         String warnReason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
 
-        msg(player, ChatColor.RED + "[WARNING] You received a warning: " + warnReason);
+        msg(player, ChatColor.RED + "[WARNING] You have been warned by " + sender.getName() + " for: " + ChatColor.GREEN + warnReason);
         msg(ChatColor.GREEN + "You have successfully warned " + player.getName());
 
         plugin.pl.getPlayer(player).incrementWarnings();
