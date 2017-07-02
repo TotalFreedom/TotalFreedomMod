@@ -53,7 +53,7 @@ public class Command_smite extends FreedomCommand
         FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
         if (reason != null)
         {
-            FUtil.bcastMsg("  Reason: " + reason + " " + sender.getName(), ChatColor.RED);
+            FUtil.bcastMsg("  Reason: " + reason + " (" + sender.getName() + ")", ChatColor.RED);
         }else {
            FUtil.bcastMsg("Smited by: " + sender.getName(), ChatColor.RED);
         }
@@ -75,7 +75,7 @@ public class Command_smite extends FreedomCommand
             for (int z = -1; z <= 1; z++)
             {
                 final Location strike_pos = new Location(world, targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                world.strikeLightningEffect(strike_pos);
+                world.strikeLightning(strike_pos);
             }
         }
 
@@ -85,7 +85,7 @@ public class Command_smite extends FreedomCommand
         player.sendMessage(ChatColor.YELLOW + "You've been smitten by: " + sender.getName());
         if (reason != null)
         {
-            player.sendMessage(ChatColor.YELLOW + "Reason: " + reason);
+            player.sendMessage(ChatColor.YELLOW + sender.getName() + " smited you for, " + reason);
         }
 
     }
