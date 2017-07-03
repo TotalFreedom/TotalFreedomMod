@@ -55,7 +55,7 @@ public class Command_smite extends FreedomCommand
         {
             FUtil.bcastMsg("  Reason: " + reason + " (" + sender.getName() + ")", ChatColor.RED);
         }else {
-           FUtil.bcastMsg("Smited by: " + sender.getName(), ChatColor.RED);
+           FUtil.bcastMsg("Smitten by: " + sender.getName(), ChatColor.RED);
         }
 
         // Deop
@@ -81,12 +81,10 @@ public class Command_smite extends FreedomCommand
 
         // Kill
         player.setHealth(0.0);
-
-        player.sendMessage(ChatColor.YELLOW + "You've been smitten by: " + sender.getName());
+        
         if (reason != null)
         {
-            player.sendMessage(ChatColor.YELLOW + sender.getName() + " smited you for, " + reason);
+            player.sendMessage(ChatColor.YELLOW + "You where smitten for, " + reason);
         }
-
     }
 }
