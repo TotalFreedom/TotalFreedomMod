@@ -54,7 +54,9 @@ public class Command_smite extends FreedomCommand
         if (reason != null)
         {
             FUtil.bcastMsg("  Reason: " + reason + " (" + sender.getName() + ")", ChatColor.RED);
-        }else {
+        }
+        else 
+        {
            FUtil.bcastMsg("Smitten by: " + sender.getName(), ChatColor.RED);
         }
 
