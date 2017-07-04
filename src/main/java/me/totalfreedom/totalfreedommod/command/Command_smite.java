@@ -83,10 +83,9 @@ public class Command_smite extends FreedomCommand
 
         // Kill
         player.setHealth(0.0);
-        
         if (reason != null)
         {
-            player.sendMessage(ChatColor.YELLOW + "You where smitten for, " + reason);
+            player.sendMessage(ChatColor.YELLOW + "You were smitten for, " + reason);
         }
     }
 }
