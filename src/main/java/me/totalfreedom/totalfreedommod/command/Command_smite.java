@@ -19,6 +19,7 @@ public class Command_smite extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+
         if (args.length < 1)
         {
             return false;
@@ -38,22 +39,25 @@ public class Command_smite extends FreedomCommand
             return true;
         }
 
-        smite(player, reason);
+        smite(player, sender, reason);
         return true;
     }
 
-    public static void smite(Player player)
+    public static void smite(Player player, CommandSender sender)
     {
-        smite(player, null);
+        smite(player, sender, null);
     }
 
-    public static void smite(Player player, String reason)
+    public static void smite(Player player, CommandSender sender, String reason)
     {
         FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
-
         if (reason != null)
         {
-            FUtil.bcastMsg("  Reason: " + reason, ChatColor.YELLOW);
+            FUtil.bcastMsg("  Reason: " + reason + " (" + sender.getName() + ")", ChatColor.RED);
+        }
+        else 
+        {
+           FUtil.bcastMsg("Smitten by: " + sender.getName(), ChatColor.RED);
         }
 
         // Deop
@@ -79,10 +83,9 @@ public class Command_smite extends FreedomCommand
 
         // Kill
         player.setHealth(0.0);
-
         if (reason != null)
         {
-            player.sendMessage(ChatColor.RED + "You've been smitten. Reason: " + ChatColor.YELLOW + reason);
+            player.sendMessage(ChatColor.YELLOW + "You were smitten for, " + reason);
         }
     }
 }
