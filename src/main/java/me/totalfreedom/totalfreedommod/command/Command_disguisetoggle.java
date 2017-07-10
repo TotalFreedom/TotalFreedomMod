@@ -22,7 +22,8 @@ public class Command_disguisetoggle extends FreedomCommand
             return true;
         }
 
-        FUtil.adminAction(sender.getName(), (DisallowedDisguises.disabled ? "Enabling" : "Disabling") + " Disguises", false);
+        FUtil.adminAction(sender.getName(), (DisallowedDisguises.disabled ? "Enabling" : "Disabling") + " " +
+                "Disguises", false);
 
         if (plugin.ldb.isDisguisesEnabled())
         {
@@ -34,7 +35,7 @@ public class Command_disguisetoggle extends FreedomCommand
             plugin.ldb.setDisguisesEnabled(true);
         }
 
-        msg("Enabled " + (DisallowedDisguises.disabled ? "enabled." : "disabled."));
+        msg("Disguises are now " + (!DisallowedDisguises.disabled ? "enabled." : "disabled."));
 
         return true;
     }
