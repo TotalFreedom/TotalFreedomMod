@@ -25,7 +25,8 @@ public class Command_radar extends FreedomCommand
 
         for (Player player : playerSenderos.getWorld().getPlayers())
         {
-            if (!player.equals(playerSender))
+            FPlayer fPlayer = plugin.pl.getPlayer(player);
+            if (!player.equals(playerSender) && !fPlayer.isVanish())
             {
                 try
                 {
