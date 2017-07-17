@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.freeze.FreezeData;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
@@ -21,6 +23,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class FPlayer
 {
+
+    public static final List<String> EDIT_COMMANDS = Arrays.asList(StringUtils.split("say,me,msg,tell,reply,mail", ","));
 
     public static final long AUTO_PURGE_TICKS = 5L * 60L * 20L;
 
@@ -342,13 +346,18 @@ public class FPlayer
         {
             return;
         }
+
         unblockEditTask = new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                FUtil.adminAction("TotalFreedom", "Unblocking block edits for " + getPlayer().getName(), false);
-                setEditBlocked(false);
+                if (!plugin.al.isAdminImpostor(player))
+                {
+                    FUtil.adminAction("TotalFreedom", "Unblocking block edits for " + getPlayer().getName(), false);
+                    setEditBlocked(false);
+                }
+
             }
         }.runTaskLater(plugin, AUTO_PURGE_TICKS);
     }

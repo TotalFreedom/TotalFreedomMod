@@ -42,18 +42,6 @@ public class Command_gtfo extends FreedomCommand
 
         FUtil.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
 
-        // Undo WorldEdits
-        try
-        {
-            plugin.web.undo(player, 15);
-        }
-        catch (NoClassDefFoundError ex)
-        {
-        }
-
-        // Rollback
-        plugin.rb.rollback(player.getName());
-
         // Deop
         player.setOp(false);
 
@@ -87,16 +75,39 @@ public class Command_gtfo extends FreedomCommand
         {
             bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
         }
-        FUtil.bcastMsg(bcast.toString());
 
-        // Ban player
-        plugin.bm.addBan(Ban.forPlayerFuzzy(player, sender, null, reason));
+        // Send reason to all online users if sender isn't vanished. If sender IS vanished, only send to admins:
+        FUtil.bcastMsg(bcast.toString(), null, Command_vanish.vanished.contains(playerSender));
 
         // Kill player
         player.setHealth(0.0);
 
+        // Ban player
+        plugin.bm.addBan(Ban.forPlayerFuzzy(player, sender, null, reason));
+
         // Kick player
         player.kickPlayer(ChatColor.RED + "GTFO");
+
+        //checks if there is CoreProtect loaded and installed , if not it skips the rollback and uses coreprotect directly
+        if (server.getPluginManager().isPluginEnabled("CoreProtect"))
+        {
+            //TODO: Eliminate usage of dispatchCommand
+            server.dispatchCommand(sender, "co rollback t:1d r:#global #silent u:" + player.getName());
+        }
+        else
+        {
+            // Undo WorldEdits
+            try
+            {
+                plugin.web.undo(player, 15);
+            }
+            catch (NoClassDefFoundError ex)
+            {
+            }
+
+            // Rollback
+            plugin.rb.rollback(player.getName());
+        }
 
         return true;
     }

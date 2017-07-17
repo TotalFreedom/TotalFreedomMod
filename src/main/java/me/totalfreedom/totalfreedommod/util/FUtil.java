@@ -19,6 +19,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +38,8 @@ public class FUtil
     //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "marcocorriero", "Commodore64x");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "Wild1145", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "marcocorriero", "Commodore64x");
+    public static final List<String> FOUNDER = Arrays.asList("markbyron");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final Map<String, ChatColor> CHAT_RAINBOW_NAMES = new HashMap<>();
@@ -104,14 +106,24 @@ public class FUtil
         }
     }
 
-    public static void bcastMsg(String message, ChatColor color)
+    public static void bcastMsg(final String message, final ChatColor color, final boolean sendToAdminsOnly)
     {
         FLog.info(message, true);
 
-        for (Player player : Bukkit.getOnlinePlayers())
+        for (final Player player : Bukkit.getOnlinePlayers())
         {
+            if (sendToAdminsOnly && !TotalFreedomMod.plugin().al.isAdmin(player))
+            {
+                continue;
+            }
+
             player.sendMessage((color == null ? "" : color) + message);
         }
+    }
+
+    public static void bcastMsg(String message, ChatColor color)
+    {
+        bcastMsg(message, color, false);
     }
 
     public static void bcastMsg(String message)
@@ -442,101 +454,5 @@ public class FUtil
     {
         String packageName = Bukkit.getServer().getClass().getPackage().getName();
         return packageName.substring(packageName.lastIndexOf('.') + 1);
-    }
-
-    public static void findBlockedCodes()
-    {
-        if (ConfigEntry.BLOCK_BLACK.getBoolean())
-        {
-            BLOCKED_CODES.add("0");
-        }
-        if (ConfigEntry.BLOCK_DARK_BLUE.getBoolean())
-        {
-            BLOCKED_CODES.add("1");
-        }
-        if (ConfigEntry.BLOCK_DARK_GREEN.getBoolean())
-        {
-            BLOCKED_CODES.add("2");
-        }
-        if (ConfigEntry.BLOCK_DARK_AQUA.getBoolean())
-        {
-            BLOCKED_CODES.add("3");
-        }
-        if (ConfigEntry.BLOCK_DARK_RED.getBoolean())
-        {
-            BLOCKED_CODES.add("4");
-        }
-        if (ConfigEntry.BLOCK_DARK_PURPLE.getBoolean())
-        {
-            BLOCKED_CODES.add("5");
-        }
-        if (ConfigEntry.BLOCK_GOLD.getBoolean())
-        {
-            BLOCKED_CODES.add("6");
-        }
-        if (ConfigEntry.BLOCK_GRAY.getBoolean())
-        {
-            BLOCKED_CODES.add("7");
-        }
-        if (ConfigEntry.BLOCK_DARK_GRAY.getBoolean())
-        {
-            BLOCKED_CODES.add("8");
-        }
-        if (ConfigEntry.BLOCK_BLUE.getBoolean())
-        {
-            BLOCKED_CODES.add("9");
-        }
-        if (ConfigEntry.BLOCK_GREEN.getBoolean())
-        {
-            BLOCKED_CODES.add("a");
-        }
-        if (ConfigEntry.BLOCK_AQUA.getBoolean())
-        {
-            BLOCKED_CODES.add("b");
-        }
-        if (ConfigEntry.BLOCK_RED.getBoolean())
-        {
-            BLOCKED_CODES.add("c");
-        }
-        if (ConfigEntry.BLOCK_LIGHT_PURPLE.getBoolean())
-        {
-            BLOCKED_CODES.add("d");
-        }
-        if (ConfigEntry.BLOCK_YELLOW.getBoolean())
-        {
-            BLOCKED_CODES.add("e");
-        }
-        if (ConfigEntry.BLOCK_WHITE.getBoolean())
-        {
-            BLOCKED_CODES.add("f");
-        }
-
-        if (ConfigEntry.BLOCK_MAGIC.getBoolean())
-        {
-            BLOCKED_CODES.add("k");
-        }
-
-        if (ConfigEntry.BLOCK_BOLD.getBoolean())
-        {
-            BLOCKED_CODES.add("l");
-        }
-        if (ConfigEntry.BLOCK_STRIKETHROUGH.getBoolean())
-        {
-            BLOCKED_CODES.add("m");
-        }
-        if (ConfigEntry.BLOCK_UNDERLINE.getBoolean())
-        {
-            BLOCKED_CODES.add("n");
-        }
-        if (ConfigEntry.BLOCK_ITALIC.getBoolean())
-        {
-            BLOCKED_CODES.add("o");
-        }
-
-        if (BLOCKED_CODES.isEmpty())
-        {
-            BLOCKED_CODES.add("@");
-        }
-
     }
 }

@@ -11,10 +11,8 @@ import java.util.List;
 import java.util.Random;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.banning.Ban;
-import me.totalfreedom.totalfreedommod.command.Command_trail;
 import me.totalfreedom.totalfreedommod.command.FreedomCommand;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -176,6 +174,10 @@ public class FrontDoor extends FreedomService
             for (Player player : players)
             {
                 if (!FUtil.DEVELOPERS.contains(player.getName()))
+                {
+                    allowedPlayers.add(player);
+                }
+                if (!FUtil.FOUNDER.contains(player.getName()))
                 {
                     allowedPlayers.add(player);
                 }

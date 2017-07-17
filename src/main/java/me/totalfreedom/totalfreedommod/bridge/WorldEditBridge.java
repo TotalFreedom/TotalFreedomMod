@@ -34,7 +34,7 @@ public class WorldEditBridge extends FreedomService
         listener.unregister();
     }
 
-        public void undo(Player player, int count)
+    public void undo(Player player, int count)
     {
         try
         {
@@ -56,7 +56,7 @@ public class WorldEditBridge extends FreedomService
             FLog.severe(ex);
         }
     }
-    
+
     public void redo(Player player, int count)
     {
         try
