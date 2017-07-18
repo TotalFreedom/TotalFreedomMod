@@ -108,7 +108,7 @@ public class LogViewer extends FreedomService
                                             FLog.severe(ex);
                                         }
 
-                                        sender.sendMessage(ChatColor.GREEN + "Open this link to verify your logviewer registration: " + link);
+                                        sender.sendMessage(ChatColor.GREEN + "Open this link to verify your logviewer registration:\n" + ChatColor.DARK_GREEN + link);
                                     }
                                     else
                                     {
