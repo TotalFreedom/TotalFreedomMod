@@ -2,16 +2,12 @@ package me.totalfreedom.totalfreedommod.admin;
 
 import com.google.common.collect.Lists;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
-import me.totalfreedom.bukkittelnet.BukkitTelnet;
-import me.totalfreedom.bukkittelnet.session.ClientSession;
+import me.totalfreedom.totalfreedommod.LogViewer.LogsRegistrationMode;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.base.ConfigLoadable;
 import net.pravian.aero.base.ConfigSavable;
@@ -149,18 +145,18 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
 
         final TotalFreedomMod plugin = TotalFreedomMod.plugin();
 
-		if (!active)
-		{
-			if (getRank().isAtLeast(Rank.TELNET_ADMIN))
-			{
-				if (plugin.btb != null)
-				{
-					plugin.btb.killTelnetSessions(getName());
-				}
-			}
+        if (!active)
+        {
+            if (getRank().isAtLeast(Rank.TELNET_ADMIN))
+            {
+                if (plugin.btb != null)
+                {
+                    plugin.btb.killTelnetSessions(getName());
+                }
+            }
 
-			plugin.lv.deactivateSuperadmin(this);
-		}
+            plugin.lv.updateLogsRegistration(null, getName(), LogsRegistrationMode.DELETE);
+        }
     }
 
     @Override
