@@ -55,6 +55,9 @@ public class Command_gtfo extends FreedomCommand
         // Rollback
         plugin.rb.rollback(player.getName());
 
+        // Rollback with CoreProtect
+        plugin.cpb.rollback(player.getName());
+
         // Deop
         player.setOp(false);
 

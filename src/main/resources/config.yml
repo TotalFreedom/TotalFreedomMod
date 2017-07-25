@@ -36,6 +36,14 @@ adminlist:
   # Give the default CONSOLE senior admin privileges.
   # Handy in development environments.
   console_is_senior: true
+  
+# CoreProtect configuration
+coreprotect:
+  # Should the datebase be wiped automatically?
+  auto_wipe: false
+
+  # How big (in gigabytes) should the plugin wipe the database at
+  file_limit: 10
 
 # ForceIP configuration
 forceip:

@@ -41,6 +41,9 @@ public enum ConfigEntry
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),
     //
+    COREPROTECT_AUTO_WIPING_ENABLED(Boolean.class, "coreprotect.auto_wipe"),
+    COREPROTECT_FILE_LIMIT(Integer.class, "coreprotect.file_limit"),
+    //
     DISABLE_NIGHT(Boolean.class, "disable.night"),
     DISABLE_WEATHER(Boolean.class, "disable.weather"),
     //
