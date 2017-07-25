@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tfm.build.version>${project.version}</tfm.build.version>
         <tfm.build.codename>Electrum</tfm.build.codename>
-        <tfm.build.number>${maven.buildnumber}</tfm.build.number>
+      <!--  <tfm.build.number>${maven.buildnumber}</tfm.build.number> -->
         <tfm.build.date>${maven.build.timestamp}</tfm.build.date>
         <tfm.build.author>${buildAuthor}</tfm.build.author>
         <tfm.build.head>${buildHead}</tfm.build.head>
