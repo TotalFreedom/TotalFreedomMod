@@ -1,4 +1,4 @@
-package me.totalfreedom.totalfreedommod.bridge;
+/* package me.totalfreedom.totalfreedommod.bridge;
 
 import me.libraryaddict.disguise.DisallowedDisguises;
 import me.libraryaddict.disguise.LibsDisguises;
@@ -136,3 +136,5 @@ public class LibsDisguisesBridge extends FreedomService
         return ld.isEnabled();
     }
 }
+
+*/

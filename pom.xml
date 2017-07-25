@@ -87,7 +87,7 @@
         <dependency>
             <groupId>com.github.TotalFreedom</groupId>
             <artifactId>BukkitTelnet</artifactId>
-            <version>v4.4</version>
+            <version>4.5-pre1</version>
         </dependency>
 
         <dependency>
@@ -114,11 +114,11 @@
             <version>2.13.1</version>
         </dependency>
 
-        <dependency>
+      <!--  <dependency>
 	    <groupId>com.github.TotalFreedom</groupId>
 	    <artifactId>TF-LibsDisguises</artifactId>
-	    <version>1.11.2-SNAPSHOT</version>
-	</dependency>
+	    <version>-SNAPSHOT</version>
+	</dependency> -->
     </dependencies>
 
     <build>
