@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tfm.build.version>${project.version}</tfm.build.version>
         <tfm.build.codename>Electrum</tfm.build.codename>
-      <!--  <tfm.build.number>${maven.buildnumber}</tfm.build.number> -->
+        <!--  <tfm.build.number>${maven.buildnumber}</tfm.build.number> -->
         <tfm.build.date>${maven.build.timestamp}</tfm.build.date>
         <tfm.build.author>${buildAuthor}</tfm.build.author>
         <tfm.build.head>${buildHead}</tfm.build.head>
@@ -54,10 +54,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <repository>
+        <!--        <repository>
             <id>elmakers-repo</id>
             <url>http://maven.elmakers.com/repository/</url>
-        </repository>
+        </repository>-->
         <repository>
             <id>sk89q-snapshots</id>
             <url>http://maven.sk89q.com/artifactory/repo</url>
@@ -65,6 +65,17 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -74,8 +85,9 @@
 
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.12-R0.1-SNAPSHOT</version>
+            <artifactId>spigot-api</artifactId>
+            <version>1.12-pre5-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -91,6 +103,12 @@
         </dependency>
 
         <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>Essentials</artifactId>
+            <version>2.13.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>6.1.0-TF</version>
@@ -102,23 +120,6 @@
             <version>6.1.0-TF</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.12-R0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.ess3</groupId>
-            <artifactId>Essentials</artifactId>
-            <version>2.13.1</version>
-        </dependency>
-
-      <!--  <dependency>
-	    <groupId>com.github.TotalFreedom</groupId>
-	    <artifactId>TF-LibsDisguises</artifactId>
-	    <version>-SNAPSHOT</version>
-	</dependency> -->
     </dependencies>
 
     <build>
