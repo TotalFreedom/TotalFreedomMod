@@ -1,15 +1,13 @@
 package me.totalfreedom.totalfreedommod;
 
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
+import java.security.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.command.Command_logs;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang3.StringUtils;
@@ -38,10 +36,10 @@ public class LogViewer extends FreedomService
 
     public void updateLogsRegistration(final CommandSender sender, final Player target, final LogsRegistrationMode mode)
     {
-        updateLogsRegistration(sender, target.getName(), target.getAddress().getAddress().getHostAddress().trim(), mode);
+        updateLogsRegistration(sender, target.getName(), mode);
     }
 
-    public void updateLogsRegistration(final CommandSender sender, final String targetName, final String targetIP, final LogsRegistrationMode mode)
+    public void updateLogsRegistration(final CommandSender sender, final String targetName, final LogsRegistrationMode mode)
     {
         final String logsRegisterUrl = ConfigEntry.LOGS_URL.getString();
         final String logsRegisterPassword = ConfigEntry.LOGS_SECRET.getString();
@@ -63,14 +61,16 @@ public class LogViewer extends FreedomService
                         sender.sendMessage(ChatColor.YELLOW + "Connecting...");
                     }
 
-                    URL url = new URLBuilder(logsRegisterUrl)
-                            .addQueryParameter("mode", mode.toString())
+                    final String key = SecureCodeGenerator.generateCode(20);
+
+                    final URL urlAdd = new URLBuilder(logsRegisterUrl)
+                            .addQueryParameter("mode", mode.name())
                             .addQueryParameter("password", logsRegisterPassword)
                             .addQueryParameter("name", targetName)
-                            .addQueryParameter("ip", targetIP)
+                            .addQueryParameter("key", key)
                             .getURL();
 
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    final HttpURLConnection connection = (HttpURLConnection) urlAdd.openConnection();
                     connection.setConnectTimeout(1000 * 5);
                     connection.setReadTimeout(1000 * 5);
                     connection.setUseCaches(false);
@@ -92,7 +92,29 @@ public class LogViewer extends FreedomService
                             {
                                 if (responseCode == 200)
                                 {
-                                    sender.sendMessage(ChatColor.GREEN + "Registration " + mode.toString() + "d.");
+                                    if (mode == LogsRegistrationMode.ADD)
+                                    {
+                                        String link = null;
+                                        try
+                                        {
+                                            final URL urlVerify = new URLBuilder(logsRegisterUrl)
+                                                    .addQueryParameter("mode", LogsRegistrationMode.VERIFY.name())
+                                                    .addQueryParameter("name", targetName)
+                                                    .addQueryParameter("key", key)
+                                                    .getURL();
+                                            link = urlVerify.toString();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            FLog.severe(ex);
+                                        }
+
+                                        sender.sendMessage(ChatColor.GREEN + "Open this link to verify your logviewer registration:\n" + ChatColor.DARK_GREEN + link);
+                                    }
+                                    else
+                                    {
+                                        sender.sendMessage(ChatColor.GREEN + "Logviewer access revoked successfully.");
+                                    }
                                 }
                                 else
                                 {
@@ -110,30 +132,10 @@ public class LogViewer extends FreedomService
         }.runTaskAsynchronously(plugin);
     }
 
-    public void deactivateSuperadmin(Admin superadmin)
-    {
-        for (String ip : superadmin.getIps())
-        {
-            updateLogsRegistration(null, superadmin.getName(), ip, LogsRegistrationMode.DELETE);
-        }
-    }
-
     public static enum LogsRegistrationMode
     {
 
-        UPDATE("update"), DELETE("delete");
-        private final String mode;
-
-        private LogsRegistrationMode(String mode)
-        {
-            this.mode = mode;
-        }
-
-        @Override
-        public String toString()
-        {
-            return mode;
-        }
+        ADD, DELETE, VERIFY;
     }
 
     private static class URLBuilder
@@ -160,11 +162,44 @@ public class LogViewer extends FreedomService
             while (it.hasNext())
             {
                 Map.Entry<String, String> pair = it.next();
-                pairs.add(pair.getKey() + "=" + pair.getValue());
+                try
+                {
+                    pairs.add(URLEncoder.encode(pair.getKey(), "UTF-8") + "=" + URLEncoder.encode(pair.getValue(), "UTF-8"));
+                }
+                catch (UnsupportedEncodingException ex)
+                {
+                    FLog.severe(ex);
+                }
             }
 
             return new URL(requestPath + "?" + StringUtils.join(pairs, "&"));
         }
     }
 
+    private static class SecureCodeGenerator
+    {
+
+        private static final String CHARACTER_SET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+        public static String generateCode(final int length)
+        {
+            SecureRandom random;
+            try
+            {
+                random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            }
+            catch (NoSuchAlgorithmException | NoSuchProviderException ex)
+            {
+                random = new SecureRandom();
+                FLog.severe(ex);
+            }
+
+            final StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < length; i++)
+            {
+                sb.append(CHARACTER_SET.charAt(random.nextInt(CHARACTER_SET.length())));
+            }
+            return sb.toString();
+        }
+    }
 }

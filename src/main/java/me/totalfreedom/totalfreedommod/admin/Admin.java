@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import me.totalfreedom.totalfreedommod.LogViewer.LogsRegistrationMode;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.base.ConfigLoadable;
@@ -25,7 +27,6 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Setter
     private String name;
     @Getter
-    @Setter
     private boolean active = true;
     @Getter
     @Setter
@@ -136,6 +137,26 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     public void clearIPs()
     {
         ips.clear();
+    }
+
+    public void setActive(boolean active)
+    {
+        this.active = active;
+
+        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
+
+        if (!active)
+        {
+            if (getRank().isAtLeast(Rank.TELNET_ADMIN))
+            {
+                if (plugin.btb != null)
+                {
+                    plugin.btb.killTelnetSessions(getName());
+                }
+            }
+
+            plugin.lv.updateLogsRegistration(null, getName(), LogsRegistrationMode.DELETE);
+        }
     }
 
     @Override
