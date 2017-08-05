@@ -158,8 +158,10 @@ public class Command_whitelist extends FreedomCommand
         //purge
         if (args[0].equalsIgnoreCase("purge"))
         {
-            FUtil.adminAction(sender.getName(), "Removing all players from the whitelist.", false);
-            msg("Removed " + plugin.si.purgeWhitelist() + " players from the whitelist.");
+//            FUtil.adminAction(sender.getName(), "Removing all players from the whitelist.", false);
+//            msg("Removed " + plugin.si.purgeWhitelist() + " players from the whitelist.");
+
+            FUtil.adminAction(sender.getName(), "Whitelist purging is temporarily disabled.", true);
 
             return true;
         }
