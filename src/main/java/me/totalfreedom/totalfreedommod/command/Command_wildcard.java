@@ -18,6 +18,15 @@ public class Command_wildcard extends FreedomCommand
             "wildcard",
             "gtfo",
             "doom",
+            "announce",
+            "rollback",
+            "suicide", 
+            "kill", 
+            "tempban", 
+            "noob", 
+            "smite",
+            "warn",
+            "lockup",
             "saconfig"
     );
 
@@ -38,7 +47,7 @@ public class Command_wildcard extends FreedomCommand
 
         if (BLOCKED_COMMANDS.contains(runCmd.getName()))
         {
-            msg("Did you really think that was going to work?", ChatColor.RED);
+            msg("Did you really think that was going to work? What where you thinking?", ChatColor.RED);
             return true;
         }
 
