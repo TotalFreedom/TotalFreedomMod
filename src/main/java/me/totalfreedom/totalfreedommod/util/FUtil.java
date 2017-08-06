@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -36,9 +37,12 @@ public class FUtil
     //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "Wild1145", "WickedGamingUK", "aggelosQQ");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ" ,"Wild1145" , "OxLemonxO", "marcocorriero", "Commodore64x");
+    public static final List<String> FOUNDER = Arrays.asList("markbyron");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
+    public static final Map<String, ChatColor> CHAT_RAINBOW_NAMES = new HashMap<>();
+    public static List<String> BLOCKED_CODES = new ArrayList();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
             ChatColor.DARK_BLUE,
             ChatColor.DARK_GREEN,
@@ -53,12 +57,32 @@ public class FUtil
             ChatColor.LIGHT_PURPLE,
             ChatColor.YELLOW);
 
+    public static final List<ChatColor> CHAT_RAINBOW = Arrays.asList(
+            ChatColor.DARK_RED,
+            ChatColor.RED,
+            ChatColor.GOLD,
+            ChatColor.YELLOW,
+            ChatColor.GREEN,
+            ChatColor.DARK_GREEN,
+            ChatColor.AQUA,
+            ChatColor.DARK_AQUA,
+            ChatColor.BLUE,
+            ChatColor.DARK_BLUE,
+            ChatColor.DARK_PURPLE,
+            ChatColor.LIGHT_PURPLE);
+
     static
     {
         for (ChatColor chatColor : CHAT_COLOR_POOL)
         {
             CHAT_COLOR_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
         }
+
+        for (ChatColor chatColor : CHAT_RAINBOW)
+        {
+            CHAT_RAINBOW_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
+        }
+
     }
 
     private FUtil()
@@ -126,33 +150,6 @@ public class FUtil
                 Math.round(location.getX()),
                 Math.round(location.getY()),
                 Math.round(location.getZ()));
-    }
-
-    public static boolean deleteFolder(final File file)
-    {
-        if (file.exists() && file.isDirectory())
-        {
-            return FileUtils.deleteQuietly(file);
-        }
-        return false;
-    }
-
-    public static void deleteCoreDumps()
-    {
-        final File[] coreDumps = new File(".").listFiles(new FileFilter()
-        {
-            @Override
-            public boolean accept(File file)
-            {
-                return file.getName().startsWith("java.core");
-            }
-        });
-
-        for (File dump : coreDumps)
-        {
-            FLog.info("Removing core dump file: " + dump.getName());
-            dump.delete();
-        }
     }
 
     public static Date parseDateOffset(String time)
@@ -367,6 +364,18 @@ public class FUtil
     public static ChatColor randomChatColor()
     {
         return CHAT_COLOR_POOL.get(RANDOM.nextInt(CHAT_COLOR_POOL.size()));
+    }
+
+    private static Iterator<ChatColor> color = CHAT_RAINBOW.iterator();
+
+    public static ChatColor rainbowChatColor()
+    {
+        if (color.hasNext())
+        {
+            return (ChatColor) color.next();
+        }
+        color = CHAT_RAINBOW.iterator();
+        return (ChatColor) color.next();
     }
 
     public static String colorize(String string)
