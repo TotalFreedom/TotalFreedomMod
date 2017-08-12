@@ -57,15 +57,14 @@ public class Command_wipeworldguardregions extends FreedomCommand
             return true;
         }
         RegionContainer container = getWorldGuard().getRegionContainer();
-        RegionManager regions = container.get(world);
-        if (regions != null)
+        RegionManager rm = container.get(world);
+        if (rm != null)
         {
-            Map<String, ProtectedRegion> regionss = regions.getRegions();
-            regionss.values().forEach((region) ->
+            Map<String, ProtectedRegion> regions = rm.getRegions();
+            for (ProtectedRegion region : regions.values())
             {
-
-                regions.removeRegion(region.getId());
-            });
+                rm.removeRegion(region.getId());
+            }
             FUtil.adminAction(sender.getName(), "Wiping regions for world: " + world.getName(), true);
             return true;
         }
