@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-@CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.ONLY_IN_GAME, blockHostConsole = false)
+@CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH, blockHostConsole = false)
 @CommandParameters(description = "Wipe all Worldguard regions.", usage = "/<command> <world>", aliases = "wiperegions")
 public class Command_wipeworldguardregions extends FreedomCommand
 {
