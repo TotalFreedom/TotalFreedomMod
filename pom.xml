@@ -118,7 +118,14 @@
             <artifactId>worldedit-bukkit</artifactId>
             <version>6.1.0-TF</version>
         </dependency>
-
+        
+        <dependency>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-legacy</artifactId>
+            <version>6.2</version>
+            <scope>compile</scope>
+        </dependency>
+        
         <dependency>
             <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
             <artifactId>worldedit-core</artifactId>
