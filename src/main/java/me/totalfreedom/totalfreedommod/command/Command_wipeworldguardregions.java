@@ -8,7 +8,6 @@ import java.util.Map;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
-import static org.bukkit.Bukkit.getServer;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -23,7 +22,7 @@ public class Command_wipeworldguardregions extends FreedomCommand
 
     public WorldGuardPlugin getWorldGuard()
     {
-        Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 
         if (plugin == null || !(plugin instanceof WorldGuardPlugin))
         {
