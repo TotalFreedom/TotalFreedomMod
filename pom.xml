@@ -59,14 +59,9 @@
             <url>http://maven.elmakers.com/repository/</url>
         </repository>-->
         <repository>
-            <id>sk89q-snapshots</id>
-            <url>http://maven.sk89q.com/artifactory/repo</url>
-        </repository>
-        <repository>
         <id>sk89q-repo</id>
         <url>http://maven.sk89q.com/repo/</url>
     </repository>
-        
     </repositories>
 
     <dependencies>
