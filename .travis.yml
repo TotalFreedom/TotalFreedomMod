@@ -1,0 +1,12 @@
+language: java
+jdk:
+  - oraclejdk8
+notifications:
+  email: false
+addons:
+  apt:
+    packages:
+      - sshpass
+script: mvn clean install
+after_success:
+  - ./travis-upload.sh

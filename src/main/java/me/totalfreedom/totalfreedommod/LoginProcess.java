@@ -168,15 +168,15 @@ public class LoginProcess extends FreedomService
             return;
         }
 
-        // Whitelist
-        if (plugin.si.isWhitelisted())
-        {
-            if (!plugin.si.getWhitelisted().contains(username.toLowerCase()))
-            {
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "You are not whitelisted on this server.");
-                return;
-            }
-        }
+//        // Whitelist
+//        if (plugin.si.isWhitelisted())
+//        {
+//            if (!plugin.si.getWhitelisted().contains(username.toLowerCase()))
+//            {
+//                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "You are not whitelisted on this server.");
+//                return;
+//            }
+//        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

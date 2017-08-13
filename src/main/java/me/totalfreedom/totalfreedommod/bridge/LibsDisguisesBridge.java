@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
-import me.libraryaddict.disguise.DisallowedDisguises;
-import me.libraryaddict.disguise.LibsDisguises;
-import me.libraryaddict.disguise.DisguiseAPI;
+//import me.libraryaddict.disguise.DisallowedDisguises;
+//import me.libraryaddict.disguise.LibsDisguises;
+//import me.libraryaddict.disguise.DisguiseAPI;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -13,7 +13,7 @@ import org.bukkit.plugin.Plugin;
 public class LibsDisguisesBridge extends FreedomService
 {
 
-    private LibsDisguises libsDisguisesPlugin = null;
+   // private LibsDisguises libsDisguisesPlugin = null;
 
     public LibsDisguisesBridge(TotalFreedomMod plugin)
     {
@@ -29,7 +29,7 @@ public class LibsDisguisesBridge extends FreedomService
     protected void onStop()
     {
     }
-
+/*
     public LibsDisguises getLibsDisguisesPlugin()
     {
         if (libsDisguisesPlugin == null)
@@ -134,5 +134,5 @@ public class LibsDisguisesBridge extends FreedomService
         }
 
         return ld.isEnabled();
-    }
+    }*/
 }
