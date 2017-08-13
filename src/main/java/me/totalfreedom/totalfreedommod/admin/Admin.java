@@ -43,7 +43,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     private String loginMessage = null;
     @Getter
     @Setter
-    private Boolean commandSpy = true;
+    private boolean commandSpy = true;
 
     public Admin(Player player)
     {
@@ -116,14 +116,14 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         return loginMessage != null && !loginMessage.isEmpty();
     }
 
-    public Boolean hasCommandSpy()
+    public boolean hasCommandSpy()
     {
         return commandSpy;
     }
 
-    public Boolean setCommandSpy(boolean commandSpyStatus)
+    public boolean setCommandSpy(boolean commandSpyStatus)
     {
-        commandSpy = commandSpyStatus;
+        return commandSpy = commandSpyStatus;
     }
 
     // Util IP methods

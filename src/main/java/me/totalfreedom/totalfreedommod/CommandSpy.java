@@ -55,7 +55,7 @@ public class CommandSpy extends FreedomService
         {
             if (admin.hasCommandSpy())
             {
-                playerdata.setCommandSpy(playerdata.cmdspyEnabled());
+                playerdata.setCommandSpy(playerdata.cmdspyEnabled() == true);
             }
             else
             {
