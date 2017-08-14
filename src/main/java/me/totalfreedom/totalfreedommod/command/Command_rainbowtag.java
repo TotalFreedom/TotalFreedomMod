@@ -21,8 +21,14 @@ public class Command_rainbowtag extends FreedomCommand
         {
             return false;
         }
-
-        final String tag = FUtil.rainbowify(ChatColor.stripColor(FUtil.colorize(StringUtils.join(args, " "))));
+      
+        final String tag = ChatColor.stripColor(FUtil.colorize(StringUtils.join(args, " ")));
+        
+        if(tag.length() > 20)
+        {
+            msg("That tag is too long (Max is 20 characters).);
+            return true;
+        }
         
         for (String word : Command_tag.FORBIDDEN_WORDS) 
         {
@@ -33,7 +39,7 @@ public class Command_rainbowtag extends FreedomCommand
             }
         }
 
-        plugin.pl.getPlayer(playerSender).setTag(tag);
+        plugin.pl.getPlayer(playerSender).setTag(FUtil.rainbowify(tag));
   
         msg("Set tag to " + tag);
 
