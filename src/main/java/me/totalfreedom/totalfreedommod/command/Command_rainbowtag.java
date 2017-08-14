@@ -26,7 +26,7 @@ public class Command_rainbowtag extends FreedomCommand
         
         if(tag.length() > 20)
         {
-            msg("That tag is too long (Max is 20 characters).);
+            msg("That tag is too long (Max is 20 characters).");
             return true;
         }
         
