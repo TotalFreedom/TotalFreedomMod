@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 @CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Wipe all Worldguard regions.", usage = "/<command> <world>", aliases = "wiperegions")
+@CommandParameters(description = "Wipe all WorldGuard regions for a specified world.", usage = "/<command> <world>", aliases = "wiperegions")
 public class Command_wiperegions extends FreedomCommand
 {
 
@@ -44,7 +44,7 @@ public class Command_wiperegions extends FreedomCommand
         {
             return false;
         }
-        World world = Bukkit.getWorld(args[0]);
+        World world = server.getWorld(args[0]);
         if (world == null)
         {
             msg("World not found.", ChatColor.GRAY);
@@ -69,7 +69,7 @@ public class Command_wiperegions extends FreedomCommand
         }
         else
         {
-            msg(ChatColor.RED + "There hasn't been any regions made for world \"" + world.getName() + "\".");
+            msg(ChatColor.RED + "No regions have been found for world:"" + world.getName() + "\".");
             return true;
         }
     }
