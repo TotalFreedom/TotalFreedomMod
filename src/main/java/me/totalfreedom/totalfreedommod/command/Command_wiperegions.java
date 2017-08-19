@@ -40,7 +40,7 @@ public class Command_wiperegions extends FreedomCommand
             msg("WorldGuard is not installed.", ChatColor.GRAY);
             return true;
         }
-        if (!(args.length == 1))
+        if (args.length != 1)
         {
             return false;
         }
