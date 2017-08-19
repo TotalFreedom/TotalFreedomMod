@@ -69,7 +69,7 @@ public class Command_wiperegions extends FreedomCommand
         }
         else
         {
-            msg(ChatColor.RED + "No regions have been found for world:"" + world.getName() + "\".");
+            msg(ChatColor.RED + "No regions have been found for world: \"" + world.getName() + "\".");
             return true;
         }
     }
