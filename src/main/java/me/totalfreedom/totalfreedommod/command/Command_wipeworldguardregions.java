@@ -15,9 +15,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-@CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH, blockHostConsole = false)
+@CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Wipe all Worldguard regions.", usage = "/<command> <world>", aliases = "wiperegions")
-public class Command_wipeworldguardregions extends FreedomCommand
+public class Command_wiperegions extends FreedomCommand
 {
 
     public WorldGuardPlugin getWorldGuard()
@@ -37,7 +37,7 @@ public class Command_wipeworldguardregions extends FreedomCommand
     {
         if (getWorldGuard() == null)
         {
-            msg("WorldGuard is not installed.", ChatColor.DARK_GRAY);
+            msg("WorldGuard is not installed.", ChatColor.GRAY);
             return true;
         }
         if (!(args.length == 1))
@@ -47,7 +47,7 @@ public class Command_wipeworldguardregions extends FreedomCommand
         World world = Bukkit.getWorld(args[0]);
         if (world == null)
         {
-            msg("World not found.", ChatColor.DARK_GRAY);
+            msg("World not found.", ChatColor.GRAY);
             return true;
         }
         if (world.equals(plugin.wm.adminworld.getWorld()) && !plugin.rm.getRank(sender).isAtLeast(Rank.SENIOR_ADMIN))
@@ -69,7 +69,7 @@ public class Command_wipeworldguardregions extends FreedomCommand
         }
         else
         {
-            sender.sendMessage(ChatColor.RED + "There hasn't been any regions made for world \"" + world.getName() + "\".");
+            msg(ChatColor.RED + "There hasn't been any regions made for world \"" + world.getName() + "\".");
             return true;
         }
     }
