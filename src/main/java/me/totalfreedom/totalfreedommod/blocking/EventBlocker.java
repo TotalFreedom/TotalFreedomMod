@@ -3,8 +3,10 @@ package me.totalfreedom.totalfreedommod.blocking;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
@@ -13,6 +15,7 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -75,7 +78,8 @@ public class EventBlocker extends FreedomService
             return;
         }
 
-        event.setYield(0.0F);
+        event.blockList().clear();
+
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -111,7 +115,7 @@ public class EventBlocker extends FreedomService
     @EventHandler(priority = EventPriority.HIGH)
     public void onProjectileHit(ProjectileHitEvent event)
     {
-        if (ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
+        if (ConfigEntry.MAKE_ARROW_EXPLOSIVES.getBoolean())
         {
             Projectile entity = event.getEntity();
             if (event.getEntityType() == EntityType.ARROW)
@@ -169,4 +173,13 @@ public class EventBlocker extends FreedomService
         event.setCancelled(true);
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onCreatureSpawnEvent(final CreatureSpawnEvent event)
+    {
+        final LivingEntity Enderman = event.getEntity();
+        if (Enderman instanceof Enderman)
+        {
+            event.setCancelled(true);
+        }
+    }
 }
