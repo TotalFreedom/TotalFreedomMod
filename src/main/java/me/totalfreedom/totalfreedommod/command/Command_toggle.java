@@ -31,6 +31,7 @@ public class Command_toggle extends FreedomCommand
             msg("- entitywipe");
             msg("- nonuke [range] [count]");
             msg("- explosives [radius]");
+            msg("- explosivearrows");
             return false;
         }
 
@@ -74,6 +75,12 @@ public class Command_toggle extends FreedomCommand
         if (args[0].equals("prelog"))
         {
             toggle("Command prelogging is", ConfigEntry.ENABLE_PREPROCESS_LOG);
+            return true;
+        }
+
+        if (args[0].equals("explosivearrows"))
+        {
+            toggle("Explosive Arrows feature now is", ConfigEntry.MAKE_ARROW_EXPLOSIVES);
             return true;
         }
 
