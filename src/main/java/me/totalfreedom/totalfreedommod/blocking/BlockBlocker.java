@@ -44,14 +44,11 @@ public class BlockBlocker extends FreedomService
                 if (ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
                 {
                     FLog.info(String.format("%s placed lava @ %s", player.getName(), FUtil.formatLocation(event.getBlock().getLocation())));
-
-                    player.getInventory().clear(player.getInventory().getHeldItemSlot());
                 }
                 else
                 {
                     player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                     player.sendMessage(ChatColor.GRAY + "Lava placement is currently disabled.");
-
                     event.setCancelled(true);
                 }
                 break;
@@ -62,8 +59,6 @@ public class BlockBlocker extends FreedomService
                 if (ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
                 {
                     FLog.info(String.format("%s placed water @ %s", player.getName(), FUtil.formatLocation(event.getBlock().getLocation())));
-
-                    player.getInventory().clear(player.getInventory().getHeldItemSlot());
                 }
                 else
                 {
@@ -79,14 +74,11 @@ public class BlockBlocker extends FreedomService
                 if (ConfigEntry.ALLOW_FIRE_PLACE.getBoolean())
                 {
                     FLog.info(String.format("%s placed fire @ %s", player.getName(), FUtil.formatLocation(event.getBlock().getLocation())));
-
-                    player.getInventory().clear(player.getInventory().getHeldItemSlot());
                 }
                 else
                 {
                     player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                     player.sendMessage(ChatColor.GRAY + "Fire placement is currently disabled.");
-
                     event.setCancelled(true);
                 }
                 break;
@@ -97,22 +89,19 @@ public class BlockBlocker extends FreedomService
                 {
                     FLog.info(String.format("%s placed TNT @ %s", player.getName(), FUtil.formatLocation(event.getBlock().getLocation())));
 
-                    player.getInventory().clear(player.getInventory().getHeldItemSlot());
                 }
                 else
                 {
                     player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-
                     player.sendMessage(ChatColor.GRAY + "TNT is currently disabled.");
                     event.setCancelled(true);
                 }
                 break;
             }
             case STRUCTURE_BLOCK:
-            case STRUCTURE_VOID:
             {
                 player.sendMessage(ChatColor.GRAY + "Structure blocks are disabled.");
-
+                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                 event.setCancelled(true);
                 break;
             }
