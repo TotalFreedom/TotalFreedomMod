@@ -188,6 +188,7 @@ disable:
 landmines_enabled: false
 mp44_enabled: false
 tossmob_enabled: false
+arrow_explosive_enabled: false
 
 # Moblimiter
 moblimiter:
