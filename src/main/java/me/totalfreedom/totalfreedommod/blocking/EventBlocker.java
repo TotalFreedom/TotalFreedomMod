@@ -172,14 +172,4 @@ public class EventBlocker extends FreedomService
     {
         event.setCancelled(true);
     }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onCreatureSpawnEvent(final CreatureSpawnEvent event)
-    {
-        final LivingEntity Enderman = event.getEntity();
-        if (Enderman instanceof Enderman)
-        {
-            event.setCancelled(true);
-        }
-    }
 }
