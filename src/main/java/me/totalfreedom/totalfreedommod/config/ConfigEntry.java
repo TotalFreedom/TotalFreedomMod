@@ -49,7 +49,7 @@ public enum ConfigEntry
     //
     LANDMINES_ENABLED(Boolean.class, "landmines_enabled"),
     TOSSMOB_ENABLED(Boolean.class, "tossmob_enabled"),
-    MAKE_ARROW_EXPLOSIVES(Boolean.class, "arrow_explosive_enabled"),
+    MAKE_ARROW_EXPLOSIVE(Boolean.class, "arrow_explosive_enabled"),
     AUTOKICK_ENABLED(Boolean.class, "autokick.enabled"),
     MP44_ENABLED(Boolean.class, "mp44_enabled"),
     //
