@@ -111,7 +111,7 @@ public class EventBlocker extends FreedomService
     @EventHandler(priority = EventPriority.HIGH)
     public void onProjectileHit(ProjectileHitEvent event)
     {
-        if (ConfigEntry.MAKE_ARROW_EXPLOSIVES.getBoolean())
+        if (ConfigEntry.MAKE_ARROW_EXPLOSIVE.getBoolean())
         {
             Projectile entity = event.getEntity();
             if (event.getEntityType() == EntityType.ARROW)
