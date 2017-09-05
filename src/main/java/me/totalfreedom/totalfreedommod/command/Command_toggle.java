@@ -80,7 +80,7 @@ public class Command_toggle extends FreedomCommand
 
         if (args[0].equals("explosivearrows"))
         {
-            toggle("Explosive Arrows feature now is", ConfigEntry.MAKE_ARROW_EXPLOSIVES);
+            toggle("Explosive arrows are now", ConfigEntry.MAKE_ARROW_EXPLOSIVE);
             return true;
         }
 
