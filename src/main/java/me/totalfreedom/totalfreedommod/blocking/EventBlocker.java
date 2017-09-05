@@ -71,12 +71,11 @@ public class EventBlocker extends FreedomService
     {
         if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
-            event.setCancelled(true);
+            event.blockList().clear();
             return;
         }
 
-        event.blockList().clear();
-
+        event.setYield(0.0F);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
