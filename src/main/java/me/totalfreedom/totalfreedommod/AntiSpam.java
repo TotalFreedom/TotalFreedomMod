@@ -103,6 +103,13 @@ public class AntiSpam extends FreedomService
             event.setCancelled(true);
             return;
         }
+        
+        if (fPlayer.getLastCommand().equalsIgnoreCase(command))
+        {
+            FSync.playerMsg(player, "Please do not repeat commands.");
+            event.setCancelled(true);
+            return;
+        }
 
         if (fPlayer.incrementAndGetMsgCount() > MSG_PER_CYCLE)
         {
