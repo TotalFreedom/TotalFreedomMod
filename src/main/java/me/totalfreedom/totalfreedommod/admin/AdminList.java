@@ -130,6 +130,16 @@ public class AdminList extends FreedomService
         return admin != null && admin.isActive();
     }
 
+    public Map<String, Admin> getAllAdmins()
+    {
+        return this.allAdmins;
+    }
+
+    public Set<Admin> getActiveAdmins()
+    {
+        return this.activeAdmins;
+    }
+
     public boolean isSeniorAdmin(CommandSender sender)
     {
         Admin admin = getAdmin(sender);

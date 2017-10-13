@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Shows (and optionally clears) invisisible players", usage = "/<command> [clear]")
+@CommandParameters(description = "Shows (optionally clears) invisisible players", usage = "/<command> (clear)")
 public class Command_invis extends FreedomCommand
 {
 
@@ -19,11 +19,12 @@ public class Command_invis extends FreedomCommand
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         boolean clear = false;
+
         if (args.length >= 1)
         {
             if (args[0].equalsIgnoreCase("clear"))
             {
-                FUtil.adminAction(sender.getName(), "Clearing invisibility for all players", false);
+                FUtil.adminAction(sender.getName(), "Clearing all invis potion effect from all players", true);
                 clear = true;
             }
             else
@@ -32,7 +33,7 @@ public class Command_invis extends FreedomCommand
             }
         }
 
-        List<String> players = new ArrayList<>();
+        List<String> players = new ArrayList<String>();
         int clears = 0;
 
         for (Player player : server.getOnlinePlayers())
@@ -42,7 +43,7 @@ public class Command_invis extends FreedomCommand
                 players.add(player.getName());
                 if (clear && !plugin.al.isAdmin(player))
                 {
-                    player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                    player.removePotionEffect((PotionEffectType.INVISIBILITY));
                     clears++;
                 }
             }
@@ -50,17 +51,16 @@ public class Command_invis extends FreedomCommand
 
         if (players.isEmpty())
         {
-            msg("There are no invisible players");
+            sender.sendMessage("There are no invisible players");
             return true;
         }
-
         if (clear)
         {
-            msg("Cleared invisibility effect from " + clears + " players");
+            sender.sendMessage("Cleared " + clears + " players");
         }
         else
         {
-            msg("Invisible players (" + players.size() + "): " + StringUtils.join(players, ", "));
+            sender.sendMessage("Invisible players (" + players.size() + "): " + StringUtils.join(players, ", "));
         }
 
         return true;

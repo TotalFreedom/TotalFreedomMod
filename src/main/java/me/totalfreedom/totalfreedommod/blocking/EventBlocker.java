@@ -12,12 +12,16 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
@@ -71,7 +75,7 @@ public class EventBlocker extends FreedomService
     {
         if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
-            event.setCancelled(true);
+            event.blockList().clear();
             return;
         }
 
@@ -107,22 +111,28 @@ public class EventBlocker extends FreedomService
             event.setDroppedExp(0);
         }
     }
+    
+    //deprecated (buggy)
 
-    @EventHandler(priority = EventPriority.HIGH)
+  /*  @EventHandler(priority = EventPriority.HIGH)
     public void onProjectileHit(ProjectileHitEvent event)
     {
-        if (ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
+        if (ConfigEntry.MAKE_ARROW_EXPLOSIVE.getBoolean())
         {
             Projectile entity = event.getEntity();
-            if (event.getEntityType() == EntityType.ARROW)
+            if (entity instanceof Projectile)
             {
-                entity.getWorld().createExplosion(entity.getLocation(), 2F);
+                if (event.getEntityType() == EntityType.ARROW)
+                {
+                    entity.getWorld().createExplosion(entity.getLocation(), 2F);
+                }
             }
         }
-    }
+    }*/
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onEntityDamage(EntityDamageEvent event)
+    public void onEntityDamage(EntityDamageEvent event
+    )
     {
         switch (event.getCause())
         {
@@ -150,7 +160,8 @@ public class EventBlocker extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerDropItem(PlayerDropItemEvent event)
+    public void onPlayerDropItem(PlayerDropItemEvent event
+    )
     {
         if (!ConfigEntry.AUTO_ENTITY_WIPE.getBoolean())
         {
@@ -164,9 +175,47 @@ public class EventBlocker extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onLeavesDecay(LeavesDecayEvent event)
+    public void onLeavesDecay(LeavesDecayEvent event
+    )
     {
         event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void FireworkExplodeEvent(final FireworkExplodeEvent event
+    )
+    {
+        if (!ConfigEntry.ALLOW_FIREWORK_EXPLOSION.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void BlockPistonRetractEvent(final BlockPistonRetractEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void BlockPistonExtendEvent(final BlockPistonExtendEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void BlockRedstoneEvent(final BlockRedstoneEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setNewCurrent(0);
+        }
     }
 
 }

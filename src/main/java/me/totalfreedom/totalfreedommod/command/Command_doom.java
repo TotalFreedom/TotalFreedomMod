@@ -83,7 +83,7 @@ public class Command_doom extends FreedomCommand
             public void run()
             {
                 // strike lightning
-                player.getWorld().strikeLightning(player.getLocation());
+                player.getWorld().strikeLightningEffect(player.getLocation());
 
                 // kill (if not done already)
                 player.setHealth(0.0);

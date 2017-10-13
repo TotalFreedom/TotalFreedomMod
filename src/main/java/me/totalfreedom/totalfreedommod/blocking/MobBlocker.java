@@ -10,6 +10,7 @@ import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Slime;
+import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -65,40 +66,47 @@ public class MobBlocker extends FreedomService
                 return;
             }
         }
-        else if (spawned instanceof Giant)
+        else if (spawned instanceof Wither)
         {
-            if (ConfigEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean())
+            if (ConfigEntry.MOB_LIMITER_DISABLE_DRAGON.getBoolean())
             {
                 event.setCancelled(true);
                 return;
             }
-        }
-        else if (spawned instanceof Bat)
-        {
-            event.setCancelled(true);
-            return;
-        }
-
-        int mobLimiterMax = ConfigEntry.MOB_LIMITER_MAX.getInteger();
-
-        if (mobLimiterMax <= 0)
-        {
-            return;
-        }
-
-        int mobcount = 0;
-        for (Entity entity : event.getLocation().getWorld().getLivingEntities())
-        {
-            if (!(entity instanceof HumanEntity))
+            else if (spawned instanceof Giant)
             {
-                mobcount++;
+                if (ConfigEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean())
+                {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+            else if (spawned instanceof Bat)
+            {
+                event.setCancelled(true);
+                return;
+            }
+
+            int mobLimiterMax = ConfigEntry.MOB_LIMITER_MAX.getInteger();
+
+            if (mobLimiterMax <= 0)
+            {
+                return;
+            }
+
+            int mobcount = 0;
+            for (Entity entity : event.getLocation().getWorld().getLivingEntities())
+            {
+                if (!(entity instanceof HumanEntity))
+                {
+                    mobcount++;
+                }
+            }
+
+            if (mobcount > mobLimiterMax)
+            {
+                event.setCancelled(true);
             }
         }
-
-        if (mobcount > mobLimiterMax)
-        {
-            event.setCancelled(true);
-        }
     }
-
 }

@@ -87,4 +87,13 @@ public class PermbanList extends FreedomService
 
     }
 
+    public Set<String> getPermbannedNames()
+    {
+        return this.permbannedNames;
+    }
+
+    public Set<String> getPermbannedIps()
+    {
+        return this.permbannedIps;
+    }
 }
