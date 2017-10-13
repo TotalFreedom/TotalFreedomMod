@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.util;
 
 import java.util.HashSet;
+import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
@@ -13,7 +14,7 @@ import org.bukkit.material.MaterialData;
 public class DepreciationAggregator
 {
 
-    public static Block getTargetBlock(LivingEntity entity, HashSet<Byte> transparent, int maxDistance)
+    public static Block getTargetBlock(LivingEntity entity, HashSet<Material> transparent, int maxDistance)
     {
         return entity.getTargetBlock(transparent, maxDistance);
     }

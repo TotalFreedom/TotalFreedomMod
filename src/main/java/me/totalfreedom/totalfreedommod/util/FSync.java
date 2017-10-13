@@ -24,6 +24,21 @@ public class FSync
         }.runTask(plugin);
     }
 
+    public static void playerMsg(final CommandSender sender, final String message)
+    {
+        final TotalFreedomMod plugin = TotalFreedomMod.plugin();
+        new BukkitRunnable()
+        {
+
+            @Override
+            public void run()
+            {
+                sender.sendMessage(message);
+            }
+
+        }.runTask(plugin);
+    }
+
     public static void playerKick(final Player player, final String reason)
     {
         final TotalFreedomMod plugin = TotalFreedomMod.plugin();
