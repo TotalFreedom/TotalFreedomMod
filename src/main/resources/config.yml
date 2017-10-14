@@ -157,6 +157,8 @@ blocked_commands:
   - 's:b:/togglejail:_'
   - 's:b:/fill:_'
   - 's:b:/flood:_'
+  - 's:b:/tree:_'
+  - 's:b:/bigtree:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'
