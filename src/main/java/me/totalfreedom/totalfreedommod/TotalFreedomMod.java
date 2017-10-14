@@ -12,6 +12,7 @@ import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
 import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
 import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
+import me.totalfreedom.totalfreedommod.bridge.CoreProtectBridge;
 import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
 import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
@@ -40,6 +41,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mcstats.Metrics;
+import org.spigotmc.SpigotConfig;
 
 public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 {
@@ -64,12 +66,15 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public CommandLoader cl;
     public CommandBlocker cb;
     public EventBlocker eb;
+    public ChestMonitor cmon;
     public BlockBlocker bb;
     public MobBlocker mb;
     public InteractBlocker ib;
     public PotionBlocker pb;
     public LoginProcess lp;
     public AntiNuke nu;
+    public PotionMonitorer pmn;
+    public DropMonitor dmn;
     public AntiSpam as;
     public PlayerList pl;
     public Announcer an;
@@ -82,6 +87,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public CommandSpy cs;
     public Cager ca;
     public Freezer fm;
+    public EditBlocker ebl;
+    public PvPBlocker pbl;
     public Orbiter or;
     public Muter mu;
     public Fuckoff fo;
@@ -103,6 +110,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public BukkitTelnetBridge btb;
     public EssentialsBridge esb;
     public LibsDisguisesBridge ldb;
+    public CoreProtectBridge cpb;
     public WorldEditBridge web;
 
     @Override
@@ -121,7 +129,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public void enable()
     {
         FLog.info("Created by Madgeek1450 and Prozza");
-        FLog.info("Version " + build.formattedVersion());
+        FLog.info("Version " + build.version);
         FLog.info("Compiled " + build.date + " by " + build.author);
 
         final MethodTimer timer = new MethodTimer();
@@ -174,14 +182,19 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
         // Single admin utils
         rb = services.registerService(RollbackManager.class);
+        pmn = services.registerService(PotionMonitorer.class);
         cs = services.registerService(CommandSpy.class);
         ca = services.registerService(Cager.class);
         fm = services.registerService(Freezer.class);
         or = services.registerService(Orbiter.class);
         mu = services.registerService(Muter.class);
+        ebl = services.registerService(EditBlocker.class);
+        pbl = services.registerService(PvPBlocker.class);
         fo = services.registerService(Fuckoff.class);
         ak = services.registerService(AutoKick.class);
         ae = services.registerService(AutoEject.class);
+        dmn = services.registerService(DropMonitor.class);
+        cmon = services.registerService(ChestMonitor.class);
 
         mv = services.registerService(MovementValidator.class);
         ew = services.registerService(EntityWiper.class);
@@ -202,6 +215,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         // Start bridges
         bridges = new ServiceManager<>(plugin);
         btb = bridges.registerService(BukkitTelnetBridge.class);
+        cpb = bridges.registerService(CoreProtectBridge.class);
         esb = bridges.registerService(EssentialsBridge.class);
         ldb = bridges.registerService(LibsDisguisesBridge.class);
         web = bridges.registerService(WorldEditBridge.class);
@@ -230,6 +244,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
                 plugin.pa.autoAddSpawnpoints();
             }
         }.runTaskLater(plugin, 60L);
+        //little workaround to stop spigot from autorestarting - causing AMP to detach from process.
+        SpigotConfig.config.set("settings.restart-on-crash", false);
     }
 
     @Override
