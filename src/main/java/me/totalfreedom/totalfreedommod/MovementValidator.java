@@ -29,6 +29,7 @@ public class MovementValidator extends FreedomService
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerTeleport(PlayerTeleportEvent event)
     {
+        final Player player = event.getPlayer();
         // Check absolute value to account for negatives
         if (Math.abs(event.getTo().getX()) >= MAX_XZ_COORD || Math.abs(player.getLocation().getY()) >= MAX_XZ_COORD || Math.abs(event.getTo().getZ()) >= MAX_XZ_COORD)
         {
@@ -40,7 +41,6 @@ public class MovementValidator extends FreedomService
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         final Player player = event.getPlayer();
-
         // Validate position
         if (Math.abs(player.getLocation().getX()) >= MAX_XZ_COORD || Math.abs(player.getLocation().getY()) >= MAX_XZ_COORD || Math.abs(player.getLocation().getZ()) >= MAX_XZ_COORD)
         {
