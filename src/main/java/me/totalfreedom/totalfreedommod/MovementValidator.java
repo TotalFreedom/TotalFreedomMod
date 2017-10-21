@@ -30,7 +30,7 @@ public class MovementValidator extends FreedomService
     public void onPlayerTeleport(PlayerTeleportEvent event)
     {
         // Check absolute value to account for negatives
-        if (Math.abs(event.getTo().getX()) >= MAX_XZ_COORD || Math.abs(event.getTo().getZ()) >= MAX_XZ_COORD)
+        if (Math.abs(event.getTo().getX()) >= MAX_XZ_COORD || Math.abs(player.getLocation().getY()) >= MAX_XZ_COORD || Math.abs(event.getTo().getZ()) >= MAX_XZ_COORD)
         {
             event.setCancelled(true); // illegal position, cancel it
         }
@@ -42,7 +42,7 @@ public class MovementValidator extends FreedomService
         final Player player = event.getPlayer();
 
         // Validate position
-        if (Math.abs(player.getLocation().getX()) >= MAX_XZ_COORD || Math.abs(player.getLocation().getZ()) >= MAX_XZ_COORD)
+        if (Math.abs(player.getLocation().getX()) >= MAX_XZ_COORD || Math.abs(player.getLocation().getY()) >= MAX_XZ_COORD || Math.abs(player.getLocation().getZ()) >= MAX_XZ_COORD)
         {
             player.teleport(player.getWorld().getSpawnLocation()); // Illegal position, teleport to spawn
         }
