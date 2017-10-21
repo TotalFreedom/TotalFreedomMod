@@ -104,6 +104,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Jumppads jp;
     public Trailer tr;
     public HTTPDaemon hd;
+    public SignPatch snp;
     //
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
@@ -179,6 +180,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         pm = services.registerService(PermbanList.class);
         pa = services.registerService(ProtectArea.class);
         gr = services.registerService(GameRuleHandler.class);
+
+        snp = services.registerService(SignPatch.class);
 
         // Single admin utils
         rb = services.registerService(RollbackManager.class);
