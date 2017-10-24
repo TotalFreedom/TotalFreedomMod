@@ -55,12 +55,12 @@ public class UUIDFetcher
         return null;
     }
 
-    private static class FetchedUuid
+    private class FetchedUuid
     {
 
-        private static String id;
+        private String id;
 
-        public static String getID()
+        public String getID()
         {
             return id;
         }
