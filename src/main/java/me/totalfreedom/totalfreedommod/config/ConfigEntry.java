@@ -18,6 +18,9 @@ public enum ConfigEntry
     ALLOW_LAVA_PLACE(Boolean.class, "allow.lava_place"),
     ALLOW_TNT_MINECARTS(Boolean.class, "allow.tnt_minecarts"),
     ALLOW_WATER_PLACE(Boolean.class, "allow.water_place"),
+    ALLOW_REDSTONE(Boolean.class, "allow.redstone"),
+    ALLOW_FIREWORK_EXPLOSION(Boolean.class, "allow.fireworks"),
+    ALLOW_FROSTWALKER(Boolean.class, "allow.frostwalker"),
     //
     MOB_LIMITER_ENABLED(Boolean.class, "moblimiter.enabled"),
     MOB_LIMITER_MAX(Integer.class, "moblimiter.max"),
@@ -35,11 +38,15 @@ public enum ConfigEntry
     SERVER_ADDRESS(String.class, "server.address"),
     SERVER_MOTD(String.class, "server.motd"),
     SERVER_OWNERS(List.class, "server.owners"),
+    SERVER_FOUNDER(List.class, "server.founders"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
     //
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),
+    //
+    COREPROTECT_AUTO_WIPING_ENABLED(Boolean.class, "coreprotect.auto_wipe"),
+    COREPROTECT_FILE_LIMIT(Integer.class, "coreprotect.file_limit"),
     //
     DISABLE_NIGHT(Boolean.class, "disable.night"),
     DISABLE_WEATHER(Boolean.class, "disable.weather"),
@@ -51,6 +58,7 @@ public enum ConfigEntry
     TOSSMOB_ENABLED(Boolean.class, "tossmob_enabled"),
     AUTOKICK_ENABLED(Boolean.class, "autokick.enabled"),
     MP44_ENABLED(Boolean.class, "mp44_enabled"),
+    MAKE_ARROW_EXPLOSIVE(Boolean.class, "explosive_arrow.enabled"),
     //
     PROTECTAREA_ENABLED(Boolean.class, "protectarea.enabled"),
     PROTECTAREA_SPAWNPOINTS(Boolean.class, "protectarea.auto_protect_spawnpoints"),
