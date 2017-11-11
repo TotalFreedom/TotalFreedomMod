@@ -48,7 +48,7 @@ public class FUtil
     
    static {
         RANDOM = new Random();
-        DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "Commodore64x", "Wild1145");
+        DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "Commodore64x", "Wild1145", "marcocorriero");
         FOUNDER = Arrays.asList("markbyron");
         FUtil.DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
         CHAT_COLOR_NAMES = new HashMap<String, ChatColor>();
