@@ -75,6 +75,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public AntiNuke nu;
     public PotionMonitorer pmn;
     public DropMonitor dmn;
+    public PvpMonitor pvp;
     public AntiSpam as;
     public PlayerList pl;
     public Announcer an;
@@ -198,6 +199,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         ae = services.registerService(AutoEject.class);
         dmn = services.registerService(DropMonitor.class);
         cmon = services.registerService(ChestMonitor.class);
+        pvp = services.registerService(PvpMonitor.class);
+
 
         mv = services.registerService(MovementValidator.class);
         ew = services.registerService(EntityWiper.class);
