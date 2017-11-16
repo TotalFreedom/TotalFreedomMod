@@ -23,7 +23,7 @@ public class Command_blockpvp extends FreedomCommand
             return false;
         }
         if (args[0].equals("list")) {
-            this.msg("Disabled PVP mode players:");
+            this.msg("PVP is blocked for players:");
             int count = 0;
             for (final Player mp : this.server.getOnlinePlayers()) {
                 final FPlayer info = ((TotalFreedomMod)this.plugin).pl.getPlayer(mp);
@@ -38,7 +38,7 @@ public class Command_blockpvp extends FreedomCommand
             return true;
         }
         if (args[0].equals("purge")) {
-            FUtil.adminAction(sender.getName(), "Enabling PVP mode for all players.", true);
+            FUtil.adminAction(sender.getName(), "Enabling PVP for all players.", true);
             int count = 0;
             for (final Player mp : this.server.getOnlinePlayers()) {
                 final FPlayer info = ((TotalFreedomMod)this.plugin).pl.getPlayer(mp);
@@ -47,11 +47,11 @@ public class Command_blockpvp extends FreedomCommand
                     ++count;
                 }
             }
-            this.msg("Enabling PVP mode for " + count + " players.");
+            this.msg("Enabled PVP for " + count + " players.");
             return true;
         }
         if (args[0].equals("all")) {
-            FUtil.adminAction(sender.getName(), "Disabling PVP mode for all non-Superadmins", true);
+            FUtil.adminAction(sender.getName(), "Disabling PVP for all non-admins", true);
             int counter = 0;
             for (final Player player : this.server.getOnlinePlayers()) {
                 if (!((TotalFreedomMod)this.plugin).al.isAdmin((CommandSender)player)) {
@@ -60,7 +60,7 @@ public class Command_blockpvp extends FreedomCommand
                     ++counter;
                 }
             }
-            this.msg("Disabling PVP mode for " + counter + " players.");
+            this.msg("Disabling PVP for " + counter + " players.");
             return true;
         }
         final boolean smite = args[0].equals("-s");
@@ -81,28 +81,28 @@ public class Command_blockpvp extends FreedomCommand
         }
         final FPlayer playerdata2 = ((TotalFreedomMod)this.plugin).pl.getPlayer(player2);
         if (playerdata2.isPVPBlock()) {
-            FUtil.adminAction(sender.getName(), "Enabling PVP mode for " + player2.getName(), true);
+            FUtil.adminAction(sender.getName(), "Enabling PVP for " + player2.getName(), true);
             playerdata2.setPVPBlock(false);
-            this.msg("Enabling PVP mode for  " + player2.getName());
-            this.msg((CommandSender)player2, "Your PVP mode have been enabled.", ChatColor.GREEN);
+            this.msg("Enabling PVP  for  " + player2.getName());
+            this.msg((CommandSender)player2, "Your PVP have been enabled.", ChatColor.GREEN);
         }
         else {
             if (((TotalFreedomMod)this.plugin).al.isAdmin((CommandSender)player2)) {
-                this.msg(player2.getName() + " is a superadmin, and his PVP mode can't be disabled.");
+                this.msg(player2.getName() + " is an admin, and his PVP cannot be disabled.");
                 return true;
             }
-            FUtil.adminAction(sender.getName(), "Disabling PVP mode for " + player2.getName(), true);
+            FUtil.adminAction(sender.getName(), "Disabling PVP for " + player2.getName(), true);
             playerdata2.setPVPBlock(true);
             if (smite) {
                 Command_smite.smite(player2, sender);
             }
             if (reason != null) {
-                this.msg((CommandSender)player2, "Your PVP Mode has been disabled. Reason: " + reason, ChatColor.RED);
+                this.msg((CommandSender)player2, "Your PVP has been disabled. Reason: " + reason, ChatColor.RED);
             }
             else {
-                this.msg((CommandSender)player2, "Your PVP Mode has been disabled.", ChatColor.RED);
+                this.msg((CommandSender)player2, "Your PVP has been disabled.", ChatColor.RED);
             }
-            this.msg("Disabled PVP mode for " + player2.getName());
+            this.msg("Disabled PVP for " + player2.getName());
         }
         return true;
     }
