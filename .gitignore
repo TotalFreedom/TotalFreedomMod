@@ -32,6 +32,3 @@ manifest.mf
 .Trashes
 ehthumbs.db
 Thumbs.db
-src/main/java/me/totalfreedom/totalfreedommod/command/Command_pvpspy.java
-src/main/java/me/totalfreedom/totalfreedommod/util/EnchantManager.java
-src/main/java/me/totalfreedom/totalfreedommod/command/Command_enchant.java
