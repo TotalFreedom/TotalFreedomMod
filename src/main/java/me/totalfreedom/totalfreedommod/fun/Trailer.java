@@ -22,7 +22,7 @@ public class Trailer extends FreedomService
 
 
     private final Random random = new Random();
-    public final Set<String> trailPlayers = new HashSet<>(); // player name
+    private final Set<String> trailPlayers = new HashSet<>(); // player name
 
     public Trailer(TotalFreedomMod plugin)
     {
