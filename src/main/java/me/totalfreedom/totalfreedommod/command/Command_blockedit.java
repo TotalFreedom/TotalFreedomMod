@@ -23,7 +23,7 @@ public class Command_blockedit extends FreedomCommand
             return false;
         }
         if (args[0].equals("list")) {
-            this.msg("Block edits blocked for players:");
+            this.msg("Blocked block edits players:");
             int count = 0;
             for (final Player mp : this.server.getOnlinePlayers()) {
                 final FPlayer info = ((TotalFreedomMod)this.plugin).pl.getPlayer(mp);
@@ -51,7 +51,7 @@ public class Command_blockedit extends FreedomCommand
             return true;
         }
         if (args[0].equals("all")) {
-            FUtil.adminAction(sender.getName(), "Blocking block edits for all non-admins.", true);
+            FUtil.adminAction(sender.getName(), "Blocking block edits for all non-Superadmins", true);
             int counter = 0;
             for (final Player player : this.server.getOnlinePlayers()) {
                 if (!((TotalFreedomMod)this.plugin).al.isAdmin((CommandSender)player)) {
@@ -60,7 +60,7 @@ public class Command_blockedit extends FreedomCommand
                     ++counter;
                 }
             }
-            this.msg("Blocked block edits for " + counter + " players.");
+            this.msg("Blocked all block edit for " + counter + " players.");
             return true;
         }
         final boolean smite = args[0].equals("-s");
@@ -81,14 +81,14 @@ public class Command_blockedit extends FreedomCommand
         }
         final FPlayer playerdata2 = ((TotalFreedomMod)this.plugin).pl.getPlayer(player2);
         if (playerdata2.isEditBlock()) {
-            FUtil.adminAction(sender.getName(), "Unblocking block edits for " + player2.getName(), true);
+            FUtil.adminAction(sender.getName(), "Unblocking all block edits for " + player2.getName(), true);
             playerdata2.setEditBlocked(false);
-            this.msg("Unblocking block edits for " + player2.getName());
-            this.msg((CommandSender)player2, "Your block edits have been unblocked.", ChatColor.RED);
+            this.msg("Unblocking all block edits for " + player2.getName());
+            this.msg((CommandSender)player2, "You block edits have been unblocked.", ChatColor.RED);
         }
         else {
             if (((TotalFreedomMod)this.plugin).al.isAdmin((CommandSender)player2)) {
-                this.msg(player2.getName() + " is an admin, and cannot have their block edits blocked.");
+                this.msg(player2.getName() + " is a superadmin, and his block edits can't be blocked .");
                 return true;
             }
             FUtil.adminAction(sender.getName(), "Blocking block edits for " + player2.getName(), true);
@@ -97,10 +97,10 @@ public class Command_blockedit extends FreedomCommand
                 Command_smite.smite(player2, sender);
             }
             if (reason != null) {
-                this.msg((CommandSender)player2, "Your block edits have been blocked. Reason: " + reason, ChatColor.RED);
+                this.msg((CommandSender)player2, "You block edits have been blocked. Reason: " + reason, ChatColor.RED);
             }
             else {
-                this.msg((CommandSender)player2, "Your block edits have been blocked.", ChatColor.RED);
+                this.msg((CommandSender)player2, "You block edits have been blocked.", ChatColor.RED);
             }
             this.msg("Blocked all block edits for " + player2.getName());
         }

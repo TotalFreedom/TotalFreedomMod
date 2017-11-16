@@ -45,8 +45,16 @@ public class FUtil
     public static final List<ChatColor> CHAT_COLOR_POOL;
     public static final List<ChatColor> CHAT_RAINBOW;
     private static Iterator<ChatColor> color;
-    
-   static {
+    private static final ChatColor[] BLOCKED = new ChatColor[]
+            {
+                    ChatColor.MAGIC,
+                    ChatColor.STRIKETHROUGH,
+                    ChatColor.ITALIC,
+                    ChatColor.UNDERLINE,
+                    ChatColor.BLACK
+            };
+
+    static {
         RANDOM = new Random();
         DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "Commodore64x", "Wild1145", "marcocorriero");
         FOUNDER = Arrays.asList("markbyron");
@@ -64,9 +72,10 @@ public class FUtil
         }
         FUtil.color = FUtil.CHAT_RAINBOW.iterator();
     }
-   
+    private static final Pattern REGEX = Pattern.compile(ChatColor.COLOR_CHAR + "[" + StringUtils.join(BLOCKED, "") + "]", Pattern.CASE_INSENSITIVE);
 
-private FUtil()
+
+    private FUtil()
     {
     }
 
@@ -387,6 +396,22 @@ private FUtil()
     public static String colorize(String string)
     {
         return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    public static String StrictColorize(String string)
+    {
+       String string2 = ChatColor.translateAlternateColorCodes('&', string);
+        final Matcher matcher = REGEX.matcher(string2);
+        if (matcher.find())
+        {
+            final String filteredcolorize = matcher.replaceAll("&");
+            if(matcher.find(REGEX.matcher(ChatColor.BLACK)))
+            return filteredcolorize;
+        }
+        else
+        {
+            return string2;
+        }
     }
 
     public static Date getUnixDate(long unix)

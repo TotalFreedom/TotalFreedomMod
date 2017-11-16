@@ -59,9 +59,16 @@ public class Command_gtfo extends FreedomCommand
             plugin.rb.rollback(player.getName());
 
         }
-        else
+
+        if (getServer().getPluginManager().isPluginEnabled("CoreProtect"))
         {
-            plugin.cpb.rollback(player.getName());
+            try
+            {
+                server.dispatchCommand(sender, "co rollback t:1d r:#global #silent u:" + player.getName());
+            }
+            catch (NoClassDefFoundError ex)
+            {
+            }
         }
 
         // Deop
@@ -95,7 +102,7 @@ public class Command_gtfo extends FreedomCommand
                 .append(ip);
         if (reason != null)
         {
-            bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(FUtil.colorize(reason));
+            bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(FUtil.StrictColorize(reason));
         }
         FUtil.bcastMsg(bcast.toString());
 

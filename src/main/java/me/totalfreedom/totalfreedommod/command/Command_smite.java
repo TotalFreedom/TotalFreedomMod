@@ -16,73 +16,58 @@ import org.bukkit.entity.Player;
 public class Command_smite extends FreedomCommand
 {
 
-    @Override
-    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)
     {
         if (args.length < 1)
         {
             return false;
         }
-
-        final Player player = getPlayer(args[0]);
-
+        final Player player = this.getPlayer(args[0]);
         String reason = null;
         if (args.length > 1)
         {
-            reason = StringUtils.join(args, " ", 1, args.length);
+            reason = StringUtils.join((Object[]) args, " ", 1, args.length);
         }
-
         if (player == null)
         {
-            msg(FreedomCommand.PLAYER_NOT_FOUND);
+            this.msg(FreedomCommand.PLAYER_NOT_FOUND);
             return true;
         }
-
-        smite(player, reason);
+        smite(player, sender, reason);
         return true;
     }
 
-    public static void smite(Player player)
+    public static void smite(final Player player, final CommandSender sender)
     {
-        smite(player, null);
+        smite(player, sender, null);
     }
 
-    public static void smite(Player player, String reason)
+    public static void smite(final Player player, final CommandSender sender, final String reason)
     {
         FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
-
         if (reason != null)
         {
-            FUtil.bcastMsg("  Reason: " + reason, ChatColor.YELLOW);
+            FUtil.bcastMsg(ChatColor.RED + "  Reason: " + ChatColor.YELLOW + FUtil.StrictColorize(reason));
         }
-
-        // Deop
+        FUtil.bcastMsg(ChatColor.RED + "  Smitten by: " + ChatColor.YELLOW + sender.getName());
         player.setOp(false);
-
-        // Set gamemode to survival
         player.setGameMode(GameMode.SURVIVAL);
-
-        // Clear inventory
         player.getInventory().clear();
-
-        // Strike with lightning effect
         final Location targetPos = player.getLocation();
         final World world = player.getWorld();
-        for (int x = -1; x <= 1; x++)
+        for (int x = -1; x <= 1; ++x)
         {
-            for (int z = -1; z <= 1; z++)
+            for (int z = -1; z <= 1; ++z)
             {
-                final Location strike_pos = new Location(world, targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                world.strikeLightning(strike_pos);
+                final Location strike_pos = new Location(world, (double) (targetPos.getBlockX() + x), (double) targetPos.getBlockY(), (double) (targetPos.getBlockZ() + z));
+                world.strikeLightningEffect(strike_pos);
             }
         }
-
-        // Kill
         player.setHealth(0.0);
-
+        player.sendMessage(ChatColor.RED + "You've been smitten by: " + ChatColor.YELLOW + sender.getName());
         if (reason != null)
         {
-            player.sendMessage(ChatColor.RED + "You've been smitten. Reason: " + ChatColor.YELLOW + reason);
+            player.sendMessage(ChatColor.RED + "Reason: " + ChatColor.YELLOW + FUtil.StrictColorize(reason));
         }
     }
 }

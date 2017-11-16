@@ -24,7 +24,7 @@ public class Command_disguisetoggle extends FreedomCommand
         }
 
         FUtil.adminAction(sender.getName(), (DisallowedDisguises.disabled ? "Enabling" : "Disabling") + " " +
-                "disguises.", false);
+                "Disguises", false);
 
         if (plugin.ldb.isDisguisesEnabled())
         {
