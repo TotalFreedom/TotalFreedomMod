@@ -68,7 +68,7 @@ public class Command_blockcmd extends FreedomCommand
 
         if (isAdmin(player))
         {
-            msg(player.getName() + " is a Superadmin, and cannot have their commands blocked.");
+            msg(player.getName() + " is an admin, and cannot have their commands blocked.");		
             return true;
         }
 
