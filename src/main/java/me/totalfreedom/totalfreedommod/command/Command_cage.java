@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [custom | block] [Block name | Player name(for skull)]")
+@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [skull | block] [blockname | skullname]")
 public class Command_cage extends FreedomCommand
 {
     public static String playerSkullName;
@@ -52,7 +52,7 @@ public class Command_cage extends FreedomCommand
                     playerdata3.getCageData().setCaged(false);
                     return true;
                 }
-                case "custom": {
+                case "skull": {
                     outerMaterial = Material.SKULL;
                     Command_cage.playerSkullName = args[2];
                     break;
