@@ -59,16 +59,9 @@ public class Command_gtfo extends FreedomCommand
             plugin.rb.rollback(player.getName());
 
         }
-
-        if (getServer().getPluginManager().isPluginEnabled("CoreProtect"))
-        {
-            try
-            {
-                server.dispatchCommand(sender, "co rollback t:1d r:#global #silent u:" + player.getName());
-            }
-            catch (NoClassDefFoundError ex)
-            {
-            }
+        else
+       {
+       plugin.cpb.rollback(player.getName());
         }
 
         // Deop
