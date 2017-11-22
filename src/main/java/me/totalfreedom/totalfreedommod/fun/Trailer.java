@@ -14,11 +14,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-
 public class Trailer extends FreedomService
 {
-
-    private byte data;
     private final Random random = new Random();
     private final Set<String> trailPlayers = new HashSet<>(); // player name
 
@@ -65,7 +62,7 @@ public class Trailer extends FreedomService
         final Location location = fromBlock.getLocation();
         fromBlock.setType(Material.WOOL);
         DepreciationAggregator.setData_Block(fromBlock, (byte) random.nextInt(16));
-        private byte data = DepreciationAggregator.getData_Block(fromBlock);
+        byte data = DepreciationAggregator.getData_Block(fromBlock);
         Material material = Material.getMaterial(String.valueOf(fromBlock.getType()));
         for (int x = -1; x <= 1; x++)
         {
