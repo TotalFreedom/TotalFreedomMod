@@ -130,7 +130,7 @@ public class Command_stfu extends FreedomCommand
 
             if (smite)
             {
-                Command_smite.smite(player, sender);
+                Command_smite.smite(player);
             }
 
             if (reason != null)
