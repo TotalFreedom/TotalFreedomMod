@@ -134,6 +134,11 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
         msg(sender, message, ChatColor.GRAY);
     }
 
+    public CommandParameters getParams()
+    {
+        return this.params;
+    }
+
     protected void msg(final String message)
     {
         msg(sender, message);
@@ -157,6 +162,11 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
     protected PlayerData getData(Player player)
     {
         return plugin.pl.getData(player);
+    }
+
+    public CommandPermissions getPerms()
+    {
+        return this.perms;
     }
 
     public static FreedomCommand getFrom(Command command)
