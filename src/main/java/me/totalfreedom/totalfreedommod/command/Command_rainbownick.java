@@ -1,31 +1,25 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.Iterator;
+import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
 import org.bukkit.command.CommandSender;
-import me.totalfreedom.totalfreedommod.rank.Rank;
+import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Essentials Interface Command - Rainbowify your nickname.", usage = "/<command> <<nick> | off>")
+@CommandParameters(description = "Essentials Interface Command - Rainbowify your nickname.", usage = "/<command> <nick>")
 public class Command_rainbownick extends FreedomCommand
 {
 
-    public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)
+    @Override
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length != 1)
         {
             return false;
-        }
-        if ("off".equals(args[0]))
-        {
-            ((TotalFreedomMod) this.plugin).esb.setNickname(sender.getName(), null);
-            this.msg("Nickname cleared.");
-            return true;
         }
 
         final String nickPlain = ChatColor.stripColor(FUtil.colorize(args[0].trim()));
@@ -35,13 +29,14 @@ public class Command_rainbownick extends FreedomCommand
             msg("That nickname contains invalid characters.");
             return true;
         }
-
+        
         if (nickPlain.length() < 4 || nickPlain.length() > 30)
         {
-            this.msg("Your nickname must be between 4 and 30 characters long.");
+            msg("Your nickname must be between 4 and 30 characters long.");
             return true;
         }
-        for (final Player player : Bukkit.getOnlinePlayers())
+
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             if (player == playerSender)
             {
@@ -49,20 +44,17 @@ public class Command_rainbownick extends FreedomCommand
             }
             if (player.getName().equalsIgnoreCase(nickPlain) || ChatColor.stripColor(player.getDisplayName()).trim().equalsIgnoreCase(nickPlain))
             {
-                this.msg("That nickname is already in use.");
+                msg("That nickname is already in use.");
                 return true;
             }
         }
-        final StringBuilder newNick = new StringBuilder();
-        final char[] charArray;
-        final char[] chars = charArray = nickPlain.toCharArray();
-        for (final char c : charArray)
-        {
-            newNick.append(FUtil.rainbowChatColor()).append(c);
-        }
-        newNick.append(ChatColor.WHITE);
-        ((TotalFreedomMod) this.plugin).esb.setNickname(sender.getName(), newNick.toString());
-        this.msg("Your nickname is now: " + newNick.toString());
+        
+        final String newNick = FUtil.rainbowify(ChatColor.stripColor(FUtil.colorize(nickPlain)));
+        
+        plugin.esb.setNickname(sender.getName(), newNick);
+
+        msg("Your nickname is now: " + newNick);
+
         return true;
     }
 }

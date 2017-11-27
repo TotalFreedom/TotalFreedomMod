@@ -43,12 +43,16 @@ public class PvpMonitor extends FreedomService {
             // Checks 4 cases
             if (player.getGameMode() == GameMode.CREATIVE && plugin.esb.getEssentialsUser(player.getName()).isGodModeEnabled()) { // This checks if player is on creative and god mode on.
                 player.sendMessage(ChatColor.RED + "Hey! You cannot PVP with God Mode and creative!");
+                event.setCancelled(true);
             } else if (player.getGameMode() == GameMode.CREATIVE && !plugin.esb.getEssentialsUser(player.getName()).isGodModeEnabled()) { // This checks if player is on creative and god mode off.
                 player.sendMessage(ChatColor.RED + "Hey! You cannot PVP in creative!");
+                event.setCancelled(true);
             } else if (player.getGameMode() == GameMode.SURVIVAL && plugin.esb.getEssentialsUser(player.getName()).isGodModeEnabled()) { // This checks if player is on survival with  god mode on.
                 player.sendMessage(ChatColor.RED + "Hey! You can't PVP with godmode!");
+                event.setCancelled(true);
             } else if (player.getGameMode() == GameMode.ADVENTURE && plugin.esb.getEssentialsUser(player.getName()).isGodModeEnabled()) { // This checks if player is on Adventure with god mode on.
                 player.sendMessage(ChatColor.RED + "Hey! You can't PVP with godmode!");
+                event.setCancelled(true);
             }
         }
 
@@ -58,7 +62,7 @@ public class PvpMonitor extends FreedomService {
             ProjectileSource ps = ((Projectile) damager).getShooter();
 
             Player player = (Player) ps;
-            
+
             // Bypasses the block if Player is actually a Supered-Admin.
             if (plugin.al.isAdmin((player))) {
                 return;
@@ -66,12 +70,16 @@ public class PvpMonitor extends FreedomService {
 
             if (player.getGameMode() == GameMode.CREATIVE && plugin.esb.getEssentialsUser(player.getName()).isGodModeEnabled()) { // This checks if player is on creative and god mode on.
                 player.sendMessage(ChatColor.RED + "Hey! You cannot PVP with God Mode and creative!");
+                event.setCancelled(true);
             } else if (player.getGameMode() == GameMode.CREATIVE && !plugin.esb.getEssentialsUser(player.getName()).isGodModeEnabled()) { // This checks if player is on creative and god mode off.
                 player.sendMessage(ChatColor.RED + "Hey! You cannot PVP in creative!");
+                event.setCancelled(true);
             } else if (player.getGameMode() == GameMode.SURVIVAL && plugin.esb.getEssentialsUser(player.getName()).isGodModeEnabled()) { // This checks if player is on survival with  god mode on.
                 player.sendMessage(ChatColor.RED + "Hey! You can't PVP with godmode!");
+                event.setCancelled(true);
             } else if (player.getGameMode() == GameMode.ADVENTURE && plugin.esb.getEssentialsUser(player.getName()).isGodModeEnabled()) { // This checks if player is on Adventure with god mode on.
                 player.sendMessage(ChatColor.RED + "Hey! You can't PVP with godmode!");
+                event.setCancelled(true);
             }
         }
     }

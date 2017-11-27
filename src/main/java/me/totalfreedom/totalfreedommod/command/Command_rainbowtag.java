@@ -1,51 +1,48 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.Arrays;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
 import java.util.Iterator;
-import java.util.List;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import org.bukkit.ChatColor;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
 import org.bukkit.command.CommandSender;
-import me.totalfreedom.totalfreedommod.rank.Rank;
+import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Gives you a tag with Rainbow", usage = "/<command> <tag>", aliases = "tn")
+@CommandParameters(description = "Gives you a rainbow tag", usage = "/<command> <tag>")
 public class Command_rainbowtag extends FreedomCommand
 {
 
-    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
-    {
-        "admin", "owner", "moderator", "developer", "console", "SRA", "TCA", "SA"
-    });
-
-    public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)
+    @Override
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 1)
         {
             return false;
         }
-        final StringBuilder tag = new StringBuilder();
-        for (final char c : ChatColor.stripColor(FUtil.colorize(StringUtils.join((Object[]) args, " "))).toCharArray())
+      
+        final String tag = ChatColor.stripColor(FUtil.colorize(StringUtils.join(args, " ")));
+        
+        if(tag.length() > 20)
         {
-            tag.append(FUtil.rainbowChatColor()).append(c);
+            msg("That tag is too long (Max is 20 characters).");
+            return true;
         }
-        final String tagStr = tag.toString();
-        for (final String word : FORBIDDEN_WORDS)
+        
+        for (String word : Command_tag.FORBIDDEN_WORDS) 
         {
-            if (tagStr.contains(word))
+            if (tag.contains(word))
             {
-                this.msg("That tag contains a forbidden word.");
+                msg("That tag contains a forbidden word.");
                 return true;
             }
         }
-        final FPlayer data = ((TotalFreedomMod) this.plugin).pl.getPlayer(playerSender);
-        data.setTag(tagStr);
-        this.msg("Set tag to " + (Object) tag);
+
+        plugin.pl.getPlayer(playerSender).setTag(FUtil.rainbowify(tag));
+  
+        msg("Set tag to " + tag);
+
         return true;
     }
 }

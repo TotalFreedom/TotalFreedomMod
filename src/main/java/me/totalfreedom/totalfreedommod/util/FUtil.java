@@ -20,8 +20,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import static me.totalfreedom.totalfreedommod.util.FUtil.CHAT_RAINBOW;
-import static me.totalfreedom.totalfreedommod.util.FUtil.FOUNDER;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -34,46 +32,36 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class FUtil
 {
-    private static final Random RANDOM;
+
+    private static final Random RANDOM = new Random();
+    //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
-    public static final List<String> DEVELOPERS;
-    public static final List<String> FOUNDER;
-    public static String DATE_STORAGE_FORMAT;
-    public static final Map<String, ChatColor> CHAT_COLOR_NAMES;
-    public static final Map<String, ChatColor> CHAT_RAINBOW_NAMES;
-    public static List<String> BLOCKED_CODES;
-    public static final List<ChatColor> CHAT_COLOR_POOL;
-    public static final List<ChatColor> CHAT_RAINBOW;
-    private static Iterator<ChatColor> color;
-    private static final ChatColor[] BLOCKED = new ChatColor[]
-            {
-                    ChatColor.MAGIC,
-                    ChatColor.STRIKETHROUGH,
-                    ChatColor.ITALIC,
-                    ChatColor.UNDERLINE,
-                    ChatColor.BLACK
-            };
+    // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
+    public static final DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "Commodore64x", "Wild1145", "marcocorriero");
+    public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
+    public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
+    public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
+            ChatColor.DARK_RED,
+            ChatColor.RED,
+            ChatColor.GOLD,
+            ChatColor.YELLOW,
+            ChatColor.GREEN,
+            ChatColor.DARK_GREEN,
+            ChatColor.AQUA,
+            ChatColor.DARK_AQUA,
+            ChatColor.BLUE,
+            ChatColor.DARK_BLUE,
+            ChatColor.DARK_PURPLE,
+            ChatColor.LIGHT_PURPLE);
+    private static Iterator<ChatColor> CHAT_COLOR_ITERATOR;
 
-    static {
-        RANDOM = new Random();
-        DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "Commodore64x", "Wild1145", "marcocorriero");
-        FOUNDER = Arrays.asList("markbyron");
-        FUtil.DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
-        CHAT_COLOR_NAMES = new HashMap<String, ChatColor>();
-        CHAT_RAINBOW_NAMES = new HashMap<String, ChatColor>();
-        FUtil.BLOCKED_CODES = new ArrayList<String>();
-        CHAT_COLOR_POOL = Arrays.asList(ChatColor.DARK_BLUE, ChatColor.DARK_GREEN, ChatColor.DARK_AQUA, ChatColor.DARK_RED, ChatColor.DARK_PURPLE, ChatColor.GOLD, ChatColor.BLUE, ChatColor.GREEN, ChatColor.AQUA, ChatColor.RED, ChatColor.LIGHT_PURPLE, ChatColor.YELLOW);
-        CHAT_RAINBOW = Arrays.asList(ChatColor.DARK_RED, ChatColor.RED, ChatColor.GOLD, ChatColor.YELLOW, ChatColor.GREEN, ChatColor.DARK_GREEN, ChatColor.AQUA, ChatColor.DARK_AQUA, ChatColor.BLUE, ChatColor.DARK_BLUE, ChatColor.DARK_PURPLE, ChatColor.LIGHT_PURPLE);
-        for (final ChatColor chatColor : FUtil.CHAT_COLOR_POOL) {
-            FUtil.CHAT_COLOR_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
+    static
+    {
+        for (ChatColor chatColor : CHAT_COLOR_POOL)
+        {
+            CHAT_COLOR_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
         }
-        for (final ChatColor chatColor : FUtil.CHAT_RAINBOW) {
-            FUtil.CHAT_RAINBOW_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
-        }
-        FUtil.color = FUtil.CHAT_RAINBOW.iterator();
     }
-    private static final Pattern REGEX = Pattern.compile(ChatColor.COLOR_CHAR + "[" + StringUtils.join(BLOCKED, "") + "]", Pattern.CASE_INSENSITIVE);
-
 
     private FUtil()
     {
@@ -156,7 +144,7 @@ public class FUtil
         final File[] coreDumps = new File(".").listFiles(new FileFilter()
         {
             @Override
-        public boolean accept(File file)
+            public boolean accept(File file)
             {
                 return file.getName().startsWith("java.core");
             }
@@ -357,7 +345,7 @@ public class FUtil
 
     //getField: Borrowed from WorldEdit
     @SuppressWarnings("unchecked")
-        public static <T> T getField(Object from, String name)
+    public static <T> T getField(Object from, String name)
     {
         Class<?> checkClass = from.getClass();
         do
@@ -368,50 +356,43 @@ public class FUtil
                 field.setAccessible(true);
                 return (T) field.get(from);
 
-            
-
-}
+            }
             catch (NoSuchFieldException | IllegalAccessException ex)
             {
             }
         } while (checkClass.getSuperclass() != Object.class
-
-&& ((checkClass = checkClass.getSuperclass()) != null));
+                && ((checkClass = checkClass.getSuperclass()) != null));
 
         return null;
     }
 
-    public static ChatColor randomChatColor() {
-        return FUtil.CHAT_COLOR_POOL.get(FUtil.RANDOM.nextInt(FUtil.CHAT_COLOR_POOL.size()));
+    public static ChatColor randomChatColor()
+    {
+        return CHAT_COLOR_POOL.get(RANDOM.nextInt(CHAT_COLOR_POOL.size()));
     }
     
-    public static ChatColor rainbowChatColor() {
-        if (FUtil.color.hasNext()) {
-            return FUtil.color.next();
+    public static String rainbowify(String string)
+    {
+        CHAT_COLOR_ITERATOR = CHAT_COLOR_POOL.iterator();
+        
+        final StringBuilder newString = new StringBuilder();
+        final char[] chars = string.toCharArray();
+        
+        for (char c : chars)
+        {
+            if (!CHAT_COLOR_ITERATOR.hasNext())
+            {
+                CHAT_COLOR_ITERATOR = CHAT_COLOR_POOL.iterator(); //Restart from first colour if there are no more colours in iterator.
+            }
+            newString.append(CHAT_COLOR_ITERATOR.next()).append(c);
         }
-        FUtil.color = FUtil.CHAT_RAINBOW.iterator();
-        return FUtil.color.next();
+        
+        return newString.toString();
     }
 
     public static String colorize(String string)
     {
         return ChatColor.translateAlternateColorCodes('&', string);
-    }
-
-    public static String StrictColorize(String string)
-    {
-       String string2 = ChatColor.translateAlternateColorCodes('&', string);
-        final Matcher matcher = REGEX.matcher(string2);
-        if (matcher.find())
-        {
-            final String filteredcolorize = matcher.replaceAll("&");
-            if(matcher.find(REGEX.matcher(ChatColor.BLACK)))
-            return filteredcolorize;
-        }
-        else
-        {
-            return string2;
-        }
     }
 
     public static Date getUnixDate(long unix)
