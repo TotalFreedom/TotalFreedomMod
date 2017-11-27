@@ -95,7 +95,7 @@ public class Command_gtfo extends FreedomCommand
                 .append(ip);
         if (reason != null)
         {
-            bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(FUtil.StrictColorize(reason));
+            bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(FUtil.colorize(reason));
         }
         FUtil.bcastMsg(bcast.toString());
 
