@@ -21,13 +21,11 @@ public class Command_wipewarps extends FreedomCommand
             msg("Essentials is not enabled on this server");
             return true;
         }
-
+        Plugin essentials = server.getPluginManager().getPlugin("Essentials");
         FUtil.adminAction(sender.getName(), "Wiping Essentials Warps", true);
-
-        FUtil.deleteFolder(new File(server.getPluginManager().getPlugin("Essentials").getDataFolder(), "warps"));
-
-        server.dispatchCommand(sender, "plc reload essentials");
-
+        server.getPluginManager().disablePlugin(essentials);
+        FUtil.deleteFolder(new File(essentials.getDataFolder(), "warps"));
+        server.getPluginManager().enablePlugin(essentials);
         msg("All warps deleted.");
         return true;
         
