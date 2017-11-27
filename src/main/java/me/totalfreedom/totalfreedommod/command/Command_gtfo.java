@@ -60,8 +60,8 @@ public class Command_gtfo extends FreedomCommand
 
         }
         else
-       {
-       plugin.cpb.rollback(player.getName());
+        {
+            plugin.cpb.rollback(player.getName());
         }
 
         // Deop
