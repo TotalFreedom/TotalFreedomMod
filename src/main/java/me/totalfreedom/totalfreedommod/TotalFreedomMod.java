@@ -274,7 +274,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
             }
             catch (Exception ex)
             {
-                FLog.severe("Could not load build properties! Did you compile with Netbeans/ANT?");
+                FLog.severe("Could not load build properties! Did you compile with Netbeans/Maven?");
                 FLog.severe(ex);
             }
         }
