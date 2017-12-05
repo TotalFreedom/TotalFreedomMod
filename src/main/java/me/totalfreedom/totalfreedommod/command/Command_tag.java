@@ -54,11 +54,19 @@ public class Command_tag extends FreedomCommand
                 int count = 0;
                 for (final Player player : server.getOnlinePlayers())
                 {
-                    final FPlayer playerdata = plugin.pl.getPlayer(player);
-                    if (playerdata.getTag() != null)
+                    if (!plugin.al.isAdmin(sender))
                     {
-                        count++;
-                        playerdata.setTag(null);
+                        final FPlayer playerdata = plugin.pl.getPlayer(player);
+                        if (playerdata.getTag() != null)
+                        {
+                            count++;
+                            playerdata.setTag(null);
+                        }
+                    }
+                    else
+                    {
+                        // Give the admin their default tag
+                        plugin.pl.getPlayer(player).setTag(plugin.rm.getDisplay(player).getColoredTag());
                     }
                 }
 
