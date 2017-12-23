@@ -198,7 +198,7 @@ public class Command_gadmin extends FreedomCommand
             }
             case SMITE:
             {
-                Command_smite.smite(target, sender);
+                Command_smite.smite(sender, target);
 
                 break;
             }

@@ -22,6 +22,8 @@ public enum ConfigEntry
     ALLOW_FIREWORK_EXPLOSION(Boolean.class, "allow.fireworks"),
     ALLOW_FROSTWALKER(Boolean.class, "allow.frostwalker"),
     //
+    BLOCKED_CHATCODES(String.class, "blocked_chatcodes"),
+    //
     MOB_LIMITER_ENABLED(Boolean.class, "moblimiter.enabled"),
     MOB_LIMITER_MAX(Integer.class, "moblimiter.max"),
     MOB_LIMITER_DISABLE_DRAGON(Boolean.class, "moblimiter.disable.dragon"),

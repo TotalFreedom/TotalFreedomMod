@@ -58,13 +58,11 @@ public class PotionMonitorer extends FreedomService
 
         for (Player player2 : server.getOnlinePlayers())
         {
-            if (plugin.al.isAdmin(player2) && plugin.pl.getPlayer(player2).PotionMonitorEnabled())
+            if (plugin.al.isAdmin(player2) && plugin.pl.getPlayer(player2).isPotionMonitorEnabled())
             {
                 FUtil.playerMsg(player2, player.getName() + " Splashed " + event.getEntity().getItem().getAmount() + " " + this.GetMaterial(dropeditem) + " at [" + this.df.format(loc.getX()) + ", " + this.df.format(loc.getY()) + ", " + this.df.format(loc.getZ()) + "] at the world '" + loc.getWorld().getName() + "'.");
             }
-
         }
-
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -87,12 +85,10 @@ public class PotionMonitorer extends FreedomService
 
         for (Player player2 : server.getOnlinePlayers())
         {
-            if (plugin.al.isAdmin(player2) && plugin.pl.getPlayer(player2).PotionMonitorEnabled())
+            if (plugin.al.isAdmin(player2) && plugin.pl.getPlayer(player2).isPotionMonitorEnabled())
             {
                 FUtil.playerMsg(player2, player.getName() + " Splashed " + event.getPotion().getItem().getAmount() + " " + this.GetMaterial(dropeditem) + " at [" + this.df.format(loc.getX()) + ", " + this.df.format(loc.getY()) + ", " + this.df.format(loc.getZ()) + "] at the world '" + loc.getWorld().getName() + "'.");
             }
-
         }
-
     }
 }

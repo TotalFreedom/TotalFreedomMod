@@ -130,18 +130,10 @@ public class Command_stfu extends FreedomCommand
 
             if (smite)
             {
-                Command_smite.smite(player);
+                Command_smite.smite(sender, player, reason);
             }
 
-            if (reason != null)
-            {
-                msg(player, "You have been muted. Reason: " + reason, ChatColor.RED);
-            }
-            else
-            {
-                msg(player, "You have been muted.", ChatColor.RED);
-            }
-
+            msg(player, "You have been muted.", ChatColor.RED);
             msg("Muted " + player.getName());
 
         }

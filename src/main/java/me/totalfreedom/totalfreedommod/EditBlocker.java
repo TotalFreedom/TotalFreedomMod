@@ -30,7 +30,7 @@ public class EditBlocker extends FreedomService
     public void BlockPlaceEvent(BlockPlaceEvent event)
     {
         FPlayer fPlayer = plugin.pl.getPlayerSync(event.getPlayer());
-        if (!fPlayer.isEditBlock())
+        if (!fPlayer.isEditBlocked())
         {
             return;
         }
@@ -49,7 +49,7 @@ public class EditBlocker extends FreedomService
     public void BlockBreakEvent(BlockBreakEvent event)
     {
         FPlayer fPlayer = plugin.pl.getPlayerSync(event.getPlayer());
-        if (!fPlayer.isEditBlock())
+        if (!fPlayer.isEditBlocked())
         {
             return;
         }

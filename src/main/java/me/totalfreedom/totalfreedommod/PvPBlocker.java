@@ -48,14 +48,14 @@ public class PvPBlocker extends FreedomService
             }
         }
 
-        if (fPlayer == null || !fPlayer.isPVPBlock())
+        if (fPlayer == null || !fPlayer.isPvpBlocked())
         {
             return;
         }
 
         if (plugin.al.isAdminSync(event.getDamager()))
         {
-            fPlayer.setPVPBlock(false);
+            fPlayer.setPvpBlocked(false);
             return;
         }
 

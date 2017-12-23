@@ -40,12 +40,11 @@ public class Command_invsee extends FreedomCommand
         {
             msg("You can't spy on admins!");
             return true;
-
         }
 
         playerSender.closeInventory();
         FPlayer fPlayer = plugin.pl.getPlayer(playerSender);
-        fPlayer.setInvsee(true);
+        fPlayer.setInvSee(true);
         Inventory playerInv = player.getInventory();
         playerSender.openInventory(playerInv);
         return true;

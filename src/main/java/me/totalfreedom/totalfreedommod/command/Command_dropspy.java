@@ -16,9 +16,8 @@ public class Command_dropspy extends FreedomCommand
     {
 
         FPlayer playerdata = plugin.pl.getPlayer(playerSender);
-        playerdata.setDropMonitor(!playerdata.DropMonitorEnabled());
-        msg("DropSpy " + (playerdata.DropMonitorEnabled() ? "enabled." : "disabled."));
-
+        playerdata.setDropMonitorEnabled(!playerdata.isDropMonitorEnabled());
+        msg("DropSpy " + (playerdata.isDropMonitorEnabled() ? "enabled." : "disabled."));
         return true;
     }
 }

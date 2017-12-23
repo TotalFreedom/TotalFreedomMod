@@ -1,7 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -15,15 +17,9 @@ import org.bukkit.entity.Player;
 public class Command_nickclean extends FreedomCommand
 {
 
-    private static final ChatColor[] BLOCKED = new ChatColor[]
-    {
-        ChatColor.MAGIC,
-        ChatColor.STRIKETHROUGH,
-        ChatColor.ITALIC,
-        ChatColor.UNDERLINE,
-        ChatColor.BLACK
-    };
-    private static final Pattern REGEX = Pattern.compile(ChatColor.COLOR_CHAR + "[" + StringUtils.join(BLOCKED, "") + "]", Pattern.CASE_INSENSITIVE);
+    private static final String[] BLOCK = ConfigEntry.BLOCKED_CHATCODES.getString().split(",");
+
+    private static final Pattern REGEX = Pattern.compile(FUtil.colorize(ChatColor.COLOR_CHAR + "[" + StringUtils.join(BLOCK, "") + "]"), Pattern.CASE_INSENSITIVE);
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)

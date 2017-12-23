@@ -54,7 +54,7 @@ public class ChestMonitor extends FreedomService
             final int amount = event.getCurrentItem().getAmount();
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).ChestMonitorEnabled())
+                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).isChestMonitorEnabled())
                 {
                     FUtil.playerMsg(player, p.getName() + " Moved in a chest with " + amount + " " + this.GetMaterial(item) + " [" + this.df.format(loc.getX()) + ", " + this.df.format(loc.getY()) + ", " + this.df.format(loc.getZ()) + "] at the world '" + loc.getWorld().getName() + "'.");
                 }
@@ -68,7 +68,7 @@ public class ChestMonitor extends FreedomService
             final int amount = event.getCurrentItem().getAmount();
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).ChestMonitorEnabled())
+                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).isChestMonitorEnabled())
                 {
                     FUtil.playerMsg(player, p2.getName() + " Moved in a dispenser with " + amount + " " + this.GetMaterial(item) + " [" + this.df.format(loc.getX()) + ", " + this.df.format(loc.getY()) + ", " + this.df.format(loc.getZ()) + "] at the world '" + loc.getWorld().getName() + "'.");
                 }
@@ -83,7 +83,7 @@ public class ChestMonitor extends FreedomService
             final int amount = event.getCurrentItem().getAmount();
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).ChestMonitorEnabled())
+                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).isChestMonitorEnabled())
                 {
                     FUtil.playerMsg(player, p2.getName() + " Moved in a hopper with " + amount + " " + this.GetMaterial(item) + " [" + this.df.format(loc.getX()) + ", " + this.df.format(loc.getY()) + ", " + this.df.format(loc.getZ()) + "] at the world '" + loc.getWorld().getName() + "'.");
                 }
@@ -98,7 +98,7 @@ public class ChestMonitor extends FreedomService
             final int amount = event.getCurrentItem().getAmount();
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).ChestMonitorEnabled())
+                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).isChestMonitorEnabled())
                 {
                     FUtil.playerMsg(player, p2.getName() + " Moved in a dropper with " + amount + " " + this.GetMaterial(item) + " [" + this.df.format(loc.getX()) + ", " + this.df.format(loc.getY()) + ", " + this.df.format(loc.getZ()) + "] at the world '" + loc.getWorld().getName() + "'.");
                 }
@@ -114,7 +114,7 @@ public class ChestMonitor extends FreedomService
             final int amount = event.getCurrentItem().getAmount();
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).ChestMonitorEnabled())
+                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).isChestMonitorEnabled())
                 {
                     FUtil.playerMsg(player, p2.getName() + " Moved in a shulker box with " + amount + " " + this.GetMaterial(item) + " [" + this.df.format(loc.getX()) + ", " + this.df.format(loc.getY()) + ", " + this.df.format(loc.getZ()) + "] at the world '" + loc.getWorld().getName() + "'.");
                 }
@@ -130,7 +130,7 @@ public class ChestMonitor extends FreedomService
             final int amount = event.getCurrentItem().getAmount();
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).ChestMonitorEnabled())
+                if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).isChestMonitorEnabled())
                 {
                     FUtil.playerMsg(player, p2.getName() + " Moved in a ender chest with " + amount + " " + this.GetMaterial(item) + " [" + this.df.format(loc.getX()) + ", " + this.df.format(loc.getY()) + ", " + this.df.format(loc.getZ()) + "] at the world '" + loc.getWorld().getName() + "'.");
                 }

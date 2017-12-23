@@ -37,7 +37,7 @@ public class FUtil
     //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "Commodore64x", "Wild1145", "marcocorriero");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "Commodore64x", "Wild1145");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
@@ -370,14 +370,14 @@ public class FUtil
     {
         return CHAT_COLOR_POOL.get(RANDOM.nextInt(CHAT_COLOR_POOL.size()));
     }
-    
+
     public static String rainbowify(String string)
     {
         CHAT_COLOR_ITERATOR = CHAT_COLOR_POOL.iterator();
-        
+
         final StringBuilder newString = new StringBuilder();
         final char[] chars = string.toCharArray();
-        
+
         for (char c : chars)
         {
             if (!CHAT_COLOR_ITERATOR.hasNext())
@@ -386,7 +386,7 @@ public class FUtil
             }
             newString.append(CHAT_COLOR_ITERATOR.next()).append(c);
         }
-        
+
         return newString.toString();
     }
 
@@ -420,5 +420,4 @@ public class FUtil
         String packageName = Bukkit.getServer().getClass().getPackage().getName();
         return packageName.substring(packageName.lastIndexOf('.') + 1);
     }
-
 }

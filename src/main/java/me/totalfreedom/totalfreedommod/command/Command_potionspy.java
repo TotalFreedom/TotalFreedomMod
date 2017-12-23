@@ -16,9 +16,8 @@ public class Command_potionspy extends FreedomCommand
     {
 
         FPlayer playerdata = plugin.pl.getPlayer(playerSender);
-        playerdata.setPotionMonitor(!playerdata.PotionMonitorEnabled());
-        msg("PotionSpy " + (playerdata.PotionMonitorEnabled() ? "enabled." : "disabled."));
-
+        playerdata.setPotionMonitorEnabled(!playerdata.isPotionMonitorEnabled());
+        msg("PotionSpy " + (playerdata.isPotionMonitorEnabled() ? "enabled." : "disabled."));
         return true;
     }
 }

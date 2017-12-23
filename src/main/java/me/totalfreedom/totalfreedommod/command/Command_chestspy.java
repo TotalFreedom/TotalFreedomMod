@@ -16,9 +16,8 @@ public class Command_chestspy extends FreedomCommand
     {
 
         FPlayer playerdata = plugin.pl.getPlayer(playerSender);
-        playerdata.setChestMonitor(!playerdata.ChestMonitorEnabled());
-        msg("ChestSpy " + (playerdata.ChestMonitorEnabled()? "enabled." : "disabled."));
-
+        playerdata.setChestMonitorEnabled(!playerdata.isChestMonitorEnabled());
+        msg("ChestSpy " + (playerdata.isChestMonitorEnabled() ? "enabled." : "disabled."));
         return true;
     }
 }

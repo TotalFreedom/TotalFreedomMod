@@ -335,4 +335,6 @@ overlord_ips:
   - 107.191.101.27
   - 178.62.117.94
   - 141.101.104.243
-
+  
+# Blocked Chat Codes - Use &code,&code2,&code3 (No spaces)
+blocked_chatcodes: '&0,&k,&m,&n'

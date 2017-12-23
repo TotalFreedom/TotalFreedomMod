@@ -46,7 +46,7 @@ public class DropMonitor extends FreedomService
         final Location loc = event.getPlayer().getLocation();
         for (Player player : server.getOnlinePlayers())
         {
-            if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).DropMonitorEnabled())
+            if (plugin.al.isAdmin(player) && plugin.pl.getPlayer(player).isDropMonitorEnabled())
             {
                 FUtil.playerMsg(player, event.getPlayer().getName() + " dropped " + event.getItemDrop().getItemStack().getAmount() + " " + this.GetMaterial(dropeditem) + " at [" + this.df.format(loc.getX()) + ", " + this.df.format(loc.getY()) + ", " + this.df.format(loc.getZ()) + "] at the world '" + loc.getWorld().getName() + "'.");
             }
