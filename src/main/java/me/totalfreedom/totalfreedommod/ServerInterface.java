@@ -32,7 +32,7 @@ public class ServerInterface extends FreedomService
 
     public static void warnVersion()
     {
-        final String nms = FUtil.getNmsVersion();
+        final String nms = FUtil.getNMSVersion();
 
         if (!COMPILE_NMS_VERSION.equals(nms))
         {

@@ -68,19 +68,10 @@ public class FPlayer
     private int warningCount = 0;
     @Getter
     @Setter
-    private boolean dropMonitorEnabled = false;
-    @Getter
-    @Setter
-    private boolean potionMonitorEnabled = false;
-    @Getter
-    @Setter
     private boolean editBlocked = false;
     @Getter
     @Setter
     private boolean pvpBlocked = false;
-    @Getter
-    @Setter
-    private boolean chestMonitorEnabled = false;
     @Getter
     @Setter
     private boolean invSee = false;

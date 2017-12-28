@@ -9,12 +9,15 @@ import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.banning.PermbanList;
 import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
+import me.totalfreedom.totalfreedommod.blocking.EditBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
 import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
 import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
-import me.totalfreedom.totalfreedommod.bridge.CoreProtectBridge;
+import me.totalfreedom.totalfreedommod.blocking.PVPBlocker;
 import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
+import me.totalfreedom.totalfreedommod.blocking.SignBlocker;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
+import me.totalfreedom.totalfreedommod.bridge.CoreProtectBridge;
 import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
 import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
 import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
@@ -66,16 +69,12 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public CommandLoader cl;
     public CommandBlocker cb;
     public EventBlocker eb;
-    public ChestMonitor cmon;
     public BlockBlocker bb;
     public MobBlocker mb;
     public InteractBlocker ib;
     public PotionBlocker pb;
     public LoginProcess lp;
     public AntiNuke nu;
-    public PotionMonitorer pmn;
-    public DropMonitor dmn;
-    public PvpMonitor pvp;
     public AntiSpam as;
     public PlayerList pl;
     public Announcer an;
@@ -89,7 +88,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Cager ca;
     public Freezer fm;
     public EditBlocker ebl;
-    public PvPBlocker pbl;
+    public PVPBlocker pbl;
     public Orbiter or;
     public Muter mu;
     public Fuckoff fo;
@@ -105,7 +104,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Jumppads jp;
     public Trailer tr;
     public HTTPDaemon hd;
-    public SignPatch snp;
+    public SignBlocker snp;
     //
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
@@ -182,26 +181,22 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         pa = services.registerService(ProtectArea.class);
         gr = services.registerService(GameRuleHandler.class);
 
-        snp = services.registerService(SignPatch.class);
+        snp = services.registerService(SignBlocker.class);
 
         // Single admin utils
         rb = services.registerService(RollbackManager.class);
-        pmn = services.registerService(PotionMonitorer.class);
         cs = services.registerService(CommandSpy.class);
         ca = services.registerService(Cager.class);
         fm = services.registerService(Freezer.class);
         or = services.registerService(Orbiter.class);
         mu = services.registerService(Muter.class);
         ebl = services.registerService(EditBlocker.class);
-        pbl = services.registerService(PvPBlocker.class);
+        pbl = services.registerService(PVPBlocker.class);
         fo = services.registerService(Fuckoff.class);
         ak = services.registerService(AutoKick.class);
         ae = services.registerService(AutoEject.class);
-        dmn = services.registerService(DropMonitor.class);
-        cmon = services.registerService(ChestMonitor.class);
-        pvp = services.registerService(PvpMonitor.class);
-
-
+        
+        
         mv = services.registerService(MovementValidator.class);
         ew = services.registerService(EntityWiper.class);
         fd = services.registerService(FrontDoor.class);

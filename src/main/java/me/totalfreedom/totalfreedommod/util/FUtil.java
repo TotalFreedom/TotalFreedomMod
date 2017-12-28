@@ -415,7 +415,7 @@ public class FUtil
         return date.getTime() / 1000L;
     }
 
-    public static String getNmsVersion()
+    public static String getNMSVersion()
     {
         String packageName = Bukkit.getServer().getClass().getPackage().getName();
         return packageName.substring(packageName.lastIndexOf('.') + 1);

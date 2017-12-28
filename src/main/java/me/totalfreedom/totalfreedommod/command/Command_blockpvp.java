@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Toggle PVP mode for players.", usage = "/<command> [[-s] <player> [reason] | list | purge | all]", aliases = "pvpblock,pvpmode,pvpman,pvman")
+@CommandParameters(description = "Toggle PVP mode for players.", usage = "/<command> [[-s] <player> [reason] | list | purge | all]", aliases = "pvpblock,pvpmode")
 public class Command_blockpvp extends FreedomCommand
 {
 
@@ -25,21 +25,21 @@ public class Command_blockpvp extends FreedomCommand
 
         if (args[0].equals("list"))
         {
-            this.msg("PVP is blocked for players:");
+            msg("PVP is blocked for players:");
             int count = 0;
-            for (Player mp : server.getOnlinePlayers())
+            for (Player player : server.getOnlinePlayers())
             {
-                final FPlayer info = plugin.pl.getPlayer(mp);
+                final FPlayer info = plugin.pl.getPlayer(player);
                 if (info.isPvpBlocked())
                 {
-                    msg(" - " + mp.getName());
+                    msg(" - " + player.getName());
                     ++count;
                 }
             }
 
             if (count == 0)
             {
-                this.msg(" - none");
+                msg(" - none");
             }
             return true;
         }
@@ -48,9 +48,9 @@ public class Command_blockpvp extends FreedomCommand
         {
             FUtil.adminAction(sender.getName(), "Enabling PVP for all players.", true);
             int count = 0;
-            for (Player mp : this.server.getOnlinePlayers())
+            for (Player player : server.getOnlinePlayers())
             {
-                final FPlayer info = plugin.pl.getPlayer(mp);
+                final FPlayer info = plugin.pl.getPlayer(player);
                 if (info.isPvpBlocked())
                 {
                     info.setPvpBlocked(false);
@@ -90,8 +90,8 @@ public class Command_blockpvp extends FreedomCommand
             }
         }
 
-        final Player player2 = getPlayer(args[0]);
-        if (player2 == null)
+        final Player p = getPlayer(args[0]);
+        if (p == null)
         {
             sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
             return true;
@@ -103,31 +103,31 @@ public class Command_blockpvp extends FreedomCommand
             reason = StringUtils.join(args, " ", 1, args.length);
         }
 
-        final FPlayer playerdata2 = plugin.pl.getPlayer(player2);
-        if (playerdata2.isPvpBlocked())
+        final FPlayer pd = plugin.pl.getPlayer(p);
+        if (pd.isPvpBlocked())
         {
-            FUtil.adminAction(sender.getName(), "Enabling PVP for " + player2.getName(), true);
-            playerdata2.setPvpBlocked(false);
-            msg("Enabling PVP  for  " + player2.getName());
-            msg((CommandSender) player2, "Your PVP have been enabled.", ChatColor.GREEN);
+            FUtil.adminAction(sender.getName(), "Enabling PVP for " + p.getName(), true);
+            pd.setPvpBlocked(false);
+            msg("Enabling PVP  for  " + p.getName());
+            msg((CommandSender) p, "Your PVP have been enabled.", ChatColor.GREEN);
         }
         else
         {
-            if (plugin.al.isAdmin((CommandSender) player2))
+            if (plugin.al.isAdmin((CommandSender) p))
             {
-                this.msg(player2.getName() + " is an admin, and his PVP cannot be disabled.");
+                msg(p.getName() + " is an admin, and cannot have their PVP disabled.");
                 return true;
             }
 
-            FUtil.adminAction(sender.getName(), "Disabling PVP for " + player2.getName(), true);
-            playerdata2.setPvpBlocked(true);
+            FUtil.adminAction(sender.getName(), "Disabling PVP for " + p.getName(), true);
+            pd.setPvpBlocked(true);
             if (smite)
             {
-                Command_smite.smite(sender, player2, reason);
+                Command_smite.smite(sender, p, reason);
             }
 
-            msg(player2, "Your PVP has been disabled.", ChatColor.RED);
-            msg("Disabled PVP for " + player2.getName());
+            msg(p, "Your PVP has been disabled.", ChatColor.RED);
+            msg("Disabled PVP for " + p.getName());
         }
         return true;
     }
