@@ -159,6 +159,27 @@ public class Command_myadmin extends FreedomCommand
                 plugin.al.updateTables();
                 return true;
             }
+            
+            case "settag":
+            {
+                FUtil.adminAction(sender.getName(), "Setting personal default tag" + (init == null ? "" : " for " + targetPlayer.getName()), false);
+                String tag = StringUtils.join(args, " ", 1, args.length);
+                target.setTag(tag);
+                msg((init == null ? "Your" : targetPlayer.getName() + "'s") + " default tag is now: " + ChatUtils.colorize(target.getTag()));
+                plugin.al.save();
+                plugin.al.updateTables();
+                return true;
+            }
+            
+            case "cleartag":
+            {
+                FUtil.adminAction(sender.getName(), "Clearing personal default tag" + (init == null ? "" : " for " + targetPlayer.getName()), false);
+                String tag = StringUtils.join(args, " ", 1, args.length);
+                target.setTag(null);
+                plugin.al.save();
+                plugin.al.updateTables();
+                return true;
+            }
 
             default:
             {
