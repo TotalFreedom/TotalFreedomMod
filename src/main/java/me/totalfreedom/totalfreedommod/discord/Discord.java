@@ -31,13 +31,9 @@ public class Discord extends FreedomService
 
      public void startBot()
      {
-        if (!Strings.isNullOrEmpty(ConfigEntry.DISCORD_TOKEN.getString()))
+        enabled = !Strings.isNullOrEmpty(ConfigEntry.DISCORD_TOKEN.getString());
+        if (!enabled)
         {
-            enabled = true;
-        }
-        else
-        {
-            enabled = false;
             return;
         }
         if (bot != null)
