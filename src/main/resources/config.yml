@@ -27,6 +27,11 @@ server:
   # URL players should appeal for permanent bans at
   permban_url: http://bit.ly/TF_PermBan
 
+# Discord
+discord:
+  # If you do not have a token, make a bot account and get one at https://discordapp.com/developers/applications/me
+  token: ''
+
 # Admin list
 adminlist:
 
@@ -36,6 +41,12 @@ adminlist:
   # Give the default CONSOLE senior admin privileges.
   # Handy in development environments.
   console_is_senior: true
+  
+# CoreProtect
+coreprotect:
+  auto_wipe: false
+
+  file_limit: 5000
 
 # ForceIP configuration
 forceip:
@@ -47,7 +58,6 @@ forceip:
   # The kick message sent to players when logging in with the wrong hostname
   kickmsg: You have been kicked from the server - Please connect using %address%
 
-
 # Blocking certain events
 allow:
   fire_place: false
@@ -58,6 +68,9 @@ allow:
   water_place: false
   tnt_minecarts: false
   explosions: false
+  redstone: true
+  fireworks: false
+  frostwalker: false
 
 # Blocked commands:
 #

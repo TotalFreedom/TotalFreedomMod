@@ -40,6 +40,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String loginMessage = null;
+    @Getter
+    @Setter
+    private String discordID = null;
 
     public static final String CONFIG_FILENAME = "admins.yml";
 
@@ -65,7 +68,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")
                 .append("- Rank: ").append(rank.getName()).append("\n")
-                .append("- Is Active: ").append(active);
+                .append("- Is Active: ").append(active).append("\n")
+                .append("- Discord ID: ").append(discordID).append("\n");
 
         return output.toString();
     }
@@ -88,6 +92,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         ips.addAll(cs.getStringList("ips"));
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         loginMessage = cs.getString("login_message", null);
+        discordID = cs.getString("discord_id", null);
     }
 
     @Override
@@ -100,6 +105,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
+        cs.set("discord_id", discordID);
     }
 
     public boolean isAtLeast(Rank pRank)
