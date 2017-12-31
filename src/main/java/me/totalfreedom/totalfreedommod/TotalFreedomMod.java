@@ -96,6 +96,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Fuckoff fo;
     public AutoKick ak;
     public AutoEject ae;
+    public Monitors mo;
     public MovementValidator mv;
     public EntityWiper ew;
     public FrontDoor fd;
@@ -198,6 +199,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         fo = services.registerService(Fuckoff.class);
         ak = services.registerService(AutoKick.class);
         ae = services.registerService(AutoEject.class);
+        mo = services.registerService(Monitors.class);
         
         
         mv = services.registerService(MovementValidator.class);
