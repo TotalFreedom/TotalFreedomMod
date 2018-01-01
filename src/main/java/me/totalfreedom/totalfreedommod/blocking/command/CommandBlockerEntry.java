@@ -21,11 +21,13 @@ public class CommandBlockerEntry
     @Getter
     private final String message;
     
-    public CommandBlockerEntry(final CommandBlockerRank rank, final CommandBlockerAction action, final String command, final String message) {
+    public CommandBlockerEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String message)
+    {
         this(rank, action, command, null, message);
     }
     
-    public CommandBlockerEntry(final CommandBlockerRank rank, final CommandBlockerAction action, final String command, final String subCommand, final String message) {
+    public CommandBlockerEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String subCommand, String message)
+    {
         this.rank = rank;
         this.action = action;
         this.command = command;
@@ -33,36 +35,44 @@ public class CommandBlockerEntry
         this.message = ((message == null || message.equals("_")) ? "That command is blocked." : message);
     }
     
-    public void doActions(final CommandSender sender) {
-        if (this.action == CommandBlockerAction.BLOCK_AND_EJECT && sender instanceof Player) {
-            TotalFreedomMod.plugin().ae.autoEject((Player)sender, "You used a prohibited command: " + this.command);
+    public void doActions(CommandSender sender)
+    {
+        if (action == CommandBlockerAction.BLOCK_AND_EJECT && sender instanceof Player)
+        {
+            TotalFreedomMod.plugin().ae.autoEject((Player)sender, "You used a prohibited command: " + command);
             FUtil.bcastMsg(sender.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
             return;
         }
-        if (this.action == CommandBlockerAction.BLOCK_UNKNOWN) {
-            FUtil.playerMsg(sender, "Unknown command. Type \"help\" for help.", ChatColor.RESET);
+        if (action == CommandBlockerAction.BLOCK_UNKNOWN)
+        {
+            FUtil.playerMsg(sender, "Unknown command. Type \"/help\" for help.", ChatColor.RESET);
             return;
         }
-        FUtil.playerMsg(sender, FUtil.colorize(this.message));
+        FUtil.playerMsg(sender, FUtil.colorize(message));
     }
     
-    public CommandBlockerRank getRank() {
-        return this.rank;
+    public CommandBlockerRank getRank()
+    {
+        return rank;
     }
     
-    public CommandBlockerAction getAction() {
-        return this.action;
+    public CommandBlockerAction getAction()
+    {
+        return action;
     }
     
-    public String getCommand() {
-        return this.command;
+    public String getCommand()
+    {
+        return command;
     }
     
-    public String getSubCommand() {
-        return this.subCommand;
+    public String getSubCommand()
+    {
+        return subCommand;
     }
     
-    public String getMessage() {
-        return this.message;
+    public String getMessage()
+    {
+        return message;
     }
 }

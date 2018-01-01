@@ -130,7 +130,7 @@ public class FUtil
                 Math.round(location.getZ()));
     }
 
-    public static boolean deleteFolder(final File file)
+    public static boolean deleteFolder(File file)
     {
         if (file.exists() && file.isDirectory())
         {
@@ -375,8 +375,8 @@ public class FUtil
     {
         CHAT_COLOR_ITERATOR = CHAT_COLOR_POOL.iterator();
 
-        final StringBuilder newString = new StringBuilder();
-        final char[] chars = string.toCharArray();
+        StringBuilder newString = new StringBuilder();
+        char[] chars = string.toCharArray();
 
         for (char c : chars)
         {

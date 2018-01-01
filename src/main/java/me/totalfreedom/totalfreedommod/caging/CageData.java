@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.caging;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
-import me.totalfreedom.totalfreedommod.command.Command_cage;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,6 +25,8 @@ public class CageData
     private Material outerMaterial = Material.GLASS;
     @Getter
     private Material innerMaterial = Material.AIR;
+    @Getter
+    private static String input = null;
 
     public CageData(FPlayer player)
     {
@@ -58,6 +59,24 @@ public class CageData
         this.location = location;
         this.outerMaterial = outer;
         this.innerMaterial = inner;
+        this.input = null;
+
+        buildHistory(location, 2, fPlayer);
+        regenerate();
+    }
+    
+    public void cage(Location location, Material outer, Material inner, String input)
+    {
+        if (isCaged())
+        {
+            setCaged(false);
+        }
+
+        this.caged = true;
+        this.location = location;
+        this.outerMaterial = outer;
+        this.innerMaterial = inner;
+        this.input = input;
 
         buildHistory(location, 2, fPlayer);
         regenerate();
@@ -86,7 +105,7 @@ public class CageData
             return;
         }
 
-        cage(fPlayer.getPlayer().getLocation(), outerMaterial, innerMaterial);
+        cage(fPlayer.getPlayer().getLocation(), outerMaterial, innerMaterial, input);
     }
 
     public void playerQuit()
@@ -177,7 +196,7 @@ public class CageData
 
                         block.setType(material);
                     }
-                    else // Darth mode
+                    else
                     {
                         if (Math.abs(xOffset) == length && Math.abs(yOffset) == length && Math.abs(zOffset) == length)
                         {
@@ -186,10 +205,13 @@ public class CageData
                         }
 
                         block.setType(Material.SKULL);
-                        final Skull skull = (Skull) block.getState();
-                        skull.setSkullType(SkullType.PLAYER);
-                        skull.setOwner(Command_cage.playerSkullName);
-                        skull.update();
+                        if (input != null)
+                        {
+                            Skull skull = (Skull) block.getState();
+                            skull.setSkullType(SkullType.PLAYER);
+                            skull.setOwner(input);
+                            skull.update();
+                        }
                     }
                 }
             }

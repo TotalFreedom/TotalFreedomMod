@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -30,7 +29,7 @@ public class Command_blockredstone extends FreedomCommand
                         ConfigEntry.ALLOW_REDSTONE.setBoolean(true);
                     }
                 }
-            }.runTaskLater((Plugin) this.plugin, 6000L);
+            }.runTaskLater(plugin, 6000L);
         }
         else
         {

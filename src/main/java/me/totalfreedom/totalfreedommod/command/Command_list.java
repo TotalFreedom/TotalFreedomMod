@@ -1,9 +1,6 @@
-
-
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Displayable;
-import java.util.Iterator;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
@@ -21,90 +18,110 @@ import me.totalfreedom.totalfreedommod.rank.Rank;
 public class Command_list extends FreedomCommand
 {
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole) {
-        if (args.length > 1) {
+        if (args.length > 1)
+        {
             return false;
         }
-        if (FUtil.isFromHostConsole(sender.getName())) {
-            final List<String> names = new ArrayList<String>();
-            for (final Player player : this.server.getOnlinePlayers()) {
+        if (FUtil.isFromHostConsole(sender.getName()))
+        {
+            List<String> names = new ArrayList<String>();
+            for (Player player : server.getOnlinePlayers())
+            {
                 names.add(player.getName());
             }
-            this.msg("There are " + names.size() + "/" + this.server.getMaxPlayers() + " players online:\n" + StringUtils.join((Iterable)names, ", "), ChatColor.WHITE);
+            msg("There are " + names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join((Iterable)names, ", "), ChatColor.WHITE);
             return true;
         }
         ListFilter listFilter = null;
-        if (args.length == 1) {
-            final String s = args[0];
-            switch (s) {
-                case "-a": {
+        if (args.length == 1)
+        {
+            String s = args[0];
+            switch (s)
+            {
+                case "-a":
+                {
                     listFilter = ListFilter.ADMINS;
                     break;
                 }
-                case "-v": {
+                case "-v":
+                {
                     listFilter = ListFilter.VANISHED_ADMINS;
                     break;
                 }
-                case "-i": {
+                case "-i":
+                {
                     listFilter = ListFilter.IMPOSTORS;
                     break;
                 }
-                case "-f": {
+                case "-f":
+                {
                     listFilter = ListFilter.FAMOUS_PLAYERS;
                     break;
                 }
-                default: {
+                default:
+                {
                     return false;
                 }
             }
         }
-        else {
+        else
+        {
             listFilter = ListFilter.PLAYERS;
         }
-        if (listFilter == ListFilter.VANISHED_ADMINS && !((TotalFreedomMod)this.plugin).al.isAdmin((CommandSender)playerSender)) {
-            this.msg("/list [-a | -i | -f ]", ChatColor.WHITE);
-            return true;
+        StringBuilder onlineStats = new StringBuilder();
+        StringBuilder onlineUsers = new StringBuilder();
+        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - Command_vanish.VANISHED.size())
+                .append(ChatColor.BLUE)
+                .append(" out of a maximum ")
+                .append(ChatColor.RED)
+                .append(server.getMaxPlayers())
+                .append(" players online.");
+        List<String> n = new ArrayList<String>();
+        for (Player p : server.getOnlinePlayers())
+        {
+            if (listFilter == ListFilter.ADMINS && plugin.al.isAdmin(p))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.ADMINS && Command_vanish.VANISHED.contains(p))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.VANISHED_ADMINS && !Command_vanish.VANISHED.contains(p))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.IMPOSTORS && !((TotalFreedomMod)this.plugin).al.isAdminImpostor(p))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.FAMOUS_PLAYERS && !ConfigEntry.FAMOUS_PLAYERS.getList().contains(p.getName().toLowerCase()))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.PLAYERS && Command_vanish.VANISHED.contains(p))
+            {
+                continue;
+            }
+            final Displayable display = plugin.rm.getDisplay(p);
+            n.add(display.getColoredTag() + p.getName());
         }
-        final StringBuilder onlineStats = new StringBuilder();
-        final StringBuilder onlineUsers = new StringBuilder();
-        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(this.server.getOnlinePlayers().size() - Command_vanish.vanished.size());
-        onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(this.server.getMaxPlayers());
-        onlineStats.append(ChatColor.BLUE).append(" players online.");
-        final List<String> names2 = new ArrayList<String>();
-        for (final Player player2 : this.server.getOnlinePlayers()) {
-            if (listFilter == ListFilter.ADMINS && !((TotalFreedomMod)this.plugin).al.isAdmin((CommandSender)player2)) {
-                continue;
-            }
-            if (listFilter == ListFilter.ADMINS && Command_vanish.vanished.contains(player2)) {
-                continue;
-            }
-            if (listFilter == ListFilter.VANISHED_ADMINS && !Command_vanish.vanished.contains(player2)) {
-                continue;
-            }
-            if (listFilter == ListFilter.IMPOSTORS && !((TotalFreedomMod)this.plugin).al.isAdminImpostor(player2)) {
-                continue;
-            }
-            if (listFilter == ListFilter.FAMOUS_PLAYERS && !ConfigEntry.FAMOUS_PLAYERS.getList().contains(player2.getName().toLowerCase())) {
-                continue;
-            }
-            if (listFilter == ListFilter.PLAYERS && Command_vanish.vanished.contains(player2)) {
-                continue;
-            }
-            final Displayable display = ((TotalFreedomMod)this.plugin).rm.getDisplay((CommandSender)player2);
-            names2.add(display.getColoredTag() + player2.getName());
-        }
-        final String playerType = (listFilter == null) ? "players" : listFilter.toString().toLowerCase().replace('_', ' ');
-        onlineUsers.append("Connected ");
-        onlineUsers.append(playerType + ": ");
-        onlineUsers.append(StringUtils.join((Iterable)names2, ChatColor.WHITE + ", "));
-        if (senderIsConsole) {
+        String playerType = (listFilter == null) ? "players" : listFilter.toString().toLowerCase().replace('_', ' ');
+        onlineUsers.append("Connected ")
+                .append(playerType + ": ")
+                .append(playerType + ": ")
+                .append(StringUtils.join((Iterable)n, ChatColor.WHITE + ", "));
+        if (senderIsConsole)
+        {
             sender.sendMessage(ChatColor.stripColor(onlineStats.toString()));
             sender.sendMessage(ChatColor.stripColor(onlineUsers.toString()));
         }
-        else {
+        else
+        {
             sender.sendMessage(onlineStats.toString());
             sender.sendMessage(onlineUsers.toString());
         }
-        names2.clear();
+        n.clear();
         return true;
     }
     

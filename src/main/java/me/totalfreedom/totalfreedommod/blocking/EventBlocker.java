@@ -182,7 +182,7 @@ public class EventBlocker extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void FireworkExplodeEvent(final FireworkExplodeEvent event
+    public void onFireworkExplode(final FireworkExplodeEvent event
     )
     {
         if (!ConfigEntry.ALLOW_FIREWORK_EXPLOSION.getBoolean())
@@ -192,7 +192,7 @@ public class EventBlocker extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void BlockPistonRetractEvent(final BlockPistonRetractEvent event)
+    public void onBlockPistonRetract(BlockPistonRetractEvent event)
     {
         if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
         {
@@ -201,7 +201,7 @@ public class EventBlocker extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void BlockPistonExtendEvent(final BlockPistonExtendEvent event)
+    public void onBlockPistonExtend(BlockPistonExtendEvent event)
     {
         if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
         {
@@ -210,7 +210,7 @@ public class EventBlocker extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void BlockRedstoneEvent(final BlockRedstoneEvent event)
+    public void onBlockRedstone(BlockRedstoneEvent event)
     {
         if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
         {

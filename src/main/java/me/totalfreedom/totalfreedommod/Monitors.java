@@ -85,7 +85,7 @@ public class Monitors extends FreedomService
         {
             if (plugin.al.isAdmin(p) && plugin.pl.getPlayer(p).isPotionMonitorEnabled())
             {
-                FUtil.playerMsg(p, player.getName() + " splashed " + event.getPotion().getItem().getAmount() + " " + this.getMaterial(droppedItem) + " at [" + decimalFormat.format(location.getX()) + ", " + decimalFormat.format(location.getY()) + ", " + decimalFormat.format(location.getZ()) + "] in the world '" + location.getWorld().getName() + "'.");
+                FUtil.playerMsg(p, player.getName() + " splashed " + event.getPotion().getItem().getAmount() + " " + getMaterial(droppedItem) + " at [" + decimalFormat.format(location.getX()) + ", " + decimalFormat.format(location.getY()) + ", " + decimalFormat.format(location.getZ()) + "] in the world '" + location.getWorld().getName() + "'.");
             }
         }
     }

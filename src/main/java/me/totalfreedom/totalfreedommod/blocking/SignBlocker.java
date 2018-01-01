@@ -49,18 +49,21 @@ public class SignBlocker extends FreedomService
             String line2 = bet.getString("Text2");
             String line3 = bet.getString("Text3");
             String line4 = bet.getString("Text4");
-            if(line1.contains("run_command") || line2.contains("run_command") || line3.contains("run_command") || line4.contains("run_command"))
+            if (line1.contains("run_command") || line2.contains("run_command") || line3.contains("run_command") || line4.contains("run_command"))
             {
                 player.sendMessage(ChatColor.GRAY + "You are not allowed to place command signs.");
                 event.setCancelled(true);
             }
         }
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerInteractSign(PlayerInteractEvent event)
     {
-        if(event.getAction() != Action.RIGHT_CLICK_BLOCK)
-         return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
+        {
+            return;
+        }
 
         if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.SIGN) || event.getClickedBlock().getType().equals(Material.SIGN_POST) || event.getClickedBlock().getType().equals(Material.WALL_SIGN))
         {

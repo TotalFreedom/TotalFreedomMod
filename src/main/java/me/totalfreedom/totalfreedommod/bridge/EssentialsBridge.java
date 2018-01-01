@@ -17,7 +17,6 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import com.earth2me.essentials.User;
 import org.bukkit.plugin.Plugin;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import org.bukkit.Bukkit;
 import me.totalfreedom.totalfreedommod.command.Command_vanish;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import com.earth2me.essentials.Essentials;
@@ -26,12 +25,11 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 public class EssentialsBridge extends FreedomService
 {
 
-    private Essentials essentialsPlugin;
+    private Essentials essentialsPlugin = null;
 
-    public EssentialsBridge(final TotalFreedomMod plugin)
+    public EssentialsBridge(TotalFreedomMod plugin)
     {
         super(plugin);
-        this.essentialsPlugin = null;
     }
 
     @Override
@@ -42,19 +40,19 @@ public class EssentialsBridge extends FreedomService
     @Override
     protected void onStop()
     {
-        Command_vanish.vanished.clear();
+        Command_vanish.VANISHED.clear();
     }
 
     public Essentials getEssentialsPlugin()
     {
-        if (this.essentialsPlugin == null)
+        if (essentialsPlugin == null)
         {
             try
             {
-                final Plugin essentials = Bukkit.getServer().getPluginManager().getPlugin("Essentials");
+                final Plugin essentials = server.getPluginManager().getPlugin("Essentials");
                 if (essentials != null && essentials instanceof Essentials)
                 {
-                    this.essentialsPlugin = (Essentials) essentials;
+                    essentialsPlugin = (Essentials) essentials;
                 }
             }
             catch (Exception ex)
@@ -62,14 +60,14 @@ public class EssentialsBridge extends FreedomService
                 FLog.severe(ex);
             }
         }
-        return this.essentialsPlugin;
+        return essentialsPlugin;
     }
 
-    public User getEssentialsUser(final String username)
+    public User getEssentialsUser(String username)
     {
         try
         {
-            final Essentials essentials = this.getEssentialsPlugin();
+            Essentials essentials = getEssentialsPlugin();
             if (essentials != null)
             {
                 return essentials.getUserMap().getUser(username);
@@ -82,11 +80,11 @@ public class EssentialsBridge extends FreedomService
         return null;
     }
 
-    public void setNickname(final String username, final String nickname)
+    public void setNickname(String username, String nickname)
     {
         try
         {
-            final User user = this.getEssentialsUser(username);
+            User user = getEssentialsUser(username);
             if (user != null)
             {
                 user.setNickname(nickname);
@@ -99,11 +97,11 @@ public class EssentialsBridge extends FreedomService
         }
     }
 
-    public String getNickname(final String username)
+    public String getNickname(String username)
     {
         try
         {
-            final User user = this.getEssentialsUser(username);
+            User user = getEssentialsUser(username);
             if (user != null)
             {
                 return user.getNickname();
@@ -116,11 +114,11 @@ public class EssentialsBridge extends FreedomService
         return null;
     }
 
-    public long getLastActivity(final String username)
+    public long getLastActivity(String username)
     {
         try
         {
-            final User user = this.getEssentialsUser(username);
+            User user = getEssentialsUser(username);
             if (user != null)
             {
                 return FUtil.getField(user, "lastActivity");
@@ -133,11 +131,11 @@ public class EssentialsBridge extends FreedomService
         return 0L;
     }
 
-    public void setVanished(final String username, final boolean vanished)
+    public void setVanished(String username, boolean vanished)
     {
         try
         {
-            final User user = this.getEssentialsUser(username);
+            User user = getEssentialsUser(username);
             if (user != null)
             {
                 user.setVanished(vanished);
@@ -150,76 +148,76 @@ public class EssentialsBridge extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onInventoryClickEvent(final InventoryClickEvent event)
+    public void onInventoryClick(InventoryClickEvent event)
     {
         Player refreshPlayer = null;
-        final Inventory top = event.getView().getTopInventory();
-        final InventoryType type = top.getType();
-        final Player playerdata = (Player) event.getWhoClicked();
-        final FPlayer fPlayer = ((TotalFreedomMod) this.plugin).pl.getPlayer(playerdata);
-        if (type == InventoryType.PLAYER && fPlayer.isInvSee())
+        Inventory inventory = event.getView().getTopInventory();
+        InventoryType inventoryType = inventory.getType();
+        Player player = (Player) event.getWhoClicked();
+        FPlayer fPlayer = plugin.pl.getPlayer(player);
+        if (inventoryType == InventoryType.PLAYER && fPlayer.isInvSee())
         {
-            final InventoryHolder invHolder = top.getHolder();
-            if (invHolder != null && invHolder instanceof HumanEntity)
+            final InventoryHolder inventoryHolder = inventory.getHolder();
+            if (inventoryHolder != null && inventoryHolder instanceof HumanEntity)
             {
-                final Player invOwner = (Player) invHolder;
-                final Rank recieverRank = ((TotalFreedomMod) this.plugin).rm.getRank(playerdata);
-                final Rank playerRank = ((TotalFreedomMod) this.plugin).rm.getRank(invOwner);
+                Player invOwner = (Player) inventoryHolder;
+                Rank recieverRank = plugin.rm.getRank(player);
+                Rank playerRank = plugin.rm.getRank(invOwner);
                 if (playerRank.ordinal() >= recieverRank.ordinal() || !invOwner.isOnline())
                 {
                     event.setCancelled(true);
-                    refreshPlayer = playerdata;
+                    refreshPlayer = player;
                 }
             }
         }
         if (refreshPlayer != null)
         {
-            final Player player = refreshPlayer;
+            final Player p = refreshPlayer;
             new BukkitRunnable()
             {
                 @Override
                 public void run()
                 {
-                    player.updateInventory();
+                    p.updateInventory();
                 }
-            }.runTaskLater((Plugin) this.plugin, 20L);
+            }.runTaskLater(plugin, 20L);
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onInventoryCloseEvent(final InventoryCloseEvent event)
+    public void onInventoryClose(InventoryCloseEvent event)
     {
         Player refreshPlayer = null;
-        final Inventory top = event.getView().getTopInventory();
-        final InventoryType type = top.getType();
-        final Player playerdata = (Player) event.getPlayer();
-        final FPlayer fPlayer = ((TotalFreedomMod) this.plugin).pl.getPlayer(playerdata);
-        if (type == InventoryType.PLAYER && fPlayer.isInvSee())
+        Inventory inventory = event.getView().getTopInventory();
+        InventoryType inventoryType = inventory.getType();
+        Player player = (Player) event.getPlayer();
+        FPlayer fPlayer = plugin.pl.getPlayer(player);
+        if (inventoryType == InventoryType.PLAYER && fPlayer.isInvSee())
         {
             fPlayer.setInvSee(false);
-            refreshPlayer = playerdata;
+            refreshPlayer = player;
         }
         if (refreshPlayer != null)
         {
-            final Player player = refreshPlayer;
+            final Player p = refreshPlayer;
             new BukkitRunnable()
             {
                 @Override
                 public void run()
                 {
-                    player.updateInventory();
+                    p.updateInventory();
                 }
-            }.runTaskLater((Plugin) this.plugin, 20L);
+            }.runTaskLater(plugin, 20L);
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerQuitEvent(final PlayerQuitEvent event)
+    public void onPlayerQuit(PlayerQuitEvent event)
     {
-        final Player player = event.getPlayer();
-        if (Command_vanish.vanished.contains(player))
+        Player player = event.getPlayer();
+        if (Command_vanish.VANISHED.contains(player))
         {
-            Command_vanish.vanished.remove(player);
+            Command_vanish.VANISHED.remove(player);
         }
     }
 
@@ -227,7 +225,7 @@ public class EssentialsBridge extends FreedomService
     {
         try
         {
-            final Essentials essentials = this.getEssentialsPlugin();
+            Essentials essentials = getEssentialsPlugin();
             if (essentials != null)
             {
                 return essentials.isEnabled();
