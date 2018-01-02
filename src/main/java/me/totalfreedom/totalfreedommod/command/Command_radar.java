@@ -21,7 +21,7 @@ public class Command_radar extends FreedomCommand
     {
         Location playerSenderos = playerSender.getLocation();
 
-        List<TFM_RadarData> radar_data = new ArrayList<>();
+        List<RadarData> radar_data = new ArrayList<>();
 
         for (Player player : playerSenderos.getWorld().getPlayers())
         {
@@ -29,7 +29,7 @@ public class Command_radar extends FreedomCommand
             {
                 try
                 {
-                    radar_data.add(new TFM_RadarData(player, playerSenderos.distance(player.getLocation()), player.getLocation()));
+                    radar_data.add(new RadarData(player, playerSenderos.distance(player.getLocation()), player.getLocation()));
                 }
                 catch (IllegalArgumentException ex)
                 {
@@ -43,7 +43,7 @@ public class Command_radar extends FreedomCommand
             return true;
         }
 
-        Collections.sort(radar_data, new TFM_RadarData());
+        Collections.sort(radar_data, new RadarData());
 
         msg("People nearby in " + playerSenderos.getWorld().getName() + ":", ChatColor.YELLOW);
 
@@ -59,7 +59,7 @@ public class Command_radar extends FreedomCommand
             }
         }
 
-        for (TFM_RadarData i : radar_data)
+        for (RadarData i : radar_data)
         {
             msg(String.format("%s - %d",
                     i.player.getName(),
@@ -74,26 +74,26 @@ public class Command_radar extends FreedomCommand
         return true;
     }
 
-    private class TFM_RadarData implements Comparator<TFM_RadarData>
+    private class RadarData implements Comparator<RadarData>
     {
 
         public Player player;
         public double distance;
         public Location location;
 
-        public TFM_RadarData(Player player, double distance, Location location)
+        public RadarData(Player player, double distance, Location location)
         {
             this.player = player;
             this.distance = distance;
             this.location = location;
         }
 
-        public TFM_RadarData()
+        public RadarData()
         {
         }
 
         @Override
-        public int compare(TFM_RadarData t1, TFM_RadarData t2)
+        public int compare(RadarData t1, RadarData t2)
         {
             if (t1.distance > t2.distance)
             {

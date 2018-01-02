@@ -358,7 +358,7 @@ public class AdminList extends FreedomService
 
             if (verbose)
             {
-                FUtil.adminAction("TotalFreedomMod", "Deactivating superadmin " + admin.getName() + ", inactive for " + lastLoginHours + " hours", true);
+                FUtil.adminAction("TotalFreedomMod", "Deactivating admin " + admin.getName() + ", inactive for " + lastLoginHours + " hours", true);
             }
 
             admin.setActive(false);

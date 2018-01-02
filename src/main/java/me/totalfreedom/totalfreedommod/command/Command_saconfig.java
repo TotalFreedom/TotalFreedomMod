@@ -29,7 +29,7 @@ public class Command_saconfig extends FreedomCommand
         {
             case "list":
             {
-                msg("Superadmins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
+                msg("Admins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
 
                 return true;
             }
@@ -41,7 +41,7 @@ public class Command_saconfig extends FreedomCommand
 
                 FUtil.adminAction(sender.getName(), "Cleaning admin list", true);
                 plugin.al.deactivateOldEntries(true);
-                msg("Superadmins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
+                msg("Admins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
 
                 return true;
             }
@@ -124,7 +124,7 @@ public class Command_saconfig extends FreedomCommand
 
                 if (admin == null)
                 {
-                    msg("Superadmin not found: " + args[1]);
+                    msg("Admin not found: " + args[1]);
                 }
                 else
                 {
@@ -220,7 +220,7 @@ public class Command_saconfig extends FreedomCommand
 
                 if (admin == null)
                 {
-                    msg("Superadmin not found: " + args[1]);
+                    msg("Admin not found: " + args[1]);
                     return true;
                 }
 

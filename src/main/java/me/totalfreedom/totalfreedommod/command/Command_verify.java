@@ -65,7 +65,7 @@ public class Command_verify extends FreedomCommand
             {
                 plugin.dc.VERIFY_CODES.remove(code);
                 FUtil.bcastMsg(playerSender.getName() + " has verified themself!", ChatColor.GOLD);
-                FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Readding " + admin.getName() + " to the staff list", true);
+                FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Readding " + admin.getName() + " to the admin list", true);
                 if (playerSender != null)
                 {
                     admin.setName(playerSender.getName());

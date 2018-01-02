@@ -13,10 +13,13 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.HTTPSession;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
 import me.totalfreedom.totalfreedommod.httpd.module.HTTPDModule;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_admins;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_bans;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_dump;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_file;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_help;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_list;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_logfile;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_logs;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_permbans;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_players;
@@ -24,6 +27,7 @@ import me.totalfreedom.totalfreedommod.httpd.module.Module_schematic;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.io.FilenameUtils;
 
 public class HTTPDaemon extends FreedomService
 {
@@ -53,10 +57,13 @@ public class HTTPDaemon extends FreedomService
 
         // Modules
         modules.clear();
+        module("admins", Module_admins.class, true);
+        module("bans", Module_bans.class, true);
         module("dump", Module_dump.class, true);
         module("file", Module_file.class, true);
         module("help", Module_help.class, false);
         module("list", Module_list.class, false);
+        module("logfile", Module_logfile.class, true);
         module("logs", Module_logs.class, true);
         module("permbans", Module_permbans.class, true);
         module("players", Module_players.class, false);
@@ -159,6 +166,12 @@ public class HTTPDaemon extends FreedomService
                 if (mimetype == null || mimetype.trim().isEmpty())
                 {
                     mimetype = MIME_DEFAULT_BINARY;
+                }
+                
+                // Some browsers like firefox download the file for text/yaml mime types
+                if (FilenameUtils.getExtension(file.getName()).equals("yml"))
+                {
+                    mimetype = NanoHTTPD.MIME_PLAINTEXT;
                 }
 
                 response = new Response(Response.Status.OK, mimetype, new FileInputStream(file));

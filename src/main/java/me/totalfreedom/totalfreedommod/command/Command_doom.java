@@ -38,12 +38,14 @@ public class Command_doom extends FreedomCommand
 
         final String ip = player.getAddress().getAddress().getHostAddress().trim();
 
-        // Remove from superadmin
+        // Remove from admin
         Admin admin = getAdmin(player);
         if (admin != null)
         {
-            FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the superadmin list", true);
-            plugin.al.removeAdmin(admin);
+            FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the admin list", true);
+            admin.setActive(false);
+            plugin.al.save();
+            plugin.al.updateTables();
         }
 
         // Remove from whitelist
