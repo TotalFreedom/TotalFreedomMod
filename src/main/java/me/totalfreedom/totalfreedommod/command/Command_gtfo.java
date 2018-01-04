@@ -6,7 +6,6 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import static org.bukkit.Bukkit.getServer;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -15,7 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Makes someone GTFO (deop and ip ban by username).", usage = "/<command> <partialname>")
+@CommandParameters(description = "Makes someone GTFO (deop and ip ban by username).", usage = "/<command> <partialname> [reason] [-nrb]")
 public class Command_gtfo extends FreedomCommand
 {
 
@@ -36,32 +35,47 @@ public class Command_gtfo extends FreedomCommand
         }
 
         String reason = null;
+        Boolean cancelRollback = false;
         if (args.length >= 2)
         {
-            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+            if (args[args.length - 1].equals("-nrb"))
+            {
+                cancelRollback = true;
+                if (args.length >= 3)
+                {
+                    reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
+                }
+            }
+            else
+            {
+                reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+            }
         }
 
         FUtil.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
 
         //checks if there is CoreProtect loaded and installed , if not it skips the rollback and uses coreprotect directly
-        if (!getServer().getPluginManager().isPluginEnabled("CoreProtect"))
+        if (!cancelRollback)
         {
-            // Undo WorldEdits
-            try
+            if (!server.getPluginManager().isPluginEnabled("CoreProtect"))
             {
-                plugin.web.undo(player, 15);
+                // Undo WorldEdits
+                try
+                {
+                    plugin.web.undo(player, 15);
+                }
+                catch (NoClassDefFoundError ex)
+                {
+                }
+
+                // Rollback
+                plugin.rb.rollback(player.getName());
+
             }
-            catch (NoClassDefFoundError ex)
+            else
             {
+                plugin.cpb.rollback(player.getName());
             }
-
-            // Rollback
-            plugin.rb.rollback(player.getName());
-
-        }
-        else
-        {
-            plugin.cpb.rollback(player.getName());
         }
 
         // Deop
@@ -101,13 +115,14 @@ public class Command_gtfo extends FreedomCommand
         FUtil.bcastMsg(bcast.toString());
 
         // Ban player
-        plugin.bm.addBan(Ban.forPlayerFuzzy(player, sender, null, reason));
+        Ban ban = Ban.forPlayerFuzzy(player, sender, null, reason);
+        plugin.bm.addBan(ban);
 
         // Kill player
         player.setHealth(0.0);
 
         // Kick player
-        player.kickPlayer(ChatColor.RED + "GTFO");
+        player.kickPlayer(ban.bakeKickMessage());
 
         return true;
     }
