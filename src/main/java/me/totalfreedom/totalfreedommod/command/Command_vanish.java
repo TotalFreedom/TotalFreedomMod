@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.Iterator;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import org.bukkit.potion.PotionEffect;
@@ -9,7 +8,6 @@ import org.bukkit.potion.PotionEffectType;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -57,7 +55,7 @@ public class Command_vanish extends FreedomCommand
                 player.hidePlayer(playerSender);
             }
             plugin.esb.setVanished(playerSender.getName(), true);
-            playerSender.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 1000000, true, false));
+            playerSender.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 1, false, true));
             VANISHED.add(playerSender);
         }
         return true;

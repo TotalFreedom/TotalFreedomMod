@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod;
 
 import java.text.DecimalFormat;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ public class Monitors extends FreedomService
 {
 
     private final DecimalFormat decimalFormat = new DecimalFormat("#");
+    private String potionSpyPrefix = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "PotionSpy" + ChatColor.DARK_GRAY + "] ";
 
     public Monitors(TotalFreedomMod plugin)
     {
@@ -33,10 +35,10 @@ public class Monitors extends FreedomService
 
     public String getMaterial(final int id)
     {
-        return String.valueOf(Material.getMaterial(id));
+        return String.valueOf(Material.getMaterial(id)).replace("_", " ").toLowerCase();
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onLingeringPotionSplash(LingeringPotionSplashEvent event)
     {
         ProjectileSource source = event.getEntity().getShooter();
@@ -58,12 +60,12 @@ public class Monitors extends FreedomService
         {
             if (plugin.al.isAdmin(p) && plugin.pl.getPlayer(p).isPotionMonitorEnabled())
             {
-                FUtil.playerMsg(p, player.getName() + " splashed " + event.getEntity().getItem().getAmount() + " " + getMaterial(droppedItem) + " at [" + decimalFormat.format(location.getX()) + ", " + decimalFormat.format(location.getY()) + ", " + decimalFormat.format(location.getZ()) + "] in the world '" + location.getWorld().getName() + "'.");
+                FUtil.playerMsg(p, potionSpyPrefix + ChatColor.WHITE + player.getName() + " splashed " + event.getEntity().getItem().getAmount() + " " + getMaterial(droppedItem) + " at X: " + decimalFormat.format(location.getX()) + ", Y: " + decimalFormat.format(location.getY()) + ", Z: " + decimalFormat.format(location.getZ()) + ", in the world '" + location.getWorld().getName() + "'.");
             }
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPotionSplash(PotionSplashEvent event)
     {
         ProjectileSource source = event.getEntity().getShooter();
@@ -85,7 +87,7 @@ public class Monitors extends FreedomService
         {
             if (plugin.al.isAdmin(p) && plugin.pl.getPlayer(p).isPotionMonitorEnabled())
             {
-                FUtil.playerMsg(p, player.getName() + " splashed " + event.getPotion().getItem().getAmount() + " " + getMaterial(droppedItem) + " at [" + decimalFormat.format(location.getX()) + ", " + decimalFormat.format(location.getY()) + ", " + decimalFormat.format(location.getZ()) + "] in the world '" + location.getWorld().getName() + "'.");
+                FUtil.playerMsg(p, potionSpyPrefix + ChatColor.WHITE + player.getName() + " splashed " + event.getEntity().getItem().getAmount() + " " + getMaterial(droppedItem) + " at X: " + decimalFormat.format(location.getX()) + ", Y: " + decimalFormat.format(location.getY()) + ", Z: " + decimalFormat.format(location.getZ()) + ", in the world '" + location.getWorld().getName() + "'.");
             }
         }
     }

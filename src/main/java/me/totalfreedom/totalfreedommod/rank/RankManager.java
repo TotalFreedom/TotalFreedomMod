@@ -55,21 +55,13 @@ public class RankManager extends FreedomService
             return Title.DEVELOPER;
         }
 
-        final Rank rank = getRank(player);
-
-        // Non-admins don't have titles, display actual rank
-        if (!rank.isAdmin())
-        {
-            return rank;
-        }
-
         // If the player's an owner, display that
         if (ConfigEntry.SERVER_OWNERS.getList().contains(player.getName()))
         {
             return Title.OWNER;
         }
 
-        return rank;
+        return getRank(player);
     }
 
     public Rank getRank(CommandSender sender)
@@ -120,6 +112,26 @@ public class RankManager extends FreedomService
         return player.isOp() ? Rank.OP : Rank.NON_OP;
     }
 
+    public void updateDisplay(Player player)
+    {
+        FPlayer fPlayer = plugin.pl.getPlayer(player);
+        if (plugin.al.isAdmin(player))
+        {
+            Displayable display = getDisplay(player);
+            if (fPlayer.getTag() == null)
+            {
+                fPlayer.setTag(display.getColoredTag());
+            }
+            String displayName = display.getColor() + player.getName();
+            player.setPlayerListName(StringUtils.substring(displayName, 0, 16));
+        }
+        else
+        {
+            fPlayer.setTag(null);
+            player.setPlayerListName(null);
+        }
+    }
+
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
@@ -145,10 +157,13 @@ public class RankManager extends FreedomService
         }
 
         // Handle impostors
-        if (plugin.al.isAdminImpostor(player))
+        Boolean isImposter = plugin.al.isAdminImpostor(player);
+        if (isImposter)
         {
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
             FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor and has been frozen!", ChatColor.RED);
+            String displayName = Rank.IMPOSTOR.getColor() + player.getName();
+            player.setPlayerListName(StringUtils.substring(displayName, 0, 16));
             player.getInventory().clear();
             player.setOp(false);
             player.setGameMode(GameMode.SURVIVAL);

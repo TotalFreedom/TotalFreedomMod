@@ -75,6 +75,7 @@ public class Command_verify extends FreedomCommand
                 admin.setLastLogin(new Date());
                 plugin.al.save();
                 plugin.al.updateTables();
+                plugin.rm.updateDisplay(playerSender);
                 final FPlayer fPlayer = plugin.pl.getPlayer(playerSender);
                 if (fPlayer.getFreezeData().isFrozen())
                 {

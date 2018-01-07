@@ -6,6 +6,7 @@ import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.command.Command_vanish;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -110,11 +111,10 @@ public class LoginProcess extends FreedomService
         }
 
         // Check if player is admin
-        // Not safe to use TFM_Util.isSuperAdmin(player) because player.getAddress() will return a null until after player login.
         final boolean isAdmin = plugin.al.getEntryByIp(ip) != null;
 
         // Validation below this point
-        if (isAdmin) // Player is superadmin
+        if (isAdmin) // Player is admin
         {
             // Force-allow log in
             event.allow();
@@ -168,21 +168,26 @@ public class LoginProcess extends FreedomService
             return;
         }
 
-//        // Whitelist
-//        if (plugin.si.isWhitelisted())
-//        {
-//            if (!plugin.si.getWhitelisted().contains(username.toLowerCase()))
-//            {
-//                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "You are not whitelisted on this server.");
-//                return;
-//            }
-//        }
+        // Whitelist
+        if (plugin.si.isWhitelisted())
+        {
+            if (!plugin.si.getWhitelisted().contains(username.toLowerCase()))
+            {
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "You are not whitelisted on this server.");
+                return;
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         final Player player = event.getPlayer();
+
+        for (Player p : Command_vanish.VANISHED)
+        {
+            player.hidePlayer(p);
+        }
 
         new BukkitRunnable()
         {

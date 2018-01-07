@@ -174,6 +174,7 @@ public class Command_saconfig extends FreedomCommand
 
                     FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the admin list", true);
                     plugin.al.addAdmin(new Admin(player));
+                    plugin.rm.updateDisplay(player);
                 }
                 else // Existing admin
                 {
@@ -190,6 +191,7 @@ public class Command_saconfig extends FreedomCommand
 
                     plugin.al.save();
                     plugin.al.updateTables();
+                    plugin.rm.updateDisplay(player);
                 }
 
                 if (player != null)
@@ -228,6 +230,7 @@ public class Command_saconfig extends FreedomCommand
                 admin.setActive(false);
                 plugin.al.save();
                 plugin.al.updateTables();
+                plugin.rm.updateDisplay(player);
                 return true;
             }
 
