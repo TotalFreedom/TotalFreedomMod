@@ -35,6 +35,7 @@ public class GameRuleHandler extends FreedomService
         setGameRule(GameRule.MOB_GRIEFING, false, false);
         setGameRule(GameRule.COMMAND_BLOCK_OUTPUT, false);
         setGameRule(GameRule.NATURAL_REGENERATION, true, false);
+        setGameRule(GameRule.KEEP_INVENTORY, true, false);
         commitGameRules();
     }
 
