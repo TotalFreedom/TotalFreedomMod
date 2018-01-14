@@ -54,10 +54,6 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <!--        <repository>
-            <id>elmakers-repo</id>
-            <url>http://maven.elmakers.com/repository/</url>
-        </repository>-->
         <repository>
             <id>sk89q-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
@@ -86,22 +82,24 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
+            <version>1.16.20</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12-pre5-SNAPSHOT</version>
-            <scope>provided</scope>
+            <version>1.12.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/spigot-1.12.2.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.github.Pravian</groupId>
             <artifactId>Aero</artifactId>
             <version>2.1-SNAPSHOT</version>
-            <scope>provided</scope>  
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/aero-2.1-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -117,53 +115,52 @@
             <version>2.13.1</version>
             <scope>provided</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>com.sk89q</groupId>
             <artifactId>worldguard</artifactId>
             <version>6.2</version>
-            <scope>provided</scope> 
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/worldguard-6.2.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>6.1.0-TF</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
-            <artifactId>worldedit-core</artifactId>
-            <version>6.1.0-TF</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/TF-WorldEdit.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>net.coreprotect</groupId>
             <artifactId>CoreProtect</artifactId>
             <version>2.14.2</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CoreProtect_2.14.2.jar</systemPath>
         </dependency>
-    		   
+
         <dependency>
             <groupId>me.libraryaddict</groupId>
             <artifactId>LibsDisguise</artifactId>
             <version>9.4.0-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>	
+        </dependency>
 
         <dependency>
-            <groupId>minecraft.server</groupId>
-            <artifactId>Spigot</artifactId>
-            <version>1.12</version>
-            <scope>provided</scope>
+            <groupId>org.spigot</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.12.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/spigot-1.12.2.jar</systemPath>
         </dependency>
-        
+
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>3.4.0_317-withDependencies</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/JDA-3.4.0_317-withDependencies.jar</systemPath>
         </dependency>
 
     </dependencies>
@@ -191,7 +188,7 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-            
+
             <!-- Antrun -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -301,7 +298,7 @@
                     </items>
                 </configuration>
             </plugin>
-            
+
             <!-- Maven jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -311,9 +308,9 @@
                     <outputDirectory>target/generated-sources</outputDirectory>
                 </configuration>
             </plugin>
-            
+
             <!-- Maven shade -->
-           <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>1.4</version>

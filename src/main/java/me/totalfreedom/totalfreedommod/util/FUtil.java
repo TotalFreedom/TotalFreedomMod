@@ -420,4 +420,11 @@ public class FUtil
         String packageName = Bukkit.getServer().getClass().getPackage().getName();
         return packageName.substring(packageName.lastIndexOf('.') + 1);
     }
+
+    public static int random(int min, int max)
+    {
+        int range = max - min + 1;
+        int value = (int) (Math.random() * range) + min;
+        return value;
+    }
 }
