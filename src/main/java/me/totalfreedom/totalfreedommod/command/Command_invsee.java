@@ -9,7 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = " Look into another player's inventory, optionally take items out.", usage = "/<command> <player> [offhand, armor]", aliases = "inv,insee")
+@CommandParameters(description = " Look into another player's inventory, optionally take items out.", usage = "/<command> <player> [offhand | armor]", aliases = "inv,insee")
 public class Command_invsee extends FreedomCommand
 {
 
