@@ -1,36 +1,17 @@
 package me.totalfreedom.totalfreedommod;
 
-import me.totalfreedom.totalfreedommod.fun.Trailer;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.banning.PermbanList;
-import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
-import me.totalfreedom.totalfreedommod.blocking.EditBlocker;
-import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
-import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
-import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
-import me.totalfreedom.totalfreedommod.blocking.PVPBlocker;
-import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
-import me.totalfreedom.totalfreedommod.blocking.SignBlocker;
+import me.totalfreedom.totalfreedommod.blocking.*;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
-import me.totalfreedom.totalfreedommod.bridge.CoreProtectBridge;
-import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
-import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
-import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
-import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
+import me.totalfreedom.totalfreedommod.bridge.*;
 import me.totalfreedom.totalfreedommod.caging.Cager;
 import me.totalfreedom.totalfreedommod.command.CommandLoader;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.discord.Discord;
 import me.totalfreedom.totalfreedommod.freeze.Freezer;
-import me.totalfreedom.totalfreedommod.fun.ItemFun;
-import me.totalfreedom.totalfreedommod.fun.Jumppads;
-import me.totalfreedom.totalfreedommod.fun.Landminer;
-import me.totalfreedom.totalfreedommod.fun.MP44;
+import me.totalfreedom.totalfreedommod.fun.*;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
@@ -46,6 +27,11 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mcstats.Metrics;
 import org.spigotmc.SpigotConfig;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 {
@@ -116,6 +102,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public LibsDisguisesBridge ldb;
     public CoreProtectBridge cpb;
     public WorldEditBridge web;
+    public WorldGuardBridge wgb;
 
     @Override
     public void load()
@@ -225,6 +212,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         esb = bridges.registerService(EssentialsBridge.class);
         ldb = bridges.registerService(LibsDisguisesBridge.class);
         web = bridges.registerService(WorldEditBridge.class);
+        wgb = bridges.registerService(WorldGuardBridge.class);
         bridges.start();
 
         timer.update();

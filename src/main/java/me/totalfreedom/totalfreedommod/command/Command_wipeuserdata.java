@@ -1,15 +1,14 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.io.File;
-import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
-import static org.bukkit.Bukkit.getServer;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.io.File;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
 @CommandParameters(description = "Removes essentials playerdata", usage = "/<command>")
@@ -25,13 +24,13 @@ public class Command_wipeuserdata extends FreedomCommand
             return true;
         }
 
-        FUtil.adminAction(sender.getName(), "Wiping Essentials and Worlds playerdata", true);
+        FUtil.adminAction(sender.getName(), "Wiping Essentials and worlds playerdata", true);
 
         for (World w : Bukkit.getWorlds())
         {
-            if (w.getName().equals(plugin.wm.adminworld.getWorld()))
+            if (w.getName().equals(plugin.wm.adminworld.getWorld().getName()))
             {
-                return true;
+                continue;
             }
 
             FUtil.deleteFolder(new File(server.getPluginManager().getPlugin("Essentials").getDataFolder(), "userdata"));

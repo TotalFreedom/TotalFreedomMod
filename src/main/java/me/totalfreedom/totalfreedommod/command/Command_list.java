@@ -1,19 +1,20 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import java.util.List;
-import org.bukkit.ChatColor;
 import org.apache.commons.lang3.StringUtils;
-import java.util.ArrayList;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f]", aliases = "who")
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f | -v]", aliases = "who")
 public class Command_list extends FreedomCommand
 {
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole) {
@@ -23,15 +24,15 @@ public class Command_list extends FreedomCommand
         }
         if (FUtil.isFromHostConsole(sender.getName()))
         {
-            List<String> names = new ArrayList<String>();
+            List<String> names = new ArrayList<>();
             for (Player player : server.getOnlinePlayers())
             {
                 names.add(player.getName());
             }
-            msg("There are " + names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join((Iterable)names, ", "), ChatColor.WHITE);
+            msg("There are " + names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "), ChatColor.WHITE);
             return true;
         }
-        ListFilter listFilter = null;
+        ListFilter listFilter;
         if (args.length == 1)
         {
             String s = args[0];
@@ -44,6 +45,7 @@ public class Command_list extends FreedomCommand
                 }
                 case "-v":
                 {
+                    checkRank(Rank.SUPER_ADMIN);
                     listFilter = ListFilter.VANISHED_ADMINS;
                     break;
                 }
@@ -76,7 +78,7 @@ public class Command_list extends FreedomCommand
                 .append(server.getMaxPlayers())
                 .append(ChatColor.BLUE)
                 .append(" players online.");
-        List<String> n = new ArrayList<String>();
+        List<String> n = new ArrayList<>();
         for (Player p : server.getOnlinePlayers())
         {
             if (listFilter == ListFilter.ADMINS && !plugin.al.isAdmin(p))
@@ -91,7 +93,7 @@ public class Command_list extends FreedomCommand
             {
                 continue;
             }
-            if (listFilter == ListFilter.IMPOSTORS && plugin.al.isAdminImpostor(p))
+            if (listFilter == ListFilter.IMPOSTORS && !plugin.al.isAdminImpostor(p))
             {
                 continue;
             }
@@ -106,10 +108,11 @@ public class Command_list extends FreedomCommand
             final Displayable display = plugin.rm.getDisplay(p);
             n.add(display.getColoredTag() + p.getName());
         }
-        String playerType = (listFilter == null) ? "players" : listFilter.toString().toLowerCase().replace('_', ' ');
+        String playerType = listFilter.toString().toLowerCase().replace('_', ' ');
         onlineUsers.append("Connected ")
-                .append(playerType + ": ")
-                .append(StringUtils.join((Iterable)n, ChatColor.WHITE + ", "));
+                .append(playerType)
+                .append(": ")
+                .append(StringUtils.join(n, ChatColor.WHITE + ", "));
         if (senderIsConsole)
         {
             sender.sendMessage(ChatColor.stripColor(onlineStats.toString()));
@@ -130,6 +133,6 @@ public class Command_list extends FreedomCommand
         ADMINS, 
         VANISHED_ADMINS, 
         FAMOUS_PLAYERS, 
-        IMPOSTORS;
+        IMPOSTORS
     }
 }

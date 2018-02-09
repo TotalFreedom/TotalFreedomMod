@@ -142,9 +142,9 @@
 
         <dependency>
             <groupId>me.libraryaddict</groupId>
-            <artifactId>LibsDisguise</artifactId>
-            <version>9.4.0-SNAPSHOT</version>
-            <scope>provided</scope>
+            <artifactId>LibsDisguises</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/LibsDisguises.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -158,9 +158,9 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>3.4.0_317-withDependencies</version>
+            <version>3.5.0_327-withDependencies</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JDA-3.4.0_317-withDependencies.jar</systemPath>
+            <systemPath>${project.basedir}/lib/JDA-3.5.0_327-withDependencies.jar</systemPath>
         </dependency>
 
     </dependencies>

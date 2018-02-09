@@ -1,47 +1,26 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import com.sk89q.worldguard.bukkit.RegionContainer;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import java.util.Map;
+
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 @CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Wipe all WorldGuard regions for a specified world.", usage = "/<command> <world>", aliases = "wiperegions")
-public class Command_wiperegions extends FreedomCommand
-{
-
-    public WorldGuardPlugin getWorldGuard()
-    {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
-
-        if (plugin == null || !(plugin instanceof WorldGuardPlugin))
-        {
-            return null;
-        }
-
-        return (WorldGuardPlugin) plugin;
-    }
+public class Command_wiperegions extends FreedomCommand {
 
     @Override
-    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
-    {
-        if (getWorldGuard() == null)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
+        if (!plugin.wgb.isPluginEnabled())
         {
-            msg("WorldGuard is not installed.", ChatColor.GRAY);
+            msg("WorldGuard is not enabled.", ChatColor.GRAY);
             return true;
         }
-        if (args.length != 1)
-        {
+        if (args.length != 1) {
             return false;
         }
         World world = server.getWorld(args[0]);
@@ -50,20 +29,12 @@ public class Command_wiperegions extends FreedomCommand
             msg("World : \"" + args[0] + "\" not found.", ChatColor.GRAY);
             return true;
         }
-        if (world.equals(plugin.wm.adminworld.getWorld()) && !plugin.rm.getRank(sender).isAtLeast(Rank.SENIOR_ADMIN))
+        if (world.equals(plugin.wm.adminworld.getWorld()))
         {
-            msg("You do not have permission to wipe adminworld.", ChatColor.RED);
-            return true;
+            checkRank(Rank.SENIOR_ADMIN);
         }
-        RegionContainer container = getWorldGuard().getRegionContainer();
-        RegionManager rm = container.get(world);
-        if (rm != null)
+        if (plugin.wgb.wipeRegions(world))
         {
-            Map<String, ProtectedRegion> regions = rm.getRegions();
-            for (ProtectedRegion region : regions.values())
-            {
-                rm.removeRegion(region.getId());
-            }
             FUtil.adminAction(sender.getName(), "Wiping regions for world: " + world.getName(), true);
             return true;
         }
@@ -73,5 +44,4 @@ public class Command_wiperegions extends FreedomCommand
             return true;
         }
     }
-
 }
