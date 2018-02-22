@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage my admin entry", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin>")
+@CommandParameters(description = "Manage my admin entry", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin | settag <tag> | cleartag>")
 public class Command_myadmin extends FreedomCommand
 {
 
@@ -155,6 +155,27 @@ public class Command_myadmin extends FreedomCommand
             {
                 FUtil.adminAction(sender.getName(), "Clearing personal login message" + (init == null ? "" : " for " + targetPlayer.getName()), false);
                 target.setLoginMessage(null);
+                plugin.al.save();
+                plugin.al.updateTables();
+                return true;
+            }
+
+            case "settag":
+            {
+                FUtil.adminAction(sender.getName(), "Setting personal default tag" + (init == null ? "" : " for " + targetPlayer.getName()), false);
+                String tag = StringUtils.join(args, " ", 1, args.length);
+                target.setTag(tag);
+                msg((init == null ? "Your" : targetPlayer.getName() + "'s") + " default tag is now: " + FUtil.colorize(target.getTag()));
+                plugin.al.save();
+                plugin.al.updateTables();
+                return true;
+            }
+
+            case "cleartag":
+            {
+                FUtil.adminAction(sender.getName(), "Clearing personal default tag" + (init == null ? "" : " for " + targetPlayer.getName()), false);
+                String tag = StringUtils.join(args, " ", 1, args.length);
+                target.setTag(null);
                 plugin.al.save();
                 plugin.al.updateTables();
                 return true;

@@ -43,6 +43,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String discordID = null;
+    @Getter
+    @Setter
+    private String tag = null;
 
     public static final String CONFIG_FILENAME = "admins.yml";
 
@@ -69,7 +72,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")
                 .append("- Rank: ").append(rank.getName()).append("\n")
                 .append("- Is Active: ").append(active).append("\n")
-                .append("- Discord ID: ").append(discordID).append("\n");
+                .append("- Discord ID: ").append(discordID).append("\n")
+                .append("- Tag: ").append(tag);
 
         return output.toString();
     }
@@ -93,6 +97,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         loginMessage = cs.getString("login_message", null);
         discordID = cs.getString("discord_id", null);
+        tag = cs.getString("tag", null);
     }
 
     @Override
@@ -106,6 +111,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
         cs.set("discord_id", discordID);
+        cs.set("tag", tag);
     }
 
     public boolean isAtLeast(Rank pRank)

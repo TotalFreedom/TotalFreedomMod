@@ -114,6 +114,10 @@ public class RankManager extends FreedomService
 
     public void updateDisplay(Player player)
     {
+        if (!player.isOnline())
+        {
+            return;
+        }
         FPlayer fPlayer = plugin.pl.getPlayer(player);
         if (plugin.al.isAdmin(player))
         {
@@ -189,6 +193,15 @@ public class RankManager extends FreedomService
 
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + loginMsg);
             plugin.pl.getPlayer(player).setTag(display.getColoredTag());
+
+            if (isAdmin)
+            {
+                Admin admin = plugin.al.getAdmin(player);
+                if (admin.getTag() != null)
+                {
+                    plugin.pl.getPlayer(player).setTag(FUtil.colorize(admin.getTag()));
+                }
+            }
 
             String displayName = display.getColor() + player.getName();
             try

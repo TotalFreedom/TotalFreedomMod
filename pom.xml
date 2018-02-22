@@ -158,9 +158,9 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>3.5.0_327-withDependencies</version>
+            <version>3.5.1_339-withDependencies</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JDA-3.5.0_327-withDependencies.jar</systemPath>
+            <systemPath>${project.basedir}/lib/JDA-3.5.1_339-withDependencies.jar</systemPath>
         </dependency>
 
     </dependencies>
