@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.admin.AdminList;
+import me.totalfreedom.totalfreedommod.amp.AMP;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.banning.PermbanList;
 import me.totalfreedom.totalfreedommod.blocking.*;
@@ -103,6 +104,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public CoreProtectBridge cpb;
     public WorldEditBridge web;
     public WorldGuardBridge wgb;
+    public AMP amp;
 
     @Override
     public void load()
@@ -213,6 +215,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         ldb = bridges.registerService(LibsDisguisesBridge.class);
         web = bridges.registerService(WorldEditBridge.class);
         wgb = bridges.registerService(WorldGuardBridge.class);
+        amp = bridges.registerService(AMP.class);
         bridges.start();
 
         timer.update();

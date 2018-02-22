@@ -351,3 +351,10 @@ overlord_ips:
   
 # Blocked Chat Codes - Use &code,&code2,&code3 (No spaces)
 blocked_chatcodes: '&0,&k,&m,&n'
+
+# AMP Integration, used to restart server (optional, without it, have to start server manually after stop)
+amp:
+  enabled: false
+  username: username
+  password: password
+  url: url

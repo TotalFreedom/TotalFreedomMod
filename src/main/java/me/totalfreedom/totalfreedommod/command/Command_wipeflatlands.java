@@ -27,7 +27,14 @@ public class Command_wipeflatlands extends FreedomCommand
 
         if (!plugin.cpb.isEnabled())
         {
-            server.shutdown();
+            if(!plugin.amp.enabled)
+            {
+                server.shutdown();
+            }
+            else
+            {
+                plugin.amp.restartServer();
+            }
         }
         else
         {

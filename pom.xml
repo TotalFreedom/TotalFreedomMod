@@ -144,6 +144,7 @@
             <groupId>me.libraryaddict</groupId>
             <artifactId>LibsDisguises</artifactId>
             <scope>system</scope>
+            <version>9.4.0-SNAPSHOT</version>
             <systemPath>${project.basedir}/lib/LibsDisguises.jar</systemPath>
         </dependency>
 

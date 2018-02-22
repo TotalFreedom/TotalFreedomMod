@@ -1,7 +1,8 @@
 package me.totalfreedom.totalfreedommod.config;
 
-import java.util.List;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+
+import java.util.List;
 
 public enum ConfigEntry
 {
@@ -95,7 +96,12 @@ public enum ConfigEntry
     OVERLORD_IPS(List.class, "overlord_ips"),
     NOADMIN_IPS(List.class, "noadmin_ips"),
     ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
-    AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe");
+    AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
+    //
+    AMP_ENABLED(Boolean.class, "amp.enabled"),
+    AMP_USERNAME(String.class, "amp.username"),
+    AMP_PASSWORD(String.class, "amp.password"),
+    AMP_URL(String.class, "amp.url");
     //
     private final Class<?> type;
     private final String configName;

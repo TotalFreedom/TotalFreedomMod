@@ -2,26 +2,23 @@ package me.totalfreedom.totalfreedommod.bridge;
 
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.World;
-import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
 import java.io.File;
-import java.util.List;
+import java.sql.*;
 import java.util.Arrays;
-import me.totalfreedom.totalfreedommod.util.FUtil;
+import java.util.List;
 
 public class CoreProtectBridge extends FreedomService
 {
@@ -253,7 +250,14 @@ public class CoreProtectBridge extends FreedomService
         // This exits for flatlands wipes
         if (shutdown)
         {
-            server.shutdown();
+            if(plugin.amp.enabled)
+            {
+                plugin.amp.restartServer();
+            }
+            else
+            {
+                server.shutdown();
+            }
         }
     }
 }
