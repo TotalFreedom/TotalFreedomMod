@@ -63,10 +63,6 @@ public class FUtil
         }
     }
 
-    private FUtil()
-    {
-    }
-
     public static void cancel(BukkitTask task)
     {
         if (task == null)

@@ -22,7 +22,7 @@ public class Command_stop extends FreedomCommand
 
         if (args.length > 0)
         {
-            reason = StringUtils.join(args, " ", 0, args.length);
+            reason = StringUtils.join(args, " ");
         }
 
         for (Player player : server.getOnlinePlayers())
