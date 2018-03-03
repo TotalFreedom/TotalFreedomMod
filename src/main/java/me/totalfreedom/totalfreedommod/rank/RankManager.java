@@ -122,10 +122,7 @@ public class RankManager extends FreedomService
         if (plugin.al.isAdmin(player))
         {
             Displayable display = getDisplay(player);
-            if (fPlayer.getTag() == null)
-            {
-                fPlayer.setTag(display.getColoredTag());
-            }
+            fPlayer.setTag(display.getColoredTag());
             String displayName = display.getColor() + player.getName();
             player.setPlayerListName(StringUtils.substring(displayName, 0, 16));
         }

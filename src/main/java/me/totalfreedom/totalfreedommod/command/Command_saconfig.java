@@ -98,6 +98,12 @@ public class Command_saconfig extends FreedomCommand
                 admin.setRank(rank);
                 plugin.al.save();
 
+                Player player = getPlayer(admin.getName());
+                if (player != null)
+                {
+                    plugin.rm.updateDisplay(player);
+                }
+
                 msg("Set " + admin.getName() + "'s rank to " + rank.getName());
                 return true;
             }
@@ -174,7 +180,10 @@ public class Command_saconfig extends FreedomCommand
 
                     FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the admin list", true);
                     plugin.al.addAdmin(new Admin(player));
-                    plugin.rm.updateDisplay(player);
+                    if (player != null)
+                    {
+                        plugin.rm.updateDisplay(player);
+                    }
                 }
                 else // Existing admin
                 {
@@ -191,7 +200,10 @@ public class Command_saconfig extends FreedomCommand
 
                     plugin.al.save();
                     plugin.al.updateTables();
-                    plugin.rm.updateDisplay(player);
+                    if (player != null)
+                    {
+                        plugin.rm.updateDisplay(player);
+                    }
                 }
 
                 if (player != null)
@@ -201,6 +213,12 @@ public class Command_saconfig extends FreedomCommand
                     {
                         fPlayer.getFreezeData().setFrozen(false);
                         msg(player.getPlayer(), "You have been unfrozen.");
+                    }
+
+                    if (!player.isOp())
+                    {
+                        player.setOp(true);
+                        player.sendMessage(YOU_ARE_OP);
                     }
                 }
 
@@ -230,7 +248,10 @@ public class Command_saconfig extends FreedomCommand
                 admin.setActive(false);
                 plugin.al.save();
                 plugin.al.updateTables();
-                plugin.rm.updateDisplay(player);
+                if (player != null)
+                {
+                    plugin.rm.updateDisplay(player);
+                }
                 return true;
             }
 

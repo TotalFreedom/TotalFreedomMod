@@ -8,7 +8,7 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 public class AMP extends FreedomService
 {
     public AMPManager ampManager;
-    public Boolean enabled;
+    public Boolean enabled = false;
 
     public AMP(TotalFreedomMod plugin)
     {

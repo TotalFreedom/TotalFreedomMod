@@ -1,8 +1,11 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.punishments.Punishment;
+import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -65,7 +68,7 @@ public class Command_stfu extends FreedomCommand
 
         if (args[0].equals("all"))
         {
-            FUtil.adminAction(sender.getName(), "Muting all non-Superadmins", true);
+            FUtil.adminAction(sender.getName(), "Muting all non-admins", true);
 
             FPlayer playerdata;
             int counter = 0;
@@ -121,7 +124,7 @@ public class Command_stfu extends FreedomCommand
         {
             if (plugin.al.isAdmin(player))
             {
-                msg(player.getName() + " is a superadmin, and can't be muted.");
+                msg(player.getName() + " is an admin, and can't be muted.");
                 return true;
             }
 
@@ -133,8 +136,14 @@ public class Command_stfu extends FreedomCommand
                 Command_smite.smite(sender, player, reason);
             }
 
-            msg(player, "You have been muted.", ChatColor.RED);
+            msg(player, "You have been muted by " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
+            if (reason != null)
+            {
+                msg(player, "Reason: " + ChatColor.YELLOW + reason);
+            }
             msg("Muted " + player.getName());
+
+            plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.TEMPBAN, reason));
 
         }
 

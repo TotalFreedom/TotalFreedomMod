@@ -15,6 +15,7 @@ import me.totalfreedom.totalfreedommod.freeze.Freezer;
 import me.totalfreedom.totalfreedommod.fun.*;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
+import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -68,6 +69,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Announcer an;
     public ChatManager cm;
     public Discord dc;
+    public PunishmentList pul;
     public BanManager bm;
     public PermbanList pm;
     public ProtectArea pa;
@@ -169,6 +171,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         an = services.registerService(Announcer.class);
         cm = services.registerService(ChatManager.class);
         dc = services.registerService(Discord.class);
+        pul = services.registerService(PunishmentList.class);
         bm = services.registerService(BanManager.class);
         pm = services.registerService(PermbanList.class);
         pa = services.registerService(ProtectArea.class);

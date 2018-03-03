@@ -3,8 +3,11 @@ package me.totalfreedom.totalfreedommod.command;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.punishments.Punishment;
+import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Location;
@@ -71,6 +74,8 @@ public class Command_tempban extends FreedomCommand
         plugin.bm.addBan(Ban.forPlayer(player, sender, expires, reason));
 
         player.kickPlayer(sender.getName() + " - " + message.toString());
+
+        plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.TEMPBAN, reason));
 
         return true;
     }

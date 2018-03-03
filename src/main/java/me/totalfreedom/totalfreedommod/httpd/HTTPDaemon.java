@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.HTTPSession;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
 import me.totalfreedom.totalfreedommod.httpd.module.HTTPDModule;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_admins;
@@ -23,6 +22,7 @@ import me.totalfreedom.totalfreedommod.httpd.module.Module_logfile;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_logs;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_permbans;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_players;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_punishments;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_schematic;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +67,7 @@ public class HTTPDaemon extends FreedomService
         module("logs", Module_logs.class, true);
         module("permbans", Module_permbans.class, true);
         module("players", Module_players.class, false);
+        module("punishments", Module_punishments.class, true);
         module("schematic", Module_schematic.class, true);
 
         try

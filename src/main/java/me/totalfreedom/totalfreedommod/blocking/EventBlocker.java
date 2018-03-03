@@ -3,10 +3,7 @@ package me.totalfreedom.totalfreedommod.blocking;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -111,28 +108,9 @@ public class EventBlocker extends FreedomService
             event.setDroppedExp(0);
         }
     }
-    
-    //deprecated (buggy)
-
-  /*  @EventHandler(priority = EventPriority.HIGH)
-    public void onProjectileHit(ProjectileHitEvent event)
-    {
-        if (ConfigEntry.MAKE_ARROW_EXPLOSIVE.getBoolean())
-        {
-            Projectile entity = event.getEntity();
-            if (entity instanceof Projectile)
-            {
-                if (event.getEntityType() == EntityType.ARROW)
-                {
-                    entity.getWorld().createExplosion(entity.getLocation(), 2F);
-                }
-            }
-        }
-    }*/
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onEntityDamage(EntityDamageEvent event
-    )
+    public void onEntityDamage(EntityDamageEvent event)
     {
         switch (event.getCause())
         {
@@ -160,15 +138,14 @@ public class EventBlocker extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerDropItem(PlayerDropItemEvent event
-    )
+    public void onPlayerDropItem(PlayerDropItemEvent event)
     {
         if (!ConfigEntry.AUTO_ENTITY_WIPE.getBoolean())
         {
             return;
         }
 
-        if (event.getPlayer().getWorld().getEntities().size() > 750)
+        if (event.getPlayer().getWorld().getEntities().size() > 750 && !plugin.al.isAdmin(event.getPlayer()))
         {
             event.setCancelled(true);
         }
@@ -182,8 +159,7 @@ public class EventBlocker extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onFireworkExplode(final FireworkExplodeEvent event
-    )
+    public void onFireworkExplode(FireworkExplodeEvent event)
     {
         if (!ConfigEntry.ALLOW_FIREWORK_EXPLOSION.getBoolean())
         {
