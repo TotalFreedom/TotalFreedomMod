@@ -143,7 +143,7 @@ public class Command_stfu extends FreedomCommand
             }
             msg("Muted " + player.getName());
 
-            plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.TEMPBAN, reason));
+            plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.MUTE, reason));
 
         }
 
