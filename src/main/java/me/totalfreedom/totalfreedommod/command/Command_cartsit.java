@@ -38,7 +38,7 @@ public class Command_cartsit extends FreedomCommand
         }
         else if (targetPlayer != playerSender && !isAdmin(sender))
         {
-            sender.sendMessage("Only superadmins can select another player as a /cartsit target.");
+            sender.sendMessage("Only admins can select another player as a /cartsit target.");
             return true;
         }
 
@@ -69,11 +69,11 @@ public class Command_cartsit extends FreedomCommand
 
             if (nearest_cart != null)
             {
-                nearest_cart.setPassenger(targetPlayer);
+                nearest_cart.addPassenger(targetPlayer);
             }
             else
             {
-                sender.sendMessage("There are no empty minecarts in the target world.");
+                msg("There are no empty minecarts in the target world.");
             }
         }
 
