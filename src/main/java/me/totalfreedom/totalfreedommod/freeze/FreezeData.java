@@ -57,18 +57,16 @@ public class FreezeData
         location = player.getLocation(); // Blockify location
         FUtil.setFlying(player, true); // Avoid infinite falling
 
-        if (fPlayer.getPlugin().al.isAdminImpostor(player))
-        {
-            return; // Don't run unfreeze task for impostors
-        }
-
         unfreeze = new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                FUtil.adminAction("TotalFreedom", "Unfreezing " + player.getName(), false);
-                setFrozen(false);
+                if (!fPlayer.getPlugin().al.isAdminImpostor(player))
+                {
+                    FUtil.adminAction("TotalFreedom", "Unfreezing " + player.getName(), false);
+                    setFrozen(false);
+                }
             }
 
         }.runTaskLater(fPlayer.getPlugin(), AUTO_PURGE_TICKS);
