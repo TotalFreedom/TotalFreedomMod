@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.GameRuleHandler;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -70,7 +69,7 @@ public class Command_toggle extends FreedomCommand
         else if (args[0].equals("firespread"))
         {
             toggle("Fire spread is", ConfigEntry.ALLOW_FIRE_SPREAD);
-            ((TotalFreedomMod)this.plugin).gr.setGameRule(GameRuleHandler.GameRule.DO_FIRE_TICK, ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean());
+            plugin.gr.setGameRule(GameRuleHandler.GameRule.DO_FIRE_TICK, ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean());
             return true;
         }
         else if (args[0].equals("prelog"))

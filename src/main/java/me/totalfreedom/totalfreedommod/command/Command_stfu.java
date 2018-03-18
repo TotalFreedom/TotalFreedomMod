@@ -62,6 +62,7 @@ public class Command_stfu extends FreedomCommand
                     count++;
                 }
             }
+            plugin.mu.MUTED_PLAYERS.clear();
             msg("Unmuted " + count + " players.");
             return true;
         }

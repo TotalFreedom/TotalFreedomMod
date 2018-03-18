@@ -287,6 +287,7 @@ public class FPlayer
     public void setMuted(boolean muted)
     {
         FUtil.cancel(unmuteTask);
+        plugin.mu.MUTED_PLAYERS.remove(getPlayer().getName());
         unmuteTask = null;
 
         if (!muted)
@@ -298,13 +299,24 @@ public class FPlayer
         {
             return;
         }
+
+        plugin.mu.MUTED_PLAYERS.add(getPlayer().getName());
+
         unmuteTask = new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                FUtil.adminAction("TotalFreedom", "Unmuting " + getPlayer().getName(), false);
-                setMuted(false);
+                if (getPlayer() != null)
+                {
+                    FUtil.adminAction("TotalFreedom", "Unmuting " + getPlayer().getName(), false);
+                    setMuted(false);
+                }
+                else
+                {
+                    FUtil.adminAction("TotalFreedom", "Unmuting " + getName(), false);
+                    plugin.mu.MUTED_PLAYERS.remove(getName());
+                }
             }
         }.runTaskLater(plugin, AUTO_PURGE_TICKS);
     }

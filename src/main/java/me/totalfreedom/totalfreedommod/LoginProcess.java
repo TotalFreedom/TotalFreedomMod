@@ -26,7 +26,7 @@ public class LoginProcess extends FreedomService
     //
     @Getter
     @Setter
-    private boolean lockdownEnabled = false;
+    private static boolean lockdownEnabled = false;
 
     public LoginProcess(TotalFreedomMod plugin)
     {

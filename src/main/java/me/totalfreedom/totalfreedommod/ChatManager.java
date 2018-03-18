@@ -4,7 +4,8 @@ import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
-import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -71,7 +72,10 @@ public class ChatManager extends FreedomService
             }
             if (((float) caps / (float) message.length()) > 0.65) //Compute a ratio so that longer sentences can have more caps.
             {
-                message = message.toLowerCase();
+                if (!plugin.al.isAdmin(player))
+                {
+                    message = message.toLowerCase();
+                }
             }
         }
 
@@ -83,6 +87,9 @@ public class ChatManager extends FreedomService
             event.setCancelled(true);
             return;
         }
+
+        // Check for mentions
+        checkMentions(message);
 
         // Finally, set message
         event.setMessage(message);
@@ -100,10 +107,33 @@ public class ChatManager extends FreedomService
         event.setFormat(format);
     }
 
+    public void checkMentions(String message)
+    {
+        checkMentions(message, false);
+    }
+
+    public void checkMentions(String message, boolean adminOnly)
+    {
+        for (Player player : server.getOnlinePlayers())
+        {
+            // This is so if admins for some reason mention non-admins in admin chat, they won't be notified
+            if (adminOnly && !plugin.al.isAdmin(player))
+            {
+                return;
+            }
+
+            if (ChatColor.stripColor(message).toLowerCase().contains("@" + player.getName().toLowerCase()))
+            {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, SoundCategory.PLAYERS, 100F, 0.9F);
+            }
+        }
+    }
+
     public void adminChat(CommandSender sender, String message)
     {
         String name = sender.getName() + " " + plugin.rm.getDisplay(sender).getColoredTag() + ChatColor.WHITE;
         FLog.info("[ADMIN] " + name + ": " + message);
+        checkMentions(message, true);
 
         for (Player player : server.getOnlinePlayers())
         {

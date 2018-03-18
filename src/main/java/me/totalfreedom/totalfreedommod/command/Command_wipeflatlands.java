@@ -25,27 +25,13 @@ public class Command_wipeflatlands extends FreedomCommand
             player.kickPlayer("Server is going offline for flatlands wipe, come back in a few minutes.");
         }
 
-        if (!plugin.cpb.isEnabled())
+        if (!plugin.amp.enabled)
         {
-            if(!plugin.amp.enabled)
-            {
-                server.shutdown();
-            }
-            else
-            {
-                plugin.amp.restartServer();
-            }
+            server.shutdown();
         }
         else
         {
-            new BukkitRunnable()
-            {
-                @Override
-                public void run()
-                {
-                    plugin.cpb.clearDatabase(plugin.wm.flatlands.getWorld(), true);
-                }
-            }.runTaskAsynchronously(plugin);
+            plugin.amp.restartServer();
         }
 
         return true;
