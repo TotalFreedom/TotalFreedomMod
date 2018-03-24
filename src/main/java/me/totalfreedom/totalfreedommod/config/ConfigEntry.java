@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.config;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
@@ -133,7 +132,6 @@ public enum ConfigEntry
     public String setString(String value)
     {
         getConfig().setString(this, value);
-        PotionEffectType type = PotionEffectType.ABSORPTION;
         return value;
     }
 
