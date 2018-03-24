@@ -5,6 +5,7 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -18,6 +19,7 @@ import java.util.List;
 public class Discord extends FreedomService
 {
     public static HashMap<String, Admin> LINK_CODES = new HashMap<>();
+    public static HashMap<String, VPlayer> PLAYER_LINK_CODES = new HashMap<String, VPlayer>();
     public static List<String> VERIFY_CODES = new ArrayList();
     public static JDA bot = null;
     public Boolean enabled = false;
@@ -68,6 +70,15 @@ public class Discord extends FreedomService
         {
             if (LINK_CODES.get(code).equals(admin))
             {
+                return code;
+            }
+        }
+        return null;
+    }
+
+    public static String getCodeForPlayer(VPlayer playerData) {
+        for (String code : PLAYER_LINK_CODES.keySet()) {
+            if (PLAYER_LINK_CODES.get(code).equals(playerData)) {
                 return code;
             }
         }

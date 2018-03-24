@@ -15,6 +15,7 @@ import me.totalfreedom.totalfreedommod.freeze.Freezer;
 import me.totalfreedom.totalfreedommod.fun.*;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
+import me.totalfreedom.totalfreedommod.playerverification.PlayerVerification;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
@@ -97,6 +98,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Trailer tr;
     public HTTPDaemon hd;
     public SignBlocker snp;
+    public PlayerVerification pv;
     //
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
@@ -198,6 +200,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         ew = services.registerService(EntityWiper.class);
         fd = services.registerService(FrontDoor.class);
         sp = services.registerService(ServerPing.class);
+        pv = services.registerService(PlayerVerification.class);
 
         // Fun
         it = services.registerService(ItemFun.class);

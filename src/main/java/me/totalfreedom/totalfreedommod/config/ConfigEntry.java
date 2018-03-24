@@ -1,11 +1,14 @@
 package me.totalfreedom.totalfreedommod.config;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
+
 public enum ConfigEntry
 {
+
 
     FORCE_IP_ENABLED(Boolean.class, "forceip.enabled"),
     FORCE_IP_PORT(Integer.class, "forceip.port"),
@@ -106,7 +109,7 @@ public enum ConfigEntry
     private final Class<?> type;
     private final String configName;
 
-    private ConfigEntry(Class<?> type, String configName)
+    ConfigEntry(Class<?> type, String configName)
     {
         this.type = type;
         this.configName = configName;
@@ -130,6 +133,7 @@ public enum ConfigEntry
     public String setString(String value)
     {
         getConfig().setString(this, value);
+        PotionEffectType type = PotionEffectType.ABSORPTION;
         return value;
     }
 

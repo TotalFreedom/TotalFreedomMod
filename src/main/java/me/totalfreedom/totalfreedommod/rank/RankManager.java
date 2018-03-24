@@ -98,7 +98,7 @@ public class RankManager extends FreedomService
 
     public Rank getRank(Player player)
     {
-        if (plugin.al.isAdminImpostor(player))
+        if (plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player))
         {
             return Rank.IMPOSTOR;
         }
@@ -158,11 +158,13 @@ public class RankManager extends FreedomService
         }
 
         // Handle impostors
-        Boolean isImposter = plugin.al.isAdminImpostor(player);
+        Boolean isImposter = plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player);
         if (isImposter)
         {
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
-            FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor and has been frozen!", ChatColor.RED);
+            if (plugin.al.isAdminImpostor(player)) {
+                FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor and has been frozen!", ChatColor.RED);
+            }
             String displayName = Rank.IMPOSTOR.getColor() + player.getName();
             player.setPlayerListName(StringUtils.substring(displayName, 0, 16));
             player.getInventory().clear();
