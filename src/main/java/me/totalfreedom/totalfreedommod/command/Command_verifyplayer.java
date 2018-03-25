@@ -27,6 +27,7 @@ public class Command_verifyplayer extends FreedomCommand {
         }
         FUtil.adminAction(sender.getName(), "Manually verifying player " + player.getName(), true);
         plugin.pv.verifyPlayer(player);
+        plugin.rm.updateDisplay(player);
 
         return true;
     }

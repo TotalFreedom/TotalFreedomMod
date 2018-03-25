@@ -13,7 +13,8 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable {
+public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
+{
 
     private final List<String> ips = Lists.newArrayList();
     @Getter
@@ -33,18 +34,21 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable {
     private Boolean forumVerificationEnabled = false;
 
 
-    public VPlayer(String username) {
+    public VPlayer(String username)
+    {
         this.name = username;
     }
 
-    public void loadFrom(Player player) {
+    public void loadFrom(Player player)
+    {
         name = player.getName();
         ips.clear();
         ips.add(Ips.getIp(player));
     }
 
     @Override
-    public void loadFrom(ConfigurationSection cs) {
+    public void loadFrom(ConfigurationSection cs)
+    {
         name = cs.getString("username", null);
         ips.clear();
         ips.addAll(cs.getStringList("ips"));
@@ -55,7 +59,8 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable {
     }
 
     @Override
-    public void saveTo(ConfigurationSection cs) {
+    public void saveTo(ConfigurationSection cs)
+    {
         Validate.isTrue(isValid(), "Could not save player veirfication entry: " + name + ". Entry not valid!");
         cs.set("username", name);
         cs.set("forum_username", forumUsername);
@@ -66,68 +71,85 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable {
     }
 
     // Util IP methods
-    public void addIp(String ip) {
-        if (!ips.contains(ip)) {
+    public void addIp(String ip)
+    {
+        if (!ips.contains(ip))
+        {
             ips.add(ip);
         }
     }
 
-    public void addIps(List<String> ips) {
-        for (String ip : ips) {
+    public void addIps(List<String> ips)
+    {
+        for (String ip : ips)
+        {
             addIp(ip);
         }
     }
 
 
-    public void removeIp(String ip) {
-        if (ips.contains(ip)) {
+    public void removeIp(String ip)
+    {
+        if (ips.contains(ip))
+        {
             ips.remove(ip);
         }
     }
 
-    public List<String> getIPs() {
+    public List<String> getIPs()
+    {
         return ips;
     }
 
-    public void clearIPs() {
+    public void clearIPs()
+    {
         ips.clear();
     }
 
-    public Boolean isDiscordVerificationEnabled() {
+    public Boolean isDiscordVerificationEnabled()
+    {
         return discordVerificationEnabled;
     }
 
-    public Boolean isForumVerificationEnabled() {
+    public Boolean isForumVerificationEnabled()
+    {
         return forumVerificationEnabled;
     }
 
-    public void setDiscordVerificationEnabled(boolean enabled) {
+    public void setDiscordVerificationEnabled(boolean enabled)
+    {
         this.discordVerificationEnabled = enabled;
     }
 
-    public void setForumVerificationEnabled(boolean enabled) {
+    public void setForumVerificationEnabled(boolean enabled)
+    {
         this.forumVerificationEnabled = enabled;
     }
 
-    public String getDiscordID() {
+    public String getDiscordID()
+    {
         return discordID;
     }
 
-    public void setDiscordID(String discordID) {
+    public void setDiscordID(String discordID)
+    {
         this.discordID = discordID;
     }
 
-    public String getForumUsername() {
+    public String getForumUsername()
+    {
         return forumUsername;
     }
 
-    public void setForumUsername(String forumUsername) {
+    public void setForumUsername(String forumUsername)
+    {
         this.forumUsername = forumUsername;
     }
 
 
     @Override
-    public boolean isValid() {
+    public boolean isValid()
+    {
         return name != null
                 && !ips.isEmpty();
     }

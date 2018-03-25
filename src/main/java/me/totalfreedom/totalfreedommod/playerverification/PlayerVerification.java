@@ -16,43 +16,52 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.io.File;
 import java.util.Map;
 
-public class PlayerVerification extends FreedomService {
+public class PlayerVerification extends FreedomService
+{
 
     @Getter
     public final Map<String, VPlayer> dataMap = Maps.newHashMap(); // username, data
     private File configFolder;
 
-    public PlayerVerification(TotalFreedomMod plugin) {
+    public PlayerVerification(TotalFreedomMod plugin)
+    {
         super(plugin);
         this.configFolder = new File(plugin.getDataFolder(), "playerverification");
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         dataMap.clear();
     }
 
-    public void save(VPlayer data) {
+    public void save(VPlayer data)
+    {
         YamlConfig config = getConfig(data);
         data.saveTo(config);
         config.save();
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         //save all (should be saved in theory but to be safe)
-        for (VPlayer player : dataMap.values()) {
+        for (VPlayer player : dataMap.values())
+        {
             save(player);
         }
     }
 
-    public Boolean isPlayerImpostor(Player player) {
+    public Boolean isPlayerImpostor(Player player)
+    {
         VPlayer vplayer = getVerificationPlayer(player.getName());
         return !plugin.al.isAdmin(player) && vplayer != null && (vplayer.getForumVerificationEnabled() || vplayer.getDiscordVerificationEnabled()) && !vplayer.getIPs().contains(Ips.getIp(player));
     }
 
-    public void verifyPlayer(Player player) {
-        if (!isPlayerImpostor(player)) {
+    public void verifyPlayer(Player player)
+    {
+        if (!isPlayerImpostor(player))
+        {
             return;
         }
         VPlayer vplayer = getVerificationPlayer(player.getName());
@@ -60,8 +69,10 @@ public class PlayerVerification extends FreedomService {
         saveVerificationData(vplayer);
     }
 
-    public void saveVerificationData(VPlayer player) {
-        if (dataMap.containsKey(player.getName())) {
+    public void saveVerificationData(VPlayer player)
+    {
+        if (dataMap.containsKey(player.getName()))
+        {
             dataMap.remove(player.getName());
         }
         dataMap.put(player.getName(), player);
@@ -69,9 +80,11 @@ public class PlayerVerification extends FreedomService {
     }
 
     //may not return null
-    public VPlayer getVerificationPlayer(Player player) {
+    public VPlayer getVerificationPlayer(Player player)
+    {
         VPlayer data = getVerificationPlayer(player.getName());
-        if (data != null) {
+        if (data != null)
+        {
             return data;
         }
         // Create new entry.
@@ -85,28 +98,34 @@ public class PlayerVerification extends FreedomService {
     }
 
     //may return null
-    public VPlayer getVerificationPlayer(String username) {
-        if (dataMap.containsKey(username)) {
+    public VPlayer getVerificationPlayer(String username)
+    {
+        if (dataMap.containsKey(username))
+        {
             return dataMap.get(username);
         }
         VPlayer player = loadData(username);
-        if (player != null) {
+        if (player != null)
+        {
             return player;
         }
 
         return null;
     }
 
-    public VPlayer loadData(String username) {
+    public VPlayer loadData(String username)
+    {
         final File configFile = getConfigFile(username);
-        if (!configFile.exists()) {
+        if (!configFile.exists())
+        {
             return null;
         }
 
         final VPlayer data = new VPlayer(username);
         data.loadFrom(getConfig(data));
 
-        if (!data.isValid()) {
+        if (!data.isValid())
+        {
             FLog.warning("Could not load player verification entry: " + username + ". Entry is not valid!");
             configFile.delete();
             return null;
@@ -114,8 +133,10 @@ public class PlayerVerification extends FreedomService {
 
 
         // Only store data in map if the player is online
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (onlinePlayer.getName().equals(username)) {
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+        {
+            if (onlinePlayer.getName().equals(username))
+            {
                 dataMap.put(username, data);
                 return data;
             }
@@ -123,28 +144,35 @@ public class PlayerVerification extends FreedomService {
         return data;
     }
 
-    public void removeEntry(String username) {
-        if (getVerificationPlayer(username) != null) {
+    public void removeEntry(String username)
+    {
+        if (getVerificationPlayer(username) != null)
+        {
             getConfigFile(username).delete();
-            if (dataMap.containsKey(username)) {
+            if (dataMap.containsKey(username))
+            {
                 dataMap.remove(username);
             }
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        if (dataMap.containsKey(event.getPlayer().getName())) {
+    public void onPlayerQuit(PlayerQuitEvent event)
+    {
+        if (dataMap.containsKey(event.getPlayer().getName()))
+        {
             saveVerificationData(dataMap.get(event.getPlayer().getName()));
             dataMap.remove(event.getPlayer().getName());
         }
     }
 
-    protected File getConfigFile(String name) {
+    protected File getConfigFile(String name)
+    {
         return new File(configFolder, name + ".yml");
     }
 
-    protected YamlConfig getConfig(VPlayer data) {
+    protected YamlConfig getConfig(VPlayer data)
+    {
         final YamlConfig config = new YamlConfig(plugin, getConfigFile(data.getName().toLowerCase()), false);
         config.load();
         return config;

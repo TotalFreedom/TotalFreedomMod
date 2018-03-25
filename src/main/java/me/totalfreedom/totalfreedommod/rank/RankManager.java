@@ -162,7 +162,8 @@ public class RankManager extends FreedomService
         if (isImposter)
         {
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
-            if (plugin.al.isAdminImpostor(player)) {
+            if (plugin.al.isAdminImpostor(player))
+            {
                 FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor and has been frozen!", ChatColor.RED);
             }
             String displayName = Rank.IMPOSTOR.getColor() + player.getName();

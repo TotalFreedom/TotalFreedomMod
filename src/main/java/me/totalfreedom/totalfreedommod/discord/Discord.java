@@ -29,8 +29,8 @@ public class Discord extends FreedomService
         super(plugin);
     }
 
-     public void startBot()
-     {
+    public void startBot()
+    {
         enabled = !Strings.isNullOrEmpty(ConfigEntry.DISCORD_TOKEN.getString());
         if (!enabled)
         {
@@ -40,7 +40,7 @@ public class Discord extends FreedomService
         {
             for (Object object : bot.getRegisteredListeners())
             {
-               bot.removeEventListener(object);
+                bot.removeEventListener(object);
             }
         }
         try
@@ -63,10 +63,10 @@ public class Discord extends FreedomService
     {
         startBot();
     }
-    
+
     public static String getCodeForAdmin(Admin admin)
     {
-        for (String code: LINK_CODES.keySet())
+        for (String code : LINK_CODES.keySet())
         {
             if (LINK_CODES.get(code).equals(admin))
             {
@@ -76,9 +76,12 @@ public class Discord extends FreedomService
         return null;
     }
 
-    public static String getCodeForPlayer(VPlayer playerData) {
-        for (String code : PLAYER_LINK_CODES.keySet()) {
-            if (PLAYER_LINK_CODES.get(code).equals(playerData)) {
+    public static String getCodeForPlayer(VPlayer playerData)
+    {
+        for (String code : PLAYER_LINK_CODES.keySet())
+        {
+            if (PLAYER_LINK_CODES.get(code).equals(playerData))
+            {
                 return code;
             }
         }
