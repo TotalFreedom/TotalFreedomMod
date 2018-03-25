@@ -5,6 +5,7 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,7 @@ import org.bukkit.entity.Player;
  * See https://github.com/TotalFreedom/License - This file may not be edited or removed.
  */
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
-@CommandParameters(description = "Shows information about TotalFreedomMod or reloads it", usage = "/<command> [reload]", aliases = "tfm")
+@CommandParameters(description = "Shows information about TotalFreedomMod or reloads it", usage = "/<command> [reload | update]", aliases = "tfm")
 public class Command_totalfreedommod extends FreedomCommand
 {
 
@@ -23,28 +24,50 @@ public class Command_totalfreedommod extends FreedomCommand
     {
         if (args.length == 1)
         {
-            if (!args[0].equals("reload"))
+            if (args[0].equals("reload"))
+            {
+                if (!plugin.al.isAdmin(sender))
+                {
+                    noPerms();
+                    return true;
+                }
+
+                plugin.config.load();
+                plugin.services.stop();
+                plugin.services.start();
+
+                final String message = String.format("%s v%s reloaded.",
+                        TotalFreedomMod.pluginName,
+                        TotalFreedomMod.pluginVersion);
+
+                msg(message);
+                FLog.info(message);
+                return true;
+            }
+            else if (args[0].equals("update"))
+            {
+                if (plugin.al.isAdmin(sender) && FUtil.DEVELOPERS.contains(sender.getName()))
+                {
+                    if (plugin.ud.updateAvailable)
+                    {
+                        FUtil.adminAction(sender.getName(), "Updating TotalFreedomMod", false);
+                        plugin.ud.update();
+                    }
+                    else
+                    {
+                        msg("TFM is already up to date!");
+                    }
+                }
+                else
+                {
+                    noPerms();
+                }
+                return true;
+            }
+            else
             {
                 return false;
             }
-
-            if (!plugin.al.isAdmin(sender))
-            {
-                noPerms();
-                return true;
-            }
-
-            plugin.config.load();
-            plugin.services.stop();
-            plugin.services.start();
-
-            final String message = String.format("%s v%s reloaded.",
-                    TotalFreedomMod.pluginName,
-                    TotalFreedomMod.pluginVersion);
-
-            msg(message);
-            FLog.info(message);
-            return true;
         }
 
         TotalFreedomMod.BuildProperties build = TotalFreedomMod.build;
