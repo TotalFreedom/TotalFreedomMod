@@ -248,7 +248,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
                 plugin.pa.autoAddSpawnpoints();
             }
         }.runTaskLater(plugin, 60L);
-        //little workaround to stop spigot from autorestarting - causing AMP to detach from process.
+        // little workaround to stop spigot from autorestarting - causing AMP to detach from process.
         SpigotConfig.config.set("settings.restart-on-crash", false);
     }
 

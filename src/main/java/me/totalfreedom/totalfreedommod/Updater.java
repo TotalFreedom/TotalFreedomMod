@@ -2,9 +2,13 @@ package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URL;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Scanner;
@@ -66,7 +70,7 @@ public class Updater extends FreedomService
         {
             URL url = new URL(UPDATE_SERVER_URL + "/TotalFreedomMod.jar");
             ReadableByteChannel input = Channels.newChannel(url.openStream());
-            FileOutputStream output = new FileOutputStream("plugins/TotalFreedomMod.jar");
+            FileOutputStream output = new FileOutputStream(getFilePath());
             FLog.info("Downloading latest version...");
             output.getChannel().transferFrom(input, 0, Long.MAX_VALUE);
             input.close();
@@ -76,12 +80,12 @@ public class Updater extends FreedomService
         }
         catch (IOException ex)
         {
-            ex.printStackTrace();
+            FLog.severe(ex);
         }
 
         for (Player player : server.getOnlinePlayers())
         {
-            player.kickPlayer("The server has restarted as TotalFreedomMod was just updated.");
+            player.kickPlayer("The server is restarting for a TFM update.");
         }
 
         if (!plugin.amp.enabled)
@@ -93,5 +97,21 @@ public class Updater extends FreedomService
             plugin.amp.restartServer();
         }
     }
+    public String getFilePath()
+    {
+            try
+            {
+                Method method = JavaPlugin.class.getDeclaredMethod("getFile");
+                boolean wasAccessible = method.isAccessible();
+                method.setAccessible(true);
+                File file = (File) method.invoke(plugin);
+                method.setAccessible(wasAccessible);
 
+                return file.getPath();
+            }
+            catch (Exception e)
+            {
+                return "plugins" + File.separator + plugin.getName();
+            }
+    }
 }
