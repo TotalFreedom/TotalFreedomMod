@@ -15,10 +15,33 @@ public class Command_playerverify extends FreedomCommand
     @Override
     protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+
+        if (args.length == 1)
+        {
+            if (args[0].equalsIgnoreCase("clearips"))
+            {
+                VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
+                int cleared = 0;
+                for (String ip : data.getIPs())
+                {
+                    if (!ip.equals(Ips.getIp(playerSender)))
+                    {
+                        data.removeIp(ip);
+                        cleared++;
+                    }
+                }
+                msg("Cleared all IP's except your current IP \"" + Ips.getIp(playerSender) + "\"");
+                msg("Cleared " + cleared + " IP's.");
+                plugin.pv.saveVerificationData(data);
+                return true;
+            }
+        }
+
         if (args.length < 2)
         {
             return false;
         }
+
         if (plugin.al.isAdmin(sender))
         {
             msg("This command is only for OP's.", ChatColor.RED);
@@ -87,21 +110,6 @@ public class Command_playerverify extends FreedomCommand
                     default:
                         return false;
                 }
-            case "clearips":
-                VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
-                int cleared = 0;
-                for (String ip : data.getIPs())
-                {
-                    if (!ip.equals(Ips.getIp(playerSender)))
-                    {
-                        data.removeIp(ip);
-                        cleared++;
-                    }
-                }
-                msg("Cleared all IP's except your current IP \"" + Ips.getIp(playerSender) + "\"");
-                msg("Cleared " + cleared + " IP's.");
-                plugin.pv.saveVerificationData(data);
-                return true;
             default:
                 return false;
         }
