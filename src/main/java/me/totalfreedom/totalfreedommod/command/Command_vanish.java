@@ -24,6 +24,7 @@ public class Command_vanish extends FreedomCommand
         Displayable display = plugin.rm.getDisplay(playerSender);
         String loginMsg = display.getColoredLoginMessage();
         String displayName = display.getColor() + playerSender.getName();
+        String tag = display.getColoredTag();
         Admin admin = plugin.al.getAdmin(playerSender);
         if (VANISHED.contains(playerSender))
         {
@@ -34,7 +35,11 @@ public class Command_vanish extends FreedomCommand
             }
             FUtil.bcastMsg(ChatColor.AQUA + playerSender.getName() + " is " + loginMsg);
             FUtil.bcastMsg(playerSender.getName() + " joined the game", ChatColor.YELLOW);
-            plugin.pl.getPlayer(playerSender).setTag(display.getColoredTag());
+            if (admin.getTag() != null)
+            {
+                tag = FUtil.colorize(admin.getTag());
+            }
+            plugin.pl.getPlayer(playerSender).setTag(tag);
             FLog.info(playerSender.getName() + " is no longer vanished.");
             for (Player player : server.getOnlinePlayers())
             {
