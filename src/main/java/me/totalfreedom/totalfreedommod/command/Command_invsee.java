@@ -52,7 +52,7 @@ public class Command_invsee extends FreedomCommand
                     msg("That player has nothing in their offhand.");
                     return true;
                 }
-                Inventory inventory = server.createInventory(null, 1, player.getName() + "'s offhand");
+                Inventory inventory = server.createInventory(null, 9, player.getName() + "'s offhand");
                 inventory.setItem(1, offhand);
                 playerSender.openInventory(inventory);
                 return true;
