@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Spy on commands", usage = "/<command>", aliases = "commandspy")
-public class Command_cmdspy extends FreedomCommand
+@CommandParameters(description = "Toggle old admin formatting", usage = "/<command>", aliases = "oam")
+public class Command_oldadminmode extends FreedomCommand
 {
 
     @Override
@@ -16,10 +16,10 @@ public class Command_cmdspy extends FreedomCommand
     {
 
         Admin admin = plugin.al.getAdmin(playerSender);
-        admin.setCommandSpy(!admin.getCommandSpy());
+        admin.setOldAdminMode(!admin.getOldAdminMode());
         plugin.al.save();
         plugin.al.updateTables();
-        msg("CommandSpy " + (admin.getCommandSpy() ? "enabled." : "disabled."));
+        msg("Old admin mode has been " + (admin.getOldAdminMode() ? "enabled." : "disabled."));
 
         return true;
     }

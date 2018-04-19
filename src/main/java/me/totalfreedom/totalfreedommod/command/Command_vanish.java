@@ -39,7 +39,10 @@ public class Command_vanish extends FreedomCommand
             {
                 tag = FUtil.colorize(admin.getTag());
             }
-            plugin.pl.getPlayer(playerSender).setTag(tag);
+            else
+            {
+                plugin.pl.getPlayer(playerSender).setTag(tag);
+            }
             FLog.info(playerSender.getName() + " is no longer vanished.");
             for (Player player : server.getOnlinePlayers())
             {

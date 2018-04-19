@@ -12,7 +12,6 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.base.ConfigLoadable;
 import net.pravian.aero.base.ConfigSavable;
 import net.pravian.aero.base.Validatable;
-import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -46,6 +45,12 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String tag = null;
+    @Getter
+    @Setter
+    private Boolean commandSpy = false;
+    @Getter
+    @Setter
+    private Boolean oldAdminMode = false;
 
     public static final String CONFIG_FILENAME = "admins.yml";
 
@@ -98,6 +103,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         loginMessage = cs.getString("login_message", null);
         discordID = cs.getString("discord_id", null);
         tag = cs.getString("tag", null);
+        commandSpy = cs.getBoolean("command_spy", false);
+        oldAdminMode = cs.getBoolean("old_admin_mode", false);
     }
 
     @Override
@@ -112,6 +119,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("login_message", loginMessage);
         cs.set("discord_id", discordID);
         cs.set("tag", tag);
+        cs.set("command_spy", commandSpy);
+        cs.set("old_admin_mode", oldAdminMode);
     }
 
     public boolean isAtLeast(Rank pRank)

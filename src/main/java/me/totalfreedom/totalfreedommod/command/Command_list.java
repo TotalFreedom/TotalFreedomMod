@@ -105,8 +105,16 @@ public class Command_list extends FreedomCommand
             {
                 continue;
             }
+
             final Displayable display = plugin.rm.getDisplay(p);
-            n.add(display.getColoredTag() + p.getName());
+            if (!senderIsConsole && plugin.al.isAdmin(playerSender) && plugin.al.getAdmin(playerSender).getOldAdminMode())
+            {
+                n.add(getOldPrefix(display) + p.getName());
+            }
+            else
+            {
+                n.add(display.getColoredTag() + p.getName());
+            }
         }
         String playerType = listFilter.toString().toLowerCase().replace('_', ' ');
         onlineUsers.append("Connected ")
@@ -125,6 +133,24 @@ public class Command_list extends FreedomCommand
         }
         n.clear();
         return true;
+    }
+
+    public String getOldPrefix(Displayable display)
+    {
+        ChatColor color = display.getColor();
+
+        if (color.equals(ChatColor.AQUA))
+        {
+            color = ChatColor.GOLD;
+        }
+        else if (color.equals(ChatColor.GOLD))
+        {
+            color = ChatColor.LIGHT_PURPLE;
+        }
+
+        String prefix = "[" + display.getAbbr() + "]";
+
+        return color + prefix;
     }
     
     private enum ListFilter

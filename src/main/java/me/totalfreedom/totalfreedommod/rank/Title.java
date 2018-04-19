@@ -13,6 +13,8 @@ public enum Title implements Displayable
     @Getter
     private final String name;
     @Getter
+    private final String abbr;
+    @Getter
     private final String tag;
     @Getter
     private final String coloredTag;
@@ -23,8 +25,9 @@ public enum Title implements Displayable
     {
         this.determiner = determiner;
         this.name = name;
-        this.tag = "[" + tag + "]";
         this.coloredTag = ChatColor.DARK_GRAY + "[" + color + tag + ChatColor.DARK_GRAY + "]" + color;
+        this.abbr = tag;
+        this.tag = "[" + tag + "]";
         this.color = color;
     }
 
@@ -38,6 +41,12 @@ public enum Title implements Displayable
     public String getColoredLoginMessage()
     {
         return determiner + " " + color + ChatColor.ITALIC + name;
+    }
+
+    @Override
+    public String getAbbr()
+    {
+        return abbr;
     }
 
 }

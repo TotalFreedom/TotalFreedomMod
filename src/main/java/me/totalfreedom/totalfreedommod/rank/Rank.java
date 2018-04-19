@@ -18,6 +18,8 @@ public enum Rank implements Displayable
     private final Type type;
     @Getter
     private final String name;
+    @Getter
+    private final String abbr;
     private final String determiner;
     @Getter
     private final String tag;
@@ -30,9 +32,10 @@ public enum Rank implements Displayable
     {
         this.type = type;
         this.name = name;
+        this.abbr = abbr;
         this.determiner = determiner;
         this.tag = abbr.isEmpty() ? "" : "[" + abbr + "]";
-        this.coloredTag = abbr.isEmpty() ? "" : ChatColor.DARK_GRAY + "[" + color + abbr + ChatColor.DARK_GRAY + "]" + color;
+        this.coloredTag = ChatColor.DARK_GRAY + "[" + color + abbr + ChatColor.DARK_GRAY + "]" + color;
         this.color = color;
     }
 
@@ -46,6 +49,12 @@ public enum Rank implements Displayable
     public String getColoredLoginMessage()
     {
         return determiner + " " + color + ChatColor.ITALIC + name;
+    }
+
+    @Override
+    public String getAbbr()
+    {
+        return abbr;
     }
 
     public boolean isConsole()
@@ -93,21 +102,6 @@ public enum Rank implements Displayable
             case SENIOR_ADMIN:
             case SENIOR_CONSOLE:
                 return SENIOR_CONSOLE;
-            default:
-                return null;
-        }
-    }
-
-    public Rank getPlayerVariant()
-    {
-        switch (this)
-        {
-            case TELNET_ADMIN:
-            case TELNET_CONSOLE:
-                return TELNET_ADMIN;
-            case SENIOR_ADMIN:
-            case SENIOR_CONSOLE:
-                return SENIOR_ADMIN;
             default:
                 return null;
         }
