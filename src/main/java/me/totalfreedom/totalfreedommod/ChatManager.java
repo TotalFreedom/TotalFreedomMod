@@ -90,9 +90,6 @@ public class ChatManager extends FreedomService
             return;
         }
 
-        // Check for mentions
-        checkMentions(message);
-
         // Finally, set message
         event.setMessage(message);
 
@@ -107,28 +104,6 @@ public class ChatManager extends FreedomService
 
         // Set format
         event.setFormat(format);
-    }
-
-    public void checkMentions(String message)
-    {
-        checkMentions(message, false);
-    }
-
-    public void checkMentions(String message, boolean adminOnly)
-    {
-        for (Player player : server.getOnlinePlayers())
-        {
-            // This is so if admins for some reason mention non-admins in admin chat, they won't be notified
-            if (adminOnly && !plugin.al.isAdmin(player))
-            {
-                return;
-            }
-
-            if (ChatColor.stripColor(message).toLowerCase().contains("@" + player.getName().toLowerCase()))
-            {
-                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, SoundCategory.PLAYERS, 100F, 0.9F);
-            }
-        }
     }
 
     public String getOldPrefix(Displayable display)
@@ -153,7 +128,6 @@ public class ChatManager extends FreedomService
     {
         Displayable display = plugin.rm.getDisplay(sender);
         FLog.info("[ADMIN] " + sender.getName() + " " + display.getTag() + ": " + message);
-        checkMentions(message, true);
 
         for (Player player : server.getOnlinePlayers())
         {

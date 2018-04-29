@@ -88,14 +88,7 @@ public class Updater extends FreedomService
             player.kickPlayer("The server is restarting for a TFM update.");
         }
 
-        if (!plugin.amp.enabled)
-        {
-            server.shutdown();
-        }
-        else
-        {
-            plugin.amp.restartServer();
-        }
+        server.shutdown();
     }
     public String getFilePath()
     {

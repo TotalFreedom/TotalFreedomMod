@@ -40,8 +40,6 @@ public class Command_say extends FreedomCommand
             }
         }
 
-        plugin.cm.checkMentions(message);
-
         FUtil.bcastMsg(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
 
         return true;
