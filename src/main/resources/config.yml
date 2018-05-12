@@ -21,6 +21,9 @@ server:
   owners:
     - TheMinecraft
 
+  # All players who show up as Master Builder
+  master_builders: []
+
   # URL players should appeal for bans at
   ban_url: http://totalfreedom.boards.net/
 

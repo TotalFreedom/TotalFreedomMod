@@ -49,6 +49,12 @@ public class RankManager extends FreedomService
             return Rank.IMPOSTOR;
         }
 
+        // Master builders show up if they are not admins
+        if (ConfigEntry.MASTER_BUILDERS.getList().contains(player.getName()) && !plugin.al.isAdmin(player))
+        {
+            return Title.MASTER_BUILDER;
+        }
+
         // Developers always show up
         if (FUtil.DEVELOPERS.contains(player.getName()))
         {
@@ -177,7 +183,7 @@ public class RankManager extends FreedomService
         }
 
         // Set display
-        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()))
+        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()) || ConfigEntry.MASTER_BUILDERS.getList().contains(player.getName().toLowerCase()))
         {
             final Displayable display = getDisplay(player);
             String loginMsg = display.getColoredLoginMessage();

@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 public enum Title implements Displayable
 {
 
+    MASTER_BUILDER("a", "Master Builder", ChatColor.DARK_AQUA, "Master-Builder"),
     DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, "Dev"),
     OWNER("the", "Owner", ChatColor.BLUE, "Owner");
 
@@ -41,12 +42,6 @@ public enum Title implements Displayable
     public String getColoredLoginMessage()
     {
         return determiner + " " + color + ChatColor.ITALIC + name;
-    }
-
-    @Override
-    public String getAbbr()
-    {
-        return abbr;
     }
 
 }
