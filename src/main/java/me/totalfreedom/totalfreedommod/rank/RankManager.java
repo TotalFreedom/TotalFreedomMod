@@ -50,7 +50,7 @@ public class RankManager extends FreedomService
         }
 
         // Master builders show up if they are not admins
-        if (ConfigEntry.MASTER_BUILDERS.getList().contains(player.getName()) && !plugin.al.isAdmin(player))
+        if (plugin.mbl.isMasterBuilder(player) && !plugin.al.isAdmin(player))
         {
             return Title.MASTER_BUILDER;
         }
@@ -59,6 +59,11 @@ public class RankManager extends FreedomService
         if (FUtil.DEVELOPERS.contains(player.getName()))
         {
             return Title.DEVELOPER;
+        }
+
+        if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(player.getName()) && plugin.al.isAdmin(player))
+        {
+            return Title.EXECUTIVE;
         }
 
         // If the player's an owner, display that
@@ -104,7 +109,7 @@ public class RankManager extends FreedomService
 
     public Rank getRank(Player player)
     {
-        if (plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player))
+        if (plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player) || plugin.mbl.isMasterBuilderImpostor(player))
         {
             return Rank.IMPOSTOR;
         }
@@ -164,7 +169,7 @@ public class RankManager extends FreedomService
         }
 
         // Handle impostors
-        Boolean isImposter = plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player);
+        Boolean isImposter = plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player) || plugin.mbl.isMasterBuilderImpostor(player);
         if (isImposter)
         {
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
@@ -183,7 +188,7 @@ public class RankManager extends FreedomService
         }
 
         // Set display
-        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()) || ConfigEntry.MASTER_BUILDERS.getList().contains(player.getName().toLowerCase()))
+        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()) || plugin.mbl.isMasterBuilder(player))
         {
             final Displayable display = getDisplay(player);
             String loginMsg = display.getColoredLoginMessage();

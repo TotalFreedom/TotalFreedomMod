@@ -75,20 +75,13 @@ public class Updater extends FreedomService
             output.getChannel().transferFrom(input, 0, Long.MAX_VALUE);
             input.close();
             output.close();
-            FLog.info("The latest version has been installed! Restarting server...");
+            FLog.info("The latest version has been installed! Restart the server for changes to take effect.");
 
         }
         catch (IOException ex)
         {
             FLog.severe(ex);
         }
-
-        for (Player player : server.getOnlinePlayers())
-        {
-            player.kickPlayer("The server is restarting for a TFM update.");
-        }
-
-        server.shutdown();
     }
     public String getFilePath()
     {

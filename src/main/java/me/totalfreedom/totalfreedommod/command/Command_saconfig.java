@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -173,6 +174,11 @@ public class Command_saconfig extends FreedomCommand
 
                 if (admin == null) // New admin
                 {
+                    if (plugin.mbl.isMasterBuilderImpostor(player))
+                    {
+                        msg("This player was labeled as a Master Builder imposter and is not an admin, therefore they can not be added to the admin list.", ChatColor.RED);
+                        return true;
+                    }
                     if (player == null)
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND);
@@ -194,6 +200,34 @@ public class Command_saconfig extends FreedomCommand
                     {
                         admin.setName(player.getName());
                         admin.addIp(Ips.getIp(player));
+                    }
+
+                    // Handle master builders
+                    if (!plugin.mbl.isMasterBuilder(player))
+                    {
+                        MasterBuilder masterBuilder = null;
+                        for (MasterBuilder loopMasterBuilder : plugin.mbl.getAllMasterBuilders().values())
+                        {
+                            if (loopMasterBuilder.getName().equalsIgnoreCase(name))
+                            {
+                                masterBuilder = loopMasterBuilder;
+                                break;
+                            }
+                        }
+
+                        if (masterBuilder != null)
+                        {
+                            if (player != null)
+                            {
+                                masterBuilder.setName(player.getName());
+                                masterBuilder.addIp(Ips.getIp(player));
+                            }
+
+                            masterBuilder.setLastLogin(new Date());
+
+                            plugin.mbl.save();
+                            plugin.mbl.updateTables();
+                        }
                     }
 
                     admin.setActive(true);

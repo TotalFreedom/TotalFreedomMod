@@ -7,6 +7,7 @@ public enum Title implements Displayable
 {
 
     MASTER_BUILDER("a", "Master Builder", ChatColor.DARK_AQUA, "Master-Builder"),
+    EXECUTIVE("an", "Executive", ChatColor.DARK_RED, "Executive"),
     DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, "Dev"),
     OWNER("the", "Owner", ChatColor.BLUE, "Owner");
 

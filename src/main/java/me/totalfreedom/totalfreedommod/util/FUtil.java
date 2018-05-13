@@ -79,6 +79,11 @@ public class FUtil
         }
     }
 
+    public static boolean isExecutive(String name)
+    {
+        return (ConfigEntry.SERVER_OWNERS.getList().contains(name) || ConfigEntry.SERVER_EXECUTIVES.getList().contains(name));
+    }
+
     public static void bcastMsg(String message, ChatColor color)
     {
         FLog.info(message, true);
