@@ -9,10 +9,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,7 @@ public class MasterBuilderWorldRestrictions extends FreedomService
 {
 
     private final List<String> BLOCKED_WORLDEDIT_COMMANDS = Arrays.asList(
-            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs");
+            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock");
 
     public MasterBuilderWorldRestrictions(TotalFreedomMod plugin)
     {
@@ -124,6 +124,7 @@ public class MasterBuilderWorldRestrictions extends FreedomService
             if (plugin.al.isAdmin(player) && !plugin.al.isSeniorAdmin(player) && message.startsWith("/co"))
             {
                 player.sendMessage(ChatColor.RED + "Only Senior Admins are allowed to use CoreProtect in the Master Builder world.");
+                event.setCancelled(true);
             }
         }
     }

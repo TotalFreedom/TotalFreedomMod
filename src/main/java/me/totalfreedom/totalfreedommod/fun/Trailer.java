@@ -1,8 +1,5 @@
 package me.totalfreedom.totalfreedommod.fun;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
@@ -13,6 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
+
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class Trailer extends FreedomService
 {
@@ -47,6 +48,11 @@ public class Trailer extends FreedomService
             return;
         }
 
+        if (event.getPlayer().getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()))
+        {
+            return;
+        }
+
         Block fromBlock = event.getFrom().getBlock();
         if (!fromBlock.isEmpty())
         {
@@ -70,7 +76,8 @@ public class Trailer extends FreedomService
             {
                 final Location trail_pos;
                 trail_pos = new Location(event.getPlayer().getWorld(), fromBlock.getX() + x, fromBlock.getY(), fromBlock.getZ() + z);
-                if (trailPlayers.contains(event.getPlayer().getName())) {
+                if (trailPlayers.contains(event.getPlayer().getName()))
+                {
                     plugin.cpb.getCoreProtectAPI().logPlacement(event.getPlayer().getName(), trail_pos, material, data);
                 }
             }
