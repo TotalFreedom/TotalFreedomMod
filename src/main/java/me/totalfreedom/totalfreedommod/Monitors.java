@@ -58,7 +58,7 @@ public class Monitors extends FreedomService
 
         for (Player p : server.getOnlinePlayers())
         {
-            if (plugin.al.isAdmin(p) && plugin.pl.getPlayer(p).isPotionMonitorEnabled())
+            if (plugin.al.isAdmin(p) && plugin.al.getAdmin(p).getPotionSpy())
             {
                 FUtil.playerMsg(p, potionSpyPrefix + ChatColor.WHITE + player.getName() + " splashed " + event.getEntity().getItem().getAmount() + " " + getMaterial(droppedItem) + " at X: " + decimalFormat.format(location.getX()) + ", Y: " + decimalFormat.format(location.getY()) + ", Z: " + decimalFormat.format(location.getZ()) + ", in the world '" + location.getWorld().getName() + "'.");
             }

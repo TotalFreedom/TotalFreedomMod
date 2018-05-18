@@ -50,6 +50,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     private Boolean commandSpy = false;
     @Getter
     @Setter
+    private Boolean potionSpy = false;
+    @Getter
+    @Setter
     private Boolean oldAdminMode = false;
 
     public static final String CONFIG_FILENAME = "admins.yml";
@@ -104,6 +107,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         discordID = cs.getString("discord_id", null);
         tag = cs.getString("tag", null);
         commandSpy = cs.getBoolean("command_spy", false);
+        potionSpy = cs.getBoolean("potion_spy", false);
         oldAdminMode = cs.getBoolean("old_admin_mode", false);
     }
 
@@ -120,6 +124,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("discord_id", discordID);
         cs.set("tag", tag);
         cs.set("command_spy", commandSpy);
+        cs.set("potion_spy", potionSpy);
         cs.set("old_admin_mode", oldAdminMode);
     }
 
