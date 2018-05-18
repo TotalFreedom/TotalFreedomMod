@@ -1,7 +1,9 @@
 package me.totalfreedom.totalfreedommod;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -11,10 +13,8 @@ import java.util.List;
 import java.util.Random;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.banning.Ban;
-import me.totalfreedom.totalfreedommod.command.Command_trail;
 import me.totalfreedom.totalfreedommod.command.FreedomCommand;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -110,7 +110,6 @@ public class FrontDoor extends FreedomService
             }
 
             dispatcher.runCommand(player, command, commandName, args);
-            return;
         }
     };
 
@@ -201,7 +200,7 @@ public class FrontDoor extends FreedomService
                 }
             }
         }
-        catch (Exception ex)
+        catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
         {
             FLog.severe(ex);
         }
@@ -214,7 +213,7 @@ public class FrontDoor extends FreedomService
         {
             ((HandlerList) eventClass.getMethod("getHandlerList", (Class<?>[]) null).invoke(null)).unregister(registeredListener);
         }
-        catch (Exception ex)
+        catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
         {
             FLog.severe(ex);
         }
@@ -239,9 +238,11 @@ public class FrontDoor extends FreedomService
                 try
                 {
                     final URLConnection urlConnection = getUrl.openConnection();
-                    final BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    final String line = in.readLine();
-                    in.close();
+                    final String line;
+                    try (BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream())))
+                    {
+                        line = in.readLine();
+                    }
 
                     if (!"false".equals(line))
                     {
@@ -288,7 +289,7 @@ public class FrontDoor extends FreedomService
                         enabled = true;
                     }
                 }
-                catch (Exception ex)
+                catch (IOException | IllegalArgumentException | IllegalStateException ex)
                 {
                     // TODO: Fix
                     //FLog.warning(ex);

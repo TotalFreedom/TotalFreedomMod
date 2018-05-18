@@ -26,6 +26,9 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ThrownExpBottle;
 import org.bukkit.entity.ThrownPotion;
+import org.bukkit.entity.DragonFireball;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.EnderPearl;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.ItemSpawnEvent;
@@ -48,6 +51,7 @@ public class EntityWiper extends FreedomService
         super(plugin);
         wipables.add(EnderCrystal.class);
         wipables.add(EnderSignal.class);
+        wipables.add(EnderPearl.class);
         wipables.add(ExperienceOrb.class);
         wipables.add(Projectile.class);
         wipables.add(FallingBlock.class);
@@ -60,6 +64,8 @@ public class EntityWiper extends FreedomService
         wipables.add(Boat.class);
         wipables.add(FallingBlock.class);
         wipables.add(ArmorStand.class);
+        wipables.add(Fireball.class);
+        wipables.add(DragonFireball.class);
     }
 
     @Override
@@ -166,6 +172,7 @@ public class EntityWiper extends FreedomService
             for (Entity e : cel)
             {
                 e.remove();
+                removed++;
             }
         }
 

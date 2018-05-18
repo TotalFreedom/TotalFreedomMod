@@ -6,12 +6,16 @@ import org.bukkit.ChatColor;
 public enum Title implements Displayable
 {
 
+    MASTER_BUILDER("a", "Master Builder", ChatColor.DARK_AQUA, "Master-Builder"),
+    EXECUTIVE("an", "Executive", ChatColor.DARK_RED, "Executive"),
     DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, "Dev"),
     OWNER("the", "Owner", ChatColor.BLUE, "Owner");
 
     private final String determiner;
     @Getter
     private final String name;
+    @Getter
+    private final String abbr;
     @Getter
     private final String tag;
     @Getter
@@ -23,8 +27,9 @@ public enum Title implements Displayable
     {
         this.determiner = determiner;
         this.name = name;
-        this.tag = "[" + tag + "]";
         this.coloredTag = ChatColor.DARK_GRAY + "[" + color + tag + ChatColor.DARK_GRAY + "]" + color;
+        this.abbr = tag;
+        this.tag = "[" + tag + "]";
         this.color = color;
     }
 

@@ -4,21 +4,22 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class EventBlocker extends FreedomService
@@ -71,7 +72,7 @@ public class EventBlocker extends FreedomService
     {
         if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
-            event.setCancelled(true);
+            event.blockList().clear();
             return;
         }
 
@@ -105,19 +106,6 @@ public class EventBlocker extends FreedomService
         if (ConfigEntry.AUTO_ENTITY_WIPE.getBoolean())
         {
             event.setDroppedExp(0);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onProjectileHit(ProjectileHitEvent event)
-    {
-        if (ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
-        {
-            Projectile entity = event.getEntity();
-            if (event.getEntityType() == EntityType.ARROW)
-            {
-                entity.getWorld().createExplosion(entity.getLocation(), 2F);
-            }
         }
     }
 
@@ -157,16 +145,53 @@ public class EventBlocker extends FreedomService
             return;
         }
 
-        if (event.getPlayer().getWorld().getEntities().size() > 750)
+        if (event.getPlayer().getWorld().getEntities().size() > 750 && !plugin.al.isAdmin(event.getPlayer()))
         {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onLeavesDecay(LeavesDecayEvent event)
+    public void onLeavesDecay(LeavesDecayEvent event
+    )
     {
         event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onFireworkExplode(FireworkExplodeEvent event)
+    {
+        if (!ConfigEntry.ALLOW_FIREWORK_EXPLOSION.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onBlockPistonRetract(BlockPistonRetractEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onBlockPistonExtend(BlockPistonExtendEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onBlockRedstone(BlockRedstoneEvent event)
+    {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            event.setNewCurrent(0);
+        }
     }
 
 }

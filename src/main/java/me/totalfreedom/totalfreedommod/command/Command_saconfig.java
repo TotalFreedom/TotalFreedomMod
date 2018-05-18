@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.Date;
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -11,6 +11,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Date;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Manage admins.", usage = "/<command> <list | clean | reload | | setrank <username> <rank> | <add | remove | info> <username>>")
@@ -29,7 +31,7 @@ public class Command_saconfig extends FreedomCommand
         {
             case "list":
             {
-                msg("Superadmins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
+                msg("Admins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
 
                 return true;
             }
@@ -41,7 +43,7 @@ public class Command_saconfig extends FreedomCommand
 
                 FUtil.adminAction(sender.getName(), "Cleaning admin list", true);
                 plugin.al.deactivateOldEntries(true);
-                msg("Superadmins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
+                msg("Admins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
 
                 return true;
             }
@@ -98,6 +100,12 @@ public class Command_saconfig extends FreedomCommand
                 admin.setRank(rank);
                 plugin.al.save();
 
+                Player player = getPlayer(admin.getName());
+                if (player != null)
+                {
+                    plugin.rm.updateDisplay(player);
+                }
+
                 msg("Set " + admin.getName() + "'s rank to " + rank.getName());
                 return true;
             }
@@ -124,7 +132,7 @@ public class Command_saconfig extends FreedomCommand
 
                 if (admin == null)
                 {
-                    msg("Superadmin not found: " + args[1]);
+                    msg("Admin not found: " + args[1]);
                 }
                 else
                 {
@@ -166,6 +174,11 @@ public class Command_saconfig extends FreedomCommand
 
                 if (admin == null) // New admin
                 {
+                    if (plugin.mbl.isMasterBuilderImpostor(player))
+                    {
+                        msg("This player was labeled as a Master Builder imposter and is not an admin, therefore they can not be added to the admin list.", ChatColor.RED);
+                        return true;
+                    }
                     if (player == null)
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND);
@@ -174,6 +187,10 @@ public class Command_saconfig extends FreedomCommand
 
                     FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the admin list", true);
                     plugin.al.addAdmin(new Admin(player));
+                    if (player != null)
+                    {
+                        plugin.rm.updateDisplay(player);
+                    }
                 }
                 else // Existing admin
                 {
@@ -185,11 +202,43 @@ public class Command_saconfig extends FreedomCommand
                         admin.addIp(Ips.getIp(player));
                     }
 
+                    // Handle master builders
+                    if (!plugin.mbl.isMasterBuilder(player))
+                    {
+                        MasterBuilder masterBuilder = null;
+                        for (MasterBuilder loopMasterBuilder : plugin.mbl.getAllMasterBuilders().values())
+                        {
+                            if (loopMasterBuilder.getName().equalsIgnoreCase(name))
+                            {
+                                masterBuilder = loopMasterBuilder;
+                                break;
+                            }
+                        }
+
+                        if (masterBuilder != null)
+                        {
+                            if (player != null)
+                            {
+                                masterBuilder.setName(player.getName());
+                                masterBuilder.addIp(Ips.getIp(player));
+                            }
+
+                            masterBuilder.setLastLogin(new Date());
+
+                            plugin.mbl.save();
+                            plugin.mbl.updateTables();
+                        }
+                    }
+
                     admin.setActive(true);
                     admin.setLastLogin(new Date());
 
                     plugin.al.save();
                     plugin.al.updateTables();
+                    if (player != null)
+                    {
+                        plugin.rm.updateDisplay(player);
+                    }
                 }
 
                 if (player != null)
@@ -200,8 +249,14 @@ public class Command_saconfig extends FreedomCommand
                         fPlayer.getFreezeData().setFrozen(false);
                         msg(player.getPlayer(), "You have been unfrozen.");
                     }
-                }
 
+                    if (!player.isOp())
+                    {
+                        player.setOp(true);
+                        player.sendMessage(YOU_ARE_OP);
+                    }
+                    plugin.pv.removeEntry(player.getName()); // admins can't have player verification entries
+                }
                 return true;
             }
 
@@ -220,7 +275,7 @@ public class Command_saconfig extends FreedomCommand
 
                 if (admin == null)
                 {
-                    msg("Superadmin not found: " + args[1]);
+                    msg("Admin not found: " + args[1]);
                     return true;
                 }
 
@@ -228,6 +283,10 @@ public class Command_saconfig extends FreedomCommand
                 admin.setActive(false);
                 plugin.al.save();
                 plugin.al.updateTables();
+                if (player != null)
+                {
+                    plugin.rm.updateDisplay(player);
+                }
                 return true;
             }
 

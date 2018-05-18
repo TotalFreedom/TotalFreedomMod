@@ -20,36 +20,59 @@ public class CommandBlockerEntry
     private final String subCommand;
     @Getter
     private final String message;
-
+    
     public CommandBlockerEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String message)
     {
         this(rank, action, command, null, message);
     }
-
+    
     public CommandBlockerEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String subCommand, String message)
     {
         this.rank = rank;
         this.action = action;
         this.command = command;
-        this.subCommand = (subCommand == null ? null : subCommand.toLowerCase().trim());
-        this.message = (message == null || message.equals("_") ? "That command is blocked." : message);
+        this.subCommand = ((subCommand == null) ? null : subCommand.toLowerCase().trim());
+        this.message = ((message == null || message.equals("_")) ? "That command is blocked." : message);
     }
-
+    
     public void doActions(CommandSender sender)
     {
         if (action == CommandBlockerAction.BLOCK_AND_EJECT && sender instanceof Player)
         {
-            TotalFreedomMod.plugin().ae.autoEject((Player) sender, "You used a prohibited command: " + command);
+            TotalFreedomMod.plugin().ae.autoEject((Player)sender, "You used a prohibited command: " + command);
             FUtil.bcastMsg(sender.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
             return;
         }
-
         if (action == CommandBlockerAction.BLOCK_UNKNOWN)
         {
-            FUtil.playerMsg(sender, "Unknown command. Type \"help\" for help.", ChatColor.RESET);
+            FUtil.playerMsg(sender, "Unknown command. Type \"/help\" for help.", ChatColor.RESET);
             return;
         }
-
         FUtil.playerMsg(sender, FUtil.colorize(message));
+    }
+    
+    public CommandBlockerRank getRank()
+    {
+        return rank;
+    }
+    
+    public CommandBlockerAction getAction()
+    {
+        return action;
+    }
+    
+    public String getCommand()
+    {
+        return command;
+    }
+    
+    public String getSubCommand()
+    {
+        return subCommand;
+    }
+    
+    public String getMessage()
+    {
+        return message;
     }
 }

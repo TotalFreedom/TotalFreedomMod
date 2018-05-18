@@ -39,6 +39,23 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String loginMessage = null;
+    @Getter
+    @Setter
+    private String discordID = null;
+    @Getter
+    @Setter
+    private String tag = null;
+    @Getter
+    @Setter
+    private Boolean commandSpy = false;
+    @Getter
+    @Setter
+    private Boolean potionSpy = false;
+    @Getter
+    @Setter
+    private Boolean oldAdminMode = false;
+
+    public static final String CONFIG_FILENAME = "admins.yml";
 
     public Admin(Player player)
     {
@@ -62,7 +79,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")
                 .append("- Rank: ").append(rank.getName()).append("\n")
-                .append("- Is Active: ").append(active);
+                .append("- Is Active: ").append(active).append("\n")
+                .append("- Discord ID: ").append(discordID).append("\n")
+                .append("- Tag: ").append(tag);
 
         return output.toString();
     }
@@ -85,6 +104,11 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         ips.addAll(cs.getStringList("ips"));
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         loginMessage = cs.getString("login_message", null);
+        discordID = cs.getString("discord_id", null);
+        tag = cs.getString("tag", null);
+        commandSpy = cs.getBoolean("command_spy", false);
+        potionSpy = cs.getBoolean("potion_spy", false);
+        oldAdminMode = cs.getBoolean("old_admin_mode", false);
     }
 
     @Override
@@ -97,6 +121,11 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
+        cs.set("discord_id", discordID);
+        cs.set("tag", tag);
+        cs.set("command_spy", commandSpy);
+        cs.set("potion_spy", potionSpy);
+        cs.set("old_admin_mode", oldAdminMode);
     }
 
     public boolean isAtLeast(Rank pRank)
@@ -124,6 +153,11 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         {
             addIp(ip);
         }
+    }
+
+    public String getLoginMessage()
+    {
+        return this.loginMessage;
     }
 
     public void removeIp(String ip)
@@ -167,5 +201,55 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 && rank != null
                 && !ips.isEmpty()
                 && lastLogin != null;
+    }
+
+    public boolean isActive()
+    {
+        return this.active;
+    }
+
+    public String getConfigKey()
+    {
+        return this.configKey;
+    }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
+    public void setName(final String name)
+    {
+        this.name = name;
+    }
+
+    public Rank getRank()
+    {
+        return this.rank;
+    }
+
+    public void setRank(final Rank rank)
+    {
+        this.rank = rank;
+    }
+
+    public List<String> getIps()
+    {
+        return this.ips;
+    }
+
+    public Date getLastLogin()
+    {
+        return this.lastLogin;
+    }
+
+    public void setLastLogin(final Date lastLogin)
+    {
+        this.lastLogin = lastLogin;
+    }
+
+    public void setLoginMessage(final String loginMessage)
+    {
+        this.loginMessage = loginMessage;
     }
 }

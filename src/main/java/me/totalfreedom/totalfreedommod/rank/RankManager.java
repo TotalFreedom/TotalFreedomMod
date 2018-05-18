@@ -49,18 +49,21 @@ public class RankManager extends FreedomService
             return Rank.IMPOSTOR;
         }
 
+        // Master builders show up if they are not admins
+        if (plugin.mbl.isMasterBuilder(player) && !plugin.al.isAdmin(player))
+        {
+            return Title.MASTER_BUILDER;
+        }
+
         // Developers always show up
         if (FUtil.DEVELOPERS.contains(player.getName()))
         {
             return Title.DEVELOPER;
         }
 
-        final Rank rank = getRank(player);
-
-        // Non-admins don't have titles, display actual rank
-        if (!rank.isAdmin())
+        if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(player.getName()) && plugin.al.isAdmin(player))
         {
-            return rank;
+            return Title.EXECUTIVE;
         }
 
         // If the player's an owner, display that
@@ -69,7 +72,7 @@ public class RankManager extends FreedomService
             return Title.OWNER;
         }
 
-        return rank;
+        return getRank(player);
     }
 
     public Rank getRank(CommandSender sender)
@@ -106,7 +109,7 @@ public class RankManager extends FreedomService
 
     public Rank getRank(Player player)
     {
-        if (plugin.al.isAdminImpostor(player))
+        if (plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player) || plugin.mbl.isMasterBuilderImpostor(player))
         {
             return Rank.IMPOSTOR;
         }
@@ -118,6 +121,27 @@ public class RankManager extends FreedomService
         }
 
         return player.isOp() ? Rank.OP : Rank.NON_OP;
+    }
+
+    public void updateDisplay(Player player)
+    {
+        if (!player.isOnline())
+        {
+            return;
+        }
+        FPlayer fPlayer = plugin.pl.getPlayer(player);
+        if (plugin.al.isAdmin(player))
+        {
+            Displayable display = getDisplay(player);
+            fPlayer.setTag(display.getColoredTag());
+            String displayName = display.getColor() + player.getName();
+            player.setPlayerListName(StringUtils.substring(displayName, 0, 16));
+        }
+        else
+        {
+            fPlayer.setTag(null);
+            player.setPlayerListName(null);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -145,10 +169,16 @@ public class RankManager extends FreedomService
         }
 
         // Handle impostors
-        if (plugin.al.isAdminImpostor(player))
+        Boolean isImposter = plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player) || plugin.mbl.isMasterBuilderImpostor(player);
+        if (isImposter)
         {
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
-            FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor and has been frozen!", ChatColor.RED);
+            if (plugin.al.isAdminImpostor(player))
+            {
+                FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an impostor and has been frozen!", ChatColor.RED);
+            }
+            String displayName = Rank.IMPOSTOR.getColor() + player.getName();
+            player.setPlayerListName(StringUtils.substring(displayName, 0, 16));
             player.getInventory().clear();
             player.setOp(false);
             player.setGameMode(GameMode.SURVIVAL);
@@ -158,7 +188,7 @@ public class RankManager extends FreedomService
         }
 
         // Set display
-        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()))
+        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()) || plugin.mbl.isMasterBuilder(player))
         {
             final Displayable display = getDisplay(player);
             String loginMsg = display.getColoredLoginMessage();
@@ -174,6 +204,15 @@ public class RankManager extends FreedomService
 
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + loginMsg);
             plugin.pl.getPlayer(player).setTag(display.getColoredTag());
+
+            if (isAdmin)
+            {
+                Admin admin = plugin.al.getAdmin(player);
+                if (admin.getTag() != null)
+                {
+                    plugin.pl.getPlayer(player).setTag(FUtil.colorize(admin.getTag()));
+                }
+            }
 
             String displayName = display.getColor() + player.getName();
             try

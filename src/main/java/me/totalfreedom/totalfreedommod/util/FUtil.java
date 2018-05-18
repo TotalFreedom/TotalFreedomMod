@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -36,22 +37,23 @@ public class FUtil
     //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "Wild1145", "WickedGamingUK", "aggelosQQ");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "aggelosQQ", "OxLemonxO", "Wild1145", "ZeroEpoch1969");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
-            ChatColor.DARK_BLUE,
-            ChatColor.DARK_GREEN,
-            ChatColor.DARK_AQUA,
             ChatColor.DARK_RED,
-            ChatColor.DARK_PURPLE,
-            ChatColor.GOLD,
-            ChatColor.BLUE,
-            ChatColor.GREEN,
-            ChatColor.AQUA,
             ChatColor.RED,
-            ChatColor.LIGHT_PURPLE,
-            ChatColor.YELLOW);
+            ChatColor.GOLD,
+            ChatColor.YELLOW,
+            ChatColor.GREEN,
+            ChatColor.DARK_GREEN,
+            ChatColor.AQUA,
+            ChatColor.DARK_AQUA,
+            ChatColor.BLUE,
+            ChatColor.DARK_BLUE,
+            ChatColor.DARK_PURPLE,
+            ChatColor.LIGHT_PURPLE);
+    private static Iterator<ChatColor> CHAT_COLOR_ITERATOR;
 
     static
     {
@@ -59,10 +61,6 @@ public class FUtil
         {
             CHAT_COLOR_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
         }
-    }
-
-    private FUtil()
-    {
     }
 
     public static void cancel(BukkitTask task)
@@ -79,6 +77,11 @@ public class FUtil
         catch (Exception ex)
         {
         }
+    }
+
+    public static boolean isExecutive(String name)
+    {
+        return ConfigEntry.SERVER_OWNERS.getStringList().contains(name) || ConfigEntry.SERVER_EXECUTIVES.getStringList().contains(name);
     }
 
     public static void bcastMsg(String message, ChatColor color)
@@ -128,7 +131,7 @@ public class FUtil
                 Math.round(location.getZ()));
     }
 
-    public static boolean deleteFolder(final File file)
+    public static boolean deleteFolder(File file)
     {
         if (file.exists() && file.isDirectory())
         {
@@ -369,6 +372,25 @@ public class FUtil
         return CHAT_COLOR_POOL.get(RANDOM.nextInt(CHAT_COLOR_POOL.size()));
     }
 
+    public static String rainbowify(String string)
+    {
+        CHAT_COLOR_ITERATOR = CHAT_COLOR_POOL.iterator();
+
+        StringBuilder newString = new StringBuilder();
+        char[] chars = string.toCharArray();
+
+        for (char c : chars)
+        {
+            if (!CHAT_COLOR_ITERATOR.hasNext())
+            {
+                CHAT_COLOR_ITERATOR = CHAT_COLOR_POOL.iterator(); //Restart from first colour if there are no more colours in iterator.
+            }
+            newString.append(CHAT_COLOR_ITERATOR.next()).append(c);
+        }
+
+        return newString.toString();
+    }
+
     public static String colorize(String string)
     {
         return ChatColor.translateAlternateColorCodes('&', string);
@@ -394,10 +416,16 @@ public class FUtil
         return date.getTime() / 1000L;
     }
 
-    public static String getNmsVersion()
+    public static String getNMSVersion()
     {
         String packageName = Bukkit.getServer().getClass().getPackage().getName();
         return packageName.substring(packageName.lastIndexOf('.') + 1);
     }
 
+    public static int random(int min, int max)
+    {
+        int range = max - min + 1;
+        int value = (int) (Math.random() * range) + min;
+        return value;
+    }
 }

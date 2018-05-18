@@ -1,33 +1,24 @@
 package me.totalfreedom.totalfreedommod;
 
-import me.totalfreedom.totalfreedommod.fun.Trailer;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
+import me.totalfreedom.totalfreedommod.amp.AMP;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.banning.PermbanList;
-import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
-import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
-import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
-import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
-import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
+import me.totalfreedom.totalfreedommod.blocking.*;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
-import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
-import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
-import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
-import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
+import me.totalfreedom.totalfreedommod.bridge.*;
 import me.totalfreedom.totalfreedommod.caging.Cager;
 import me.totalfreedom.totalfreedommod.command.CommandLoader;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
+import me.totalfreedom.totalfreedommod.discord.Discord;
 import me.totalfreedom.totalfreedommod.freeze.Freezer;
-import me.totalfreedom.totalfreedommod.fun.ItemFun;
-import me.totalfreedom.totalfreedommod.fun.Jumppads;
-import me.totalfreedom.totalfreedommod.fun.Landminer;
-import me.totalfreedom.totalfreedommod.fun.MP44;
+import me.totalfreedom.totalfreedommod.fun.*;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
+import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilderList;
+import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilderWorldRestrictions;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
+import me.totalfreedom.totalfreedommod.playerverification.PlayerVerification;
+import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -40,6 +31,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mcstats.Metrics;
+import org.spigotmc.SpigotConfig;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 {
@@ -74,6 +71,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public PlayerList pl;
     public Announcer an;
     public ChatManager cm;
+    public Discord dc;
+    public PunishmentList pul;
     public BanManager bm;
     public PermbanList pm;
     public ProtectArea pa;
@@ -82,28 +81,39 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public CommandSpy cs;
     public Cager ca;
     public Freezer fm;
+    public EditBlocker ebl;
+    public PVPBlocker pbl;
     public Orbiter or;
     public Muter mu;
     public Fuckoff fo;
     public AutoKick ak;
     public AutoEject ae;
+    public Monitors mo;
     public MovementValidator mv;
     public EntityWiper ew;
     public FrontDoor fd;
     public ServerPing sp;
+    public Updater ud;
     public ItemFun it;
     public Landminer lm;
     public MP44 mp;
     public Jumppads jp;
     public Trailer tr;
     public HTTPDaemon hd;
+    public MasterBuilderList mbl;
+    public MasterBuilderWorldRestrictions mbwr;
+    public SignBlocker snp;
+    public PlayerVerification pv;
     //
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
     public BukkitTelnetBridge btb;
     public EssentialsBridge esb;
     public LibsDisguisesBridge ldb;
+    public CoreProtectBridge cpb;
     public WorldEditBridge web;
+    public WorldGuardBridge wgb;
+    public AMP amp;
 
     @Override
     public void load()
@@ -121,7 +131,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public void enable()
     {
         FLog.info("Created by Madgeek1450 and Prozza");
-        FLog.info("Version " + build.formattedVersion());
+        FLog.info("Version " + build.version);
         FLog.info("Compiled " + build.date + " by " + build.author);
 
         final MethodTimer timer = new MethodTimer();
@@ -163,14 +173,19 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         lp = services.registerService(LoginProcess.class);
         nu = services.registerService(AntiNuke.class);
         as = services.registerService(AntiSpam.class);
+        mbl = services.registerService(MasterBuilderList.class);
+        mbwr = services.registerService(MasterBuilderWorldRestrictions.class);
 
         pl = services.registerService(PlayerList.class);
         an = services.registerService(Announcer.class);
         cm = services.registerService(ChatManager.class);
+        dc = services.registerService(Discord.class);
+        pul = services.registerService(PunishmentList.class);
         bm = services.registerService(BanManager.class);
         pm = services.registerService(PermbanList.class);
         pa = services.registerService(ProtectArea.class);
         gr = services.registerService(GameRuleHandler.class);
+        snp = services.registerService(SignBlocker.class);
 
         // Single admin utils
         rb = services.registerService(RollbackManager.class);
@@ -179,14 +194,20 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         fm = services.registerService(Freezer.class);
         or = services.registerService(Orbiter.class);
         mu = services.registerService(Muter.class);
+        ebl = services.registerService(EditBlocker.class);
+        pbl = services.registerService(PVPBlocker.class);
         fo = services.registerService(Fuckoff.class);
         ak = services.registerService(AutoKick.class);
         ae = services.registerService(AutoEject.class);
-
+        mo = services.registerService(Monitors.class);
+        
+        
         mv = services.registerService(MovementValidator.class);
         ew = services.registerService(EntityWiper.class);
         fd = services.registerService(FrontDoor.class);
         sp = services.registerService(ServerPing.class);
+        ud = services.registerService(Updater.class);
+        pv = services.registerService(PlayerVerification.class);
 
         // Fun
         it = services.registerService(ItemFun.class);
@@ -202,9 +223,12 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         // Start bridges
         bridges = new ServiceManager<>(plugin);
         btb = bridges.registerService(BukkitTelnetBridge.class);
+        cpb = bridges.registerService(CoreProtectBridge.class);
         esb = bridges.registerService(EssentialsBridge.class);
         ldb = bridges.registerService(LibsDisguisesBridge.class);
         web = bridges.registerService(WorldEditBridge.class);
+        wgb = bridges.registerService(WorldGuardBridge.class);
+        amp = bridges.registerService(AMP.class);
         bridges.start();
 
         timer.update();
@@ -230,6 +254,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
                 plugin.pa.autoAddSpawnpoints();
             }
         }.runTaskLater(plugin, 60L);
+        // little workaround to stop spigot from autorestarting - causing AMP to detach from process.
+        SpigotConfig.config.set("settings.restart-on-crash", false);
     }
 
     @Override

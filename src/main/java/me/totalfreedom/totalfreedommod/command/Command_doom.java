@@ -2,8 +2,11 @@ package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.punishments.Punishment;
+import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import net.pravian.aero.util.Ips;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -38,12 +41,14 @@ public class Command_doom extends FreedomCommand
 
         final String ip = player.getAddress().getAddress().getHostAddress().trim();
 
-        // Remove from superadmin
+        // Remove from admin
         Admin admin = getAdmin(player);
         if (admin != null)
         {
-            FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the superadmin list", true);
-            plugin.al.removeAdmin(admin);
+            FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the admin list", true);
+            admin.setActive(false);
+            plugin.al.save();
+            plugin.al.updateTables();
         }
 
         // Remove from whitelist
@@ -77,13 +82,16 @@ public class Command_doom extends FreedomCommand
         // Shoot the player in the sky
         player.setVelocity(player.getVelocity().clone().add(new Vector(0, 20, 0)));
 
+        // Log doom
+        plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.DOOM, null));
+
         new BukkitRunnable()
         {
             @Override
             public void run()
             {
                 // strike lightning
-                player.getWorld().strikeLightning(player.getLocation());
+                player.getWorld().strikeLightningEffect(player.getLocation());
 
                 // kill (if not done already)
                 player.setHealth(0.0);

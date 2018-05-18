@@ -62,6 +62,12 @@ public class AntiSpam extends FreedomService
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event)
     {
         final Player player = event.getPlayer();
+
+        if (plugin.al.isAdmin(player))
+        {
+            return;
+        }
+
         String message = event.getMessage().trim();
 
         final FPlayer playerdata = plugin.pl.getPlayerSync(player);
@@ -101,6 +107,11 @@ public class AntiSpam extends FreedomService
         {
             FUtil.playerMsg(player, "Your commands have been blocked by an admin.", ChatColor.RED);
             event.setCancelled(true);
+            return;
+        }
+
+        if (plugin.al.isAdmin(player))
+        {
             return;
         }
 

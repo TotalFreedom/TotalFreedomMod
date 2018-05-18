@@ -130,6 +130,16 @@ public class AdminList extends FreedomService
         return admin != null && admin.isActive();
     }
 
+    public Map<String, Admin> getAllAdmins()
+    {
+        return this.allAdmins;
+    }
+
+    public Set<Admin> getActiveAdmins()
+    {
+        return this.activeAdmins;
+    }
+
     public boolean isSeniorAdmin(CommandSender sender)
     {
         Admin admin = getAdmin(sender);
@@ -348,7 +358,7 @@ public class AdminList extends FreedomService
 
             if (verbose)
             {
-                FUtil.adminAction("TotalFreedomMod", "Deactivating superadmin " + admin.getName() + ", inactive for " + lastLoginHours + " hours", true);
+                FUtil.adminAction("TotalFreedomMod", "Deactivating admin " + admin.getName() + ", inactive for " + lastLoginHours + " hours", true);
             }
 
             admin.setActive(false);

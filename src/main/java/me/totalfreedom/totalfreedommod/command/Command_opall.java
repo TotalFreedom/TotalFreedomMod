@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Op everyone on the server, optionally change everyone's gamemode at the same time.", usage = "/<command> [-c | -s]")
+@CommandParameters(description = "Op everyone on the server, optionally change everyone's gamemode at the same time.", usage = "/<command> [-c | -s | -a]")
 public class Command_opall extends FreedomCommand
 {
 
@@ -31,6 +31,11 @@ public class Command_opall extends FreedomCommand
                 doSetGamemode = true;
                 targetGamemode = GameMode.SURVIVAL;
             }
+            else if (args[0].equals("-a"))
+            {
+                doSetGamemode = true;
+                targetGamemode = GameMode.ADVENTURE;
+            }
         }
 
         for (Player player : server.getOnlinePlayers())
@@ -38,7 +43,7 @@ public class Command_opall extends FreedomCommand
             player.setOp(true);
             player.sendMessage(FreedomCommand.YOU_ARE_OP);
 
-            if (doSetGamemode)
+            if (doSetGamemode && !player.getGameMode().equals(GameMode.SPECTATOR))
             {
                 player.setGameMode(targetGamemode);
             }

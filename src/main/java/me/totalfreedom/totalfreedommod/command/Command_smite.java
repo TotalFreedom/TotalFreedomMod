@@ -38,23 +38,24 @@ public class Command_smite extends FreedomCommand
             return true;
         }
 
-        smite(player, reason);
+        smite(sender, player, reason);
         return true;
     }
 
-    public static void smite(Player player)
+    public static void smite(CommandSender sender, Player player)
     {
-        smite(player, null);
+        smite(sender, player, null);
     }
 
-    public static void smite(Player player, String reason)
+    public static void smite(CommandSender sender, Player player, String reason)
     {
         FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
 
         if (reason != null)
         {
-            FUtil.bcastMsg("  Reason: " + reason, ChatColor.YELLOW);
+            FUtil.bcastMsg("  Reason: " + ChatColor.YELLOW + reason, ChatColor.RED);
         }
+        FUtil.bcastMsg("  Smited by: " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
 
         // Deop
         player.setOp(false);

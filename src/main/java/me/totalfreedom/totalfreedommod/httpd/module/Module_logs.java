@@ -4,6 +4,7 @@ import java.io.File;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
+import me.totalfreedom.totalfreedommod.util.FLog;
 
 public class Module_logs extends Module_file
 {
@@ -18,6 +19,7 @@ public class Module_logs extends Module_file
     {
         if (ConfigEntry.LOGS_SECRET.getString().equals(params.get("password")))
         {
+            FLog.info(session.getSocket().getInetAddress() + " is downloading latest.log.");
             return serveFile("latest.log", params, new File("./logs"));
         }
         else

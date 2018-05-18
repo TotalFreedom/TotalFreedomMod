@@ -1,12 +1,9 @@
 package me.totalfreedom.totalfreedommod.fun;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -14,9 +11,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 public class Trailer extends FreedomService
 {
-
     private final Random random = new Random();
     private final Set<String> trailPlayers = new HashSet<>(); // player name
 
@@ -48,6 +48,11 @@ public class Trailer extends FreedomService
             return;
         }
 
+        if (event.getPlayer().getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()))
+        {
+            return;
+        }
+
         Block fromBlock = event.getFrom().getBlock();
         if (!fromBlock.isEmpty())
         {
@@ -60,8 +65,23 @@ public class Trailer extends FreedomService
             return;
         }
 
+        final Location location = fromBlock.getLocation();
         fromBlock.setType(Material.WOOL);
         DepreciationAggregator.setData_Block(fromBlock, (byte) random.nextInt(16));
+        byte data = DepreciationAggregator.getData_Block(fromBlock);
+        Material material = Material.getMaterial(String.valueOf(fromBlock.getType()));
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int z = -1; z <= 1; z++)
+            {
+                final Location trail_pos;
+                trail_pos = new Location(event.getPlayer().getWorld(), fromBlock.getX() + x, fromBlock.getY(), fromBlock.getZ() + z);
+                if (trailPlayers.contains(event.getPlayer().getName()))
+                {
+                    plugin.cpb.getCoreProtectAPI().logPlacement(event.getPlayer().getName(), trail_pos, material, data);
+                }
+            }
+        }
     }
 
     public void remove(Player player)

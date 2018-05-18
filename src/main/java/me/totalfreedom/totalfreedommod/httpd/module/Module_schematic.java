@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -137,7 +138,8 @@ public class Module_schematic extends HTTPDModule
                     {
                         try
                         {
-                            uploadSchematic();
+                            uploadSchematic(remoteAddress);
+
                             out.append(HTMLGenerationTools.paragraph("Schematic uploaded successfully."));
                         }
                         catch (SchematicTransferException ex)
@@ -162,7 +164,7 @@ public class Module_schematic extends HTTPDModule
         return out.toString();
     }
 
-    private boolean uploadSchematic() throws SchematicTransferException
+    private boolean uploadSchematic(String remoteAddress) throws SchematicTransferException
     {
         Map<String, String> files = getFiles();
 
@@ -203,6 +205,7 @@ public class Module_schematic extends HTTPDModule
         try
         {
             FileUtils.copyFile(tempFile, targetFile);
+            FLog.info(remoteAddress + " uploaded schematic: " + targetFile.getName());
         }
         catch (IOException ex)
         {

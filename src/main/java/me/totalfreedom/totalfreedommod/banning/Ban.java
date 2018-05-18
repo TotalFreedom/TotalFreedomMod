@@ -156,6 +156,51 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         return expiryUnix > 0;
     }
 
+    public String getUsername()
+    {
+        return this.username;
+    }
+
+    public void setUsername(final String username)
+    {
+        this.username = username;
+    }
+
+    public List<String> getIps()
+    {
+        return this.ips;
+    }
+
+    public String getBy()
+    {
+        return this.by;
+    }
+
+    public void setBy(final String by)
+    {
+        this.by = by;
+    }
+
+    public String getReason()
+    {
+        return this.reason;
+    }
+
+    public void setReason(final String reason)
+    {
+        this.reason = reason;
+    }
+
+    public long getExpiryUnix()
+    {
+        return this.expiryUnix;
+    }
+
+    public void setExpiryUnix(final long expiryUnix)
+    {
+        this.expiryUnix = expiryUnix;
+    }
+
     public Date getExpiryDate()
     {
         return FUtil.getUnixDate(expiryUnix);

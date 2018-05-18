@@ -11,14 +11,14 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Go to the AdminWorld.",
-        usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]")
+        usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]",
+        aliases = "aw")
 public class Command_adminworld extends FreedomCommand
 {
 
     private enum CommandMode
     {
-
-        TELEPORT, GUEST, TIME, WEATHER;
+        TELEPORT, GUEST, TIME, WEATHER
     }
 
     @Override

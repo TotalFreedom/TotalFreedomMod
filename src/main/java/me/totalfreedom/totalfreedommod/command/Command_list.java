@@ -1,7 +1,5 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.ArrayList;
-import java.util.List;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -12,31 +10,21 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f]", aliases = "who")
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f | -v]", aliases = "who")
 public class Command_list extends FreedomCommand
 {
-
-    private static enum ListFilter
-    {
-
-        PLAYERS,
-        ADMINS,
-        FAMOUS_PLAYERS,
-        IMPOSTORS;
-    }
-
-    @Override
-    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
-    {
+    public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole) {
         if (args.length > 1)
         {
             return false;
         }
-
         if (FUtil.isFromHostConsole(sender.getName()))
         {
-            final List<String> names = new ArrayList<>();
+            List<String> names = new ArrayList<>();
             for (Player player : server.getOnlinePlayers())
             {
                 names.add(player.getName());
@@ -44,66 +32,95 @@ public class Command_list extends FreedomCommand
             msg("There are " + names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "), ChatColor.WHITE);
             return true;
         }
-
-        final ListFilter listFilter;
+        ListFilter listFilter;
         if (args.length == 1)
         {
-            switch (args[0])
+            String s = args[0];
+            switch (s)
             {
                 case "-a":
+                {
                     listFilter = ListFilter.ADMINS;
                     break;
+                }
+                case "-v":
+                {
+                    checkRank(Rank.SUPER_ADMIN);
+                    listFilter = ListFilter.VANISHED_ADMINS;
+                    break;
+                }
                 case "-i":
+                {
                     listFilter = ListFilter.IMPOSTORS;
                     break;
+                }
                 case "-f":
+                {
                     listFilter = ListFilter.FAMOUS_PLAYERS;
                     break;
+                }
                 default:
+                {
                     return false;
+                }
             }
         }
         else
         {
             listFilter = ListFilter.PLAYERS;
         }
-
-        final StringBuilder onlineStats = new StringBuilder();
-        final StringBuilder onlineUsers = new StringBuilder();
-
-        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size());
-        onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(server.getMaxPlayers());
-        onlineStats.append(ChatColor.BLUE).append(" players online.");
-
-        final List<String> names = new ArrayList<>();
-        for (Player player : server.getOnlinePlayers())
+        StringBuilder onlineStats = new StringBuilder();
+        StringBuilder onlineUsers = new StringBuilder();
+        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - Command_vanish.VANISHED.size())
+                .append(ChatColor.BLUE)
+                .append(" out of a maximum ")
+                .append(ChatColor.RED)
+                .append(server.getMaxPlayers())
+                .append(ChatColor.BLUE)
+                .append(" players online.");
+        List<String> n = new ArrayList<>();
+        for (Player p : server.getOnlinePlayers())
         {
-            if (listFilter == ListFilter.ADMINS && !plugin.al.isAdmin(player))
+            if (listFilter == ListFilter.ADMINS && !plugin.al.isAdmin(p))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.ADMINS && Command_vanish.VANISHED.contains(p))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.VANISHED_ADMINS && !Command_vanish.VANISHED.contains(p))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.IMPOSTORS && !plugin.al.isAdminImpostor(p))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.FAMOUS_PLAYERS && !ConfigEntry.FAMOUS_PLAYERS.getList().contains(p.getName().toLowerCase()))
+            {
+                continue;
+            }
+            if (listFilter == ListFilter.PLAYERS && Command_vanish.VANISHED.contains(p))
             {
                 continue;
             }
 
-            if (listFilter == ListFilter.IMPOSTORS && !plugin.al.isAdminImpostor(player))
+            final Displayable display = plugin.rm.getDisplay(p);
+            if (!senderIsConsole && plugin.al.isAdmin(playerSender) && plugin.al.getAdmin(playerSender).getOldAdminMode())
             {
-                continue;
+                n.add(getOldPrefix(display) + p.getName());
             }
-
-            if (listFilter == ListFilter.FAMOUS_PLAYERS && !ConfigEntry.FAMOUS_PLAYERS.getList().contains(player.getName().toLowerCase()))
+            else
             {
-                continue;
+                n.add(display.getColoredTag() + p.getName());
             }
-
-            Displayable display = plugin.rm.getDisplay(player);
-
-            names.add(display.getColoredTag() + player.getName());
         }
-
-        String playerType = listFilter == null ? "players" : listFilter.toString().toLowerCase().replace('_', ' ');
-
-        onlineUsers.append("Connected ");
-        onlineUsers.append(playerType + ": ");
-        onlineUsers.append(StringUtils.join(names, ChatColor.WHITE + ", "));
-
+        String playerType = listFilter.toString().toLowerCase().replace('_', ' ');
+        onlineUsers.append("Connected ")
+                .append(playerType)
+                .append(": ")
+                .append(StringUtils.join(n, ChatColor.WHITE + ", "));
         if (senderIsConsole)
         {
             sender.sendMessage(ChatColor.stripColor(onlineStats.toString()));
@@ -114,7 +131,34 @@ public class Command_list extends FreedomCommand
             sender.sendMessage(onlineStats.toString());
             sender.sendMessage(onlineUsers.toString());
         }
-
+        n.clear();
         return true;
+    }
+
+    public String getOldPrefix(Displayable display)
+    {
+        ChatColor color = display.getColor();
+
+        if (color.equals(ChatColor.AQUA))
+        {
+            color = ChatColor.GOLD;
+        }
+        else if (color.equals(ChatColor.GOLD))
+        {
+            color = ChatColor.LIGHT_PURPLE;
+        }
+
+        String prefix = "[" + display.getAbbr() + "]";
+
+        return color + prefix;
+    }
+    
+    private enum ListFilter
+    {
+        PLAYERS, 
+        ADMINS, 
+        VANISHED_ADMINS, 
+        FAMOUS_PLAYERS, 
+        IMPOSTORS
     }
 }

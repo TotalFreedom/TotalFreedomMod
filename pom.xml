@@ -54,10 +54,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <!--        <repository>
-            <id>elmakers-repo</id>
-            <url>http://maven.elmakers.com/repository/</url>
-        </repository>-->
+        <repository>
+            <id>sk89q-repo</id>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
         <repository>
             <id>sk89q-snapshots</id>
             <url>http://maven.sk89q.com/artifactory/repo</url>
@@ -69,55 +69,99 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.6</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.6</version>
+            <version>1.16.20</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12-pre5-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>1.12.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/spigot-1.12.2.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.github.Pravian</groupId>
             <artifactId>Aero</artifactId>
-            <version>a0e1dc5</version>
+            <version>2.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/aero-2.1-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.github.TotalFreedom</groupId>
             <artifactId>BukkitTelnet</artifactId>
             <version>4.5-pre1</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>net.ess3</groupId>
             <artifactId>Essentials</artifactId>
             <version>2.13.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldguard</artifactId>
+            <version>6.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/worldguard-6.2.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>6.1.0-TF</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/TF-WorldEdit.jar</systemPath>
         </dependency>
 
         <dependency>
-            <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
-            <artifactId>worldedit-core</artifactId>
-            <version>6.1.0-TF</version>
+            <groupId>net.coreprotect</groupId>
+            <artifactId>CoreProtect</artifactId>
+            <version>2.14.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CoreProtect_2.14.2.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>me.libraryaddict</groupId>
+            <artifactId>LibsDisguises</artifactId>
+            <scope>system</scope>
+            <version>9.4.0-SNAPSHOT</version>
+            <systemPath>${project.basedir}/lib/LibsDisguises.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spigot</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.12.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/spigot-1.12.2.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>3.5.1_339-withDependencies</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/JDA-3.5.1_339-withDependencies.jar</systemPath>
         </dependency>
 
     </dependencies>
@@ -254,6 +298,35 @@
                         <item>buildNumber</item>
                     </items>
                 </configuration>
+            </plugin>
+
+            <!-- Maven jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <outputDirectory>target/generated-sources</outputDirectory>
+                </configuration>
+            </plugin>
+
+            <!-- Maven shade -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>target/${project.name}.jar</outputFile>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

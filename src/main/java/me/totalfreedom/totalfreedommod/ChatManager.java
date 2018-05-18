@@ -1,10 +1,13 @@
 package me.totalfreedom.totalfreedommod;
 
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
-import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -71,7 +74,10 @@ public class ChatManager extends FreedomService
             }
             if (((float) caps / (float) message.length()) > 0.65) //Compute a ratio so that longer sentences can have more caps.
             {
-                message = message.toLowerCase();
+                if (!plugin.al.isAdmin(player))
+                {
+                    message = message.toLowerCase();
+                }
             }
         }
 
@@ -100,16 +106,42 @@ public class ChatManager extends FreedomService
         event.setFormat(format);
     }
 
+    public String getOldPrefix(Displayable display)
+    {
+        ChatColor color = display.getColor();
+
+        if (color.equals(ChatColor.AQUA))
+        {
+            color = ChatColor.GOLD;
+        }
+        else if (color.equals(ChatColor.GOLD))
+        {
+            color = ChatColor.LIGHT_PURPLE;
+        }
+
+        String prefix = "(" + display.getAbbr() + ")";
+
+        return color + prefix;
+    }
+
     public void adminChat(CommandSender sender, String message)
     {
-        String name = sender.getName() + " " + plugin.rm.getDisplay(sender).getColoredTag() + ChatColor.WHITE;
-        FLog.info("[ADMIN] " + name + ": " + message);
+        Displayable display = plugin.rm.getDisplay(sender);
+        FLog.info("[ADMIN] " + sender.getName() + " " + display.getTag() + ": " + message);
 
         for (Player player : server.getOnlinePlayers())
         {
             if (plugin.al.isAdmin(player))
             {
-                player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.GOLD + message);
+                Admin admin = plugin.al.getAdmin(player);
+                if (admin.getOldAdminMode())
+                {
+                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + " " + getOldPrefix(display) + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
+                }
+                else
+                {
+                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + " " + display.getColoredTag() + ChatColor.WHITE + ": " + ChatColor.GOLD + message);
+                }
             }
         }
     }

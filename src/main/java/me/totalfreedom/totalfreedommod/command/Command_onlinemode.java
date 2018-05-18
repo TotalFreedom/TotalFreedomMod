@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -43,29 +44,27 @@ public class Command_onlinemode extends FreedomCommand
                 return false;
             }
 
-//            try
-//            {
-//                plugin.si.setOnlineMode(onlineMode);
-//
-//                if (onlineMode)
-//                {
-//                    for (Player player : server.getOnlinePlayers())
-//                    {
-//                        player.kickPlayer("Server is activating \"online-mode=true\". Please reconnect.");
-//                    }
-//                }
-//
-//                FUtil.adminAction(sender.getName(), "Turning player validation " + (onlineMode ? "on" : "off") + ".", true);
-//
-//                server.reload();
-//            }
-//            catch (Exception ex)
-//            {
-//                FLog.severe(ex);
-//            }
-            FUtil.adminAction(sender.getName(), "Online-Mode toggling is temporarily disabled.", true);
-        }
+            try
+            {
+               plugin.si.setOnlineMode(onlineMode);
 
+               if (onlineMode)
+                {
+                    for (Player player : server.getOnlinePlayers())
+                    {
+                        player.kickPlayer("Server is activating \"online-mode=true\". Please reconnect.");
+                    }
+                }
+
+                FUtil.adminAction(sender.getName(), "Turning player validation " + (onlineMode ? "on" : "off") + ".", true);
+
+                server.reload();
+            }
+            catch (Exception ex)
+            {
+                FLog.severe(ex);
+            }
+        }
         return true;
     }
 }
