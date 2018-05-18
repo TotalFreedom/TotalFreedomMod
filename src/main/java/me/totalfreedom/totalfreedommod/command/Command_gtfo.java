@@ -6,7 +6,6 @@ import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
-import net.pravian.aero.util.Ips;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
@@ -130,7 +129,6 @@ public class Command_gtfo extends FreedomCommand
         for (String ip : ips)
         {
             ban.addIp(ip);
-            ban.addIp(FUtil.getFuzzyIp(ip));
         }
         plugin.bm.addBan(ban);
 
