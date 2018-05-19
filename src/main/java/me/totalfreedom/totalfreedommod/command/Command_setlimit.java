@@ -20,7 +20,7 @@ public class Command_setlimit extends FreedomCommand
         {
             try
             {
-                amount = Math.max(1, Math.min(2000000, Integer.parseInt(args[0])));
+                amount = Math.max(1, Math.min(200000, Integer.parseInt(args[0])));
             }
             catch (NumberFormatException ex)
             {
