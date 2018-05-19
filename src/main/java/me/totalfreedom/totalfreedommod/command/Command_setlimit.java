@@ -15,12 +15,12 @@ public class Command_setlimit extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        int amount = 2500;
+        int amount = 100000;
         if (args.length > 0)
         {
             try
             {
-                amount = Math.max(1, Math.min(10000, Integer.parseInt(args[0])));
+                amount = Math.max(1, Math.min(2000000, Integer.parseInt(args[0])));
             }
             catch (NumberFormatException ex)
             {
