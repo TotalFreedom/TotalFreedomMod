@@ -220,6 +220,7 @@ protectarea:
 host_sender_names:
   - rcon
   - remotebukkit
+  - console
 
 # Announcer
 announcer:
