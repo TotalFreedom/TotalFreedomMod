@@ -4,18 +4,19 @@
 
     <groupId>me.totalfreedom</groupId>
     <artifactId>totalfreedom</artifactId>
-    <version>5.0</version>
+    <version>5.1</version>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tfm.build.version>${project.version}</tfm.build.version>
         <tfm.build.codename>Electrum</tfm.build.codename>
-        <!--  <tfm.build.number>${maven.buildnumber}</tfm.build.number> -->
+        <tfm.build.number>${maven.buildnumber}</tfm.build.number>
         <tfm.build.date>${maven.build.timestamp}</tfm.build.date>
         <tfm.build.author>${buildAuthor}</tfm.build.author>
         <tfm.build.head>${buildHead}</tfm.build.head>
         <jar.finalName>${project.name}</jar.finalName>
+        
         <maven.build.timestamp.format>dd/MM/yyyy hh:mm aa</maven.build.timestamp.format>
     </properties>
 
@@ -54,10 +55,6 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <!--        <repository>
-            <id>elmakers-repo</id>
-            <url>http://maven.elmakers.com/repository/</url>
-        </repository>-->
         <repository>
             <id>sk89q-snapshots</id>
             <url>http://maven.sk89q.com/artifactory/repo</url>
@@ -146,8 +143,33 @@
                 </configuration>
             </plugin>
 
+            <!-- Git describe -->
+            <plugin>
+                <groupId>com.lukegb.mojo</groupId>
+                <artifactId>gitdescribe-maven-plugin</artifactId>
+                <version>3.0</version>
+                <executions>
+                    <execution>
+                        <id>git-describe</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>gitdescribe</goal>
+                        </goals>
+                        <configuration>
+                            <descriptionProperty>buildHead</descriptionProperty>
+                            <extraArguments>
+                                <param>--tags</param>
+                                <param>--always</param>
+                                <param>HEAD</param>
+                            </extraArguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <!-- Antrun -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>
                 <executions>
@@ -155,8 +177,13 @@
                         <phase>initialize</phase>
                         <configuration>
                             <target>
-                                <propertyfile file="build.properties" comment="Build information. Edit this to your liking.">
+                                <propertyfile file="src/main/resources/build.properties" comment="Build information. Edit this to your liking.">
                                     <entry key="buildAuthor" default="unknown" />
+                                    <entry key="buildNumber" default="0" />
+                                    <entry key="buildDate" default="${maven.build.timestamp}" />
+                                    <entry key="buildCodeName" default="Electrum (MC 1.12) Pre-Release 1" />
+                                    <entry key="buildVersion" default="${project.version}" />
+                                    <entry key="buildHead" default="${buildHead}" />
                                 </propertyfile>
                             </target>
                         </configuration>
@@ -165,7 +192,9 @@
                         </goals>
                     </execution>
                 </executions>
+               
             </plugin>
+            
 
             <!-- Properties -->
             <plugin>
@@ -180,7 +209,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${basedir}/build.properties</file>
+                                <file>${basedir}/src/main/resources/build.properties</file>
                             </files>
                         </configuration>
                     </execution>
@@ -208,29 +237,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Git describe -->
-            <plugin>
-                <groupId>com.lukegb.mojo</groupId>
-                <artifactId>gitdescribe-maven-plugin</artifactId>
-                <version>3.0</version>
-                <executions>
-                    <execution>
-                        <id>git-describe</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>gitdescribe</goal>
-                        </goals>
-                        <configuration>
-                            <descriptionProperty>buildHead</descriptionProperty>
-                            <extraArguments>
-                                <param>--tags</param>
-                                <param>--always</param>
-                                <param>HEAD</param>
-                            </extraArguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            
 
             <!-- Buildnumber -->
             <plugin>
@@ -248,7 +255,7 @@
 
                 <configuration>
                     <buildNumberPropertyName>maven.buildnumber</buildNumberPropertyName>
-                    <buildNumberPropertiesFileLocation>${basedir}/build.properties</buildNumberPropertiesFileLocation>
+                    <buildNumberPropertiesFileLocation>${basedir}/src/main/resources/build.properties</buildNumberPropertiesFileLocation>
                     <format>{0,number,#}</format>
                     <items>
                         <item>buildNumber</item>
