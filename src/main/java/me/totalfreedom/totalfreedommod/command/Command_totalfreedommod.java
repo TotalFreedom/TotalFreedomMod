@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  * See https://github.com/TotalFreedom/License - This file may not be edited or removed.
  */
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
-@CommandParameters(description = "Shows information about TotalFreedomMod or reloads it", usage = "/<command> [reload | update]", aliases = "tfm")
+@CommandParameters(description = "Shows information about TotalFreedomMod or reloads it", usage = "/<command> [reload]", aliases = "tfm")
 public class Command_totalfreedommod extends FreedomCommand
 {
 
@@ -44,31 +44,6 @@ public class Command_totalfreedommod extends FreedomCommand
                 FLog.info(message);
                 return true;
             }
-            else if (args[0].equals("update"))
-            {
-                if (plugin.al.isAdmin(sender) && FUtil.DEVELOPERS.contains(sender.getName()))
-                {
-                    if (plugin.ud.updateAvailable)
-                    {
-                        FUtil.adminAction(sender.getName(), "Updating TotalFreedomMod", false);
-                        plugin.ud.update();
-                    }
-                    else
-                    {
-                        msg("TFM is already up to date!");
-                    }
-                }
-                else
-                {
-                    noPerms();
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         TotalFreedomMod.BuildProperties build = TotalFreedomMod.build;
         msg("TotalFreedomMod for 'Total Freedom', the original all-op server.", ChatColor.GOLD);
