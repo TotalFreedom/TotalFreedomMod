@@ -85,11 +85,7 @@ public class Command_mbconfig extends FreedomCommand
                 }
 
                 checkConsole();
-                checkRank(Rank.SENIOR_ADMIN);
-                if (!FUtil.isExecutive(sender.getName()))
-                {
-                    noPerms();
-                }
+                checkRank(Rank.TELNET_ADMIN);
 
                 // Player already on the list?
                 final Player player = getPlayer(args[1]);
@@ -113,6 +109,12 @@ public class Command_mbconfig extends FreedomCommand
 
                 if (masterBuilder == null) // New entry
                 {
+                    checkRank(Rank.SENIOR_ADMIN);
+                    if (!FUtil.isExecutive(sender.getName()))
+                    {
+                        noPerms();
+                    }
+
                     if (player == null)
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND);
