@@ -75,9 +75,6 @@ public class FPlayer
     @Getter
     @Setter
     private boolean invSee = false;
-    @Getter
-    @Setter
-    private boolean potionMonitorEnabled = false;
 
     public FPlayer(TotalFreedomMod plugin, Player player)
     {

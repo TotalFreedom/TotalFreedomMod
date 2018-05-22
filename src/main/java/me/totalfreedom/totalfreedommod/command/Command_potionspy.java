@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,9 +14,11 @@ public class Command_potionspy extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        FPlayer playerdata = plugin.pl.getPlayer(playerSender);
-        playerdata.setPotionMonitorEnabled(!playerdata.isPotionMonitorEnabled());
-        msg("PotionSpy is now " + (playerdata.isPotionMonitorEnabled() ? "enabled." : "disabled."));
+        Admin admin = plugin.al.getAdmin(playerSender);
+        admin.setPotionSpy(!admin.getPotionSpy());
+        plugin.al.save();
+        plugin.al.updateTables();
+        msg("PotionSpy is now " + (admin.getPotionSpy() ? "enabled." : "disabled."));
         return true;
     }
 }
