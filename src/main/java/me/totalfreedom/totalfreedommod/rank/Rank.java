@@ -7,8 +7,8 @@ public enum Rank implements Displayable
 {
 
     IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW),
-    NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.GREEN),
-    OP("an", "Op", Type.PLAYER, "OP", ChatColor.RED),
+    NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.WHITE),
+    OP("an", "Op", Type.PLAYER, "OP", ChatColor.GREEN),
     SUPER_ADMIN("a", "Super Admin", Type.ADMIN, "SA", ChatColor.AQUA),
     TELNET_ADMIN("a", "Telnet Admin", Type.ADMIN, "STA", ChatColor.DARK_GREEN),
     SENIOR_ADMIN("a", "Senior Admin", Type.ADMIN, "SrA", ChatColor.GOLD),
@@ -35,7 +35,7 @@ public enum Rank implements Displayable
         this.abbr = abbr;
         this.determiner = determiner;
         this.tag = abbr.isEmpty() ? "" : "[" + abbr + "]";
-        this.coloredTag = ChatColor.DARK_GRAY + "[" + color + abbr + ChatColor.DARK_GRAY + "]" + color;
+        this.coloredTag = abbr.isEmpty() ? "" : ChatColor.DARK_GRAY + "[" + color + abbr + ChatColor.DARK_GRAY + "]" + color;
         this.color = color;
     }
 
