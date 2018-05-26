@@ -18,15 +18,17 @@ public class Command_cookie extends FreedomCommand
     {
         final StringBuilder output = new StringBuilder();
 
-        for (final String word : COOKIE_LYRICS.split(" ")) {
+        for (final String word : COOKIE_LYRICS.split(" "))
+        {
             output.append(FUtil.randomChatColor()).append(word).append(" ");
         }
         ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
         
-        for (final Player player : this.server.getOnlinePlayers())
+        for (final Player player : server.getOnlinePlayers())
         {
             final int firstEmpty = player.getInventory().firstEmpty();
-            if (firstEmpty >= 0) {
+            if (firstEmpty >= 0)
+            {
                 player.getInventory().setItem(firstEmpty, heldItem);
             }
         }
