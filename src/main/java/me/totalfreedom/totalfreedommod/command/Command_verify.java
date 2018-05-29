@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.discord.Discord;
+import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -93,6 +94,34 @@ public class Command_verify extends FreedomCommand
                         admin.setName(playerSender.getName());
                         admin.addIp(Ips.getIp(playerSender));
                     }
+
+                    if (!plugin.mbl.isMasterBuilder(playerSender))
+                    {
+                        MasterBuilder masterBuilder = null;
+                        for (MasterBuilder loopMasterBuilder : plugin.mbl.getAllMasterBuilders().values())
+                        {
+                            if (loopMasterBuilder.getName().equalsIgnoreCase(playerSender.getName()))
+                            {
+                                masterBuilder = loopMasterBuilder;
+                                break;
+                            }
+                        }
+
+                        if (masterBuilder != null)
+                        {
+                            if (playerSender!= null)
+                            {
+                                masterBuilder.setName(playerSender.getName());
+                                masterBuilder.addIp(Ips.getIp(playerSender));
+                            }
+
+                            masterBuilder.setLastLogin(new Date());
+
+                            plugin.mbl.save();
+                            plugin.mbl.updateTables();
+                        }
+                    }
+
                     admin.setActive(true);
                     admin.setLastLogin(new Date());
                     plugin.al.save();
