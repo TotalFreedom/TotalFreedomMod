@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage my admin entry", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin | settag <tag> | cleartag>")
+@CommandParameters(description = "Manage my admin entry", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin | settag <tag> | cleartag | setacformat <format> | clearacformat> | oldtags>")
 public class Command_myadmin extends FreedomCommand
 {
 
@@ -174,10 +174,36 @@ public class Command_myadmin extends FreedomCommand
             case "cleartag":
             {
                 FUtil.adminAction(sender.getName(), "Clearing personal default tag" + (init == null ? "" : " for " + targetPlayer.getName()), false);
-                String tag = StringUtils.join(args, " ", 1, args.length);
                 target.setTag(null);
                 plugin.al.save();
                 plugin.al.updateTables();
+                return true;
+            }
+            case  "setacformat":
+            {
+                String format = StringUtils.join(args, " ", 1, args.length);
+                target.setAcFormat(format);
+                plugin.al.save();
+                plugin.al.updateTables();
+                msg("Set admin chat format to \"" + format + "\".", ChatColor.GRAY);
+                String example = format.replace("%name%", "ExampleAdmin").replace("%rank%", "STA").replace("%msg%", "The quick brown fox jumps over the lazy dog.");
+                msg(ChatColor.GRAY + "Example: " + FUtil.colorize(example));
+                return true;
+            }
+            case "clearacformat":
+            {
+                target.setAcFormat(null);
+                plugin.al.save();
+                plugin.al.updateTables();
+                msg("Cleared admin chat format.", ChatColor.GRAY);
+                return true;
+            }
+            case "oldtags":
+            {
+                target.setOldTags(!target.getOldTags());
+                plugin.al.save();
+                plugin.al.updateTables();
+                msg(target.getOldTags() ? "Enabled" : "Disabled" + " old tags.");
                 return true;
             }
 
