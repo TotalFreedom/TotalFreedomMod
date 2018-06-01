@@ -61,6 +61,13 @@ forceip:
   # The kick message sent to players when logging in with the wrong hostname
   kickmsg: You have been kicked from the server - Please connect using %address%
 
+# TotalFreedom Social Media Links, casing will be preserved
+social_links:
+  Forum: 'https://totalfreedom.boards.net/'
+  Website: 'https://totalfreedom.me/'
+  Discord: 'https://discordapp.com/invite/XXjmAmV/'
+
+
 # Blocking certain events
 allow:
   fire_place: false
