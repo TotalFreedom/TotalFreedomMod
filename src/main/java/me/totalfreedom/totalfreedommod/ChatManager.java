@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod;
 
+import com.google.common.base.Strings;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
@@ -106,22 +107,22 @@ public class ChatManager extends FreedomService
         event.setFormat(format);
     }
 
-    public String getOldPrefix(Displayable display)
+    public String getColoredTag(Admin admin, Displayable display)
     {
         ChatColor color = display.getColor();
-
-        if (color.equals(ChatColor.AQUA))
+        if(admin.getOldTags())
         {
-            color = ChatColor.GOLD;
-        }
-        else if (color.equals(ChatColor.GOLD))
-        {
-            color = ChatColor.LIGHT_PURPLE;
-        }
 
-        String prefix = "(" + display.getAbbr() + ")";
-
-        return color + prefix;
+            if (color.equals(ChatColor.AQUA))
+            {
+                color = ChatColor.GOLD;
+            }
+            else if (color.equals(ChatColor.GOLD))
+            {
+                color = ChatColor.LIGHT_PURPLE;
+            }
+        }
+        return color + display.getAbbr();
     }
 
     public void adminChat(CommandSender sender, String message)
@@ -134,9 +135,12 @@ public class ChatManager extends FreedomService
             if (plugin.al.isAdmin(player))
             {
                 Admin admin = plugin.al.getAdmin(player);
-                if (admin.getOldAdminMode())
+                if (!Strings.isNullOrEmpty(admin.getAcFormat()))
                 {
-                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + " " + getOldPrefix(display) + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
+                   String coloredTag = getColoredTag(admin, display);
+                   String format = admin.getAcFormat();
+                   String msg = format.replace("%name%", sender.getName()).replace("%tag%", coloredTag).replace("%message%", message);
+                   player.sendMessage(msg);
                 }
                 else
                 {
