@@ -12,6 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 import java.util.Date;
 import java.util.Random;
 
@@ -52,12 +53,12 @@ public class Command_verify extends FreedomCommand
         {
             if (plugin.pv.isPlayerImpostor(playerSender))
             {
-                if (plugin.pv.getVerificationPlayer(playerSender).getDiscordID() == null)
+                if (plugin.pv.getVerificationPlayer(playerSender).getDiscordId() == null)
                 {
                     msg("You do not have a discord account linked to your minecraft account, please verify the manual way.", ChatColor.RED);
                     return true;
                 }
-                discordId = plugin.pv.getVerificationPlayer(playerSender).getDiscordID();
+                discordId = plugin.pv.getVerificationPlayer(playerSender).getDiscordId();
             }
         }
 
@@ -109,7 +110,7 @@ public class Command_verify extends FreedomCommand
 
                         if (masterBuilder != null)
                         {
-                            if (playerSender!= null)
+                            if (playerSender != null)
                             {
                                 masterBuilder.setName(playerSender.getName());
                                 masterBuilder.addIp(Ips.getIp(playerSender));

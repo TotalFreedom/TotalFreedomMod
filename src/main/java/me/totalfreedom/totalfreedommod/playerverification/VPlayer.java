@@ -6,11 +6,11 @@ import lombok.Setter;
 import net.pravian.aero.base.ConfigLoadable;
 import net.pravian.aero.base.ConfigSavable;
 import net.pravian.aero.base.Validatable;
-import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
 import java.util.List;
 
 public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
@@ -22,130 +22,65 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
     private String name;
     @Getter
     @Setter
+    private String discordId = null;
+    @Getter
+    @Setter
     private String forumUsername = null;
     @Getter
     @Setter
-    private String discordID = null;
+    private Boolean discordEnabled = false;
     @Getter
     @Setter
-    private Boolean discordVerificationEnabled = false;
-    @Getter
-    @Setter
-    private Boolean forumVerificationEnabled = false;
+    private Boolean forumEnabled = false;
 
-
-    public VPlayer(String username)
+    public VPlayer(String name)
     {
-        this.name = username;
+        this.name = name;
     }
 
-    public void loadFrom(Player player)
+    public VPlayer(Player player)
     {
-        name = player.getName();
-        ips.clear();
-        ips.add(Ips.getIp(player));
+        this(player.getName());
     }
 
     @Override
     public void loadFrom(ConfigurationSection cs)
     {
-        name = cs.getString("username", null);
+        name = cs.getString("username", name);
         ips.clear();
         ips.addAll(cs.getStringList("ips"));
-        forumUsername = cs.getString("forum_username", null);
-        discordID = cs.getString("discord_id", null);
-        discordVerificationEnabled = cs.getBoolean("discord_verification_enabled", false);
-        forumVerificationEnabled = cs.getBoolean("forum_verification_enabled", false);
+        discordId = cs.getString("discordId", null);
+        forumUsername = cs.getString("forumUsername", null);
+        discordEnabled = cs.getBoolean("discordEnabled", false);
+        forumEnabled = cs.getBoolean("forumEnabled", false);
     }
 
     @Override
     public void saveTo(ConfigurationSection cs)
     {
-        Validate.isTrue(isValid(), "Could not save player veirfication entry: " + name + ". Entry not valid!");
-        cs.set("username", name);
-        cs.set("forum_username", forumUsername);
-        cs.set("discord_id", discordID);
+        Validate.isTrue(isValid(), "Could not save player verification entry: " + name + ". Entry not valid!");
+        cs.set("name", name);
+        cs.set("discordId", discordId);
+        cs.set("forumUsername", forumUsername);
+        cs.set("discordEnabled", discordEnabled);
+        cs.set("forumEnabled", forumEnabled);
         cs.set("ips", Lists.newArrayList(ips));
-        cs.set("discord_verification_enabled", discordVerificationEnabled);
-        cs.set("forum_verification_enabled", forumVerificationEnabled);
     }
 
-    // Util IP methods
-    public void addIp(String ip)
+    public List<String> getIps()
     {
-        if (!ips.contains(ip))
-        {
-            ips.add(ip);
-        }
+        return Collections.unmodifiableList(ips);
     }
 
-    public void addIps(List<String> ips)
+    public boolean addIp(String ip)
     {
-        for (String ip : ips)
-        {
-            addIp(ip);
-        }
+        return ips.contains(ip) ? false : ips.add(ip);
     }
 
-
-    public void removeIp(String ip)
+    public boolean removeIp(String ip)
     {
-        if (ips.contains(ip))
-        {
-            ips.remove(ip);
-        }
+        return ips.remove(ip);
     }
-
-    public List<String> getIPs()
-    {
-        return ips;
-    }
-
-    public void clearIPs()
-    {
-        ips.clear();
-    }
-
-    public Boolean isDiscordVerificationEnabled()
-    {
-        return discordVerificationEnabled;
-    }
-
-    public Boolean isForumVerificationEnabled()
-    {
-        return forumVerificationEnabled;
-    }
-
-    public void setDiscordVerificationEnabled(boolean enabled)
-    {
-        this.discordVerificationEnabled = enabled;
-    }
-
-    public void setForumVerificationEnabled(boolean enabled)
-    {
-        this.forumVerificationEnabled = enabled;
-    }
-
-    public String getDiscordID()
-    {
-        return discordID;
-    }
-
-    public void setDiscordID(String discordID)
-    {
-        this.discordID = discordID;
-    }
-
-    public String getForumUsername()
-    {
-        return forumUsername;
-    }
-
-    public void setForumUsername(String forumUsername)
-    {
-        this.forumUsername = forumUsername;
-    }
-
 
     @Override
     public boolean isValid()

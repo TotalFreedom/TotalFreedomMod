@@ -21,11 +21,13 @@ public class PlayerVerification extends FreedomService
 
     @Getter
     public final Map<String, VPlayer> dataMap = Maps.newHashMap(); // username, data
-    private File configFolder;
+    @Getter
+    private final File configFolder;
 
     public PlayerVerification(TotalFreedomMod plugin)
     {
         super(plugin);
+
         this.configFolder = new File(plugin.getDataFolder(), "playerverification");
     }
 
@@ -35,27 +37,18 @@ public class PlayerVerification extends FreedomService
         dataMap.clear();
     }
 
-    public void save(VPlayer data)
-    {
-        YamlConfig config = getConfig(data);
-        data.saveTo(config);
-        config.save();
-    }
-
     @Override
     protected void onStop()
     {
-        //save all (should be saved in theory but to be safe)
-        for (VPlayer player : dataMap.values())
-        {
-            save(player);
-        }
+        save();
     }
 
     public Boolean isPlayerImpostor(Player player)
     {
-        VPlayer vplayer = getVerificationPlayer(player.getName());
-        return !plugin.al.isAdmin(player) && vplayer != null && (vplayer.getForumVerificationEnabled() || vplayer.getDiscordVerificationEnabled()) && !vplayer.getIPs().contains(Ips.getIp(player));
+        VPlayer vPlayer = getVerificationPlayer(player);
+        return !plugin.al.isAdmin(player)
+                && (vPlayer.getForumEnabled() || vPlayer.getDiscordEnabled())
+                && !vPlayer.getIps().contains(Ips.getIp(player));
     }
 
     public void verifyPlayer(Player player)
@@ -64,116 +57,124 @@ public class PlayerVerification extends FreedomService
         {
             return;
         }
-        VPlayer vplayer = getVerificationPlayer(player.getName());
-        vplayer.addIp(Ips.getIp(player));
-        saveVerificationData(vplayer);
+
+        VPlayer vPlayer = getVerificationPlayer(player);
+        vPlayer.addIp(Ips.getIp(player));
+        dataMap.put(player.getName(), vPlayer);
+        YamlConfig config = getConfig(vPlayer);
+        vPlayer.saveTo(config);
+        config.save();
     }
 
     public void saveVerificationData(VPlayer player)
     {
-        if (dataMap.containsKey(player.getName()))
-        {
-            dataMap.remove(player.getName());
-        }
+        YamlConfig config = getConfig(player);
+        player.saveTo(config);
+        config.save();
         dataMap.put(player.getName(), player);
-        save(player);
     }
 
-    //may not return null
+    public void removeEntry(String name)
+    {
+        if (getVerificationPlayer(name) != null)
+        {
+            getConfigFile(name).delete();
+            dataMap.remove(name);
+        }
+    }
+
+    public void save()
+    {
+        for (VPlayer vPlayer : dataMap.values())
+        {
+            YamlConfig config = getConfig(vPlayer);
+            vPlayer.saveTo(config);
+            config.save();
+        }
+    }
+
+    // May not return null
     public VPlayer getVerificationPlayer(Player player)
     {
-        VPlayer data = getVerificationPlayer(player.getName());
-        if (data != null)
+        // Check for existing data
+        VPlayer vPlayer = dataMap.get(player.getName());
+        if (vPlayer != null)
         {
-            return data;
+            return vPlayer;
         }
-        // Create new entry.
-        FLog.info("Creating new player verification entry for " + player.getName());
 
-        // Create new player data
-        VPlayer newEntry = new VPlayer(player.getName());
-        newEntry.addIp(Ips.getIp(player));
-        saveVerificationData(newEntry);
-        return newEntry;
+        // Load data
+        vPlayer = getVerificationPlayer(player.getName());
+
+        // Create new data if nonexistent
+        if (vPlayer == null)
+        {
+            FLog.info("Creating new player verification entry for " + player.getName());
+
+            // Create new player
+            vPlayer = new VPlayer(player);
+            vPlayer.addIp(Ips.getIp(player));
+
+            // Store player
+            dataMap.put(player.getName(), vPlayer);
+
+            // Save player
+            YamlConfig config = getConfig(vPlayer);
+            vPlayer.saveTo(config);
+            config.save();
+        }
+
+        return vPlayer;
     }
 
-    //may return null
+    // May return null
     public VPlayer getVerificationPlayer(String username)
     {
-        if (dataMap.containsKey(username))
-        {
-            return dataMap.get(username);
-        }
-        VPlayer player = loadData(username);
-        if (player != null)
-        {
-            return player;
-        }
+        username = username.toLowerCase();
 
-        return null;
-    }
-
-    public VPlayer loadData(String username)
-    {
         final File configFile = getConfigFile(username);
         if (!configFile.exists())
         {
             return null;
         }
 
-        final VPlayer data = new VPlayer(username);
-        data.loadFrom(getConfig(data));
+        final VPlayer vPlayer = new VPlayer(username);
+        vPlayer.loadFrom(getConfig(vPlayer));
 
-        if (!data.isValid())
+        if (!vPlayer.isValid())
         {
             FLog.warning("Could not load player verification entry: " + username + ". Entry is not valid!");
             configFile.delete();
             return null;
         }
 
-
         // Only store data in map if the player is online
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+        for (Player players : Bukkit.getOnlinePlayers())
         {
-            if (onlinePlayer.getName().equals(username))
+            if (players.getName().equals(username))
             {
-                dataMap.put(username, data);
-                return data;
+                dataMap.put(username, vPlayer);
+                return vPlayer;
             }
         }
-        return data;
-    }
 
-    public void removeEntry(String username)
-    {
-        if (getVerificationPlayer(username) != null)
-        {
-            getConfigFile(username).delete();
-            if (dataMap.containsKey(username))
-            {
-                dataMap.remove(username);
-            }
-        }
+        return vPlayer;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-        if (dataMap.containsKey(event.getPlayer().getName()))
-        {
-            saveVerificationData(dataMap.get(event.getPlayer().getName()));
-            dataMap.remove(event.getPlayer().getName());
-        }
+        dataMap.remove(event.getPlayer().getName());
     }
 
     protected File getConfigFile(String name)
     {
-        return new File(configFolder, name + ".yml");
+        return new File(getConfigFolder(), name + ".yml");
     }
 
-    protected YamlConfig getConfig(VPlayer data)
+    protected YamlConfig getConfig(VPlayer player)
     {
-        final YamlConfig config = new YamlConfig(plugin, getConfigFile(data.getName().toLowerCase()), false);
+        final YamlConfig config = new YamlConfig(plugin, getConfigFile(player.getName().toLowerCase()), false);
         config.load();
         return config;
     }

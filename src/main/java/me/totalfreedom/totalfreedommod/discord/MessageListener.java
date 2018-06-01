@@ -28,7 +28,7 @@ public class MessageListener extends ListenerAdapter
                 if (Discord.PLAYER_LINK_CODES.get(code) != null)
                 {
                     VPlayer player = Discord.PLAYER_LINK_CODES.get(code);
-                    player.setDiscordID(event.getMessage().getAuthor().getId());
+                    player.setDiscordId(event.getMessage().getAuthor().getId());
 
                     TotalFreedomMod.plugin().pv.saveVerificationData(player);
                     Discord.PLAYER_LINK_CODES.remove(code);

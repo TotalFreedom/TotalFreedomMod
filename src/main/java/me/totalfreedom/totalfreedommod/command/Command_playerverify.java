@@ -22,7 +22,7 @@ public class Command_playerverify extends FreedomCommand
             {
                 VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
                 int cleared = 0;
-                for (String ip : data.getIPs())
+                for (String ip : data.getIps())
                 {
                     if (!ip.equals(Ips.getIp(playerSender)))
                     {
@@ -30,6 +30,7 @@ public class Command_playerverify extends FreedomCommand
                         cleared++;
                     }
                 }
+
                 msg("Cleared all IP's except your current IP \"" + Ips.getIp(playerSender) + "\"");
                 msg("Cleared " + cleared + " IP's.");
                 plugin.pv.saveVerificationData(data);
@@ -59,12 +60,12 @@ public class Command_playerverify extends FreedomCommand
                             return true;
                         }
                         VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
-                        if (data.isDiscordVerificationEnabled())
+                        if (data.getDiscordEnabled())
                         {
                             msg("Discord verification is already enabled for you.", ChatColor.RED);
                             return true;
                         }
-                        data.setDiscordVerificationEnabled(true);
+                        data.setDiscordEnabled(true);
                         plugin.pv.saveVerificationData(data);
                         msg("Enabled discord verification. Please type /linkdiscord to link a discord account.", ChatColor.GREEN);
                         return true;
@@ -79,12 +80,12 @@ public class Command_playerverify extends FreedomCommand
                 {
                     case "discord":
                         VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
-                        if (!data.isDiscordVerificationEnabled())
+                        if (!data.getDiscordEnabled())
                         {
                             msg("Discord verification is already disabled for you.", ChatColor.RED);
                             return true;
                         }
-                        data.setDiscordVerificationEnabled(false);
+                        data.setDiscordEnabled(false);
                         plugin.pv.saveVerificationData(data);
                         msg("Disabled discord verification.", ChatColor.GREEN);
                         return true;
@@ -99,10 +100,10 @@ public class Command_playerverify extends FreedomCommand
                 {
                     case "discord":
                         VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
-                        boolean enabled = data.isDiscordVerificationEnabled();
-                        boolean specified = data.getDiscordID() != null;
+                        boolean enabled = data.getDiscordEnabled();
+                        boolean specified = data.getDiscordId() != null;
                         msg(ChatColor.GRAY + "Discord Verification Enabled: " + (enabled ? ChatColor.GREEN + "true" : ChatColor.RED + "false"));
-                        msg(ChatColor.GRAY + "Discord ID: " + (specified ? ChatColor.GREEN + data.getDiscordID() : ChatColor.RED + "not set"));
+                        msg(ChatColor.GRAY + "Discord ID: " + (specified ? ChatColor.GREEN + data.getDiscordId() : ChatColor.RED + "not set"));
                         return true;
                     case "forum":
                         msg("TODO. Forum verification will be enabled in a later update.");

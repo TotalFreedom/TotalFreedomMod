@@ -25,19 +25,25 @@ public class Command_linkdiscord extends FreedomCommand
             return true;
         }
 
-        if (plugin.al.isAdmin(playerSender)) {
+        if (plugin.al.isAdmin(playerSender))
+        {
             Admin admin = plugin.al.getAdmin(playerSender);
-            if (admin.getDiscordID() != null) {
+            if (admin.getDiscordID() != null)
+            {
                 msg("Your minecraft account is already linked to a discord account.", ChatColor.RED);
                 return true;
             }
 
-            if (Discord.LINK_CODES.containsValue(admin)) {
+            if (Discord.LINK_CODES.containsValue(admin))
+            {
                 msg("Your linking code is " + ChatColor.GREEN + Discord.getCodeForAdmin(admin), ChatColor.AQUA);
-            } else {
+            }
+            else
+            {
                 String code = "";
                 Random random = new Random();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 5; i++)
+                {
                     code += random.nextInt(10);
                 }
                 Discord.LINK_CODES.put(code, admin);
@@ -47,17 +53,22 @@ public class Command_linkdiscord extends FreedomCommand
         else
         {
             VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
-            if (data.getDiscordID() != null) {
+            if (data.getDiscordId() != null)
+            {
                 msg("Your minecraft account is already linked to a discord account.", ChatColor.RED);
                 return true;
             }
 
-            if (Discord.PLAYER_LINK_CODES.containsValue(data)) {
+            if (Discord.PLAYER_LINK_CODES.containsValue(data))
+            {
                 msg("Your linking code is " + ChatColor.GREEN + Discord.getCodeForPlayer(data), ChatColor.AQUA);
-            } else {
+            }
+            else
+            {
                 String code = "";
                 Random random = new Random();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 5; i++)
+                {
                     code += random.nextInt(10);
                 }
                 Discord.PLAYER_LINK_CODES.put(code, data);
