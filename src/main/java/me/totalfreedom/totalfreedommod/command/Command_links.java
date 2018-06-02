@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
+@CommandParameters(description = "Get social media links.", usage = "/<command>>", aliases = "link")
 public class Command_links extends FreedomCommand
 {
     @Override
@@ -20,7 +22,7 @@ public class Command_links extends FreedomCommand
 
         List<String> lines = new ArrayList<>();
 
-        for(String key : values.keySet())
+        for (String key : values.keySet())
         {
             if(!(values.get(key) instanceof String))
             {
@@ -31,9 +33,9 @@ public class Command_links extends FreedomCommand
 
             lines.add(ChatColor.GOLD + "- " + key + ": " + ChatColor.AQUA + link);
         }
-        if(lines.size() == 0)
+        if (lines.size() == 0)
         {
-            lines.add(ChatColor.GOLD + "- There are no links currently added in the config");
+            lines.add(ChatColor.GOLD + "- There are no links currently added in the config.");
         }
 
         lines.add(ChatColor.AQUA + "TotalFreedom Social Media Links:");
