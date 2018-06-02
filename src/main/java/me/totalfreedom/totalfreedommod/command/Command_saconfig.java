@@ -200,6 +200,7 @@ public class Command_saconfig extends FreedomCommand
                     {
                         admin.setName(player.getName());
                         admin.addIp(Ips.getIp(player));
+                        admin.getName().isEmpty();
                     }
 
                     // Handle master builders
