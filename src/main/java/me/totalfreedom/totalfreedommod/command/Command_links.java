@@ -24,7 +24,7 @@ public class Command_links extends FreedomCommand
 
         for (String key : values.keySet())
         {
-            if(!(values.get(key) instanceof String))
+            if (!(values.get(key) instanceof String))
             {
                 continue;
             }
