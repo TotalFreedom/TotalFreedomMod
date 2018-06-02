@@ -186,7 +186,7 @@ public class Command_myadmin extends FreedomCommand
                 plugin.al.save();
                 plugin.al.updateTables();
                 msg("Set admin chat format to \"" + format + "\".", ChatColor.GRAY);
-                String example = format.replace("%name%", "ExampleAdmin").replace("%rank%", "STA").replace("%msg%", "The quick brown fox jumps over the lazy dog.");
+                String example = format.replace("%name%", "ExampleAdmin").replace("%rank%", Rank.TELNET_ADMIN.getAbbr()).replace("%rankcolor%", Rank.TELNET_ADMIN.getColor().toString()).replace("%msg%", "The quick brown fox jumps over the lazy dog.");
                 msg(ChatColor.GRAY + "Example: " + FUtil.colorize(example));
                 return true;
             }

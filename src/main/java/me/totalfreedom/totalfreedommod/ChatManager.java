@@ -7,6 +7,8 @@ import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
+
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.ChatColor;
@@ -137,10 +139,9 @@ public class ChatManager extends FreedomService
                 Admin admin = plugin.al.getAdmin(player);
                 if (!Strings.isNullOrEmpty(admin.getAcFormat()))
                 {
-                   String coloredTag = getColoredTag(admin, display);
                    String format = admin.getAcFormat();
-                   String msg = format.replace("%name%", sender.getName()).replace("%tag%", coloredTag).replace("%message%", message);
-                   player.sendMessage(msg);
+                   String msg = format.replace("%name%", sender.getName()).replace("%rank%", display.getAbbr()).replace("%rankcolor%", display.getColor().toString()).replace("%msg%", message);
+                   player.sendMessage(FUtil.colorize(msg));
                 }
                 else
                 {
