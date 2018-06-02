@@ -161,7 +161,7 @@ public class ChatManager extends FreedomService
                 }
                 else
                 {
-                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + " " + display.getColoredTag() + ChatColor.WHITE + ": " + ChatColor.GOLD + message);
+                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + " " + display.getColoredTag() + ChatColor.WHITE + ": " + ChatColor.GOLD + FUtil.colorize(message));
                 }
             }
         }
