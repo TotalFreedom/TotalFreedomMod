@@ -4,14 +4,14 @@
 
     <groupId>me.totalfreedom</groupId>
     <artifactId>totalfreedom</artifactId>
-    <version>5.0</version>
+    <version>5.2</version>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tfm.build.version>${project.version}</tfm.build.version>
-        <tfm.build.codename>Electrum</tfm.build.codename>
-        <!--  <tfm.build.number>${maven.buildnumber}</tfm.build.number> -->
+        <tfm.build.codename>God</tfm.build.codename>
+        <tfm.build.number>${maven.buildnumber}</tfm.build.number>
         <tfm.build.date>${maven.build.timestamp}</tfm.build.date>
         <tfm.build.author>${buildAuthor}</tfm.build.author>
         <tfm.build.head>${buildHead}</tfm.build.head>
@@ -60,7 +60,7 @@
         </repository>
         <repository>
             <id>sk89q-snapshots</id>
-            <url>http://maven.sk89q.com/artifactory/repo</url>
+            <url>http://maven.sk89q.com/artifactory/repo/</url>
         </repository>
     </repositories>
 
@@ -159,9 +159,9 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>3.5.1_339-withDependencies</version>
+            <version>JDA-3.6.0_354-withDependencies</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JDA-3.5.1_339-withDependencies.jar</systemPath>
+            <systemPath>${project.basedir}/lib/JDA-3.6.0_354-withDependencies.jar</systemPath>
         </dependency>
 
     </dependencies>
@@ -192,6 +192,7 @@
 
             <!-- Antrun -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>
                 <executions>
@@ -199,8 +200,11 @@
                         <phase>initialize</phase>
                         <configuration>
                             <target>
-                                <propertyfile file="build.properties" comment="Build information. Edit this to your liking.">
+                                <propertyfile file="src/main/resources/build.properties" comment="Build information. Edit this to your liking.">
                                     <entry key="buildAuthor" default="unknown" />
+                                    <entry key="buildNumber" default="0" />
+                                    <entry key="buildCodeName" default="${tfm.build.codename}" />
+                                    <entry key="buildVersion" default="${project.version}" />
                                 </propertyfile>
                             </target>
                         </configuration>
@@ -209,7 +213,9 @@
                         </goals>
                     </execution>
                 </executions>
+
             </plugin>
+
 
             <!-- Properties -->
             <plugin>
@@ -224,7 +230,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${basedir}/build.properties</file>
+                                <file>${basedir}/src/main/resources/build.properties</file>
                             </files>
                         </configuration>
                     </execution>
@@ -254,26 +260,47 @@
 
             <!-- Git describe -->
             <plugin>
-                <groupId>com.lukegb.mojo</groupId>
-                <artifactId>gitdescribe-maven-plugin</artifactId>
-                <version>3.0</version>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.4</version>
                 <executions>
                     <execution>
-                        <id>git-describe</id>
-                        <phase>initialize</phase>
+                        <id>get-the-git-infos</id>
                         <goals>
-                            <goal>gitdescribe</goal>
+                            <goal>revision</goal>
                         </goals>
-                        <configuration>
-                            <descriptionProperty>buildHead</descriptionProperty>
-                            <extraArguments>
-                                <param>--tags</param>
-                                <param>--always</param>
-                                <param>HEAD</param>
-                            </extraArguments>
-                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>validate-the-git-infos</id>
+                        <goals>
+                            <goal>validateRevision</goal>
+                        </goals>
+                        <phase>package</phase>
                     </execution>
                 </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <prefix>git</prefix>
+                    <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
+                    <verbose>false</verbose>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${basedir}/src/main/resources/git.properties</generateGitPropertiesFilename>
+                    <format>properties</format>
+                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                    <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>git.build.time</includeOnlyProperty>
+                        <includeOnlyProperty>git.commit.id</includeOnlyProperty>
+                        <includeOnlyProperty>git.commit.id.abbrev</includeOnlyProperty>
+                    </includeOnlyProperties>
+                    <gitDescribe>
+                        <skip>false</skip>
+                        <always>false</always>
+                        <abbrev>7</abbrev>
+                        <dirty>-dirty</dirty>
+                        <match>*</match>
+                    </gitDescribe>
+                </configuration>
             </plugin>
 
             <!-- Buildnumber -->
@@ -292,41 +319,12 @@
 
                 <configuration>
                     <buildNumberPropertyName>maven.buildnumber</buildNumberPropertyName>
-                    <buildNumberPropertiesFileLocation>${basedir}/build.properties</buildNumberPropertiesFileLocation>
+                    <buildNumberPropertiesFileLocation>${basedir}/src/main/resources/build.properties</buildNumberPropertiesFileLocation>
                     <format>{0,number,#}</format>
                     <items>
                         <item>buildNumber</item>
                     </items>
                 </configuration>
-            </plugin>
-
-            <!-- Maven jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-                <configuration>
-                    <outputDirectory>target/generated-sources</outputDirectory>
-                </configuration>
-            </plugin>
-
-            <!-- Maven shade -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <outputFile>target/${project.name}.jar</outputFile>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
