@@ -203,7 +203,7 @@ public class Command_myadmin extends FreedomCommand
                 target.setOldTags(!target.getOldTags());
                 plugin.al.save();
                 plugin.al.updateTables();
-                msg(target.getOldTags() ? "Enabled" : "Disabled" + " old tags.");
+                msg((target.getOldTags() ? "Enabled" : "Disabled") + " old tags.");
                 return true;
             }
 
