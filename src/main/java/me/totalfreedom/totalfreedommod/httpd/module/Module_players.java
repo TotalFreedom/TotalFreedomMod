@@ -25,6 +25,7 @@ public class Module_players extends HTTPDModule
         final JSONObject responseObject = new JSONObject();
 
         final JSONArray players = new JSONArray();
+        final JSONArray onlineadmins = new JSONArray();
         final JSONArray masterbuilders = new JSONArray();
         final JSONArray superadmins = new JSONArray();
         final JSONArray telnetadmins = new JSONArray();
@@ -35,6 +36,10 @@ public class Module_players extends HTTPDModule
         for (Player player : Bukkit.getOnlinePlayers())
         {
             players.add(player.getName());
+            if (plugin.al.isAdmin(player) && !plugin.al.isAdminImpostor(player))
+            {
+                onlineadmins.add(player.getName());
+            }
         }
 
         // Admins

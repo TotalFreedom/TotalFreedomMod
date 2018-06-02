@@ -1,6 +1,7 @@
 # TFM excludes
 /lib
 build.properties
+git.properties
 
 # Netbeans excludes
 /nbproject/private

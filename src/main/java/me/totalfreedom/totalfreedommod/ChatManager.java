@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod;
 
+import com.google.common.base.Strings;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -106,22 +106,40 @@ public class ChatManager extends FreedomService
         event.setFormat(format);
     }
 
-    public String getOldPrefix(Displayable display)
+    public ChatColor getColor(Admin admin, Displayable display)
     {
         ChatColor color = display.getColor();
-
-        if (color.equals(ChatColor.AQUA))
+        if (admin.getOldTags())
         {
-            color = ChatColor.GOLD;
+
+            if (color.equals(ChatColor.AQUA))
+            {
+                color = ChatColor.GOLD;
+            }
+            else if (color.equals(ChatColor.GOLD))
+            {
+                color = ChatColor.LIGHT_PURPLE;
+            }
         }
-        else if (color.equals(ChatColor.GOLD))
+        return color;
+    }
+
+    public String getColoredTag(Admin admin, Displayable display)
+    {
+        ChatColor color = display.getColor();
+        if (admin.getOldTags())
         {
-            color = ChatColor.LIGHT_PURPLE;
+
+            if (color.equals(ChatColor.AQUA))
+            {
+                color = ChatColor.GOLD;
+            }
+            else if (color.equals(ChatColor.GOLD))
+            {
+                color = ChatColor.LIGHT_PURPLE;
+            }
         }
-
-        String prefix = "(" + display.getAbbr() + ")";
-
-        return color + prefix;
+        return color + display.getAbbr();
     }
 
     public void adminChat(CommandSender sender, String message)
@@ -134,9 +152,12 @@ public class ChatManager extends FreedomService
             if (plugin.al.isAdmin(player))
             {
                 Admin admin = plugin.al.getAdmin(player);
-                if (admin.getOldAdminMode())
+                if (!Strings.isNullOrEmpty(admin.getAcFormat()))
                 {
-                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + " " + getOldPrefix(display) + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
+                   String format = admin.getAcFormat();
+                   ChatColor color = getColor(admin, display);
+                   String msg = format.replace("%name%", sender.getName()).replace("%rank%", display.getAbbr()).replace("%rankcolor%", color.toString()).replace("%msg%", message);
+                   player.sendMessage(FUtil.colorize(msg));
                 }
                 else
                 {

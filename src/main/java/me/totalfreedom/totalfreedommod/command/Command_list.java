@@ -107,7 +107,7 @@ public class Command_list extends FreedomCommand
             }
 
             final Displayable display = plugin.rm.getDisplay(p);
-            if (!senderIsConsole && plugin.al.isAdmin(playerSender) && plugin.al.getAdmin(playerSender).getOldAdminMode())
+            if (!senderIsConsole && plugin.al.isAdmin(playerSender) && plugin.al.getAdmin(playerSender).getOldTags())
             {
                 n.add(getOldPrefix(display) + p.getName());
             }

@@ -52,7 +52,7 @@ public class Command_totalfreedommod extends FreedomCommand
         msg("Running on " + ConfigEntry.SERVER_NAME.getString() + ".", ChatColor.GOLD);
         msg("Created by Madgeek1450 and Prozza.", ChatColor.GOLD);
         msg(String.format("Version "
-                        + ChatColor.BLUE + "%s %s.%s " + ChatColor.GOLD + "("
+                        + ChatColor.BLUE + "%s - %s Build %s " + ChatColor.GOLD + "("
                         + ChatColor.BLUE + "%s" + ChatColor.GOLD + ")",
                 build.codename,
                 build.version,

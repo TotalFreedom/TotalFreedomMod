@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.admin;
 import com.google.common.collect.Lists;
 import java.util.Date;
 import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.LogViewer.LogsRegistrationMode;
@@ -53,7 +54,10 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     private Boolean potionSpy = false;
     @Getter
     @Setter
-    private Boolean oldAdminMode = false;
+    private String acFormat = null;
+    @Getter
+    @Setter
+    private Boolean oldTags = null;
 
     public static final String CONFIG_FILENAME = "admins.yml";
 
@@ -81,7 +85,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Rank: ").append(rank.getName()).append("\n")
                 .append("- Is Active: ").append(active).append("\n")
                 .append("- Discord ID: ").append(discordID).append("\n")
-                .append("- Tag: ").append(tag);
+                .append("- Tag: ").append(tag).append("\n")
+                .append("- Admin Chat Format:").append(acFormat);
 
         return output.toString();
     }
@@ -108,7 +113,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         tag = cs.getString("tag", null);
         commandSpy = cs.getBoolean("command_spy", false);
         potionSpy = cs.getBoolean("potion_spy", false);
-        oldAdminMode = cs.getBoolean("old_admin_mode", false);
+        acFormat = cs.getString("acformat", null);
+        oldTags = cs.getBoolean("oldtags", false);
+
     }
 
     @Override
@@ -125,7 +132,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("tag", tag);
         cs.set("command_spy", commandSpy);
         cs.set("potion_spy", potionSpy);
-        cs.set("old_admin_mode", oldAdminMode);
+        cs.set("acformat", acFormat);
+        cs.set("oldtags", oldTags);
     }
 
     public boolean isAtLeast(Rank pRank)
