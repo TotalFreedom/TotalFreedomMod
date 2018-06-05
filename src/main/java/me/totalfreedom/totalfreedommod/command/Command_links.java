@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Get social media links.", usage = "/<command>>", aliases = "link")
+@CommandParameters(description = "Get social media links.", usage = "/<command>", aliases = "link")
 public class Command_links extends FreedomCommand
 {
     @Override
