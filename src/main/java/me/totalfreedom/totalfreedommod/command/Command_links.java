@@ -35,13 +35,13 @@ public class Command_links extends FreedomCommand
                 lines.add(ChatColor.GOLD + "- " + key + ": " + ChatColor.AQUA + link);
             }
 
-            sender.sendMessage(ChatColor.AQUA + "Social Media Links:");
-            sender.sendMessage(lines.toArray(new String[0]));
+            msg("Social Media Links:", ChatColor.AQUA);
+            msg(lines.toArray(new String[0]));
             return true;
         }
         else
         {
-            sender.sendMessage(ChatColor.RED + "There are no links added in the configuration file.");
+            msg("There are no links added in the configuration file.", ChatColor.RED);
         }
         return true;
     }
