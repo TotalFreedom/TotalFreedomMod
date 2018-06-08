@@ -19,29 +19,30 @@ public class Command_links extends FreedomCommand
     protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         ConfigurationSection section = plugin.getConfig().getConfigurationSection("social_links");
-        Map<String,Object> values = section.getValues(false);
-
-        List<String> lines = new ArrayList<>();
-
-        for (String key : values.keySet())
+        if (section != null)
         {
-            if (!(values.get(key) instanceof String))
+            Map<String, Object> values = section.getValues(false);
+
+            List<String> lines = new ArrayList<>();
+
+            for (String key : values.keySet())
             {
-                continue;
+                if (!(values.get(key) instanceof String))
+                {
+                    continue;
+                }
+                String link = (String) values.get(key);
+                lines.add(ChatColor.GOLD + "- " + key + ": " + ChatColor.AQUA + link);
             }
 
-            String link = (String) values.get(key);
-
-            lines.add(ChatColor.GOLD + "- " + key + ": " + ChatColor.AQUA + link);
+            sender.sendMessage(ChatColor.AQUA + "Social Media Links:");
+            sender.sendMessage(lines.toArray(new String[0]));
+            return true;
         }
-        if (lines.size() == 0)
+        else
         {
-            lines.add(ChatColor.GOLD + "- There are no links currently added in the config.");
+            sender.sendMessage(ChatColor.RED + "There are no links added in the configuration file.");
         }
-
-        lines.add(ChatColor.AQUA + "TotalFreedom Social Media Links:");
-        sender.sendMessage(lines.toArray(new String[0]));
-
         return true;
     }
 }
