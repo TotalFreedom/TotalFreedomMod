@@ -10,7 +10,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Make an announcement", usage = "/<command> <mobtype> [amount]")
+@CommandParameters(description = "Spawn a mob", usage = "/<command> <mobtype> [amount]")
 public class Command_spawnmob extends FreedomCommand
 {
 
