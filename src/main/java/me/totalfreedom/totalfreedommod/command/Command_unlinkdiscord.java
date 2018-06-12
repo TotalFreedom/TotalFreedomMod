@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 
-@CommandPermissions(level = Rank.NON_OP, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Unlink your discord account to your minecraft account", usage = "/<command>")
 public class Command_unlinkdiscord extends FreedomCommand
 {
