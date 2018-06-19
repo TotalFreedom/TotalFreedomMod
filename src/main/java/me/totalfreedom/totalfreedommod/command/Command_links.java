@@ -36,7 +36,7 @@ public class Command_links extends FreedomCommand
             }
 
             msg("Social Media Links:", ChatColor.AQUA);
-            msg(lines.toArray(new String[0]));
+            sender.sendMessage(lines.toArray(new String[0]));
             return true;
         }
         else
