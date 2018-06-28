@@ -11,10 +11,12 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import net.coreprotect.CoreProtectAPI.ParseResult;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -224,31 +226,57 @@ public class RollbackManager extends FreedomService
 
         if (!event.hasItem()
                 || event.getItem().getType() != Material.STICK
-                || !plugin.al.isAdmin(player))
+                || !plugin.al.isAdmin(player)
+                || !plugin.al.getAdmin(player).getLogStick())
         {
             return;
         }
 
         event.setCancelled(true);
 
-        final Location location = DepreciationAggregator.getTargetBlock(player, null, 5).getLocation();
-        final List<RollbackEntry> entries = plugin.rb.getEntriesAtLocation(location);
+        final Block block = DepreciationAggregator.getTargetBlock(player, null, 5);
 
-        if (entries.isEmpty())
+        if (plugin.cpb.isEnabled())
         {
-            FUtil.playerMsg(player, "No block edits at that location.");
-            return;
+            final List<String[]> entries = plugin.cpb.getCoreProtect().getAPI().blockLookup(block, 86400);
+
+            if (entries.isEmpty())
+            {
+                FUtil.playerMsg(player, "No block edits at that location.");
+                return;
+            }
+
+            FUtil.playerMsg(player, "Block edits at ("
+                    + ChatColor.WHITE + "x" + block.getX()
+                    + ", y" + block.getY()
+                    + ", z" + block.getZ()
+                    + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
+            for (String[] entry : Lists.reverse(entries))
+            {
+                ParseResult parsedEntry = plugin.cpb.getCoreProtect().getAPI().parseResult(entry);
+                FUtil.playerMsg(player, ChatColor.BLUE + parsedEntry.getActionString() + " of " + StringUtils.capitalize(parsedEntry.getType().name()) + " - " + parsedEntry.getPlayer());
+            }
         }
-
-        FUtil.playerMsg(player, "Block edits at ("
-                + ChatColor.WHITE + "x" + location.getBlockX()
-                + ", y" + location.getBlockY()
-                + ", z" + location.getBlockZ()
-                + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
-        for (RollbackEntry entry : entries)
+        else
         {
-            FUtil.playerMsg(player, " - " + ChatColor.BLUE + entry.author + " " + entry.getType() + " "
-                    + StringUtils.capitalize(entry.getMaterial().toString().toLowerCase()) + (entry.data == 0 ? "" : ":" + entry.data));
+            final List<RollbackEntry> entries = plugin.rb.getEntriesAtLocation(block.getLocation());
+
+            if (entries.isEmpty())
+            {
+                FUtil.playerMsg(player, "No block edits at that location.");
+                return;
+            }
+
+            FUtil.playerMsg(player, "Block edits at ("
+                    + ChatColor.WHITE + "x" + block.getX()
+                    + ", y" + block.getY()
+                    + ", z" + block.getZ()
+                    + ChatColor.BLUE + ")" + ChatColor.WHITE + ":", ChatColor.BLUE);
+            for (RollbackEntry entry : entries)
+            {
+                FUtil.playerMsg(player, " - " + ChatColor.BLUE + entry.author + " " + entry.getType() + " "
+                        + StringUtils.capitalize(entry.getMaterial().toString().toLowerCase()) + (entry.data == 0 ? "" : ":" + entry.data));
+            }
         }
     }
 

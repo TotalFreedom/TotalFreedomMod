@@ -58,6 +58,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private Boolean oldTags = null;
+    @Getter
+    @Setter
+    private Boolean logStick = null;
 
     public static final String CONFIG_FILENAME = "admins.yml";
 
@@ -115,6 +118,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         potionSpy = cs.getBoolean("potion_spy", false);
         acFormat = cs.getString("acformat", null);
         oldTags = cs.getBoolean("oldtags", false);
+        logStick = cs.getBoolean("logstick", false);
 
     }
 
@@ -134,6 +138,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("potion_spy", potionSpy);
         cs.set("acformat", acFormat);
         cs.set("oldtags", oldTags);
+        cs.set("logstick", logStick);
     }
 
     public boolean isAtLeast(Rank pRank)

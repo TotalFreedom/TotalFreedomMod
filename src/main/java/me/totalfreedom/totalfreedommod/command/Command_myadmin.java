@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage my admin entry", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin | settag <tag> | cleartag | setacformat <format> | clearacformat> | oldtags>")
+@CommandParameters(description = "Manage my admin entry", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin | settag <tag> | cleartag | setacformat <format> | clearacformat> | oldtags | logstick>")
 public class Command_myadmin extends FreedomCommand
 {
 
@@ -204,6 +204,14 @@ public class Command_myadmin extends FreedomCommand
                 plugin.al.save();
                 plugin.al.updateTables();
                 msg((target.getOldTags() ? "Enabled" : "Disabled") + " old tags.");
+                return true;
+            }
+            case "logstick":
+            {
+                target.setLogStick(!target.getLogStick());
+                plugin.al.save();
+                plugin.al.updateTables();
+                msg((target.getLogStick() ? "Enabled" : "Disabled") + " log-stick lookup.");
                 return true;
             }
 
