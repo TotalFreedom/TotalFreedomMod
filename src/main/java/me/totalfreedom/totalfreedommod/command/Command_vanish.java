@@ -15,17 +15,25 @@ import java.util.ArrayList;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Vanish/unvanish yourself.", usage = "/<command>", aliases = "v")
+@CommandParameters(description = "Vanish/unvanish yourself.", usage = "/<command> [-s[ilent]]", aliases = "v")
 public class Command_vanish extends FreedomCommand
 {
     public static ArrayList<Player> VANISHED = new ArrayList<Player>();
-    
+
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole) {
         Displayable display = plugin.rm.getDisplay(playerSender);
         String loginMsg = display.getColoredLoginMessage();
         String displayName = display.getColor() + playerSender.getName();
         String tag = display.getColoredTag();
         Admin admin = plugin.al.getAdmin(playerSender);
+        boolean silent = false;
+        if (args.length > 0)
+        {
+            if (args[0].equalsIgnoreCase("-s") || args[0].equalsIgnoreCase("-silent"))
+            {
+                silent = true;
+            }
+        }
         if (VANISHED.contains(playerSender))
         {
             msg(ChatColor.GOLD + "You have been unvanished.");
@@ -33,8 +41,11 @@ public class Command_vanish extends FreedomCommand
             {
                 loginMsg = FUtil.colorize(admin.getLoginMessage());
             }
-            FUtil.bcastMsg(ChatColor.AQUA + playerSender.getName() + " is " + loginMsg);
-            FUtil.bcastMsg(playerSender.getName() + " joined the game", ChatColor.YELLOW);
+            if (!silent)
+            {
+                FUtil.bcastMsg(ChatColor.AQUA + playerSender.getName() + " is " + loginMsg);
+                FUtil.bcastMsg(playerSender.getName() + " joined the game", ChatColor.YELLOW);
+            }
             if (admin.getTag() != null)
             {
                 tag = FUtil.colorize(admin.getTag());
@@ -56,7 +67,10 @@ public class Command_vanish extends FreedomCommand
         else
         {
             msg("You have been vanished.", ChatColor.GOLD);
-            FUtil.bcastMsg(playerSender.getName() + " left the game", ChatColor.YELLOW);
+            if (!silent)
+            {
+                FUtil.bcastMsg(playerSender.getName() + " left the game", ChatColor.YELLOW);
+            }
             FLog.info(playerSender.getName() + " is now vanished.");
             for (Player player : server.getOnlinePlayers())
             {
