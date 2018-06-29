@@ -18,7 +18,7 @@ import me.totalfreedom.totalfreedommod.rank.Rank;
 @CommandParameters(description = "Vanish/unvanish yourself.", usage = "/<command> [-s[ilent]]", aliases = "v")
 public class Command_vanish extends FreedomCommand
 {
-    public static ArrayList<Player> VANISHED = new ArrayList<Player>();
+    public static ArrayList<Player> VANISHED = new ArrayList<>();
 
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole) {
         Displayable display = plugin.rm.getDisplay(playerSender);

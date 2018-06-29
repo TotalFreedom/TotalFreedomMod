@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import org.bukkit.command.Command;
@@ -20,15 +21,31 @@ public class Command_unlinkdiscord extends FreedomCommand
             msg("The discord verification system is currently disabled.", ChatColor.RED);
             return true;
         }
-        
-        Admin admin = plugin.al.getAdmin(playerSender);
-        if (admin.getDiscordID() == null)
+
+        if (plugin.al.isAdmin(playerSender))
         {
-            msg("Your minecraft account is not linked to a discord account.", ChatColor.RED);
+            Admin admin = plugin.al.getAdmin(playerSender);
+            if (admin.getDiscordID() == null)
+            {
+                msg("Your minecraft account is not linked to a discord account.", ChatColor.RED);
+                return true;
+            }
+            admin.setDiscordID(null);
+            msg("Your minecraft account has been successfully unlinked from the discord account.", ChatColor.GREEN);
             return true;
         }
-        admin.setDiscordID(null);
-        msg("Your minecraft account has been successfully unlinked from the discord account.", ChatColor.GREEN);
-        return true;
+        else
+        {
+            VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
+            if (data.getDiscordId() == null)
+            {
+                msg("Your minecraft account is not linked to a discord account.", ChatColor.RED);
+                return true;
+            }
+            data.setDiscordId(null);
+            data.setDiscordEnabled(false);
+            msg("Your minecraft account has been successfully unlinked from the discord account.", ChatColor.GREEN);
+            return true;
+        }
     }
 }
