@@ -21,6 +21,7 @@ public class MainConfig extends PluginComponent<TotalFreedomMod>
     //
     private final EnumMap<ConfigEntry, Object> entries;
     private final ConfigDefaults defaults;
+    public YamlConfiguration configuration;
 
     public MainConfig(TotalFreedomMod plugin)
     {
@@ -66,6 +67,8 @@ public class MainConfig extends PluginComponent<TotalFreedomMod>
             YamlConfiguration config = new YamlConfiguration();
 
             config.load(getConfigFile());
+
+            configuration = config;
 
             for (ConfigEntry entry : ConfigEntry.values())
             {

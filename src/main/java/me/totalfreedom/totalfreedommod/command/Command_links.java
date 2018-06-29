@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ public class Command_links extends FreedomCommand
     @Override
     protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        ConfigurationSection section = plugin.getConfig().getConfigurationSection("social_links");
+        YamlConfiguration config = plugin.config.configuration;
+        ConfigurationSection section = config.getConfigurationSection("social_links");
         if (section != null)
         {
             Map<String, Object> values = section.getValues(false);
