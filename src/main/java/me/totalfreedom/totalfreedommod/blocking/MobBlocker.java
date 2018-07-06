@@ -51,7 +51,7 @@ public class MobBlocker extends FreedomService
             }
             if (((Attributable) entity).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() > 10.0)
             {
-                ((Attributable) entity).getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(10.0);
+                ((Attributable) entity).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(10.0);
             }
         }
     }
