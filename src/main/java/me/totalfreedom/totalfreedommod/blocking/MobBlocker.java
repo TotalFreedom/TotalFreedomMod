@@ -32,6 +32,29 @@ public class MobBlocker extends FreedomService
     protected void onStop()
     {
     }
+    
+    //fixes crash mobs, credit to Mafrans
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onEntitySpawn(EntitySpawnEvent e)
+    {
+        if (!(e instanceof LivingEntity))
+        {
+            return;
+        }
+
+        Entity entity = e.getEntity();
+        if (entity instanceof Attributable)
+        {
+            if (((Attributable) entity).getAttribute(Attribute.GENERIC_FOLLOW_RANGE).getBaseValue() > 255.0)
+            {
+                ((Attributable) entity).getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(255.0);
+            }
+            if (((Attributable) entity).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() > 10.0)
+            {
+                ((Attributable) entity).getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(10.0);
+            }
+        }
+    }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onCreatureSpawn(CreatureSpawnEvent event)
