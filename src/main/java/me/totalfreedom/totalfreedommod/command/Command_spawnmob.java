@@ -68,7 +68,7 @@ public class Command_spawnmob extends FreedomCommand
         World w = playerSender.getWorld();
         msg("Spawning " + amount + " of " + type.getName());
 
-        for (int i = 0; i < amount; amount++)
+        for (int i = 0; i < amount; i++)
         {
             w.spawnEntity(l, type);
         }
