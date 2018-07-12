@@ -3,17 +3,13 @@ package me.totalfreedom.totalfreedommod.blocking;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import org.bukkit.entity.Bat;
-import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Ghast;
-import org.bukkit.entity.Giant;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Slime;
-import org.bukkit.entity.Wither;
+import org.bukkit.attribute.Attributable;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 
 public class MobBlocker extends FreedomService
 {

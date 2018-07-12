@@ -138,6 +138,11 @@ public class ItemFun extends FreedomService
                     break;
                 }
 
+                if (player.getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()) && plugin.mbwr.doRestrict(player))
+                {
+                    break;
+                }
+
                 Location location = player.getLocation().clone();
 
                 Vector playerPostion = location.toVector().add(new Vector(0.0, 1.65, 0.0));
@@ -237,6 +242,11 @@ public class ItemFun extends FreedomService
                 }
 
                 if (!plugin.al.isSeniorAdmin(player))
+                {
+                    break;
+                }
+
+                if (player.getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()) && plugin.mbwr.doRestrict(player))
                 {
                     break;
                 }

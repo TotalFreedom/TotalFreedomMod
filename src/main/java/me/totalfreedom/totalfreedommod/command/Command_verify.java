@@ -132,6 +132,8 @@ public class Command_verify extends FreedomCommand
                     {
                         plugin.rm.updateDisplay(playerSender);
                     }
+                    playerSender.setOp(true);
+                    msg(YOU_ARE_OP);
                     final FPlayer fPlayer = plugin.pl.getPlayer(playerSender);
                     if (fPlayer.getFreezeData().isFrozen())
                     {
