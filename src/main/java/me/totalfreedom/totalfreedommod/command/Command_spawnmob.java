@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -8,15 +9,25 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.apache.commons.lang3.EnumUtils;
+import java.util.List;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Spawn a mob", usage = "/<command> <mobtype> [amount]")
+@CommandParameters(description = "Spawn an entity.", usage = "/<command> <entitytype> [amount]", aliases="spawnentity")
 public class Command_spawnmob extends FreedomCommand
 {
 
     @Override
     protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (args.length > 0 && args[0].equalsIgnoreCase("list"))
+        {
+            List<EntityType> types = EnumUtils.getEnumList(EntityType.class);
+            String typeList = StringUtils.join(types, ", ").toLowerCase();
+            msg(typeList);
+            return true;
+        }
+
         if (args.length < 1)
         {
             return false;
@@ -25,7 +36,7 @@ public class Command_spawnmob extends FreedomCommand
         EntityType type = null;
         for (EntityType loop : EntityType.values())
         {
-            if (loop.getName().equalsIgnoreCase(args[0]))
+            if (loop != null && loop.name().equalsIgnoreCase(args[0]))
             {
                 type = loop;
                 break;
@@ -40,7 +51,7 @@ public class Command_spawnmob extends FreedomCommand
 
         if (!type.isSpawnable() || !type.isAlive())
         {
-            msg("Can not spawn entity type: " + type.getName());
+            msg("Can not spawn entity type: " + type.name().toLowerCase());
             return true;
         }
 
@@ -64,9 +75,9 @@ public class Command_spawnmob extends FreedomCommand
             return true;
         }
 
-        Location l = playerSender.getLocation();
+        Location l = playerSender.getTargetBlock(null, 30).getLocation().add(0, 1, 0);
         World w = playerSender.getWorld();
-        msg("Spawning " + amount + " of " + type.getName());
+        msg("Spawning " + amount + " " + type.name().toLowerCase() + (amount > 1 ? "s." : "."));
 
         for (int i = 0; i < amount; i++)
         {
