@@ -2,15 +2,15 @@ package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.NBTTagInt;
-import net.minecraft.server.v1_12_R1.NBTTagList;
-import net.minecraft.server.v1_12_R1.NBTTagString;
+import net.minecraft.server.v1_13_R1.NBTTagCompound;
+import net.minecraft.server.v1_13_R1.NBTTagInt;
+import net.minecraft.server.v1_13_R1.NBTTagList;
+import net.minecraft.server.v1_13_R1.NBTTagString;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_13_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -149,7 +149,7 @@ public class Command_modifyitem extends FreedomCommand
                 {
                     return false;
                 }
-                net.minecraft.server.v1_12_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+                net.minecraft.server.v1_13_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
                 NBTTagCompound compound = (nmsStack.hasTag()) ? nmsStack.getTag() : new NBTTagCompound();
                 NBTTagList modifiers = getAttributeList(nmsStack);
                 NBTTagCompound cmpnd = new NBTTagCompound();
@@ -188,7 +188,7 @@ public class Command_modifyitem extends FreedomCommand
         return true;
     }
 
-    private NBTTagList getAttributeList(net.minecraft.server.v1_12_R1.ItemStack stack)
+    private NBTTagList getAttributeList(net.minecraft.server.v1_13_R1.ItemStack stack)
     {
         if (stack.getTag() == null)
         {

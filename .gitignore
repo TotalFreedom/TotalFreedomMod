@@ -18,7 +18,6 @@ manifest.mf
 /.settings
 
 # IntelliJ excludes
-*.iml
 *.ipr
 *.iws
 /.idea
