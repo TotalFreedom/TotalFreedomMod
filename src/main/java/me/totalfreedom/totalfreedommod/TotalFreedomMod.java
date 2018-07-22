@@ -95,6 +95,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public ServerPing sp;
     public ItemFun it;
     public Landminer lm;
+    public MobStacker ms;
     public MP44 mp;
     public Jumppads jp;
     public Trailer tr;
@@ -210,6 +211,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         // Fun
         it = services.registerService(ItemFun.class);
         lm = services.registerService(Landminer.class);
+        ms = services.registerService(MobStacker.class);
         mp = services.registerService(MP44.class);
         jp = services.registerService(Jumppads.class);
         tr = services.registerService(Trailer.class);
