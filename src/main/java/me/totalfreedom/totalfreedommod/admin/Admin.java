@@ -89,7 +89,10 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Is Active: ").append(active).append("\n")
                 .append("- Discord ID: ").append(discordID).append("\n")
                 .append("- Tag: ").append(tag).append("\n")
-                .append("- Admin Chat Format:").append(acFormat);
+                .append("- Potion Spy: ").append(potionSpy).append("\n")
+                .append("- Admin Chat Format: ").append(acFormat).append("\n")
+                .append("- Old Tags: ").append(oldTags).append("\n")
+                .append("- Log Stick: ").append(logStick);
 
         return output.toString();
     }
