@@ -57,10 +57,10 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     private String acFormat = null;
     @Getter
     @Setter
-    private Boolean oldTags = null;
+    private Boolean oldTags = false;
     @Getter
     @Setter
-    private Boolean logStick = null;
+    private Boolean logStick = false;
 
     public static final String CONFIG_FILENAME = "admins.yml";
 

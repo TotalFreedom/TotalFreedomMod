@@ -140,8 +140,11 @@ blocked_commands:
   - 'n:b:/pp hugeexplosion:You may not use this particle! Please use another.'
   - 'n:b:/pp barrier:You may not use this particle! Please use another.'
   - 'n:b:/setjail:_'
-  - 'n:b:/tfbanlist:Use /banlist to see and wipe the ban list'
-  - 'n:b:/tfipbanlist:Use /banlist to see and wipe the ban list'
+  - 'n:b:/function:_'
+  - 'n:b:/defaultgamemode:_'
+  - 'n:b:/data:_'
+  - 'n:b:/datapack:_'
+  - 'n:b:/tag:_'
 
   # Superadmin commands
   - 's:b:/save-all:_'
@@ -180,6 +183,8 @@ blocked_commands:
   - 's:b:/togglejail:_'
   - 's:b:/fill:_'
   - 's:b:/flood:_'
+  - 's:b:/team:_'
+  - 'n:b:/bossbar:_'
 
   # Superadmin commands - Auto-eject
   - 's:a:/stop:_'

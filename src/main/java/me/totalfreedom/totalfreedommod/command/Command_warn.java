@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Warns a player.", usage = "/<command> <player> <reason>")
 public class Command_warn extends FreedomCommand
 {
@@ -48,6 +48,16 @@ public class Command_warn extends FreedomCommand
 
         msg(player, ChatColor.RED + "[WARNING] You received a warning: " + warnReason);
         msg(ChatColor.GREEN + "You have successfully warned " + player.getName());
+        final StringBuilder adminNotice = new StringBuilder()
+                .append(ChatColor.RED)
+                .append(sender.getName())
+                .append(" - ")
+                .append("Warning: ")
+                .append(player.getName())
+                .append(" - Reason: ")
+                .append(ChatColor.YELLOW)
+                .append(warnReason);
+        plugin.al.messageAllAdmins(adminNotice.toString());
 
         plugin.pl.getPlayer(player).incrementWarnings();
 

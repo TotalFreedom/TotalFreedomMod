@@ -113,6 +113,17 @@ public class AdminList extends FreedomService
         config.save();
     }
 
+    public void messageAllAdmins(String message)
+    {
+        for (Player player : server.getOnlinePlayers())
+        {
+            if (isAdmin(player))
+            {
+                player.sendMessage(message);
+            }
+        }
+    }
+
     public synchronized boolean isAdminSync(CommandSender sender)
     {
         return isAdmin(sender);
