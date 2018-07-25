@@ -34,7 +34,7 @@ public class Command_ov extends FreedomCommand
             }
             catch (Exception ignored)
             {
-                msg(ChatColor.WHITE + "Unknown command. Type \"help\" for help.");
+                msg(ChatColor.WHITE + "Unknown command. Type \"/help\" for help.");
                 return true;
             }
         }

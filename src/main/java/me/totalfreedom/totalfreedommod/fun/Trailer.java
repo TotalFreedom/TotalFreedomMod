@@ -48,10 +48,10 @@ public class Trailer extends FreedomService
             return;
         }
 
-        if (event.getPlayer().getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()))
-        {
-            return;
-        }
+        //if (event.getPlayer().getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()))
+        //{
+        //    return;
+        //}
 
         Block fromBlock = event.getFrom().getBlock();
         if (!fromBlock.isEmpty())
@@ -65,7 +65,6 @@ public class Trailer extends FreedomService
             return;
         }
 
-        final Location location = fromBlock.getLocation();
         fromBlock.setType(MaterialGroup.WOOL_COLORS.get(random.nextInt(MaterialGroup.WOOL_COLORS.size())));
         byte data = DepreciationAggregator.getData_Block(fromBlock);
         Material material = Material.getMaterial(String.valueOf(fromBlock.getType()));
@@ -75,7 +74,7 @@ public class Trailer extends FreedomService
             {
                 final Location trail_pos;
                 trail_pos = new Location(event.getPlayer().getWorld(), fromBlock.getX() + x, fromBlock.getY(), fromBlock.getZ() + z);
-                if (trailPlayers.contains(event.getPlayer().getName()))
+                if (trailPlayers.contains(event.getPlayer().getName()) && plugin.cpb.isEnabled())
                 {
                     plugin.cpb.getCoreProtectAPI().logPlacement(event.getPlayer().getName(), trail_pos, material, data);
                 }
