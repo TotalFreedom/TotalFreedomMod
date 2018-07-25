@@ -2,14 +2,15 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.material.Lever;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
 @CommandParameters(description = "Set the on/off state of the lever at position x, y, z in world 'worldname'.", usage = "/<command> <x> <y> <z> <worldname> <on|off>")
@@ -63,10 +64,11 @@ public class Command_setlever extends FreedomCommand
 
         if (targetBlock.getType() == Material.LEVER)
         {
-            org.bukkit.material.Lever lever = DepreciationAggregator.makeLeverWithData(DepreciationAggregator.getData_Block(targetBlock));
+            BlockState state = targetBlock.getState();
+            Lever lever = (Lever) state.getData();
             lever.setPowered(leverOn);
-            DepreciationAggregator.setData_Block(targetBlock, DepreciationAggregator.getData_MaterialData(lever));
-            targetBlock.getState().update();
+            state.setData(lever);
+            state.update();
         }
         else
         {

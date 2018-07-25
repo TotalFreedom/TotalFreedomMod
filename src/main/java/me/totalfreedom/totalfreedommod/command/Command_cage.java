@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [skull | block] [blockname | skullname]")
+@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [skull | block] [blockname | playername]")
 public class Command_cage extends FreedomCommand
 {
     
@@ -62,10 +62,14 @@ public class Command_cage extends FreedomCommand
                 }
                 case "skull":
                 {
-                    outerMaterial = Material.SKULL;
+                    outerMaterial = Material.PLAYER_HEAD;
                     if (args.length >= 3)
                     {
                         skullName = args[2];
+                    }
+                    else
+                    {
+                        outerMaterial = Material.SKELETON_SKULL;
                     }
                     break;
                 }
@@ -81,17 +85,6 @@ public class Command_cage extends FreedomCommand
                 }
             }
         }
-        if (args.length >= 3)
-        {
-            if (args[2].equalsIgnoreCase("water"))
-            {
-                innerMaterial = Material.STATIONARY_WATER;
-            }
-            else if (args[2].equalsIgnoreCase("lava"))
-            {
-                innerMaterial = Material.STATIONARY_LAVA;
-            }
-        }
         Location location = player.getLocation().clone().add(0.0, 1.0, 0.0);
         if (skullName != null)
         {
@@ -102,7 +95,7 @@ public class Command_cage extends FreedomCommand
             fPlayer.getCageData().cage(location, outerMaterial, innerMaterial);
         }
         player.setGameMode(GameMode.SURVIVAL);
-        if (outerMaterial == Material.SKULL && skullName != null)
+        if (outerMaterial == Material.PLAYER_HEAD)
         {
             FUtil.adminAction(sender.getName(), "Caging " + player.getName() + " in " + skullName, true);
         }

@@ -44,7 +44,7 @@ public class MobStacker extends FreedomService
 
         ItemStack item = attacker.getInventory().getItemInMainHand();
 
-        if (item != null && item.getType().equals(Material.POTATO_ITEM))
+        if (item != null && item.getType().equals(Material.POTATO))
         {
             event.setCancelled(true);
             attacker.addPassenger(event.getEntity());

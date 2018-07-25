@@ -33,11 +33,6 @@ public class Monitors extends FreedomService
     {
     }
 
-    public String getMaterial(final int id)
-    {
-        return String.valueOf(Material.getMaterial(id)).replace("_", " ").toLowerCase();
-    }
-
     @EventHandler(priority = EventPriority.MONITOR)
     public void onLingeringPotionSplash(LingeringPotionSplashEvent event)
     {
@@ -53,14 +48,14 @@ public class Monitors extends FreedomService
         {
             return;
         }
-        final int droppedItem = event.getEntity().getItem().getTypeId();
+        final Material droppedItem = event.getEntity().getItem().getType();
         final Location location = player.getLocation();
 
         for (Player p : server.getOnlinePlayers())
         {
             if (plugin.al.isAdmin(p) && plugin.al.getAdmin(p).getPotionSpy())
             {
-                FUtil.playerMsg(p, potionSpyPrefix + ChatColor.WHITE + player.getName() + " splashed " + event.getEntity().getItem().getAmount() + " " + getMaterial(droppedItem) + " at X: " + decimalFormat.format(location.getX()) + ", Y: " + decimalFormat.format(location.getY()) + ", Z: " + decimalFormat.format(location.getZ()) + ", in the world '" + location.getWorld().getName() + "'.");
+                FUtil.playerMsg(p, potionSpyPrefix + ChatColor.WHITE + player.getName() + " splashed " + event.getEntity().getItem().getAmount() + " " + droppedItem + " at X: " + decimalFormat.format(location.getX()) + ", Y: " + decimalFormat.format(location.getY()) + ", Z: " + decimalFormat.format(location.getZ()) + ", in the world '" + location.getWorld().getName() + "'.");
             }
         }
     }
@@ -80,14 +75,14 @@ public class Monitors extends FreedomService
         {
             return;
         }
-        final int droppedItem = event.getPotion().getItem().getTypeId();
+        final Material droppedItem = event.getPotion().getItem().getType();
         final Location location = player.getLocation();
 
         for (Player p : server.getOnlinePlayers())
         {
             if (plugin.al.isAdmin(p) && plugin.al.getAdmin(p).getPotionSpy())
             {
-                FUtil.playerMsg(p, potionSpyPrefix + ChatColor.WHITE + player.getName() + " splashed " + event.getEntity().getItem().getAmount() + " " + getMaterial(droppedItem) + " at X: " + decimalFormat.format(location.getX()) + ", Y: " + decimalFormat.format(location.getY()) + ", Z: " + decimalFormat.format(location.getZ()) + ", in the world '" + location.getWorld().getName() + "'.");
+                FUtil.playerMsg(p, potionSpyPrefix + ChatColor.WHITE + player.getName() + " splashed " + event.getEntity().getItem().getAmount() + " " + droppedItem + " at X: " + decimalFormat.format(location.getX()) + ", Y: " + decimalFormat.format(location.getY()) + ", Z: " + decimalFormat.format(location.getZ()) + ", in the world '" + location.getWorld().getName() + "'.");
             }
         }
     }

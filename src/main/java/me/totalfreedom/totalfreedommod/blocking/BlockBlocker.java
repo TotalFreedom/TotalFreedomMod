@@ -39,7 +39,6 @@ public class BlockBlocker extends FreedomService
         switch (event.getBlockPlaced().getType())
         {
             case LAVA:
-            case STATIONARY_LAVA:
             {
                 if (ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
                 {
@@ -54,7 +53,6 @@ public class BlockBlocker extends FreedomService
                 break;
             }
             case WATER:
-            case STATIONARY_WATER:
             {
                 if (ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
                 {

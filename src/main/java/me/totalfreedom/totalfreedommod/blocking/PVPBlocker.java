@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Trident;
 
 public class PVPBlocker extends FreedomService
 {
@@ -46,6 +47,14 @@ public class PVPBlocker extends FreedomService
                 if (arrow.getShooter() instanceof Player)
                 {
                     player = (Player) arrow.getShooter();
+                }
+            }
+            else if (event.getDamager() instanceof Trident)
+            {
+                Trident trident = (Trident) event.getDamager();
+                if (trident.getShooter() instanceof Player)
+                {
+                    player = (Player) trident.getShooter();
                 }
             }
         }

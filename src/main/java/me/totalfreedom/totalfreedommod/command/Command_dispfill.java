@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.command;
 import java.util.ArrayList;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Location;
@@ -44,16 +43,6 @@ public class Command_dispfill extends FreedomCommand
             for (final String searchItem : itemsRaw)
             {
                 Material material = Material.matchMaterial(searchItem);
-                if (material == null)
-                {
-                    try
-                    {
-                        material = DepreciationAggregator.getMaterial(Integer.parseInt(searchItem));
-                    }
-                    catch (NumberFormatException ex)
-                    {
-                    }
-                }
 
                 if (material != null)
                 {

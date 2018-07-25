@@ -102,7 +102,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                             try
                             {
                                 // Mabe it's an integer?
-                                mat = Material.getMaterial(Integer.parseInt(materialTokens[0]));
+                                mat = Material.getMaterial(String.valueOf(materialTokens[0]));
                             }
                             catch (Exception e)
                             {
@@ -181,7 +181,6 @@ public class CleanroomChunkGenerator extends ChunkGenerator
         }
     }
 
-    @Override
     public short[][] generateExtBlockSections(World world, Random random, int x, int z, BiomeGrid biomes)
     {
         int maxHeight = world.getMaxHeight();

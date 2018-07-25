@@ -52,7 +52,8 @@ public class CleanroomBlockPopulator extends BlockPopulator
                 {
                     for (int zz = 0; zz < 16; zz++)
                     {
-                        world.getBlockAt(x + xx, y, z + zz).setData(dataValue);
+                        // xd dont know what im gonna do, ill come back to this later
+                        //world.getBlockAt(x + xx, y, z + zz).setData(dataValue);
                     }
                 }
             }

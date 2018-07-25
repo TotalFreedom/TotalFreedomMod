@@ -83,7 +83,7 @@ public class InteractBlocker extends FreedomService
                 break;
             }
 
-            case EXPLOSIVE_MINECART:
+            case TNT_MINECART:
             {
                 if (ConfigEntry.ALLOW_TNT_MINECARTS.getBoolean())
                 {

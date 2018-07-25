@@ -3,8 +3,8 @@ package me.totalfreedom.totalfreedommod.command;
 import java.util.ArrayList;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.util.MaterialGroup;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -29,28 +29,26 @@ public class Command_ro extends FreedomCommand
         }
 
         final List<Material> materials = new ArrayList<>();
-
-        for (String materialName : StringUtils.split(args[0], ","))
+        String names = null;
+        if (args[0].equalsIgnoreCase("shulker_boxes") || args[0].equalsIgnoreCase("shulkers"))
         {
-            Material fromMaterial = Material.matchMaterial(materialName);
-            if (fromMaterial == null)
+            materials.addAll(MaterialGroup.SHULKER_BOX_COLORS);
+            names = "shulker boxes";
+        }
+        else
+        {
+            for (String materialName : StringUtils.split(args[0], ","))
             {
-                try
-                {
-                    fromMaterial = DepreciationAggregator.getMaterial(Integer.parseInt(materialName));
-                }
-                catch (NumberFormatException ex)
-                {
-                }
-            }
+                Material fromMaterial = Material.matchMaterial(materialName);
 
-            if (fromMaterial == null || fromMaterial == Material.AIR || !fromMaterial.isBlock())
-            {
-                msg("Invalid material: " + materialName, ChatColor.RED);
-                return true;
-            }
+                if (fromMaterial == null || fromMaterial == Material.AIR || !fromMaterial.isBlock())
+                {
+                    msg("Invalid material: " + materialName, ChatColor.RED);
+                    return true;
+                }
 
-            materials.add(fromMaterial);
+                materials.add(fromMaterial);
+            }
         }
 
         int radius = 20;
@@ -82,7 +80,10 @@ public class Command_ro extends FreedomCommand
             targetPlayer = null;
         }
 
-        final String names = StringUtils.join(materials, ", ");
+        if (names == null)
+        {
+            names = StringUtils.join(materials, ", ");
+        }
 
         World adminWorld = null;
         try

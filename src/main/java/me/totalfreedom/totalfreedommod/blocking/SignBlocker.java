@@ -38,7 +38,7 @@ public class SignBlocker extends FreedomService
     {
 
         final Player player = event.getPlayer();
-        if (event.getBlock().getType().equals(Material.SIGN) || event.getBlock().getType().equals(Material.SIGN_POST) || event.getBlock().getType().equals(Material.WALL_SIGN))
+        if (event.getBlock().getType().equals(Material.SIGN) || event.getBlock().getType().equals(Material.WALL_SIGN))
         {
 
             ItemStack sign = event.getItemInHand();
@@ -65,7 +65,7 @@ public class SignBlocker extends FreedomService
             return;
         }
 
-        if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.SIGN) || event.getClickedBlock().getType().equals(Material.SIGN_POST) || event.getClickedBlock().getType().equals(Material.WALL_SIGN))
+        if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.SIGN) || event.getClickedBlock().getType().equals(Material.WALL_SIGN))
         {
             event.setCancelled(true);
         }
