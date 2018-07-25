@@ -17,24 +17,23 @@
  */
 package me.totalfreedom.totalfreedommod.world;
 
-import static java.lang.System.arraycopy;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.logging.Logger;
-import org.bukkit.Bukkit;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+import static java.lang.System.arraycopy;
+
 @SuppressWarnings("deprecation")
 public class CleanroomChunkGenerator extends ChunkGenerator
 {
-
-    private static final Logger log = Bukkit.getLogger();
     private short[] layer;
     private byte[] layerDataValues;
 
@@ -77,7 +76,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                         int height = Integer.parseInt(tokens[i]);
                         if (height <= 0)
                         {
-                            log.warning("[CleanroomGenerator] Invalid height '" + tokens[i] + "'. Using 64 instead.");
+                            FLog.warning("[CleanroomGenerator] Invalid height '" + tokens[i] + "'. Using 64 instead.");
                             height = 64;
                         }
 
@@ -92,7 +91,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                             }
                             catch (Exception e)
                             {
-                                log.warning("[CleanroomGenerator] Invalid Data Value '" + materialTokens[1] + "'. Defaulting to 0.");
+                                FLog.warning("[CleanroomGenerator] Invalid Data Value '" + materialTokens[1] + "'. Defaulting to 0.");
                                 dataValue = 0;
                             }
                         }
@@ -111,14 +110,14 @@ public class CleanroomChunkGenerator extends ChunkGenerator
 
                             if (mat == null)
                             {
-                                log.warning("[CleanroomGenerator] Invalid Block ID '" + materialTokens[0] + "'. Defaulting to stone.");
+                                FLog.warning("[CleanroomGenerator] Invalid Block ID '" + materialTokens[0] + "'. Defaulting to stone.");
                                 mat = Material.STONE;
                             }
                         }
 
                         if (!mat.isBlock())
                         {
-                            log.warning("[CleanroomGenerator] Error, '" + materialTokens[0] + "' is not a block. Defaulting to stone.");
+                            FLog.warning("[CleanroomGenerator] Error, '" + materialTokens[0] + "' is not a block. Defaulting to stone.");
                             mat = Material.STONE;
                         }
 
@@ -164,7 +163,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
             }
             catch (Exception e)
             {
-                log.severe("[CleanroomGenerator] Error parsing CleanroomGenerator ID '" + id + "'. using defaults '64,1': " + e.toString());
+                FLog.severe("[CleanroomGenerator] Error parsing CleanroomGenerator ID '" + id + "'. using defaults '64,1': " + e.toString());
                 e.printStackTrace();
                 layerDataValues = null;
                 layer = new short[65];
@@ -186,7 +185,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
         int maxHeight = world.getMaxHeight();
         if (layer.length > maxHeight)
         {
-            log.warning("[CleanroomGenerator] Error, chunk height " + layer.length + " is greater than the world max height (" + maxHeight + "). Trimming to world max height.");
+            FLog.warning("[CleanroomGenerator] Error, chunk height " + layer.length + " is greater than the world max height (" + maxHeight + "). Trimming to world max height.");
             short[] newLayer = new short[maxHeight];
             arraycopy(layer, 0, newLayer, 0, maxHeight);
             layer = newLayer;

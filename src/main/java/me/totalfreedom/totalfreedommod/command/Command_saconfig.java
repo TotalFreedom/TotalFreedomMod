@@ -32,7 +32,6 @@ public class Command_saconfig extends FreedomCommand
             case "list":
             {
                 msg("Admins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
-
                 return true;
             }
 
@@ -154,6 +153,13 @@ public class Command_saconfig extends FreedomCommand
 
                 // Player already an admin?
                 final Player player = getPlayer(args[1]);
+
+                if (player == null)
+                {
+                    msg(FreedomCommand.PLAYER_NOT_FOUND);
+                    return true;
+                }
+
                 if (player != null && plugin.al.isAdmin(player))
                 {
                     msg("That player is already admin.");
@@ -176,7 +182,7 @@ public class Command_saconfig extends FreedomCommand
                 {
                     if (plugin.mbl.isMasterBuilderImpostor(player))
                     {
-                        msg("This player was labeled as a Master Builder imposter and is not an admin, therefore they can not be added to the admin list.", ChatColor.RED);
+                        msg("This player was labeled as a Master Builder impostor and is not an admin, therefore they can not be added to the admin list.", ChatColor.RED);
                         return true;
                     }
                     if (player == null)
@@ -296,5 +302,4 @@ public class Command_saconfig extends FreedomCommand
             }
         }
     }
-
 }

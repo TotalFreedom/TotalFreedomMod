@@ -266,14 +266,15 @@ announcer:
     - 'Somebody breaking the rules? Report it! /report <user> <reason>'
     - 'Griefing is not allowed!'
     - 'Hacked clients are allowed!'
-    - 'Interested in becoming admin? Do "/ai" for more information!'
+    - 'Interested in becoming admin? Type "/ai" for more information!'
     - 'You may view all online administrators via "/list -a"'
     - 'Save your buildings via WorldEdit! http://totalfreedom.me for more information!'
     - 'Famous players, such as Notch, are always fake! We are an offline/cracked server!'
     - 'You may contact TotalFreedom support on Twitter! https://tiny.re/tfsupport'
     - 'You may download TotalFreedomMod here: https://tiny.re/tfm+'
-    - 'MarkByron is the owner of TotalFreedom.'
-    - 'Server lagging?  Check the lag via "/tps"'
+    - 'TheMinecraft is the owner of TotalFreedom.'
+    - 'MarkByron is the founder of TotalFreedom.'
+    - 'Server lagging? Check the lag via "/tps"'
     - 'You are allowed to record and stream videos on TotalFreedom.'
     - 'Player vs player while in creative or god mode is forbidden!'
     - 'Spawn killing is forbidden!'
@@ -281,7 +282,7 @@ announcer:
     - 'Serial griefing and trolling will result in a permanent ban!'
     - 'TotalFreedom does not accept any form of donations!'
     - 'Racism, nazism, and sexism are strictly forbidden!'
-    - 'Join our Mumble server! IP: 64.34.202.140:2862'
+    - 'Join our Discord server! Link: https://discordapp.com/invite/XXjmAmV/'
 
 # Famous players - cannot be banned by username
 famous_players:

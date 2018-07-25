@@ -27,6 +27,12 @@ public class Command_eject extends FreedomCommand
             names.add(entity.getName());
         }
 
+        if (names.isEmpty())
+        {
+            msg("Nothing was ejected.", ChatColor.GREEN);
+            return true;
+        }
+
         msg("Ejecting " + StringUtils.join(names, ", ") + ".", ChatColor.GREEN);
         playerSender.eject();
 
