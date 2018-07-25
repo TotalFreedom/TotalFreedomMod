@@ -37,7 +37,7 @@ public class WorldManager extends FreedomService
     protected void onStart()
     {
         // Disabled temporarily
-        //flatlands.getWorld();
+        flatlands.getWorld();
         //adminworld.getWorld();
         //masterBuilderWorld.getWorld();
 
