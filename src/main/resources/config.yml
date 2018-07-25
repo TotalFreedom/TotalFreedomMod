@@ -119,7 +119,6 @@ blocked_commands:
     # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
-  - 'n:b:/ban:_'
   - 'n:b:/pardon:_'
   - 'n:b:/ban-ip:_'
   - 'n:b:/pardon-ip:_'
@@ -237,7 +236,7 @@ flatlands:
 # Admin-Only Mode
 admin_only_mode: false
 
-# Protected Areas - Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
+# Protected Areas - Protect areas so that only admins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
 protectarea:
   enabled: true
   auto_protect_spawnpoints: true
