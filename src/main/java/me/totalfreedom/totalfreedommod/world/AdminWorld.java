@@ -27,7 +27,6 @@ public final class AdminWorld extends CustomWorld
     private static final long CACHE_CLEAR_FREQUENCY = 30L * 1000L; //30 seconds, milliseconds
     private static final long TP_COOLDOWN_TIME = 500L; //0.5 seconds, milliseconds
     private static final String GENERATION_PARAMETERS = ConfigEntry.FLATLANDS_GENERATE_PARAMS.getString();
-    private static final String WORLD_NAME = "adminworld";
     //
     private final Map<Player, Long> teleportCooldown = new HashMap<>();
     private final Map<CommandSender, Boolean> accessCache = new HashMap<>();
@@ -56,7 +55,7 @@ public final class AdminWorld extends CustomWorld
     @Override
     protected World generateWorld()
     {
-        final WorldCreator worldCreator = new WorldCreator(WORLD_NAME);
+        final WorldCreator worldCreator = new WorldCreator(getName());
         worldCreator.generateStructures(false);
         worldCreator.type(WorldType.NORMAL);
         worldCreator.environment(World.Environment.NORMAL);

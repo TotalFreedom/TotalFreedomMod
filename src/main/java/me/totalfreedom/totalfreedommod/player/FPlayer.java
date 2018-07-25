@@ -131,41 +131,6 @@ public class FPlayer
         return orbitStrength;
     }
 
-    public boolean isInvSee()
-    {
-        return invSee;
-    }
-
-    public void setInvSee(boolean toggle)
-    {
-        this.invSee = toggle;
-    }
-
-    public boolean isEditBlocked()
-    {
-        return editBlocked;
-    }
-
-    public void setEditBlocked(boolean toggle)
-    {
-        this.editBlocked = toggle;
-    }
-
-    public boolean isPvpBlocked()
-    {
-        return pvpBlocked;
-    }
-
-    public CageData getCageData()
-    {
-        return cageData;
-    }
-
-    public void setPvpBlocked(boolean toggle)
-    {
-        this.pvpBlocked = toggle;
-    }
-
     public boolean isFuckOff()
     {
         return fuckoffRadius > 0;
@@ -376,11 +341,6 @@ public class FPlayer
     public void setAdminChat(boolean inAdminchat)
     {
         this.inAdminchat = inAdminchat;
-    }
-
-    public FreezeData getFreezeData()
-    {
-        return freezeData;
     }
 
 

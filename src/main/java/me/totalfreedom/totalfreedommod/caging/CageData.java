@@ -218,26 +218,6 @@ public class CageData
         }
     }
 
-    public boolean isCaged()
-    {
-        return this.caged;
-    }
-
-    public Location getLocation()
-    {
-        return this.location;
-    }
-
-    public Material getOuterMaterial()
-    {
-        return this.outerMaterial;
-    }
-
-    public Material getInnerMaterial()
-    {
-        return this.innerMaterial;
-    }
-
     private static class BlockData
     {
 

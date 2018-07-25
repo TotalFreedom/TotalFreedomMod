@@ -171,11 +171,6 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         }
     }
 
-    public String getLoginMessage()
-    {
-        return this.loginMessage;
-    }
-
     public void removeIp(String ip)
     {
         if (ips.contains(ip))
@@ -217,65 +212,5 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 && rank != null
                 && !ips.isEmpty()
                 && lastLogin != null;
-    }
-
-    public boolean isActive()
-    {
-        return this.active;
-    }
-
-    public String getConfigKey()
-    {
-        return this.configKey;
-    }
-
-    public String getName()
-    {
-        return this.name;
-    }
-
-    public void setName(final String name)
-    {
-        this.name = name;
-    }
-
-    public Rank getRank()
-    {
-        return this.rank;
-    }
-
-    public void setRank(final Rank rank)
-    {
-        this.rank = rank;
-    }
-
-    public List<String> getIps()
-    {
-        return this.ips;
-    }
-
-    public Date getLastLogin()
-    {
-        return this.lastLogin;
-    }
-
-    public void setLastLogin(final Date lastLogin)
-    {
-        this.lastLogin = lastLogin;
-    }
-
-    public void setLoginMessage(final String loginMessage)
-    {
-        this.loginMessage = loginMessage;
-    }
-
-    public String getDiscordID()
-    {
-        return this.discordID;
-    }
-
-    public void setDiscordID(String discordID)
-    {
-        this.discordID = discordID;
     }
 }

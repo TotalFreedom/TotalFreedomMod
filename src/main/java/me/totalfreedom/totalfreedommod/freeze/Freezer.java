@@ -32,11 +32,6 @@ public class Freezer extends FreedomService
     {
     }
 
-    public boolean isGlobalFreeze()
-    {
-        return this.globalFreeze;
-    }
-
     public void setGlobalFreeze(boolean frozen)
     {
         this.globalFreeze = frozen;
