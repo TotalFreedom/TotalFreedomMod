@@ -71,7 +71,7 @@ public class Command_premium extends FreedomCommand
                 catch (Exception ex)
                 {
                     FLog.severe(ex);
-                    msg("There was an error querying the mojang server.", ChatColor.RED);
+                    msg("There was an error querying the Mojang server.", ChatColor.RED);
                 }
             }
         }.runTaskAsynchronously(plugin);

@@ -23,6 +23,7 @@ public class Flatlands extends CustomWorld
     {
         super("flatlands");
     }
+    private static final String WORLD_NAME = "flatlands";
 
     @Override
     protected World generateWorld()
@@ -89,4 +90,8 @@ public class Flatlands extends CustomWorld
         }
     }
 
+    public String getName()
+    {
+        return this.WORLD_NAME;
+    }
 }

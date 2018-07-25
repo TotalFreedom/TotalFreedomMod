@@ -38,7 +38,6 @@ public class Command_wipeuserdata extends FreedomCommand
             FUtil.deleteFolder(new File(Bukkit.getServer().getWorld(plugin.wm.flatlands.getName()).getWorldFolder().getName() + "stats"));
             FUtil.deleteFolder(new File(Bukkit.getServer().getWorld(w.getName()).getWorldFolder().getName() + "stats"));
             FUtil.deleteFolder(new File(Bukkit.getServer().getWorld(w.getName()).getWorldFolder().getName() + "playerdata"));
-
             msg("All playerdata deleted.");
             return true;
         }

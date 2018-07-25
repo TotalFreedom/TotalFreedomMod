@@ -85,6 +85,7 @@ public class Command_cage extends FreedomCommand
                 }
             }
         }
+
         Location location = player.getLocation().clone().add(0.0, 1.0, 0.0);
         if (skullName != null)
         {
@@ -95,7 +96,7 @@ public class Command_cage extends FreedomCommand
             fPlayer.getCageData().cage(location, outerMaterial, innerMaterial);
         }
         player.setGameMode(GameMode.SURVIVAL);
-        if (outerMaterial == Material.PLAYER_HEAD)
+
         {
             FUtil.adminAction(sender.getName(), "Caging " + player.getName() + " in " + skullName, true);
         }

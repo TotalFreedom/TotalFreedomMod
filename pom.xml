@@ -40,7 +40,7 @@
     <scm>
         <connection>scm:git:git@github.com:TFPatches/TotalFreedomMod.git</connection>
         <developerConnection>scm:git:git@github.com:TFPatches/TotalFreedomMod.git</developerConnection>
-        <url>git@github.com:TotalFreedom/TFPatches.git</url>
+        <url>git@github.com:TFPatches/TotalFreedomMod.git</url>
     </scm>
 
     <repositories>
@@ -151,6 +151,7 @@
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>3.7.1_385</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

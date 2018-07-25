@@ -141,6 +141,31 @@ public class FPlayer
         this.invSee = toggle;
     }
 
+    public boolean isEditBlocked()
+    {
+        return editBlocked;
+    }
+
+    public void setEditBlocked(boolean toggle)
+    {
+        this.editBlocked = toggle;
+    }
+
+    public boolean isPvpBlocked()
+    {
+        return pvpBlocked;
+    }
+
+    public CageData getCageData()
+    {
+        return cageData;
+    }
+
+    public void setPvpBlocked(boolean toggle)
+    {
+        this.pvpBlocked = toggle;
+    }
+
     public boolean isFuckOff()
     {
         return fuckoffRadius > 0;
@@ -352,6 +377,12 @@ public class FPlayer
     {
         this.inAdminchat = inAdminchat;
     }
+
+    public FreezeData getFreezeData()
+    {
+        return freezeData;
+    }
+
 
     public boolean inAdminChat()
     {

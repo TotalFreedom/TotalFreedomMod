@@ -56,7 +56,6 @@ public class ItemFun extends FreedomService
 
         switch (event.getMaterial())
         {
-            case TROPICAL_FISH:
             {
                 final int RADIUS_HIT = 5;
                 final int STRENGTH = 4;

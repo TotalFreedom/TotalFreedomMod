@@ -15,6 +15,12 @@ public class Command_wipecoreprotectdata extends FreedomCommand
     @Override
     public boolean run(final CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (!plugin.cpb.isEnabled())
+        {
+            msg("CoreProtect is not enabled on this server");
+            return true;
+        }
+
         FUtil.adminAction(sender.getName(), "Wiping CoreProtect data for the flatlands", true);
 
         new BukkitRunnable()

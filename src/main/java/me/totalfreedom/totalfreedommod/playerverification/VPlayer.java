@@ -82,20 +82,15 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         return ips.remove(ip);
     }
 
+    public void setDiscordId(final String discordId)
+    {
+        this.discordId = discordId;
+    }
+
     @Override
     public boolean isValid()
     {
         return name != null
                 && !ips.isEmpty();
-    }
-
-    public boolean getForumEnabled()
-    {
-        return this.forumEnabled;
-    }
-
-    public boolean getDiscordEnabled()
-    {
-        return this.discordEnabled;
     }
 }

@@ -15,7 +15,7 @@ public class Command_restart extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if(!plugin.amp.enabled)
+        if (!plugin.amp.enabled)
         {
             msg(ChatColor.RED + "AMP integration is not enabled. Please use /stop instead.");
             return true;
