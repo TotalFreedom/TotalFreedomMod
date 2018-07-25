@@ -120,14 +120,14 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.Telesphoreo</groupId>
+            <groupId>com.github.TFPatches</groupId>
             <artifactId>TF-LibsDisguises</artifactId>
             <version>c213295f95</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.github.Telesphoreo.TF-WorldEdit</groupId>
+            <groupId>com.github.TFPatches.TF-WorldEdit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>2e79570525</version>
             <scope>provided</scope>
