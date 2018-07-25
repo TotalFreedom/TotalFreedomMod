@@ -46,19 +46,19 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.ess3:Essentials:2.13.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:craftbukkit:1.13-pre7-R0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: net.dv8tion:JDA:3.7.1_385" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:3.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.1" level="project" />
-    <orderEntry type="library" name="Maven: org.json:json:20160810" level="project" />
-    <orderEntry type="library" name="Maven: net.sf.trove4j:trove4j:3.0.3" level="project" />
-    <orderEntry type="library" name="Maven: club.minnced:opus-java:1.0.2" level="project" />
-    <orderEntry type="library" name="Maven: club.minnced:opus-java-api:1.0.2" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: net.java.dev.jna:jna:4.4.0" level="project" />
-    <orderEntry type="library" name="Maven: club.minnced:opus-java-natives:1.0.2" level="project" />
-    <orderEntry type="library" name="Maven: com.neovisionaries:nv-websocket-client:2.4" level="project" />
-    <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.8.1" level="project" />
-    <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.13.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.dv8tion:JDA:3.7.1_385" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.commons:commons-collections4:4.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.json:json:20160810" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.sf.trove4j:trove4j:3.0.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: club.minnced:opus-java:1.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: club.minnced:opus-java-api:1.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.dev.jna:jna:4.4.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: club.minnced:opus-java-natives:1.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.neovisionaries:nv-websocket-client:2.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okhttp3:okhttp:3.8.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okio:okio:1.13.0" level="project" />
     <orderEntry type="module-library">
       <library name="Maven: net.coreprotect:CoreProtect:2.14.2">
         <CLASSES>
