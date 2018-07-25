@@ -27,11 +27,11 @@ public class Command_unlinkdiscord extends FreedomCommand
             Admin admin = plugin.al.getAdmin(playerSender);
             if (admin.getDiscordID() == null)
             {
-                msg("Your minecraft account is not linked to a discord account.", ChatColor.RED);
+                msg("Your Minecraft account is not linked to a discord account.", ChatColor.RED);
                 return true;
             }
             admin.setDiscordID(null);
-            msg("Your minecraft account has been successfully unlinked from the discord account.", ChatColor.GREEN);
+            msg("Your Minecraft account has been successfully unlinked from the discord account.", ChatColor.GREEN);
             return true;
         }
         else
@@ -39,12 +39,12 @@ public class Command_unlinkdiscord extends FreedomCommand
             VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
             if (data.getDiscordId() == null)
             {
-                msg("Your minecraft account is not linked to a discord account.", ChatColor.RED);
+                msg("Your Minecraft account is not linked to a discord account.", ChatColor.RED);
                 return true;
             }
             data.setDiscordId(null);
             data.setDiscordEnabled(false);
-            msg("Your minecraft account has been successfully unlinked from the discord account.", ChatColor.GREEN);
+            msg("Your Minecraft account has been successfully unlinked from the discord account.", ChatColor.GREEN);
             return true;
         }
     }

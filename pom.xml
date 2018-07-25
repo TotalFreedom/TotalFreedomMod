@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.totalfreedom</groupId>
@@ -16,7 +17,8 @@
         <tfm.build.author>${buildAuthor}</tfm.build.author>
         <tfm.build.head>${buildHead}</tfm.build.head>
         <jar.finalName>${project.name}</jar.finalName>
-        <maven.build.timestamp.format>dd/MM/yyyy hh:mm aa</maven.build.timestamp.format>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>MM/dd/yyyy HH:mm</maven.build.timestamp.format>
     </properties>
 
     <name>TotalFreedomMod</name>
@@ -36,9 +38,9 @@
     </organization>
 
     <scm>
-        <connection>scm:git:git@github.com:TotalFreedom/TotalFreedomMod.git</connection>
-        <developerConnection>scm:git:git@github.com:TotalFreedom/TotalFreedomMod.git</developerConnection>
-        <url>git@github.com:TotalFreedom/TotalFreedomMod.git</url>
+        <connection>scm:git:git@github.com:TFPatches/TotalFreedomMod.git</connection>
+        <developerConnection>scm:git:git@github.com:TFPatches/TotalFreedomMod.git</developerConnection>
+        <url>git@github.com:TotalFreedom/TFPatches.git</url>
     </scm>
 
     <repositories>
@@ -50,54 +52,84 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <repository>
+            <id>elmakers-repo</id>
+            <url>http://maven.elmakers.com/repository/</url>
+        </repository>
+
+        <repository>
+            <id>sk89q-snapshots</id>
+            <url>http://maven.sk89q.com/artifactory/repo</url>
+        </repository>
+
+        <repository>
+            <id>jcenter</id>
+            <name>jcenter-bintray</name>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+
+        <repository>
+            <id>md_5-public</id>
+            <url>http://repo.md-5.net/content/groups/public/</url>
+        </repository>
+
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
+        </repository>
+
         <repository>
             <id>sk89q-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
-        </repository>
-        <repository>
-            <id>sk89q-snapshots</id>
-            <url>http://maven.sk89q.com/artifactory/repo/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.6</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.20</version>
+            <version>1.18.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.13-pre7-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.Pravian</groupId>
             <artifactId>Aero</artifactId>
-            <version>2.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/aero-2.1-SNAPSHOT.jar</systemPath>
+            <version>5f82926</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.TotalFreedom</groupId>
             <artifactId>BukkitTelnet</artifactId>
             <version>4.5-pre1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.Telesphoreo</groupId>
+            <artifactId>TF-LibsDisguises</artifactId>
+            <version>c213295f95</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.Telesphoreo.TF-WorldEdit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>2e79570525</version>
             <scope>provided</scope>
         </dependency>
 
@@ -109,19 +141,16 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldguard</artifactId>
-            <version>6.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/worldguard-6.2.jar</systemPath>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.13-pre7-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
-            <version>6.1.0-TF</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/TF-WorldEdit.jar</systemPath>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>3.7.1_385</version>
         </dependency>
 
         <dependency>
@@ -133,29 +162,11 @@
         </dependency>
 
         <dependency>
-            <groupId>me.libraryaddict</groupId>
-            <artifactId>LibsDisguises</artifactId>
-            <scope>system</scope>
-            <version>9.4.0-SNAPSHOT</version>
-            <systemPath>${project.basedir}/lib/LibsDisguises.jar</systemPath>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-legacy</artifactId>
+            <version>6.2</version>
+            <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.spigot</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.13</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/spigot-1.13.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>net.dv8tion</groupId>
-            <artifactId>JDA</artifactId>
-            <version>JDA-3.6.0_354-withDependencies</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JDA-3.6.0_354-withDependencies.jar</systemPath>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -167,13 +178,12 @@
             </resource>
         </resources>
 
-
         <plugins>
             <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.7.0</version>
                 <configuration>
                     <outputFileName>TotalFreedomMod.jar</outputFileName>
                     <compilerVersion>1.8</compilerVersion>
@@ -192,11 +202,13 @@
                         <phase>initialize</phase>
                         <configuration>
                             <target>
-                                <propertyfile file="src/main/resources/build.properties" comment="Build information. Edit this to your liking.">
-                                    <entry key="buildAuthor" default="unknown" />
-                                    <entry key="buildNumber" default="0" />
-                                    <entry key="buildCodeName" default="${tfm.build.codename}" />
-                                    <entry key="buildVersion" default="${project.version}" />
+                                <propertyfile file="src/main/resources/build.properties"
+                                              comment="Build information. Edit this to your liking.">
+                                    <entry key="buildAuthor" default="unknown"/>
+                                    <entry key="buildNumber" default="0"/>
+                                    <entry key="buildCodeName" default="${tfm.build.codename}"/>
+                                    <entry key="buildVersion" default="${project.version}"/>
+                                    <entry key="buildDate" default="${timestamp}"/>
                                 </propertyfile>
                             </target>
                         </configuration>
@@ -205,7 +217,6 @@
                         </goals>
                     </execution>
                 </executions>
-
             </plugin>
 
 
@@ -276,7 +287,8 @@
                     <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
                     <verbose>false</verbose>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${basedir}/src/main/resources/git.properties</generateGitPropertiesFilename>
+                    <generateGitPropertiesFilename>${basedir}/src/main/resources/git.properties
+                    </generateGitPropertiesFilename>
                     <format>properties</format>
                     <failOnNoGitDirectory>false</failOnNoGitDirectory>
                     <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
@@ -311,7 +323,8 @@
 
                 <configuration>
                     <buildNumberPropertyName>maven.buildnumber</buildNumberPropertyName>
-                    <buildNumberPropertiesFileLocation>${basedir}/src/main/resources/build.properties</buildNumberPropertiesFileLocation>
+                    <buildNumberPropertiesFileLocation>${basedir}/src/main/resources/build.properties
+                    </buildNumberPropertiesFileLocation>
                     <format>{0,number,#}</format>
                     <items>
                         <item>buildNumber</item>

@@ -131,6 +131,16 @@ public class FPlayer
         return orbitStrength;
     }
 
+    public boolean isInvSee()
+    {
+        return invSee;
+    }
+
+    public void setInvSee(boolean toggle)
+    {
+        this.invSee = toggle;
+    }
+
     public boolean isFuckOff()
     {
         return fuckoffRadius > 0;

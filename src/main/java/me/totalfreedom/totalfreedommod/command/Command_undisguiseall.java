@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-//import me.libraryaddict.disguise.DisallowedDisguises;
-import me.libraryaddict.disguise.DisallowedDisguises;
+import me.totalfreedom.libsdisguise.DisallowedDisguises;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;

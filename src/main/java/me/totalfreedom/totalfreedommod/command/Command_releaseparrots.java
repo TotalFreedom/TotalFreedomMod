@@ -8,7 +8,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Release parrots from your shoulders.", usage = "/<command>", aliases="removeparrots")
+@CommandParameters(description = "Release parrots from your shoulders.", usage = "/<command>", aliases = "removeparrots")
 public class Command_releaseparrots extends FreedomCommand
 {
 
@@ -17,6 +17,13 @@ public class Command_releaseparrots extends FreedomCommand
     {
         Entity leftShoulderEntity = playerSender.getShoulderEntityLeft();
         Entity rightShoulderEntity = playerSender.getShoulderEntityRight();
+
+        if (rightShoulderEntity == null && leftShoulderEntity == null)
+        {
+            msg("No parrots were detected on either of your shoulders.");
+            return true;
+        }
+
         if (leftShoulderEntity != null && leftShoulderEntity.getType().equals(EntityType.PARROT))
         {
             playerSender.setShoulderEntityLeft(null);
@@ -28,7 +35,6 @@ public class Command_releaseparrots extends FreedomCommand
             playerSender.setShoulderEntityRight(null);
             msg("Removed the parrot on your right shoulder.");
         }
-
         return true;
     }
 }

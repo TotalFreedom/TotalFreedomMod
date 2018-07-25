@@ -88,4 +88,14 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         return name != null
                 && !ips.isEmpty();
     }
+
+    public boolean getForumEnabled()
+    {
+        return this.forumEnabled;
+    }
+
+    public boolean getDiscordEnabled()
+    {
+        return this.discordEnabled;
+    }
 }

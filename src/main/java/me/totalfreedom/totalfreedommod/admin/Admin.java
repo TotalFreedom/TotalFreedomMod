@@ -268,4 +268,14 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     {
         this.loginMessage = loginMessage;
     }
+
+    public String getDiscordID()
+    {
+        return this.discordID;
+    }
+
+    public void setDiscordID(String discordID)
+    {
+        this.discordID = discordID;
+    }
 }

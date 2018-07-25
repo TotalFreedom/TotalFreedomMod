@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
-import me.libraryaddict.disguise.DisallowedDisguises;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.LibsDisguises;
+import me.totalfreedom.libsdisguise.DisallowedDisguises;
+import me.totalfreedom.libsdisguise.TF_DisguiseAPI;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.entity.Player;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 public class LibsDisguisesBridge extends FreedomService
@@ -111,11 +111,11 @@ public class LibsDisguisesBridge extends FreedomService
 
         if (state)
         {
-            DisguiseAPI.enableDisguises();
+            TF_DisguiseAPI.enableDisguises();
         }
         else
         {
-            DisguiseAPI.disableDisguises();
+            TF_DisguiseAPI.disableDisguises();
         }
     }
 
