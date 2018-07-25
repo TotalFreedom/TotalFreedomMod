@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -399,5 +400,23 @@ public class FUtil
         String packageName = Bukkit.getServer().getClass().getPackage().getName();
         return packageName.substring(packageName.lastIndexOf('.') + 1);
     }
+
+    public static final List<Material> WOOL_COLORS = Arrays.asList(
+            Material.WHITE_WOOL,
+            Material.RED_WOOL,
+            Material.ORANGE_WOOL,
+            Material.YELLOW_WOOL,
+            Material.GREEN_WOOL,
+            Material.LIME_WOOL,
+            Material.LIGHT_BLUE_WOOL,
+            Material.CYAN_WOOL,
+            Material.BLUE_WOOL,
+            Material.PURPLE_WOOL,
+            Material.MAGENTA_WOOL,
+            Material.PINK_WOOL,
+            Material.BROWN_WOOL,
+            Material.GRAY_WOOL,
+            Material.LIGHT_GRAY_WOOL,
+            Material.BLACK_WOOL);
 
 }

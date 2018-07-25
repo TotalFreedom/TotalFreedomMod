@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.command;
 import java.util.ArrayList;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,20 +27,10 @@ public class Command_whohas extends FreedomCommand
 
         final String materialName = args[0];
         Material material = Material.matchMaterial(materialName);
-        if (material == null)
-        {
-            try
-            {
-                material = DepreciationAggregator.getMaterial(Integer.parseInt(materialName));
-            }
-            catch (NumberFormatException ex)
-            {
-            }
-        }
 
         if (material == null)
         {
-            msg("Invalid block: " + materialName, ChatColor.RED);
+            msg("Invalid item: " + materialName, ChatColor.RED);
             return true;
         }
 

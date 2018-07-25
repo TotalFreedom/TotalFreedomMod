@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 public class Jumppads extends FreedomService
 {
 
-    public static final Material BLOCK_ID = Material.WOOL;
+    public static final Material BLOCK_ID = Material.WHITE_WOOL;
     public static final double DAMPING_COEFFICIENT = 0.8;
     //
     private final Map<Player, Boolean> pushMap = Maps.newHashMap();

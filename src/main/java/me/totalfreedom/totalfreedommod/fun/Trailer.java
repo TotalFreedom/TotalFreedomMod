@@ -7,7 +7,7 @@ import java.util.Set;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
-import org.bukkit.Material;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -60,8 +60,7 @@ public class Trailer extends FreedomService
             return;
         }
 
-        fromBlock.setType(Material.WOOL);
-        DepreciationAggregator.setData_Block(fromBlock, (byte) random.nextInt(16));
+        fromBlock.setType(FUtil.WOOL_COLORS.get(random.nextInt(FUtil.WOOL_COLORS.size())));
     }
 
     public void remove(Player player)
