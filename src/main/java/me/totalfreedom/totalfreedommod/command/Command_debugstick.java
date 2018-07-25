@@ -23,7 +23,7 @@ public class Command_debugstick extends FreedomCommand
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.GOLD.toString() + ChatColor.BOLD.toString() + "Stick of Happiness");
         List<String> lore = Arrays.asList(
-                ChatColor.RED + "This is the most powerfull stick in the game.",
+                ChatColor.RED + "This is the most powerful stick in the game.",
                 ChatColor.DARK_BLUE + "You can left click to select what you want to change.",
                 ChatColor.DARK_GREEN + "And then you can right click to change it!",
                 ChatColor.DARK_PURPLE + "Isn't technology amazing?");
