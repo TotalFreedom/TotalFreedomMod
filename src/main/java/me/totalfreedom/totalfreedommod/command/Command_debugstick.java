@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Get a stuck of happiness.", usage = "/<command>")
+@CommandParameters(description = "Get a stick of happiness.", usage = "/<command>")
 public class Command_debugstick extends FreedomCommand
 {
 
