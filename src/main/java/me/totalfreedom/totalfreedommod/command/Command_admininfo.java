@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Information on how to apply for admin.", usage = "/<command> [message...]", aliases = "ai")
+@CommandParameters(description = "Information on how to apply for admin.", usage = "/<command>", aliases = "ai")
 public class Command_admininfo extends FreedomCommand
 {
 
