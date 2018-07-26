@@ -37,7 +37,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
 
     public CleanroomChunkGenerator()
     {
-        this("64,stone");
+        this("16,stone,32,dirt,1,grass_block");
     }
 
     public CleanroomChunkGenerator(String id)
@@ -49,17 +49,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                 int y = 0;
 
                 materials = new Material[128]; // Default to 128, will be resized later if required
-
-                if ((id.length() > 0) && (id.charAt(0) == '.'))
-                {
-                    // Is the first character a '.'? If so, skip bedrock generation.
-                    id = id.substring(1); // Skip bedrock then and remove the .
-                }
-                else
-                {
-                    // Guess not, bedrock at layer0 it is then.
-                    materials[y++] = Material.BEDROCK;
-                }
+                materials[y++] = Material.BEDROCK;
 
                 if (id.length() > 0)
                 {
@@ -86,9 +76,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                             log.warning("[CleanroomGenerator] Data values are no longer supported in 1.13. Defaulting to the base material for " + materialTokens[0]);
                         }
 
-                        log.warning(materialTokens[0]);
-
-                        Material mat = Material.matchMaterial(materialTokens[0]);
+                        Material mat = Material.matchMaterial(materialTokens[0].toUpperCase());
                         if (mat == null)
                         {
                             log.warning("[CleanroomGenerator] Invalid Block ID '" + materialTokens[0] + "'. Defaulting to stone. (Integer IDs were removed in 1.13)");
@@ -154,9 +142,15 @@ public class CleanroomChunkGenerator extends ChunkGenerator
 
         ChunkData result = createChunkData(world);
 
-        for (int i = 0; i < materials.length; i++)
+        for (int y = 0; y < materials.length; y++)
         {
-            result.setRegion(0, i, 0, 15, i, 15, materials[i]);
+            for (int X = 0; X < 16; X++)
+            {
+                for (int Z = 0; Z < 16; Z++)
+                {
+                    result.setBlock(X, y, Z, materials[y]);
+                }
+            }
         }
 
         return result;
