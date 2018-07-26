@@ -57,7 +57,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.neovisionaries:nv-websocket-client:2.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okhttp3:okhttp:3.8.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okio:okio:1.13.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.coreprotect:CoreProtect:2.14.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.coreprotect:coreprotect:2.15.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-legacy:6.2" level="project" />
   </component>
 </module>

@@ -48,10 +48,10 @@ public class Trailer extends FreedomService
             return;
         }
 
-        //if (event.getPlayer().getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()))
-        //{
-        //    return;
-        //}
+        if (event.getPlayer().getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()))
+        {
+            return;
+        }
 
         Block fromBlock = event.getFrom().getBlock();
         if (!fromBlock.isEmpty())

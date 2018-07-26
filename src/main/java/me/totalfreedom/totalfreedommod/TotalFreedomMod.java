@@ -176,7 +176,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         nu = services.registerService(AntiNuke.class);
         as = services.registerService(AntiSpam.class);
         mbl = services.registerService(MasterBuilderList.class);
-        //mbwr = services.registerService(MasterBuilderWorldRestrictions.class);
+        mbwr = services.registerService(MasterBuilderWorldRestrictions.class);
 
         pl = services.registerService(PlayerList.class);
         an = services.registerService(Announcer.class);

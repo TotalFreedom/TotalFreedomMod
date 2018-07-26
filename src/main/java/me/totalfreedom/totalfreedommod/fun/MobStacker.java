@@ -3,10 +3,10 @@ package me.totalfreedom.totalfreedommod.fun;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class MobStacker extends FreedomService
@@ -35,7 +35,7 @@ public class MobStacker extends FreedomService
             return;
         }
 
-        Player attacker = (Player)event.getDamager();
+        Player attacker = (Player) event.getDamager();
 
         if (!plugin.al.isAdmin(attacker))
         {
@@ -49,8 +49,5 @@ public class MobStacker extends FreedomService
             event.setCancelled(true);
             attacker.addPassenger(event.getEntity());
         }
-
-
     }
-
 }

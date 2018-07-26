@@ -139,7 +139,7 @@ public class ItemFun extends FreedomService
 
                 Location location = player.getLocation().clone();
 
-                Vector playerPostion = location.toVector().add(new Vector(0.0, 1.65, 0.0));
+                Vector playerPosition = location.toVector().add(new Vector(0.0, 1.65, 0.0));
                 Vector playerDirection = location.getDirection().normalize();
 
                 double distance = 150.0;
@@ -154,7 +154,7 @@ public class ItemFun extends FreedomService
                 Block lastBlock = null;
                 for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))
                 {
-                    Block block = playerPostion.clone().add(playerDirection.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
+                    Block block = playerPosition.clone().add(playerDirection.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
 
                     if (!block.equals(lastBlock))
                     {

@@ -36,10 +36,9 @@ public class WorldManager extends FreedomService
     @Override
     protected void onStart()
     {
-        // Disabled temporarily
         flatlands.getWorld();
-        //adminworld.getWorld();
-        //masterBuilderWorld.getWorld();
+        adminworld.getWorld();
+        masterBuilderWorld.getWorld();
 
         // Disable weather
         if (ConfigEntry.DISABLE_WEATHER.getBoolean())
@@ -57,9 +56,9 @@ public class WorldManager extends FreedomService
     @Override
     protected void onStop()
     {
-        //flatlands.getWorld().save();
-        //adminworld.getWorld().save();
-        //masterBuilderWorld.getWorld().save();
+        flatlands.getWorld().save();
+        adminworld.getWorld().save();
+        masterBuilderWorld.getWorld().save();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
