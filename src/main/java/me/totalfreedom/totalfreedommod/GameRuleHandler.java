@@ -36,6 +36,7 @@ public class GameRuleHandler extends FreedomService
         setGameRule(GameRule.COMMAND_BLOCK_OUTPUT, false);
         setGameRule(GameRule.NATURAL_REGENERATION, true, false);
         setGameRule(GameRule.KEEP_INVENTORY, true, false);
+        setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false, false);
         commitGameRules();
     }
 
@@ -94,7 +95,8 @@ public class GameRuleHandler extends FreedomService
         DO_TILE_DROPS("doTileDrops", true),
         COMMAND_BLOCK_OUTPUT("commandBlockOutput", true),
         NATURAL_REGENERATION("naturalRegeneration", true),
-        DO_DAYLIGHT_CYCLE("doDaylightCycle", true);
+        DO_DAYLIGHT_CYCLE("doDaylightCycle", true),
+        ANNOUNCE_ADVANCEMENTS("announceAdvancements", false);
         //
         private final String gameRuleName;
         private final boolean defaultValue;

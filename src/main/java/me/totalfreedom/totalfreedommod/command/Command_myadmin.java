@@ -142,10 +142,15 @@ public class Command_myadmin extends FreedomCommand
                 }
 
                 String msg = StringUtils.join(args, " ", 1, args.length);
+                if (!msg.contains("%name%"))
+                {
+                    msg("You login message must contain your name. To add it, specify %name% where you want it.", ChatColor.RED);
+                    return true;
+                }
                 FUtil.adminAction(sender.getName(), "Setting personal login message" + (init == null ? "" : " for " + targetPlayer.getName()), false);
                 target.setLoginMessage(msg);
                 msg((init == null ? "Your" : targetPlayer.getName() + "'s") + " login message is now: ");
-                msg("> " + ChatColor.AQUA + targetPlayer.getName() + " is " + ChatUtils.colorize(target.getLoginMessage()));
+                msg("> " + FUtil.colorize(msg).replace("%name%", targetPlayer.getName()));
                 plugin.al.save();
                 plugin.al.updateTables();
                 return true;
