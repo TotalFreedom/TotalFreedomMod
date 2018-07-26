@@ -95,7 +95,7 @@ public class Command_gtfo extends FreedomCommand
             }
         }
 
-        //checks if there is CoreProtect loaded and installed , if not it skips the rollback and uses coreprotect directly
+        //checks if there is CoreProtect loaded and installed, if not it skips the rollback and uses CoreProtect directly
         if (!cancelRollback)
         {
             if (!plugin.cpb.isEnabled())

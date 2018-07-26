@@ -57,6 +57,29 @@ public class WorldEditBridge extends FreedomService
         }
     }
 
+    public void redo(Player player, int count)
+    {
+        try
+        {
+            LocalSession session = getPlayerSession(player);
+            if (session != null)
+            {
+                final BukkitPlayer bukkitPlayer = getBukkitPlayer(player);
+                if (bukkitPlayer != null)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        session.redo(session.getBlockBag(bukkitPlayer), bukkitPlayer);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            FLog.severe(ex);
+        }
+    }
+
     private WorldEditPlugin getWorldEditPlugin()
     {
         if (worldedit == null)

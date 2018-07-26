@@ -48,6 +48,7 @@
             <id>ess-repo</id>
             <url>http://repo.ess3.net</url>
         </repository>
+
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -72,6 +73,11 @@
             <id>jcenter</id>
             <name>jcenter-bintray</name>
             <url>http://jcenter.bintray.com</url>
+        </repository>
+
+        <repository>
+            <id>robomwm</id>
+            <url>https://dl.bintray.com/robomwm/maven</url>
         </repository>
 
         <repository>
@@ -158,8 +164,7 @@
             <groupId>net.coreprotect</groupId>
             <artifactId>CoreProtect</artifactId>
             <version>2.14.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/CoreProtect_2.14.2.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
