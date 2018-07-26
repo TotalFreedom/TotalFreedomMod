@@ -119,7 +119,7 @@ public class CoreProtectBridge extends FreedomService
     }
 
     // Reverts a rollback for the specifed player's edits that were in the last 24 hours.
-    public void undoRollback(final String name)
+    public void restore(final String name)
     {
         final CoreProtectAPI coreProtect = getCoreProtectAPI();
 

@@ -66,6 +66,7 @@ social_links:
   Forum: 'https://totalfreedom.boards.net/'
   Website: 'https://totalfreedom.me/'
   Discord: 'https://discordapp.com/invite/XXjmAmV/'
+  Twitter: 'https://twitter.com/TotalFreedomMC'
 
 
 # Blocking certain events
@@ -119,7 +120,6 @@ blocked_commands:
     # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
-  - 'n:b:/pardon:_'
   - 'n:b:/ban-ip:_'
   - 'n:b:/pardon-ip:_'
   - 'n:b:/toggledownfall:_'

@@ -13,18 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Unbans a player", usage = "/<command> <username>")
+@CommandParameters(description = "Unbans a player", usage = "/<command> <username> [-restore]", aliases = "pardon")
 public class Command_unban extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length == 1)
+        if (args.length > 0)
         {
             String username;
             final List<String> ips = new ArrayList<>();
             final PlayerData entry = plugin.pl.getData(args[0]);
+            final Player player = getPlayer(args[0]);
 
             if (entry == null)
             {
@@ -37,6 +38,31 @@ public class Command_unban extends FreedomCommand
 
             FUtil.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
             plugin.bm.removeBan(plugin.bm.getByUsername(username));
+
+            if (args.length >= 2)
+            {
+                if (args[args.length - 1].equals("-restore"))
+                {
+                    if (!plugin.cpb.isEnabled())
+                    {
+                        // Redo WorldEdits
+                        try
+                        {
+                            plugin.web.redo(player, 15);
+                        }
+                        catch (NoClassDefFoundError | NullPointerException ex)
+                        {
+                        }
+                        // Rollback
+                        plugin.rb.undoRollback(username);
+                    }
+                    else
+                    {
+                        plugin.cpb.restore(username);
+                    }
+                    msg("Restored edits for: " + username);
+                }
+            }
 
             for (String ip : ips)
             {
