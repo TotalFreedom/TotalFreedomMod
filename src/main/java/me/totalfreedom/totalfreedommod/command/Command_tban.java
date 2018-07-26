@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -12,6 +13,9 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Temporarily bans a player for five minutes.", usage = "/<command> <player> [reason]", aliases = "noob")
@@ -26,13 +30,21 @@ public class Command_tban extends FreedomCommand
             return false;
         }
 
+        final String username;
+        final List<String> ips = new ArrayList<>();
+
         final Player player = getPlayer(args[0]);
+        final PlayerData entry = plugin.pl.getData(args[0]);
+
 
         if (player == null)
         {
-            msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
+            msg(FreedomCommand.PLAYER_NOT_FOUND);
             return true;
         }
+
+        username = entry.getUsername();
+        ips.addAll(entry.getIps());
 
         String reason;
         if (args.length > 1)
@@ -56,8 +68,12 @@ public class Command_tban extends FreedomCommand
         }
 
         FUtil.adminAction(sender.getName(), "Tempbanning: " + player.getName() + " for 5 minutes.", true);
-        plugin.bm.addBan(Ban.forPlayer(player, sender, FUtil.parseDateOffset("5m"), reason));
-
+        Ban ban = Ban.forPlayerName(username, sender, FUtil.parseDateOffset("5m"), reason);
+        for (String ip : ips)
+        {
+            ban.addIp(ip);
+        }
+        plugin.bm.addBan(ban);
         player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
 
         plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.TEMPBAN, reason));

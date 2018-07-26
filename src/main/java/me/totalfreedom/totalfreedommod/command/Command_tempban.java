@@ -1,8 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -14,6 +13,11 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Temporarily ban someone.", usage = "/<command> [playername] [duration] [reason]")
@@ -30,7 +34,12 @@ public class Command_tempban extends FreedomCommand
             return false;
         }
 
+        final String username;
+        final List<String> ips = new ArrayList<>();
+
         final Player player = getPlayer(args[0]);
+        final PlayerData entry = plugin.pl.getData(args[0]);
+
 
         if (player == null)
         {
@@ -38,6 +47,8 @@ public class Command_tempban extends FreedomCommand
             return true;
         }
 
+        username = entry.getUsername();
+        ips.addAll(entry.getIps());
         final StringBuilder message = new StringBuilder("Temporarily banned " + player.getName());
 
         Date expires = FUtil.parseDateOffset("30m");
@@ -71,8 +82,12 @@ public class Command_tempban extends FreedomCommand
 
         FUtil.adminAction(sender.getName(), message.toString(), true);
 
-        plugin.bm.addBan(Ban.forPlayer(player, sender, expires, reason));
-
+        Ban ban = Ban.forPlayerName(username, sender, expires, reason);
+        for (String ip : ips)
+        {
+            ban.addIp(ip);
+        }
+        plugin.bm.addBan(ban);
         player.kickPlayer(sender.getName() + " - " + message.toString());
 
         plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.TEMPBAN, reason));

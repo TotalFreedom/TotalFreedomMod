@@ -27,7 +27,7 @@ public class Command_unban extends FreedomCommand
 
             if (entry == null)
             {
-                msg("Can't find that user.");
+                msg("Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
                 return true;
             }
 
@@ -52,7 +52,6 @@ public class Command_unban extends FreedomCommand
             }
             return true;
         }
-
         return false;
     }
 }
