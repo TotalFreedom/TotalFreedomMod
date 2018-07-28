@@ -124,5 +124,4 @@ public class AntiSpam extends FreedomService
             event.setCancelled(true);
         }
     }
-
 }

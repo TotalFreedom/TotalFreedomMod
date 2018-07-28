@@ -14,6 +14,12 @@ public class Command_denick extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (!plugin.esb.isEssentialsEnabled())
+        {
+            msg("Essentials is not enabled on this server.");
+            return true;
+        }
+
         FUtil.adminAction(sender.getName(), "Removing all nicknames", false);
 
         for (Player player : server.getOnlinePlayers())

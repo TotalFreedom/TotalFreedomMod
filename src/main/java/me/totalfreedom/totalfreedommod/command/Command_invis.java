@@ -1,7 +1,5 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.ArrayList;
-import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -10,11 +8,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Shows (optionally clears) invisisible players", usage = "/<command> (clear)")
+@CommandParameters(description = "Shows (optionally clears) invisible players", usage = "/<command> (clear)")
 public class Command_invis extends FreedomCommand
 {
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -24,7 +24,7 @@ public class Command_invis extends FreedomCommand
         {
             if (args[0].equalsIgnoreCase("clear"))
             {
-                FUtil.adminAction(sender.getName(), "Clearing all invis potion effect from all players", true);
+                FUtil.adminAction(sender.getName(), "Clearing all invisibility potion effects from all players", true);
                 clear = true;
             }
             else
@@ -51,18 +51,17 @@ public class Command_invis extends FreedomCommand
 
         if (players.isEmpty())
         {
-            sender.sendMessage("There are no invisible players");
+            msg("There are no invisible players");
             return true;
         }
         if (clear)
         {
-            sender.sendMessage("Cleared " + clears + " players");
+            msg("Cleared " + clears + " players");
         }
         else
         {
-            sender.sendMessage("Invisible players (" + players.size() + "): " + StringUtils.join(players, ", "));
+            msg("Invisible players (" + players.size() + "): " + StringUtils.join(players, ", "));
         }
-
         return true;
     }
 }

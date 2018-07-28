@@ -1,16 +1,17 @@
 package me.totalfreedom.totalfreedommod;
 
-import java.text.DecimalFormat;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.LingeringPotionSplashEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.LingeringPotionSplashEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.projectiles.ProjectileSource;
+
+import java.text.DecimalFormat;
 
 public class Monitors extends FreedomService
 {

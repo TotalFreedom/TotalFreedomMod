@@ -41,7 +41,6 @@ public class Command_nickclean extends FreedomCommand
                 }
             }
         }
-
         return true;
     }
 }

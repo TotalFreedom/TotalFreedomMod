@@ -98,7 +98,7 @@ public class CoreProtectBridge extends FreedomService
         return coreProtect != null && coreProtect.isEnabled();
     }
 
-    // Rollback the specifed player's edits that were in the last 24 hours.
+    // Rollback the specified player's edits that were in the last 24 hours.
     public void rollback(final String name)
     {
         final CoreProtectAPI coreProtect = getCoreProtectAPI();
@@ -118,7 +118,7 @@ public class CoreProtectBridge extends FreedomService
         }.runTaskAsynchronously(plugin);
     }
 
-    // Reverts a rollback for the specifed player's edits that were in the last 24 hours.
+    // Reverts a rollback for the specified player's edits that were in the last 24 hours.
     public void restore(final String name)
     {
         final CoreProtectAPI coreProtect = getCoreProtectAPI();
@@ -207,8 +207,8 @@ public class CoreProtectBridge extends FreedomService
             return;
         }
 
-        /* As CoreProtect doesn't have an api method for deleting all of the data for a specific world
-           we have to do this manually via sql */
+        /* As CoreProtect doesn't have an API method for deleting all of the data for a specific world
+           we have to do this manually via SQL */
         File databaseFile = getDatabase();
         Connection connection = null;
         try

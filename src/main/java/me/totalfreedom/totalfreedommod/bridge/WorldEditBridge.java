@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
 import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import me.totalfreedom.totalfreedommod.FreedomService;
@@ -14,7 +15,7 @@ public class WorldEditBridge extends FreedomService
 
     private final WorldEditListener listener;
     //
-    private WorldEditPlugin worldedit = null;
+    private WorldEditPlugin worldeditPlugin = null;
 
     public WorldEditBridge(TotalFreedomMod plugin)
     {
@@ -32,6 +33,30 @@ public class WorldEditBridge extends FreedomService
     protected void onStop()
     {
         listener.unregister();
+    }
+
+    private WorldEditPlugin getWorldEditPlugin()
+    {
+        if (worldeditPlugin == null)
+        {
+            try
+            {
+                Plugin we = server.getPluginManager().getPlugin("WorldEdit");
+                if (we != null)
+                {
+                    if (we instanceof WorldEditPlugin)
+                    {
+                        worldeditPlugin = (WorldEditPlugin) we;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                FLog.severe(ex);
+            }
+        }
+
+        return worldeditPlugin;
     }
 
     public void undo(Player player, int count)
@@ -78,30 +103,6 @@ public class WorldEditBridge extends FreedomService
         {
             FLog.severe(ex);
         }
-    }
-
-    private WorldEditPlugin getWorldEditPlugin()
-    {
-        if (worldedit == null)
-        {
-            try
-            {
-                Plugin we = server.getPluginManager().getPlugin("WorldEdit");
-                if (we != null)
-                {
-                    if (we instanceof WorldEditPlugin)
-                    {
-                        worldedit = (WorldEditPlugin) we;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                FLog.severe(ex);
-            }
-        }
-
-        return worldedit;
     }
 
     public void setLimit(Player player, int limit)
@@ -157,5 +158,22 @@ public class WorldEditBridge extends FreedomService
             FLog.severe(ex);
             return null;
         }
+    }
+
+    public boolean isWorldEditEnabled()
+    {
+        try
+        {
+            WorldEditPlugin worldedit = getWorldEditPlugin();
+            if (worldedit != null)
+            {
+                return worldedit.isEnabled();
+            }
+        }
+        catch (Exception ex)
+        {
+            FLog.severe(ex);
+        }
+        return false;
     }
 }

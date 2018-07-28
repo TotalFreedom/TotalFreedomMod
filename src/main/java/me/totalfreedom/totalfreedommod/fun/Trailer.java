@@ -7,6 +7,7 @@ import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -66,7 +67,7 @@ public class Trailer extends FreedomService
         }
 
         fromBlock.setType(MaterialGroup.WOOL_COLORS.get(random.nextInt(MaterialGroup.WOOL_COLORS.size())));
-        byte data = DepreciationAggregator.getData_Block(fromBlock);
+        BlockData data = fromBlock.getBlockData();
         Material material = Material.getMaterial(String.valueOf(fromBlock.getType()));
         for (int x = -1; x <= 1; x++)
         {

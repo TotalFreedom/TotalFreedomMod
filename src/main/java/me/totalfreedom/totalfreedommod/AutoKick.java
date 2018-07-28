@@ -51,7 +51,6 @@ public class AutoKick extends FreedomService
 
     private void autoKickCheck()
     {
-
         final boolean doAwayKickCheck
                 = plugin.esb.isEssentialsEnabled()
                 && ((server.getOnlinePlayers().size() / server.getMaxPlayers()) > autoKickThreshold);

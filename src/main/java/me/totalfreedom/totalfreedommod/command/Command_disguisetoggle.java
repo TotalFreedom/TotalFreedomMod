@@ -16,7 +16,7 @@ public class Command_disguisetoggle extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!plugin.ldb.isPluginEnabled())
+        if (!plugin.ldb.isEnabled())
         {
             msg(ChatColor.RED + "LibsDisguises is not enabled.");
             return true;

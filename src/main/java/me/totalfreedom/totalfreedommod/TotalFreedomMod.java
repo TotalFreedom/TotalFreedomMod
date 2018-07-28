@@ -14,6 +14,7 @@ import me.totalfreedom.totalfreedommod.discord.Discord;
 import me.totalfreedom.totalfreedommod.freeze.Freezer;
 import me.totalfreedom.totalfreedommod.fun.*;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
+import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilderList;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilderWorldRestrictions;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
@@ -153,6 +154,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         backups.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
         backups.createBackups(AdminList.CONFIG_FILENAME);
         backups.createBackups(PermbanList.CONFIG_FILENAME);
+        backups.createBackups(MasterBuilder.CONFIG_FILENAME);
+        backups.createBackups(PunishmentList.CONFIG_FILENAME);
 
         config = new MainConfig(this);
         config.load();
@@ -340,5 +343,4 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     {
         return new CleanroomChunkGenerator(id);
     }
-
 }

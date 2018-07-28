@@ -146,7 +146,6 @@ public class Command_plugincontrol extends FreedomCommand
                 }
             }
         }
-
         return null;
     }
 }

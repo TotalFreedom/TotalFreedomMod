@@ -7,6 +7,7 @@ import me.totalfreedom.libsdisguise.TF_DisguiseAPI;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
+import net.coreprotect.CoreProtect;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -124,15 +125,10 @@ public class LibsDisguisesBridge extends FreedomService
         return !DisallowedDisguises.disabled;
     }
 
-    public boolean isPluginEnabled()
+    public boolean isEnabled()
     {
-        Plugin ld = getLibsDisguisesPlugin();
+        final LibsDisguises libsDisguises = getLibsDisguisesPlugin();
 
-        if (ld == null)
-        {
-            return false;
-        }
-
-        return ld.isEnabled();
+        return libsDisguises != null && libsDisguises.isEnabled();
     }
 }

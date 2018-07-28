@@ -24,26 +24,6 @@ public class DepreciationAggregator
         return server.getOfflinePlayer(name);
     }
 
-    public static byte getData_MaterialData(MaterialData md)
-    {
-        return md.getData();
-    }
-
-    public static void setData_MaterialData(MaterialData md, byte data)
-    {
-        md.setData(data);
-    }
-
-    public static byte getData_Block(Block block)
-    {
-        return block.getData();
-    }
-
-    public static org.bukkit.material.Lever makeLeverWithData(byte data)
-    {
-        return new org.bukkit.material.Lever(Material.LEVER, data);
-    }
-
     public static String getName_EntityType(EntityType et)
     {
         return et.getName();

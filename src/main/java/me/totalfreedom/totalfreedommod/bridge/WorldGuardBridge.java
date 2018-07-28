@@ -39,12 +39,9 @@ public class WorldGuardBridge extends FreedomService
             try
             {
                 final Plugin worldGuard = server.getPluginManager().getPlugin("WorldGuard");
-                if (worldGuard != null)
+                if (worldGuard != null && worldGuard instanceof WorldGuardPlugin)
                 {
-                    if (worldGuard instanceof WorldGuardPlugin)
-                    {
-                        worldGuardPlugin = (WorldGuardPlugin) worldGuard;
-                    }
+                    worldGuardPlugin = (WorldGuardPlugin) worldGuard;
                 }
             }
             catch (Exception ex)
@@ -72,9 +69,20 @@ public class WorldGuardBridge extends FreedomService
         return false;
     }
 
-    public boolean isPluginEnabled() {
-        Plugin wr = getWorldGuardPlugin();
-
-        return wr != null && wr.isEnabled();
+    public boolean isPluginEnabled()
+    {
+        try
+        {
+            WorldGuardPlugin wg = getWorldGuardPlugin();
+            if (wg != null)
+            {
+                return wg.isEnabled();
+            }
+        }
+        catch (Exception ex)
+        {
+            FLog.severe(ex);
+        }
+        return false;
     }
 }

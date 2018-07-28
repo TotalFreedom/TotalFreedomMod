@@ -1,24 +1,25 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.io.File;
+import com.earth2me.essentials.Essentials;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import com.earth2me.essentials.Essentials;
+
+import java.io.File;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
-@CommandParameters(description = "Removes essentials warps", usage = "/<command>")
+@CommandParameters(description = "Removes Essentials warps", usage = "/<command>")
 public class Command_wipewarps extends FreedomCommand
 {
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (!plugin.esb.isEssentialsEnabled())
         {
-            msg("Essentials is not enabled on this server");
+            msg("Essentials is not enabled on this server.");
             return true;
         }
 

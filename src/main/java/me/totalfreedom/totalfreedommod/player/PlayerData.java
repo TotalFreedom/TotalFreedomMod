@@ -56,6 +56,11 @@ public class PlayerData implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("last_join", lastJoinUnix);
     }
 
+    public String getUsername()
+    {
+        return username;
+    }
+
     public List<String> getIps()
     {
         return Collections.unmodifiableList(ips);
