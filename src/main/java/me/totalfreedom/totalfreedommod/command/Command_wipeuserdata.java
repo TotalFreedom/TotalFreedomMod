@@ -20,7 +20,7 @@ public class Command_wipeuserdata extends FreedomCommand
     {
         if (!server.getPluginManager().isPluginEnabled("Essentials"))
         {
-            msg("Essentials is not enabled on this server");
+            msg("Essentials is not enabled on this server.");
             return true;
         }
 

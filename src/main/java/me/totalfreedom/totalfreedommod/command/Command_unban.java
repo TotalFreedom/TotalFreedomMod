@@ -48,10 +48,7 @@ public class Command_unban extends FreedomCommand
                         // Redo WorldEdits
                         try
                         {
-                            if (plugin.web.isWorldEditEnabled())
-                            {
-                                plugin.web.redo(player, 15);
-                            }
+                            plugin.web.redo(player, 15);
                         }
                         catch (NoClassDefFoundError | NullPointerException ex)
                         {

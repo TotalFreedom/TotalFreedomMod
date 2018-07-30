@@ -48,7 +48,7 @@ public class Module_logfile extends HTTPDModule
 
     public String title()
     {
-        return "TotalFreedomMod :: Logfiles";
+        return "TotalFreedomMod :: Log Files";
     }
 
     public String body() throws ResponseOverrideException

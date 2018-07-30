@@ -27,13 +27,13 @@ public class Command_verify extends FreedomCommand
 
         if (!plugin.dc.enabled)
         {
-            msg("The discord verification system is currently disabled", ChatColor.RED);
+            msg("The Discord verification system is currently disabled", ChatColor.RED);
             return true;
         }
 
         if (!plugin.al.isAdminImpostor(playerSender) && !plugin.pv.isPlayerImpostor(playerSender))
         {
-            msg("You are not an imposter, therefore you do not need to verify.", ChatColor.RED);
+            msg("You are not an impostor, therefore you do not need to verify.", ChatColor.RED);
             return true;
         }
 
@@ -44,7 +44,7 @@ public class Command_verify extends FreedomCommand
             Admin admin = plugin.al.getEntryByName(playerSender.getName());
             if (admin.getDiscordID() == null)
             {
-                msg("You do not have a discord account linked to your minecraft account, please verify the manual way.", ChatColor.RED);
+                msg("You do not have a Discord account linked to your Minecraft account, please verify the manual way.", ChatColor.RED);
                 return true;
             }
             discordId = admin.getDiscordID();
@@ -55,7 +55,7 @@ public class Command_verify extends FreedomCommand
             {
                 if (plugin.pv.getVerificationPlayer(playerSender).getDiscordId() == null)
                 {
-                    msg("You do not have a discord account linked to your minecraft account, please verify the manual way.", ChatColor.RED);
+                    msg("You do not have a Discord account linked to your Minecraft account, please verify the manual way.", ChatColor.RED);
                     return true;
                 }
                 discordId = plugin.pv.getVerificationPlayer(playerSender).getDiscordId();
@@ -71,7 +71,7 @@ public class Command_verify extends FreedomCommand
                 code += random.nextInt(10);
             }
             Discord.VERIFY_CODES.add(code);
-            Discord.bot.getUserById(discordId).openPrivateChannel().complete().sendMessage("A user with the ip `" + Ips.getIp(playerSender) + "` has sent a verification request. Please run the following in-game command: `/verify " + code + "`").complete();
+            Discord.bot.getUserById(discordId).openPrivateChannel().complete().sendMessage("A user with the IP `" + Ips.getIp(playerSender) + "` has sent a verification request. Please run the following in-game command: `/verify " + code + "`").complete();
             msg("A verification code has been sent to your account, please copy the code and run /verify <code>", ChatColor.GREEN);
         }
         else
@@ -88,7 +88,7 @@ public class Command_verify extends FreedomCommand
                 {
                     Admin admin = plugin.al.getEntryByName(playerSender.getName());
                     Discord.VERIFY_CODES.remove(code);
-                    FUtil.bcastMsg(playerSender.getName() + " has verified themself!", ChatColor.GOLD);
+                    FUtil.bcastMsg(playerSender.getName() + " has verified!", ChatColor.GOLD);
                     FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Readding " + admin.getName() + " to the admin list", true);
                     if (playerSender != null)
                     {
@@ -144,11 +144,13 @@ public class Command_verify extends FreedomCommand
                 else
                 {
                     final FPlayer fPlayer = plugin.pl.getPlayer(playerSender);
-                    FUtil.bcastMsg(playerSender.getName() + " has verified themself!", ChatColor.GOLD);
+                    FUtil.bcastMsg(playerSender.getName() + " has verified!", ChatColor.GOLD);
                     if (playerSender != null)
                     {
                         plugin.rm.updateDisplay(playerSender);
                     }
+                    playerSender.setOp(true);
+                    msg(YOU_ARE_OP);
                     if (fPlayer.getFreezeData().isFrozen())
                     {
                         fPlayer.getFreezeData().setFrozen(false);

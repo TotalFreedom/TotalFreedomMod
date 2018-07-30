@@ -5,6 +5,7 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.ChatUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -150,6 +151,7 @@ public class RankManager extends FreedomService
         final Player player = event.getPlayer();
         //plugin.pl.getData(player);
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
+        VPlayer target = plugin.pv.getVerificationPlayer(player);
 
         // Unban admins
         boolean isAdmin = plugin.al.isAdmin(player);
@@ -169,8 +171,8 @@ public class RankManager extends FreedomService
         }
 
         // Handle impostors
-        Boolean isImposter = plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player) || plugin.mbl.isMasterBuilderImpostor(player);
-        if (isImposter)
+        boolean isImpostor = plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player) || plugin.mbl.isMasterBuilderImpostor(player);
+        if (isImpostor)
         {
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
             if (plugin.al.isAdminImpostor(player))
@@ -228,6 +230,14 @@ public class RankManager extends FreedomService
             }
             catch (IllegalArgumentException ex)
             {
+            }
+        }
+
+        if (!plugin.pv.isPlayerImpostor(player) && target.getDiscordEnabled())
+        {
+            if (target.getTag() != null)
+            {
+                plugin.pl.getPlayer(player).setTag(FUtil.colorize(target.getTag()));
             }
         }
     }

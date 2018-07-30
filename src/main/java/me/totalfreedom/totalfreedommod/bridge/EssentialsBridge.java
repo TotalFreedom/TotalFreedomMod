@@ -1,26 +1,26 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.EventHandler;
-import me.totalfreedom.totalfreedommod.rank.Rank;
-import org.bukkit.inventory.InventoryHolder;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import me.totalfreedom.totalfreedommod.util.FUtil;
-import com.earth2me.essentials.User;
-import org.bukkit.plugin.Plugin;
-import me.totalfreedom.totalfreedommod.util.FLog;
-import me.totalfreedom.totalfreedommod.command.Command_vanish;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.User;
 import me.totalfreedom.totalfreedommod.FreedomService;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.command.Command_vanish;
+import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class EssentialsBridge extends FreedomService
 {
@@ -221,20 +221,10 @@ public class EssentialsBridge extends FreedomService
         }
     }
 
-    public boolean isEssentialsEnabled()
+    public boolean isEnabled()
     {
-        try
-        {
-            Essentials essentials = getEssentialsPlugin();
-            if (essentials != null)
-            {
-                return essentials.isEnabled();
-            }
-        }
-        catch (Exception ex)
-        {
-            FLog.severe(ex);
-        }
-        return false;
+        final Essentials ess = getEssentialsPlugin();
+
+        return ess != null && ess.isEnabled();
     }
 }

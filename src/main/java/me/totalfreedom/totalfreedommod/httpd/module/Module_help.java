@@ -56,12 +56,7 @@ public class Module_help extends HTTPDModule
                 pluginName = ((PluginIdentifiableCommand) command).getPlugin().getName();
             }
 
-            List<Command> pluginCommands = commandsByPlugin.get(pluginName);
-            if (pluginCommands == null)
-            {
-                pluginCommands = Lists.newArrayList();
-                commandsByPlugin.put(pluginName, pluginCommands);
-            }
+            List<Command> pluginCommands = commandsByPlugin.computeIfAbsent(pluginName, k -> Lists.newArrayList());
 
             pluginCommands.add(command);
         }

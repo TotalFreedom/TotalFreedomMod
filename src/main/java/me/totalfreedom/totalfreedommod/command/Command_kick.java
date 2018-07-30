@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Kick a player.", usage = "/<command> <player> [reason]", aliases = "k")
 public class Command_kick extends FreedomCommand
 {
-
     @Override
     protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -25,6 +24,7 @@ public class Command_kick extends FreedomCommand
         }
 
         Player player = getPlayer(args[0]);
+
         if (player == null)
         {
             msg(PLAYER_NOT_FOUND);
@@ -57,5 +57,4 @@ public class Command_kick extends FreedomCommand
 
         return true;
     }
-
 }

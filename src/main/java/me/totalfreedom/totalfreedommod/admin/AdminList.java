@@ -194,8 +194,6 @@ public class AdminList extends FreedomService
                 }
                 return admin;
             }
-
-            // Impostor
         }
 
         // Admin by ip

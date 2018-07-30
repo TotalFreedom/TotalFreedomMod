@@ -122,7 +122,6 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         acFormat = cs.getString("acformat", null);
         oldTags = cs.getBoolean("oldtags", false);
         logStick = cs.getBoolean("logstick", false);
-
     }
 
     @Override

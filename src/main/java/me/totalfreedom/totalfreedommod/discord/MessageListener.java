@@ -12,7 +12,6 @@ public class MessageListener extends ListenerAdapter
     {
         if (!event.getAuthor().getId().equals(Discord.bot.getSelfUser().getId()))
         {
-
             // Handle link code
             if (event.getMessage().getContentRaw().matches("[0-9][0-9][0-9][0-9][0-9]"))
             {

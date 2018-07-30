@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Manage the whitelist.", usage = "/<command> <on | off | list | count | add <player> | remove <player> | addall | purge>")
 public class Command_whitelist extends FreedomCommand
 {
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -24,6 +23,11 @@ public class Command_whitelist extends FreedomCommand
         // list
         if (args[0].equalsIgnoreCase("list"))
         {
+            if (server.getWhitelistedPlayers().isEmpty())
+            {
+                msg("There are no whitelisted players.");
+                return true;
+            }
             msg("Whitelisted players: " + FUtil.playerListToNames(server.getWhitelistedPlayers()));
             return true;
         }
@@ -51,20 +55,16 @@ public class Command_whitelist extends FreedomCommand
             msg("Online whitelisted players: " + onlineWPs);
             msg("Offline whitelisted players: " + offlineWPs);
             msg("Total whitelisted players: " + totalWPs);
-
             return true;
         }
 
-        // all commands past this line are superadmin-only
-        if (!(senderIsConsole || plugin.al.isAdmin(sender)))
-        {
-            return noPerms();
-        }
+        // Commands below are restricted to admins
+        checkRank(Rank.SUPER_ADMIN);
 
         // on
         if (args[0].equalsIgnoreCase("on"))
         {
-            FUtil.adminAction(sender.getName(), "Turning the whitelist on.", true);
+            FUtil.adminAction(sender.getName(), "Turning the whitelist on", true);
             server.setWhitelist(true);
             return true;
         }
@@ -72,7 +72,7 @@ public class Command_whitelist extends FreedomCommand
         // off
         if (args[0].equalsIgnoreCase("off"))
         {
-            FUtil.adminAction(sender.getName(), "Turning the whitelist off.", true);
+            FUtil.adminAction(sender.getName(), "Turning the whitelist off", true);
             server.setWhitelist(false);
             return true;
         }
@@ -94,7 +94,7 @@ public class Command_whitelist extends FreedomCommand
                 player = DepreciationAggregator.getOfflinePlayer(server, search_name);
             }
 
-            FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the whitelist.", false);
+            FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the whitelist", false);
             player.setWhitelisted(true);
             return true;
         }
@@ -118,7 +118,7 @@ public class Command_whitelist extends FreedomCommand
 
             if (player.isWhitelisted())
             {
-                FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the whitelist.", false);
+                FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the whitelist", false);
                 player.setWhitelisted(false);
                 return true;
             }
@@ -127,13 +127,12 @@ public class Command_whitelist extends FreedomCommand
                 msg("That player is not whitelisted");
                 return true;
             }
-
         }
 
         // addall
         if (args[0].equalsIgnoreCase("addall"))
         {
-            FUtil.adminAction(sender.getName(), "Adding all online players to the whitelist.", false);
+            FUtil.adminAction(sender.getName(), "Adding all online players to the whitelist", false);
             int counter = 0;
             for (Player player : server.getOnlinePlayers())
             {
@@ -148,25 +147,17 @@ public class Command_whitelist extends FreedomCommand
             return true;
         }
 
-        // all commands past this line are console/telnet only
-        if (!senderIsConsole)
-        {
-            noPerms();
-            return true;
-        }
+        // Telnet only
+        checkConsole();
+        checkRank(Rank.TELNET_ADMIN);
 
-        //purge
+        // purge
         if (args[0].equalsIgnoreCase("purge"))
         {
-//            FUtil.adminAction(sender.getName(), "Removing all players from the whitelist.", false);
-//            msg("Removed " + plugin.si.purgeWhitelist() + " players from the whitelist.");
-
-            FUtil.adminAction(sender.getName(), "Whitelist purging is temporarily disabled.", true);
-
+            FUtil.adminAction(sender.getName(), "Removing all players from the whitelist", false);
+            msg("Removed " + plugin.si.purgeWhitelist() + " players from the whitelist.");
             return true;
         }
-
-        // none of the commands were executed
         return false;
     }
 }

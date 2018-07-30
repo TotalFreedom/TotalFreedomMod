@@ -26,7 +26,7 @@ public class Command_wipeflatlands extends FreedomCommand
 
         FUtil.bcastMsg("Server is going offline for flatlands wipe.", ChatColor.GRAY);
 
-        if (plugin.wgb.isPluginEnabled())
+        if (plugin.wgb.isEnabled())
         {
             plugin.wgb.wipeRegions(plugin.wm.flatlands.getWorld());
         }

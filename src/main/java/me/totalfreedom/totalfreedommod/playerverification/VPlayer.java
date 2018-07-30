@@ -32,6 +32,9 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private Boolean forumEnabled = false;
+    @Getter
+    @Setter
+    private String tag = null;
 
     public VPlayer(String name)
     {
@@ -53,6 +56,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         forumUsername = cs.getString("forumUsername", null);
         discordEnabled = cs.getBoolean("discordEnabled", false);
         forumEnabled = cs.getBoolean("forumEnabled", false);
+        tag = cs.getString("tag", null);
     }
 
     @Override
@@ -64,6 +68,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("forumUsername", forumUsername);
         cs.set("discordEnabled", discordEnabled);
         cs.set("forumEnabled", forumEnabled);
+        cs.set("tag", tag);
         cs.set("ips", Lists.newArrayList(ips));
     }
 
@@ -85,7 +90,6 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
     @Override
     public boolean isValid()
     {
-        return name != null
-                && !ips.isEmpty();
+        return name != null && !ips.isEmpty();
     }
 }

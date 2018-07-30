@@ -32,7 +32,6 @@ public class WorldEditListener extends PluginListener<TotalFreedomMod>
                 event.getMaxVector(),
                 event.getWorld().getName()))
         {
-
             player.sendMessage(ChatColor.RED + "The region that you selected contained a protected area. Selection cleared.");
             event.setCancelled(true);
         }

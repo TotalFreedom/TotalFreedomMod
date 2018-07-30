@@ -17,7 +17,7 @@ public class Command_wipewarps extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!plugin.esb.isEssentialsEnabled())
+        if (!plugin.esb.isEnabled())
         {
             msg("Essentials is not enabled on this server.");
             return true;

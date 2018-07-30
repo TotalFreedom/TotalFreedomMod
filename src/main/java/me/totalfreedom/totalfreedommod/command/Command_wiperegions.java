@@ -15,7 +15,7 @@ public class Command_wiperegions extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!plugin.wgb.isPluginEnabled())
+        if (!plugin.wgb.isEnabled())
         {
             msg("WorldGuard is not enabled.");
             return true;

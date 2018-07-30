@@ -7,8 +7,6 @@ import java.util.List;
 
 public enum ConfigEntry
 {
-
-
     FORCE_IP_ENABLED(Boolean.class, "forceip.enabled"),
     FORCE_IP_PORT(Integer.class, "forceip.port"),
     FORCE_IP_KICKMSG(String.class, "forceip.kickmsg"),

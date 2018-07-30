@@ -69,20 +69,10 @@ public class WorldGuardBridge extends FreedomService
         return false;
     }
 
-    public boolean isPluginEnabled()
+    public boolean isEnabled()
     {
-        try
-        {
-            WorldGuardPlugin wg = getWorldGuardPlugin();
-            if (wg != null)
-            {
-                return wg.isEnabled();
-            }
-        }
-        catch (Exception ex)
-        {
-            FLog.severe(ex);
-        }
-        return false;
+        final WorldGuardPlugin wg = getWorldGuardPlugin();
+
+        return wg != null && wg.isEnabled();
     }
 }

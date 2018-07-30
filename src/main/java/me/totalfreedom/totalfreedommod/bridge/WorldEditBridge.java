@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
 import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import me.totalfreedom.totalfreedommod.FreedomService;
@@ -158,22 +157,5 @@ public class WorldEditBridge extends FreedomService
             FLog.severe(ex);
             return null;
         }
-    }
-
-    public boolean isWorldEditEnabled()
-    {
-        try
-        {
-            WorldEditPlugin worldedit = getWorldEditPlugin();
-            if (worldedit != null)
-            {
-                return worldedit.isEnabled();
-            }
-        }
-        catch (Exception ex)
-        {
-            FLog.severe(ex);
-        }
-        return false;
     }
 }

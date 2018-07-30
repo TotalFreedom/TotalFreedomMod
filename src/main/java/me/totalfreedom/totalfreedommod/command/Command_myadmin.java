@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.ChatUtils;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -180,7 +179,7 @@ public class Command_myadmin extends FreedomCommand
                 plugin.al.updateTables();
                 return true;
             }
-            case  "setacformat":
+            case "setacformat":
             {
                 String format = StringUtils.join(args, " ", 1, args.length);
                 target.setAcFormat(format);
@@ -222,5 +221,4 @@ public class Command_myadmin extends FreedomCommand
             }
         }
     }
-
 }

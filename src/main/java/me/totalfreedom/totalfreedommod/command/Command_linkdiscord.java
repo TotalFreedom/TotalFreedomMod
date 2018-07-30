@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.Random;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Link your discord account to your minecraft account", usage = "/<command>")
+@CommandParameters(description = "Link your Discord account to your Minecraft account", usage = "/<command>")
 public class Command_linkdiscord extends FreedomCommand
 {
 
@@ -21,7 +21,7 @@ public class Command_linkdiscord extends FreedomCommand
     {
         if (!plugin.dc.enabled)
         {
-            msg("The discord verification system is currently disabled.", ChatColor.RED);
+            msg("The Discord verification system is currently disabled.", ChatColor.RED);
             return true;
         }
 
@@ -30,7 +30,7 @@ public class Command_linkdiscord extends FreedomCommand
             Admin admin = plugin.al.getAdmin(playerSender);
             if (admin.getDiscordID() != null)
             {
-                msg("Your minecraft account is already linked to a discord account.", ChatColor.RED);
+                msg("Your Minecraft account is already linked to a Discord account.", ChatColor.RED);
                 return true;
             }
 
@@ -55,7 +55,7 @@ public class Command_linkdiscord extends FreedomCommand
             VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
             if (data.getDiscordId() != null)
             {
-                msg("Your minecraft account is already linked to a discord account.", ChatColor.RED);
+                msg("Your Minecraft account is already linked to a Discord account.", ChatColor.RED);
                 return true;
             }
 

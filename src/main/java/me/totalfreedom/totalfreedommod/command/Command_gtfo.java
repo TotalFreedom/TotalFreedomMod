@@ -5,7 +5,6 @@ import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -105,10 +104,7 @@ public class Command_gtfo extends FreedomCommand
                 // Undo WorldEdits
                 try
                 {
-                    if (plugin.web.isWorldEditEnabled())
-                    {
-                        plugin.web.undo(player, 15);
-                    }
+                    plugin.web.undo(player, 15);
                 }
                 catch (NoClassDefFoundError | NullPointerException ex)
                 {
