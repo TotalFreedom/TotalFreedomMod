@@ -7,7 +7,6 @@ import me.totalfreedom.libsdisguise.TF_DisguiseAPI;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import net.coreprotect.CoreProtect;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
