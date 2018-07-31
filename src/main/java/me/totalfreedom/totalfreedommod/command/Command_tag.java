@@ -1,33 +1,41 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.Arrays;
-import java.util.List;
-
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import java.util.Arrays;
+import java.util.List;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <set <tag..> | off | clear <player> | clearall>")
+@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> [-s[ave]] <set <tag..> | off | clear <player> | clearall>")
 public class Command_tag extends FreedomCommand
 {
 
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(
-        "admin", "owner", "moderator", "developer", "console", "dev", "staff", "mod", "sra", "tca", "sta", "sa");
+            "admin", "owner", "moderator", "developer", "console", "dev", "staff", "mod", "sra", "tca", "sta", "sa");
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        boolean save = false;
+        if (args[0].equals("-s") || args[0].equals("-save"))
+        {
+            save = true;
+            args = ArrayUtils.remove(args, 0);
+        }
+
         if (args.length == 1)
         {
+
             if ("list".equalsIgnoreCase(args[0]))
             {
                 msg("Tags for all online players:");
@@ -77,8 +85,11 @@ public class Command_tag extends FreedomCommand
                 else
                 {
                     plugin.pl.getPlayer(playerSender).setTag(null);
-                    save(playerSender, null);
-                    msg("Your tag has been removed.");
+                    if (save)
+                    {
+                        save(playerSender, null);
+                    }
+                    msg("Your tag has been removed." + (save ? " (Saved)" : ""));
                 }
 
                 return true;
@@ -107,8 +118,11 @@ public class Command_tag extends FreedomCommand
                 }
 
                 plugin.pl.getPlayer(player).setTag(null);
-                save(player, null);
-                msg("Removed " + player.getName() + "'s tag.");
+                if (save)
+                {
+                    save(player, null);
+                }
+                msg("Removed " + player.getName() + "'s tag." + (save ? " (Saved)" : ""));
 
                 return true;
             }
@@ -117,13 +131,13 @@ public class Command_tag extends FreedomCommand
                 final String inputTag = StringUtils.join(args, " ", 1, args.length);
                 final String strippedTag = StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
                         new String[]
-                        {
-                            "" + ChatColor.COLOR_CHAR, "&k"
-                        },
+                                {
+                                        "" + ChatColor.COLOR_CHAR, "&k"
+                                },
                         new String[]
-                        {
-                            "", ""
-                        });
+                                {
+                                        "", ""
+                                });
                 final String outputTag = FUtil.colorize(strippedTag);
 
                 if (!plugin.al.isAdmin(sender))
@@ -147,8 +161,11 @@ public class Command_tag extends FreedomCommand
                 }
 
                 plugin.pl.getPlayer(playerSender).setTag(outputTag);
-                save(playerSender, strippedTag);
-                msg("Tag set to '" + outputTag + ChatColor.GRAY + "'.");
+                if (save)
+                {
+                    save(playerSender, null);
+                }
+                msg("Tag set to '" + outputTag + ChatColor.GRAY + "'." + (save ? " (Saved)" : ""));
 
                 return true;
             }
