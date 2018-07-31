@@ -255,7 +255,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
 
         final Ban ban = (Ban) object;
         if (hasIps() != ban.hasIps()
-                || hasUsername() != hasUsername())
+                || hasUsername() != ban.hasUsername())
         {
             return false;
         }
