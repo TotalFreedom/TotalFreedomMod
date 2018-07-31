@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> [-s[ave]] <set <tag..> | off | clear <player> | clearall>")
+@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> [-s[ave]] <set <tag..> | list | off | clear <player> | clearall>")
 public class Command_tag extends FreedomCommand
 {
 
