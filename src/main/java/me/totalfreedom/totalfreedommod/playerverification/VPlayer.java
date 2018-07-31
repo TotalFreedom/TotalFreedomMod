@@ -72,7 +72,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
 
     public boolean addIp(String ip)
     {
-        return !ips.contains(ip) && ips.add(ip);
+        return ips.contains(ip) ? false : ips.add(ip);
     }
 
     public boolean removeIp(String ip)
