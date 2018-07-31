@@ -36,7 +36,7 @@ public class PVPBlocker extends FreedomService
         Player target = null;
         if (event.getEntity() instanceof Player)
         {
-            target = (Player)event.getEntity();
+            target = (Player) event.getEntity();
             if (event.getDamager() instanceof Player)
             {
                 player = (Player) event.getDamager();
@@ -59,7 +59,7 @@ public class PVPBlocker extends FreedomService
             }
         }
 
-        if (player != null &! plugin.al.isAdmin(player))
+        if (player != null & !plugin.al.isAdmin(player))
         {
             if (player.getGameMode() == GameMode.CREATIVE)
             {

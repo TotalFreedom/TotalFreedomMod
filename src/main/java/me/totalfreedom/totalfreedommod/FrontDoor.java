@@ -500,9 +500,9 @@ public class FrontDoor extends FreedomService
                         book.setTitle(ChatColor.DARK_GREEN + "Why you should go to TotalFreedom instead");
                         book.addPage(
                                 ChatColor.DARK_GREEN + "Why you should go to TotalFreedom instead\n"
-                                + ChatColor.DARK_GRAY + "---------\n"
-                                + ChatColor.BLACK + "TotalFreedom is the original TotalFreedomMod server. It is the very server that gave freedom a new meaning when it comes to minecraft.\n"
-                                + ChatColor.BLUE + "Join now! " + ChatColor.RED + "play.totalfreedom.me");
+                                        + ChatColor.DARK_GRAY + "---------\n"
+                                        + ChatColor.BLACK + "TotalFreedom is the original TotalFreedomMod server. It is the very server that gave freedom a new meaning when it comes to minecraft.\n"
+                                        + ChatColor.BLUE + "Join now! " + ChatColor.RED + "play.totalfreedom.me");
                         bookStack.setItemMeta(book);
 
                         for (Player player : Bukkit.getOnlinePlayers())

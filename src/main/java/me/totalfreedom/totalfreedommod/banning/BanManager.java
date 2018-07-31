@@ -275,7 +275,7 @@ public class BanManager extends FreedomService
     private void updateViews()
     {
         // Remove expired bans
-        for (Iterator<Ban> it = bans.iterator(); it.hasNext();)
+        for (Iterator<Ban> it = bans.iterator(); it.hasNext(); )
         {
             if (it.next().isExpired())
             {

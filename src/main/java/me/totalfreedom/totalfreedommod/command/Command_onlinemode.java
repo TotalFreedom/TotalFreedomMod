@@ -46,9 +46,9 @@ public class Command_onlinemode extends FreedomCommand
 
             try
             {
-               plugin.si.setOnlineMode(onlineMode);
+                plugin.si.setOnlineMode(onlineMode);
 
-               if (onlineMode)
+                if (onlineMode)
                 {
                     for (Player player : server.getOnlinePlayers())
                     {

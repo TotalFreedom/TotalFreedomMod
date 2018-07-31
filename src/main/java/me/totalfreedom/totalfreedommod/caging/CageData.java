@@ -64,7 +64,7 @@ public class CageData
         buildHistory(location, 2, fPlayer);
         regenerate();
     }
-    
+
     public void cage(Location location, Material outer, Material inner, String input)
     {
         if (isCaged())

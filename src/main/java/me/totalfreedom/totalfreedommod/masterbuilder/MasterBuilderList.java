@@ -81,7 +81,7 @@ public class MasterBuilderList extends FreedomService
             }
 
             masterBuilders.put(key, masterBuilder);
-    }
+        }
 
         updateTables();
         FLog.info("Loaded " + masterBuilders.size() + " master builders with " + ipTable.size() + " IPs)");

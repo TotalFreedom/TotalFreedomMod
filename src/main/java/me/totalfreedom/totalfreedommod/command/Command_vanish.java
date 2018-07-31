@@ -20,7 +20,8 @@ public class Command_vanish extends FreedomCommand
 {
     public static ArrayList<Player> VANISHED = new ArrayList<>();
 
-    public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole) {
+    public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)
+    {
         Displayable display = plugin.rm.getDisplay(playerSender);
         String loginMsg = display.getColoredLoginMessage();
         String displayName = display.getColor() + playerSender.getName();

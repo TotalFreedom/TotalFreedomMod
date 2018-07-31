@@ -55,7 +55,7 @@ public class Command_toggle extends FreedomCommand
         {
             toggle("Lava placement is", ConfigEntry.ALLOW_LAVA_PLACE);
             return true;
-        } 
+        }
         else if (args[0].equalsIgnoreCase("fluidspread"))
         {
             toggle("Fluid spread is", ConfigEntry.ALLOW_FLUID_SPREAD);
@@ -155,7 +155,7 @@ public class Command_toggle extends FreedomCommand
             return false;
         }
     }
-    
+
     private void toggle(final String name, final ConfigEntry entry)
     {
         msg(name + " now " + (entry.setBoolean(!entry.getBoolean()) ? "enabled." : "disabled."));

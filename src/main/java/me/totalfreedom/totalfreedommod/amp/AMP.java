@@ -18,7 +18,7 @@ public class AMP extends FreedomService
     @Override
     protected void onStart()
     {
-        if(!plugin.config.getBoolean(ConfigEntry.AMP_ENABLED))
+        if (!plugin.config.getBoolean(ConfigEntry.AMP_ENABLED))
         {
             return;
         }
@@ -41,7 +41,8 @@ public class AMP extends FreedomService
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
 
     }
 }

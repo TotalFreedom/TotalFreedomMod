@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Quickly spectate someone.", usage = "/<command> <playername>", aliases="spec")
+@CommandParameters(description = "Quickly spectate someone.", usage = "/<command> <playername>", aliases = "spec")
 public class Command_spectate extends FreedomCommand
 {
 

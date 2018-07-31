@@ -29,7 +29,7 @@ public class Command_rainbownick extends FreedomCommand
             msg("That nickname contains invalid characters.");
             return true;
         }
-        
+
         if (nickPlain.length() < 4 || nickPlain.length() > 30)
         {
             msg("Your nickname must be between 4 and 30 characters long.");
@@ -48,9 +48,9 @@ public class Command_rainbownick extends FreedomCommand
                 return true;
             }
         }
-        
+
         final String newNick = FUtil.rainbowify(ChatColor.stripColor(FUtil.colorize(nickPlain)));
-        
+
         plugin.esb.setNickname(sender.getName(), newNick);
 
         msg("Your nickname is now: " + newNick);

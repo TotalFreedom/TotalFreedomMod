@@ -64,7 +64,6 @@ public class Flatlands extends CustomWorld
     }
 
 
-
     public void wipeFlatlandsIfFlagged()
     {
         boolean doFlatlandsWipe = false;

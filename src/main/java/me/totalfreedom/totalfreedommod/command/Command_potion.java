@@ -160,9 +160,9 @@ public class Command_potion extends FreedomCommand
                 target.addPotionEffect(new_effect, true);
                 msg(
                         "Added potion effect: " + new_effect.getType().getName()
-                        + ", Duration: " + new_effect.getDuration()
-                        + ", Amplifier: " + new_effect.getAmplifier()
-                        + (!target.equals(playerSender) ? " to player " + target.getName() + "." : " to yourself."), ChatColor.AQUA);
+                                + ", Duration: " + new_effect.getDuration()
+                                + ", Amplifier: " + new_effect.getAmplifier()
+                                + (!target.equals(playerSender) ? " to player " + target.getName() + "." : " to yourself."), ChatColor.AQUA);
 
                 return true;
             }

@@ -108,7 +108,7 @@ public class LoginProcess extends FreedomService
                 final int forceIpPort = ConfigEntry.FORCE_IP_PORT.getInteger();
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
                         ConfigEntry.FORCE_IP_KICKMSG.getString()
-                        .replace("%address%", ConfigEntry.SERVER_ADDRESS.getString() + (forceIpPort == DEFAULT_PORT ? "" : ":" + forceIpPort)));
+                                .replace("%address%", ConfigEntry.SERVER_ADDRESS.getString() + (forceIpPort == DEFAULT_PORT ? "" : ":" + forceIpPort)));
                 return;
             }
         }

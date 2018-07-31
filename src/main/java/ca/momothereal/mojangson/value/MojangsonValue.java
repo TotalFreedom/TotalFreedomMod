@@ -4,18 +4,22 @@ import ca.momothereal.mojangson.ex.MojangsonParseException;
 
 /**
  * Represents a value inside a compound or array.
+ *
  * @param <T> The type of value this MojangsonValue holds
  */
-public interface MojangsonValue<T> {
+public interface MojangsonValue<T>
+{
 
     /**
      * Writes the value to a StringBuilder buffer.
+     *
      * @param builder The buffer to write to
      */
     void write(StringBuilder builder);
 
     /**
      * Parses and updates the current value to the given string representation
+     *
      * @param string The string representation of the value
      * @throws MojangsonParseException if the given value cannot be parsed
      */
@@ -23,12 +27,14 @@ public interface MojangsonValue<T> {
 
     /**
      * Gets the current literal value
+     *
      * @return The current literal value of the MojangsonValue
      */
     T getValue();
 
     /**
      * Gets the literal value's class
+     *
      * @return The literal value's class
      */
     Class getValueClass();

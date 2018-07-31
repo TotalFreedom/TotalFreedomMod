@@ -23,10 +23,10 @@ public class Module_logfile extends HTTPDModule
 
     private static final File LOG_FOLDER = new File("./logs/");
     private static final String[] LOG_FILTER = new String[]
-    {
-        "log",
-        "gz"
-    };
+            {
+                    "log",
+                    "gz"
+            };
 
     public Module_logfile(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
     {

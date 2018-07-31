@@ -28,7 +28,7 @@ public class MobBlocker extends FreedomService
     protected void onStop()
     {
     }
-    
+
     //fixes crash mobs, credit to Mafrans
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntitySpawn(EntitySpawnEvent e)

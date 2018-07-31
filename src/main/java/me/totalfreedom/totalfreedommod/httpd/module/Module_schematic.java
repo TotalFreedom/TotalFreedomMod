@@ -30,9 +30,9 @@ public class Module_schematic extends HTTPDModule
     private static final String REQUEST_FORM_FILE_ELEMENT_NAME = "schematicFile";
     private static final Pattern SCHEMATIC_FILENAME_LC = Pattern.compile("^[a-z0-9_'!,\\-]{1,30}\\.schematic$");
     private static final String[] SCHEMATIC_FILTER = new String[]
-    {
-        "schematic"
-    };
+            {
+                    "schematic"
+            };
     private static final String UPLOAD_FORM = "<form method=\"post\" name=\"schematicForm\" id=\"schematicForm\" action=\"/schematic/upload/\" enctype=\"multipart/form-data\">\n"
             + "<p>Select a schematic file to upload. Filenames must be alphanumeric, between 1 and 30 characters long (inclusive), and have a .schematic extension.</p>\n"
             + "<input type=\"file\" id=\"schematicFile\" name=\"schematicFile\" />\n"

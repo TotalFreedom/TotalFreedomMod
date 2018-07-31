@@ -154,10 +154,10 @@ public class ChatManager extends FreedomService
                 Admin admin = plugin.al.getAdmin(player);
                 if (!Strings.isNullOrEmpty(admin.getAcFormat()))
                 {
-                   String format = admin.getAcFormat();
-                   ChatColor color = getColor(admin, display);
-                   String msg = format.replace("%name%", sender.getName()).replace("%rank%", display.getAbbr()).replace("%rankcolor%", color.toString()).replace("%msg%", message);
-                   player.sendMessage(FUtil.colorize(msg));
+                    String format = admin.getAcFormat();
+                    ChatColor color = getColor(admin, display);
+                    String msg = format.replace("%name%", sender.getName()).replace("%rank%", display.getAbbr()).replace("%rankcolor%", color.toString()).replace("%msg%", message);
+                    player.sendMessage(FUtil.colorize(msg));
                 }
                 else
                 {

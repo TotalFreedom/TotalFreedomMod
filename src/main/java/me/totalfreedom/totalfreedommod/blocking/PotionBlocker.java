@@ -43,7 +43,7 @@ public class PotionBlocker extends FreedomService
         Player player = null;
         if (projectileSource instanceof Player)
         {
-            player = (Player)projectileSource;
+            player = (Player) projectileSource;
         }
 
         if (isDeathPotion(potion.getEffects()))
@@ -64,7 +64,7 @@ public class PotionBlocker extends FreedomService
         Player player = null;
         if (projectileSource instanceof Player)
         {
-            player = (Player)projectileSource;
+            player = (Player) projectileSource;
         }
 
         if (isDeathPotion(potion.getEffects()))

@@ -205,8 +205,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         ak = services.registerService(AutoKick.class);
         ae = services.registerService(AutoEject.class);
         mo = services.registerService(Monitors.class);
-        
-        
+
+
         mv = services.registerService(MovementValidator.class);
         ew = services.registerService(EntityWiper.class);
         fd = services.registerService(FrontDoor.class);

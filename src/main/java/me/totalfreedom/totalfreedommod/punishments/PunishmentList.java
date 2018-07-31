@@ -1,4 +1,5 @@
 package me.totalfreedom.totalfreedommod.punishments;
+
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;

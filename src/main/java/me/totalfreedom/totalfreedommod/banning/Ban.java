@@ -49,9 +49,9 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
     {
         this(username,
                 new String[]
-                {
-                    ip
-                },
+                        {
+                                ip
+                        },
                 by,
                 expire,
                 reason);
@@ -80,9 +80,9 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
     public static Ban forPlayerIp(Player player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(null, new String[]
-        {
-            Ips.getIp(player)
-        }, by.getName(), expiry, reason);
+                {
+                        Ips.getIp(player)
+                }, by.getName(), expiry, reason);
     }
 
     public static Ban forPlayerIp(String ip, CommandSender by, Date expiry, String reason)

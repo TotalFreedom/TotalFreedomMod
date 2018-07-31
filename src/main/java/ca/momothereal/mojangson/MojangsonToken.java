@@ -1,6 +1,7 @@
 package ca.momothereal.mojangson;
 
-public enum MojangsonToken {
+public enum MojangsonToken
+{
 
     COMPOUND_START(0, "Compound_Start", '{'),
     COMPOUND_END(1, "Compound_End", '}'),
@@ -22,26 +23,31 @@ public enum MojangsonToken {
     private String name;
     private char symbol;
 
-    MojangsonToken(int id, String name, char symbol) {
+    MojangsonToken(int id, String name, char symbol)
+    {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public char getSymbol() {
+    public char getSymbol()
+    {
         return symbol;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return String.valueOf(symbol);
     }
 }

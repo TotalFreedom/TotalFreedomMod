@@ -66,8 +66,8 @@ public class PermbanList extends FreedomService
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
                         ChatColor.RED + "Your IP address is permanently banned from this server.\n"
-                        + "Release procedures are available at\n"
-                        + ChatColor.GOLD + ConfigEntry.SERVER_PERMBAN_URL.getString());
+                                + "Release procedures are available at\n"
+                                + ChatColor.GOLD + ConfigEntry.SERVER_PERMBAN_URL.getString());
                 return;
             }
         }
@@ -79,8 +79,8 @@ public class PermbanList extends FreedomService
             {
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
                         ChatColor.RED + "Your username is permanently banned from this server.\n"
-                        + "Release procedures are available at\n"
-                        + ChatColor.GOLD + ConfigEntry.SERVER_PERMBAN_URL.getString());
+                                + "Release procedures are available at\n"
+                                + ChatColor.GOLD + ConfigEntry.SERVER_PERMBAN_URL.getString());
                 return;
             }
         }

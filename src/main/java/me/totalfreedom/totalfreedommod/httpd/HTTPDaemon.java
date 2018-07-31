@@ -52,7 +52,8 @@ public class HTTPDaemon extends FreedomService
             return;
         }
 
-        port = ConfigEntry.HTTPD_PORT.getInteger();;
+        port = ConfigEntry.HTTPD_PORT.getInteger();
+        ;
         httpd = new HTTPD(port);
 
         // Modules
@@ -168,7 +169,7 @@ public class HTTPDaemon extends FreedomService
                 {
                     mimetype = MIME_DEFAULT_BINARY;
                 }
-                
+
                 // Some browsers like firefox download the file for text/yaml mime types
                 if (FilenameUtils.getExtension(file.getName()).equals("yml"))
                 {
