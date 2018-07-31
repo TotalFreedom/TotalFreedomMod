@@ -185,7 +185,7 @@ public class Command_mbconfig extends FreedomCommand
 
                 if (masterBuilder == null)
                 {
-                    msg("Matser Builder not found: " + args[1]);
+                    msg("Master Builder not found: " + args[1]);
                     return true;
                 }
 

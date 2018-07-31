@@ -23,12 +23,23 @@ public class Command_tag extends FreedomCommand
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(
             "admin", "owner", "moderator", "developer", "console", "dev", "staff", "mod", "sra", "tca", "sta", "sa");
 
+    public boolean save = false;
+
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        boolean save = false;
+        if (args.length < 1)
+        {
+            return false;
+        }
+
         if (args[0].equals("-s") || args[0].equals("-save"))
         {
+            if (!plugin.al.isAdmin(playerSender) && !plugin.mbl.isMasterBuilder(playerSender) && !plugin.pv.getVerificationPlayer(playerSender).getEnabled())
+            {
+                msg("Only admins, Master Builders, and players with verification enabled can save their tags.", ChatColor.RED);
+                return true;
+            }
             save = true;
             args = ArrayUtils.remove(args, 0);
         }
@@ -163,7 +174,7 @@ public class Command_tag extends FreedomCommand
                 plugin.pl.getPlayer(playerSender).setTag(outputTag);
                 if (save)
                 {
-                    save(playerSender, null);
+                    save(playerSender, outputTag);
                 }
                 msg("Tag set to '" + outputTag + ChatColor.GRAY + "'." + (save ? " (Saved)" : ""));
 
@@ -182,14 +193,14 @@ public class Command_tag extends FreedomCommand
 
     public void save(Player player, String tag)
     {
-        if (plugin.al.isAdmin(playerSender))
+        if (plugin.al.isAdmin(player))
         {
             Admin admin = plugin.al.getAdmin(player);
             admin.setTag(tag);
             plugin.al.save();
             plugin.al.updateTables();
         }
-        else if (plugin.mbl.isMasterBuilder(playerSender))
+        else if (plugin.mbl.isMasterBuilder(player))
         {
             MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(player);
             masterBuilder.setTag(tag);

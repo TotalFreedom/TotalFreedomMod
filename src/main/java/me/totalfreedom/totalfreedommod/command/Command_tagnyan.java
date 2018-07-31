@@ -1,7 +1,5 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.Arrays;
-import java.util.List;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -15,11 +13,6 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Gives you a tag with random colors", usage = "/<command> <tag>", aliases = "tn")
 public class Command_tagnyan extends FreedomCommand
 {
-
-    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
-            {
-                    "admin", "owner", "moderator", "developer", "console", "SRA", "TCA", "SA"
-            });
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)

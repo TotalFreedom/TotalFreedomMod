@@ -66,7 +66,14 @@ public class Command_playerverify extends FreedomCommand
                 }
                 data.setEnabled(true);
                 plugin.pv.saveVerificationData(data);
-                msg("Enabled Discord verification. Please type /linkdiscord to link a Discord account.", ChatColor.GREEN);
+                if (data.getDiscordId() != null)
+                {
+                    msg("Re-enabled Discord verification.", ChatColor.GREEN);
+                }
+                else
+                {
+                    msg("Enabled Discord verification. Please type /linkdiscord to link a Discord account.", ChatColor.GREEN);
+                }
                 return true;
 
             case "disable":
