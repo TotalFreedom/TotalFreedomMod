@@ -10,6 +10,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.13-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.Pravian:Aero:5f82926" level="project" />
@@ -25,7 +26,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TotalFreedom:BukkitTelnet:4.5-pre1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-core:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-api:2.5" level="project" />
-    <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-LibsDisguises:c213295f95" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.comphenix.protocol:ProtocolLib:4.4.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.comphenix.protocol:ProtocolLib-API:4.4.0-SNAPSHOT" level="project" />
