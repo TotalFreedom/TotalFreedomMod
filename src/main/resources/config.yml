@@ -142,9 +142,8 @@ blocked_commands:
   - 'n:b:/function:_'
   - 'n:b:/data:_'
   - 'n:b:/datapack:_'
-  - 'n:b:/tag:_'
 
-  # Superadmin commands
+  # Admin commands
   - 's:b:/save-all:_'
   - 's:b:/kick:_'
   - 's:b:/socialspy:_'
@@ -183,10 +182,6 @@ blocked_commands:
   - 's:b:/flood:_'
   - 's:b:/team:_'
   - 'n:b:/bossbar:_'
-
-  # Superadmin commands - Auto-eject
-  - 's:a:/stop:_'
-  - 's:a:/restart:_'
 
 # Automatically wipe dropped objects
 auto_wipe: true

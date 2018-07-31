@@ -14,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 public class PlayerVerification extends FreedomService
@@ -47,7 +48,7 @@ public class PlayerVerification extends FreedomService
     {
         VPlayer vPlayer = getVerificationPlayer(player);
         return !plugin.al.isAdmin(player)
-                && (vPlayer.getForumEnabled() || vPlayer.getDiscordEnabled())
+                && (vPlayer.getEnabled())
                 && !vPlayer.getIps().contains(Ips.getIp(player));
     }
 
@@ -176,6 +177,23 @@ public class PlayerVerification extends FreedomService
     {
         final YamlConfig config = new YamlConfig(plugin, getConfigFile(player.getName().toLowerCase()), false);
         config.load();
+
+        // Convert discordEnabled to enabled, and remove forumEnabled.
+        if (config.get("discordEnabled") != null)
+        {
+            config.set("enabled", config.getBoolean("discordEnabled"));
+            config.set("discordEnabled", null);
+            config.set("forumEnabled", null);
+            try
+            {
+                config.save(getConfigFile(player.getName().toLowerCase()));
+            }
+            catch (IOException e)
+            {
+                FLog.warning("Failed to convert Player Verification entry for " + player.getName());
+            }
+        }
+
         return config;
     }
 }

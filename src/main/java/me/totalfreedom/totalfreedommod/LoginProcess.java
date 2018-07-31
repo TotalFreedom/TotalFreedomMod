@@ -4,6 +4,9 @@ import java.util.regex.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
+import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.command.Command_vanish;
@@ -183,10 +186,34 @@ public class LoginProcess extends FreedomService
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         final Player player = event.getPlayer();
+        final FPlayer fPlayer = plugin.pl.getPlayer(player);
 
         for (Player p : Command_vanish.VANISHED)
         {
-            player.hidePlayer(p);
+            if (!plugin.al.isAdmin(player))
+            {
+                player.hidePlayer(plugin, p);
+            }
+        }
+
+        if (!plugin.al.isAdmin(player))
+        {
+            if (plugin.mbl.isMasterBuilder(player))
+            {
+                MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(player);
+                if (masterBuilder.getTag() != null)
+                {
+                    fPlayer.setTag(FUtil.colorize(masterBuilder.getTag()));
+                }
+            }
+            else
+            {
+                VPlayer vPlayer = plugin.pv.getVerificationPlayer(player);
+                if (vPlayer.getEnabled() && vPlayer.getTag() != null)
+                {
+                    fPlayer.setTag(FUtil.colorize(vPlayer.getTag()));
+                }
+            }
         }
 
         new BukkitRunnable()

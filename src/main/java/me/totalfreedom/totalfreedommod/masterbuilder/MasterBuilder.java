@@ -31,6 +31,9 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String discordID = null;
+    @Getter
+    @Setter
+    private String tag = null;
 
     public static final String CONFIG_FILENAME = "masterbuilders.yml";
 
@@ -53,8 +56,9 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
 
         output.append("MasterBuilder: ").append(name).append("\n")
                 .append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n")
-                .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n");
-                //.append("- Discord ID: ").append(discordID).append("\n"); (Reserved for future usage)
+                .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
+                .append("- Discord ID: ").append(discordID).append("\n")
+                .append("- Tag: ").append(tag).append("\n");
 
         return output.toString();
     }
@@ -75,6 +79,7 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
         ips.addAll(cs.getStringList("ips"));
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         discordID = cs.getString("discord_id", null);
+        tag = cs.getString("tag", null);
     }
 
     @Override
@@ -85,6 +90,7 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("discord_id", discordID);
+        cs.set("tag", tag);
     }
 
     public void addIp(String ip)

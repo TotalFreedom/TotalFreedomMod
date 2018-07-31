@@ -2,7 +2,11 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.Arrays;
 import java.util.List;
+
+import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +20,8 @@ import org.bukkit.entity.Player;
 public class Command_tag extends FreedomCommand
 {
 
-    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
-    {
-        "admin", "owner", "moderator", "developer", "console", "SRA", "TCA", "SA"
-    });
+    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(
+        "admin", "owner", "moderator", "developer", "console", "dev", "staff", "mod", "sra", "tca", "sta", "sa");
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
@@ -75,6 +77,7 @@ public class Command_tag extends FreedomCommand
                 else
                 {
                     plugin.pl.getPlayer(playerSender).setTag(null);
+                    save(playerSender, null);
                     msg("Your tag has been removed.");
                 }
 
@@ -104,6 +107,7 @@ public class Command_tag extends FreedomCommand
                 }
 
                 plugin.pl.getPlayer(player).setTag(null);
+                save(player, null);
                 msg("Removed " + player.getName() + "'s tag.");
 
                 return true;
@@ -111,7 +115,7 @@ public class Command_tag extends FreedomCommand
             else if ("set".equalsIgnoreCase(args[0]))
             {
                 final String inputTag = StringUtils.join(args, " ", 1, args.length);
-                final String outputTag = FUtil.colorize(StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
+                final String strippedTag = StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
                         new String[]
                         {
                             "" + ChatColor.COLOR_CHAR, "&k"
@@ -119,7 +123,8 @@ public class Command_tag extends FreedomCommand
                         new String[]
                         {
                             "", ""
-                        })) + ChatColor.RESET;
+                        });
+                final String outputTag = FUtil.colorize(strippedTag);
 
                 if (!plugin.al.isAdmin(sender))
                 {
@@ -142,7 +147,8 @@ public class Command_tag extends FreedomCommand
                 }
 
                 plugin.pl.getPlayer(playerSender).setTag(outputTag);
-                msg("Tag set to '" + outputTag + "'.");
+                save(playerSender, strippedTag);
+                msg("Tag set to '" + outputTag + ChatColor.GRAY + "'.");
 
                 return true;
             }
@@ -154,6 +160,30 @@ public class Command_tag extends FreedomCommand
         else
         {
             return false;
+        }
+    }
+
+    public void save(Player player, String tag)
+    {
+        if (plugin.al.isAdmin(playerSender))
+        {
+            Admin admin = plugin.al.getAdmin(player);
+            admin.setTag(tag);
+            plugin.al.save();
+            plugin.al.updateTables();
+        }
+        else if (plugin.mbl.isMasterBuilder(playerSender))
+        {
+            MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(player);
+            masterBuilder.setTag(tag);
+            plugin.mbl.save();
+            plugin.mbl.updateTables();
+        }
+        else if (plugin.pv.getVerificationPlayer(player).getEnabled())
+        {
+            VPlayer vPlayer = plugin.pv.getVerificationPlayer(player);
+            vPlayer.setTag(tag);
+            plugin.pv.saveVerificationData(vPlayer);
         }
     }
 }

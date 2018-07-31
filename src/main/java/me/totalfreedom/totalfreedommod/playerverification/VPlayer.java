@@ -28,10 +28,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
     private String forumUsername = null;
     @Getter
     @Setter
-    private Boolean discordEnabled = false;
-    @Getter
-    @Setter
-    private Boolean forumEnabled = false;
+    private Boolean enabled = false;
     @Getter
     @Setter
     private String tag = null;
@@ -53,9 +50,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         ips.clear();
         ips.addAll(cs.getStringList("ips"));
         discordId = cs.getString("discordId", null);
-        forumUsername = cs.getString("forumUsername", null);
-        discordEnabled = cs.getBoolean("discordEnabled", false);
-        forumEnabled = cs.getBoolean("forumEnabled", false);
+        enabled = cs.getBoolean("enabled", false);
         tag = cs.getString("tag", null);
     }
 
@@ -65,9 +60,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         Validate.isTrue(isValid(), "Could not save player verification entry: " + name + ". Entry not valid!");
         cs.set("name", name);
         cs.set("discordId", discordId);
-        cs.set("forumUsername", forumUsername);
-        cs.set("discordEnabled", discordEnabled);
-        cs.set("forumEnabled", forumEnabled);
+        cs.set("enabled", enabled);
         cs.set("tag", tag);
         cs.set("ips", Lists.newArrayList(ips));
     }
@@ -79,7 +72,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
 
     public boolean addIp(String ip)
     {
-        return ips.contains(ip) ? false : ips.add(ip);
+        return !ips.contains(ip) && ips.add(ip);
     }
 
     public boolean removeIp(String ip)

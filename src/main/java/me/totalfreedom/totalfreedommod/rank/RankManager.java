@@ -233,7 +233,7 @@ public class RankManager extends FreedomService
             }
         }
 
-        if (!plugin.pv.isPlayerImpostor(player) && target.getDiscordEnabled())
+        if (!plugin.pv.isPlayerImpostor(player) && target.getEnabled())
         {
             if (target.getTag() != null)
             {
