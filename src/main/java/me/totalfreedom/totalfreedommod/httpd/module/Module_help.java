@@ -1,7 +1,13 @@
 package me.totalfreedom.totalfreedommod.httpd.module;
 
 import com.google.common.collect.Lists;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.command.FreedomCommand;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;

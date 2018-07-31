@@ -1,7 +1,11 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
 import java.io.File;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.FreedomService;

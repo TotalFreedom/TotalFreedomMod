@@ -2,7 +2,11 @@ package me.totalfreedom.totalfreedommod.rollback;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;

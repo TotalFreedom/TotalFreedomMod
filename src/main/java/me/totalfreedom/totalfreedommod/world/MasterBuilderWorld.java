@@ -1,7 +1,11 @@
 package me.totalfreedom.totalfreedommod.world;
 
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
