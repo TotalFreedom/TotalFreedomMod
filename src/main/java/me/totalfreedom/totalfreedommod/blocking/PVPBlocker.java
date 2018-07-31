@@ -4,12 +4,12 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Trident;
 
 public class PVPBlocker extends FreedomService
 {
@@ -36,25 +36,25 @@ public class PVPBlocker extends FreedomService
         Player target = null;
         if (event.getEntity() instanceof Player)
         {
-            target = (Player) event.getEntity();
+            target = (Player)event.getEntity();
             if (event.getDamager() instanceof Player)
             {
-                player = (Player) event.getDamager();
+                player = (Player)event.getDamager();
             }
             else if (event.getDamager() instanceof Arrow)
             {
-                Arrow arrow = (Arrow) event.getDamager();
+                Arrow arrow = (Arrow)event.getDamager();
                 if (arrow.getShooter() instanceof Player)
                 {
-                    player = (Player) arrow.getShooter();
+                    player = (Player)arrow.getShooter();
                 }
             }
             else if (event.getDamager() instanceof Trident)
             {
-                Trident trident = (Trident) event.getDamager();
+                Trident trident = (Trident)event.getDamager();
                 if (trident.getShooter() instanceof Player)
                 {
-                    player = (Player) trident.getShooter();
+                    player = (Player)trident.getShooter();
                 }
             }
         }

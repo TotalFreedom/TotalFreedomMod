@@ -27,10 +27,10 @@ public class Command_health extends FreedomCommand
         Runtime runtime = Runtime.getRuntime();
         long usedMem = runtime.totalMemory() - runtime.freeMemory();
 
-        msg("Reserved Memory: " + (double) runtime.totalMemory() / (double) BYTES_PER_MB + "mb");
-        msg("Used Memory: " + new DecimalFormat("#").format((double) usedMem / (double) BYTES_PER_MB)
-                + "mb (" + new DecimalFormat("#").format(((double) usedMem / (double) runtime.totalMemory()) * 100.0) + "%)");
-        msg("Max Memory: " + (double) runtime.maxMemory() / (double) BYTES_PER_MB + "mb");
+        msg("Reserved Memory: " + (double)runtime.totalMemory() / (double)BYTES_PER_MB + "mb");
+        msg("Used Memory: " + new DecimalFormat("#").format((double)usedMem / (double)BYTES_PER_MB)
+                + "mb (" + new DecimalFormat("#").format(((double)usedMem / (double)runtime.totalMemory()) * 100.0) + "%)");
+        msg("Max Memory: " + (double)runtime.maxMemory() / (double)BYTES_PER_MB + "mb");
         msg("Calculating ticks per second, please wait...");
 
         new BukkitRunnable()
@@ -104,7 +104,7 @@ public class Command_health extends FreedomCommand
             long elapsed = System.currentTimeMillis() - startTime;
             int tickCount = ticks.get();
 
-            return (double) tickCount / ((double) elapsed / 1000.0);
+            return (double)tickCount / ((double)elapsed / 1000.0);
         }
     }
 

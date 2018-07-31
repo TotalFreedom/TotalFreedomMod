@@ -1,6 +1,8 @@
 package me.totalfreedom.totalfreedommod.playerverification;
 
 import com.google.common.collect.Lists;
+import java.util.Collections;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import net.pravian.aero.base.ConfigLoadable;
@@ -9,9 +11,6 @@ import net.pravian.aero.base.Validatable;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-
-import java.util.Collections;
-import java.util.List;
 
 public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
 {

@@ -23,7 +23,7 @@ public class AutoKick extends FreedomService
     @Override
     protected void onStart()
     {
-        autoKickTicks = (long) ConfigEntry.AUTOKICK_TIME.getInteger() * 1000L;
+        autoKickTicks = (long)ConfigEntry.AUTOKICK_TIME.getInteger() * 1000L;
         autoKickThreshold = ConfigEntry.AUTOKICK_THRESHOLD.getDouble();
 
         if (!ConfigEntry.AUTOKICK_ENABLED.getBoolean())

@@ -1,19 +1,19 @@
 package me.totalfreedom.totalfreedommod.blocking;
 
+import java.util.Collection;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LingeringPotion;
-import org.bukkit.entity.ThrownPotion;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.entity.LingeringPotionSplashEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
-import java.util.Collection;
 
 public class PotionBlocker extends FreedomService
 {
@@ -43,7 +43,7 @@ public class PotionBlocker extends FreedomService
         Player player = null;
         if (projectileSource instanceof Player)
         {
-            player = (Player) projectileSource;
+            player = (Player)projectileSource;
         }
 
         if (isDeathPotion(potion.getEffects()))
@@ -64,7 +64,7 @@ public class PotionBlocker extends FreedomService
         Player player = null;
         if (projectileSource instanceof Player)
         {
-            player = (Player) projectileSource;
+            player = (Player)projectileSource;
         }
 
         if (isDeathPotion(potion.getEffects()))

@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.admin;
 import com.google.common.collect.Lists;
 import java.util.Date;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.LogViewer.LogsRegistrationMode;

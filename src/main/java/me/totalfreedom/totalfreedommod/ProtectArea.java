@@ -1,17 +1,8 @@
 package me.totalfreedom.totalfreedommod;
 
 import com.google.common.collect.Maps;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.Bukkit;
@@ -53,7 +44,7 @@ public class ProtectArea extends FreedomService
                 FileInputStream fis = new FileInputStream(input);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 areas.clear();
-                areas.putAll((HashMap<String, SerializableProtectedRegion>) ois.readObject());
+                areas.putAll((HashMap<String, SerializableProtectedRegion>)ois.readObject());
                 ois.close();
                 fis.close();
             }

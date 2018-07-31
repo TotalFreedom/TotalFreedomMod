@@ -45,7 +45,7 @@ public class WorldEditBridge extends FreedomService
                 {
                     if (we instanceof WorldEditPlugin)
                     {
-                        worldeditPlugin = (WorldEditPlugin) we;
+                        worldeditPlugin = (WorldEditPlugin)we;
                     }
                 }
             }

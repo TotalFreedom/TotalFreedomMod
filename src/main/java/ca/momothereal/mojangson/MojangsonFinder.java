@@ -1,9 +1,8 @@
 package ca.momothereal.mojangson;
 
 import ca.momothereal.mojangson.ex.MojangsonParseException;
-import ca.momothereal.mojangson.value.*;
-
-import static ca.momothereal.mojangson.MojangsonToken.*;
+import ca.momothereal.mojangson.value.MojangsonString;
+import ca.momothereal.mojangson.value.MojangsonValue;
 
 public class MojangsonFinder
 {

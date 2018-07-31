@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod.rollback;
 
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,7 +25,7 @@ public class RollbackEntry
         final Location location = block.getLocation();
 
         this.x = location.getBlockX();
-        this.y = (short) location.getBlockY();
+        this.y = (short)location.getBlockY();
         this.z = location.getBlockZ();
         this.worldName = location.getWorld().getName();
         this.author = author;
@@ -49,7 +48,7 @@ public class RollbackEntry
     {
         try
         {
-            return new Location(Bukkit.getWorld(worldName), x, (int) y, z);
+            return new Location(Bukkit.getWorld(worldName), x, (int)y, z);
         }
         catch (Exception ex)
         {

@@ -114,7 +114,7 @@ public class BukkitTelnetBridge extends FreedomService
                 {
                     if (bukkitTelnet instanceof BukkitTelnet)
                     {
-                        bukkitTelnetPlugin = (BukkitTelnet) bukkitTelnet;
+                        bukkitTelnetPlugin = (BukkitTelnet)bukkitTelnet;
                     }
                 }
             }

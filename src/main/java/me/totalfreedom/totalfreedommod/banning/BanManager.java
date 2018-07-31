@@ -3,12 +3,7 @@ package me.totalfreedom.totalfreedommod.banning;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -74,7 +69,7 @@ public class BanManager extends FreedomService
 
         // Load unbannable usernames
         unbannableUsernames.clear();
-        unbannableUsernames.addAll((Collection<? extends String>) ConfigEntry.FAMOUS_PLAYERS.getList());
+        unbannableUsernames.addAll((Collection<? extends String>)ConfigEntry.FAMOUS_PLAYERS.getList());
         FLog.info("Loaded " + unbannableUsernames.size() + " unbannable usernames.");
     }
 

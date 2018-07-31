@@ -42,7 +42,7 @@ public class RankManager extends FreedomService
             return getRank(sender); // Consoles don't have display ranks
         }
 
-        final Player player = (Player) sender;
+        final Player player = (Player)sender;
 
         // Display impostors
         if (plugin.al.isAdminImpostor(player))
@@ -80,7 +80,7 @@ public class RankManager extends FreedomService
     {
         if (sender instanceof Player)
         {
-            return getRank((Player) sender);
+            return getRank((Player)sender);
         }
 
         // CONSOLE?

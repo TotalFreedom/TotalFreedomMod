@@ -4,13 +4,12 @@ import com.sk89q.worldguard.bukkit.RegionContainer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import java.util.Map;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
-
-import java.util.Map;
 
 public class WorldGuardBridge extends FreedomService
 {
@@ -41,7 +40,7 @@ public class WorldGuardBridge extends FreedomService
                 final Plugin worldGuard = server.getPluginManager().getPlugin("WorldGuard");
                 if (worldGuard != null && worldGuard instanceof WorldGuardPlugin)
                 {
-                    worldGuardPlugin = (WorldGuardPlugin) worldGuard;
+                    worldGuardPlugin = (WorldGuardPlugin)worldGuard;
                 }
             }
             catch (Exception ex)

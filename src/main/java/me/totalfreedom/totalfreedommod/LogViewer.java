@@ -1,13 +1,14 @@
 package me.totalfreedom.totalfreedommod;
 
 import java.io.UnsupportedEncodingException;
-import java.net.*;
-import java.security.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
+import java.util.*;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang3.StringUtils;
@@ -70,7 +71,7 @@ public class LogViewer extends FreedomService
                             .addQueryParameter("key", key)
                             .getURL();
 
-                    final HttpURLConnection connection = (HttpURLConnection) urlAdd.openConnection();
+                    final HttpURLConnection connection = (HttpURLConnection)urlAdd.openConnection();
                     connection.setConnectTimeout(1000 * 5);
                     connection.setReadTimeout(1000 * 5);
                     connection.setUseCaches(false);

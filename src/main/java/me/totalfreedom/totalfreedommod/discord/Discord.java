@@ -1,6 +1,10 @@
 package me.totalfreedom.totalfreedommod.discord;
 
 import com.google.common.base.Strings;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import javax.security.auth.login.LoginException;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
@@ -10,11 +14,6 @@ import me.totalfreedom.totalfreedommod.util.FLog;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-
-import javax.security.auth.login.LoginException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Discord extends FreedomService
 {

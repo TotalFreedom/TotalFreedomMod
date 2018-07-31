@@ -23,7 +23,7 @@ public class UUIDFetcher
             UUID uuid;
             String body = gson.toJson(name);
             URL url = new URL(PROFILE_URL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setUseCaches(false);

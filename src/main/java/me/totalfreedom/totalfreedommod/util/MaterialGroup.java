@@ -1,9 +1,8 @@
 package me.totalfreedom.totalfreedommod.util;
 
-import org.bukkit.Material;
-
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.Material;
 
 public class MaterialGroup
 {

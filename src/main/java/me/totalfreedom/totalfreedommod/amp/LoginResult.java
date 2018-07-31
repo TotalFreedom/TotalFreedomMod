@@ -2,10 +2,9 @@ package me.totalfreedom.totalfreedommod.amp;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 public class LoginResult
 {

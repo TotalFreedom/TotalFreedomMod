@@ -1,26 +1,20 @@
 package me.totalfreedom.totalfreedommod.httpd.module;
 
 import com.google.common.collect.Lists;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.command.FreedomCommand;
-import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.heading;
-import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import net.pravian.aero.command.CommandReflection;
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.command.SimpleCommandMap;
+import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.heading;
+import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 public class Module_help extends HTTPDModule
 {
@@ -45,7 +39,7 @@ public class Module_help extends HTTPDModule
                         "This page is an automatically generated listing of all plugin commands that are currently live on the server. "
                                 + "Please note that it does not include vanilla server commands."));
 
-        final Collection<Command> knownCommands = ((SimpleCommandMap) map).getCommands();
+        final Collection<Command> knownCommands = ((SimpleCommandMap)map).getCommands();
         final Map<String, List<Command>> commandsByPlugin = new HashMap<>();
 
         for (Command command : knownCommands)
@@ -53,7 +47,7 @@ public class Module_help extends HTTPDModule
             String pluginName = "Bukkit";
             if (command instanceof PluginIdentifiableCommand)
             {
-                pluginName = ((PluginIdentifiableCommand) command).getPlugin().getName();
+                pluginName = ((PluginIdentifiableCommand)command).getPlugin().getName();
             }
 
             List<Command> pluginCommands = commandsByPlugin.computeIfAbsent(pluginName, k -> Lists.newArrayList());

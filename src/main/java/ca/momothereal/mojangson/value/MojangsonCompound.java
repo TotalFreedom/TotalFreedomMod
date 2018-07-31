@@ -2,9 +2,10 @@ package ca.momothereal.mojangson.value;
 
 import ca.momothereal.mojangson.MojangsonFinder;
 import ca.momothereal.mojangson.ex.MojangsonParseException;
-
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import static ca.momothereal.mojangson.MojangsonToken.*;
 
 public class MojangsonCompound extends HashMap<String, List<MojangsonValue>> implements MojangsonValue<Map<String, MojangsonValue>>

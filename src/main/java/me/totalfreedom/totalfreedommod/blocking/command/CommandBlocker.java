@@ -58,7 +58,7 @@ public class CommandBlocker extends FreedomService
         }
 
         @SuppressWarnings("unchecked")
-        List<String> blockedCommands = (List<String>) ConfigEntry.BLOCKED_COMMANDS.getList();
+        List<String> blockedCommands = (List<String>)ConfigEntry.BLOCKED_COMMANDS.getList();
         for (String rawEntry : blockedCommands)
         {
             final String[] parts = rawEntry.split(":");

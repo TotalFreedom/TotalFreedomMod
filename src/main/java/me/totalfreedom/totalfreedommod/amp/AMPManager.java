@@ -1,17 +1,16 @@
 package me.totalfreedom.totalfreedommod.amp;
 
 import com.google.gson.Gson;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.util.FLog;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class AMPManager
 {
@@ -125,7 +124,7 @@ public class AMPManager
         URL url = new URL(endpoint);
         if (endpoint.startsWith("https://"))
         {
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
@@ -147,7 +146,7 @@ public class AMPManager
         }
         else
         {
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);

@@ -3,6 +3,8 @@ package me.totalfreedom.totalfreedommod;
 import ca.momothereal.mojangson.ex.MojangsonParseException;
 import ca.momothereal.mojangson.value.MojangsonCompound;
 import ca.momothereal.mojangson.value.MojangsonValue;
+import java.util.List;
+import java.util.Objects;
 import net.minecraft.server.v1_13_R1.NBTTagCompound;
 import net.minecraft.server.v1_13_R1.NBTTagList;
 import org.bukkit.ChatColor;
@@ -16,10 +18,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
 
 public class MovementValidator extends FreedomService
 {

@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.list;
-import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.list;
+import static me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools.paragraph;
 
 public class Module_dump extends HTTPDModule
 {

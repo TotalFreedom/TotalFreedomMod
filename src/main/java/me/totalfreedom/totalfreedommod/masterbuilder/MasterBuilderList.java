@@ -115,7 +115,7 @@ public class MasterBuilderList extends FreedomService
             return true;
         }
 
-        MasterBuilder masterBuilder = getMasterBuilder((Player) sender);
+        MasterBuilder masterBuilder = getMasterBuilder((Player)sender);
 
         return masterBuilder != null;
     }
@@ -129,7 +129,7 @@ public class MasterBuilderList extends FreedomService
     {
         if (sender instanceof Player)
         {
-            return getMasterBuilder((Player) sender);
+            return getMasterBuilder((Player)sender);
         }
 
         return getEntryByName(sender.getName());

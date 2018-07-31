@@ -1,12 +1,12 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import org.bukkit.scheduler.BukkitRunnable;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
-import org.bukkit.command.CommandSender;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Blocks redstone on the server.", usage = "/<command>", aliases = "bre")

@@ -29,7 +29,7 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
 
     protected FreedomCommand getCommand()
     {
-        return commandBase instanceof FreedomCommand ? (FreedomCommand) commandBase : null;
+        return commandBase instanceof FreedomCommand ? (FreedomCommand)commandBase : null;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
             return false;
         }
 
-        final Player player = sender instanceof Player ? (Player) sender : null;
+        final Player player = sender instanceof Player ? (Player)sender : null;
 
         // Only console
         if (perms.source() == SourceType.ONLY_CONSOLE

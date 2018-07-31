@@ -1,17 +1,8 @@
 package me.totalfreedom.totalfreedommod.httpd.module;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
@@ -257,7 +248,7 @@ public class Module_file extends HTTPDModule
                             @Override
                             public int available() throws IOException
                             {
-                                return (int) dataLen;
+                                return (int)dataLen;
                             }
                         };
                         fis.skip(startFrom);

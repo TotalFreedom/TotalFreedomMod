@@ -2,12 +2,7 @@ package me.totalfreedom.totalfreedommod.banning;
 
 import com.google.common.collect.Lists;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -100,7 +95,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
     public static Ban forPlayerName(String player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player,
-                (String[]) null,
+                (String[])null,
                 by.getName(),
                 expiry,
                 reason);
@@ -156,56 +151,6 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         return expiryUnix > 0;
     }
 
-    public String getUsername()
-    {
-        return this.username;
-    }
-
-    public void setUsername(final String username)
-    {
-        this.username = username;
-    }
-
-    public List<String> getIps()
-    {
-        return this.ips;
-    }
-
-    public String getBy()
-    {
-        return this.by;
-    }
-
-    public void setBy(final String by)
-    {
-        this.by = by;
-    }
-
-    public String getReason()
-    {
-        return this.reason;
-    }
-
-    public void setReason(final String reason)
-    {
-        this.reason = reason;
-    }
-
-    public long getExpiryUnix()
-    {
-        return this.expiryUnix;
-    }
-
-    public void setExpiryUnix(final long expiryUnix)
-    {
-        this.expiryUnix = expiryUnix;
-    }
-
-    public Date getExpiryDate()
-    {
-        return FUtil.getUnixDate(expiryUnix);
-    }
-
     public boolean isExpired()
     {
         return hasExpiry() && expiryUnix < FUtil.getUnixTime();
@@ -253,7 +198,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
             return false;
         }
 
-        final Ban ban = (Ban) object;
+        final Ban ban = (Ban)object;
         if (hasIps() != ban.hasIps()
                 || hasUsername() != hasUsername())
         {

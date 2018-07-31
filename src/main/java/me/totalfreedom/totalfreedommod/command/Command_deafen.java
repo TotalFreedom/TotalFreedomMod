@@ -24,7 +24,7 @@ public class Command_deafen extends FreedomCommand
         {
             for (double percent = 0.0; percent <= 1.0; percent += (1.0 / STEPS))
             {
-                final float pitch = (float) (percent * 2.0);
+                final float pitch = (float)(percent * 2.0);
 
                 new BukkitRunnable()
                 {

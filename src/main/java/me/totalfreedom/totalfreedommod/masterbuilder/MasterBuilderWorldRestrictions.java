@@ -1,5 +1,7 @@
 package me.totalfreedom.totalfreedommod.masterbuilder;
 
+import java.util.Arrays;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -13,9 +15,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class MasterBuilderWorldRestrictions extends FreedomService
 {
@@ -97,7 +96,7 @@ public class MasterBuilderWorldRestrictions extends FreedomService
     {
         if (event.getDamager() instanceof Player)
         {
-            Player player = (Player) event.getDamager();
+            Player player = (Player)event.getDamager();
 
             if (doRestrict(player))
             {

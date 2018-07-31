@@ -136,19 +136,9 @@ public class AdminList extends FreedomService
             return true;
         }
 
-        Admin admin = getAdmin((Player) sender);
+        Admin admin = getAdmin((Player)sender);
 
         return admin != null && admin.isActive();
-    }
-
-    public Map<String, Admin> getAllAdmins()
-    {
-        return this.allAdmins;
-    }
-
-    public Set<Admin> getActiveAdmins()
-    {
-        return this.activeAdmins;
     }
 
     public boolean isSeniorAdmin(CommandSender sender)
@@ -166,7 +156,7 @@ public class AdminList extends FreedomService
     {
         if (sender instanceof Player)
         {
-            return getAdmin((Player) sender);
+            return getAdmin((Player)sender);
         }
 
         return getEntryByName(sender.getName());

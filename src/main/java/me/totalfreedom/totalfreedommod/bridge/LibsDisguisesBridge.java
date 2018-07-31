@@ -41,7 +41,7 @@ public class LibsDisguisesBridge extends FreedomService
                 {
                     if (libsDisguises instanceof LibsDisguises)
                     {
-                        libsDisguisesPlugin = (LibsDisguises) libsDisguises;
+                        libsDisguisesPlugin = (LibsDisguises)libsDisguises;
                     }
                 }
             }

@@ -35,7 +35,7 @@ public class MobStacker extends FreedomService
             return;
         }
 
-        Player attacker = (Player) event.getDamager();
+        Player attacker = (Player)event.getDamager();
 
         if (!plugin.al.isAdmin(attacker))
         {

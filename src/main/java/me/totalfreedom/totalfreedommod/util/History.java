@@ -11,10 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
-import org.bukkit.scheduler.BukkitRunnable;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class History
 {
@@ -36,7 +36,7 @@ public class History
                     try
                     {
                         URL url = new URL("https://api.mojang.com/user/profiles/" + compactUuid + "/names");
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         FName[] oldNames = gson.fromJson(reader, FName[].class);
                         if (oldNames == null)

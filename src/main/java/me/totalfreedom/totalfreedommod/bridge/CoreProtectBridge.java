@@ -1,5 +1,9 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
+import java.io.File;
+import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -14,11 +18,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
-import java.io.File;
-import java.sql.*;
-import java.util.Arrays;
-import java.util.List;
 
 public class CoreProtectBridge extends FreedomService
 {
@@ -56,7 +55,7 @@ public class CoreProtectBridge extends FreedomService
 
             if (coreProtectPlugin != null && coreProtectPlugin instanceof CoreProtect)
             {
-                coreProtect = (CoreProtect) coreProtectPlugin;
+                coreProtect = (CoreProtect)coreProtectPlugin;
             }
         }
         catch (Exception ex)

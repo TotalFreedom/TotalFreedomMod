@@ -1,5 +1,8 @@
 package me.totalfreedom.totalfreedommod;
 
+import java.io.File;
+import java.io.InputStream;
+import java.util.Properties;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.amp.AMP;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
@@ -29,17 +32,12 @@ import me.totalfreedom.totalfreedommod.world.CleanroomChunkGenerator;
 import me.totalfreedom.totalfreedommod.world.WorldManager;
 import net.pravian.aero.component.service.ServiceManager;
 import net.pravian.aero.plugin.AeroPlugin;
+import org.bstats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bstats.Metrics;
 import org.spigotmc.SpigotConfig;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
 public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 {
@@ -332,7 +330,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         {
             if (plugin.getName().equalsIgnoreCase(pluginName))
             {
-                return (TotalFreedomMod) plugin;
+                return (TotalFreedomMod)plugin;
             }
         }
         return null;

@@ -5,18 +5,7 @@ import java.io.FileFilter;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -26,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -356,7 +344,7 @@ public class FUtil
             {
                 Field field = checkClass.getDeclaredField(name);
                 field.setAccessible(true);
-                return (T) field.get(from);
+                return (T)field.get(from);
 
             }
             catch (NoSuchFieldException | IllegalAccessException ex)
@@ -427,7 +415,7 @@ public class FUtil
     public static int random(int min, int max)
     {
         int range = max - min + 1;
-        int value = (int) (Math.random() * range) + min;
+        int value = (int)(Math.random() * range) + min;
         return value;
     }
 }

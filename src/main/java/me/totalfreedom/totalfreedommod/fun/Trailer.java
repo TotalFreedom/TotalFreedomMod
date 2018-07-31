@@ -1,9 +1,11 @@
 package me.totalfreedom.totalfreedommod.fun;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.MaterialGroup;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,9 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 public class Trailer extends FreedomService
 {

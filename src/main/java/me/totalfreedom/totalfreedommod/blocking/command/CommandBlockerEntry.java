@@ -39,7 +39,7 @@ public class CommandBlockerEntry
     {
         if (action == CommandBlockerAction.BLOCK_AND_EJECT && sender instanceof Player)
         {
-            TotalFreedomMod.plugin().ae.autoEject((Player) sender, "You used a prohibited command: " + command);
+            TotalFreedomMod.plugin().ae.autoEject((Player)sender, "You used a prohibited command: " + command);
             FUtil.bcastMsg(sender.getName() + " was automatically kicked for using harmful commands.", ChatColor.RED);
             return;
         }
@@ -49,30 +49,5 @@ public class CommandBlockerEntry
             return;
         }
         FUtil.playerMsg(sender, FUtil.colorize(message));
-    }
-
-    public CommandBlockerRank getRank()
-    {
-        return rank;
-    }
-
-    public CommandBlockerAction getAction()
-    {
-        return action;
-    }
-
-    public String getCommand()
-    {
-        return command;
-    }
-
-    public String getSubCommand()
-    {
-        return subCommand;
-    }
-
-    public String getMessage()
-    {
-        return message;
     }
 }

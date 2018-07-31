@@ -36,7 +36,7 @@ public class Announcer extends FreedomService
         announcements.clear();
         for (Object announcement : ConfigEntry.ANNOUNCER_ANNOUNCEMENTS.getList())
         {
-            announcements.add(FUtil.colorize((String) announcement));
+            announcements.add(FUtil.colorize((String)announcement));
         }
 
         if (!enabled)

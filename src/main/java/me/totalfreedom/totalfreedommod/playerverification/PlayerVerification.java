@@ -1,6 +1,9 @@
 package me.totalfreedom.totalfreedommod.playerverification;
 
 import com.google.common.collect.Maps;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
@@ -12,10 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
 
 public class PlayerVerification extends FreedomService
 {

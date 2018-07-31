@@ -2,11 +2,7 @@ package me.totalfreedom.totalfreedommod.rollback;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.*;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
@@ -200,7 +196,7 @@ public class RollbackManager extends FreedomService
     public List<RollbackEntry> getEntriesAtLocation(final Location location)
     {
         final int testX = location.getBlockX();
-        final short testY = (short) location.getBlockY();
+        final short testY = (short)location.getBlockY();
         final int testZ = location.getBlockZ();
         final String testWorldName = location.getWorld().getName();
 

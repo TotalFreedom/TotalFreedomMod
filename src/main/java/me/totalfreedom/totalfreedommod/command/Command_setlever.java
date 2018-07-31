@@ -65,7 +65,7 @@ public class Command_setlever extends FreedomCommand
         if (targetBlock.getType() == Material.LEVER)
         {
             BlockState state = targetBlock.getState();
-            Lever lever = (Lever) state.getData();
+            Lever lever = (Lever)state.getData();
             lever.setPowered(leverOn);
             state.setData(lever);
             state.update();
