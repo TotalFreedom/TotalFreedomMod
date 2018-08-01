@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.BOTH)
-@CommandParameters(description = "Sends a verification code to the player, or the player can input the sent code.", usage = "/<command> <code | <playername>>")
+@CommandParameters(description = "Sends a verification code to the player, or the player can input the sent code. Admins can manually verify a player impostor.", usage = "/<command> <code | <playername>>")
 public class Command_verify extends FreedomCommand
 {
     @Override
@@ -32,9 +32,9 @@ public class Command_verify extends FreedomCommand
         if (args.length == 1 && plugin.al.isAdmin(playerSender))
         {
             final Player player = getPlayer(args[0]);
-            if (player == null && playerSender == null)
+            if (player == null)
             {
-                msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
+                msg(FreedomCommand.PLAYER_NOT_FOUND);
                 return true;
             }
             if (!plugin.pv.isPlayerImpostor(player))
@@ -42,13 +42,13 @@ public class Command_verify extends FreedomCommand
                 msg("That player is not an impostor.");
                 return true;
             }
-            FUtil.adminAction(sender.getName(), "Manually verifying player " + player.getName(), true);
+            FUtil.adminAction(sender.getName(), "Manually verifying player " + player.getName(), false);
             player.setOp(true);
             player.sendMessage(YOU_ARE_OP);
             if (plugin.pl.getPlayer(player).getFreezeData().isFrozen())
             {
                 plugin.pl.getPlayer(player).getFreezeData().setFrozen(false);
-                msg("You have been unfrozen.");
+                player.sendMessage(ChatColor.GRAY + "You have been unfrozen.");
             }
             plugin.pv.verifyPlayer(player);
             plugin.rm.updateDisplay(player);
@@ -56,11 +56,12 @@ public class Command_verify extends FreedomCommand
         }
         else
         {
-            if (senderIsConsole)
+            if (senderIsConsole || plugin.al.isAdmin(playerSender))
             {
                 msg("/verify <playername>", ChatColor.WHITE);
                 return true;
             }
+
             if (!plugin.pv.isPlayerImpostor(playerSender) && !plugin.al.isAdminImpostor(playerSender))
             {
                 msg("You are not an impostor, therefore you do not need to verify.", ChatColor.RED);
@@ -116,7 +117,7 @@ public class Command_verify extends FreedomCommand
                     Admin admin = plugin.al.getEntryByName(playerSender.getName());
                     Discord.VERIFY_CODES.remove(code);
                     FUtil.bcastMsg(playerSender.getName() + " has verified!", ChatColor.GOLD);
-                    FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Readding " + admin.getName() + " to the admin list", true);
+                    FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Re-adding " + admin.getName() + " to the admin list", true);
 
                     admin.setName(playerSender.getName());
                     admin.addIp(Ips.getIp(playerSender));
