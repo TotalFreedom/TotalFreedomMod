@@ -74,7 +74,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                             log.warning("[CleanroomGenerator] Data values are no longer supported in 1.13. Defaulting to the base material for " + materialTokens[0]);
                         }
 
-                        Material mat = Material.matchMaterial(materialTokens[0].toUpperCase());
+                        Material mat = Material.matchMaterial(materialTokens[0]);
                         if (mat == null)
                         {
                             log.warning("[CleanroomGenerator] Invalid Block ID '" + materialTokens[0] + "'. Defaulting to stone. (Integer IDs were removed in 1.13)");
@@ -142,14 +142,9 @@ public class CleanroomChunkGenerator extends ChunkGenerator
 
         for (int y = 0; y < materials.length; y++)
         {
-            for (int X = 0; X < 16; X++)
-            {
-                for (int Z = 0; Z < 16; Z++)
-                {
-                    result.setBlock(X, y, Z, materials[y]);
-                }
-            }
+            result.setRegion(0, y, 0, 16, y+1, 16, materials[y]);
         }
+      
 
         return result;
     }
