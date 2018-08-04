@@ -144,7 +144,7 @@ public class PlayerVerification extends FreedomService
 
         if (!vPlayer.isValid())
         {
-            FLog.warning("Could not load player verification entry: " + username + ". Entry is not valid!");
+            FLog.warning("Could not load player verification entry " + username + ". Entry is not valid!");
             configFile.delete();
             return null;
         }
@@ -190,7 +190,7 @@ public class PlayerVerification extends FreedomService
             }
             catch (IOException e)
             {
-                FLog.warning("Failed to convert Player Verification entry for: " + player.getName());
+                FLog.warning("Failed to convert Player Verification entry for " + player.getName());
             }
         }
 
