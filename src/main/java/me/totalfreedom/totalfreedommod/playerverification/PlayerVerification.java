@@ -76,6 +76,7 @@ public class PlayerVerification extends FreedomService
 
     public void removeEntry(String name)
     {
+        name = name.toLowerCase(); // Configuration files are saved in lowercase
         if (getVerificationPlayer(name) != null)
         {
             getConfigFile(name).delete();
@@ -109,7 +110,7 @@ public class PlayerVerification extends FreedomService
         // Create new data if nonexistent
         if (vPlayer == null)
         {
-            FLog.info("Creating new player verification entry for " + player.getName());
+            FLog.info("Creating new player verification entry for: " + player.getName());
 
             // Create new player
             vPlayer = new VPlayer(player);
@@ -189,7 +190,7 @@ public class PlayerVerification extends FreedomService
             }
             catch (IOException e)
             {
-                FLog.warning("Failed to convert Player Verification entry for " + player.getName());
+                FLog.warning("Failed to convert Player Verification entry for: " + player.getName());
             }
         }
 
