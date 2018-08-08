@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Overlord - control this server in-game", usage = "access", aliases = "ov")
-public class Command_ov extends FreedomCommand
+public class Command_overlord extends FreedomCommand
 {
 
     @Override
