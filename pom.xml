@@ -272,10 +272,10 @@
                                               comment="Build information. Edit this to your liking.">
                                     <entry key="buildAuthor" default="unknown"/>
                                     <entry key="buildNumber" default="0"/>
-                                    <entry key="buildCodeName" default="${tfm.build.codename}"/>
-                                    <entry key="buildVersion" default="${project.version}"/>
-                                    <entry key="buildDate" default="${timestamp}"/>
-                                    <entry key="buildHead" default="${git.commit.id.abbrev}"/>
+                                    <entry key="buildCodeName" value="${tfm.build.codename}"/>
+                                    <entry key="buildVersion" value="${project.version}"/>
+                                    <entry key="buildDate" value="${timestamp}"/>
+                                    <entry key="buildHead" value="${git.commit.id.abbrev}"/>
                                 </propertyfile>
                             </target>
                         </configuration>
