@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Gives you a rainbow tag", usage = "/<command> <tag>")
-public class Command_rainbowtag extends FreedomCommand
+public class Command_tagrainbow extends FreedomCommand
 {
 
     @Override
@@ -23,18 +23,23 @@ public class Command_rainbowtag extends FreedomCommand
 
         final String tag = ChatColor.stripColor(FUtil.colorize(StringUtils.join(args, " ")));
 
-        if (tag.length() > 20)
+        if (!plugin.al.isAdmin(sender))
         {
-            msg("That tag is too long (Max is 20 characters).");
-            return true;
-        }
+            final String rawTag = ChatColor.stripColor(tag).toLowerCase();
 
-        for (String word : Command_tag.FORBIDDEN_WORDS)
-        {
-            if (tag.contains(word))
+            if (rawTag.length() > 20)
             {
-                msg("That tag contains a forbidden word.");
+                msg("That tag is too long (Max is 20 characters).");
                 return true;
+            }
+
+            for (String word : Command_tag.FORBIDDEN_WORDS)
+            {
+                if (rawTag.contains(word))
+                {
+                    msg("That tag contains a forbidden word.");
+                    return true;
+                }
             }
         }
 

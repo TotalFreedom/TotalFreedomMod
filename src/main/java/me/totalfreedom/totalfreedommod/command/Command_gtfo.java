@@ -18,7 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Bans a player", usage = "/<command> <username> [reason] [-nrb]", aliases = "ban")
+@CommandParameters(description = "Bans a player", usage = "/<command> <username> [reason] [-rb]", aliases = "ban")
 public class Command_gtfo extends FreedomCommand
 {
 
@@ -78,12 +78,12 @@ public class Command_gtfo extends FreedomCommand
         }
 
         String reason = null;
-        Boolean cancelRollback = false;
+        Boolean rollback = false;
         if (args.length >= 2)
         {
-            if (args[args.length - 1].equals("-nrb"))
+            if (args[args.length - 1].equalsIgnoreCase("-rb"))
             {
-                cancelRollback = true;
+                rollback = true;
                 if (args.length >= 3)
                 {
                     reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
@@ -96,7 +96,7 @@ public class Command_gtfo extends FreedomCommand
         }
 
         // Checks if CoreProtect is loaded and installed, and skips the rollback and uses CoreProtect directly
-        if (!cancelRollback)
+        if (rollback)
         {
             if (!plugin.cpb.isEnabled())
             {

@@ -30,12 +30,24 @@ public class Command_tagnyan extends FreedomCommand
         }
 
         String tagStr = tag.toString();
-        for (String word : Command_tag.FORBIDDEN_WORDS)
+
+        if (!plugin.al.isAdmin(sender))
         {
-            if (tagStr.contains(word))
+            final String rawTag = ChatColor.stripColor(tagStr).toLowerCase();
+
+            if (rawTag.length() > 20)
             {
-                msg("That tag contains a forbidden word.");
+                msg("That tag is too long (Max is 20 characters).");
                 return true;
+            }
+
+            for (String word : Command_tag.FORBIDDEN_WORDS)
+            {
+                if (rawTag.contains(word))
+                {
+                    msg("That tag contains a forbidden word.");
+                    return true;
+                }
             }
         }
 

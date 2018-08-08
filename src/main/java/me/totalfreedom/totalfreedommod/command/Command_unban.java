@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Unbans a player", usage = "/<command> <username> [-restore]", aliases = "pardon")
+@CommandParameters(description = "Unbans a player", usage = "/<command> <username> [-r[estore]]", aliases = "pardon")
 public class Command_unban extends FreedomCommand
 {
 
@@ -40,7 +40,7 @@ public class Command_unban extends FreedomCommand
 
             if (args.length >= 2)
             {
-                if (args[args.length - 1].equals("-restore"))
+                if (args[1].equalsIgnoreCase("-r") || args[1].equalsIgnoreCase("-restore"))
                 {
                     if (!plugin.cpb.isEnabled())
                     {
