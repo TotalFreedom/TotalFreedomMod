@@ -15,7 +15,7 @@
         <tfm.build.number>${maven.buildnumber}</tfm.build.number>
         <tfm.build.date>${maven.build.timestamp}</tfm.build.date>
         <tfm.build.author>${buildAuthor}</tfm.build.author>
-        <tfm.build.head>${buildHead}</tfm.build.head>
+        <tfm.build.head>${git.commit.id.abbrev}</tfm.build.head>
         <jar.finalName>${project.name}</jar.finalName>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>MM/dd/yyyy HH:mm</maven.build.timestamp.format>
@@ -198,6 +198,47 @@
                 </configuration>
             </plugin>
 
+            <!-- Git describe -->
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.4</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>validate-the-git-infos</id>
+                        <goals>
+                            <goal>validateRevision</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <prefix>git</prefix>
+                    <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
+                    <verbose>false</verbose>
+                    <format>properties</format>
+                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                    <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>git.commit.id.abbrev</includeOnlyProperty>
+                    </includeOnlyProperties>
+                    <gitDescribe>
+                        <skip>false</skip>
+                        <always>false</always>
+                        <abbrev>7</abbrev>
+                        <dirty>-dirty</dirty>
+                        <match>*</match>
+                    </gitDescribe>
+                </configuration>
+            </plugin>
+
             <!-- Antrun -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -205,16 +246,18 @@
                 <version>1.8</version>
                 <executions>
                     <execution>
+                        <id>default-cli</id>
                         <phase>initialize</phase>
                         <configuration>
                             <target>
-                                <propertyfile file="src/main/resources/build.properties"
+                                <propertyfile file="${project.basedir}/src/main/resources/build.properties"
                                               comment="Build information. Edit this to your liking.">
                                     <entry key="buildAuthor" default="unknown"/>
                                     <entry key="buildNumber" default="0"/>
                                     <entry key="buildCodeName" default="${tfm.build.codename}"/>
                                     <entry key="buildVersion" default="${project.version}"/>
                                     <entry key="buildDate" default="${timestamp}"/>
+                                    <entry key="buildHead" default="${git.commit.id.abbrev}"/>
                                 </propertyfile>
                             </target>
                         </configuration>
@@ -239,7 +282,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${basedir}/src/main/resources/build.properties</file>
+                                <file>${project.basedir}/src/main/resources/build.properties</file>
                             </files>
                         </configuration>
                     </execution>
@@ -267,52 +310,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Git describe -->
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.2.4</version>
-                <executions>
-                    <execution>
-                        <id>get-the-git-infos</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>validate-the-git-infos</id>
-                        <goals>
-                            <goal>validateRevision</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <prefix>git</prefix>
-                    <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
-                    <verbose>false</verbose>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${basedir}/src/main/resources/git.properties
-                    </generateGitPropertiesFilename>
-                    <format>properties</format>
-                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
-                    <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
-                    <includeOnlyProperties>
-                        <includeOnlyProperty>git.build.time</includeOnlyProperty>
-                        <includeOnlyProperty>git.commit.id</includeOnlyProperty>
-                        <includeOnlyProperty>git.commit.id.abbrev</includeOnlyProperty>
-                    </includeOnlyProperties>
-                    <gitDescribe>
-                        <skip>false</skip>
-                        <always>false</always>
-                        <abbrev>7</abbrev>
-                        <dirty>-dirty</dirty>
-                        <match>*</match>
-                    </gitDescribe>
-                </configuration>
-            </plugin>
-
             <!-- Buildnumber -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -329,7 +326,7 @@
 
                 <configuration>
                     <buildNumberPropertyName>maven.buildnumber</buildNumberPropertyName>
-                    <buildNumberPropertiesFileLocation>${basedir}/src/main/resources/build.properties
+                    <buildNumberPropertiesFileLocation>${project.basedir}/src/main/resources/build.properties
                     </buildNumberPropertiesFileLocation>
                     <format>{0,number,#}</format>
                     <items>

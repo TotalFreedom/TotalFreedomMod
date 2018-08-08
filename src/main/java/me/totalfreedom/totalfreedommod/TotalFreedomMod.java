@@ -310,27 +310,11 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
                 version = props.getProperty("buildVersion", pluginVersion);
                 number = props.getProperty("buildNumber", "1");
                 date = props.getProperty("buildDate", "unknown");
+                head = props.getProperty("buildHead", "unknown");
             }
             catch (Exception ex)
             {
                 FLog.severe("Could not load build properties! Did you compile with NetBeans/Maven?");
-                FLog.severe(ex);
-            }
-            try
-            {
-                final Properties gitprops;
-
-                try (InputStream in = plugin.getResource("git.properties"))
-                {
-                    gitprops = new Properties();
-                    gitprops.load(in);
-                }
-
-                head = gitprops.getProperty("git.commit.id.abbrev", "unknown");
-            }
-            catch (Exception ex)
-            {
-                FLog.severe("Could not load Git properties! Is there a valid .git directory?");
                 FLog.severe(ex);
             }
         }
