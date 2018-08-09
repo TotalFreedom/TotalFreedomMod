@@ -7,10 +7,10 @@ import me.totalfreedom.totalfreedommod.rank.Rank;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.spigotmc.SpigotConfig;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Overlord - control this server in-game", usage = "access", aliases = "ov")
@@ -32,7 +32,7 @@ public class Command_overlord extends FreedomCommand
             }
             catch (Exception ignored)
             {
-                msg(ChatColor.WHITE + "Unknown command. Type \"/help\" for help.");
+                sender.sendMessage(SpigotConfig.unknownCommandMessage);
                 return true;
             }
         }

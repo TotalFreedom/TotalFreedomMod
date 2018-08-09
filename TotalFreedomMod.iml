@@ -11,6 +11,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-WorldEdit:2e79570525" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.avaje:ebean:2.7.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.13-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.13-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.Pravian:Aero:5f82926" level="project" />
@@ -34,6 +37,9 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-WorldEdit:2e79570525" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-bukkit:2e79570525" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:dummypermscompat:1.8" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.9.4-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.avaje:ebean:2.8.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-core:2e79570525" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: de.schlichtherle:truezip:6.8.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: rhino:js:1.7R2" level="project" />
@@ -41,8 +47,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.thoughtworks.paranamer:paranamer:2.6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.lib:jlibnoise:1.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.sk89q.bukkit:bukkit-classloader-check:1.7.9-R0.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.avaje:ebean:2.7.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
     <orderEntry type="module-library">
       <library name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.0.0-SNAPSHOT">
         <CLASSES>
@@ -68,7 +72,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okhttp3:okhttp:3.8.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okio:okio:1.13.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.coreprotect:coreprotect:2.15.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.13-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-legacy:6.2" level="project" />
   </component>
 </module>

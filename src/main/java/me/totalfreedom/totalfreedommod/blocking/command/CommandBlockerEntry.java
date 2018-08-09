@@ -6,6 +6,7 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.spigotmc.SpigotConfig;
 
 public class CommandBlockerEntry
 {
@@ -45,7 +46,7 @@ public class CommandBlockerEntry
         }
         if (action == CommandBlockerAction.BLOCK_UNKNOWN)
         {
-            FUtil.playerMsg(sender, "Unknown command. Type \"/help\" for help.", ChatColor.RESET);
+            sender.sendMessage(SpigotConfig.unknownCommandMessage);
             return;
         }
         FUtil.playerMsg(sender, FUtil.colorize(message));

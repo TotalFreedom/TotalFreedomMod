@@ -310,7 +310,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
                 version = props.getProperty("buildVersion", pluginVersion);
                 number = props.getProperty("buildNumber", "1");
                 date = props.getProperty("buildDate", "unknown");
-                head = props.getProperty("buildHead", "unknown");
+                // Need to do this or it will display ${git.commit.id.abbrev}
+                head = props.getProperty("buildHead", "unknown").replace("${git.commit.id.abbrev}", "unknown");
             }
             catch (Exception ex)
             {
