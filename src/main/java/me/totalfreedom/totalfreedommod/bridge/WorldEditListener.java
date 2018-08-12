@@ -55,8 +55,6 @@ public class WorldEditListener extends PluginListener<TotalFreedomMod>
 
         if (event.getLimit() < 0 || event.getLimit() > 200000)
         {
-            player.setOp(false);
-            FUtil.bcastMsg(event.getPlayer().getName() + " tried to set their WorldEdit limit to " + event.getLimit() + " and has been de-opped", ChatColor.RED);
             event.setCancelled(true);
             player.sendMessage(ChatColor.RED + "You cannot set your limit higher than 200000 or to -1!");
         }
