@@ -5,8 +5,11 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.util.MaterialGroup;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -95,6 +98,30 @@ public class BlockBlocker extends FreedomService
                 player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                 event.setCancelled(true);
                 break;
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onShulkerBoxPlace(BlockPlaceEvent event)
+    {
+        Block block = event.getBlock();
+        if (MaterialGroup.SHULKER_BOXES.contains(event.getBlock().getType()))
+        {
+            ShulkerBox shulkerBox = (ShulkerBox)block.getState();
+            boolean empty = true;
+            for (ItemStack itemStack : shulkerBox.getInventory().getContents())
+            {
+                if (itemStack != null)
+                {
+                    empty = false;
+                    break;
+                }
+            }
+            if (!empty)
+            {
+                shulkerBox.getInventory().clear();
+                event.getPlayer().sendMessage(ChatColor.RED + "For security reasons, your shulker box has been emptied.");
             }
         }
     }

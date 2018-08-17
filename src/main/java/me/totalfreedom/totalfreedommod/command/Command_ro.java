@@ -32,7 +32,7 @@ public class Command_ro extends FreedomCommand
         String names = null;
         if (args[0].equalsIgnoreCase("shulker_boxes") || args[0].equalsIgnoreCase("shulkers"))
         {
-            materials.addAll(MaterialGroup.SHULKER_BOX_COLORS);
+            materials.addAll(MaterialGroup.SHULKER_BOXES);
             names = "shulker boxes";
         }
         else

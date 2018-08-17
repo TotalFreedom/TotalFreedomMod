@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Unbans a player", usage = "/<command> <username> [-r[estore]]", aliases = "pardon")
+@CommandParameters(description = "Unbans a player", usage = "/<command> <username> [-r[estore]]")
 public class Command_unban extends FreedomCommand
 {
 
