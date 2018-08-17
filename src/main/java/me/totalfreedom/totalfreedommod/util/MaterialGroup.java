@@ -24,6 +24,7 @@ public class MaterialGroup
             Material.LIGHT_GRAY_WOOL,
             Material.BLACK_WOOL);
     public static final List<Material> SHULKER_BOXES = Arrays.asList(
+            Material.SHULKER_BOX,
             Material.WHITE_SHULKER_BOX,
             Material.RED_SHULKER_BOX,
             Material.ORANGE_SHULKER_BOX,
