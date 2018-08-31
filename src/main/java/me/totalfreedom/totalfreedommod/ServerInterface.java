@@ -4,16 +4,16 @@ import java.util.Arrays;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.minecraft.server.v1_13_R1.EntityPlayer;
-import net.minecraft.server.v1_13_R1.MinecraftServer;
-import net.minecraft.server.v1_13_R1.PropertyManager;
+import net.minecraft.server.v1_13_R2.EntityPlayer;
+import net.minecraft.server.v1_13_R2.MinecraftServer;
+import net.minecraft.server.v1_13_R2.PropertyManager;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_13_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_13_R2.CraftServer;
 
 public class ServerInterface extends FreedomService
 {
 
-    public static final String COMPILE_NMS_VERSION = "v1_13_R1";
+    public static final String COMPILE_NMS_VERSION = "v1_13_R2";
 
     public ServerInterface(TotalFreedomMod plugin)
     {
