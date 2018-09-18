@@ -146,7 +146,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Temporaily here due to CoreProtect needing the official worldedit, and because it's
+        <!-- Temporarily here due to CoreProtect needing the official worldedit, and because it's
              not on the official maven repo, it needs to be in a lib folder for now. Will be removed
              once 7.0.0 is on the sk89q repo. -->
         <dependency>

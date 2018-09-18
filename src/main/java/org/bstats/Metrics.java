@@ -18,6 +18,7 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
 import javax.net.ssl.HttpsURLConnection;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -34,7 +35,6 @@ import org.json.simple.JSONObject;
  */
 public class Metrics
 {
-
     static
     {
         // You can use the property to disable the check in your test environment
@@ -91,7 +91,6 @@ public class Metrics
         // Check if the config file exists
         if (!config.isSet("serverUuid"))
         {
-
             // Add default values
             config.addDefault("enabled", true);
             // Every server gets it's unique random id.
@@ -201,10 +200,9 @@ public class Metrics
     {
         JSONObject data = new JSONObject();
 
-        String pluginName = plugin.getDescription().getName();
         String pluginVersion = plugin.getDescription().getVersion();
 
-        data.put("pluginName", pluginName); // Append the name of the plugin
+        data.put("pluginName", "TotalFreedomMod"); // Append the name of the plugin
         data.put("pluginVersion", pluginVersion); // Append the version of the plugin
         JSONArray customCharts = new JSONArray();
         for (CustomChart customChart : charts)
@@ -321,7 +319,7 @@ public class Metrics
                     // Something went wrong! :(
                     if (logFailedRequests)
                     {
-                        plugin.getLogger().log(Level.WARNING, "Could not submit plugin stats of " + plugin.getName(), e);
+                        FLog.warning("Could not submit plugin stats of " + plugin.getName() + e);
                     }
                 }
             }
@@ -429,7 +427,7 @@ public class Metrics
             {
                 if (logFailedRequests)
                 {
-                    Bukkit.getLogger().log(Level.WARNING, "Failed to get data for custom chart with id " + chartId, t);
+                    FLog.warning("Failed to get data for custom chart with id " + chartId + t);
                 }
                 return null;
             }
@@ -768,6 +766,5 @@ public class Metrics
             data.put("values", values);
             return data;
         }
-
     }
 }

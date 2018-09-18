@@ -31,7 +31,7 @@ public class CommandLoader extends FreedomService
         handler.setOnlyPlayerMessage(ChatColor.RED + "This command can only be used by players.");
 
         handler.loadFrom(FreedomCommand.class.getPackage());
-        handler.registerAll("TotalFreedomMod", true);
+        handler.registerAll(plugin.getDescription().getName(), true);
 
         FLog.info("Loaded " + handler.getExecutors().size() + " commands.");
     }

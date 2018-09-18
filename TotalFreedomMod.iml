@@ -13,6 +13,7 @@
     <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.9.4-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.avaje:ebean:2.8.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-legacy:6.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.13.1-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.Pravian:Aero:5f82926" level="project" />

@@ -306,12 +306,12 @@ public class FPlayer
             {
                 if (getPlayer() != null)
                 {
-                    FUtil.adminAction("TotalFreedom", "Unmuting " + getPlayer().getName(), false);
+                    FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Unmuting " + getPlayer().getName(), false);
                     setMuted(false);
                 }
                 else
                 {
-                    FUtil.adminAction("TotalFreedom", "Unmuting " + getName(), false);
+                    FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Unmuting " + getName(), false);
                     plugin.mu.MUTED_PLAYERS.remove(getName());
                 }
             }
@@ -342,7 +342,6 @@ public class FPlayer
     {
         this.inAdminchat = inAdminchat;
     }
-
 
     public boolean inAdminChat()
     {
