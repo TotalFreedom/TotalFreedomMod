@@ -10,10 +10,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.9.4-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.avaje:ebean:2.8.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-legacy:6.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.13.1-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.Pravian:Aero:5f82926" level="project" />
@@ -46,32 +44,26 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.sk89q.bukkit:bukkit-classloader-check:1.7.9-R0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.avaje:ebean:2.7.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
-    <orderEntry type="module-library">
-      <library name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.0.0-SNAPSHOT">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/WorldEdit.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.ess3:Essentials:2.13.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:craftbukkit:1.13-R0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.dv8tion:JDA:3.7.1_385" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:craftbukkit:1.13.1-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.dv8tion:JDA:3.8.0_423" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.jetbrains:annotations:16.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.neovisionaries:nv-websocket-client:2.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okhttp3:okhttp:3.8.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okio:okio:1.13.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: club.minnced:opus-java-api:1.0.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.dev.jna:jna:4.4.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: club.minnced:opus-java-natives:1.0.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.commons:commons-collections4:4.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.json:json:20160810" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.sf.trove4j:trove4j:3.0.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: club.minnced:opus-java:1.0.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: club.minnced:opus-java-api:1.0.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.dev.jna:jna:4.4.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: club.minnced:opus-java-natives:1.0.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.neovisionaries:nv-websocket-client:2.4" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okhttp3:okhttp:3.8.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.squareup.okio:okio:1.13.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.coreprotect:coreprotect:2.15.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.13-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-core:7.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bstats:bstats-bukkit:1.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-legacy:6.2" level="project" />
   </component>
 </module>

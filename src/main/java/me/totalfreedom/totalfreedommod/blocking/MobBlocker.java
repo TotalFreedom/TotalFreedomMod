@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.blocking;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Bat;
@@ -69,6 +70,7 @@ public class MobBlocker extends FreedomService
         }
 
         final Entity spawned = event.getEntity();
+
         if (spawned instanceof EnderDragon)
         {
             if (ConfigEntry.MOB_LIMITER_DISABLE_DRAGON.getBoolean())
@@ -100,40 +102,40 @@ public class MobBlocker extends FreedomService
                 event.setCancelled(true);
                 return;
             }
-            else if (spawned instanceof Giant)
-            {
-                if (ConfigEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean())
-                {
-                    event.setCancelled(true);
-                    return;
-                }
-            }
-            else if (spawned instanceof Bat)
+        }
+        else if (spawned instanceof Giant)
+        {
+            if (ConfigEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean())
             {
                 event.setCancelled(true);
                 return;
             }
+        }
+        else if (spawned instanceof Bat)
+        {
+            event.setCancelled(true);
+            return;
+        }
 
-            int mobLimiterMax = ConfigEntry.MOB_LIMITER_MAX.getInteger();
+        int mobLimiterMax = ConfigEntry.MOB_LIMITER_MAX.getInteger();
 
-            if (mobLimiterMax <= 0)
+        if (mobLimiterMax <= 0)
+        {
+            return;
+        }
+
+        int mobcount = 0;
+        for (Entity entity : event.getLocation().getWorld().getLivingEntities())
+        {
+            if (!(entity instanceof HumanEntity))
             {
-                return;
+                mobcount++;
             }
+        }
 
-            int mobcount = 0;
-            for (Entity entity : event.getLocation().getWorld().getLivingEntities())
-            {
-                if (!(entity instanceof HumanEntity))
-                {
-                    mobcount++;
-                }
-            }
-
-            if (mobcount > mobLimiterMax)
-            {
-                event.setCancelled(true);
-            }
+        if (mobcount > mobLimiterMax)
+        {
+            event.setCancelled(true);
         }
     }
 }

@@ -10,12 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tfm.build.version>${project.version}</tfm.build.version>
         <tfm.build.codename>God</tfm.build.codename>
-        <tfm.build.number>${maven.buildnumber}</tfm.build.number>
-        <tfm.build.date>${maven.build.timestamp}</tfm.build.date>
-        <tfm.build.author>${buildAuthor}</tfm.build.author>
-        <tfm.build.head>${git.commit.id.abbrev}</tfm.build.head>
         <jar.finalName>${project.name}</jar.finalName>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>MM/dd/yyyy HH:mm</maven.build.timestamp.format>
@@ -140,24 +135,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.TFPatches</groupId>
-            <artifactId>TF-WorldEdit</artifactId>
-            <version>2e79570525</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Temporarily here due to CoreProtect needing the official worldedit, and because it's
-             not on the official maven repo, it needs to be in a lib folder for now. Will be removed
-             once 7.0.0 is on the sk89q repo. -->
-        <dependency>
-            <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
-            <version>7.0.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/WorldEdit.jar</systemPath>
-        </dependency>
-
-        <dependency>
             <groupId>net.ess3</groupId>
             <artifactId>Essentials</artifactId>
             <version>2.13.1</version>
@@ -167,14 +144,14 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>1.13-R0.1-SNAPSHOT</version>
+            <version>1.13.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>3.7.1_385</version>
+            <version>3.8.0_423</version>
             <scope>provided</scope>
         </dependency>
 
@@ -220,7 +197,7 @@
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.2.4</version>
+                <version>2.2.5</version>
                 <executions>
                     <execution>
                         <id>get-the-git-infos</id>
