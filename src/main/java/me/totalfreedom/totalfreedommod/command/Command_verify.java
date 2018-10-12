@@ -65,7 +65,7 @@ public class Command_verify extends FreedomCommand
             else
             {
                 Discord.VERIFY_CODES.remove(code);
-                FUtil.bcastMsg(playerSender.getName() + " has verified themself!", ChatColor.GOLD);
+                FUtil.bcastMsg(playerSender.getName() + " has verified themself via Discord!", ChatColor.GOLD);
                 FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Readding " + admin.getName() + " to the admin list", true);
                 admin.setName(playerSender.getName());
                 admin.addIp(Ips.getIp(playerSender));
