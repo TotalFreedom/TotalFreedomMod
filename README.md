@@ -1,7 +1,7 @@
 # TotalFreedomMod #
 
 
-[![Build Status](https://travis-ci.org/TotalFreedom/TotalFreedomMod.svg?branch=TFM1.12-Alpha)](https://travis-ci.org/TotalFreedom/TotalFreedomMod)
+[![Build Status](https://travis-ci.org/TotalFreedom/TotalFreedomMod.svg?branch=devel)](https://travis-ci.org/TotalFreedom/TotalFreedomMod)
 
 TotalFreedomMod is a CraftBukkit server plugin designed primarily to support the [Official TotalFreedom Minecraft Server](http://totalfreedom.me/). However, you are more than welcome to adapt the source for your own server.
 
