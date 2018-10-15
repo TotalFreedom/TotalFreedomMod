@@ -16,7 +16,6 @@
         <tfm.build.author>${buildAuthor}</tfm.build.author>
         <tfm.build.head>${buildHead}</tfm.build.head>
         <jar.finalName>${project.name}</jar.finalName>
-        
         <maven.build.timestamp.format>dd/MM/yyyy hh:mm aa</maven.build.timestamp.format>
     </properties>
 
@@ -47,7 +46,7 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
-        
+
         <repository>
             <id>ess-repo</id>
             <url>http://repo.ess3.net/content/groups/essentials</url>
@@ -69,7 +68,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        
+
         <repository>
             <id>sk89q-snapshots</id>
             <url>http://maven.sk89q.com/artifactory/repo</url>
@@ -125,9 +124,9 @@
             <artifactId>Essentials</artifactId>
             <version>2.13.1</version>
         </dependency>
-        
+ 
         <!-- The following have been changed to Telesphoreo's personal repo as it is the most stable current TF-WorldEdit build. These will be changed to a TotalFreedom build in the future -->
-        
+ 
         <dependency>
             <groupId>com.github.Telesphoreo.TF-WorldEdit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
@@ -139,7 +138,7 @@
             <artifactId>worldedit-core</artifactId>
             <version>7.0.0-TF-SNAPSHOT-R0.2</version>
         </dependency>
-        
+
     </dependencies>
 
     <build>
@@ -150,7 +149,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
 
         <plugins>
             <!-- Compiler -->
@@ -189,7 +187,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <!-- Antrun -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -215,7 +213,6 @@
                 </executions>
                
             </plugin>
-            
 
             <!-- Properties -->
             <plugin>
