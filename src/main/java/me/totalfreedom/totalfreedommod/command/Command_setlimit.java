@@ -14,12 +14,12 @@ public class Command_setlimit extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        int amount = 100000;
+        int amount = plugin.web.getDefaultLimit();
         if (args.length > 0)
         {
             try
             {
-                amount = Math.max(1, Math.min(200000, Integer.parseInt(args[0])));
+                amount = Math.max(1, Math.min(plugin.web.getMaxLimit(), Integer.parseInt(args[0])));
             }
             catch (NumberFormatException ex)
             {

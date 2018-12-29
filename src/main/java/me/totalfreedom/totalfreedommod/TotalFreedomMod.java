@@ -246,8 +246,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         cpb = bridges.registerService(CoreProtectBridge.class);
         esb = bridges.registerService(EssentialsBridge.class);
         // Disabled so I can at least load TFM as these plugins aren't updated
-        //ldb = bridges.registerService(LibsDisguisesBridge.class);
-        //web = bridges.registerService(WorldEditBridge.class);
+        ldb = bridges.registerService(LibsDisguisesBridge.class);
+        web = bridges.registerService(WorldEditBridge.class);
         //wgb = bridges.registerService(WorldGuardBridge.class);
         amp = bridges.registerService(AMP.class);
         bridges.start();

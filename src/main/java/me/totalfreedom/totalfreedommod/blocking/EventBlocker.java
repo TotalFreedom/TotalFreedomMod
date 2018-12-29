@@ -3,6 +3,15 @@ package me.totalfreedom.totalfreedommod.blocking;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.MaterialGroup;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.Dispenser;
+import org.bukkit.block.ShulkerBox;
+import org.bukkit.event.block.BlockDispenseEvent;
+import org.bukkit.event.block.BlockFormEvent;
+import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
@@ -21,6 +30,8 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class EventBlocker extends FreedomService
 {
@@ -191,6 +202,64 @@ public class EventBlocker extends FreedomService
         if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
         {
             event.setNewCurrent(0);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPlayerRespawn(PlayerRespawnEvent event)
+    {
+        double maxHealth = event.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        if (maxHealth < 1)
+        {
+            for (AttributeModifier attributeModifier : event.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers())
+            {
+                event.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).removeModifier(attributeModifier);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onBlockDispense(BlockDispenseEvent event)
+    {
+        if (event.getBlock() instanceof ShulkerBox)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onEntityBlockForm(EntityBlockFormEvent event)
+    {
+        FLog.info("block form by entity fired");
+        if (event.getBlock() instanceof Dispenser)
+        {
+            Dispenser dispenser = (Dispenser)event.getBlock();
+            ItemStack[] items = dispenser.getInventory().getContents();
+            for (ItemStack item : items)
+            {
+                if (item != null && MaterialGroup.SHULKER_BOXES.contains(item.getType()))
+                {
+                    dispenser.getInventory().clear();
+                }
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onBlockForm(BlockFormEvent event)
+    {
+        FLog.info("block form fired");
+        if (event.getBlock() instanceof Dispenser)
+        {
+            Dispenser dispenser = (Dispenser)event.getBlock();
+            ItemStack[] items = dispenser.getInventory().getContents();
+            for (ItemStack item : items)
+            {
+                if (item != null && MaterialGroup.SHULKER_BOXES.contains(item.getType()))
+                {
+                    dispenser.getInventory().clear();
+                }
+            }
         }
     }
 

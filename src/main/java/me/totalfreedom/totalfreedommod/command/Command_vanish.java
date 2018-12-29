@@ -44,7 +44,7 @@ public class Command_vanish extends FreedomCommand
             }
             if (!silent)
             {
-                FUtil.bcastMsg(ChatColor.AQUA + playerSender.getName() + " is " + loginMsg);
+                FUtil.bcastMsg(ChatColor.AQUA + (loginMsg.contains("%name%") ? "" : playerSender.getName() + " is ") + FUtil.colorize(loginMsg).replace("%name%", playerSender.getName()));
                 FUtil.bcastMsg(playerSender.getName() + " joined the game", ChatColor.YELLOW);
             }
             if (admin.getTag() != null)

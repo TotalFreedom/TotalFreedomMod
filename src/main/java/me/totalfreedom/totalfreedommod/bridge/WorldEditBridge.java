@@ -70,7 +70,8 @@ public class WorldEditBridge extends FreedomService
                 {
                     for (int i = 0; i < count; i++)
                     {
-                        session.undo(session.getBlockBag(bukkitPlayer), bukkitPlayer);
+                        com.sk89q.worldedit.entity.Player fuckyou = (com.sk89q.worldedit.entity.Player)bukkitPlayer;
+                        session.undo(session.getBlockBag(fuckyou), fuckyou);
                     }
                 }
             }
@@ -93,7 +94,8 @@ public class WorldEditBridge extends FreedomService
                 {
                     for (int i = 0; i < count; i++)
                     {
-                        session.redo(session.getBlockBag(bukkitPlayer), bukkitPlayer);
+                        com.sk89q.worldedit.entity.Player fuckyou = (com.sk89q.worldedit.entity.Player)bukkitPlayer;
+                        session.redo(session.getBlockBag(fuckyou), fuckyou);
                     }
                 }
             }
@@ -118,6 +120,30 @@ public class WorldEditBridge extends FreedomService
         {
             FLog.severe(ex);
         }
+
+    }
+
+    public int getDefaultLimit()
+    {
+        final WorldEditPlugin wep = getWorldEditPlugin();
+        if (wep == null)
+        {
+            return 0;
+        }
+
+        return wep.getLocalConfiguration().defaultChangeLimit;
+
+    }
+
+    public int getMaxLimit()
+    {
+        final WorldEditPlugin wep = getWorldEditPlugin();
+        if (wep == null)
+        {
+            return 0;
+        }
+
+        return wep.getLocalConfiguration().maxChangeLimit;
 
     }
 

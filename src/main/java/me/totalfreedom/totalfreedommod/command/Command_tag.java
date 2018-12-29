@@ -151,16 +151,18 @@ public class Command_tag extends FreedomCommand
                                 });
                 final String outputTag = FUtil.colorize(strippedTag);
 
+                int tagLimit = (plugin.al.isAdmin(sender) ? 30 : 20);
+
+                final String rawTag = ChatColor.stripColor(strippedTag).toLowerCase();
+
+                if (rawTag.length() > tagLimit)
+                {
+                    msg("That tag is too long (Max is " + String.valueOf(tagLimit) + " characters).");
+                    return true;
+                }
+
                 if (!plugin.al.isAdmin(sender))
                 {
-                    final String rawTag = ChatColor.stripColor(outputTag).toLowerCase();
-
-                    if (rawTag.length() > 20)
-                    {
-                        msg("That tag is too long (Max is 20 characters).");
-                        return true;
-                    }
-
                     for (String word : FORBIDDEN_WORDS)
                     {
                         if (rawTag.contains(word))

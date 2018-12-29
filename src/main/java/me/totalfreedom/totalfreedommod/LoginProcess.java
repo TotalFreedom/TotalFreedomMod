@@ -223,7 +223,7 @@ public class LoginProcess extends FreedomService
             {
                 if (ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
                 {
-                    player.sendMessage(ChatColor.RED + "Server is currently closed to non-superadmins.");
+                    player.sendMessage(ChatColor.RED + "Server is currently closed to non-admins.");
                 }
 
                 if (lockdownEnabled)

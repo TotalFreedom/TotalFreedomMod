@@ -27,25 +27,24 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TotalFreedom:BukkitTelnet:4.5-pre1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-core:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-api:2.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-LibsDisguises:c213295f95" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-LibsDisguises:89efd2c93e" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.comphenix.protocol:ProtocolLib:4.4.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.comphenix.protocol:ProtocolLib-API:4.4.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: cglib:cglib-nodep:3.2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.comphenix.executors:BukkitExecutors:1.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-WorldEdit:2e79570525" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-bukkit:2e79570525" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-WorldEdit:c0f82ebeff" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-bukkit:c0f82ebeff" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:dummypermscompat:1.8" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-core:2e79570525" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bstats:bstats-bukkit:1.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.papermc:paperlib:1.0.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-core:c0f82ebeff" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: de.schlichtherle:truezip:6.8.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: rhino:js:1.7R2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:jchronic:0.2.4a" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.thoughtworks.paranamer:paranamer:2.6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.lib:jlibnoise:1.0.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.sk89q.bukkit:bukkit-classloader-check:1.7.9-R0.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.avaje:ebean:2.7.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.ess3:Essentials:2.13.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:craftbukkit:1.13.1-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:craftbukkit:1.13.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.dv8tion:JDA:3.8.0_423" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.findbugs:jsr305:3.0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jetbrains:annotations:16.0.1" level="project" />
@@ -63,7 +62,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.13-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-core:7.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bstats:bstats-bukkit:1.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-legacy:6.2" level="project" />
   </component>
 </module>

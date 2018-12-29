@@ -9,6 +9,7 @@ import me.totalfreedom.totalfreedommod.util.MaterialGroup;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Dispenser;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -122,6 +123,30 @@ public class BlockBlocker extends FreedomService
             {
                 shulkerBox.getInventory().clear();
                 event.getPlayer().sendMessage(ChatColor.RED + "For security reasons, your shulker box has been emptied.");
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onDispenserPlace(BlockPlaceEvent event)
+    {
+        Block block = event.getBlock();
+        if (block.getType().equals(Material.DISPENSER))
+        {
+            Dispenser dispenser = (Dispenser)block.getState();
+            boolean empty = true;
+            for (ItemStack itemStack : dispenser.getInventory().getContents())
+            {
+                if (itemStack != null)
+                {
+                    empty = false;
+                    break;
+                }
+            }
+            if (!empty)
+            {
+                dispenser.getInventory().clear();
+                event.getPlayer().sendMessage(ChatColor.RED + "For security reasons, dispenser has been emptied.");
             }
         }
     }
