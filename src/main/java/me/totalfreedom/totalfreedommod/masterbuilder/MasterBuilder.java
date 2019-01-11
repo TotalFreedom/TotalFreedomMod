@@ -34,6 +34,9 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String tag = null;
+    @Getter
+    @Setter
+    private boolean clearChatOptOut = false;
 
     public static final String CONFIG_FILENAME = "masterbuilders.yml";
 
@@ -58,7 +61,8 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n")
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Discord ID: ").append(discordID).append("\n")
-                .append("- Tag: ").append(tag).append("\n");
+                .append("- Tag: ").append(tag).append("\n")
+                .append("- Clear Chat Opt Out: ").append(clearChatOptOut);
 
         return output.toString();
     }
@@ -80,6 +84,7 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         discordID = cs.getString("discord_id", null);
         tag = cs.getString("tag", null);
+        clearChatOptOut = cs.getBoolean("clearchatoptout", false);
     }
 
     @Override
@@ -91,6 +96,7 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("discord_id", discordID);
         cs.set("tag", tag);
+        cs.set("clearchatoptout", clearChatOptOut);
     }
 
     public void addIp(String ip)
@@ -111,10 +117,7 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
 
     public void removeIp(String ip)
     {
-        if (ips.contains(ip))
-        {
-            ips.remove(ip);
-        }
+        ips.remove(ip);
     }
 
     public void clearIPs()
