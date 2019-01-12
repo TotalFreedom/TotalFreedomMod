@@ -221,12 +221,12 @@ public class EventBlocker extends FreedomService
         {
             BlockStateMeta blockStateMeta = (BlockStateMeta)item.getItemMeta();
             ShulkerBox shulkerBox = (ShulkerBox)blockStateMeta.getBlockState();
-            for(ItemStack item : shulkerBox.getInventory().getContents)
+            for (ItemStack itemStack : shulkerBox.getInventory().getContents())
             {
-                if(item != null)
+                if (itemStack != null)
                 {
-                   event.setCancelled(true);
-                   break;
+                    event.setCancelled(true);
+                    break;
                 }
             }
         }

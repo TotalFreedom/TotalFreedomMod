@@ -55,6 +55,12 @@ public class Command_op extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Opping " + player.getName(), false);
         player.setOp(true);
 
+        if (player.isOnline())
+        {
+            Player p = (Player)player;
+            p.sendMessage(YOU_ARE_OP);
+        }
+
         return true;
     }
 }

@@ -41,6 +41,12 @@ public class Command_deop extends FreedomCommand
 
         player.setOp(false);
 
+        if (player.isOnline())
+        {
+            Player p = (Player)player;
+            p.sendMessage(YOU_ARE_NOT_OP);
+        }
+
         return true;
     }
 }

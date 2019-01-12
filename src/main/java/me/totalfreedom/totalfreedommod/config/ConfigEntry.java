@@ -95,7 +95,8 @@ public enum ConfigEntry
     OVERLORD_IPS(List.class, "overlord_ips"),
     NOADMIN_IPS(List.class, "noadmin_ips"),
     ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
-    ADMININFO(List.class, "admininfo"),
+    ADMIN_INFO(List.class, "admininfo"),
+    MASTER_BUILDER_INFO(List.class, "masterbuilderinfo"),
     AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
     //
     AMP_ENABLED(Boolean.class, "amp.enabled"),

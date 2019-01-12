@@ -11,22 +11,22 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Information on how to apply for admin.", usage = "/<command>", aliases = "ai")
-public class Command_admininfo extends FreedomCommand
+@CommandParameters(description = "Information on how to apply for Master Builder.", usage = "/<command>", aliases = "mbi")
+public class Command_masterbuilderinfo extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        List<String> adminInfo = ConfigEntry.ADMIN_INFO.getStringList();
+        List<String> masterBuilderInfo = ConfigEntry.MASTER_BUILDER_INFO.getStringList();
 
-        if (adminInfo.isEmpty())
+        if (masterBuilderInfo.isEmpty())
         {
-            msg("There is no admin information set in the config.", ChatColor.RED);
+            msg("There is no Master Builder information set in the config.", ChatColor.RED);
         }
         else
         {
-            msg(FUtil.colorize(StringUtils.join(adminInfo, "\n")));
+            msg(FUtil.colorize(StringUtils.join(masterBuilderInfo, "\n")));
         }
 
         return true;

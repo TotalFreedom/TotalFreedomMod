@@ -54,7 +54,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         discordId = cs.getString("discordId", null);
         enabled = cs.getBoolean("enabled", false);
         tag = cs.getString("tag", null);
-        clearChatOptOut = cs.getBoolean("clearchatoptout", false);
+        clearChatOptOut = cs.getBoolean("clearChatOptOut", false);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("enabled", enabled);
         cs.set("tag", tag);
         cs.set("ips", Lists.newArrayList(ips));
-        cs.set("clearchatoptout", clearChatOptOut);
+        cs.set("clearChatOptOut", clearChatOptOut);
     }
 
     public List<String> getIps()

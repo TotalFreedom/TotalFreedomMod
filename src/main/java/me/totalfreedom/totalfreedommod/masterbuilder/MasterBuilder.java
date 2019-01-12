@@ -84,7 +84,7 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         discordID = cs.getString("discord_id", null);
         tag = cs.getString("tag", null);
-        clearChatOptOut = cs.getBoolean("clearchatoptout", false);
+        clearChatOptOut = cs.getBoolean("clearChatOptOut", false);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("discord_id", discordID);
         cs.set("tag", tag);
-        cs.set("clearchatoptout", clearChatOptOut);
+        cs.set("clearChatOptOut", clearChatOptOut);
     }
 
     public void addIp(String ip)
