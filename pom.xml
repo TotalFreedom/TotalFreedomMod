@@ -168,6 +168,12 @@
             <version>6.2</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.TFPatches</groupId>
+            <artifactId>BukkitSSH</artifactId>
+            <version>master-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
