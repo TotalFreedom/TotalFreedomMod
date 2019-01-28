@@ -1,8 +1,6 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
-import com.sk89q.worldguard.bukkit.BukkitRegionContainer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import java.util.Map;
