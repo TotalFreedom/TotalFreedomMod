@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "Wipe all WorldGuard regions for a specified world.", usage = "/<command> <world>")
 public class Command_wiperegions extends FreedomCommand
 {
@@ -29,21 +29,25 @@ public class Command_wiperegions extends FreedomCommand
         World world = server.getWorld(args[0]);
         if (world == null)
         {
-            msg("World : \"" + args[0] + "\" not found.");
+            msg("There is no world named \"" + args[0] + "\"", ChatColor.RED);
             return true;
         }
         if (world.equals(plugin.wm.adminworld.getWorld()))
         {
             checkRank(Rank.SENIOR_ADMIN);
         }
-        if (plugin.wgb.wipeRegions(world))
+
+        int regionsWiped = plugin.wgb.wipeRegions(world);
+
+        if (regionsWiped != 0)
         {
-            FUtil.adminAction(sender.getName(), "Wiping regions for world: " + world.getName(), true);
+            FUtil.adminAction(sender.getName(), "Wiped all regions in " + world.getName(), true);
+            msg("Wiped " + regionsWiped + " regions in " + world.getName());
             return true;
         }
         else
         {
-            msg(ChatColor.RED + "No regions were found in: \"" + world.getName() + "\".");
+            msg(ChatColor.RED + "No regions were found in \"" + world.getName() + "\"");
             return true;
         }
     }

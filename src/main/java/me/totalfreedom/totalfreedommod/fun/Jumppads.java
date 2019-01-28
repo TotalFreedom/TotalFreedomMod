@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.util.MaterialGroup;
+import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -63,7 +63,7 @@ public class Jumppads extends FreedomService
             {
                 canPush = true;
             }
-            if (MaterialGroup.WOOL_COLORS.contains(block.getRelative(0, -1, 0).getType()))
+            if (Groups.WOOL_COLORS.contains(block.getRelative(0, -1, 0).getType()))
             {
                 if (canPush)
                 {
@@ -79,29 +79,29 @@ public class Jumppads extends FreedomService
         }
         else
         {
-            if (MaterialGroup.WOOL_COLORS.contains(block.getRelative(0, -1, 0).getType()))
+            if (Groups.WOOL_COLORS.contains(block.getRelative(0, -1, 0).getType()))
             {
                 velocity.add(new Vector(0.0, strength, 0.0));
             }
 
             if (mode == JumpPadMode.NORMAL_AND_SIDEWAYS)
             {
-                if (MaterialGroup.WOOL_COLORS.contains(block.getRelative(1, 0, 0).getType()))
+                if (Groups.WOOL_COLORS.contains(block.getRelative(1, 0, 0).getType()))
                 {
                     velocity.add(new Vector(-DAMPING_COEFFICIENT * strength, 0.0, 0.0));
                 }
 
-                if (MaterialGroup.WOOL_COLORS.contains(block.getRelative(-1, 0, 0).getType()))
+                if (Groups.WOOL_COLORS.contains(block.getRelative(-1, 0, 0).getType()))
                 {
                     velocity.add(new Vector(DAMPING_COEFFICIENT * strength, 0.0, 0.0));
                 }
 
-                if (MaterialGroup.WOOL_COLORS.contains(block.getRelative(0, 0, 1).getType()))
+                if (Groups.WOOL_COLORS.contains(block.getRelative(0, 0, 1).getType()))
                 {
                     velocity.add(new Vector(0.0, 0.0, -DAMPING_COEFFICIENT * strength));
                 }
 
-                if (MaterialGroup.WOOL_COLORS.contains(block.getRelative(0, 0, -1).getType()))
+                if (Groups.WOOL_COLORS.contains(block.getRelative(0, 0, -1).getType()))
                 {
                     velocity.add(new Vector(0.0, 0.0, DAMPING_COEFFICIENT * strength));
                 }

@@ -130,7 +130,7 @@
         <dependency>
             <groupId>com.github.TFPatches</groupId>
             <artifactId>TF-WorldEdit</artifactId>
-            <version>c0f82ebeff</version>
+            <version>0909dc1972</version>
             <scope>provided</scope>
         </dependency>
 
@@ -163,9 +163,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-legacy</artifactId>
-            <version>6.2</version>
+            <groupId>com.github.TFPatches</groupId>
+            <artifactId>TF-WorldGuard</artifactId>
+            <version>50fd4cb470</version>
             <scope>provided</scope>
         </dependency>
 

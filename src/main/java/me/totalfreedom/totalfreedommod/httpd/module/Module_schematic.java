@@ -27,7 +27,7 @@ public class Module_schematic extends HTTPDModule
 
     private static final File SCHEMATIC_FOLDER = new File("./plugins/WorldEdit/schematics/");
     private static final String REQUEST_FORM_FILE_ELEMENT_NAME = "schematicFile";
-    private static final Pattern SCHEMATIC_FILENAME_LC = Pattern.compile("^[a-z0-9_'!,\\-]{1,30}\\.schematic$");
+    private static final Pattern SCHEMATIC_FILENAME_LC = Pattern.compile("^[a-z0-9_'!,\\-]*\\.(schem|schematic)$");
     private static final String[] SCHEMATIC_FILTER = new String[]
             {
                     "schematic"
@@ -88,6 +88,10 @@ public class Module_schematic extends HTTPDModule
                     if (SCHEMATIC_FILENAME_LC.matcher(filename.trim().toLowerCase()).find())
                     {
                         schematicsFormatted.add("<li><a href=\"/schematic/download?schematicName=" + filename + "\">" + filename + "</a></li>");
+                    }
+                    else if (filename.length() > 254)
+                    {
+                        schematicsFormatted.add("<li>" + filename + " - (Filename too long, can't download)</li>");
                     }
                     else
                     {

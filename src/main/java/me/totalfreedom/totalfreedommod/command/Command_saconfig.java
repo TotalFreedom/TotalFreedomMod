@@ -1,6 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
@@ -301,4 +303,10 @@ public class Command_saconfig extends FreedomCommand
             }
         }
     }
+
+    /*@Override
+    public List<String> tabComplete(CommandSender sender, Command command, String alias, String[] args)
+    {
+        return Arrays.asList("list", "clean", "reload", "setrank", "add", "remove", "info");
+    }*/
 }

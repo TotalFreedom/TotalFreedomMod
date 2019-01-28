@@ -3,7 +3,7 @@ package me.totalfreedom.totalfreedommod.blocking;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.util.MaterialGroup;
+import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.ShulkerBox;
@@ -217,7 +217,7 @@ public class EventBlocker extends FreedomService
     public void onBlockDispense(BlockDispenseEvent event)
     {
         ItemStack item = event.getItem();
-        if (MaterialGroup.SHULKER_BOXES.contains(item.getType()))
+        if (Groups.SHULKER_BOXES.contains(item.getType()))
         {
             BlockStateMeta blockStateMeta = (BlockStateMeta)item.getItemMeta();
             ShulkerBox shulkerBox = (ShulkerBox)blockStateMeta.getBlockState();
