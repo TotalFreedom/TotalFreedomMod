@@ -229,8 +229,6 @@ public class Command_potion extends FreedomCommand
             }
         }
 
-
-
         return Collections.emptyList();
     }
 

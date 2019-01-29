@@ -1,9 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import com.earth2me.essentials.CommandSource;
-import com.earth2me.essentials.User;
 import com.google.common.collect.Lists;
-import java.util.Collections;
 import java.util.List;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
@@ -15,7 +12,6 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.command.AbstractCommandBase;
 import net.pravian.aero.util.Players;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
