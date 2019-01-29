@@ -159,19 +159,4 @@ public class Command_gtfo extends FreedomCommand
 
         return true;
     }
-
-    @Override
-    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
-    {
-        if (!plugin.al.isAdmin(sender))
-        {
-            return null;
-        }
-
-        if (args.length == 1)
-        {
-            return FUtil.getPlayerList();
-        }
-        return Collections.emptyList();
-    }
 }
