@@ -1,5 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -159,5 +163,47 @@ public class Command_whitelist extends FreedomCommand
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (args.length == 1)
+        {
+            List<String> arguments = new ArrayList<>();
+            arguments.addAll(Arrays.asList("list", "count"));
+            if (plugin.al.isAdmin(sender))
+            {
+                arguments.addAll(Arrays.asList("on", "off", "add", "remove", "addall"));
+                if (!(sender instanceof Player))
+                {
+                    arguments.add("purge");
+                }
+            }
+            return arguments;
+        }
+        else if (args.length == 2 && plugin.al.isAdmin(sender))
+        {
+            if (args[0].equals("add"))
+            {
+                return FUtil.getPlayerList();
+            }
+            else if (args[0].equals("remove"))
+            {
+                return getWhitelistedNames();
+            }
+        }
+
+        return Collections.emptyList();
+    }
+
+    public List<String> getWhitelistedNames()
+    {
+        List<String> names = new ArrayList<>();
+        for (Object name : plugin.si.getWhitelisted())
+        {
+            names.add(String.valueOf(name));
+        }
+        return names;
     }
 }

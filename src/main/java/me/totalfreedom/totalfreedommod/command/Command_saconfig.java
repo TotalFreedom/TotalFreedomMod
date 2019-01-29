@@ -1,6 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
@@ -84,7 +86,7 @@ public class Command_saconfig extends FreedomCommand
 
                 if (!rank.isAtLeast(Rank.SUPER_ADMIN))
                 {
-                    msg("Rank must be superadmin or higher.", ChatColor.RED);
+                    msg("Rank must be Super Admin or higher.", ChatColor.RED);
                     return true;
                 }
 
@@ -304,9 +306,46 @@ public class Command_saconfig extends FreedomCommand
         }
     }
 
-    /*@Override
-    public List<String> tabComplete(CommandSender sender, Command command, String alias, String[] args)
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        return Arrays.asList("list", "clean", "reload", "setrank", "add", "remove", "info");
-    }*/
+        if (sender instanceof Player)
+        {
+            if (args.length == 1)
+            {
+                List<String> arguments = new ArrayList<>();
+                arguments.add("list");
+                if (plugin.al.isAdmin(sender))
+                {
+                    arguments.add("info");
+                }
+                return arguments;
+            }
+            else if (args.length == 2 && args[0].equals("info") && plugin.al.isAdmin(sender))
+            {
+                return plugin.al.getActiveAdminNames();
+            }
+            return Collections.emptyList();
+        }
+        else
+        {
+            if (args.length == 1)
+            {
+                return Arrays.asList("add", "remove", "clean", "reload", "setrank", "info", "list");
+            }
+            else if (args.length == 2)
+            {
+                if (args[0].equals("add") || args[0].equals("remove") || args[0].equals("setrank") || args[0].equals("info"))
+                {
+                    return FUtil.getPlayerList();
+                }
+            }
+            else if (args.length == 3 && args[0].equals("setrank"))
+            {
+                return Arrays.asList("super_admin", "telnet_admin", "senior_admin");
+            }
+        }
+
+        return Collections.emptyList();
+    }
 }

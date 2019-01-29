@@ -3,7 +3,9 @@ package me.totalfreedom.totalfreedommod.admin;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -127,6 +129,16 @@ public class AdminList extends FreedomService
     public synchronized boolean isAdminSync(CommandSender sender)
     {
         return isAdmin(sender);
+    }
+
+    public List<String> getActiveAdminNames()
+    {
+        List<String> names = new ArrayList();
+        for (Admin admin : activeAdmins)
+        {
+            names.add(admin.getName());
+        }
+        return names;
     }
 
     public boolean isAdmin(CommandSender sender)

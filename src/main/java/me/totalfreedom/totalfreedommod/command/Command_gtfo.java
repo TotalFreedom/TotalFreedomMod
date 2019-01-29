@@ -1,6 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
@@ -156,5 +158,20 @@ public class Command_gtfo extends FreedomCommand
         plugin.pul.logPunishment(new Punishment(username, ips.get(0), sender.getName(), PunishmentType.BAN, reason));
 
         return true;
+    }
+
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (!plugin.al.isAdmin(sender))
+        {
+            return null;
+        }
+
+        if (args.length == 1)
+        {
+            return FUtil.getPlayerList();
+        }
+        return Collections.emptyList();
     }
 }

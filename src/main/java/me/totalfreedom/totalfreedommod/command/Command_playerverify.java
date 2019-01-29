@@ -1,5 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import net.pravian.aero.util.Ips;
@@ -96,5 +99,15 @@ public class Command_playerverify extends FreedomCommand
             default:
                 return false;
         }
+    }
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (args.length == 1)
+        {
+            return Arrays.asList("enable", "disable", "status", "clearips");
+        }
+
+        return Collections.emptyList();
     }
 }

@@ -1,5 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
@@ -32,10 +35,6 @@ public class Command_wiperegions extends FreedomCommand
             msg("There is no world named \"" + args[0] + "\"", ChatColor.RED);
             return true;
         }
-        if (world.equals(plugin.wm.adminworld.getWorld()))
-        {
-            checkRank(Rank.SENIOR_ADMIN);
-        }
 
         int regionsWiped = plugin.wgb.wipeRegions(world);
 
@@ -50,5 +49,26 @@ public class Command_wiperegions extends FreedomCommand
             msg(ChatColor.RED + "No regions were found in \"" + world.getName() + "\"");
             return true;
         }
+    }
+
+    public List<String> getAllWorldNames()
+    {
+        List<String> names = new ArrayList<>();
+        for (World world : server.getWorlds())
+        {
+            names.add(world.getName());
+        }
+        return names;
+    }
+
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (args.length == 1)
+        {
+            return getAllWorldNames();
+        }
+
+        return Collections.emptyList();
     }
 }

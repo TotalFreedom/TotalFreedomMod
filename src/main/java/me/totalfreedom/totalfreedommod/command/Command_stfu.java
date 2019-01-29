@@ -1,5 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
@@ -149,5 +153,24 @@ public class Command_stfu extends FreedomCommand
         }
 
         return true;
+    }
+
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (!plugin.al.isAdmin(sender))
+        {
+            return null;
+        }
+
+        if (args.length == 1)
+        {
+            List<String> arguments = new ArrayList<>();
+            arguments.addAll(FUtil.getPlayerList());
+            arguments.addAll(Arrays.asList("list", "purge", "all"));
+            return arguments;
+        }
+
+        return Collections.emptyList();
     }
 }
