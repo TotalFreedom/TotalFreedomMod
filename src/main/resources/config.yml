@@ -19,7 +19,7 @@ server:
 
   # All players who show up as owner
   owners:
-    - TheMinecraft
+    - Catholic_Mario
 
   # All players who show up as executive
   executives: []
