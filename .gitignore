@@ -19,9 +19,7 @@ manifest.mf
 *.ipr
 *.iws
 /.idea
-
-# Ignore this file for people who clone from Git
-totalfreedom.iml
+*.iml
 
 # Maven excludes
 /target
