@@ -107,17 +107,13 @@ public class Command_jumppads extends FreedomCommand
         }
         if (args.length == 1)
         {
-            return Arrays.asList("on", "off", "info", "sideways", "strength");
+            return Arrays.asList("on", "off", "info", "sideways");
         }
         else if (args.length == 2)
         {
             if (args[0].equals("sideways"))
             {
                 return Arrays.asList("on", "off");
-            }
-            else if (args[0].equals("strength"))
-            {
-                return Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
             }
         }
 
