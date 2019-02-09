@@ -181,11 +181,17 @@ public class Command_saconfig extends FreedomCommand
                     }
                 }
 
+                if (plugin.pv.isPlayerImpostor(player))
+                {
+                    msg("This player was labeled as a Player impostor and is not an admin, therefore they cannot be added to the admin list.", ChatColor.RED);
+                    return true;
+                }
+
                 if (admin == null) // New admin
                 {
                     if (plugin.mbl.isMasterBuilderImpostor(player))
                     {
-                        msg("This player was labeled as a Master Builder impostor and is not an admin, therefore they can not be added to the admin list.", ChatColor.RED);
+                        msg("This player was labeled as a Master Builder impostor and is not an admin, therefore they cannot be added to the admin list.", ChatColor.RED);
                         return true;
                     }
                     if (player == null)
