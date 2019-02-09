@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Set;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.util.MaterialGroup;
+import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -65,7 +65,7 @@ public class Trailer extends FreedomService
             return;
         }
 
-        fromBlock.setType(MaterialGroup.WOOL_COLORS.get(random.nextInt(MaterialGroup.WOOL_COLORS.size())));
+        fromBlock.setType(Groups.WOOL_COLORS.get(random.nextInt(Groups.WOOL_COLORS.size())));
         BlockData data = fromBlock.getBlockData();
         Material material = Material.getMaterial(String.valueOf(fromBlock.getType()));
         for (int x = -1; x <= 1; x++)

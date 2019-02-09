@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.util.MaterialGroup;
+import me.totalfreedom.totalfreedommod.util.Groups;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -32,7 +32,7 @@ public class Command_ro extends FreedomCommand
         String names = null;
         if (args[0].equalsIgnoreCase("shulker_boxes") || args[0].equalsIgnoreCase("shulkers"))
         {
-            materials.addAll(MaterialGroup.SHULKER_BOXES);
+            materials.addAll(Groups.SHULKER_BOXES);
             names = "shulker boxes";
         }
         else

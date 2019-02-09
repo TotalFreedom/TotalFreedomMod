@@ -1,5 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import com.google.common.collect.Lists;
+import java.util.List;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
@@ -14,13 +16,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod>
 {
 
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
-    public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found!";
     //
     @Getter
@@ -64,6 +66,26 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
             sender.sendMessage(ChatColor.RED + "Command error: " + (ex.getMessage() == null ? "Unknown cause" : ex.getMessage()));
             return true;
         }
+    }
+
+    /*@Override
+    public List<String> tabComplete(CommandSender sender, Command command, String alias, String[] args)
+    {
+        return null;
+    }*/
+    // Doesn't need to do any starts-with checks
+    protected List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args) {
+        return null;
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, Command command, String alias, String[] args)
+    {
+        List<String> options = getTabCompleteOptions(sender, command, alias, args);
+        if (options == null) {
+            return null;
+        }
+        return StringUtil.copyPartialMatches(args[args.length - 1], options, Lists.<String>newArrayList());
     }
 
     protected abstract boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole);

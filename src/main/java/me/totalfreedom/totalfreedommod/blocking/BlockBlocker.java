@@ -5,7 +5,7 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.util.MaterialGroup;
+import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -107,7 +107,7 @@ public class BlockBlocker extends FreedomService
     public void onShulkerBoxPlace(BlockPlaceEvent event)
     {
         Block block = event.getBlock();
-        if (MaterialGroup.SHULKER_BOXES.contains(event.getBlock().getType()))
+        if (Groups.SHULKER_BOXES.contains(event.getBlock().getType()))
         {
             ShulkerBox shulkerBox = (ShulkerBox)block.getState();
             boolean empty = true;

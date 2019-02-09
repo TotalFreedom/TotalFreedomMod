@@ -1,5 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -66,5 +69,16 @@ public class Command_onlinemode extends FreedomCommand
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (args.length == 1 && plugin.al.isAdmin(sender) && !(sender instanceof Player))
+        {
+            return Arrays.asList("on", "off");
+        }
+
+        return Collections.emptyList();
     }
 }

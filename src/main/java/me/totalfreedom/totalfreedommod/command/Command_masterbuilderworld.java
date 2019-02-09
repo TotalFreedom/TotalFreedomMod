@@ -1,6 +1,10 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.world.WorldTime;
 import me.totalfreedom.totalfreedommod.world.WorldWeather;
 import org.bukkit.World;
@@ -10,7 +14,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Go to the MasterBuilderWorld.",
-        usage = "/<command> [time <morning | noon | evening | night> | weather <off | on | storm>]",
+        usage = "/<command> [time <morning | noon | evening | night> | weather <off | rain | storm>]",
         aliases = "mbw,mbworld")
 public class Command_masterbuilderworld extends FreedomCommand
 {
@@ -144,6 +148,31 @@ public class Command_masterbuilderworld extends FreedomCommand
         }
 
         return true;
+    }
+
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (!plugin.al.isAdmin(sender))
+        {
+            return Collections.emptyList();
+        }
+        if (args.length == 1)
+        {
+            return Arrays.asList("time", "weather");
+        }
+        else if (args.length == 2)
+        {
+            if (args[0].equals("time"))
+            {
+                return Arrays.asList("morning", "noon", "evening", "night");
+            }
+            else if (args[0].equals("weather"))
+            {
+                return Arrays.asList("off", "rain", "storm");
+            }
+        }
+        return Collections.emptyList();
     }
 
     // TODO: Redo this properly

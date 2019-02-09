@@ -29,6 +29,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.Material;
 
 public class FUtil
 {
@@ -82,6 +83,26 @@ public class FUtil
     public static boolean isExecutive(String name)
     {
         return ConfigEntry.SERVER_OWNERS.getStringList().contains(name) || ConfigEntry.SERVER_EXECUTIVES.getStringList().contains(name);
+    }
+
+    public static List<String> getPlayerList()
+    {
+        List<String> names = new ArrayList<>();
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
+            names.add(player.getName());
+        }
+        return names;
+    }
+
+    public static List<String> getAllMaterialNames()
+    {
+        List<String> names = new ArrayList<>();
+        for (Material material : Material.values())
+        {
+            names.add(material.name());
+        }
+        return names;
     }
 
     public static void bcastMsg(String message, ChatColor color)

@@ -107,6 +107,16 @@ public final class AdminWorld extends CustomWorld
         return player;
     }
 
+    public List<String> getGuestList()
+    {
+        List<String> guests = new ArrayList<>();
+        for (Player guest : guestList.keySet())
+        {
+            guests.add(guest.getName());
+        }
+        return guests;
+    }
+
     public Player removeGuest(String partialName)
     {
         partialName = partialName.toLowerCase();

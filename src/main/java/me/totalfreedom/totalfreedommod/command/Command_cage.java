@@ -1,5 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -12,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [skull | block] [blockname | playername]")
+@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [skull | block] [playername | blockname]")
 public class Command_cage extends FreedomCommand
 {
 
@@ -105,5 +109,42 @@ public class Command_cage extends FreedomCommand
             FUtil.adminAction(sender.getName(), "Caging " + player.getName(), true);
         }
         return true;
+    }
+
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (!plugin.al.isAdmin(sender))
+        {
+            return null;
+        }
+
+        if (args.length == 1)
+        {
+            List<String> arguments = new ArrayList<>();
+            arguments.add("purge");
+            arguments.addAll(FUtil.getPlayerList());
+            return arguments;
+        }
+        else if (args.length == 2)
+        {
+            if (!args[0].equals("purge"))
+            {
+                return Arrays.asList("off", "skull", "block");
+            }
+        }
+        else if (args.length == 3)
+        {
+            if (args[1].equals("block"))
+            {
+                return FUtil.getAllMaterialNames();
+            }
+            else if (args[1].equals("skull"))
+            {
+                return FUtil.getPlayerList();
+            }
+        }
+
+        return Collections.emptyList();
     }
 }

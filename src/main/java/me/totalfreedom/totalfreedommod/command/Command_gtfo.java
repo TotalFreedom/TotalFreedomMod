@@ -1,6 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.player.PlayerData;

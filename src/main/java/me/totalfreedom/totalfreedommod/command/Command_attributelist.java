@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Lists all possible enchantments.", usage = "/<command>")
+@CommandParameters(description = "Lists all possible attributes.", usage = "/<command>")
 public class Command_attributelist extends FreedomCommand
 {
 

@@ -1,5 +1,13 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import com.google.common.collect.ContiguousSet;
+import com.google.common.collect.DiscreteDomain;
+import com.google.common.collect.Range;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.DoubleStream;
 import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -88,5 +96,31 @@ public class Command_jumppads extends FreedomCommand
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (!plugin.al.isAdmin(sender))
+        {
+            return Collections.emptyList();
+        }
+        if (args.length == 1)
+        {
+            return Arrays.asList("on", "off", "info", "sideways", "strength");
+        }
+        else if (args.length == 2)
+        {
+            if (args[0].equals("sideways"))
+            {
+                return Arrays.asList("on", "off");
+            }
+            else if (args[0].equals("strength"))
+            {
+                return Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+            }
+        }
+
+        return Collections.emptyList();
     }
 }
