@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.fun;
 
 import com.google.common.collect.Maps;
+import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import me.totalfreedom.totalfreedommod.util.MaterialGroup;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
@@ -22,10 +24,8 @@ public class Jumppads extends FreedomService
     //
     @Getter
     @Setter
-    private JumpPadMode mode = JumpPadMode.MADGEEK;
-    @Getter
-    @Setter
-    private double strength = 0.4;
+    private double strength = 1 + 0.1F;
+    public HashMap<Player, JumpPadMode> players = new HashMap<>();
 
     public Jumppads(TotalFreedomMod plugin)
     {
@@ -45,9 +45,18 @@ public class Jumppads extends FreedomService
     }
 
     @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event)
+    {
+        if(!players.containsKey(event.getPlayer()))
+        {
+            players.put(event.getPlayer(), JumpPadMode.OFF);
+        }
+    }
+
+    @EventHandler
     public void onPlayerMove(PlayerMoveEvent event)
     {
-        if (mode == JumpPadMode.OFF)
+        if (players.get(event.getPlayer()) == JumpPadMode.OFF)
         {
             return;
         }
@@ -56,7 +65,7 @@ public class Jumppads extends FreedomService
         final Block block = event.getTo().getBlock();
         final Vector velocity = player.getVelocity().clone();
 
-        if (mode == JumpPadMode.MADGEEK)
+        if (players.get(event.getPlayer()) == JumpPadMode.MADGEEK)
         {
             Boolean canPush = pushMap.get(player);
             if (canPush == null)
@@ -84,7 +93,7 @@ public class Jumppads extends FreedomService
                 velocity.add(new Vector(0.0, strength, 0.0));
             }
 
-            if (mode == JumpPadMode.NORMAL_AND_SIDEWAYS)
+            if (players.get(event.getPlayer()) == JumpPadMode.NORMAL_AND_SIDEWAYS)
             {
                 if (MaterialGroup.WOOL_COLORS.contains(block.getRelative(1, 0, 0).getType()))
                 {
@@ -118,10 +127,10 @@ public class Jumppads extends FreedomService
     public static enum JumpPadMode
     {
 
-        OFF(false), NORMAL(true), NORMAL_AND_SIDEWAYS(true), MADGEEK(true);
+        OFF(false), NORMAL_AND_SIDEWAYS(true), MADGEEK(true);
         private final boolean on;
 
-        private JumpPadMode(boolean on)
+        JumpPadMode(boolean on)
         {
             this.on = on;
         }
