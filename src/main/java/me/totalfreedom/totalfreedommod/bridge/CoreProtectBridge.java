@@ -1,5 +1,19 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
+import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.entity.BaseEntity;
+import com.sk89q.worldedit.entity.Entity;
+import com.sk89q.worldedit.event.platform.BlockInteractEvent;
+import com.sk89q.worldedit.extent.Extent;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.math.BlockVector2;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.Region;
+import com.sk89q.worldedit.util.Location;
+import com.sk89q.worldedit.world.biome.BaseBiome;
+import com.sk89q.worldedit.world.block.BaseBlock;
+import com.sk89q.worldedit.world.block.BlockState;
+import com.sk89q.worldedit.world.block.BlockStateHolder;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Nullable;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -18,10 +33,13 @@ import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import com.sk89q.worldedit.event.extent.EditSessionEvent;
 
 public class CoreProtectBridge extends FreedomService
 {
@@ -39,10 +57,6 @@ public class CoreProtectBridge extends FreedomService
     @Override
     protected void onStart()
     {
-        if (ConfigEntry.COREPROTECT_AUTO_WIPING_ENABLED.getBoolean() && getCoreProtect() != null)
-        {
-            createAutomaticWiper();
-        }
     }
 
     @Override
@@ -151,41 +165,6 @@ public class CoreProtectBridge extends FreedomService
         return (new File(getCoreProtect().getDataFolder(), "database.db"));
     }
 
-    private void createAutomaticWiper()
-    {
-        final long interval = 10 * 20L;
-        final File databaseFile = getDatabase();
-
-        wiper = new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                final CoreProtect coreProtect = getCoreProtect();
-                if (getDBSize() > ConfigEntry.COREPROTECT_FILE_LIMIT.getInteger())
-                {
-                    FLog.info("The CoreProtect log file has grown too big for the server to cope, the data is being wiped!");
-                    FUtil.bcastMsg("The CoreProtect log file has grown too big for the server to cope, the data is being wiped!", ChatColor.RED);
-                    PluginManager pluginManager = server.getPluginManager();
-                    pluginManager.disablePlugin(coreProtect);
-                    for (World world : Bukkit.getWorlds())
-                    {
-                        if (!world.equals(plugin.wm.adminworld.getWorld()))
-                        {
-                            clearDatabase(world);
-                        }
-                    }
-                    //check if still too big, if so delete all data
-                    if (getDBSize() > ConfigEntry.COREPROTECT_FILE_LIMIT.getInteger())
-                    {
-                        FUtil.deleteFolder(databaseFile);
-                    }
-                    pluginManager.enablePlugin(coreProtect);
-                }
-            }
-        }.runTaskTimer(plugin, interval, interval);
-    }
-
     public double getDBSize()
     {
         double bytes = getDatabase().length();
@@ -203,6 +182,10 @@ public class CoreProtectBridge extends FreedomService
     // Wipes DB for the specified world
     public void clearDatabase(World world, Boolean shutdown)
     {
+        if (!ConfigEntry.COREPROTECT_MYSQL_ENABLED.getBoolean())
+        {
+            return;
+        }
         final CoreProtect coreProtect = getCoreProtect();
 
         if (coreProtect == null)
@@ -212,11 +195,16 @@ public class CoreProtectBridge extends FreedomService
 
         /* As CoreProtect doesn't have an API method for deleting all of the data for a specific world
            we have to do this manually via SQL */
-        File databaseFile = getDatabase();
         Connection connection = null;
         try
         {
-            connection = DriverManager.getConnection("jdbc:sqlite:" + databaseFile);
+            String host = ConfigEntry.COREPROTECT_MYSQL_HOST.getString();
+            String port = ConfigEntry.COREPROTECT_MYSQL_PORT.getString();
+            String username = ConfigEntry.COREPROTECT_MYSQL_USERNAME.getString();
+            String password = ConfigEntry.COREPROTECT_MYSQL_PASSWORD.getString();
+            String database = ConfigEntry.COREPROTECT_MYSQL_DATABASE.getString();
+            String url = host + ":" + port + "/" + database + "?user=" + username + "&password=" + password + "&useSSL=false";
+            connection = DriverManager.getConnection("jdbc:mysql://" + url);
             final Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
 
@@ -238,11 +226,8 @@ public class CoreProtectBridge extends FreedomService
             // Iterate through each table and delete their data if the world ID matches
             for (String table : tables)
             {
-                statement.executeUpdate("DELETE FROM " + table + " WHERE wid = " + worldID);
+                statement.executeQuery("DELETE FROM " + table + " WHERE wid = " + worldID);
             }
-
-            // This shrinks down the file size
-            statement.executeUpdate("VACUUM");
 
             connection.close();
 

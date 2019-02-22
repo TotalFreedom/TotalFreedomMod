@@ -21,6 +21,7 @@ public enum ConfigEntry
     ALLOW_REDSTONE(Boolean.class, "allow.redstone"),
     ALLOW_FIREWORK_EXPLOSION(Boolean.class, "allow.fireworks"),
     ALLOW_FROSTWALKER(Boolean.class, "allow.frostwalker"),
+    ALLOW_UNSAFE_ENCHANTMENTS(Boolean.class, "allow.unsafe_enchantments"),
     //
     BLOCKED_CHATCODES(String.class, "blocked_chatcodes"),
     //
@@ -49,8 +50,12 @@ public enum ConfigEntry
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),
     //
-    COREPROTECT_AUTO_WIPING_ENABLED(Boolean.class, "coreprotect.auto_wipe"),
-    COREPROTECT_FILE_LIMIT(Integer.class, "coreprotect.file_limit"),
+    COREPROTECT_MYSQL_ENABLED(Boolean.class, "coreprotect.enabled"),
+    COREPROTECT_MYSQL_HOST(String.class, "coreprotect.host"),
+    COREPROTECT_MYSQL_PORT(String.class, "coreprotect.port"),
+    COREPROTECT_MYSQL_USERNAME(String.class, "coreprotect.username"),
+    COREPROTECT_MYSQL_PASSWORD(String.class, "coreprotect.password"),
+    COREPROTECT_MYSQL_DATABASE(String.class, "coreprotect.database"),
     //
     DISABLE_NIGHT(Boolean.class, "disable.night"),
     DISABLE_WEATHER(Boolean.class, "disable.weather"),

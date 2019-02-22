@@ -47,9 +47,12 @@ adminlist:
   
 # CoreProtect
 coreprotect:
-  auto_wipe: false
-
-  file_limit: 5000
+  enabled: false
+  host: 'localhost'
+  port: '3306'
+  username: ''
+  password: ''
+  database: 'coreprotect'
 
 # ForceIP configuration
 forceip:
@@ -117,7 +120,7 @@ allow:
 #   - 'n:b:/ban:_'
 #
 blocked_commands:
-    # Disabled commands
+  # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
   - 'n:b:/pardon:_'
@@ -143,6 +146,8 @@ blocked_commands:
   - 'n:b:/function:_'
   - 'n:b:/data:_'
   - 'n:b:/datapack:_'
+  - 'n:b:/bossbar:_'
+  - 'n:b://forceload:_'
 
   # Admin commands
   - 's:b:/save-all:_'
@@ -182,7 +187,6 @@ blocked_commands:
   - 's:b:/fill:_'
   - 's:b:/flood:_'
   - 's:b:/team:_'
-  - 'n:b:/bossbar:_'
 
 # Automatically wipe dropped objects
 auto_wipe: true

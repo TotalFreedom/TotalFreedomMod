@@ -481,14 +481,6 @@ public class FrontDoor extends FreedomService
 
                     case 10: // Enable Jumppads
                     {
-                        if (plugin.jp.getMode().isOn())
-                        {
-                            break;
-                        }
-
-                        FUtil.adminAction("FrontDoor", "Enabling Jumppads", true);
-                        plugin.jp.setMode(Jumppads.JumpPadMode.MADGEEK);
-                        break;
                     }
 
                     case 11: // Give everyone a book explaining how awesome TotalFreedom is

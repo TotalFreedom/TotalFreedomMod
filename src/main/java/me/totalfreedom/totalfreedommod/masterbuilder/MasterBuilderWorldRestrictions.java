@@ -19,8 +19,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class MasterBuilderWorldRestrictions extends FreedomService
 {
 
-    private final List<String> BLOCKED_WORLDEDIT_COMMANDS = Arrays.asList(
-            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock");
+    public final List<String> BLOCKED_WORLDEDIT_COMMANDS = Arrays.asList(
+            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock", "tree");
 
     public MasterBuilderWorldRestrictions(TotalFreedomMod plugin)
     {
@@ -111,19 +111,23 @@ public class MasterBuilderWorldRestrictions extends FreedomService
         final Player player = event.getPlayer();
         if (doRestrict(player))
         {
-            // This is a very poor way of blocking WorldEdit commands, all the methods I know of
-            // obtaining a list of a plugin's commands are returning null for world edit.
-            String message = event.getMessage();
-            if (message.startsWith("//") || BLOCKED_WORLDEDIT_COMMANDS.contains(message.split("\\s+")[0].replace("/", "")))
+            /* This is a very poor way of blocking WorldEdit commands, all the methods I know of
+               for obtaining a list of a plugin's commands are returning null for world edit. */
+            String command = event.getMessage().split("\\s+")[0].substring(1, event.getMessage().split("\\s+")[0].length()).toLowerCase();
+
+            if (command.startsWith("/") || BLOCKED_WORLDEDIT_COMMANDS.contains(command))
             {
-                player.sendMessage(ChatColor.RED + "Only Master Builders are allowed to use this WorldEdit command in the Master Builder world.");
+                player.sendMessage(ChatColor.RED + "Only Master Builders are allowed to use WorldEdit in the Master Builder world.");
                 event.setCancelled(true);
             }
 
-            if (plugin.al.isAdmin(player) && !plugin.al.isSeniorAdmin(player) && message.startsWith("/co"))
+            if (!plugin.al.isSeniorAdmin(player))
             {
-                player.sendMessage(ChatColor.RED + "Only Senior Admins are allowed to use CoreProtect in the Master Builder world.");
-                event.setCancelled(true);
+                if (command.equals("coreprotect") || command.equals("co"))
+                {
+                    player.sendMessage(ChatColor.RED + "Only Senior Admins are allowed to use CoreProtect in the Master Builder world.");
+                    event.setCancelled(true);
+                }
             }
         }
     }

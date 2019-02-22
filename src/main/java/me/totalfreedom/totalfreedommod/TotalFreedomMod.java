@@ -16,7 +16,6 @@ import me.totalfreedom.totalfreedommod.blocking.PVPBlocker;
 import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
 import me.totalfreedom.totalfreedommod.blocking.SignBlocker;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
-import me.totalfreedom.totalfreedommod.bridge.BukkitSSHBridge;
 import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
 import me.totalfreedom.totalfreedommod.bridge.CoreProtectBridge;
 import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
@@ -127,7 +126,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
     public BukkitTelnetBridge btb;
-    public BukkitSSHBridge bsb;
     public EssentialsBridge esb;
     public LibsDisguisesBridge ldb;
     public CoreProtectBridge cpb;
@@ -245,7 +243,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         // Start bridges
         bridges = new ServiceManager<>(plugin);
         btb = bridges.registerService(BukkitTelnetBridge.class);
-        bsb = bridges.registerService(BukkitSSHBridge.class);
         cpb = bridges.registerService(CoreProtectBridge.class);
         esb = bridges.registerService(EssentialsBridge.class);
         ldb = bridges.registerService(LibsDisguisesBridge.class);

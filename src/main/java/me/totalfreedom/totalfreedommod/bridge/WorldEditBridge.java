@@ -34,7 +34,7 @@ public class WorldEditBridge extends FreedomService
         listener.unregister();
     }
 
-    private WorldEditPlugin getWorldEditPlugin()
+    public WorldEditPlugin getWorldEditPlugin()
     {
         if (worldeditPlugin == null)
         {

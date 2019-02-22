@@ -36,6 +36,7 @@ public class Command_toggle extends FreedomCommand
             msg("- entitywipe");
             msg("- nonuke [range] [count]");
             msg("- explosives [radius]");
+            msg("- unsafeenchs");
             return false;
         }
 
@@ -153,6 +154,11 @@ public class Command_toggle extends FreedomCommand
             }
             return true;
         }
+        else if (args[0].equalsIgnoreCase("unsafeenchs"))
+        {
+            toggle("Invalid enchantments are", ConfigEntry.ALLOW_UNSAFE_ENCHANTMENTS);
+            return true;
+        }
         else
         {
             return false;
@@ -171,7 +177,7 @@ public class Command_toggle extends FreedomCommand
         {
             return Arrays.asList(
                     "waterplace", "fireplace", "lavaplace", "fluidspread", "lavadmg", "firespread", "frostwalk",
-                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives");
+                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs");
         }
 
         return Collections.emptyList();
