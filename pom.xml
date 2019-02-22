@@ -16,7 +16,6 @@
         <tfm.build.author>${buildAuthor}</tfm.build.author>
         <tfm.build.head>${buildHead}</tfm.build.head>
         <jar.finalName>${project.name}</jar.finalName>
-        
         <maven.build.timestamp.format>dd/MM/yyyy hh:mm aa</maven.build.timestamp.format>
     </properties>
 
@@ -44,20 +43,41 @@
 
     <repositories>
         <repository>
-            <id>ess-repo</id>
-            <url>http://repo.ess3.net</url>
-        </repository>
-        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+
+        <repository>
+            <id>ess-repo</id>
+            <url>http://repo.ess3.net/content/groups/essentials</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
+
         <repository>
             <id>sk89q-snapshots</id>
             <url>http://maven.sk89q.com/artifactory/repo</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
         <repository>
             <id>CodeMC</id>
@@ -108,17 +128,19 @@
             <artifactId>Essentials</artifactId>
             <version>2.13.1</version>
         </dependency>
-
+ 
+        <!-- The following have been changed to Telesphoreo's personal repo as it is the most stable current TF-WorldEdit build. These will be changed to a TotalFreedom build in the future -->
+ 
         <dependency>
-            <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
+            <groupId>com.github.Telesphoreo.TF-WorldEdit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>6.1.0-TF</version>
+            <version>7.0.0-TF-SNAPSHOT-R0.2</version>
         </dependency>
 
         <dependency>
-            <groupId>com.github.TotalFreedom.TF-WorldEdit</groupId>
+            <groupId>com.github.Telesphoreo.TF-WorldEdit</groupId>
             <artifactId>worldedit-core</artifactId>
-            <version>6.1.0-TF</version>
+            <version>7.0.0-TF-SNAPSHOT-R0.2</version>
         </dependency>
         
         <dependency>
@@ -138,7 +160,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
 
         <plugins>
             <!-- Compiler -->
@@ -177,7 +198,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <!-- Antrun -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -203,7 +224,6 @@
                 </executions>
                
             </plugin>
-            
 
             <!-- Properties -->
             <plugin>
