@@ -1,7 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.Arrays;
+import com.google.common.collect.Lists;
+import java.util.Collection;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -12,18 +14,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <set <tag..> | off | clear <player> | clearall>")
+@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <set <tag> | off | clear <player> | clearall | list>")
 public class Command_tag extends FreedomCommand
 {
 
-    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
-    {
-        "admin", "owner", "moderator", "developer", "console"
-    });
+    public static final List<String> FORBIDDEN_WORDS = Lists.newArrayList();
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        FORBIDDEN_WORDS.addAll((Collection<? extends String>) ConfigEntry.BLOCKED_TAGS.getList());
+
         if (args.length == 1)
         {
             if ("list".equalsIgnoreCase(args[0]))
