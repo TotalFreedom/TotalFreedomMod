@@ -8,8 +8,6 @@ git.properties
 /dist
 /build
 manifest.mf
-# Now defines that Maven CheckStyle is used
-# nb-configuration.xml
 
 # Eclipse excludes
 .project
@@ -23,9 +21,11 @@ manifest.mf
 *.iws
 /.idea/libraries/*
 /.idea/artifacts/*
+.idea/workspace.xml
 
 # Maven excludes
 /target
+dependency-reduced-pom.xml
 
 # OS generated files
 .DS_Store
