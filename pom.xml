@@ -104,7 +104,7 @@
         <dependency>
             <groupId>com.github.Pravian</groupId>
             <artifactId>Aero</artifactId>
-            <version>a0e1dc5</version>
+            <version>5f82926ab8</version>
         </dependency>
 
         <dependency>
