@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
@@ -108,6 +110,11 @@ public class Command_saconfig extends FreedomCommand
                     plugin.rm.updateDisplay(player);
                 }
 
+                if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
+                {
+                    plugin.dc.syncRoles(admin);
+                }
+
                 msg("Set " + admin.getName() + "'s rank to " + rank.getName());
                 return true;
             }
@@ -206,6 +213,21 @@ public class Command_saconfig extends FreedomCommand
                     {
                         plugin.rm.updateDisplay(player);
                     }
+
+                    // Attempt to find discord account
+                    if (plugin.mbl.isMasterBuilder(player))
+                    {
+                        MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(player);
+                        admin.setDiscordID(plugin.mbl.getMasterBuilder(player).getDiscordID());
+                    }
+                    else if (plugin.pv.getVerificationPlayer(admin.getName()) != null)
+                    {
+                        VPlayer vPlayer = plugin.pv.getVerificationPlayer(admin.getName());
+                        if (vPlayer.getDiscordId() != null)
+                        {
+                            admin.setDiscordID(vPlayer.getDiscordId());
+                        }
+                    }
                 }
                 else // Existing admin
                 {
@@ -248,11 +270,31 @@ public class Command_saconfig extends FreedomCommand
                     admin.setActive(true);
                     admin.setLastLogin(new Date());
 
+                    // Attempt to find discord account
+                    if (plugin.mbl.isMasterBuilder(player))
+                    {
+                        MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(player);
+                        admin.setDiscordID(plugin.mbl.getMasterBuilder(player).getDiscordID());
+                    }
+                    else if (plugin.pv.getVerificationPlayer(admin.getName()) != null)
+                    {
+                        VPlayer vPlayer = plugin.pv.getVerificationPlayer(admin.getName());
+                        if (vPlayer.getDiscordId() != null)
+                        {
+                            admin.setDiscordID(vPlayer.getDiscordId());
+                        }
+                    }
+
                     plugin.al.save();
                     plugin.al.updateTables();
                     if (player != null)
                     {
                         plugin.rm.updateDisplay(player);
+                    }
+
+                    if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
+                    {
+                        plugin.dc.syncRoles(admin);
                     }
                 }
 
@@ -302,6 +344,12 @@ public class Command_saconfig extends FreedomCommand
                 {
                     plugin.rm.updateDisplay(player);
                 }
+
+                if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
+                {
+                    plugin.dc.syncRoles(admin);
+                }
+
                 return true;
             }
 

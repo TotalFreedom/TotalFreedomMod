@@ -1,6 +1,8 @@
 package me.totalfreedom.totalfreedommod.discord;
 
 import com.google.common.base.Strings;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +12,20 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
+import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import net.dv8tion.jda.core.AccountType;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.managers.GuildController;
+import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
+import org.bukkit.entity.Player;
 
 public class Discord extends FreedomService
 {
@@ -95,5 +107,147 @@ public class Discord extends FreedomService
             bot.shutdown();
         }
         FLog.info("Discord verification bot has successfully shutdown.");
+    }
+
+    public void sendReport(Player reporter, Player reported, String reason)
+    {
+        if (ConfigEntry.DISCORD_REPORT_CHANNEL_ID.getString() == null)
+        {
+            return;
+        }
+        if (ConfigEntry.DISCORD_SERVER_ID.getString() == null)
+        {
+            FLog.severe("No discord server ID was specified in the config, but there is a report channel id.");
+            return;
+        }
+        Guild server = bot.getGuildById(ConfigEntry.DISCORD_SERVER_ID.getString());
+        if (server == null)
+        {
+            FLog.severe("The discord server ID specified is invalid, or the bot is not on the server.");
+            return;
+        }
+        TextChannel channel = server.getTextChannelById(ConfigEntry.DISCORD_REPORT_CHANNEL_ID.getString());
+        if (channel == null)
+        {
+            FLog.severe("The report channel ID specified in the config is invalid");
+            return;
+        }
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle("Report for " + reported.getName());
+        embedBuilder.setDescription(reason);
+        embedBuilder.setFooter("Reported by " + reporter.getName(), "https://minotar.net/helm/" + reporter.getName() + ".png");
+        embedBuilder.setTimestamp(Instant.from(ZonedDateTime.now()));
+        MessageEmbed embed = embedBuilder.build();
+        channel.sendMessage(embed).complete();
+    }
+
+    public static boolean syncRoles(Admin admin)
+    {
+        if (admin.getDiscordID() == null)
+        {
+            return false;
+        }
+
+        Guild server = bot.getGuildById(ConfigEntry.DISCORD_SERVER_ID.getString());
+        if (server == null)
+        {
+            FLog.severe("The discord server ID specified is invalid, or the bot is not on the server.");
+            return false;
+        }
+
+        GuildController controller = new GuildController(server);
+
+        Member member = server.getMemberById(admin.getDiscordID());
+        if (member == null)
+        {
+            return false;
+        }
+
+        Role superAdminRole = server.getRoleById(ConfigEntry.DISCORD_SUPER_ROLE_ID.getString());
+        if (superAdminRole == null)
+        {
+            FLog.severe("The specified Super Admin role does not exist!");
+            return false;
+        }
+        Role telnetAdminRole = server.getRoleById(ConfigEntry.DISCORD_TELNET_ROLE_ID.getString());
+        if (telnetAdminRole == null)
+        {
+            FLog.severe("The specified Telnet Admin role does not exist!");
+            return false;
+        }
+        Role seniorAdminRole = server.getRoleById(ConfigEntry.DISCORD_SENIOR_ROLE_ID.getString());
+        if (seniorAdminRole == null)
+        {
+            FLog.severe("The specified Senior Admin role does not exist!");
+            return false;
+        }
+
+        if (!admin.isActive())
+        {
+            if (member.getRoles().contains(superAdminRole))
+            {
+                controller.removeRolesFromMember(member, superAdminRole).complete();
+            }
+            if (member.getRoles().contains(telnetAdminRole))
+            {
+                controller.removeRolesFromMember(member, telnetAdminRole).complete();
+            }
+            if (member.getRoles().contains(seniorAdminRole))
+            {
+                controller.removeRolesFromMember(member, seniorAdminRole).complete();
+            }
+            return true;
+        }
+
+        if (admin.getRank().equals(Rank.SUPER_ADMIN))
+        {
+            if (!member.getRoles().contains(superAdminRole))
+            {
+                controller.addRolesToMember(member, superAdminRole).complete();
+            }
+            if (member.getRoles().contains(telnetAdminRole))
+            {
+                controller.removeRolesFromMember(member, telnetAdminRole).complete();
+            }
+            if (member.getRoles().contains(seniorAdminRole))
+            {
+                controller.removeRolesFromMember(member, seniorAdminRole).complete();
+            }
+            return true;
+        }
+        else if (admin.getRank().equals(Rank.TELNET_ADMIN))
+        {
+            if (!member.getRoles().contains(telnetAdminRole))
+            {
+                controller.addRolesToMember(member, telnetAdminRole).complete();
+            }
+            if (member.getRoles().contains(superAdminRole))
+            {
+                controller.removeRolesFromMember(member, superAdminRole).complete();
+            }
+            if (member.getRoles().contains(seniorAdminRole))
+            {
+                controller.removeRolesFromMember(member, seniorAdminRole).complete();
+            }
+            return true;
+        }
+        else if (admin.getRank().equals(Rank.SENIOR_ADMIN))
+        {
+            if (!member.getRoles().contains(seniorAdminRole))
+            {
+                controller.addRolesToMember(member, seniorAdminRole).complete();
+            }
+            if (member.getRoles().contains(superAdminRole))
+            {
+                controller.removeRolesFromMember(member, superAdminRole).complete();
+            }
+            if (member.getRoles().contains(telnetAdminRole))
+            {
+                controller.removeRolesFromMember(member, telnetAdminRole).complete();
+            }
+            return true;
+        }
+
+        return false;
     }
 }

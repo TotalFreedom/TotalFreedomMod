@@ -24,6 +24,9 @@ server:
   # All players who show up as executive
   executives: []
 
+  # All those who can manage the master builder list
+  master_builder_management: []
+
   # URL players should appeal for bans at
   ban_url: http://totalfreedom.boards.net/
 
@@ -34,6 +37,20 @@ server:
 discord:
   # If you do not have a token, make a bot account and get one at https://discordapp.com/developers/applications/me
   token: ''
+  # The official discord server's ID for this server
+  server_id: ''
+  # Channel to send /report messages to
+  report_channel_id: ''
+  # Do you want roles to sync with the server?
+  role_sync: false
+  # The official discord server's ID for this server
+  server_id: ''
+  # Super Admin role ID
+  super_role_id: ''
+  # Telnet Admin role ID
+  telnet_role_id: ''
+  # Senior Admin role ID
+  senior_role_id: ''
 
 # Admin list
 adminlist:

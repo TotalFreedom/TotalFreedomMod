@@ -42,10 +42,18 @@ public enum ConfigEntry
     SERVER_MOTD(String.class, "server.motd"),
     SERVER_OWNERS(List.class, "server.owners"),
     SERVER_EXECUTIVES(List.class, "server.executives"),
+    SERVER_MASTER_BUILDER_MANAGEMENT(List.class, "server.emaster_builder_management"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
     //
     DISCORD_TOKEN(String.class, "discord.token"),
+    DISCORD_REPORT_CHANNEL_ID(String.class, "discord.report_channel_id"),
+    DISCORD_ROLE_SYNC(Boolean.class, "discord.role_sync"),
+    DISCORD_SERVER_ID(String.class, "discord.server_id"),
+    DISCORD_SUPER_ROLE_ID(String.class, "discord.super_role_id"),
+    DISCORD_TELNET_ROLE_ID(String.class, "discord.telnet_role_id"),
+    DISCORD_SENIOR_ROLE_ID(String.class, "discord.senior_role_id"),
+
     //
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),

@@ -47,6 +47,11 @@ public class Command_report extends FreedomCommand
         String report = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         plugin.cm.reportAction(playerSender, player, report);
 
+        if (plugin.dc.enabled)
+        {
+            plugin.dc.sendReport(playerSender, player, report);
+        }
+
         msg(ChatColor.GREEN + "Thank you, your report has been successfully logged.");
 
         return true;

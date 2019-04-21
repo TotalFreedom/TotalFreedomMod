@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.Arrays;
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
@@ -12,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage my admin entry", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin | setacformat <format> | clearacformat> | oldtags | logstick>")
+@CommandParameters(description = "Manage my admin entry", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin | setacformat <format> | clearacformat> | oldtags | logstick | syncroles>")
 public class Command_myadmin extends FreedomCommand
 {
 
@@ -203,6 +204,34 @@ public class Command_myadmin extends FreedomCommand
                 plugin.al.save();
                 plugin.al.updateTables();
                 msg((target.getLogStick() ? "Enabled" : "Disabled") + " log-stick lookup.");
+                return true;
+            }
+
+            case "syncroles":
+            {
+                if (plugin.dc.enabled)
+                {
+                    if (!ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
+                    {
+                        msg("Role syncing is not enabled.", ChatColor.RED);
+                        return true;
+                    }
+                    boolean synced = plugin.dc.syncRoles(target);
+                    if (target.getDiscordID() == null)
+                    {
+                        msg("Please run /linkdiscord first!", ChatColor.RED);
+                        return true;
+                    }
+                    if (synced)
+                    {
+                        msg("Successfully synced your roles.", ChatColor.GREEN);
+                    }
+                    else
+                    {
+                        msg("Failed to sync your roles, please check the console.", ChatColor.RED);
+                    }
+                }
+
                 return true;
             }
 
