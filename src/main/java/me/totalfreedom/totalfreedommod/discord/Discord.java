@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.discord;
 
+import com.earth2me.essentials.User;
 import com.google.common.base.Strings;
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -141,7 +142,12 @@ public class Discord extends FreedomService
         String location = "World: " + reported.getLocation().getWorld().getName() + ", X: " + reported.getLocation().getBlockX() + ", Y: " + reported.getLocation().getBlockY() + ", Z: " +  reported.getLocation().getBlockZ();
         embedBuilder.addField("Location", location, true);
         embedBuilder.addField("Game Mode", WordUtils.capitalizeFully(reported.getGameMode().name()), true);
-        embedBuilder.addField("God Mode", WordUtils.capitalizeFully(String.valueOf(plugin.esb.getEssentialsUser(reported.getName()).isGodModeEnabled())), true);
+        User user = plugin.esb.getEssentialsUser(reported.getName());
+        embedBuilder.addField("God Mode", WordUtils.capitalizeFully(String.valueOf(user.isGodModeEnabled())), true);
+        if (user.getNickname() != null)
+        {
+            embedBuilder.addField("Nickname", user.getNickname(), true);
+        }
         MessageEmbed embed = embedBuilder.build();
         channel.sendMessage(embed).complete();
         return true;
