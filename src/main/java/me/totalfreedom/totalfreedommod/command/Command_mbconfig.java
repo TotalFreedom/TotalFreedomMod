@@ -113,7 +113,7 @@ public class Command_mbconfig extends FreedomCommand
                 if (masterBuilder == null) // New entry
                 {
                     checkRank(Rank.SENIOR_ADMIN);
-                    if (!FUtil.isExecutive(sender.getName()))
+                    if (!FUtil.canManageMasterBuilders(sender.getName()))
                     {
                         noPerms();
                     }
@@ -179,7 +179,7 @@ public class Command_mbconfig extends FreedomCommand
 
                 checkConsole();
                 checkRank(Rank.SENIOR_ADMIN);
-                if (!FUtil.isExecutive(sender.getName()))
+                if (!FUtil.canManageMasterBuilders(sender.getName()))
                 {
                     noPerms();
                 }

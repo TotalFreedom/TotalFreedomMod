@@ -25,6 +25,7 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.managers.GuildController;
 import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.entity.Player;
 
 public class Discord extends FreedomService
@@ -109,36 +110,41 @@ public class Discord extends FreedomService
         FLog.info("Discord verification bot has successfully shutdown.");
     }
 
-    public void sendReport(Player reporter, Player reported, String reason)
+    public boolean sendReport(Player reporter, Player reported, String reason)
     {
-        if (ConfigEntry.DISCORD_REPORT_CHANNEL_ID.getString() == null)
+        if (ConfigEntry.DISCORD_REPORT_CHANNEL_ID.getString().isEmpty())
         {
-            return;
+            return false;
         }
-        if (ConfigEntry.DISCORD_SERVER_ID.getString() == null)
+        if (ConfigEntry.DISCORD_SERVER_ID.getString().isEmpty())
         {
             FLog.severe("No discord server ID was specified in the config, but there is a report channel id.");
-            return;
+            return false;
         }
         Guild server = bot.getGuildById(ConfigEntry.DISCORD_SERVER_ID.getString());
         if (server == null)
         {
             FLog.severe("The discord server ID specified is invalid, or the bot is not on the server.");
-            return;
+            return false;
         }
         TextChannel channel = server.getTextChannelById(ConfigEntry.DISCORD_REPORT_CHANNEL_ID.getString());
         if (channel == null)
         {
             FLog.severe("The report channel ID specified in the config is invalid");
-            return;
+            return false;
         }
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("Report for " + reported.getName());
         embedBuilder.setDescription(reason);
         embedBuilder.setFooter("Reported by " + reporter.getName(), "https://minotar.net/helm/" + reporter.getName() + ".png");
         embedBuilder.setTimestamp(Instant.from(ZonedDateTime.now()));
+        String location = "World: " + reported.getLocation().getWorld().getName() + ", X: " + reported.getLocation().getBlockX() + ", Y: " + reported.getLocation().getBlockY() + ", Z: " +  reported.getLocation().getBlockZ();
+        embedBuilder.addField("Location", location, true);
+        embedBuilder.addField("Game Mode", WordUtils.capitalizeFully(reported.getGameMode().name()), true);
+        embedBuilder.addField("God Mode", WordUtils.capitalizeFully(String.valueOf(plugin.esb.getEssentialsUser(reported.getName()).isGodModeEnabled())), true);
         MessageEmbed embed = embedBuilder.build();
         channel.sendMessage(embed).complete();
+        return true;
     }
 
     public static boolean syncRoles(Admin admin)

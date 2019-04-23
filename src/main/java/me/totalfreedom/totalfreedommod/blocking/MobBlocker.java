@@ -127,7 +127,7 @@ public class MobBlocker extends FreedomService
         int mobcount = 0;
         for (Entity entity : event.getLocation().getWorld().getLivingEntities())
         {
-            if (!(entity instanceof HumanEntity))
+            if (!(entity instanceof HumanEntity) && entity instanceof LivingEntity)
             {
                 mobcount++;
             }

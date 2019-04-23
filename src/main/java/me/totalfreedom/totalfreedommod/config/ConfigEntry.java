@@ -42,7 +42,7 @@ public enum ConfigEntry
     SERVER_MOTD(String.class, "server.motd"),
     SERVER_OWNERS(List.class, "server.owners"),
     SERVER_EXECUTIVES(List.class, "server.executives"),
-    SERVER_MASTER_BUILDER_MANAGEMENT(List.class, "server.emaster_builder_management"),
+    SERVER_MASTER_BUILDER_MANAGEMENT(List.class, "server.master_builder_management"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
     //
