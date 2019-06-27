@@ -20,7 +20,7 @@ public class MasterBuilderWorldRestrictions extends FreedomService
 {
 
     public final List<String> BLOCKED_WORLDEDIT_COMMANDS = Arrays.asList(
-            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock", "tree");
+            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock", "tree", "replacenear");
 
     public MasterBuilderWorldRestrictions(TotalFreedomMod plugin)
     {
