@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
+import me.totalfreedom.totalfreedommod.admin.ActivityLog;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.amp.AMP;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
@@ -27,6 +28,7 @@ import me.totalfreedom.totalfreedommod.command.CommandLoader;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.discord.Discord;
 import me.totalfreedom.totalfreedommod.freeze.Freezer;
+import me.totalfreedom.totalfreedommod.fun.CurseListener;
 import me.totalfreedom.totalfreedommod.fun.ItemFun;
 import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.fun.Landminer;
@@ -75,6 +77,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public WorldManager wm;
     public LogViewer lv;
     public AdminList al;
+    public ActivityLog acl;
     public RankManager rm;
     public CommandLoader cl;
     public CommandBlocker cb;
@@ -111,6 +114,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public EntityWiper ew;
     public FrontDoor fd;
     public ServerPing sp;
+    public CurseListener cul;
     public ItemFun it;
     public Landminer lm;
     public MobStacker ms;
@@ -182,6 +186,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         wm = services.registerService(WorldManager.class);
         lv = services.registerService(LogViewer.class);
         al = services.registerService(AdminList.class);
+        acl = services.registerService(ActivityLog.class);
         rm = services.registerService(RankManager.class);
         cl = services.registerService(CommandLoader.class);
         cb = services.registerService(CommandBlocker.class);
@@ -229,6 +234,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         pv = services.registerService(PlayerVerification.class);
 
         // Fun
+        cul = services.registerService(CurseListener.class);
         it = services.registerService(ItemFun.class);
         lm = services.registerService(Landminer.class);
         ms = services.registerService(MobStacker.class);

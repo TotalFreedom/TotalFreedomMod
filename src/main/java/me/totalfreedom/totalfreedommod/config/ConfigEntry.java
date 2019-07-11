@@ -45,6 +45,8 @@ public enum ConfigEntry
     SERVER_MASTER_BUILDER_MANAGEMENT(List.class, "server.master_builder_management"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
     SERVER_PERMBAN_URL(String.class, "server.permban_url"),
+    SERVER_TABLIST_HEADER(String.class, "server.tablist_header"),
+    SERVER_TABLIST_FOOTER(String.class, "server.tablist_footer"),
     //
     DISCORD_TOKEN(String.class, "discord.token"),
     DISCORD_REPORT_CHANNEL_ID(String.class, "discord.report_channel_id"),

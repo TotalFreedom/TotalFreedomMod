@@ -2,7 +2,6 @@ package me.totalfreedom.totalfreedommod.discord;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -30,6 +29,7 @@ public class MessageListener extends ListenerAdapter
                 {
                     VPlayer player = Discord.PLAYER_LINK_CODES.get(code);
                     player.setDiscordId(event.getMessage().getAuthor().getId());
+                    player.setEnabled(true);
 
                     TotalFreedomMod.plugin().pv.saveVerificationData(player);
                     Discord.PLAYER_LINK_CODES.remove(code);

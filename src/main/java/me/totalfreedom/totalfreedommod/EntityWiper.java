@@ -128,7 +128,7 @@ public class EntityWiper extends FreedomService
     {
         int removed = 0;
 
-        boolean wipeExpl = ConfigEntry.ALLOW_EXPLOSIONS.getBoolean();
+        boolean wipeExpl = !ConfigEntry.ALLOW_EXPLOSIONS.getBoolean();
         Iterator<Entity> entities = world.getEntities().iterator();
 
         // Organise the entities in the world

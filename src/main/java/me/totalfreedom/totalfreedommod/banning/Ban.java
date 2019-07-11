@@ -1,7 +1,9 @@
 package me.totalfreedom.totalfreedommod.banning;
 
 import com.google.common.collect.Lists;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,6 +38,9 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
     private String by = null;
     @Getter
     @Setter
+    private Date at = null;
+    @Getter
+    @Setter
     private String reason = null; // Unformatted, &[0-9,a-f] instead of ChatColor
     @Getter
     @Setter
@@ -45,7 +50,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
     {
     }
 
-    public Ban(String username, String ip, String by, Date expire, String reason)
+    public Ban(String username, String ip, String by, Date at, Date expire, String reason)
     {
         this(username,
                 new String[]
@@ -53,11 +58,12 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
                                 ip
                         },
                 by,
+                at,
                 expire,
                 reason);
     }
 
-    public Ban(String username, String[] ips, String by, Date expire, String reason)
+    public Ban(String username, String[] ips, String by, Date at, Date expire, String reason)
     {
         this.username = username;
         if (ips != null)
@@ -66,6 +72,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         }
         dedupeIps();
         this.by = by;
+        this.at = at;
         this.expiryUnix = FUtil.getUnixTime(expire);
         this.reason = reason;
     }
@@ -82,12 +89,12 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         return new Ban(null, new String[]
                 {
                         Ips.getIp(player)
-                }, by.getName(), expiry, reason);
+                }, by.getName(), Date.from(Instant.now()), expiry, reason);
     }
 
     public static Ban forPlayerIp(String ip, CommandSender by, Date expiry, String reason)
     {
-        return new Ban(null, ip, by.getName(), expiry, reason);
+        return new Ban(null, ip, by.getName(), Date.from(Instant.now()), expiry, reason);
     }
 
     //
@@ -102,6 +109,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         return new Ban(player,
                 (String[])null,
                 by.getName(),
+                Date.from(Instant.now()),
                 expiry,
                 reason);
     }
@@ -118,6 +126,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         return new Ban(player.getName(),
                 Ips.getIp(player),
                 by.getName(),
+                Date.from(Instant.now()),
                 expiry,
                 reason);
     }
@@ -127,6 +136,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         return new Ban(player.getName(),
                 FUtil.getFuzzyIp(Ips.getIp(player)),
                 by.getName(),
+                Date.from(Instant.now()),
                 expiry,
                 reason);
     }
@@ -179,6 +189,12 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         {
             message.append("\n").append(ChatColor.RED).append("Banned by: ").append(ChatColor.GOLD)
                     .append(by);
+        }
+
+        if (at != null)
+        {
+            message.append("\n").append(ChatColor.RED).append("Issued: ").append(ChatColor.GOLD)
+                    .append(DATE_FORMAT.format(at));
         }
 
         if (getExpiryUnix() != 0)
@@ -234,6 +250,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         this.ips.clear();
         this.ips.addAll(cs.getStringList("ips"));
         this.by = cs.getString("by", null);
+        this.at = FUtil.stringToDate(cs.getString("at", null));
         this.reason = cs.getString("reason", null);
         this.expiryUnix = cs.getLong("expiry_unix", 0);
         dedupeIps();
@@ -246,6 +263,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("username", username);
         cs.set("ips", ips.isEmpty() ? null : ips);
         cs.set("by", by);
+        cs.set("at", FUtil.dateToString(at));
         cs.set("reason", reason);
         cs.set("expiry_unix", expiryUnix > 0 ? expiryUnix : null);
     }

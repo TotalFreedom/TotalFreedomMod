@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_CONSOLE)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Control mob rezzing parameters.", usage = "/<command> <on|off|setmax <count>|dragon|giant|ghast|slime>")
 public class Command_moblimiter extends FreedomCommand
 {

@@ -9,6 +9,9 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -24,6 +27,8 @@ import org.bukkit.util.Vector;
 
 public class ItemFun extends FreedomService
 {
+
+    public List<Player> explosivePlayers = new ArrayList<Player>();
 
     private final Random random = new Random();
 
@@ -267,6 +272,25 @@ public class ItemFun extends FreedomService
                 player.getWorld().strikeLightning(targetBlock.getLocation());
 
                 break;
+            }
+        }
+    }
+
+    @EventHandler
+    public void onProjectileHit(ProjectileHitEvent event)
+    {
+        Entity entity = event.getEntity();
+        Arrow arrow = null;
+        if (entity instanceof Arrow)
+        {
+            arrow = (Arrow)entity;
+        }
+        if (arrow != null && (arrow.getShooter() instanceof Player))
+        {
+            if (explosivePlayers.contains((Player)arrow.getShooter()))
+            {
+                arrow.getLocation().getWorld().createExplosion(arrow.getLocation().getX(), arrow.getLocation().getY(), arrow.getLocation().getZ(), ConfigEntry.EXPLOSIVE_RADIUS.getDouble().floatValue(), false, ConfigEntry.ALLOW_EXPLOSIONS.getBoolean());
+                arrow.remove();
             }
         }
     }

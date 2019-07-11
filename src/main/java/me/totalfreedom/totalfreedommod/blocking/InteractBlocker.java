@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.blocking;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -53,6 +54,12 @@ public class InteractBlocker extends FreedomService
     private void handleRightClick(PlayerInteractEvent event)
     {
         final Player player = event.getPlayer();
+
+        if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.STRUCTURE_BLOCK))
+        {
+            event.setCancelled(true);
+            event.getPlayer().closeInventory();
+        }
 
         switch (event.getMaterial())
         {

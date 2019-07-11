@@ -33,6 +33,12 @@ server:
   # URL players should appeal for permanent bans at
   permban_url: http://bit.ly/TF_PermBan
 
+  # What to display at the top of the tab list
+  tablist_header: ''
+
+  # What to display at the bottom of the tab list
+  tablist_footer: ''
+
 # Discord
 discord:
   # If you do not have a token, make a bot account and get one at https://discordapp.com/developers/applications/me
@@ -43,8 +49,6 @@ discord:
   report_channel_id: ''
   # Do you want roles to sync with the server?
   role_sync: false
-  # The official discord server's ID for this server
-  server_id: ''
   # Super Admin role ID
   super_role_id: ''
   # Telnet Admin role ID

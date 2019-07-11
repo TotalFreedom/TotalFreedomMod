@@ -153,7 +153,7 @@ public class Command_tag extends FreedomCommand
 
                 int tagLimit = (plugin.al.isAdmin(sender) ? 30 : 20);
 
-                final String rawTag = ChatColor.stripColor(strippedTag).toLowerCase();
+                final String rawTag = ChatColor.stripColor(outputTag).toLowerCase();
 
                 if (rawTag.length() > tagLimit)
                 {
