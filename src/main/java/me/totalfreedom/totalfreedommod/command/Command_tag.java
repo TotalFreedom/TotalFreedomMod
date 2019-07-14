@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 public class Command_tag extends FreedomCommand
 {
 
-    private final List<String> FORBIDDEN_WORDS = Lists.newArrayList();
+    public final List<String> FORBIDDEN_WORDS = Lists.newArrayList();
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
