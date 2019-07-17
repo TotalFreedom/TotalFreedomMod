@@ -69,6 +69,11 @@ public class Discord extends FreedomService
         {
             FLog.warning("Discord verification bot failed to start.");
         }
+        catch (NoClassDefFoundError e)
+        {
+            FLog.warning("The JDA plugin is not installed, therefore the bot cannot start.");
+            FLog.warning("To resolve this error, please download JDA from: https://github.com/TFPatches/Minecraft-JDA/releases");
+        }
     }
 
     @Override
