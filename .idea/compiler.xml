@@ -8,9 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="TotalFreedomMod" />
+        <module name="totalfreedom" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="totalfreedom" target="1.8" />
       <module name="TotalFreedomMod" target="1.8" />
     </bytecodeTargetLevel>
   </component>

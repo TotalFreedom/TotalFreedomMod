@@ -464,7 +464,7 @@ public class FrontDoor extends FreedomService
                                 continue;
                             }
 
-                            block.setType(Material.SIGN);
+                            block.setType(Material.OAK_SIGN);
                             org.bukkit.block.Sign sign = (org.bukkit.block.Sign)block.getState();
 
                             org.bukkit.material.Sign signData = (org.bukkit.material.Sign)sign.getData();

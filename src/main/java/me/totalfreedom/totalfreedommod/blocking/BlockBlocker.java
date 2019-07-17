@@ -5,7 +5,6 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -93,6 +92,13 @@ public class BlockBlocker extends FreedomService
             case STRUCTURE_BLOCK:
             {
                 player.sendMessage(ChatColor.GRAY + "Structure blocks are disabled.");
+                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                event.setCancelled(true);
+                break;
+            }
+            case JIGSAW:
+            {
+                player.sendMessage(ChatColor.GRAY + "Jigsaws are disabled.");
                 player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
                 event.setCancelled(true);
                 break;

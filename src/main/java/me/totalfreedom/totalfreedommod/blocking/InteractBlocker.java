@@ -55,10 +55,13 @@ public class InteractBlocker extends FreedomService
     {
         final Player player = event.getPlayer();
 
-        if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.STRUCTURE_BLOCK))
+        if (event.getClickedBlock() != null)
         {
-            event.setCancelled(true);
-            event.getPlayer().closeInventory();
+            if (event.getClickedBlock().getType().equals(Material.STRUCTURE_BLOCK) || event.getClickedBlock().getType().equals(Material.JIGSAW))
+            {
+                event.setCancelled(true);
+                event.getPlayer().closeInventory();
+            }
         }
 
         switch (event.getMaterial())

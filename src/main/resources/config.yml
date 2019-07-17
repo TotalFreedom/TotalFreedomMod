@@ -208,6 +208,8 @@ blocked_commands:
   - 's:b:/fill:_'
   - 's:b:/flood:_'
   - 's:b:/team:_'
+  - 's:b:/loot:_'
+  - 's:b:/schedule:_'
 
 # Automatically wipe dropped objects
 auto_wipe: true

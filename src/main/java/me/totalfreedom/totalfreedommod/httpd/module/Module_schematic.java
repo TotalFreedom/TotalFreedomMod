@@ -190,9 +190,9 @@ public class Module_schematic extends HTTPDModule
             throw new SchematicTransferException("Can't resolve original file name.");
         }
 
-        if (tempFile.length() > FileUtils.ONE_KB * 64L)
+        if (tempFile.length() > FileUtils.ONE_MB )
         {
-            throw new SchematicTransferException("Schematic is too big (64kb max).");
+            throw new SchematicTransferException("Schematic is too big (1mb max).");
         }
 
         if (!SCHEMATIC_FILENAME_LC.matcher(origFileName.toLowerCase()).find())
