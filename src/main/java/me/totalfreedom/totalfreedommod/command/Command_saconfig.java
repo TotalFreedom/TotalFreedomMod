@@ -220,9 +220,9 @@ public class Command_saconfig extends FreedomCommand
                         MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(player);
                         admin.setDiscordID(plugin.mbl.getMasterBuilder(player).getDiscordID());
                     }
-                    else if (plugin.pv.getVerificationPlayer(admin.getName()) != null)
+                    else if (plugin.pv.getVerificationPlayer(player.getName()) != null)
                     {
-                        VPlayer vPlayer = plugin.pv.getVerificationPlayer(admin.getName());
+                        VPlayer vPlayer = plugin.pv.getVerificationPlayer(player.getName());
                         if (vPlayer.getDiscordId() != null)
                         {
                             admin.setDiscordID(vPlayer.getDiscordId());
