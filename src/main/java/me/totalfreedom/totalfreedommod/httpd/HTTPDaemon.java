@@ -26,7 +26,7 @@ import me.totalfreedom.totalfreedommod.httpd.module.Module_punishments;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_schematic;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class HTTPDaemon extends FreedomService

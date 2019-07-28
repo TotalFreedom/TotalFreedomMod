@@ -28,11 +28,6 @@ public class Fuckoff extends FreedomService
     public void onPlayerMove(PlayerMoveEvent event)
     {
         final Player fuckoffPlayer = event.getPlayer();
-        if (plugin.al.isAdmin(fuckoffPlayer))
-        {
-            return;
-        }
-
         for (Player onlinePlayer : server.getOnlinePlayers())
         {
             final FPlayer fPlayer = plugin.pl.getPlayer(onlinePlayer);

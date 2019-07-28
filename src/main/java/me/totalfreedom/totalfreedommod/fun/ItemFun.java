@@ -69,7 +69,7 @@ public class ItemFun extends FreedomService
                 if (!plugin.al.isSeniorAdmin(player))
                 {
                     final StringBuilder msg = new StringBuilder();
-                    final char[] chars = ("You are a clown.").toCharArray();
+                    final char[] chars = ("That's clownery, luv").toCharArray();
                     for (char c : chars)
                     {
                         msg.append(FUtil.randomChatColor()).append(c);

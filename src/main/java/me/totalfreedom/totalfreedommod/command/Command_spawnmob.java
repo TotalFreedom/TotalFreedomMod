@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.apache.commons.lang3.EnumUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
