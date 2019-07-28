@@ -145,7 +145,7 @@ public class ChatManager extends FreedomService
     public void adminChat(CommandSender sender, String message)
     {
         Displayable display = plugin.rm.getDisplay(sender);
-        FLog.info("[ADMIN] " + sender.getName() + " " + display.getTag() + ": " + message);
+        FLog.info("[ADMIN] " + sender.getName() + " " + display.getTag() + ": " + message, true);
 
         for (Player player : server.getOnlinePlayers())
         {
