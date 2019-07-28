@@ -1,6 +1,10 @@
 package me.totalfreedom.totalfreedommod.httpd.module;
 
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -190,9 +194,14 @@ public class Module_schematic extends HTTPDModule
             throw new SchematicTransferException("Can't resolve original file name.");
         }
 
-        if (tempFile.length() > FileUtils.ONE_MB )
+        if (tempFile.length() > FileUtils.ONE_MB)
         {
             throw new SchematicTransferException("Schematic is too big (1mb max).");
+        }
+
+        if (plugin.web.getWorldEditPlugin() == null)
+        {
+            throw new SchematicTransferException("WorldEdit is not on the server.");
         }
 
         if (!SCHEMATIC_FILENAME_LC.matcher(origFileName.toLowerCase()).find())
@@ -206,10 +215,28 @@ public class Module_schematic extends HTTPDModule
             throw new SchematicTransferException("Schematic already exists on the server.");
         }
 
+
         try
         {
             FileUtils.copyFile(tempFile, targetFile);
+            ClipboardFormat format = ClipboardFormats.findByFile(targetFile);
+            if (format == null)
+            {
+                FileUtils.deleteQuietly(targetFile);
+                throw new SchematicTransferException("Schematic is not a valid schematic.");
+            }
+            try
+            {
+                ClipboardReader reader = format.getReader(new FileInputStream(targetFile));
+            }
+            catch (IOException e)
+            {
+                FileUtils.deleteQuietly(targetFile);
+                throw new SchematicTransferException("Schematic is not a valid schematic.");
+            }
+
             FLog.info(remoteAddress + " uploaded schematic: " + targetFile.getName());
+
         }
         catch (IOException ex)
         {
