@@ -2,7 +2,9 @@ package me.totalfreedom.totalfreedommod.httpd.module;
 
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -223,6 +225,16 @@ public class Module_schematic extends HTTPDModule
                 FileUtils.deleteQuietly(targetFile);
                 throw new SchematicTransferException("Schematic is not a valid schematic.");
             }
+            try
+            {
+                ClipboardReader reader = format.getReader(new FileInputStream(targetFile));
+            }
+            catch (IOException e)
+            {
+                FileUtils.deleteQuietly(targetFile);
+                throw new SchematicTransferException("Schematic is not a valid schematic.");
+            }
+
             FLog.info(remoteAddress + " uploaded schematic: " + targetFile.getName());
 
         }
