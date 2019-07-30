@@ -25,8 +25,14 @@ public class Command_invis extends FreedomCommand
         {
             if (args[0].equalsIgnoreCase("clear"))
             {
-                FUtil.adminAction(sender.getName(), "Clearing all invisibility potion effects from all players", true);
-                clear = true;
+                if(!plugin.al.isAdmin(sender))
+                {
+                    return noPerms();
+                }
+                else {
+                    FUtil.adminAction(sender.getName(), "Clearing all invisibility potion effects from all players", true);
+                    clear = true;
+                }
             }
             else
             {

@@ -36,6 +36,11 @@ public class Command_whohas extends FreedomCommand
 
         final List<String> players = new ArrayList<>();
 
+        if (!plugin.al.isAdmin(playerSender))
+        {
+            return noPerms();
+        }
+
         for (final Player player : server.getOnlinePlayers())
         {
             if (player.getInventory().contains(material))
