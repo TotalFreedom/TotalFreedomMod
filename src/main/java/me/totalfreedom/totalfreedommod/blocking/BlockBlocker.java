@@ -103,13 +103,6 @@ public class BlockBlocker extends FreedomService
                 event.setCancelled(true);
                 break;
             } 
-
-
-
-
-
-
-
         }
     }
 
