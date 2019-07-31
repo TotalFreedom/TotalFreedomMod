@@ -38,36 +38,7 @@ public class AntiNuke extends FreedomService
         }
 
         final Player player = event.getPlayer();
-        final Location location = event.getBlock().getLocation();
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
-
-        final Location playerLocation = player.getLocation();
-
-        final double nukeMonitorRange = ConfigEntry.NUKE_MONITOR_RANGE.getDouble();
-
-        boolean outOfRange = false;
-        if (!playerLocation.getWorld().equals(location.getWorld()))
-        {
-            outOfRange = true;
-        }
-        else if (playerLocation.distanceSquared(location) > (nukeMonitorRange * nukeMonitorRange))
-        {
-            outOfRange = true;
-        }
-
-        if (outOfRange)
-        {
-            if (fPlayer.incrementAndGetFreecamDestroyCount() > ConfigEntry.FREECAM_TRIGGER_COUNT.getInteger())
-            {
-                FUtil.bcastMsg(player.getName() + " has been flagged for possible freecam nuking.", ChatColor.RED);
-                plugin.ae.autoEject(player, "Freecam (extended range) block breaking is not permitted on this server.");
-
-                fPlayer.resetFreecamDestroyCount();
-
-                event.setCancelled(true);
-                return;
-            }
-        }
 
         if (fPlayer.incrementAndGetBlockDestroyCount() > ConfigEntry.NUKE_MONITOR_COUNT_BREAK.getInteger())
         {
@@ -90,36 +61,7 @@ public class AntiNuke extends FreedomService
         }
 
         Player player = event.getPlayer();
-        Location blockLocation = event.getBlock().getLocation();
         FPlayer fPlayer = plugin.pl.getPlayer(player);
-
-        Location playerLocation = player.getLocation();
-
-        double nukeMonitorRange = ConfigEntry.NUKE_MONITOR_RANGE.getDouble();
-
-        boolean outOfRange = false;
-        if (!playerLocation.getWorld().equals(blockLocation.getWorld()))
-        {
-            outOfRange = true;
-        }
-        else if (playerLocation.distanceSquared(blockLocation) > (nukeMonitorRange * nukeMonitorRange))
-        {
-            outOfRange = true;
-        }
-
-        if (outOfRange)
-        {
-            if (fPlayer.incrementAndGetFreecamPlaceCount() > ConfigEntry.FREECAM_TRIGGER_COUNT.getInteger())
-            {
-                FUtil.bcastMsg(player.getName() + " has been flagged for possible freecam building.", ChatColor.RED);
-                plugin.ae.autoEject(player, "Freecam (extended range) block building is not permitted on this server.");
-
-                fPlayer.resetFreecamPlaceCount();
-
-                event.setCancelled(true);
-                return;
-            }
-        }
 
         if (fPlayer.incrementAndGetBlockPlaceCount() > ConfigEntry.NUKE_MONITOR_COUNT_PLACE.getInteger())
         {
