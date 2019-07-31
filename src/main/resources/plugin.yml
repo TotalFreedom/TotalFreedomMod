@@ -5,4 +5,4 @@ description: Plugin for the Total Freedom server.
 depend: [Aero]
 softdepend: [BukkitTelnet, Essentials, LibsDisguises, WorldEdit]
 authors: [Madgeek1450, Prozza]
-api-version: 1.13
+api-version: 1.14

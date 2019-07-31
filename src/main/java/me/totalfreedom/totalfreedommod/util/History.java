@@ -35,8 +35,12 @@ public class History
                     String compactUuid = uuid.toString().replace("-", "");
                     try
                     {
+                        //UUIDs or playernames actually work with this one
+                        //TODO: fix the stupid api on how it's not working name histories
+                        //URL url = new URL("https://api.ashcon.app/mojang/v2/user/" + compactUuid);
                         URL url = new URL("https://api.mojang.com/user/profiles/" + compactUuid + "/names");
                         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                        //conn.setRequestProperty("User-Agent", "");
                         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         FName[] oldNames = gson.fromJson(reader, FName[].class);
                         if (oldNames == null)

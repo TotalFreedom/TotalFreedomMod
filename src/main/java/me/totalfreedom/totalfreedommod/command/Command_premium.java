@@ -1,7 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -44,15 +46,30 @@ public class Command_premium extends FreedomCommand
             {
                 try
                 {
-                    final URL getUrl = new URL("http://axis.iaero.me/accstatus?username=" + name + "&format=plain");
-                    final URLConnection urlConnection = getUrl.openConnection();
+                    final URL getUrl = new URL("https://api.ashcon.app/mojang/v2/user/" + name);
+                    final HttpURLConnection urlConnection = (HttpURLConnection)getUrl.openConnection();
+                    urlConnection.setRequestProperty("User-Agent", "");
                     final String message;
-                    try ( // Read the response
-                          BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream())))
+                    String message1;
+                    try //( // Read the response
+                          //BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream())))
                     {
-                        message = (!"PREMIUM".equalsIgnoreCase(in.readLine()) ? ChatColor.RED + "No" : ChatColor.DARK_GREEN + "Yes");
+                        if (urlConnection.getResponseCode() == 200)
+                        {
+                            message1 = ChatColor.GREEN + "Yes";
+                        }
+                        else
+                        {
+                            message1 = ChatColor.RED + "No";
+                        }
+                        //message = (!"PREMIUM".equalsIgnoreCase(in.readLine()) ? ChatColor.RED + "No" : ChatColor.DARK_GREEN + "Yes");
+                    }
+                    catch (Exception e){
+                        message1 = ChatColor.RED + "There was an error on trying to connect to the API server";
                     }
 
+
+                    message = message1;
                     if (!plugin.isEnabled())
                     {
                         return;
@@ -71,7 +88,7 @@ public class Command_premium extends FreedomCommand
                 catch (Exception ex)
                 {
                     FLog.severe(ex);
-                    msg("There was an error querying the Mojang server.", ChatColor.RED);
+                    msg("There was an error querying the API server.", ChatColor.RED);
                 }
             }
         }.runTaskAsynchronously(plugin);
