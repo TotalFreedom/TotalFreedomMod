@@ -54,11 +54,14 @@ public class InteractBlocker extends FreedomService
     @EventHandler(priority = EventPriority.HIGH)
     public void onRightClickBell(PlayerInteractEvent event)
     {
-        if (event.getClickedBlock().getType().equals(Material.BELL))
+        if (event.getClickedBlock() != null)
         {
-            if (!ConfigEntry.ALLOW_BELLS.getBoolean())
+            if (event.getClickedBlock().getType().equals(Material.BELL))
             {
-                event.setCancelled(true);
+                if (!ConfigEntry.ALLOW_BELLS.getBoolean())
+                {
+                    event.setCancelled(true);
+                }
             }
         }
     }
