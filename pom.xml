@@ -107,6 +107,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.14-R0.1-SNAPSHOT</version>
@@ -359,6 +366,7 @@
                         <artifactSet>
                             <includes>
                                 <include>commons-io:commons-io</include>
+                                <include>org.apache.commons:commons-lang3</include>
                             </includes>
                         </artifactSet>
                     </configuration>

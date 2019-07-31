@@ -19,12 +19,16 @@ public class Module_permbans extends HTTPDModule
     public NanoHTTPD.Response getResponse()
     {
         File permbanFile = new File(plugin.getDataFolder(), PermbanList.CONFIG_FILENAME);
-        final String remoteAddress = socket.getInetAddress().getHostAddress();
+
+        // if people get mad that opening the permban list to the public causes a mass DDoS attack on the server due to ip
+        // leaks, it wasnt my idea
+
+        /*final String remoteAddress = socket.getInetAddress().getHostAddress();
         if (!isAuthorized(remoteAddress))
         {
             return new NanoHTTPD.Response(NanoHTTPD.Response.Status.NOT_FOUND, NanoHTTPD.MIME_PLAINTEXT,
                     "You may not view the permban list. Your IP, " + remoteAddress + ", is not registered to an admin on the server.");
-        }
+        }*/
         if (permbanFile.exists())
         {
             return HTTPDaemon.serveFileBasic(new File(plugin.getDataFolder(), PermbanList.CONFIG_FILENAME));

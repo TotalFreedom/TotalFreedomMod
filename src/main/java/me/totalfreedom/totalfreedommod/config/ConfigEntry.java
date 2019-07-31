@@ -22,6 +22,7 @@ public enum ConfigEntry
     ALLOW_FIREWORK_EXPLOSION(Boolean.class, "allow.fireworks"),
     ALLOW_FROSTWALKER(Boolean.class, "allow.frostwalker"),
     ALLOW_UNSAFE_ENCHANTMENTS(Boolean.class, "allow.unsafe_enchantments"),
+    ALLOW_BELLS(Boolean.class, "allow.bells"),
     //
     BLOCKED_CHATCODES(String.class, "blocked_chatcodes"),
     //
@@ -107,7 +108,6 @@ public enum ConfigEntry
     BLOCKED_COMMANDS(List.class, "blocked_commands"),
     HOST_SENDER_NAMES(List.class, "host_sender_names"),
     FAMOUS_PLAYERS(List.class, "famous_players"),
-    OVERLORD_IPS(List.class, "overlord_ips"),
     NOADMIN_IPS(List.class, "noadmin_ips"),
     ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
     ADMIN_INFO(List.class, "admininfo"),
