@@ -106,6 +106,8 @@ allow:
   redstone: true
   fireworks: false
   frostwalker: false
+  unsafe_enchantments: true;
+  bells: true
 
 # Blocked commands:
 #
@@ -395,14 +397,6 @@ autokick:
 
   # Time, in seconds, after which a player should be kicked when inactive
   time: 120
-
-# Players with access to the overlord command
-overlord_ips:
-  - 176.56.237.227
-  - 192.184.86.138
-  - 107.191.101.27
-  - 178.62.117.94
-  - 141.101.104.243
   
 # Blocked Chat Codes - Use &code,&code2,&code3 (No spaces)
 blocked_chatcodes: '&0,&k,&m,&n'

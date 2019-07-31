@@ -1,7 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,6 +26,12 @@ public class Command_gchat extends FreedomCommand
         if (player == null)
         {
             sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
+            return true;
+        }
+
+        if (!FUtil.isExecutive(sender.getName()) && plugin.al.isAdmin(player))
+        {
+            msg("Only Executives may use this command on admins", ChatColor.RED);
             return true;
         }
 
