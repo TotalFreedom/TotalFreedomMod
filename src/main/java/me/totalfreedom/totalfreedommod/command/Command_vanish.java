@@ -59,6 +59,8 @@ public class Command_vanish extends FreedomCommand
             FLog.info(playerSender.getName() + " is no longer vanished.");
             for (Player player : server.getOnlinePlayers())
             {
+                if (plugin.al.isAdmin(player))
+                playerMsg(player, ChatColor.RED + sender.getName() + " has unvanished and is now visible to everyone." );
                 player.showPlayer(plugin, playerSender);
             }
             plugin.esb.setVanished(playerSender.getName(), false);
@@ -78,7 +80,7 @@ public class Command_vanish extends FreedomCommand
             {
                 {
                     if (plugin.al.isAdmin(player))
-                        playerMsg(player, ChatColor.YELLOW + sender.getName() + " has vanished and is now only visible to admins." );
+                        playerMsg(player, ChatColor.RED + sender.getName() + " has vanished and is now only visible to admins." );
                     if (!plugin.al.isAdmin(player))
                         player.hidePlayer(plugin, playerSender);
                 }
