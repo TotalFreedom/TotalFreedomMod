@@ -106,7 +106,7 @@ allow:
   redstone: true
   fireworks: false
   frostwalker: false
-  unsafe_enchantments: true;
+  unsafe_enchantments: true
   bells: true
 
 # Blocked commands:
