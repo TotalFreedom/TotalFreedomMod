@@ -26,18 +26,15 @@ public class Command_invis extends FreedomCommand
             if (args[0].equalsIgnoreCase("clear"))
             {
                 if(!plugin.al.isAdmin(sender))
-                {
                     return noPerms();
-                }
-                else {
+                else 
+                {
                     FUtil.adminAction(sender.getName(), "Clearing all invisibility potion effects from all players", true);
                     clear = true;
                 }
             }
             else
-            {
                 return false;
-            }
         }
 
         List<String> players = new ArrayList<String>();
@@ -61,14 +58,12 @@ public class Command_invis extends FreedomCommand
             msg("There are no invisible players");
             return true;
         }
+        
         if (clear)
-        {
             msg("Cleared " + clears + " players");
-        }
         else
-        {
             msg("Invisible players (" + players.size() + "): " + StringUtils.join(players, ", "));
-        }
+            
         return true;
     }
 
@@ -76,9 +71,7 @@ public class Command_invis extends FreedomCommand
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
         if (args.length == 1 && plugin.al.isAdmin(sender))
-        {
             return Arrays.asList("clear");
-        }
 
         return Collections.emptyList();
     }
