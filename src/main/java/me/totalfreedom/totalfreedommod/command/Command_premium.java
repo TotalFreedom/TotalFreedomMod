@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FSync;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,21 +24,15 @@ public class Command_premium extends FreedomCommand
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length != 1)
-        {
             return false;
-        }
 
         final Player player = getPlayer(args[0]);
         final String name;
 
         if (player != null)
-        {
             name = player.getName();
-        }
         else
-        {
             name = args[0];
-        }
 
         new BukkitRunnable()
         {
@@ -49,43 +44,26 @@ public class Command_premium extends FreedomCommand
                     final URL getUrl = new URL("https://api.ashcon.app/mojang/v2/user/" + name);
                     final HttpURLConnection urlConnection = (HttpURLConnection)getUrl.openConnection();
                     urlConnection.setRequestProperty("User-Agent", "");
-                    final String message;
-                    String message1;
-                    try //( // Read the response
-                          //BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream())))
+                    String message = "";
+                    /*old code
+                    BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream())))
+                    //message = (!"PREMIUM".equalsIgnoreCase(in.readLine()) ? ChatColor.RED + "No" : ChatColor.DARK_GREEN + "Yes");
+                    */
+                    try
                     {
                         if (urlConnection.getResponseCode() == 200)
-                        {
-                            message1 = ChatColor.GREEN + "Yes";
-                        }
+                            message = ChatColor.GREEN + "Yes";
                         else
-                        {
-                            message1 = ChatColor.RED + "No";
-                        }
-                        //message = (!"PREMIUM".equalsIgnoreCase(in.readLine()) ? ChatColor.RED + "No" : ChatColor.DARK_GREEN + "Yes");
+                            message = ChatColor.RED + "No";                            
+                        FSync.playerMsg(sender, "Player " + name + " is premium: " + message);
                     }
-                    catch (Exception e){
-                        message1 = ChatColor.RED + "There was an error on trying to connect to the API server";
-                    }
-
-
-                    message = message1;
-                    if (!plugin.isEnabled())
+                    catch (IOException e)
                     {
-                        return;
+                       FSync.playerMsg(sender, ChatColor.RED + "There was an error on trying to connect to the API server");
                     }
-
-                    new BukkitRunnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            msg("Player " + name + " is premium: " + message);
-                        }
-                    }.runTask(plugin);
-
+                    
                 }
-                catch (Exception ex)
+                catch (IOException ex)
                 {
                     FLog.severe(ex);
                     msg("There was an error querying the API server.", ChatColor.RED);
