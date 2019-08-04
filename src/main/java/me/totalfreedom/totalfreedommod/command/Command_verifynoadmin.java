@@ -1,6 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -12,7 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Warns a player.", usage = "/<command> <player>", aliases = "vna")
+@CommandParameters(description = "Verify an admin without giving them admin perms.", usage = "/<command> <player>", aliases = "vna")
 public class Command_verifynoadmin extends FreedomCommand
 {
 
@@ -74,5 +76,24 @@ public class Command_verifynoadmin extends FreedomCommand
         }
 
         return true;
+    }
+
+    @Override
+    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
+    {
+        if (args.length == 1)
+        {
+            List<String> adminImposters = new ArrayList<>();
+            for (Player player : server.getOnlinePlayers())
+            {
+                if (plugin.al.isAdminImpostor(player))
+                {
+                    adminImposters.add(player.getName());
+                }
+            }
+            return adminImposters;
+        }
+
+        return Collections.emptyList();
     }
 }
