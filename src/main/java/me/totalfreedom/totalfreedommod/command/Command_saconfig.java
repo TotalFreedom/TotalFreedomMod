@@ -285,6 +285,12 @@ public class Command_saconfig extends FreedomCommand
                         }
                     }
 
+                    if (plugin.al.isVerifiedAdmin(player))
+                    {
+                        plugin.al.verifiedNoAdmins.remove(player.getName());
+                        plugin.al.verifiedNoAdminIps.remove(player.getName());
+                    }
+
                     plugin.al.save();
                     plugin.al.updateTables();
                     if (player != null)

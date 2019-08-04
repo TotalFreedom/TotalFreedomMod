@@ -67,6 +67,11 @@ public class RankManager extends FreedomService
             return Title.EXECUTIVE;
         }
 
+        if (plugin.al.isVerifiedAdmin(player))
+        {
+            return Title.VERIFIED_ADMIN;
+        }
+
         // Master builders show up if they are not admins
         if (plugin.mbl.isMasterBuilder(player) && !plugin.al.isAdmin(player))
         {
@@ -168,6 +173,11 @@ public class RankManager extends FreedomService
                 fPlayer.setSuperadminIdVerified(true);
                 plugin.al.updateLastLogin(player);
             }
+        }
+
+        if (plugin.al.isVerifiedAdmin(player))
+        {
+            FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but does not have any admin permissions.", ChatColor.RED);
         }
 
         // Handle impostors

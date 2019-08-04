@@ -36,6 +36,8 @@ public class AdminList extends FreedomService
     private final Set<Admin> activeAdmins = Sets.newHashSet();
     private final Map<String, Admin> nameTable = Maps.newHashMap();
     private final Map<String, Admin> ipTable = Maps.newHashMap();
+    public final List<String> verifiedNoAdmins = new ArrayList<>();
+    public final Map<String, List<String>> verifiedNoAdminIps = Maps.newHashMap();
     //
     private final YamlConfig config;
 
@@ -255,7 +257,12 @@ public class AdminList extends FreedomService
 
     public boolean isAdminImpostor(Player player)
     {
-        return getEntryByName(player.getName()) != null && !isAdmin(player);
+        return getEntryByName(player.getName()) != null && !isAdmin(player) && !isVerifiedAdmin(player);
+    }
+
+    public boolean isVerifiedAdmin(Player player)
+    {
+        return verifiedNoAdmins.contains(player.getName()) && verifiedNoAdminIps.get(player.getName()).contains(Ips.getIp(player));
     }
 
     public boolean isIdentityMatched(Player player)
