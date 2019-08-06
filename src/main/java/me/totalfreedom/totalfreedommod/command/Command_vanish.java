@@ -64,7 +64,6 @@ public class Command_vanish extends FreedomCommand
                 player.showPlayer(plugin, playerSender);
             }
             plugin.esb.setVanished(playerSender.getName(), false);
-            playerSender.removePotionEffect(PotionEffectType.INVISIBILITY);
             playerSender.setPlayerListName(StringUtils.substring(displayName, 0, 16));
             VANISHED.remove(playerSender);
         }
@@ -86,7 +85,6 @@ public class Command_vanish extends FreedomCommand
                 }
             }
             plugin.esb.setVanished(playerSender.getName(), true);
-            playerSender.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 1, false, true));
             VANISHED.add(playerSender);
         }
         return true;
