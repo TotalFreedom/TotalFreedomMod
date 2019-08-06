@@ -7,7 +7,9 @@ import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 import net.pravian.aero.util.Ips;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -109,7 +111,8 @@ public class Command_doom extends FreedomCommand
             public void run()
             {
                 // message
-                FUtil.adminAction(sender.getName(), "Banning " + player.getName() + ", IP: " + ip, true);
+                FUtil.adminAction(sender.getName(), "Banning " + player.getName(), true);
+                playerMsg(sender, ChatColor.GRAY + player.getName() + " has been banned and IP is: " + ip);
 
                 // generate explosion
                 player.getWorld().createExplosion(player.getLocation(), 0F, false);

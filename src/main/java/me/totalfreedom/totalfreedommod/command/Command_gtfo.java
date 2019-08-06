@@ -10,6 +10,7 @@ import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -139,9 +140,8 @@ public class Command_gtfo extends FreedomCommand
                 .append(sender.getName())
                 .append(" - ")
                 .append("Banning: ")
-                .append(username)
-                .append(", IPs: ")
-                .append(StringUtils.join(ips, ", "));
+                .append(username);
+        playerMsg(sender, ChatColor.GRAY + username + " has been banned and IP is: " + StringUtils.join(ips, ", "));
         if (reason != null)
         {
             bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
