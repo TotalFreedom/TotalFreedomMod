@@ -142,10 +142,15 @@ public class Command_myadmin extends FreedomCommand
                 }
 
                 String msg = StringUtils.join(args, " ", 1, args.length);
+                if (!msg.contains("%rank%") && !msg.contains("%coloredrank%"))
+                {
+                    msg("Your login message must contain your rank. User either %rank% or %coloredrank% to specify where you want the rank", ChatColor.RED);
+                    return true;
+                }
                 FUtil.adminAction(sender.getName(), "Setting personal login message" + (init == null ? "" : " for " + targetPlayer.getName()), false);
                 target.setLoginMessage(msg);
                 msg((init == null ? "Your" : targetPlayer.getName() + "'s") + " login message is now: ");
-                msg("> " + ChatColor.AQUA + (msg.contains("%name%") ? "" : target.getName() + " is ") + FUtil.colorize(msg).replace("%name%", targetPlayer.getName()));
+                msg("> " + ChatColor.AQUA + (msg.contains("%name%") ? "" : target.getName() + " is ") + FUtil.colorize(msg).replace("%name%", targetPlayer.getName()).replace("%rank%", target.getRank().getName()).replace("%coloredrank%", target.getRank().getColoredName()));
                 plugin.al.save();
                 plugin.al.updateTables();
                 return true;
