@@ -218,19 +218,9 @@ public class EventBlocker extends FreedomService
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockDispense(BlockDispenseEvent event)
     {
-        ItemStack item = event.getItem();
-        if (Groups.SHULKER_BOXES.contains(item.getType()))
+        if (Groups.SPAWN_EGGS.contains(event.getItem().getType()))
         {
-            BlockStateMeta blockStateMeta = (BlockStateMeta)item.getItemMeta();
-            ShulkerBox shulkerBox = (ShulkerBox)blockStateMeta.getBlockState();
-            for (ItemStack itemStack : shulkerBox.getInventory().getContents())
-            {
-                if (itemStack != null)
-                {
-                    event.setCancelled(true);
-                    break;
-                }
-            }
+            event.setCancelled(true);
         }
     }
 }

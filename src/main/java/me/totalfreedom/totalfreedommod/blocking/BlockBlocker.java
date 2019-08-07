@@ -7,13 +7,11 @@ import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Egg;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import static net.minecraft.server.v1_14_R1.EnumMobSpawn.SPAWN_EGG;
 
 public class BlockBlocker extends FreedomService
 {
@@ -105,7 +103,6 @@ public class BlockBlocker extends FreedomService
                 event.setCancelled(true);
                 break;
             }
-            //TODO: seth block eggs thanks
         }
     }
 }
