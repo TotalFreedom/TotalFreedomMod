@@ -1,5 +1,6 @@
 # TFM excludes
 build.properties
+dependency-reduced-pom.xml
 
 # Netbeans excludes
 /nbproject/private
