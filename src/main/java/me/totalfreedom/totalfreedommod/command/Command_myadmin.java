@@ -150,7 +150,7 @@ public class Command_myadmin extends FreedomCommand
                 FUtil.adminAction(sender.getName(), "Setting personal login message" + (init == null ? "" : " for " + targetPlayer.getName()), false);
                 target.setLoginMessage(msg);
                 msg((init == null ? "Your" : targetPlayer.getName() + "'s") + " login message is now: ");
-                msg("> " + ChatColor.AQUA + (msg.contains("%name%") ? "" : target.getName() + " is ") + FUtil.colorize(msg).replace("%name%", targetPlayer.getName()).replace("%rank%", target.getRank().getName()).replace("%coloredrank%", target.getRank().getColoredName()));
+                msg("> " + ChatColor.AQUA + (msg.contains("%name%") ? "" : target.getName() + " is ") + FUtil.colorize(msg).replace("%name%", targetPlayer.getName()).replace("%rank%", plugin.rm.getDisplay(target).getName()).replace("%coloredrank%", plugin.rm.getDisplay(target).getColoredName()));
                 plugin.al.save();
                 plugin.al.updateTables();
                 return true;

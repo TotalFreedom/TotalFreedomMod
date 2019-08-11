@@ -81,6 +81,28 @@ public class RankManager extends FreedomService
         return getRank(player);
     }
 
+    public Displayable getDisplay(Admin admin)
+    {
+        // If the player's an owner, display that
+        if (ConfigEntry.SERVER_OWNERS.getList().contains(admin.getName()))
+        {
+            return Title.OWNER;
+        }
+
+        // Developers always show up
+        if (FUtil.DEVELOPERS.contains(admin.getName()))
+        {
+            return Title.DEVELOPER;
+        }
+
+        if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(admin.getName()))
+        {
+            return Title.EXECUTIVE;
+        }
+
+        return admin.getRank();
+    }
+
     public Rank getRank(CommandSender sender)
     {
         if (sender instanceof Player)
@@ -218,7 +240,7 @@ public class RankManager extends FreedomService
                 Admin admin = plugin.al.getAdmin(player);
                 if (admin.hasLoginMessage())
                 {
-                    loginMsg = ChatUtils.colorize(admin.getLoginMessage()).replace("%rank%", admin.getRank().getName()).replace("%coloredrank%", admin.getRank().getColoredName());
+                    loginMsg = ChatUtils.colorize(admin.getLoginMessage()).replace("%rank%", plugin.rm.getDisplay(admin).getName()).replace("%coloredrank%", plugin.rm.getDisplay(admin).getColoredName());
                 }
             }
             FUtil.bcastMsg(ChatColor.AQUA + (loginMsg.contains("%name%") ? "" : player.getName() + " is ") + FUtil.colorize(loginMsg).replace("%name%", player.getName()));
