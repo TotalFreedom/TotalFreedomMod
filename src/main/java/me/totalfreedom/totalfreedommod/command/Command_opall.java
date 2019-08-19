@@ -19,24 +19,6 @@ public class Command_opall extends FreedomCommand
 
         boolean doSetGamemode = false;
         GameMode targetGamemode = GameMode.CREATIVE;
-        if (args.length != 0)
-        {
-            if (args[0].equals("-c"))
-            {
-                doSetGamemode = true;
-                targetGamemode = GameMode.CREATIVE;
-            }
-            else if (args[0].equals("-s"))
-            {
-                doSetGamemode = true;
-                targetGamemode = GameMode.SURVIVAL;
-            }
-            else if (args[0].equals("-a"))
-            {
-                doSetGamemode = true;
-                targetGamemode = GameMode.ADVENTURE;
-            }
-        }
 
         for (Player player : server.getOnlinePlayers())
         {

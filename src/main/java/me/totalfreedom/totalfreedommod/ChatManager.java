@@ -120,6 +120,10 @@ public class ChatManager extends FreedomService
             {
                 color = ChatColor.LIGHT_PURPLE;
             }
+            else if (color.equals(ChatColor.DARK_RED))
+            {
+                color = ChatColor.BLUE;
+            }
         }
         return color;
     }
@@ -137,6 +141,10 @@ public class ChatManager extends FreedomService
             else if (color.equals(ChatColor.GOLD))
             {
                 color = ChatColor.LIGHT_PURPLE;
+            }
+            else if (color.equals(ChatColor.DARK_RED))
+            {
+                color = ChatColor.BLUE;
             }
         }
         return color + display.getAbbr();

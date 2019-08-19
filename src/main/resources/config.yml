@@ -315,6 +315,13 @@ admininfo:
   - ' &6- Report those breaking the rules'
   - ' &2- And apply on our forums at the link:'
   - '    &9www.totalfreedom.boards.net'
+  
+# What to display in the vote command.
+votinginfo:
+  - '&bVoting Links:'
+  - ' &6- https://minecraft-mp.com/server/228386/vote/'
+  - ' &2- https://minecraft-server-list.com/server/443272/vote/'
+  - ' &6- https://topg.org/Minecraft/in-518809'
 
 # What to display in the Master Builder info command.
 masterbuilderinfo:

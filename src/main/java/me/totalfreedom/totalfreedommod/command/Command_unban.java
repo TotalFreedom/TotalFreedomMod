@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
+import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Unbans a player", usage = "/<command> <username> [-r[estore]]")
@@ -35,7 +37,8 @@ public class Command_unban extends FreedomCommand
             username = entry.getUsername();
             ips.addAll(entry.getIps());
 
-            FUtil.adminAction(sender.getName(), "Unbanning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
+            FUtil.adminAction(sender.getName(), "Unbanning " + username, true);
+            playerMsg(sender, ChatColor.GRAY + username + " has been unbanned and IP is: " + StringUtils.join(ips, ", "));
             plugin.bm.removeBan(plugin.bm.getByUsername(username));
 
             if (args.length >= 2)

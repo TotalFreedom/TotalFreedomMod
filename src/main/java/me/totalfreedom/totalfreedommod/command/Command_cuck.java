@@ -11,9 +11,9 @@ import org.bukkit.ChatColor;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Cuck someone", usage = "/<command> <player>")
-public class Command_cuck extends FreedomCommand
+public class Command_cuck extends FreedomCommand   
 {
-
+    /* This command will not work on Paper because there was a patch to remove it. This will work on Spigot and Bukkit. */
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {

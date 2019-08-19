@@ -141,11 +141,11 @@ public class Command_gtfo extends FreedomCommand
                 .append(" - ")
                 .append("Banning: ")
                 .append(username);
-        playerMsg(sender, ChatColor.GRAY + username + " has been banned and IP is: " + StringUtils.join(ips, ", "));
         if (reason != null)
         {
             bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
         }
+        playerMsg(sender, ChatColor.GRAY + username + " has been banned and IP is: " + StringUtils.join(ips, ", "));
         FUtil.bcastMsg(bcast.toString());
 
         // Kick player

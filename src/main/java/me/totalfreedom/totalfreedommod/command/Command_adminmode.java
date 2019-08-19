@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Close server to non-admins.", usage = "/<command> [on | off]")
 public class Command_adminmode extends FreedomCommand
 {
