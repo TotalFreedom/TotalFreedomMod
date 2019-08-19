@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Go to a random place in the current world you are in", usage = "/<command>", aliases = "tpr")
+@CommandParameters(description = "Go to a random place in the current world you are in", usage = "/<command>", aliases = "tpr,rtp")
 public class Command_tprandom extends FreedomCommand
 {
     @Override
