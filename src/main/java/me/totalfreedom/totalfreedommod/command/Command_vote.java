@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Information on how to vote", usage = "/<command>", aliases = "ai")
+@CommandParameters(description = "Information on how to vote", usage = "/<command>")
 public class Command_vote extends FreedomCommand
 {
 
