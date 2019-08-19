@@ -20,7 +20,7 @@ public class HubWorldRestrictions extends FreedomService
 {
     
     public final List<String> ALLOWED_COMMANDS = Arrays.asList(
-           "list", "opall", "gmc", "gms", "gma", "gmsp", "purgeall", "stfu", "tempban", "gtfo", "noob", "adminworld", "masterbuilderworld", "world", "nether", "spawn", "tpo", "tp", "expel", "item", "i", "give", "adminchat", "adventure", "creative", "survival", "spectator", "say", "blockcmd", "blockpvp", "blockredstone", "stoplag", "halt-activity", "nickclean", "nick", "nicknyan", "vanish", "verify", "verifynoadmin", "co", "coreprotect", "core", "mobpurge", "logs", "links", "vote");
+           "list", "opall", "gmc", "gms", "gma", "gmsp", "purgeall", "stfu", "tempban", "gtfo", "noob", "flatlands", "adminworld", "masterbuilderworld", "world", "nether", "spawn", "tpo", "tp", "expel", "item", "i", "give", "adminchat", "adventure", "creative", "survival", "spectator", "say", "blockcmd", "blockpvp", "blockredstone", "stoplag", "halt-activity", "nickclean", "nick", "nicknyan", "vanish", "verify", "verifynoadmin", "co", "coreprotect", "core", "mobpurge", "logs", "links", "vote", "o", "linkdiscord");
 
     public HubWorldRestrictions(TotalFreedomMod plugin)
     {
@@ -54,7 +54,7 @@ public class HubWorldRestrictions extends FreedomService
 
         if (doRestrict(player))
         {
-            player.sendMessage(ChatColor.RED + "Only Executives can build in the Hub.");
+            player.sendMessage(ChatColor.RED + "Only Executives can do this!");
             event.setCancelled(true);
         }
     }
@@ -66,7 +66,7 @@ public class HubWorldRestrictions extends FreedomService
 
         if (doRestrict(player))
         {
-            player.sendMessage(ChatColor.RED + "Only Executives can build in the Hub.");
+            player.sendMessage(ChatColor.RED + "Only Executives can do this!");
             event.setCancelled(true);
         }
     }
@@ -78,7 +78,7 @@ public class HubWorldRestrictions extends FreedomService
 
         if (doRestrict(player))
         {
-            player.sendMessage(ChatColor.RED + "Only Executives can PVP in the Hub.");
+            player.sendMessage(ChatColor.RED + "Only Executives can do this!");
             event.setCancelled(true);
         }
     }
@@ -90,7 +90,7 @@ public class HubWorldRestrictions extends FreedomService
 
         if (doRestrict(player))
         {
-            player.sendMessage(ChatColor.RED + "Only Executives can interact with armorstands in the Hub.");
+            player.sendMessage(ChatColor.RED + "Only Executives can do this!");
             event.setCancelled(true);
         }
     }
@@ -104,7 +104,7 @@ public class HubWorldRestrictions extends FreedomService
 
             if (doRestrict(player))
             {
-                player.sendMessage(ChatColor.RED + "Only Executives can damage entities in the Hub.");
+                player.sendMessage(ChatColor.RED + "Only Executives can do this!");
                 event.setCancelled(true);
             }
         }
