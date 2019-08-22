@@ -7,6 +7,7 @@ import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,6 +15,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 
 public class ChatManager extends FreedomService
 {
@@ -51,8 +54,21 @@ public class ChatManager extends FreedomService
         final Player player = event.getPlayer();
         String message = event.getMessage().trim();
 
-        // Strip color from messages
-        message = ChatColor.stripColor(message);
+        if (plugin.al.isAdmin(player))
+        {
+            // Format color
+            message = FUtil.colorize(message);
+            message = message.replaceAll(ChatColor.BOLD.toString(), "&l");
+            message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
+            message = message.replaceAll(ChatColor.ITALIC.toString(), "&o");
+            message = message.replaceAll(ChatColor.UNDERLINE.toString(), "&n");
+            message = message.replaceAll(ChatColor.STRIKETHROUGH.toString(), "&m");
+        }
+        else
+        {
+            // Strip color from messages
+            message = ChatColor.stripColor(message);
+        }
 
         // Truncate messages that are too long - 256 characters is vanilla client max
         if (message.length() > 256)
@@ -100,6 +116,16 @@ public class ChatManager extends FreedomService
         if (tag != null && !tag.isEmpty())
         {
             format = tag.replace("%", "%%") + " " + format;
+        }
+        
+        // Check for mentions
+        Boolean mentionEveryone = ChatColor.stripColor(message).toLowerCase().contains("@everyone") && plugin.al.isAdmin(player);
+        for (Player p : server.getOnlinePlayers())
+        {
+            if (ChatColor.stripColor(message).toLowerCase().contains("@" + p.getName().toLowerCase()) || mentionEveryone)
+            {
+                p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, SoundCategory.MASTER, 1337F, 0.9F);
+            }
         }
 
         // Set format
