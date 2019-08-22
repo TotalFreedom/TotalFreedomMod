@@ -57,12 +57,12 @@ public class ChatManager extends FreedomService
         if (plugin.al.isAdmin(player))
         {
             // Format color
-            message = FUtil.colorize(message);
             message = message.replaceAll(ChatColor.BOLD.toString(), "&l");
             message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
             message = message.replaceAll(ChatColor.ITALIC.toString(), "&o");
             message = message.replaceAll(ChatColor.UNDERLINE.toString(), "&n");
             message = message.replaceAll(ChatColor.STRIKETHROUGH.toString(), "&m");
+            message = FUtil.colorize(message);
         }
         else
         {
