@@ -108,6 +108,7 @@ allow:
   frostwalker: false
   unsafe_enchantments: true
   bells: true
+  armorstands: false
 
 # Blocked commands:
 #

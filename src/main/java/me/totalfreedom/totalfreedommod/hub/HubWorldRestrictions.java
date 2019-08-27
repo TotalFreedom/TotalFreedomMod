@@ -54,7 +54,7 @@ public class HubWorldRestrictions extends FreedomService
 
         if (doRestrict(player))
         {
-            player.sendMessage(ChatColor.RED + "Only Executives can do this!");
+            player.sendMessage(ChatColor.RED + "Only Executives can do this in the Hub World!");
             event.setCancelled(true);
         }
     }
@@ -66,7 +66,7 @@ public class HubWorldRestrictions extends FreedomService
 
         if (doRestrict(player))
         {
-            player.sendMessage(ChatColor.RED + "Only Executives can do this!");
+            player.sendMessage(ChatColor.RED + "Only Executives can do this in the Hub World!");
             event.setCancelled(true);
         }
     }
@@ -78,7 +78,7 @@ public class HubWorldRestrictions extends FreedomService
 
         if (doRestrict(player))
         {
-            player.sendMessage(ChatColor.RED + "Only Executives can do this!");
+            player.sendMessage(ChatColor.RED + "Only Executives can do this in the Hub World!");
             event.setCancelled(true);
         }
     }
@@ -90,7 +90,7 @@ public class HubWorldRestrictions extends FreedomService
 
         if (doRestrict(player))
         {
-            player.sendMessage(ChatColor.RED + "Only Executives can do this!");
+            player.sendMessage(ChatColor.RED + "Only Executives can do this in the Hub World!");
             event.setCancelled(true);
         }
     }
@@ -104,7 +104,7 @@ public class HubWorldRestrictions extends FreedomService
 
             if (doRestrict(player))
             {
-                player.sendMessage(ChatColor.RED + "Only Executives can do this!");
+                player.sendMessage(ChatColor.RED + "Only Executives can do this in the Hub World!");
                 event.setCancelled(true);
             }
         }

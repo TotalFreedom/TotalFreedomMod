@@ -103,6 +103,13 @@ public class BlockBlocker extends FreedomService
                 event.setCancelled(true);
                 break;
             }
+            case GRINDSTONE:
+            {
+                player.sendMessage(ChatColor.GRAY + "Grindstones are disabled.");
+                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                event.setCancelled(true);
+                break;
+            }
         }
     }
 }

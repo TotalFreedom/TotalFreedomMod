@@ -128,6 +128,19 @@ public class InteractBlocker extends FreedomService
                 event.setCancelled(true);
                 break;
             }
+            
+            case ARMOR_STAND:
+            {
+                if (ConfigEntry.ALLOW_ARMOR_STANDS.getBoolean())
+                {
+                    break;
+                }
+
+                player.getInventory().clear(player.getInventory().getHeldItemSlot());
+                player.sendMessage(ChatColor.GRAY + "Armor stands are currently disabled.");
+                event.setCancelled(true);
+                break;
+            }
         }
     }
 }

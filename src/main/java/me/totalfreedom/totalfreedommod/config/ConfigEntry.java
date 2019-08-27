@@ -23,6 +23,7 @@ public enum ConfigEntry
     ALLOW_FROSTWALKER(Boolean.class, "allow.frostwalker"),
     ALLOW_UNSAFE_ENCHANTMENTS(Boolean.class, "allow.unsafe_enchantments"),
     ALLOW_BELLS(Boolean.class, "allow.bells"),
+    ALLOW_ARMOR_STANDS(Boolean.class, "allow.armorstands"),
     //
     BLOCKED_CHATCODES(String.class, "blocked_chatcodes"),
     //

@@ -38,6 +38,7 @@ public class Command_toggle extends FreedomCommand
             msg("- explosives [radius]");
             msg("- unsafeenchs");
             msg("- bells");
+            msg("- armorstands");
             return false;
         }
 
@@ -165,6 +166,11 @@ public class Command_toggle extends FreedomCommand
             toggle("The ringing of bells is", ConfigEntry.ALLOW_BELLS);
             return true;
         }
+        else if (args[0].equalsIgnoreCase("armorstands"))
+        {
+            toggle("The placement of armor stands is", ConfigEntry.ALLOW_ARMOR_STANDS);
+            return true;
+        }
         else
         {
             return false;
@@ -183,7 +189,7 @@ public class Command_toggle extends FreedomCommand
         {
             return Arrays.asList(
                     "waterplace", "fireplace", "lavaplace", "fluidspread", "lavadmg", "firespread", "frostwalk",
-                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs", "bells");
+                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs", "bells", "armorstands");
         }
 
         return Collections.emptyList();

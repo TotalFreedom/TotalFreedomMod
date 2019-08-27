@@ -84,6 +84,11 @@ public class FUtil
     {
         return ConfigEntry.SERVER_OWNERS.getStringList().contains(name) || ConfigEntry.SERVER_EXECUTIVES.getStringList().contains(name);
     }
+    
+    public static boolean isDeveloper(String name)
+    {
+        return FUtil.DEVELOPERS.contains(name);
+    }
 
     public static boolean canManageMasterBuilders(String name)
     {
