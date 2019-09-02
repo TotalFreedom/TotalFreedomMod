@@ -36,8 +36,6 @@ public class Command_wipeflatlands extends FreedomCommand
         {
             player.kickPlayer("Server is going offline for flatlands wipe, come back in a few minutes.");
         }
-        
-        server.shutdown();
 
         if (!plugin.amp.enabled)
         {
