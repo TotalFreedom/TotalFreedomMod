@@ -24,7 +24,7 @@ public class Module_admins extends HTTPDModule
             if (!isAuthorized(remoteAddress))
             {
                 return new NanoHTTPD.Response(NanoHTTPD.Response.Status.NOT_FOUND, NanoHTTPD.MIME_PLAINTEXT,
-                        "You may not view the admin list, Your IP, " + remoteAddress + ", is not registered to an admin on the server.");
+                        "You may not view the admin list. Your IP, " + remoteAddress + ", is not registered to an admin on the server.");
             }
             else
             {

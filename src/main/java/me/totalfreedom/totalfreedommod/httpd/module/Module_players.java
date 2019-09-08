@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.httpd.module;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -31,6 +32,7 @@ public class Module_players extends HTTPDModule
         final JSONArray telnetadmins = new JSONArray();
         final JSONArray senioradmins = new JSONArray();
         final JSONArray developers = new JSONArray();
+        final JSONArray executives = new JSONArray();
 
         // All online players
         for (Player player : Bukkit.getOnlinePlayers())
@@ -70,12 +72,16 @@ public class Module_players extends HTTPDModule
         // Developers
         developers.addAll(FUtil.DEVELOPERS);
 
+        // Executives
+        executives.addAll(ConfigEntry.SERVER_EXECUTIVES.getList());
+
         responseObject.put("players", players);
         responseObject.put("masterbuilders", masterbuilders);
         responseObject.put("superadmins", superadmins);
         responseObject.put("telnetadmins", telnetadmins);
         responseObject.put("senioradmins", senioradmins);
         responseObject.put("developers", developers);
+        responseObject.put("executives", developers);
 
         final NanoHTTPD.Response response = new NanoHTTPD.Response(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_JSON, responseObject.toString());
         response.addHeader("Access-Control-Allow-Origin", "*");

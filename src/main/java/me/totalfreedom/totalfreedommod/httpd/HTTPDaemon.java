@@ -61,7 +61,6 @@ public class HTTPDaemon extends FreedomService
         module("activitylog", Module_activitylog.class, true);
         module("admins", Module_admins.class, true);
         module("bans", Module_bans.class, true);
-        module("file", Module_file.class, true);
         module("help", Module_help.class, false);
         module("list", Module_list.class, false);
         module("logfile", Module_logfile.class, true);
