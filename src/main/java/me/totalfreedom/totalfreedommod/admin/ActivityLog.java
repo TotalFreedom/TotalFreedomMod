@@ -166,7 +166,7 @@ public class ActivityLog extends FreedomService
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         Player player = event.getPlayer();
@@ -178,7 +178,7 @@ public class ActivityLog extends FreedomService
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerQuit(PlayerQuitEvent event)
     {
         Player player = event.getPlayer();

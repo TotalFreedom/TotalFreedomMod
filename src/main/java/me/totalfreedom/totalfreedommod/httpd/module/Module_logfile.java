@@ -109,14 +109,14 @@ public class Module_logfile extends HTTPDModule
             {
                 if (!isAuthorized(remoteAddress))
                 {
-                    out.append(HTMLGenerationTools.paragraph("Log files access denied: Your IP, " + remoteAddress + ", is not registered to a superadmin on this server."));
+                    out.append(HTMLGenerationTools.paragraph("Log files access denied: Your IP, " + remoteAddress + ", is not registered to an admin on this server."));
                     FLog.info("An unregistered IP (" + remoteAddress + ") has tried to download a log file");
                 }
                 else
                 {
                     try
                     {
-                        FLog.info("The IP \"" + remoteAddress + "\" is downloading log file:" + params.get("logFileName"));
+                        FLog.info("The IP \"" + remoteAddress + "\" is downloading log file: " + params.get("logFileName"));
                         throw new ResponseOverrideException(downloadLogFile(params.get("logFileName")));
                     }
                     catch (LogFileTransferException ex)
