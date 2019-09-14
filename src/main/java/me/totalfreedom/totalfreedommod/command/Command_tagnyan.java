@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.blocking.PlayerBlocker;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -30,7 +31,7 @@ public class Command_tagnyan extends FreedomCommand
         }
 
         String tagStr = tag.toString();
-        for (String word : Command_tag.FORBIDDEN_WORDS)
+        for (String word : PlayerBlocker.blockedTags)
         {
             if (tagStr.contains(word))
             {

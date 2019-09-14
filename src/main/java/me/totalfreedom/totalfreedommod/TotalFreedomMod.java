@@ -13,6 +13,7 @@ import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
 import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
 import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
+import me.totalfreedom.totalfreedommod.blocking.PlayerBlocker;
 import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
 import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
 import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
@@ -97,6 +98,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Jumppads jp;
     public Trailer tr;
     public HTTPDaemon hd;
+    public PlayerBlocker plb;
     //
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
@@ -197,6 +199,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
         // HTTPD
         hd = services.registerService(HTTPDaemon.class);
+        plb = services.registerService(PlayerBlocker.class);
+        // Start Services
         services.start();
 
         // Start bridges

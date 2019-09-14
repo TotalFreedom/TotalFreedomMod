@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.blocking.PlayerBlocker;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -19,17 +20,9 @@ import org.bukkit.entity.Player;
 public class Command_tag extends FreedomCommand
 {
 
-    public final List<String> FORBIDDEN_WORDS = Lists.newArrayList();
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
-        // Load unbannable usernames
-        FORBIDDEN_WORDS.clear();
-        FORBIDDEN_WORDS.addAll((Collection<? extends String>) ConfigEntry.BLOCKED_TAGS.getList());
-        FLog.info("Loaded " + FORBIDDEN_WORDS.size() + " forbidden tags.");
-
 
         if (args.length == 1)
         {
@@ -138,7 +131,7 @@ public class Command_tag extends FreedomCommand
                         return true;
                     }
 
-                    for (String word : FORBIDDEN_WORDS)
+                    for (String word : PlayerBlocker.blockedTags)
                     {
                         if (rawTag.contains(word))
                         {
