@@ -80,7 +80,8 @@ public class PotionBlocker extends FreedomService
     {
         for (PotionEffect effect : effects)
         {
-            if (effect.getType().equals(PotionEffectType.HEAL) && effect.getAmplifier() == 125)
+            int amplifier = effect.getAmplifier();
+            if (effect.getType().equals(PotionEffectType.HEAL) && (amplifier == 29 || amplifier == 61 || amplifier == 93 || amplifier == 125))
             {
                 return true;
             }
