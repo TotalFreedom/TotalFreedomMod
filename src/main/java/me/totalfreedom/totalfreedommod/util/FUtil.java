@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -40,18 +41,19 @@ public class FUtil
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
-            ChatColor.DARK_BLUE,
-            ChatColor.DARK_GREEN,
-            ChatColor.DARK_AQUA,
             ChatColor.DARK_RED,
-            ChatColor.DARK_PURPLE,
-            ChatColor.GOLD,
-            ChatColor.BLUE,
-            ChatColor.GREEN,
-            ChatColor.AQUA,
             ChatColor.RED,
-            ChatColor.LIGHT_PURPLE,
-            ChatColor.YELLOW);
+            ChatColor.GOLD,
+            ChatColor.YELLOW,
+            ChatColor.GREEN,
+            ChatColor.DARK_GREEN,
+            ChatColor.AQUA,
+            ChatColor.DARK_AQUA,
+            ChatColor.BLUE,
+            ChatColor.DARK_BLUE,
+            ChatColor.DARK_PURPLE,
+            ChatColor.LIGHT_PURPLE);
+    private static Iterator<ChatColor> CHAT_COLOR_ITERATOR;
 
     static
     {
@@ -367,6 +369,25 @@ public class FUtil
     public static ChatColor randomChatColor()
     {
         return CHAT_COLOR_POOL.get(RANDOM.nextInt(CHAT_COLOR_POOL.size()));
+    }
+    
+    public static String rainbowify(String string)
+    {
+        CHAT_COLOR_ITERATOR = CHAT_COLOR_POOL.iterator();
+        
+        final StringBuilder newString = new StringBuilder();
+        final char[] chars = string.toCharArray();
+        
+        for (char c : chars)
+        {
+            if (!CHAT_COLOR_ITERATOR.hasNext())
+            {
+                CHAT_COLOR_ITERATOR = CHAT_COLOR_POOL.iterator(); //Restart from first colour if there are no more colours in iterator.
+            }
+            newString.append(CHAT_COLOR_ITERATOR.next()).append(c);
+        }
+        
+        return newString.toString();
     }
 
     public static String colorize(String string)
