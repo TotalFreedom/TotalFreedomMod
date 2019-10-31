@@ -1,8 +1,10 @@
 package me.totalfreedom.totalfreedommod.admin;
 
 import com.google.common.collect.Lists;
+
 import java.util.Date;
 import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.LogViewer.LogsRegistrationMode;
@@ -39,6 +41,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String loginMessage = null;
+    @Getter
+    @Setter
+    private boolean commandSpy = true;
 
     public Admin(Player player)
     {
@@ -62,7 +67,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")
                 .append("- Rank: ").append(rank.getName()).append("\n")
-                .append("- Is Active: ").append(active);
+                .append("- Is Active: ").append(active).append("\n")
+                .append("- CommandSpy: ").append(commandSpy);
 
         return output.toString();
     }
@@ -97,6 +103,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
+        cs.set("commandspy", commandSpy);
     }
 
     public boolean isAtLeast(Rank pRank)
@@ -107,6 +114,16 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     public boolean hasLoginMessage()
     {
         return loginMessage != null && !loginMessage.isEmpty();
+    }
+
+    public boolean hasCommandSpy()
+    {
+        return commandSpy;
+    }
+
+    public boolean setCommandSpy(boolean commandSpyStatus)
+    {
+        return commandSpy = commandSpyStatus;
     }
 
     // Util IP methods

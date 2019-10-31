@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.command.Command;
@@ -14,9 +15,18 @@ public class Command_cmdspy extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
+        Admin admin = getAdmin(playerSender);
         FPlayer playerdata = plugin.pl.getPlayer(playerSender);
         playerdata.setCommandSpy(!playerdata.cmdspyEnabled());
+        if (playerdata.cmdspyEnabled())
+        {
+            admin.setCommandSpy(true);
+        }
+        else
+        {
+            admin.setCommandSpy(false);
+        }
+
         msg("CommandSpy " + (playerdata.cmdspyEnabled() ? "enabled." : "disabled."));
 
         return true;
