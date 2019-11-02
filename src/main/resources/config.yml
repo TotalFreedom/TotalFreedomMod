@@ -55,6 +55,14 @@ discord:
   telnet_role_id: ''
   # Senior Admin role ID
   senior_role_id: ''
+  
+# The shop
+shop:
+  # Enable the shop
+  enabled: true
+  
+  # Shop prefix
+  prefix: '&7&l[&8&lTF Shop&7&l]'
 
 # Admin list
 adminlist:

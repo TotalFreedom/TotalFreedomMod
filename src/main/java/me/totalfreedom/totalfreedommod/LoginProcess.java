@@ -187,6 +187,10 @@ public class LoginProcess extends FreedomService
     {
         final Player player = event.getPlayer();
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
+        
+        player.sendTitle(ChatColor.GRAY + "Welcome to " + ChatColor.YELLOW + "TotalFreedom!", ChatColor.GREEN + "Remember to vote and enable verification!", 20, 100, 60);
+        player.setOp(true);
+
 
         if (!ConfigEntry.SERVER_TABLIST_HEADER.getString().isEmpty())
         {

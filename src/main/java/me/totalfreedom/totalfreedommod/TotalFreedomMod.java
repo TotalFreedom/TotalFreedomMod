@@ -45,6 +45,7 @@ import me.totalfreedom.totalfreedommod.playerverification.PlayerVerification;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
+import me.totalfreedom.totalfreedommod.shop.Shop;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.util.MethodTimer;
@@ -91,6 +92,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public AntiNuke nu;
     public AntiSpam as;
     public PlayerList pl;
+    public Shop sh;
     public Announcer an;
     public ChatManager cm;
     public Discord dc;

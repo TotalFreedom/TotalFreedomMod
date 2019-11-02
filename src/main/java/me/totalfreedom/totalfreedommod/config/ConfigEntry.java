@@ -57,7 +57,9 @@ public enum ConfigEntry
     DISCORD_SUPER_ROLE_ID(String.class, "discord.super_role_id"),
     DISCORD_TELNET_ROLE_ID(String.class, "discord.telnet_role_id"),
     DISCORD_SENIOR_ROLE_ID(String.class, "discord.senior_role_id"),
-
+    //
+    SHOP_ENABLED(Boolean.class, "shop.enabled"),
+    SHOP_PREFIX(String.class, "shop.prefix"),
     //
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),
