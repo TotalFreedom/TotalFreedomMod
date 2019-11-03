@@ -29,9 +29,9 @@ public class Command_rainbownick extends FreedomCommand
             return true;
         }
 
-        if (nickPlain.length() < 4 || nickPlain.length() > 30)
+        if (nickPlain.length() < 3 || nickPlain.length() > 30)
         {
-            msg("Your nickname must be between 4 and 30 characters long.");
+            msg("Your nickname must be between 3 and 30 characters long.");
             return true;
         }
 

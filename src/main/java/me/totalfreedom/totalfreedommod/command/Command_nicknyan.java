@@ -35,9 +35,9 @@ public class Command_nicknyan extends FreedomCommand
             msg("That nickname contains invalid characters.");
             return true;
         }
-        else if (nickPlain.length() < 4 || nickPlain.length() > 30)
+        else if (nickPlain.length() < 3 || nickPlain.length() > 30)
         {
-            msg("Your nickname must be between 4 and 30 characters long.");
+            msg("Your nickname must be between 3 and 30 characters long.");
             return true;
         }
 

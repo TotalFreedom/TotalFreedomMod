@@ -57,6 +57,7 @@ discord:
   telnet_role_id: ''
   # Senior Admin role ID
   senior_role_id: ''
+<<<<<<< HEAD
   # Developer role ID
   developer_role_id: ''
   # Executive Admin role ID
@@ -64,6 +65,16 @@ discord:
   # Owner role ID
   server_owner_role_id: ''
 
+=======
+  
+# The shop
+shop:
+  # Enable the shop
+  enabled: true
+  
+  # Shop prefix
+  prefix: '&7&l[&8&lTF Shop&7&l]'
+>>>>>>> d582398f932330853b0456b684654da4c860e831
 
 # Admin list
 adminlist:
@@ -116,7 +127,11 @@ allow:
   unsafe_enchantments: true
   bells: true
   armorstands: false
+<<<<<<< HEAD
   minecarts: false
+=======
+  clearonjoin: false
+>>>>>>> d582398f932330853b0456b684654da4c860e831
 
 # Blocked commands:
 #

@@ -187,6 +187,16 @@ public class LoginProcess extends FreedomService
     {
         final Player player = event.getPlayer();
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
+        
+        player.sendTitle(ChatColor.GRAY + "Welcome to " + ChatColor.YELLOW + "TotalFreedom!", ChatColor.GREEN + "Celebrating 9 years!", 20, 100, 60);
+        player.setOp(true);
+
+        if (ConfigEntry.ALLOW_CLEAR_ON_JOIN.getBoolean())
+        {
+            player.getInventory().clear();
+            player.sendMessage(ChatColor.AQUA + "Your inventory has been cleared automatically.");
+            return;
+        }
 
         if (!ConfigEntry.SERVER_TABLIST_HEADER.getString().isEmpty())
         {

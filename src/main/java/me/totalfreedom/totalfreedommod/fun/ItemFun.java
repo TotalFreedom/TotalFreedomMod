@@ -141,11 +141,14 @@ public class ItemFun extends FreedomService
                 {
                     break;
                 }
+<<<<<<< HEAD
                 
                 /*if (player.getWorld().equals(plugin.wm.hubworld.getWorld()) && plugin.hwr.doRestrict(player))
                 {
                     break;
                 }*/
+=======
+>>>>>>> d582398f932330853b0456b684654da4c860e831
 
                 Location location = player.getLocation().clone();
 
