@@ -1,15 +1,23 @@
 package me.totalfreedom.totalfreedommod.blocking;
 
+import com.sk89q.worldedit.command.util.CreatureButcher;
+import java.util.Arrays;
+import java.util.List;
+import me.libraryaddict.disguise.disguisetypes.watchers.MinecartCommandWatcher;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.util.Groups;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,6 +27,7 @@ import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
@@ -218,7 +227,8 @@ public class EventBlocker extends FreedomService
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockDispense(BlockDispenseEvent event)
     {
-        if (Groups.SPAWN_EGGS.contains(event.getItem().getType()))
+        List<Material> banned = Arrays.asList(Material.TNT_MINECART, Material.MINECART);
+        if (Groups.SPAWN_EGGS.contains(event.getItem().getType()) || banned.contains(event.getItem().getType()))
         {
             event.setCancelled(true);
         }

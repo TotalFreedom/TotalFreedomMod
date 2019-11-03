@@ -49,12 +49,21 @@ discord:
   report_channel_id: ''
   # Do you want roles to sync with the server?
   role_sync: false
+  # Master Admin role ID
+  master_builder_role_id: ''
   # Super Admin role ID
   super_role_id: ''
   # Telnet Admin role ID
   telnet_role_id: ''
   # Senior Admin role ID
   senior_role_id: ''
+  # Developer role ID
+  developer_role_id: ''
+  # Executive Admin role ID
+  executive_role_id: ''
+  # Owner role ID
+  server_owner_role_id: ''
+
 
 # Admin list
 adminlist:
@@ -90,8 +99,6 @@ social_links:
   Forum: 'https://totalfreedom.boards.net/'
   Website: 'https://totalfreedom.me/'
   Discord: 'https://discordapp.com/invite/XXjmAmV/'
-  Twitter: 'https://twitter.com/TotalFreedomMC'
-
 
 # Blocking certain events
 allow:
@@ -109,6 +116,7 @@ allow:
   unsafe_enchantments: true
   bells: true
   armorstands: false
+  minecarts: false
 
 # Blocked commands:
 #

@@ -17,10 +17,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
+import org.spigotmc.SpigotConfig;
 
 public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod>
 {
 
+    public static final String UNKNOWN_COMMAND = ChatColor.WHITE + SpigotConfig.unknownCommandMessage;
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found!";

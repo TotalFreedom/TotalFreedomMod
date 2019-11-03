@@ -25,7 +25,6 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.managers.GuildController;
-import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.entity.Player;
 
@@ -58,7 +57,7 @@ public class Discord extends FreedomService
         }
         try
         {
-            bot = new JDABuilder(AccountType.BOT).setToken(ConfigEntry.DISCORD_TOKEN.getString()).addEventListener(new MessageListener()).setAudioEnabled(false).setAutoReconnect(true).buildBlocking();
+            bot = new JDABuilder(AccountType.BOT).setToken(ConfigEntry.DISCORD_TOKEN.getString()).addEventListener(new PrivateMessageListener()).setAudioEnabled(false).setAutoReconnect(true).buildBlocking();
             FLog.info("Discord verification bot has successfully enabled!");
         }
         catch (LoginException e)

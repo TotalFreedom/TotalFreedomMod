@@ -39,12 +39,13 @@ public class HubWorldRestrictions extends FreedomService
 
     public boolean doRestrict(Player player)
     {
-        if (!FUtil.isExecutive(player.getName()) && player.getWorld().equals(plugin.wm.hubworld.getWorld()))
+        /*if (!FUtil.isExecutive(player.getName()) && player.getWorld().equals(plugin.wm.hubworld.getWorld()))
         {
             return true;
         }
 
-        return false;
+        return false;*/
+        return true;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

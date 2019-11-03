@@ -6,7 +6,7 @@ import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-public class MessageListener extends ListenerAdapter
+public class PrivateMessageListener extends ListenerAdapter
 {
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event)
     {

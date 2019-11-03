@@ -27,7 +27,10 @@ public class Command_hubworld extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        CommandMode commandMode = null;
+        msg(UNKNOWN_COMMAND);
+        return true;
+    }
+        /*CommandMode commandMode = null;
 
         if (args.length == 0)
         {
@@ -198,6 +201,7 @@ public class Command_hubworld extends FreedomCommand
         {
             super(string);
         }
-    }
+    }*/
+
 
 }

@@ -141,6 +141,18 @@ public class InteractBlocker extends FreedomService
                 event.setCancelled(true);
                 break;
             }
+            case MINECART:
+            {
+                if (ConfigEntry.ALLOW_MINECARTS.getBoolean())
+                {
+                    break;
+                }
+
+                player.getInventory().clear(player.getInventory().getHeldItemSlot());
+                player.sendMessage(ChatColor.GRAY + "Minecarts are currently disabled.");
+                event.setCancelled(true);
+                break;
+            }
         }
     }
 }
