@@ -24,11 +24,8 @@ public enum ConfigEntry
     ALLOW_UNSAFE_ENCHANTMENTS(Boolean.class, "allow.unsafe_enchantments"),
     ALLOW_BELLS(Boolean.class, "allow.bells"),
     ALLOW_ARMOR_STANDS(Boolean.class, "allow.armorstands"),
-<<<<<<< HEAD
     ALLOW_MINECARTS (Boolean.class, "allow.minecarts"),
-=======
     ALLOW_CLEAR_ON_JOIN(Boolean.class, "allow.clearonjoin"),
->>>>>>> d582398f932330853b0456b684654da4c860e831
     //
     BLOCKED_CHATCODES(String.class, "blocked_chatcodes"),
     //
@@ -63,16 +60,12 @@ public enum ConfigEntry
     DISCORD_SUPER_ROLE_ID(String.class, "discord.super_role_id"),
     DISCORD_TELNET_ROLE_ID(String.class, "discord.telnet_role_id"),
     DISCORD_SENIOR_ROLE_ID(String.class, "discord.senior_role_id"),
-<<<<<<< HEAD
     DISCORD_DEVELOPER_ROLE_ID(String.class, "discord.developer_role_id"),
     DISCORD_EXECUTIVE_ROLE_ID(String.class, "discord.executive_role_id"),
     DISCORD_SERVER_OWNER_ROLE_ID(String.class, "discord.server_owner_role_id"),
-
-=======
     //
     SHOP_ENABLED(Boolean.class, "shop.enabled"),
     SHOP_PREFIX(String.class, "shop.prefix"),
->>>>>>> d582398f932330853b0456b684654da4c860e831
     //
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),

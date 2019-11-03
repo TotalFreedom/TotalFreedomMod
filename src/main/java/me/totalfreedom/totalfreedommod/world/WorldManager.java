@@ -23,10 +23,7 @@ public class WorldManager extends FreedomService
     public Flatlands flatlands;
     public AdminWorld adminworld;
     public MasterBuilderWorld masterBuilderWorld;
-<<<<<<< HEAD
     //public HubWorld hubworld;
-=======
->>>>>>> d582398f932330853b0456b684654da4c860e831
 
     public WorldManager(TotalFreedomMod plugin)
     {
@@ -35,10 +32,7 @@ public class WorldManager extends FreedomService
         this.flatlands = new Flatlands();
         this.adminworld = new AdminWorld();
         this.masterBuilderWorld = new MasterBuilderWorld();
-<<<<<<< HEAD
         //this.hubworld = new HubWorld();
-=======
->>>>>>> d582398f932330853b0456b684654da4c860e831
     }
 
     @Override
@@ -47,11 +41,7 @@ public class WorldManager extends FreedomService
         flatlands.getWorld();
         adminworld.getWorld();
         masterBuilderWorld.getWorld();
-<<<<<<< HEAD
         //hubworld.getWorld();
-=======
->>>>>>> d582398f932330853b0456b684654da4c860e831
-
         // Disable weather
         if (ConfigEntry.DISABLE_WEATHER.getBoolean())
         {
@@ -71,10 +61,7 @@ public class WorldManager extends FreedomService
         flatlands.getWorld().save();
         adminworld.getWorld().save();
         masterBuilderWorld.getWorld().save();
-<<<<<<< HEAD
         //hubworld.getWorld().save();
-=======
->>>>>>> d582398f932330853b0456b684654da4c860e831
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -82,7 +69,6 @@ public class WorldManager extends FreedomService
     {
         final Player player = event.getPlayer();
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
-
         if (!plugin.al.isAdmin(player) && fPlayer.getFreezeData().isFrozen())
         {
             return; // Don't process adminworld validation
@@ -125,13 +111,10 @@ public class WorldManager extends FreedomService
             {
                 return;
             }
-<<<<<<< HEAD
             /*else if (event.getWorld().equals(hubworld.getWorld()) && hubworld.getWeatherMode() != WorldWeather.OFF)
             {
                 return;
             }*/
-=======
->>>>>>> d582398f932330853b0456b684654da4c860e831
         }
         catch (Exception ex)
         {
@@ -156,13 +139,10 @@ public class WorldManager extends FreedomService
             {
                 return;
             }
-<<<<<<< HEAD
             /*else if (event.getWorld().equals(hubworld.getWorld()) && hubworld.getWeatherMode() != WorldWeather.OFF)
             {
                 return;
             }*/
-=======
->>>>>>> d582398f932330853b0456b684654da4c860e831
         }
         catch (Exception ex)
         {

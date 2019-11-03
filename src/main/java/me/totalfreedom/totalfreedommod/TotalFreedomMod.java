@@ -127,10 +127,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public MasterBuilderWorldRestrictions mbwr;
     public SignBlocker snp;
     public PlayerVerification pv;
-<<<<<<< HEAD
     //public HubWorldRestrictions hwr;
-=======
->>>>>>> d582398f932330853b0456b684654da4c860e831
     //
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
@@ -205,11 +202,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         as = services.registerService(AntiSpam.class);
         mbl = services.registerService(MasterBuilderList.class);
         mbwr = services.registerService(MasterBuilderWorldRestrictions.class);
-<<<<<<< HEAD
         //hwr = services.registerService(HubWorldRestrictions.class);
-=======
->>>>>>> d582398f932330853b0456b684654da4c860e831
-
         pl = services.registerService(PlayerList.class);
         sh = services.registerService(Shop.class);
         an = services.registerService(Announcer.class);
