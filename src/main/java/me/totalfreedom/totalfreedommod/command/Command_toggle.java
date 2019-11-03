@@ -39,6 +39,7 @@ public class Command_toggle extends FreedomCommand
             msg("- unsafeenchs");
             msg("- bells");
             msg("- armorstands");
+            msg("- clearonjoin");
             return false;
         }
 
@@ -171,6 +172,11 @@ public class Command_toggle extends FreedomCommand
             toggle("The placement of armor stands is", ConfigEntry.ALLOW_ARMOR_STANDS);
             return true;
         }
+        else if (args[0].equalsIgnoreCase("clearonjoin"))
+        {
+            toggle("The clearing of inventories on join is", ConfigEntry.ALLOW_CLEAR_ON_JOIN);
+            return true;
+        }
         else
         {
             return false;
@@ -189,7 +195,7 @@ public class Command_toggle extends FreedomCommand
         {
             return Arrays.asList(
                     "waterplace", "fireplace", "lavaplace", "fluidspread", "lavadmg", "firespread", "frostwalk",
-                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs", "bells", "armorstands");
+                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs", "bells", "armorstands", "clearonjoin");
         }
 
         return Collections.emptyList();

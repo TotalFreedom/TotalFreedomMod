@@ -24,6 +24,7 @@ public enum ConfigEntry
     ALLOW_UNSAFE_ENCHANTMENTS(Boolean.class, "allow.unsafe_enchantments"),
     ALLOW_BELLS(Boolean.class, "allow.bells"),
     ALLOW_ARMOR_STANDS(Boolean.class, "allow.armorstands"),
+    ALLOW_CLEAR_ON_JOIN(Boolean.class, "allow.clearonjoin"),
     //
     BLOCKED_CHATCODES(String.class, "blocked_chatcodes"),
     //

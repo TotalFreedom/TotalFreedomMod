@@ -203,6 +203,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         mbwr = services.registerService(MasterBuilderWorldRestrictions.class);
 
         pl = services.registerService(PlayerList.class);
+        sh = services.registerService(Shop.class);
         an = services.registerService(Announcer.class);
         cm = services.registerService(ChatManager.class);
         dc = services.registerService(Discord.class);
