@@ -41,7 +41,7 @@
     <repositories>
         <repository>
             <id>ess-repo</id>
-            <url>http://repo.ess3.net</url>
+            <url>https://ci.ender.zone/plugin/repository/everything/</url>
         </repository>
 
         <repository>
@@ -157,8 +157,8 @@
 
         <dependency>
             <groupId>net.ess3</groupId>
-            <artifactId>Essentials</artifactId>
-            <version>2.13.1</version>
+            <artifactId>EssentialsX</artifactId>
+            <version>2.16.1</version>
             <scope>provided</scope>
         </dependency>
 
@@ -266,7 +266,7 @@
                                     <entry key="buildCodeName" value="${tfm.build.codename}"/>
                                     <entry key="buildVersion" value="${project.version}"/>
                                     <entry key="buildDate" value="${timestamp}"/>
-                                    <entry key="buildHead" value="${git.commit.id.abbrev}"/>
+                                    <!--<entry key="buildHead" value="${git.commit.id.abbrev}"/>-->
                                 </propertyfile>
                             </target>
                         </configuration>
@@ -295,27 +295,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <!-- Checkstyle -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <version>2.17</version>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <configLocation>checkstyle.xml</configLocation>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-                    <failOnViolation>true</failOnViolation>
-                </configuration>
             </plugin>
 
             <!-- Buildnumber -->
