@@ -38,7 +38,7 @@ public class SignBlocker extends FreedomService
     {
 
         final Player player = event.getPlayer();
-        if (event.getBlock().getType().equals(Tag.SIGNS.getValues()))
+        if (Tag.SIGNS.getValues().contains(event.getBlock().getType())
         {
 
             ItemStack sign = event.getItemInHand();
