@@ -21,7 +21,7 @@ public class Command_manageshop extends FreedomCommand
             msg("The shop is currently disabled!", ChatColor.RED);
             return true;
         }
-        if (!FUtil.isExecutive(sender.getName()) && !sender.getName().equals("CONSOLE"))
+        if (!FUtil.isExecutive(sender.getName()))
         {
             msg("Only executives can use this command!", ChatColor.RED);
             return true;
