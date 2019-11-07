@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 
-@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Cuck someone", usage = "/<command> <player>")
 public class Command_cuck extends FreedomCommand   
 {
@@ -17,11 +17,6 @@ public class Command_cuck extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
-        if (!FUtil.isExecutive(sender.getName()))
-        {
-            return noPerms();
-        }
 
         if (args.length == 0)
         {
@@ -49,7 +44,7 @@ public class Command_cuck extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (args.length == 1 && plugin.al.isAdmin(sender) && FUtil.isExecutive(sender.getName()))
+        if (args.length == 1 && plugin.al.isAdmin(sender))
         {
             return FUtil.getPlayerList();
         }

@@ -168,9 +168,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         FUtil.deleteCoreDumps();
         FUtil.deleteFolder(new File("./_deleteme"));
 
-        // Convert old config files
-        new ConfigConverter(plugin).convert();
-
         BackupManager backups = new BackupManager(this);
         backups.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
         backups.createBackups(AdminList.CONFIG_FILENAME);
