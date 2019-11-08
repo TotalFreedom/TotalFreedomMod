@@ -42,7 +42,7 @@ public class Command_curse extends FreedomCommand
 
         if (plugin.cul.cursedPlayers.containsKey(player))
         {
-            msg("Already attempting to cruse!", ChatColor.RED);
+            msg("Already attempting to curse!", ChatColor.RED);
             return true;
         }
 
