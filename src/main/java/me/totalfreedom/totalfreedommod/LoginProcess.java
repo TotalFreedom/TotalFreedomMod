@@ -11,6 +11,7 @@ import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -194,7 +195,13 @@ public class LoginProcess extends FreedomService
         if (ConfigEntry.ALLOW_CLEAR_ON_JOIN.getBoolean())
         {
             player.getInventory().clear();
+            int x = FUtil.random(-10000, 10000);
+            int z = FUtil.random(-10000, 10000);
+            int y = player.getWorld().getHighestBlockYAt(x, z);
+            Location location = new Location(player.getLocation().getWorld(), x, y, z);
+            player.teleport(location);
             player.sendMessage(ChatColor.AQUA + "Your inventory has been cleared automatically.");
+            player.sendMessage(ChatColor.GOLD + "You have been teleported to a random location automatically.");
             return;
         }
 
