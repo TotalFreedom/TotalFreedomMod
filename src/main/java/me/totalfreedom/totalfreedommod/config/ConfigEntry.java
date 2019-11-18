@@ -26,6 +26,7 @@ public enum ConfigEntry
     ALLOW_ARMOR_STANDS(Boolean.class, "allow.armorstands"),
     ALLOW_MINECARTS (Boolean.class, "allow.minecarts"),
     ALLOW_CLEAR_ON_JOIN(Boolean.class, "allow.clearonjoin"),
+    ALLOW_TPR_ON_JOIN(Boolean.class, "allow.tpronjoin"),
     //
     BLOCKED_CHATCODES(String.class, "blocked_chatcodes"),
     //

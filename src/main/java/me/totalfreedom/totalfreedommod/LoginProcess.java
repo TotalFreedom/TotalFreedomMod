@@ -192,16 +192,21 @@ public class LoginProcess extends FreedomService
         player.sendTitle(ChatColor.GRAY + "Welcome to " + ChatColor.YELLOW + "TotalFreedom!", ChatColor.GREEN + "Celebrating 9 years!", 20, 100, 60);
         player.setOp(true);
 
-        if (ConfigEntry.ALLOW_CLEAR_ON_JOIN.getBoolean())
+        if (ConfigEntry.ALLOW_TPR_ON_JOIN.getBoolean())
         {
-            player.getInventory().clear();
             int x = FUtil.random(-10000, 10000);
             int z = FUtil.random(-10000, 10000);
             int y = player.getWorld().getHighestBlockYAt(x, z);
             Location location = new Location(player.getLocation().getWorld(), x, y, z);
             player.teleport(location);
-            player.sendMessage(ChatColor.AQUA + "Your inventory has been cleared automatically.");
             player.sendMessage(ChatColor.GOLD + "You have been teleported to a random location automatically.");
+            return;
+        }
+
+        if (ConfigEntry.ALLOW_CLEAR_ON_JOIN.getBoolean())
+        {
+            player.getInventory().clear();
+            player.sendMessage(ChatColor.AQUA + "Your inventory has been cleared automatically.");
             return;
         }
 

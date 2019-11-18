@@ -125,6 +125,7 @@ allow:
   armorstands: false
   minecarts: false
   clearonjoin: false
+  tpronjoin: false
 
 # Blocked commands:
 #

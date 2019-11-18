@@ -40,6 +40,7 @@ public class Command_toggle extends FreedomCommand
             msg("- bells");
             msg("- armorstands");
             msg("- clearonjoin");
+            msg("- tpronjoin");
             return false;
         }
 
@@ -177,6 +178,11 @@ public class Command_toggle extends FreedomCommand
             toggle("The clearing of inventories on join is", ConfigEntry.ALLOW_CLEAR_ON_JOIN);
             return true;
         }
+        else if (args[0].equalsIgnoreCase("tpronjoin"))
+        {
+            toggle("The random teleporting of players on join is ", ConfigEntry.ALLOW_TPR_ON_JOIN);
+            return true;
+        }
         else
         {
             return false;
@@ -195,7 +201,7 @@ public class Command_toggle extends FreedomCommand
         {
             return Arrays.asList(
                     "waterplace", "fireplace", "lavaplace", "fluidspread", "lavadmg", "firespread", "frostwalk",
-                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs", "bells", "armorstands", "clearonjoin");
+                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs", "bells", "armorstands", "clearonjoin", "tpronjoin");
         }
 
         return Collections.emptyList();
