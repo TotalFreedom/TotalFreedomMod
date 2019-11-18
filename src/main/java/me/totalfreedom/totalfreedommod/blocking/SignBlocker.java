@@ -15,6 +15,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+//codebeat:disable[LOC,ABC]
+
 public class SignBlocker extends FreedomService
 {
 

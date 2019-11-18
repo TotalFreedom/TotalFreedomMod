@@ -79,6 +79,7 @@ import me.totalfreedom.totalfreedommod.util.FLog;
  * <p/>
  * See the separate "LICENSE.md" file for the distribution license (Modified BSD licence)
  */
+//codebeat:disable
 public abstract class NanoHTTPD
 {
 

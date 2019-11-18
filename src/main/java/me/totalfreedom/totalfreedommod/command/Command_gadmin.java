@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 @CommandParameters(
         description = "Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci, fr, smite.",
         usage = "/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci | fr | smite> <targethash>] ]")
+//codebeat:disable
+//basically a deprecated command that still exists
 public class Command_gadmin extends FreedomCommand
 {
 
