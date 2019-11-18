@@ -59,6 +59,11 @@ public class SignBlocker extends FreedomService
                 player.sendMessage(ChatColor.GRAY + "You are not allowed to place broken strings that Mojang never fixed.");
                 event.setCancelled(true);
             }
+            if (line1.contains("translation.test.") || line2.contains("translation.test.") || line3.contains("translation.test.") || line4.contains("translation.test."))
+            {
+                player.sendMessage(ChatColor.BOLD + "No.");
+                event.setCancelled(true);
+            }
         }
     }
 

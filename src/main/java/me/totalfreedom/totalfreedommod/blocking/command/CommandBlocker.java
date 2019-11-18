@@ -131,7 +131,7 @@ public class CommandBlocker extends FreedomService
             event.setCancelled(true);
         }
 
-        if (event.getMessage().contains("translation.test."))
+        if (event.getMessage().contains("translation.test.invalid") || event.getMessage().contains("translation.test.invalid2"))
         {
             event.setCancelled(true);
             FUtil.playerMsg(event.getPlayer(), ChatColor.RED + "No crishy crashy faggy");

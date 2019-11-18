@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TotalFreedomMod.iml" filepath="$PROJECT_DIR$/TotalFreedomMod.iml" />
       <module fileurl="file://$PROJECT_DIR$/totalfreedom.iml" filepath="$PROJECT_DIR$/totalfreedom.iml" />
     </modules>
   </component>
