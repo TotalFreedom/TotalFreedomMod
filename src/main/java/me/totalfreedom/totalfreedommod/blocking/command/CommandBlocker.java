@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -167,6 +168,11 @@ public class CommandBlocker extends FreedomService
 
         for (String part : commandParts)
         {
+            if (command.startsWith("/") && !plugin.al.isAdmin(sender) && (part.contains("#copy") || part.contains("#clipboard")))
+            {
+                FUtil.playerMsg(sender, "WorldEdit copy variables are disabled.");
+                return true;
+            }
             Matcher matcher = flagPattern.matcher(part);
             if (!matcher.matches())
             {
