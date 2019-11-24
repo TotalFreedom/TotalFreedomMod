@@ -24,6 +24,9 @@ server:
   # All players who show up as executive
   executives: []
 
+  # All players who show up as assistant executive
+  assistant_executives: []
+
   # All those who can manage the master builder list
   master_builder_management: []
 

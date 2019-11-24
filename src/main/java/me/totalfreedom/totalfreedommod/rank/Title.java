@@ -8,6 +8,7 @@ public enum Title implements Displayable
 
     MASTER_BUILDER("a", "Master Builder", ChatColor.DARK_AQUA, "MB"),
     VERIFIED_ADMIN("a", "Verified Admin", ChatColor.LIGHT_PURPLE, "VA"),
+    ASSISTANT_EXECUTIVE("an", "Assistant Executive", ChatColor.RED, "Asst Exec"),
     EXECUTIVE("an", "Executive", ChatColor.RED, "Exec"),
     DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, "Dev"),
     OWNER("the", "Owner", ChatColor.DARK_RED, "Owner");
