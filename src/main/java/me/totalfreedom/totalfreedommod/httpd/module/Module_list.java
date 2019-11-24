@@ -55,14 +55,14 @@ public class Module_list extends HTTPDModule
                     developers.add(player.getName());
                 }
 
-                if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(player.getName()) && !FUtil.DEVELOPERS.contains(player.getName()))
-                {
-                    executives.add(player.getName());
-                }
-
                 if (ConfigEntry.SERVER_ASSISTANT_EXECUTIVES.getList().contains(player.getName()) && !FUtil.DEVELOPERS.contains(player.getName()))
                 {
                     assistant_executives.add(player.getName());
+                }
+
+                if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(player.getName()) && !FUtil.DEVELOPERS.contains(player.getName()))
+                {
+                    executives.add(player.getName());
                 }
 
                 if (ConfigEntry.SERVER_OWNERS.getList().contains(player.getName()))
