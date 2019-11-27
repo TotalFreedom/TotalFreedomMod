@@ -22,12 +22,6 @@ public class Command_verify extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!plugin.dc.enabled)
-        {
-            msg("The Discord verification system is currently disabled", ChatColor.RED);
-            return true;
-        }
-
 
         if (args.length == 1 && plugin.al.isAdmin(playerSender))
         {
@@ -56,6 +50,12 @@ public class Command_verify extends FreedomCommand
         }
         else
         {
+            if (!plugin.dc.enabled)
+            {
+                msg("The Discord verification system is currently disabled", ChatColor.RED);
+                return true;
+            }
+
             if (senderIsConsole || plugin.al.isAdmin(playerSender))
             {
                 msg("/verify <playername>", ChatColor.WHITE);
