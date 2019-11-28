@@ -51,7 +51,7 @@ public class Command_toggle extends FreedomCommand
         }
         else if (args[0].equalsIgnoreCase("frostwalk"))
         {
-            toggle("Frost walker enchantment is ", ConfigEntry.ALLOW_FROSTWALKER);
+            toggle("Frost walker enchantment is", ConfigEntry.ALLOW_FROSTWALKER);
             return true;
         }
         else if (args[0].equalsIgnoreCase("fireplace"))
@@ -180,7 +180,7 @@ public class Command_toggle extends FreedomCommand
         }
         else if (args[0].equalsIgnoreCase("tpronjoin"))
         {
-            toggle("The random teleporting of players on join is ", ConfigEntry.ALLOW_TPR_ON_JOIN);
+            toggle("The random teleporting of players on join is", ConfigEntry.ALLOW_TPR_ON_JOIN);
             return true;
         }
         else

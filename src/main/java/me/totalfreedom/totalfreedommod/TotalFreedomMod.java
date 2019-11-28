@@ -12,7 +12,6 @@ import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EditBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
 import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
-import me.totalfreedom.totalfreedommod.blocking.InventoryBlocker;
 import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
 import me.totalfreedom.totalfreedommod.blocking.PVPBlocker;
 import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
@@ -88,7 +87,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public MobBlocker mb;
     public InteractBlocker ib;
     public PotionBlocker pb;
-    public InventoryBlocker inb;
     public LoginProcess lp;
     public AntiNuke nu;
     public AntiSpam as;
@@ -196,7 +194,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         mb = services.registerService(MobBlocker.class);
         ib = services.registerService(InteractBlocker.class);
         pb = services.registerService(PotionBlocker.class);
-        inb = services.registerService(InventoryBlocker.class);
         lp = services.registerService(LoginProcess.class);
         nu = services.registerService(AntiNuke.class);
         as = services.registerService(AntiSpam.class);
