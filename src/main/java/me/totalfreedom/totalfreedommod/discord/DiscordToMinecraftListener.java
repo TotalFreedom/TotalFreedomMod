@@ -15,7 +15,7 @@ public class DiscordToMinecraftListener extends ListenerAdapter
     public void onMessageReceived(MessageReceivedEvent event)
     {
         String chat_channel_id = ConfigEntry.DISCORD_CHAT_CHANNEL_ID.getString();
-        if (!chat_channel_id.isEmpty() && event.getChannel().getId().equals(chat_channel_id))
+        if (event.getMember() != null && !chat_channel_id.isEmpty() && event.getChannel().getId().equals(chat_channel_id))
         {
             if (!event.getAuthor().getId().equals(Discord.bot.getSelfUser().getId()))
             {
