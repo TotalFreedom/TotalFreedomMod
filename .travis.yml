@@ -1,5 +1,1 @@
 language: java
-notifications:
-  webhooks:
-    urls:
-      - https://canary.discordapp.com/api/webhooks/649480804052893697/U-IGtYgAI2Huh0YuwCxy6j-AydYe32ugM2EUDjV2gemW_Ol32NlKk2X_1rl_1DQWnObE
