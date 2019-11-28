@@ -130,6 +130,9 @@ public class ChatManager extends FreedomService
 
         // Set format
         event.setFormat(format);
+
+        // Send to discord
+        plugin.dc.messageChatChannel(player.getName() + " \u00BB " + ChatColor.stripColor(message));
     }
 
     public ChatColor getColor(Admin admin, Displayable display)

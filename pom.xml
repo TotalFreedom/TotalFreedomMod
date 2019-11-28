@@ -170,7 +170,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>3.8.0_423</version>
+            <version>4.0.0_39</version>
             <scope>provided</scope>
         </dependency>
 

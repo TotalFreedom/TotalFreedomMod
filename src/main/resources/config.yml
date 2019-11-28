@@ -50,6 +50,8 @@ discord:
   server_id: ''
   # Channel to send /report messages to
   report_channel_id: ''
+  # Channel for discord to minecraft and vice-versa
+  chat_channel_id: ''
   # Do you want roles to sync with the server?
   role_sync: false
   # Master Admin role ID
@@ -62,6 +64,8 @@ discord:
   senior_role_id: ''
   # Developer role ID
   developer_role_id: ''
+  # Assistant Executive Admin role ID
+  assistant_executive_role_id: ''
   # Executive Admin role ID
   executive_role_id: ''
   # Owner role ID

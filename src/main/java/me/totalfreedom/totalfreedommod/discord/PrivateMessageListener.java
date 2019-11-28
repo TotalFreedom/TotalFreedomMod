@@ -3,8 +3,8 @@ package me.totalfreedom.totalfreedommod.discord;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
-import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class PrivateMessageListener extends ListenerAdapter
 {
@@ -21,7 +21,7 @@ public class PrivateMessageListener extends ListenerAdapter
                     Admin admin = Discord.LINK_CODES.get(code);
                     admin.setDiscordID(event.getMessage().getAuthor().getId());
                     Discord.LINK_CODES.remove(code);
-                    event.getChannel().sendMessage("Link successful. Now this Discord account is linked with the Minecraft account `" + admin.getName() + "`.\n"
+                    event.getChannel().sendMessage("Link successful. Now this Discord account is linked with your Minecraft account `" + admin.getName() + "`.\n"
                             + "Now when you are an impostor on the server, you may use `/verify` to verify.").complete();
                     Discord.syncRoles(admin);
                 }
@@ -33,7 +33,7 @@ public class PrivateMessageListener extends ListenerAdapter
 
                     TotalFreedomMod.plugin().pv.saveVerificationData(player);
                     Discord.PLAYER_LINK_CODES.remove(code);
-                    event.getChannel().sendMessage("Link successful. Now this Discord account is linked with the Minecraft account `" + player.getName() + "`.\n"
+                    event.getChannel().sendMessage("Link successful. Now this Discord account is linked with your Minecraft account `" + player.getName() + "`.\n"
                             + "Now when you are an impostor on the server, you may use `/verify` to verify.").complete();
                 }
             }
