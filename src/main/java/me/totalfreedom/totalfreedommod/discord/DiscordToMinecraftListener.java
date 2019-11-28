@@ -26,7 +26,7 @@ public class DiscordToMinecraftListener extends ListenerAdapter
                 {
                     message += " " + tag;
                 }
-                message += " " + ChatColor.RED + member.getEffectiveName() + ChatColor.DARK_GRAY + " : " + ChatColor.RESET + event.getMessage().getContentRaw();
+                message += " " + ChatColor.RED + member.getEffectiveName() + ChatColor.DARK_GRAY + ": " + ChatColor.RESET + event.getMessage().getContentRaw();
                 FUtil.bcastMsg(message);
             }
         }
