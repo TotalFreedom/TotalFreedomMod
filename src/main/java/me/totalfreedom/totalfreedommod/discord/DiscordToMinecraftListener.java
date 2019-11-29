@@ -41,7 +41,7 @@ public class DiscordToMinecraftListener extends ListenerAdapter
             return Title.OWNER.getColoredTag();
         }
         // Developers
-        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_EXECUTIVE_ROLE_ID.getString())))
+        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_DEVELOPER_ROLE_ID.getString())))
         {
             return Title.DEVELOPER.getColoredTag();
         }
