@@ -11,6 +11,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -141,11 +143,19 @@ public class Command_ro extends FreedomCommand
                 for (int zOffset = -radius; zOffset <= radius; zOffset++)
                 {
                     Block block = centerBlock.getRelative(xOffset, yOffset, zOffset);
-
-                    if (block.getType().equals(fromMaterial))
+                    BlockData data = block.getBlockData();
+                    if (block.getType().equals(fromMaterial) || data instanceof Waterlogged)
                     {
+                        Waterlogged waterloggedData = (Waterlogged) data;
                         if (block.getLocation().distanceSquared(center) < (radius * radius))
                         {
+                            if (fromMaterial.equals(Material.WATER))
+                            {
+                                waterloggedData.setWaterlogged(false);
+                                block.setBlockData(waterloggedData);
+                                affected++;
+                                continue;
+                            }
                             block.setType(toMaterial);
                             affected++;
                         }
