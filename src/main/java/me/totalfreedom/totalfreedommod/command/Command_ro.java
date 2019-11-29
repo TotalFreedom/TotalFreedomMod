@@ -146,11 +146,11 @@ public class Command_ro extends FreedomCommand
                     BlockData data = block.getBlockData();
                     if (block.getType().equals(fromMaterial) || data instanceof Waterlogged)
                     {
-                        Waterlogged waterloggedData = (Waterlogged) data;
                         if (block.getLocation().distanceSquared(center) < (radius * radius))
                         {
-                            if (fromMaterial.equals(Material.WATER))
+                            if (fromMaterial.equals(Material.WATER) && data instanceof Waterlogged)
                             {
+                                Waterlogged waterloggedData = (Waterlogged) data;
                                 waterloggedData.setWaterlogged(false);
                                 block.setBlockData(waterloggedData);
                                 affected++;
