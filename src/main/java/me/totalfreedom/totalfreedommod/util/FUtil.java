@@ -42,6 +42,8 @@ public class FUtil
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
+            ChatColor.WHITE,
+            ChatColor.BLACK,
             ChatColor.DARK_RED,
             ChatColor.RED,
             ChatColor.GOLD,

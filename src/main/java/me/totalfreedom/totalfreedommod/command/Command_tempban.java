@@ -37,17 +37,25 @@ public class Command_tempban extends FreedomCommand
         final List<String> ips = new ArrayList<>();
 
         final Player player = getPlayer(args[0]);
-        final PlayerData entry = plugin.pl.getData(args[0]);
-
-
         if (player == null)
         {
-            msg(FreedomCommand.PLAYER_NOT_FOUND);
-            return true;
-        }
+            final PlayerData entry = plugin.pl.getData(args[0]);
 
-        username = entry.getUsername();
-        ips.addAll(entry.getIps());
+            if (entry == null)
+            {
+                msg("Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
+                return true;
+            }
+
+            username = entry.getUsername();
+            ips.addAll(entry.getIps());
+        }
+        else
+        {
+            final PlayerData entry = plugin.pl.getData(player);
+            username = player.getName();
+            ips.addAll(entry.getIps());
+        }
         final StringBuilder message = new StringBuilder("Temporarily banned " + player.getName());
 
         Date expires = FUtil.parseDateOffset("30m");
