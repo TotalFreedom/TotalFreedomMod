@@ -63,6 +63,7 @@ public class Command_stfu extends FreedomCommand
                 if (info.isMuted())
                 {
                     info.setMuted(false);
+                    mp.sendTitle(ChatColor.RED + "You've been unmuted.", ChatColor.YELLOW + "Be sure to follow the rules!" + args, 20, 100, 60);
                     count++;
                 }
             }
@@ -81,6 +82,7 @@ public class Command_stfu extends FreedomCommand
             {
                 if (!plugin.al.isAdmin(player))
                 {
+                    player.sendTitle(ChatColor.RED + "You've been muted globally.", ChatColor.YELLOW + "Please be patient and you will be unmuted shortly." + args, 20, 100, 60);
                     playerdata = plugin.pl.getPlayer(player);
                     playerdata.setMuted(true);
                     counter++;
@@ -124,6 +126,7 @@ public class Command_stfu extends FreedomCommand
             msg("Unmuted " + player.getName());
 
             msg(player, "You have been unmuted.", ChatColor.RED);
+            player.sendTitle(ChatColor.RED + "You've been unmuted.", ChatColor.YELLOW + "Be sure to follow the rules!" + args, 20, 100, 60);
         }
         else
         {
@@ -142,6 +145,7 @@ public class Command_stfu extends FreedomCommand
             }
 
             msg(player, "You have been muted by " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
+            player.sendTitle(ChatColor.RED + "You've been muted.", ChatColor.YELLOW + "Be sure to follow the rules!" + args, 20, 100, 60);
             if (reason != null)
             {
                 msg(player, "Reason: " + ChatColor.YELLOW + reason);

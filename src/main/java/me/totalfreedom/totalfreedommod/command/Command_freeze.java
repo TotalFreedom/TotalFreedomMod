@@ -33,6 +33,7 @@ public class Command_freeze extends FreedomCommand
             {
                 if (!isAdmin(player))
                 {
+                    player.sendTitle(ChatColor.RED + "You've been globally frozen.", ChatColor.YELLOW + "Please be patient and you will be unfrozen shortly." + args, 20, 100, 60);
                     msg(player, "You have been globally frozen due to an OP breaking the rules, please wait and you will be unfrozen soon.", ChatColor.RED);
                 }
             }
@@ -44,6 +45,13 @@ public class Command_freeze extends FreedomCommand
         if (args[0].equals("purge"))
         {
             FUtil.adminAction(sender.getName(), "Unfreezing all players", false);
+            for (Player player : server.getOnlinePlayers())
+            {
+                if (!isAdmin(player))
+                {
+                    player.sendTitle(ChatColor.RED + "You've been unfrozen.", ChatColor.YELLOW + "Please be patient and you will be unfrozen shortly." + args, 20, 100, 60);
+                }
+            }
             plugin.fm.purge();
             return true;
         }

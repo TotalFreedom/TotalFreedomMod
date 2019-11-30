@@ -56,6 +56,7 @@ public class Command_smite extends FreedomCommand
     public static void smite(CommandSender sender, Player player, String reason)
     {
         FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
+        player.sendTitle(ChatColor.RED + "You've been smitten.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
 
         if (reason != null)
         {
@@ -90,6 +91,7 @@ public class Command_smite extends FreedomCommand
         if (reason != null)
         {
             player.sendMessage(ChatColor.RED + "You've been smitten. Reason: " + ChatColor.YELLOW + reason);
+            player.sendTitle(ChatColor.RED + "You've been smitten.", ChatColor.YELLOW + "Reason: " + reason, 20, 100, 60);
         }
     }
 }
