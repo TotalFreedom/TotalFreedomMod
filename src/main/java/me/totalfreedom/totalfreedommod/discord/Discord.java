@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.pravian.aero.util.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -135,9 +136,11 @@ public class Discord extends FreedomService
 
     public void messageChatChannel(String message)
     {
-        message = message.replace("@everyone", "everyone");
-        message = message.replace("@here", "here");
         String chat_channel_id = ConfigEntry.DISCORD_CHAT_CHANNEL_ID.getString();
+        if (message.contains("@everyone") || message.contains("@here"))
+        {
+            message = StringUtils.remove(message, "@");
+        }
         if (enabled && !chat_channel_id.isEmpty())
         {
             bot.getTextChannelById(chat_channel_id).sendMessage(message).queue();
