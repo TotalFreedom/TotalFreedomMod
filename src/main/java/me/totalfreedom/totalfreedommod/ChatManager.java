@@ -53,48 +53,19 @@ public class ChatManager extends FreedomService
     {
         final Player player = event.getPlayer();
         String message = event.getMessage().trim();
-
-        if (plugin.al.isAdmin(player))
+        // Format colors
         {
-            // Format color
+            message = FUtil.colorize(message);
             message = message.replaceAll(ChatColor.BOLD.toString(), "&l");
-            message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
             message = message.replaceAll(ChatColor.ITALIC.toString(), "&o");
             message = message.replaceAll(ChatColor.UNDERLINE.toString(), "&n");
             message = message.replaceAll(ChatColor.STRIKETHROUGH.toString(), "&m");
-            message = FUtil.colorize(message);
         }
-        else
-        {
-            // Strip color from messages
-            message = ChatColor.stripColor(message);
-        }
-
         // Truncate messages that are too long - 256 characters is vanilla client max
         if (message.length() > 256)
         {
             message = message.substring(0, 256);
             FSync.playerMsg(player, "Message was shortened because it was too long to send.");
-        }
-
-        // Check for caps
-        if (message.length() >= 6)
-        {
-            int caps = 0;
-            for (char c : message.toCharArray())
-            {
-                if (Character.isUpperCase(c))
-                {
-                    caps++;
-                }
-            }
-            if (((float)caps / (float)message.length()) > 0.65) //Compute a ratio so that longer sentences can have more caps.
-            {
-                if (!plugin.al.isAdmin(player))
-                {
-                    message = message.toLowerCase();
-                }
-            }
         }
 
         // Check for adminchat

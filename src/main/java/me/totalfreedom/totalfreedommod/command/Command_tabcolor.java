@@ -56,7 +56,9 @@ public class Command_tabcolor extends FreedomCommand
 
         playerSender.setPlayerListName(StringUtils.substring(color + sender.getName(), 0, 16));
 
-        msg("ok dad");
+        final String newTabColor = color + ChatColor.stripColor(playerSender.getDisplayName()).trim() + ChatColor.WHITE;
+        
+        msg("Your tab name will now appear as: " + newTabColor);
 
         return true;
     }

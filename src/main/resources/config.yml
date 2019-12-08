@@ -129,7 +129,7 @@ allow:
   frostwalker: false
   unsafe_enchantments: true
   bells: true
-  armorstands: false
+  armorstands: true
   minecarts: false
   clearonjoin: false
   tpronjoin: false
