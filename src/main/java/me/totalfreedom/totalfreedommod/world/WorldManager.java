@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -159,6 +160,17 @@ public class WorldManager extends FreedomService
         if (player == null)
         {
             return;
+        }
+
+        for (Player p : Bukkit.getOnlinePlayers())
+        {
+            for (Entity passengerEntity : p.getPassengers())
+            {
+                if (passengerEntity == player)
+                {
+                    p.removePassenger(passengerEntity);
+                }
+            }
         }
 
         if (player.getWorld().getName().equalsIgnoreCase(targetWorld))
