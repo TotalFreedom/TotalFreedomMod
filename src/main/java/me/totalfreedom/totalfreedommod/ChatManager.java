@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod;
 
 import com.google.common.base.Strings;
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -75,6 +76,21 @@ public class ChatManager extends FreedomService
             FSync.adminChatMessage(player, message);
             event.setCancelled(true);
             return;
+        }
+
+        // Check for 4chan trigger
+        Boolean green = ChatColor.stripColor(message).toLowerCase().startsWith(">");
+        Boolean orange = ChatColor.stripColor(message).toLowerCase().endsWith("<");
+        if (ConfigEntry.FOURCHAN_ENABLED.getBoolean())
+        {
+            if (green)
+            {
+                message = ChatColor.GREEN + message;
+            }
+            else if (orange)
+            {
+                message = ChatColor.GOLD + message;
+            }
         }
 
         // Finally, set message

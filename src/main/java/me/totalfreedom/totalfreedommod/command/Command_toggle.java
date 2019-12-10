@@ -41,6 +41,12 @@ public class Command_toggle extends FreedomCommand
             msg("- armorstands");
             msg("- clearonjoin");
             msg("- tpronjoin");
+            msg("- structureblocks");
+            msg("- jigsaws");
+            msg("- grindstones");
+            msg("- jukeboxes");
+            msg("- spawners");
+            msg("- 4chan");
             return false;
         }
 
@@ -183,6 +189,36 @@ public class Command_toggle extends FreedomCommand
             toggle("The random teleporting of players on join is", ConfigEntry.ALLOW_TPR_ON_JOIN);
             return true;
         }
+        else if (args[0].equalsIgnoreCase("structureblocks"))
+        {
+            toggle("Structure blocks are", ConfigEntry.ALLOW_STRUCTURE_BLOCKS);
+            return true;
+        }
+        else if (args[0].equalsIgnoreCase("jigsaws"))
+        {
+            toggle("Jigsaws are", ConfigEntry.ALLOW_JIGSAWS);
+            return true;
+        }
+        else if (args[0].equalsIgnoreCase("grindstones"))
+        {
+            toggle("Grindstones are", ConfigEntry.ALLOW_GRINDSTONES);
+            return true;
+        }
+        else if (args[0].equalsIgnoreCase("jukeboxes"))
+        {
+            toggle("Jukeboxes are", ConfigEntry.ALLOW_JUKEBOXES);
+            return true;
+        }
+        else if (args[0].equalsIgnoreCase("spawners"))
+        {
+            toggle("Spawners are", ConfigEntry.ALLOW_SPAWNERS);
+            return true;
+        }
+        else if (args[0].equalsIgnoreCase("4chan"))
+        {
+            toggle("4chan mode is", ConfigEntry.FOURCHAN_ENABLED);
+            return true;
+        }
         else
         {
             return false;
@@ -201,7 +237,8 @@ public class Command_toggle extends FreedomCommand
         {
             return Arrays.asList(
                     "waterplace", "fireplace", "lavaplace", "fluidspread", "lavadmg", "firespread", "frostwalk",
-                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs", "bells", "armorstands", "clearonjoin", "tpronjoin");
+                    "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs",
+                    "bells", "armorstands", "clearonjoin", "tpronjoin", "structureblocks", "jigsaws", "grindstones", "jukeboxes", "spawners", "4chan");
         }
 
         return Collections.emptyList();

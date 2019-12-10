@@ -91,37 +91,52 @@ public class BlockBlocker extends FreedomService
             }
             case STRUCTURE_BLOCK:
             {
-                player.sendMessage(ChatColor.GRAY + "Structure blocks are disabled.");
-                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                event.setCancelled(true);
+                if (!ConfigEntry.ALLOW_STRUCTURE_BLOCKS.getBoolean())
+                {
+                    player.sendMessage(ChatColor.GRAY + "Structure blocks are disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    event.setCancelled(true);
+                }
                 break;
             }
             case JIGSAW:
             {
-                player.sendMessage(ChatColor.GRAY + "Jigsaws are disabled.");
-                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                event.setCancelled(true);
+                if (!ConfigEntry.ALLOW_JIGSAWS.getBoolean())
+                {
+                    player.sendMessage(ChatColor.GRAY + "Jigsaws are disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    event.setCancelled(true);
+                }
                 break;
             }
             case GRINDSTONE:
             {
-                player.sendMessage(ChatColor.GRAY + "Grindstones are disabled.");
-                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                event.setCancelled(true);
+                if (!ConfigEntry.ALLOW_GRINDSTONES.getBoolean())
+                {
+                    player.sendMessage(ChatColor.GRAY + "Grindstones are disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    event.setCancelled(true);
+                }
                 break;
             }
             case JUKEBOX:
             {
-                player.sendMessage(ChatColor.GRAY + "Jukeboxes are disabled.");
-                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                event.setCancelled(true);
+                if (!ConfigEntry.ALLOW_JUKEBOXES.getBoolean())
+                {
+                    player.sendMessage(ChatColor.GRAY + "Jukeboxes are disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    event.setCancelled(true);
+                }
                 break;
             }
             case SPAWNER:
             {
-                player.sendMessage(ChatColor.GRAY + "Spawners are disabled.");
-                player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                event.setCancelled(true);
+                if (!ConfigEntry.ALLOW_SPAWNERS.getBoolean())
+                {
+                    player.sendMessage(ChatColor.GRAY + "Spawners are disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    event.setCancelled(true);
+                }
                 break;
             }
         }

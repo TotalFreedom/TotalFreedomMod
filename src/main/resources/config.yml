@@ -133,6 +133,11 @@ allow:
   minecarts: false
   clearonjoin: false
   tpronjoin: false
+  structureblocks: false
+  jigsaws: false
+  grindstones: false
+  jukeboxes: false
+  spawners: false
 
 # Blocked commands:
 #
@@ -264,6 +269,7 @@ disable:
 landmines_enabled: false
 mp44_enabled: false
 tossmob_enabled: false
+4chan_enabled: false
 
 # Moblimiter
 moblimiter:
