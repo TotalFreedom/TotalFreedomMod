@@ -460,4 +460,17 @@ public class FUtil
         int value = (int)(Math.random() * range) + min;
         return value;
     }
+
+    public static boolean isPaper()
+    {
+        try
+        {
+            Class.forName("com.destroystokyo.paper.PaperConfig");
+            return true;
+        }
+        catch (ClassNotFoundException ex)
+        {
+            return false;
+        }
+    }
 }

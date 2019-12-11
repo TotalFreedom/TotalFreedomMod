@@ -11,12 +11,17 @@ import org.bukkit.ChatColor;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Cuck someone", usage = "/<command> <player>")
-public class Command_cuck extends FreedomCommand   
+public class Command_cuck extends FreedomCommand
 {
-    /* This command will not work on Paper because there was a patch to remove it. This will work on Spigot and Bukkit. */
+
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (FUtil.isPaper())
+        {
+            msg("This command won't work on Paper!", ChatColor.RED);
+            return true;
+        }
 
         if (args.length == 0)
         {
@@ -32,12 +37,8 @@ public class Command_cuck extends FreedomCommand
         }
 
         player.remove();
-
         msg("Cucked " + player.getName());
-
         player.sendTitle(ChatColor.DARK_RED + "HAHA CUCKED", ChatColor.RED + "relog if u want to be uncucked loser", 20, 200, 60);
-
-
         return true;
     }
 
