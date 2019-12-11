@@ -54,14 +54,11 @@ public class ChatManager extends FreedomService
     {
         final Player player = event.getPlayer();
         String message = event.getMessage().trim();
-        // Format colors
-        {
-            message = FUtil.colorize(message);
-            message = message.replaceAll(ChatColor.BOLD.toString(), "&l");
-            message = message.replaceAll(ChatColor.ITALIC.toString(), "&o");
-            message = message.replaceAll(ChatColor.UNDERLINE.toString(), "&n");
-            message = message.replaceAll(ChatColor.STRIKETHROUGH.toString(), "&m");
-        }
+        
+        // Format colors and strip &k
+        message = FUtil.colorize(message);
+        message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
+        
         // Truncate messages that are too long - 256 characters is vanilla client max
         if (message.length() > 256)
         {
