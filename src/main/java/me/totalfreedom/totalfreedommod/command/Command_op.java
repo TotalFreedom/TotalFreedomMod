@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH, cooldown = 5)
 @CommandParameters(description = "Makes a player operator", usage = "/<command> <playername>")
 public class Command_op extends FreedomCommand
 {
