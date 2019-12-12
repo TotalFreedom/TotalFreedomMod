@@ -188,6 +188,7 @@ public class LoginProcess extends FreedomService
     {
         final Player player = event.getPlayer();
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
+        final VPlayer verificationPlayer = plugin.pv.getVerificationPlayer(player);
         
         player.sendTitle(ChatColor.GRAY + "Welcome to " + ChatColor.YELLOW + "TotalFreedom!", ChatColor.GREEN + "Celebrating 9 years!", 20, 100, 60);
         player.setOp(true);

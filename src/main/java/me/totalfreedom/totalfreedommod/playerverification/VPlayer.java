@@ -5,12 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import me.totalfreedom.totalfreedommod.config.ConfigInventory;
 import net.pravian.aero.base.ConfigLoadable;
 import net.pravian.aero.base.ConfigSavable;
 import net.pravian.aero.base.Validatable;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -39,9 +37,6 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private boolean rideToggle = true;
-    @Getter
-    @Setter
-    private ConfigInventory inventory = null;
 
     public VPlayer(String name)
     {
@@ -64,14 +59,6 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         tag = cs.getString("tag", null);
         clearChatOptOut = cs.getBoolean("clearChatOptOut", false);
         rideToggle = cs.getBoolean("rideToggle", true);
-        if (!cs.contains("inventory") || Bukkit.getPlayer(name) != null)
-        {
-            inventory = new ConfigInventory(Bukkit.getPlayer(name).getInventory());
-        }
-        else
-        {
-            inventory = ConfigInventory.createInventoryFromConfig(cs);
-        }
     }
 
     @Override
@@ -85,8 +72,6 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("clearChatOptOut", clearChatOptOut);
         cs.set("rideToggle", rideToggle);
-        inventory.updateInventory(Bukkit.getPlayer(name).getInventory());
-        inventory.save(cs);
     }
 
     public List<String> getIps()
