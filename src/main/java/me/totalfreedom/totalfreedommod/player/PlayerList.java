@@ -180,7 +180,6 @@ public class PlayerList extends FreedomService
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-        plugin.pv.save();
         final Player player = event.getPlayer();
         final String ip = Ips.getIp(player);
         playerMap.remove(ip);
