@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.v1_14_R1.NBTTagCompound;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
@@ -21,6 +22,17 @@ public class ConfigInventory
         updateInventory(inv);
     }
 
+    public void set(int location, Material material, int amount, NBTTagCompound nbt)
+    {
+        ItemStack stack = new ItemStack(material, amount);
+        /*
+        net.minecraft.server.v1_14_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(stack);
+        nmsStack.setTag(nbt);
+        stack = CraftItemStack.asBukkitCopy(nmsStack);
+        */
+        inventoryItems.put(location, stack);
+    }
+
     public void set(int location, ItemStack stack)
     {
         inventoryItems.put(location, stack);
@@ -36,14 +48,18 @@ public class ConfigInventory
         return CraftItemStack.asNMSCopy(inventoryItems.get(location)).hasTag();
     }
 
-    public String getNBT(int location)
+    public NBTTagCompound getNBT(int location)
     {
-        return CraftItemStack.asNMSCopy(inventoryItems.get(location)).getTag().toString();
+        return CraftItemStack.asNMSCopy(inventoryItems.get(location)).getTag();
     }
 
     public void updateInventory(Inventory inv)
     {
         inventoryItems = new HashMap<>();
+        if (inv == null)
+        {
+            return;
+        }
         for (int i = 0; i < inv.getSize(); i++)
         {
             inventoryItems.put(i, inv.getItem(i));
@@ -69,5 +85,17 @@ public class ConfigInventory
                 cs.set("inventory." + i + ".nbt", nmsStack.getTag().toString());
             }
         }
+    }
+
+    public static ConfigInventory createInventoryFromConfig(ConfigurationSection cs)
+    {
+        ConfigInventory configInventory = new ConfigInventory(null);
+        for (int i = 0; i < 40; i++)
+        {
+            configInventory.set(i, Material.valueOf(cs.getString("inventory." + i + ".type")),
+                    cs.getInt("inventory." + i + ".amount"), null);//,
+                    //(NBTTagCompound) cs.get("inventory." + i + ".nbt"));
+        }
+        return configInventory;
     }
 }

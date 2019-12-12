@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "View player inventory information of players.", usage = "/<command> <player> <slot>", aliases = "inv")
-public class Command_inventory extends FreedomCommand
+@CommandParameters(description = "View inventory information of players.", usage = "/<command> <player> <slot>", aliases = "il,invlookup")
+public class Command_inventorylookup extends FreedomCommand
 {
 
     @Override
@@ -48,7 +48,7 @@ public class Command_inventory extends FreedomCommand
         msg(" - Amount: " + stack.getAmount());
         if (inv.hasNBT(slot))
         {
-            msg(" - NBT Data: " + inv.getNBT(slot));
+            msg(" - NBT Data: " + inv.getNBT(slot).toString());
         }
         return true;
     }

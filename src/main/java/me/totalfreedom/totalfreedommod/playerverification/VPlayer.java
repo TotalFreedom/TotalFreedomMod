@@ -64,7 +64,14 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         tag = cs.getString("tag", null);
         clearChatOptOut = cs.getBoolean("clearChatOptOut", false);
         rideToggle = cs.getBoolean("rideToggle", true);
-        inventory = new ConfigInventory(Bukkit.getPlayer(name).getInventory());
+        if (!cs.contains("inventory") || Bukkit.getPlayer(name) != null)
+        {
+            inventory = new ConfigInventory(Bukkit.getPlayer(name).getInventory());
+        }
+        else
+        {
+            inventory = ConfigInventory.createInventoryFromConfig(cs);
+        }
     }
 
     @Override
