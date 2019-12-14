@@ -124,7 +124,7 @@ public class Command_ride extends FreedomCommand
 
         if (player.getWorld() != playerSender.getWorld())
         {
-            player.teleport(new Location(player.getWorld(), 0, 256, 0));
+            playerSender.teleport(new Location(player.getWorld(), 0, 256, 0));
         }
 
         player.addPassenger(playerSender);
