@@ -36,7 +36,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
     private boolean clearChatOptOut = false;
     @Getter
     @Setter
-    private boolean rideToggle = true;
+    private String rideMode = "normal";
 
     public VPlayer(String name)
     {
@@ -58,7 +58,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         enabled = cs.getBoolean("enabled", false);
         tag = cs.getString("tag", null);
         clearChatOptOut = cs.getBoolean("clearChatOptOut", false);
-        rideToggle = cs.getBoolean("rideToggle", true);
+        rideMode = cs.getString("rideToggle", rideMode);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("tag", tag);
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("clearChatOptOut", clearChatOptOut);
-        cs.set("rideToggle", rideToggle);
+        cs.set("rideToggle", rideMode);
     }
 
     public List<String> getIps()

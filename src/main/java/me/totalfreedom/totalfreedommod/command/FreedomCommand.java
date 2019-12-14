@@ -32,6 +32,8 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
     private final CommandParameters params;
     @Getter
     private final CommandPermissions perms;
+    //
+    public final Timer timer = new Timer();
 
     public FreedomCommand()
     {
