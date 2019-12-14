@@ -36,7 +36,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
     private boolean clearChatOptOut = false;
     @Getter
     @Setter
-    private String rideMode = "normal";
+    private String rideMode = "ask";
 
     public VPlayer(String name)
     {
