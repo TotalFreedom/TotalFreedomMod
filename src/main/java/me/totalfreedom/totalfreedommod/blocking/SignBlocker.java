@@ -2,11 +2,11 @@ package me.totalfreedom.totalfreedommod.blocking;
 
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import net.minecraft.server.v1_14_R1.NBTTagCompound;
+import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Tag;
-import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -42,9 +42,8 @@ public class SignBlocker extends FreedomService
         final Player player = event.getPlayer();
         if (Tag.SIGNS.getValues().contains(event.getBlock().getType()))
         {
-
             ItemStack sign = event.getItemInHand();
-            net.minecraft.server.v1_14_R1.ItemStack nmsSign = CraftItemStack.asNMSCopy(sign);
+            net.minecraft.server.v1_15_R1.ItemStack nmsSign = CraftItemStack.asNMSCopy(sign);
             NBTTagCompound compound = (nmsSign.hasTag()) ? nmsSign.getTag() : new NBTTagCompound();
             NBTTagCompound bet = compound.getCompound("BlockEntityTag");
             String line1 = bet.getString("Text1");

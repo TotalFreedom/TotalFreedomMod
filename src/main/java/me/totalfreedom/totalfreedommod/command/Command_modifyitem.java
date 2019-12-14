@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.minecraft.server.v1_14_R1.NBTTagCompound;
-import net.minecraft.server.v1_14_R1.NBTTagInt;
-import net.minecraft.server.v1_14_R1.NBTTagList;
-import net.minecraft.server.v1_14_R1.NBTTagString;
+import net.minecraft.server.v1_15_R1.NBTTagCompound;
+import net.minecraft.server.v1_15_R1.NBTTagInt;
+import net.minecraft.server.v1_15_R1.NBTTagList;
+import net.minecraft.server.v1_15_R1.NBTTagString;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -144,12 +144,13 @@ public class Command_modifyitem extends FreedomCommand
                 item.setItemMeta(potionMeta);
                 break;
             }
-            case "attribute":
+            // TODO: Fix code here bc 1.15 made some things private for some reason
+            /*case "attribute":
                 if (args.length < 3)
                 {
                     return false;
                 }
-                net.minecraft.server.v1_14_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+                net.minecraft.server.v1_15_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
                 NBTTagCompound compound = (nmsStack.hasTag()) ? nmsStack.getTag() : new NBTTagCompound();
                 NBTTagList modifiers = getAttributeList(nmsStack);
                 NBTTagCompound cmpnd = new NBTTagCompound();
@@ -180,7 +181,7 @@ public class Command_modifyitem extends FreedomCommand
                 compound.set("AttributeModifiers", modifiers);
                 nmsStack.setTag(compound);
                 item = CraftItemStack.asBukkitCopy(nmsStack);
-                break;
+                break;*/
             default:
                 return false;
         }
@@ -188,7 +189,7 @@ public class Command_modifyitem extends FreedomCommand
         return true;
     }
 
-    private NBTTagList getAttributeList(net.minecraft.server.v1_14_R1.ItemStack stack)
+    private NBTTagList getAttributeList(net.minecraft.server.v1_15_R1.ItemStack stack)
     {
         if (stack.getTag() == null)
         {

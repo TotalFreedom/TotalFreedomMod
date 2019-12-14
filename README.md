@@ -1,4 +1,4 @@
-# TotalFreedomMod [![Build Status](https://travis-ci.org/TFPatches/TotalFreedomMod.svg?branch=TFM-1.14)](https://travis-ci.org/TFPatches/TotalFreedomMod) [![codebeat badge](https://codebeat.co/badges/5f078e55-8a02-4120-9076-70f6994f48d1)](https://codebeat.co/projects/github-com-tfpatches-totalfreedommod-tfm-1-14-fa58c58f-b1c4-4221-bf78-346e07db6961)
+# TotalFreedomMod [![Build Status](https://travis-ci.org/TFPatches/TotalFreedomMod.svg?branch=TFM-1.15)](https://travis-ci.org/TFPatches/TotalFreedomMod) [![codebeat badge](https://codebeat.co/badges/5f078e55-8a02-4120-9076-70f6994f48d1)](https://codebeat.co/projects/github-com-tfpatches-totalfreedommod-tfm-1-14-fa58c58f-b1c4-4221-bf78-346e07db6961)
 
 TotalFreedomMod is a CraftBukkit server plugin designed primarily to support the [Official TotalFreedom Minecraft Server](http://totalfreedom.me/). However, you are more than welcome to adapt the source for your own server.
 
