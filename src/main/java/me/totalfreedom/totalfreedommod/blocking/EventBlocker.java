@@ -240,16 +240,7 @@ public class EventBlocker extends FreedomService
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerDeath(PlayerDeathEvent event)
     {
-        for (Player p : Bukkit.getOnlinePlayers())
-        {
-            for (Entity passengerEntity : p.getPassengers())
-            {
-                if (passengerEntity == event.getEntity())
-                {
-                    p.removePassenger(passengerEntity);
-                }
-            }
-        }
+        FUtil.fixCommandVoid(event.getEntity());
         event.setDeathMessage(event.getDeathMessage());
     }
 }

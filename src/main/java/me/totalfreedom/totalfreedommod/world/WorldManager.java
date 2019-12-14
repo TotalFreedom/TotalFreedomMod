@@ -4,6 +4,7 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -162,16 +163,7 @@ public class WorldManager extends FreedomService
             return;
         }
 
-        for (Player p : Bukkit.getOnlinePlayers())
-        {
-            for (Entity passengerEntity : p.getPassengers())
-            {
-                if (passengerEntity == player)
-                {
-                    p.removePassenger(passengerEntity);
-                }
-            }
-        }
+        FUtil.fixCommandVoid(player);
 
         if (player.getWorld().getName().equalsIgnoreCase(targetWorld))
         {

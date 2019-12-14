@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -119,6 +120,11 @@ public class Command_ride extends FreedomCommand
                 }
             }, 30000);
             return true;
+        }
+
+        if (player.getWorld() != playerSender.getWorld())
+        {
+            player.teleport(new Location(player.getWorld(), 0, 256, 0));
         }
 
         player.addPassenger(playerSender);
