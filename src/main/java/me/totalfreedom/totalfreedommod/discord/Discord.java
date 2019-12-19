@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.pravian.aero.util.StringUtils;
@@ -158,6 +159,12 @@ public class Discord extends FreedomService
         {
             bot.getTextChannelById(chat_channel_id).sendMessage(message).queue();
         }
+    }
+
+    public String formatBotTag()
+    {
+        SelfUser user = bot.getSelfUser();
+        return user.getName() + "#" + user.getDiscriminator();
     }
 
     public static String getCodeForAdmin(Admin admin)

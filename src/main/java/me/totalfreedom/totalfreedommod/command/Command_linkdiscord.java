@@ -61,6 +61,7 @@ public class Command_linkdiscord extends FreedomCommand
             if (Discord.PLAYER_LINK_CODES.containsValue(data))
             {
                 msg("Your linking code is " + ChatColor.GREEN + Discord.getCodeForPlayer(data), ChatColor.AQUA);
+                msg("Take this code and DM the server bot (" + plugin.dc.formatBotTag() + ") the code (do not put anything else in the message, only the code)");
             }
             else
             {
