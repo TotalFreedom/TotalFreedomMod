@@ -48,8 +48,8 @@
         </repository>
 
         <repository>
-            <id>ess-repo</id>
-            <url>http://repo.ess3.net/content/groups/essentials</url>
+            <id>ender-zone</id>
+            <url>https://ci.ender.zone/plugin/repository/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
