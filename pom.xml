@@ -49,7 +49,7 @@
 
         <repository>
             <id>ender-zone</id>
-            <url>https://ci.ender.zone/plugin/repository/</url>
+            <url>https://ci.ender.zone/plugin/repository/everything/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
