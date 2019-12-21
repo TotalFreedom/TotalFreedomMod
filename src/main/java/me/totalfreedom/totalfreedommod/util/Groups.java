@@ -160,4 +160,14 @@ public class Groups
             Material.ZOMBIE_HORSE_SPAWN_EGG,
             Material.ZOMBIE_PIGMAN_SPAWN_EGG,
             Material.ZOMBIE_VILLAGER_SPAWN_EGG);
+
+    public static final List<Material> HEADS = Arrays.asList(
+            Material.CREEPER_HEAD,
+            Material.CREEPER_WALL_HEAD,
+            Material.DRAGON_HEAD,
+            Material.DRAGON_WALL_HEAD,
+            Material.PLAYER_HEAD,
+            Material.PLAYER_WALL_HEAD,
+            Material.ZOMBIE_HEAD,
+            Material.ZOMBIE_WALL_HEAD);
 }
