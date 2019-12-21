@@ -256,9 +256,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         amp = bridges.registerService(AMP.class);
         bridges.start();
 
-        // Emotes
-        // todo
-
         timer.update();
         FLog.info("Version " + pluginVersion + " for " + ServerInterface.COMPILE_NMS_VERSION + " enabled in " + timer.getTotal() + "ms");
 
