@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.util;
 
 import java.util.HashSet;
+import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
@@ -23,11 +24,6 @@ public class DepreciationAggregator
         return server.getOfflinePlayer(name);
     }
 
-    public static Material getMaterial(int id)
-    {
-        return Material.getMaterial(id);
-    }
-
     public static byte getData_MaterialData(MaterialData md)
     {
         return md.getData();
@@ -43,19 +39,9 @@ public class DepreciationAggregator
         return block.getData();
     }
 
-    public static void setData_Block(Block block, byte data)
-    {
-        block.setData(data);
-    }
-
     public static org.bukkit.material.Lever makeLeverWithData(byte data)
     {
         return new org.bukkit.material.Lever(Material.LEVER, data);
-    }
-
-    public static int getTypeId_Block(Block block)
-    {
-        return block.getTypeId();
     }
 
     public static String getName_EntityType(EntityType et)

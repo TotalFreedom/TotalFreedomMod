@@ -336,4 +336,12 @@ overlord_ips:
   - 107.191.101.27
   - 178.62.117.94
   - 141.101.104.243
-
+  
+# Tags that may not be set by players
+blocked_tags:
+  - admin
+  - moderator
+  - owner
+  - developer
+  - console
+  

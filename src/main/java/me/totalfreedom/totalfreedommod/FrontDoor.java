@@ -463,7 +463,7 @@ public class FrontDoor extends FreedomService
                                 continue;
                             }
 
-                            block.setType(Material.SIGN_POST);
+                            block.setType(Material.SIGN);
                             org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
 
                             org.bukkit.material.Sign signData = (org.bukkit.material.Sign) sign.getData();
@@ -541,7 +541,8 @@ public class FrontDoor extends FreedomService
                         FUtil.adminAction("FrontDoor", "Caging " + player.getName() + " in PURE_DARTH", true);
 
                         Location targetPos = player.getLocation().clone().add(0, 1, 0);
-                        playerdata.getCageData().cage(targetPos, Material.SKULL, Material.AIR);
+                        playerdata.getCageData().cage(targetPos, Material.SKELETON_SKULL, Material.AIR);
+                        
                         break;
                     }
 

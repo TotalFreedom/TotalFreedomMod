@@ -44,16 +44,7 @@ public class Command_dispfill extends FreedomCommand
             for (final String searchItem : itemsRaw)
             {
                 Material material = Material.matchMaterial(searchItem);
-                if (material == null)
-                {
-                    try
-                    {
-                        material = DepreciationAggregator.getMaterial(Integer.parseInt(searchItem));
-                    }
-                    catch (NumberFormatException ex)
-                    {
-                    }
-                }
+               
 
                 if (material != null)
                 {

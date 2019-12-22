@@ -2,7 +2,6 @@ package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.fun.Trailer;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
@@ -14,6 +13,7 @@ import me.totalfreedom.totalfreedommod.blocking.InteractBlocker;
 import me.totalfreedom.totalfreedommod.blocking.MobBlocker;
 import me.totalfreedom.totalfreedommod.blocking.PotionBlocker;
 import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
+import me.totalfreedom.totalfreedommod.blocking.PlayerBlocker;
 import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
 import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
 import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
@@ -33,13 +33,14 @@ import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.util.MethodTimer;
+import me.totalfreedom.totalfreedommod.util.Metrics;
 import me.totalfreedom.totalfreedommod.world.WorldManager;
 import net.pravian.aero.component.service.ServiceManager;
 import net.pravian.aero.plugin.AeroPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.mcstats.Metrics;
+
 
 public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 {
@@ -97,6 +98,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Jumppads jp;
     public Trailer tr;
     public HTTPDaemon hd;
+    public PlayerBlocker plb;
     //
     // Bridges
     public ServiceManager<TotalFreedomMod> bridges;
@@ -197,6 +199,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
         // HTTPD
         hd = services.registerService(HTTPDaemon.class);
+        plb = services.registerService(PlayerBlocker.class);
+        // Start Services
         services.start();
 
         // Start bridges
@@ -210,16 +214,8 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         timer.update();
         FLog.info("Version " + pluginVersion + " for " + ServerInterface.COMPILE_NMS_VERSION + " enabled in " + timer.getTotal() + "ms");
 
-        // Metrics @ http://mcstats.org/plugin/TotalFreedomMod
-        try
-        {
-            final Metrics metrics = new Metrics(plugin);
-            metrics.start();
-        }
-        catch (IOException ex)
-        {
-            FLog.warning("Failed to submit metrics data: " + ex.getMessage());
-        }
+        //BStats Metrics
+        Metrics metrics = new Metrics(this);
 
         // Add spawnpoints later - https://github.com/TotalFreedom/TotalFreedomMod/issues/438
         new BukkitRunnable()

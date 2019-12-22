@@ -33,16 +33,7 @@ public class Command_ro extends FreedomCommand
         for (String materialName : StringUtils.split(args[0], ","))
         {
             Material fromMaterial = Material.matchMaterial(materialName);
-            if (fromMaterial == null)
-            {
-                try
-                {
-                    fromMaterial = DepreciationAggregator.getMaterial(Integer.parseInt(materialName));
-                }
-                catch (NumberFormatException ex)
-                {
-                }
-            }
+            
 
             if (fromMaterial == null || fromMaterial == Material.AIR || !fromMaterial.isBlock())
             {

@@ -56,7 +56,7 @@ public class ItemFun extends FreedomService
 
         switch (event.getMaterial())
         {
-            case RAW_FISH:
+            case TROPICAL_FISH:
             {
                 final int RADIUS_HIT = 5;
                 final int STRENGTH = 4;
@@ -77,7 +77,7 @@ public class ItemFun extends FreedomService
                     }
                     player.sendMessage(msg.toString());
 
-                    player.getEquipment().getItemInMainHand().setType(Material.POTATO_ITEM);
+                    player.getEquipment().getItemInMainHand().setType(Material.POTATO);
                     break;
                 }
 
@@ -126,7 +126,7 @@ public class ItemFun extends FreedomService
                 break;
             }
 
-            case CARROT_ITEM:
+            case CARROT:
             {
                 if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
                 {
@@ -209,7 +209,7 @@ public class ItemFun extends FreedomService
                 break;
             }
 
-            case SULPHUR:
+            case GUNPOWDER:
             {
                 if (!fPlayer.isMP44Armed())
                 {
