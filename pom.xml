@@ -115,8 +115,8 @@
 
         <dependency>
             <groupId>net.ess3</groupId>
-            <artifactId>Essentials</artifactId>
-            <version>2.13.1</version>
+            <artifactId>EssentialsX</artifactId>
+            <version>2.16.0</version>
         </dependency>
  
         <!-- The following have been changed to Telesphoreo's personal repo as it is the most stable current TF-WorldEdit build. These will be changed to a TotalFreedom build in the future -->
