@@ -23,8 +23,11 @@ public class Command_entitywipe extends FreedomCommand
         {
             for (Entity entity : world.getEntities())
             {
-                entity.remove();
-                removed++;
+                if (!(entity instanceof Player))
+                {
+                    entity.remove();
+                    removed++;
+                }
             }
         }
         msg(removed + " entities removed.");

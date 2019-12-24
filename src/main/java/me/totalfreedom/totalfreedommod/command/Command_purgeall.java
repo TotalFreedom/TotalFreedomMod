@@ -26,7 +26,10 @@ public class Command_purgeall extends FreedomCommand
         {
             for (Entity entity : world.getEntities())
             {
-                entity.remove();
+                if (!(entity instanceof Player))
+                {
+                    entity.remove();
+                }
             }
         }
 
