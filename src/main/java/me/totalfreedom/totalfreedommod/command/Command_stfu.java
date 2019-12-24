@@ -126,7 +126,7 @@ public class Command_stfu extends FreedomCommand
             msg("Unmuted " + player.getName());
 
             msg(player, "You have been unmuted.", ChatColor.RED);
-            player.sendTitle(ChatColor.RED + "You've been unmuted.", ChatColor.YELLOW + "Be sure to follow the rules!" + args, 20, 100, 60);
+            player.sendTitle(ChatColor.RED + "You've been unmuted.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
         }
         else
         {
