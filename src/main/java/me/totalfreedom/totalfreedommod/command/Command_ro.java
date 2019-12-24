@@ -118,9 +118,9 @@ public class Command_ro extends FreedomCommand
         {
             if (targetPlayer.getWorld() != adminWorld)
             {
+                FUtil.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
                 for (Material material : materials)
                 {
-                    FUtil.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
                     affected += replaceBlocks(targetPlayer.getLocation(), material, Material.AIR, radius);
                 }
             }
