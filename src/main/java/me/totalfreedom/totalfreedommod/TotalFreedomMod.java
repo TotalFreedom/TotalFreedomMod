@@ -113,7 +113,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public AutoEject ae;
     public Monitors mo;
     public MovementValidator mv;
-    public EntityWiper ew;
     public ServerPing sp;
     public CurseListener cul;
     public ItemFun it;
@@ -228,7 +227,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
 
         mv = services.registerService(MovementValidator.class);
-        ew = services.registerService(EntityWiper.class);
         sp = services.registerService(ServerPing.class);
         pv = services.registerService(PlayerVerification.class);
 

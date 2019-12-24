@@ -3,8 +3,11 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
@@ -19,7 +22,13 @@ public class Command_purgeall extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Purging all player data", true);
 
         // Purge entities
-        plugin.ew.wipeEntities(true);
+        for (World world : Bukkit.getWorlds())
+        {
+            for (Entity entity : world.getEntities())
+            {
+                entity.remove();
+            }
+        }
 
         for (Player player : server.getOnlinePlayers())
         {
