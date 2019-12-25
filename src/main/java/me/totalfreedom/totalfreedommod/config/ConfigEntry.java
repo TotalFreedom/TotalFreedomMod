@@ -50,6 +50,8 @@ public enum ConfigEntry
     SERVER_NAME(String.class, "server.name"),
     SERVER_ADDRESS(String.class, "server.address"),
     SERVER_MOTD(String.class, "server.motd"),
+    SERVER_LOGIN_TITLE(String.class, "server.login_title.title"),
+    SERVER_LOGIN_SUBTITLE(String.class, "server.login_title.subtitle"),
     SERVER_OWNERS(List.class, "server.owners"),
     SERVER_EXECUTIVES(List.class, "server.executives"),
     SERVER_ASSISTANT_EXECUTIVES(List.class, "server.assistant_executives"),
