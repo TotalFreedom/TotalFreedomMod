@@ -46,7 +46,7 @@ public class Command_vanish extends FreedomCommand
             if (!silent)
             {
                 FUtil.bcastMsg(ChatColor.AQUA + sender.getName() + " is " + loginMsg);
-                FUtil.bcastMsg(playerSender.getName() + " joined the game", ChatColor.YELLOW);
+                FUtil.bcastMsg(playerSender.getName() + " joined the game.", ChatColor.YELLOW);
             }
             if (admin.getTag() != null)
             {
@@ -69,7 +69,7 @@ public class Command_vanish extends FreedomCommand
             msg("You have been vanished.", ChatColor.GOLD);
             if (!silent)
             {
-                FUtil.bcastMsg(playerSender.getName() + " left the game", ChatColor.YELLOW);
+                FUtil.bcastMsg(playerSender.getName() + " left the game.", ChatColor.YELLOW);
             }
             FLog.info(playerSender.getName() + " is now vanished.");
             for (Player player : server.getOnlinePlayers())
