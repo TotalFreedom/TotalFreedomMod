@@ -47,6 +47,7 @@ public class Command_vanish extends FreedomCommand
             {
                 FUtil.bcastMsg(ChatColor.AQUA + sender.getName() + " is " + loginMsg);
                 FUtil.bcastMsg(playerSender.getName() + " joined the game.", ChatColor.YELLOW);
+                plugin.dc.messageChatChannel("**" + playerSender.getName() + " joined the server" + "**");
             }
             if (admin.getTag() != null)
             {
@@ -70,6 +71,7 @@ public class Command_vanish extends FreedomCommand
             if (!silent)
             {
                 FUtil.bcastMsg(playerSender.getName() + " left the game.", ChatColor.YELLOW);
+                plugin.dc.messageChatChannel("**" + playerSender.getName() + " left the server" + "**");
             }
             FLog.info(playerSender.getName() + " is now vanished.");
             for (Player player : server.getOnlinePlayers())
