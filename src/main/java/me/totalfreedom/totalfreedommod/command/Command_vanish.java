@@ -41,11 +41,16 @@ public class Command_vanish extends FreedomCommand
             msg(ChatColor.GOLD + "You have been unvanished.");
             if (admin.hasLoginMessage())
             {
-                loginMsg = FUtil.colorize(admin.getLoginMessage()).replace("%rank%", plugin.rm.getDisplay(admin).getName()).replace("%coloredrank%", plugin.rm.getDisplay(admin).getColoredName());
+                loginMsg = FUtil.colorize(admin.getLoginMessage()).replace("%rank%", plugin.rm.getDisplay(admin).getName()).replace("%coloredrank%", plugin.rm.getDisplay(admin).getColoredName()).replace("%name%", admin.getName());
             }
             if (!silent)
             {
-                FUtil.bcastMsg(ChatColor.AQUA + sender.getName() + " is " + loginMsg);
+                String beginning = sender.getName() + " is ";
+                if (admin.getLoginMessage().contains("%name%"))
+                {
+                    beginning = "";
+                }
+                FUtil.bcastMsg(ChatColor.AQUA + beginning + loginMsg);
                 FUtil.bcastMsg(playerSender.getName() + " joined the game.", ChatColor.YELLOW);
                 plugin.dc.messageChatChannel("**" + playerSender.getName() + " joined the server" + "**");
             }
