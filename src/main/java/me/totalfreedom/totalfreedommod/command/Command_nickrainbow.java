@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Essentials Interface Command - Rainbowify your nickname.", usage = "/<command> <nick>")
-public class Command_rainbownick extends FreedomCommand
+public class Command_nickrainbow extends FreedomCommand
 {
 
     @Override
