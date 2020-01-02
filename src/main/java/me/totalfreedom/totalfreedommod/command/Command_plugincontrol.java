@@ -46,7 +46,7 @@ public class Command_plugincontrol extends FreedomCommand
             return false;
         }
 
-        if ("enable".equals(args[0]))
+        if (args[0].equals("enable"))
         {
             final Plugin target = getPlugin(args[1]);
             if (target == null)
@@ -73,7 +73,7 @@ public class Command_plugincontrol extends FreedomCommand
             return true;
         }
 
-        if ("disable".equals(args[0]))
+        if (args[0].equals("disable"))
         {
             final Plugin target = getPlugin(args[1]);
             if (target == null)
@@ -106,7 +106,7 @@ public class Command_plugincontrol extends FreedomCommand
             return true;
         }
 
-        if ("reload".equals(args[0]))
+        if (args[0].equals("reload"))
         {
             final Plugin target = getPlugin(args[1]);
             if (target == null)
