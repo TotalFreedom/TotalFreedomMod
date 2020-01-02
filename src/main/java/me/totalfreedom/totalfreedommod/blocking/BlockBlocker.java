@@ -5,19 +5,14 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.minecraft.server.v1_15_R1.NBTTagCompound;
-import net.minecraft.server.v1_15_R1.NBTTagString;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public class BlockBlocker extends FreedomService
@@ -149,17 +144,15 @@ public class BlockBlocker extends FreedomService
             case PLAYER_HEAD:
             case PLAYER_WALL_HEAD:
             {
-                SkullMeta meta = (SkullMeta) event.getItemInHand().getItemMeta();
-                if (meta != null)
+                Skull skull = (Skull) event.getBlockPlaced().getState();
+                if (skull.hasOwner() && skull.getOwner().length() > 16)
                 {
-                    if (meta.hasOwner())
+                    skull.setOwner(skull.getOwner().substring(0, 16));
+                    SkullMeta meta = (SkullMeta) event.getItemInHand().getItemMeta();
+                    if (meta != null)
                     {
-                        if (meta.getOwner().length() > 100)
-                        {
-                            player.sendMessage(ChatColor.GRAY + "Instead of using Pi to crash a server, how about you use it to impress nerds like yourself?");
-                            player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
-                            event.setCancelled(true);
-                        }
+                        meta.setOwner(meta.getOwner().substring(0, 16));
+                        event.getItemInHand().setItemMeta(meta);
                     }
                 }
                 break;
