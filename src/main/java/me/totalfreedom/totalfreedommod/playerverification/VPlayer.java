@@ -77,7 +77,7 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("ips", Lists.newArrayList(ips));
         cs.set("clearChatOptOut", clearChatOptOut);
         cs.set("rideMode", rideMode);
-        cs.set("color", color.getChar());
+        cs.set("color", color == null ? null : color.getChar());
     }
 
     public List<String> getIps()
