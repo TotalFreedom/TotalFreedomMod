@@ -61,6 +61,12 @@ public enum ConfigEntry
     SERVER_TABLIST_HEADER(String.class, "server.tablist_header"),
     SERVER_TABLIST_FOOTER(String.class, "server.tablist_footer"),
     //
+    SERVER_BAN_MOTD(String.class, "server.motds.ban"),
+    SERVER_ADMINMODE_MOTD(String.class, "server.motds.adminmode"),
+    SERVER_LOCKDOWN_MOTD(String.class, "server.motds.lockdown"),
+    SERVER_WHITELIST_MOTD(String.class, "server.motds.whitelist"),
+    SERVER_FULL_MOTD(String.class, "server.motds.full"),
+    //
     DISCORD_TOKEN(String.class, "discord.token"),
     DISCORD_REPORT_CHANNEL_ID(String.class, "discord.report_channel_id"),
     DISCORD_CHAT_CHANNEL_ID(String.class, "discord.chat_channel_id"),

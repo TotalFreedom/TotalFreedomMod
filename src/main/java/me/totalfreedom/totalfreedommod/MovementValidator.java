@@ -8,6 +8,7 @@ import java.util.Objects;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import net.minecraft.server.v1_15_R1.NBTTagList;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -18,11 +19,13 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class MovementValidator extends FreedomService
 {
 
     public static final int MAX_XYZ_COORD = 29999998;
+    public static final int MAX_DISTANCE_TRAVELED = 100;
 
     public MovementValidator(TotalFreedomMod plugin)
     {
@@ -53,7 +56,13 @@ public class MovementValidator extends FreedomService
     public void onPlayerMove(PlayerMoveEvent event)
     {
         final Player player = event.getPlayer();
-
+        Location from = event.getFrom();
+        Location to = event.getTo();
+        if (to.getX() >= from.getX() + MAX_DISTANCE_TRAVELED || to.getY() >= from.getY() + MAX_DISTANCE_TRAVELED || to.getZ() >= from.getZ() + MAX_DISTANCE_TRAVELED)
+        {
+            event.setCancelled(true);
+            player.kickPlayer(ChatColor.RED + "You were moving too quickly!");
+        }
         // Check absolute value to account for negatives
         if (Math.abs(event.getTo().getX()) >= MAX_XYZ_COORD || Math.abs(event.getTo().getZ()) >= MAX_XYZ_COORD || Math.abs(event.getTo().getY()) >= MAX_XYZ_COORD)
         {

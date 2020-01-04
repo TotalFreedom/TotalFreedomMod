@@ -17,6 +17,14 @@ server:
   # Every word in the MOTD will be a different color unless prefixed by a color code
   colorful_motd: true
 
+  # MOTD Modification
+  motds:
+    ban: '&cYou are banned.'
+    adminmode: '&cServer is closed.'
+    lockdown: '&cServer is in lock-down.'
+    whitelist: '&cWhitelist enabled.'
+    full: '&cServer is full.'
+
   # Shown on join as a title
   login_title:
     title: '&7Welcome to &6TotalFreedom&7!'

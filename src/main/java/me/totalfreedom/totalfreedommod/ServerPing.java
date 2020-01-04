@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -33,31 +32,31 @@ public class ServerPing extends FreedomService
 
         if (plugin.bm.isIpBanned(ip))
         {
-            event.setMotd(ChatColor.RED + "You are banned.");
+            event.setMotd(FUtil.colorize(ConfigEntry.SERVER_BAN_MOTD.getString()));
             return;
         }
 
         if (ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
         {
-            event.setMotd(ChatColor.RED + "Server is closed.");
+            event.setMotd(FUtil.colorize(ConfigEntry.SERVER_ADMINMODE_MOTD.getString()));
             return;
         }
 
         if (LoginProcess.isLockdownEnabled())
         {
-            event.setMotd(ChatColor.RED + "Server is in lock-down.");
+            event.setMotd(FUtil.colorize(ConfigEntry.SERVER_LOCKDOWN_MOTD.getString()));
             return;
         }
 
         if (Bukkit.hasWhitelist())
         {
-            event.setMotd(ChatColor.RED + "Whitelist enabled.");
+            event.setMotd(FUtil.colorize(ConfigEntry.SERVER_WHITELIST_MOTD.getString()));
             return;
         }
 
         if (Bukkit.getOnlinePlayers().size() >= Bukkit.getMaxPlayers())
         {
-            event.setMotd(ChatColor.RED + "Server is full.");
+            event.setMotd(FUtil.colorize(ConfigEntry.SERVER_FULL_MOTD.getString()));
             return;
         }
 
