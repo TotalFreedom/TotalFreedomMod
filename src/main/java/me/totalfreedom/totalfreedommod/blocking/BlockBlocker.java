@@ -163,15 +163,11 @@ public class BlockBlocker extends FreedomService
                             event.setCancelled(true);
                         }
                     }
-                    if (skull.getOwner().length() > 16)
+                    if (skull.getOwner().length() > 100)
                     {
-                        skull.setOwner(skull.getOwner().substring(0, 16));
-                        SkullMeta meta = (SkullMeta)event.getItemInHand().getItemMeta();
-                        if (meta != null)
-                        {
-                            meta.setOwner(meta.getOwner().substring(0, 16));
-                            event.getItemInHand().setItemMeta(meta);
-                        }
+                        player.sendMessage(ChatColor.GRAY + "Instead of using Pi to crash players, be useful with your life and use it to discover things.");
+                        player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                        event.setCancelled(true);
                     }
                 }
                 break;

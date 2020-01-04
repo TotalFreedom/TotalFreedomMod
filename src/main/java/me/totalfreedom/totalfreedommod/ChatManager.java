@@ -59,6 +59,12 @@ public class ChatManager extends FreedomService
         // Format colors and strip &k
         message = FUtil.colorize(message);
         message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
+
+        if (message.equals("Connected using PickaxeChat for Android"))
+        {
+            event.setCancelled(true);
+            return;
+        }
         
         // Truncate messages that are too long - 256 characters is vanilla client max
         if (message.length() > 256)
@@ -96,7 +102,7 @@ public class ChatManager extends FreedomService
                 message = ChatColor.GOLD + message;
             }
         }
-        
+
         // Finally, set message
         event.setMessage(message);
 
@@ -123,7 +129,10 @@ public class ChatManager extends FreedomService
         event.setFormat(format);
 
         // Send to discord
-        plugin.dc.messageChatChannel(player.getName() + " \u00BB " + ChatColor.stripColor(message));
+        if (!ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
+        {
+            plugin.dc.messageChatChannel(player.getName() + " \u00BB " + ChatColor.stripColor(message));
+        }
     }
 
     public ChatColor getColor(Admin admin, Displayable display)
