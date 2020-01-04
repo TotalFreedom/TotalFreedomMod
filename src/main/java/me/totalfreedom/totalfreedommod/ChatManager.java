@@ -96,13 +96,7 @@ public class ChatManager extends FreedomService
                 message = ChatColor.GOLD + message;
             }
         }
-
-        VPlayer vPlayer = plugin.pv.getVerificationPlayer(player);
-        if (vPlayer.getColor() != null)
-        {
-            message = vPlayer.getColor() + message;
-        }
-
+        
         // Finally, set message
         event.setMessage(message);
 
