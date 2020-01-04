@@ -69,6 +69,12 @@ public class ChatManager extends FreedomService
 
         // Check for adminchat
         final FPlayer fPlayer = plugin.pl.getPlayerSync(player);
+        if (fPlayer.isLockedUp())
+        {
+            FSync.playerMsg(player, "You're locked up and cannot talk.");
+            event.setCancelled(true);
+            return;
+        }
         if (fPlayer.inAdminChat())
         {
             FSync.adminChatMessage(player, message);

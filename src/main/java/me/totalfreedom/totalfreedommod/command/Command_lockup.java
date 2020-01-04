@@ -92,6 +92,7 @@ public class Command_lockup extends FreedomCommand
         if (lockupScheduleId != null)
         {
             lockupScheduleId.cancel();
+            playerdata.setLockedUp(false);
             playerdata.setLockupScheduleId(null);
         }
     }
@@ -107,6 +108,7 @@ public class Command_lockup extends FreedomCommand
 
         cancelLockup(playerdata);
 
+        playerdata.setLockedUp(true);
         playerdata.setLockupScheduleId(new BukkitRunnable()
         {
             @Override
