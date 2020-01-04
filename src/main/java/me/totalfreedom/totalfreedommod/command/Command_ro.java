@@ -37,6 +37,11 @@ public class Command_ro extends FreedomCommand
             materials.addAll(Groups.SHULKER_BOXES);
             names = "shulker boxes";
         }
+        else if (args[0].equalsIgnoreCase("banners") || args[0].equalsIgnoreCase("banner"))
+        {
+            materials.addAll(Groups.BANNERS);
+            names = "banners";
+        }
         else
         {
             for (String materialName : StringUtils.split(args[0], ","))
