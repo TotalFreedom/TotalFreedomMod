@@ -20,7 +20,7 @@ public class Command_scare extends FreedomCommand
     {
         if (!FUtil.isPaper())
         {
-            msg("This command won't work on Paper!", ChatColor.RED);
+            msg("This command won't work without Paper!", ChatColor.RED);
             return true;
         }
 
