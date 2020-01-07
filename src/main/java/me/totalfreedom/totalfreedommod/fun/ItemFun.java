@@ -7,8 +7,10 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.shop.ShopData;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -21,7 +23,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -308,6 +314,96 @@ public class ItemFun extends FreedomService
     private Double randomDoubleRange(double min, double max)
     {
         return min + (random.nextDouble() * ((max - min) + 1.0));
+    }
+
+    @EventHandler
+    public void onFish(PlayerFishEvent event)
+    {
+        Player player = event.getPlayer();
+        ShopData sd = plugin.sh.getData(player);
+        PlayerInventory inv = event.getPlayer().getInventory();
+        ItemStack rod = inv.getItemInMainHand();
+        if (rod.getType() == Material.FISHING_ROD) // just to make sure it is this hand that has the rod
+        {
+            if (rod.hasItemMeta())
+            {
+                ItemMeta meta = rod.getItemMeta();
+                if (meta.hasDisplayName())
+                {
+                    if (meta.getDisplayName().contains("Grappling Hook"))
+                    {
+                        if (!meta.hasLore())
+                        {
+                            return;
+                        }
+                        for (String item : sd.getItems())
+                        {
+                            if (!meta.getLore().contains(ChatColor.DARK_GRAY + item))
+                            {
+                                return;
+                            }
+                        }
+                        if (event.getState() == PlayerFishEvent.State.REEL_IN || event.getState() == PlayerFishEvent.State.IN_GROUND)
+                        {
+                            double orientation = player.getLocation().getYaw();
+                            if (orientation < 0.0)
+                            {
+                                orientation += 360;
+                            }
+                            int speed = 5;
+                            if (player.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR)
+                            {
+                                speed = 15;
+                            }
+                            double xVel = 0;
+                            double yVel = 1;
+                            double zVel = 0;
+                            if (orientation >= 0.0 && orientation < 22.5)
+                            {
+                                zVel = speed;
+                            }
+                            else if (orientation >= 22.5 && orientation < 67.5)
+                            {
+                                xVel = -(speed / 2.0);
+                                zVel = speed / 2.0;
+                            }
+                            else if (orientation >= 67.5 && orientation < 112.5)
+                            {
+                                xVel = -speed;
+                            }
+                            else if (orientation >= 112.5 && orientation < 157.5)
+                            {
+                                xVel = -(speed / 2.0);
+                                zVel = -(speed / 2.0);
+                            }
+                            else if (orientation >= 157.5 && orientation < 202.5)
+                            {
+                                zVel = -speed;
+                            }
+                            else if (orientation >= 202.5 && orientation < 247.5)
+                            {
+                                xVel = speed / 2.0;
+                                zVel = -(speed / 2.0);
+                            }
+                            else if (orientation >= 247.5 && orientation < 292.5)
+                            {
+                                xVel = speed;
+                            }
+                            else if (orientation >= 292.5 && orientation < 337.5)
+                            {
+                                xVel = speed / 2.0;
+                                zVel = speed / 2.0;
+                            }
+                            else if (orientation >= 337.5 && orientation < 360.0)
+                            {
+                                zVel = speed;
+                            }
+                            player.setVelocity(new Vector(xVel, yVel, zVel));
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

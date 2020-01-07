@@ -56,6 +56,7 @@ public class FUtil
             ChatColor.DARK_PURPLE,
             ChatColor.LIGHT_PURPLE);
     private static Iterator<ChatColor> CHAT_COLOR_ITERATOR;
+    private static String CHARACTER_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     static
     {
@@ -487,5 +488,10 @@ public class FUtil
                 }
             }
         }
+    }
+
+    public static char getRandomCharacter()
+    {
+        return CHARACTER_STRING.charAt(new Random().nextInt(CHARACTER_STRING.length()));
     }
 }
