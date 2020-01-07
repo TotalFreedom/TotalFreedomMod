@@ -1,7 +1,12 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.TimerTask;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.shop.ShopData;
@@ -19,6 +24,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 @CommandParameters(description = "Access the shop", usage = "/<command> <buy> <item>")
 public class Command_shop extends FreedomCommand
 {
+    private final List<String> locations = Arrays.asList("Sofa", "Car", "Bed", "Kitchen", "Garage", "Basement", "Home Study");
+    private Map<CommandSender, String> featureCooldown = new HashMap<>();
+
     @Override
     public boolean run(final CommandSender sender, final Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -33,6 +41,40 @@ public class Command_shop extends FreedomCommand
         {
             msg(prefix + ChatColor.GREEN + "Balance: " + ChatColor.RED + sd.getCoins());
             return true;
+        }
+        if (args.length == 1)
+        {
+            if (featureCooldown.containsKey(sender) && featureCooldown.containsValue(args[0]))
+            {
+                msg("You're on cooldown for this feature.", ChatColor.RED);
+                return true;
+            }
+            Random r = new Random();
+            switch (args[0])
+            {
+                case "daily":
+                {
+                    sd.setCoins(sd.getCoins() + 100);
+                    plugin.sh.save(sd);
+                    msg(prefix + ChatColor.GREEN + "You received your 100 coins!");
+                    cooldown(86400, args[0]);
+                    return true;
+                }
+                case "search":
+                {
+                    int amount = FUtil.random(5, 10);
+                    String location = locations.get(r.nextInt(locations.size()));
+                    sd.setCoins(sd.getCoins() + amount);
+                    plugin.sh.save(sd);
+                    msg(prefix + ChatColor.AQUA + location + ChatColor.GREEN + " - Found " + ChatColor.RED + amount + ChatColor.GREEN + " coins!");
+                    cooldown(30, args[0]);
+                    return true;
+                }
+                default:
+                {
+                    return false;
+                }
+            }
         }
         if (args.length != 2)
         {
@@ -96,6 +138,19 @@ public class Command_shop extends FreedomCommand
                 return false;
             }
         }
+    }
+
+    private void cooldown(int seconds, String feature)
+    {
+        featureCooldown.put(sender, feature);
+        FreedomCommandExecutor.timer.schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                featureCooldown.remove(sender);
+            }
+        }, seconds * 1000);
     }
 
 }

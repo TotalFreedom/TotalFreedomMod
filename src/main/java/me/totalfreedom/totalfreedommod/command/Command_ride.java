@@ -112,7 +112,7 @@ public class Command_ride extends FreedomCommand
             player.sendMessage(ChatColor.GRAY + "Type " + ChatColor.DARK_GRAY + "/ride deny" + ChatColor.GRAY + " to deny the player permission.");
             player.sendMessage(ChatColor.GRAY + "Request will expire after 30 seconds.");
             RIDE_REQUESTS.put(player, playerSender);
-            timer.schedule(new TimerTask()
+            FreedomCommandExecutor.timer.schedule(new TimerTask()
             {
                 @Override
                 public void run()

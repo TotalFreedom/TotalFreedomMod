@@ -25,8 +25,8 @@ public class FreedomCommandExecutor<C extends AeroCommandBase<?>> extends Abstra
 
     private final TotalFreedomMod plugin;
     //
-    private Map<CommandSender, FreedomCommand> commandCooldown = new HashMap<>();
-    private final Timer timer = new Timer();
+    public static Map<CommandSender, FreedomCommand> commandCooldown = new HashMap<>();
+    public static final Timer timer = new Timer();
 
     public FreedomCommandExecutor(TotalFreedomMod plugin, AeroCommandHandler<?> handler, String name, C command)
     {
