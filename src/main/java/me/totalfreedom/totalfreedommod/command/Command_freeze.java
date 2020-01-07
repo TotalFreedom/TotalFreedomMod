@@ -49,7 +49,7 @@ public class Command_freeze extends FreedomCommand
             {
                 if (!isAdmin(player))
                 {
-                    player.sendTitle(ChatColor.RED + "You've been unfrozen.", ChatColor.YELLOW + "Please be patient and you will be unfrozen shortly.", 20, 100, 60);
+                    player.sendTitle(ChatColor.GREEN + "You've been unfrozen.", ChatColor.YELLOW + "You may now move again.", 20, 100, 60);
                 }
             }
             plugin.fm.purge();
