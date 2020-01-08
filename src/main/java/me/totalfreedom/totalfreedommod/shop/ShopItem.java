@@ -6,7 +6,8 @@ import org.bukkit.Material;
 
 public enum ShopItem
 {
-    GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, 100, ChatColor.GREEN);
+    GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, 100, ChatColor.GREEN),
+    THOR_STAR("Thor's Star", Material.NETHER_STAR, 10000, ChatColor.LIGHT_PURPLE);
 
     @Getter
     private final String name;

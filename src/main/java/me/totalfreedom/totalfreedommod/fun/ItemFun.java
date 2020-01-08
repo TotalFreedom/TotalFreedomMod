@@ -1,15 +1,23 @@
 package me.totalfreedom.totalfreedommod.fun;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.security.auth.login.FailedLoginException;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.shop.ShopData;
+import me.totalfreedom.totalfreedommod.shop.ShopItem;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -27,7 +35,6 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -37,6 +44,31 @@ public class ItemFun extends FreedomService
     public List<Player> explosivePlayers = new ArrayList<Player>();
 
     private final Random random = new Random();
+
+    private static final String COOLDOWN_MESSAGE = ChatColor.RED + "You're on cooldown for this item.";
+
+    private final Timer timer = new Timer();
+    private final Map<Player, Material> cooldownTracker = new HashMap<>();
+
+    private final Map<Player, Float> orientationTracker = new HashMap<>();
+
+    private void cooldown(Player player, Material material, int seconds)
+    {
+        cooldownTracker.put(player, material);
+        timer.schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                cooldownTracker.remove(player);
+            }
+        }, seconds * 1000);
+    }
+
+    public boolean onCooldown(Player player, Material material)
+    {
+        return cooldownTracker.containsKey(player) && cooldownTracker.containsValue(material);
+    }
 
     public ItemFun(TotalFreedomMod plugin)
     {
@@ -284,6 +316,51 @@ public class ItemFun extends FreedomService
 
                 break;
             }
+
+            case NETHER_STAR:
+            {
+                if (onCooldown(player, Material.NETHER_STAR))
+                {
+                    FUtil.playerMsg(player, COOLDOWN_MESSAGE);
+                    break;
+                }
+
+                ShopData sd = plugin.sh.getData(player);
+                ItemStack stack = player.getInventory().getItemInMainHand();
+
+                if (!sd.validate(stack, ShopItem.THOR_STAR))
+                {
+                    break;
+                }
+
+                event.setCancelled(true);
+                Block targetBlock = player.getTargetBlock(null, 20);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    player.getWorld().strikeLightning(targetBlock.getLocation());
+                }
+                Player rplayer = FUtil.getRandomPlayer();
+                FUtil.bcastMsg("Thor's Star has granted " + rplayer.getName() + " a " + ChatColor.YELLOW + "Electrical Diamond Sword" + ChatColor.RED + "!", ChatColor.RED);
+                ShopData psd = plugin.sh.getData(rplayer);
+                String key = FUtil.generateKey(8);
+                psd.giveRawItem(key);
+                plugin.sh.save(psd);
+                FUtil.give(rplayer, Material.DIAMOND_SWORD, "&eElectrical Diamond Sword", 1, "&7RMB - Strike lightning", ChatColor.DARK_GRAY + key);
+                cooldown(player, Material.NETHER_STAR, 600);
+                break;
+            }
+
+            case DIAMOND_SWORD:
+            {
+                ShopData sd = plugin.sh.getData(player);
+                ItemStack stack = player.getInventory().getItemInMainHand();
+                if (sd.validate(stack, "Electrical Diamond Sword"))
+                {
+                    player.getWorld().strikeLightning(player.getTargetBlock(null, 20).getLocation());
+                }
+                break;
+            }
         }
     }
 
@@ -323,85 +400,77 @@ public class ItemFun extends FreedomService
         ShopData sd = plugin.sh.getData(player);
         PlayerInventory inv = event.getPlayer().getInventory();
         ItemStack rod = inv.getItemInMainHand();
-        if (rod.getType() == Material.FISHING_ROD) // just to make sure it is this hand that has the rod
+        if (sd.validate(rod, ShopItem.GRAPPLING_HOOK))
         {
-            if (rod.hasItemMeta())
+            if (event.getState() == PlayerFishEvent.State.REEL_IN || event.getState() == PlayerFishEvent.State.IN_GROUND)
             {
-                ItemMeta meta = rod.getItemMeta();
-                if (meta.hasDisplayName())
+                double orientation = player.getLocation().getYaw();
+                if (orientationTracker.containsKey(player))
                 {
-                    if (meta.getDisplayName().contains("Grappling Hook"))
-                    {
-                        if (!meta.hasLore())
-                        {
-                            return;
-                        }
-                        for (String item : sd.getItems())
-                        {
-                            if (!meta.getLore().contains(ChatColor.DARK_GRAY + item))
-                            {
-                                return;
-                            }
-                        }
-                        if (event.getState() == PlayerFishEvent.State.REEL_IN || event.getState() == PlayerFishEvent.State.IN_GROUND)
-                        {
-                            double orientation = player.getLocation().getYaw();
-                            if (orientation < 0.0)
-                            {
-                                orientation += 360;
-                            }
-                            int speed = 5;
-                            if (player.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR)
-                            {
-                                speed = 15;
-                            }
-                            double xVel = 0;
-                            double yVel = 1;
-                            double zVel = 0;
-                            if (orientation >= 0.0 && orientation < 22.5)
-                            {
-                                zVel = speed;
-                            }
-                            else if (orientation >= 22.5 && orientation < 67.5)
-                            {
-                                xVel = -(speed / 2.0);
-                                zVel = speed / 2.0;
-                            }
-                            else if (orientation >= 67.5 && orientation < 112.5)
-                            {
-                                xVel = -speed;
-                            }
-                            else if (orientation >= 112.5 && orientation < 157.5)
-                            {
-                                xVel = -(speed / 2.0);
-                                zVel = -(speed / 2.0);
-                            }
-                            else if (orientation >= 157.5 && orientation < 202.5)
-                            {
-                                zVel = -speed;
-                            }
-                            else if (orientation >= 202.5 && orientation < 247.5)
-                            {
-                                xVel = speed / 2.0;
-                                zVel = -(speed / 2.0);
-                            }
-                            else if (orientation >= 247.5 && orientation < 292.5)
-                            {
-                                xVel = speed;
-                            }
-                            else if (orientation >= 292.5 && orientation < 337.5)
-                            {
-                                xVel = speed / 2.0;
-                                zVel = speed / 2.0;
-                            }
-                            else if (orientation >= 337.5 && orientation < 360.0)
-                            {
-                                zVel = speed;
-                            }
-                            player.setVelocity(new Vector(xVel, yVel, zVel));
-                        }
-                    }
+                    orientation = orientationTracker.get(player);
                 }
+                if (orientation < 0.0)
+                {
+                    orientation += 360;
+                }
+                int speed = 5;
+                if (player.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR)
+                {
+                    speed = 15;
+                }
+                double xVel = 0;
+                double yVel = 1;
+                double zVel = 0;
+                if (orientation >= 0.0 && orientation < 22.5)
+                {
+                    zVel = speed;
+                }
+                else if (orientation >= 22.5 && orientation < 67.5)
+                {
+                    xVel = -(speed / 2.0);
+                    zVel = speed / 2.0;
+                }
+                else if (orientation >= 67.5 && orientation < 112.5)
+                {
+                    xVel = -speed;
+                }
+                else if (orientation >= 112.5 && orientation < 157.5)
+                {
+                    xVel = -(speed / 2.0);
+                    zVel = -(speed / 2.0);
+                }
+                else if (orientation >= 157.5 && orientation < 202.5)
+                {
+                    zVel = -speed;
+                }
+                else if (orientation >= 202.5 && orientation < 247.5)
+                {
+                    xVel = speed / 2.0;
+                    zVel = -(speed / 2.0);
+                }
+                else if (orientation >= 247.5 && orientation < 292.5)
+                {
+                    xVel = speed;
+                }
+                else if (orientation >= 292.5 && orientation < 337.5)
+                {
+                    xVel = speed / 2.0;
+                    zVel = speed / 2.0;
+                }
+                else if (orientation >= 337.5 && orientation < 360.0)
+                {
+                    zVel = speed;
+                }
+                player.setVelocity(new Vector(xVel, yVel, zVel));
+            }
+
+            if (event.getState() == PlayerFishEvent.State.FISHING)
+            {
+                orientationTracker.put(player, player.getLocation().getYaw());
+            }
+            else
+            {
+                orientationTracker.remove(player);
             }
         }
     }

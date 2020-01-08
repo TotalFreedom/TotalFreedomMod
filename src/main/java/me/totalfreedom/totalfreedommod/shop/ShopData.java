@@ -91,6 +91,11 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         return signature;
     }
 
+    public void giveRawItem(String signature)
+    {
+        items.add(signature);
+    }
+
     public boolean hasItem(ShopItem item)
     {
         for (String i : items)
@@ -123,6 +128,86 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         meta.setLore(lore);
         stack.setItemMeta(meta);
         return stack;
+    }
+
+    public boolean validate(ItemStack stack, String nameSegment)
+    {
+        if (!stack.hasItemMeta())
+        {
+            return false;
+        }
+
+        if (!stack.getItemMeta().hasDisplayName())
+        {
+            return false;
+        }
+
+        if (!stack.getItemMeta().getDisplayName().contains(nameSegment))
+        {
+            return false;
+        }
+
+        if (!stack.getItemMeta().hasLore())
+        {
+            return false;
+        }
+
+        boolean loreValid = false;
+
+        for (String i : items)
+        {
+            if (stack.getItemMeta().getLore().contains(ChatColor.DARK_GRAY + i))
+            {
+                loreValid = true;
+            }
+        }
+
+        if (!loreValid)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean validate(ItemStack stack, ShopItem item)
+    {
+        if (!stack.hasItemMeta())
+        {
+            return false;
+        }
+
+        if (!stack.getItemMeta().hasDisplayName())
+        {
+            return false;
+        }
+
+        if (!stack.getItemMeta().getDisplayName().contains(item.getName()))
+        {
+            return false;
+        }
+
+        if (!stack.getItemMeta().hasLore())
+        {
+            return false;
+        }
+
+        boolean loreValid = false;
+
+        for (String i : items)
+        {
+            if (stack.getItemMeta().getLore().contains(ChatColor.DARK_GRAY + i))
+            {
+                loreValid = true;
+            }
+        }
+
+        if (!loreValid)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
