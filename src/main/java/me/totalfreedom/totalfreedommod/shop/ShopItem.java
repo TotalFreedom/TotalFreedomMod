@@ -6,7 +6,7 @@ import org.bukkit.Material;
 
 public enum ShopItem
 {
-    GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, 100, ChatColor.GREEN, 0);
+    GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, 100, ChatColor.GREEN);
 
     @Getter
     private final String name;
@@ -16,16 +16,13 @@ public enum ShopItem
     private final int cost;
     @Getter
     private final ChatColor color;
-    @Getter
-    private final int id;
 
-    ShopItem(String name, Material material, int cost, ChatColor color, int id)
+    ShopItem(String name, Material material, int cost, ChatColor color)
     {
         this.name = name;
         this.material = material;
         this.cost = cost;
         this.color = color;
-        this.id = id;
     }
 
     public String getColoredName()

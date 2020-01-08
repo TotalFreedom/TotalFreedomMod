@@ -82,7 +82,7 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
 
     public String giveItem(ShopItem item)
     {
-        String signature = String.valueOf(item.getId());
+        String signature = String.valueOf(item.ordinal());
         for (int i = 0; i < 7; i++)
         {
             signature += FUtil.getRandomCharacter();
@@ -96,7 +96,7 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         for (String i : items)
         {
             int id = Integer.valueOf(i.substring(0, 1));
-            if (item.getId() == id)
+            if (item.ordinal() == id)
             {
                 return true;
             }
@@ -110,7 +110,7 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         for (String i : items)
         {
             int id = Integer.valueOf(i.substring(0, 1));
-            if (item.getId() == id)
+            if (item.ordinal() == id)
             {
                 signature = i;
             }
