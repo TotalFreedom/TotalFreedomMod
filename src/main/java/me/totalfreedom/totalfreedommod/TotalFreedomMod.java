@@ -126,6 +126,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public MasterBuilderWorldRestrictions mbwr;
     public SignBlocker snp;
     public PlayerVerification pv;
+    public EntityWiper ew;
     //public HubWorldRestrictions hwr;
     //
     // Bridges
@@ -210,6 +211,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         pa = services.registerService(ProtectArea.class);
         gr = services.registerService(GameRuleHandler.class);
         snp = services.registerService(SignBlocker.class);
+        ew = services.registerService(EntityWiper.class);
 
         // Single admin utils
         rb = services.registerService(RollbackManager.class);

@@ -18,18 +18,7 @@ public class Command_entitywipe extends FreedomCommand
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         FUtil.adminAction(sender.getName(), "Removing all server entities", true);
-        int removed = 0;
-        for (World world : Bukkit.getWorlds())
-        {
-            for (Entity entity : world.getEntities())
-            {
-                if (!(entity instanceof Player))
-                {
-                    entity.remove();
-                    removed++;
-                }
-            }
-        }
+        int removed = plugin.ew.wipe();
         msg(removed + " entities removed.");
 
         return true;
