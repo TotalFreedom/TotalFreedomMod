@@ -341,7 +341,7 @@ public class ItemFun extends FreedomService
                     player.getWorld().strikeLightning(targetBlock.getLocation());
                 }
                 Player rplayer = FUtil.getRandomPlayer();
-                FUtil.bcastMsg("Thor's Star has granted " + rplayer.getName() + " a " + ChatColor.YELLOW + "Electrical Diamond Sword" + ChatColor.RED + "!", ChatColor.RED);
+                FUtil.bcastMsg("Thor's Star has granted " + rplayer.getName() + " an " + ChatColor.YELLOW + "Electrical Diamond Sword" + ChatColor.RED + "!", ChatColor.RED);
                 ShopData psd = plugin.sh.getData(rplayer);
                 String key = FUtil.generateKey(8);
                 psd.giveRawItem(key);
