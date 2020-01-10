@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,12 +21,15 @@ public class Command_playerverify extends FreedomCommand
     {
         VPlayer target = plugin.pv.getVerificationPlayer(playerSender);
 
+        List<String> ips = new ArrayList<>();
+        ips.addAll(target.getIps());
+
         if (args.length == 1)
         {
             if (args[0].equalsIgnoreCase("clearips"))
             {
                 int cleared = 0;
-                for (String ip : target.getIps())
+                for (String ip : ips)
                 {
                     if (!ip.equals(Ips.getIp(playerSender)))
                     {
