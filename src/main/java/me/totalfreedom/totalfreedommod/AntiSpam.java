@@ -9,14 +9,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AntiSpam extends FreedomService
 {
 
     public static final int MSG_PER_CYCLE = 8;
     public static final int TICKS_PER_CYCLE = 2 * 10;
+    List<Player> markedForDeath = new ArrayList<>();
     //
     public BukkitTask cycleTask = null;
 
@@ -74,15 +81,25 @@ public class AntiSpam extends FreedomService
 
         // Check for spam
         if (playerdata.incrementAndGetMsgCount() > MSG_PER_CYCLE)
-        {
-            FSync.bcastMsg(player.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
-            FSync.autoEject(player, "Kicked for spamming chat.");
+        {   
+            if (!markedForDeath.contains(player))
+            {
+                markedForDeath.add(player);
+                FSync.bcastMsg(player.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+                FSync.autoEject(player, "Kicked for spamming chat.");
 
-            playerdata.resetMsgCount();
+                playerdata.resetMsgCount();
 
-            event.setCancelled(true);
+                event.setCancelled(true);
+            }
             return;
         }
+        else if (playerdata.incrementAndGetMsgCount() > MSG_PER_CYCLE / 2)
+        {
+            FUtil.playerMsg(player, "Please refrain from spamming chat.", ChatColor.GRAY);
+            event.setCancelled(true);
+        }
+        
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -114,4 +131,14 @@ public class AntiSpam extends FreedomService
             event.setCancelled(true);
         }
     }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPlayerKick(PlayerKickEvent event)
+    {
+        if (markedForDeath.contains(event.getPlayer()))
+        {
+            markedForDeath.remove(event.getPlayer());
+        }
+    }
+
 }
