@@ -57,6 +57,13 @@ public class Muter extends FreedomService
             return;
         }
 
+        if (fPlayer.isQuietMuted())
+        {
+            FSync.playerMsg(event.getPlayer(), event.getFormat());
+            event.setCancelled(true);
+            return;
+        }
+
         FSync.playerMsg(event.getPlayer(), ChatColor.RED + "You are muted, STFU! - You will be unmuted in 5 minutes.");
         event.setCancelled(true);
     }

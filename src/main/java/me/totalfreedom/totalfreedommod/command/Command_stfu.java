@@ -18,7 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [[-s] <player> [reason] | list | purge | all]", aliases = "mute")
+@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [[-s | -q] <player> [reason] | list | purge | all]", aliases = "mute")
 public class Command_stfu extends FreedomCommand
 {
 
@@ -95,7 +95,9 @@ public class Command_stfu extends FreedomCommand
 
         // -s option (smite)
         boolean smite = args[0].equals("-s");
-        if (smite)
+        // -q option (shadowmute)
+        boolean quiet = args[0].equals("-q");
+        if (smite || quiet)
         {
             args = ArrayUtils.subarray(args, 1, args.length);
 
@@ -121,6 +123,14 @@ public class Command_stfu extends FreedomCommand
         FPlayer playerdata = plugin.pl.getPlayer(player);
         if (playerdata.isMuted())
         {
+            if (quiet || playerdata.isQuietMuted())
+            {
+                playerdata.setMuted(false);
+                playerdata.setQuietMuted(false);
+                msg("Unmuted " + player.getName() + " quietly");
+                return true;
+            }
+
             FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
             playerdata.setMuted(false);
             msg("Unmuted " + player.getName());
@@ -133,6 +143,14 @@ public class Command_stfu extends FreedomCommand
             if (plugin.al.isAdmin(player))
             {
                 msg(player.getName() + " is an admin, and can't be muted.");
+                return true;
+            }
+
+            if (quiet)
+            {
+                playerdata.setMuted(true);
+                playerdata.setQuietMuted(true);
+                msg("Muted " + player.getName() + " quietly");
                 return true;
             }
 

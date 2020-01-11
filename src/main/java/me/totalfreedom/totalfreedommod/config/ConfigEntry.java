@@ -141,6 +141,7 @@ public enum ConfigEntry
     VOTING_INFO(List.class, "votinginfo"), 
     MASTER_BUILDER_INFO(List.class, "masterbuilderinfo"),
     AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
+    TOGGLE_CHAT(Boolean.class, "toggle_chat"),
     //
     AMP_ENABLED(Boolean.class, "amp.enabled"),
     AMP_USERNAME(String.class, "amp.username"),

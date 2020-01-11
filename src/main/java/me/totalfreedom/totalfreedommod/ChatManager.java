@@ -61,6 +61,13 @@ public class ChatManager extends FreedomService
         message = FUtil.colorize(message);
         message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
 
+        if (!ConfigEntry.TOGGLE_CHAT.getBoolean() && !plugin.al.isAdmin(player))
+        {
+            event.setCancelled(true);
+            playerMsg(player, "Chat is currently disabled.", ChatColor.RED);
+            return;
+        }
+
         if (message.equals("Connected using PickaxeChat for Android"))
         {
             event.setCancelled(true);

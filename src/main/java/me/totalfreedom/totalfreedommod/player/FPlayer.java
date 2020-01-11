@@ -76,6 +76,9 @@ public class FPlayer
     @Getter
     @Setter
     private boolean invSee = false;
+    @Setter
+    @Getter
+    private boolean quietMuted = false;
 
     public FPlayer(TotalFreedomMod plugin, Player player)
     {

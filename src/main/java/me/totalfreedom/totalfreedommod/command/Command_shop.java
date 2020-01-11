@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Access the shop", usage = "/<command> <buy> <item>")
+@CommandParameters(description = "Access the shop", usage = "/<command> <buy <item> | action | list>")
 public class Command_shop extends FreedomCommand
 {
     private final List<String> locations = Arrays.asList("Sofa", "Car", "Bed", "Kitchen", "Garage", "Basement", "Home Study");
@@ -68,6 +68,16 @@ public class Command_shop extends FreedomCommand
                     plugin.sh.save(sd);
                     msg(prefix + ChatColor.AQUA + location + ChatColor.GREEN + " - Found " + ChatColor.RED + amount + ChatColor.GREEN + " coins!");
                     cooldown(30, args[0]);
+                    return true;
+                }
+                case "list":
+                case "items":
+                {
+                    msg(prefix + ChatColor.GREEN + "Available items:");
+                    for (ShopItem item : ShopItem.values())
+                    {
+                        msg(prefix + ChatColor.AQUA + item.getName() + ChatColor.GREEN + " - " + ChatColor.RED + item.getCost());
+                    }
                     return true;
                 }
                 default:
