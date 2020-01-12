@@ -31,7 +31,6 @@ public class EntityWiper extends FreedomService
     @Override
     protected void onStart()
     {
-        BLACKLIST.addAll(Groups.MOB_TYPES);
         // Continuous Entity Wiper
         wiper = new BukkitRunnable()
         {
@@ -46,7 +45,6 @@ public class EntityWiper extends FreedomService
     @Override
     protected void onStop()
     {
-        BLACKLIST.removeAll(Groups.MOB_TYPES);
         wiper.cancel();
         wiper = null;
     }
@@ -60,7 +58,7 @@ public class EntityWiper extends FreedomService
         {
             for (Entity entity : world.getEntities())
             {
-                if (!BLACKLIST.contains(entity.getType()))
+                if (!BLACKLIST.contains(entity.getType()) && !Groups.MOB_TYPES.contains(entity.getType()))
                 {
                     entity.remove();
                     removed++;

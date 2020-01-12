@@ -28,7 +28,7 @@
     </licenses>
 
     <organization>
-        <name>Total Freedom</name>
+        <name>TotalFreedom</name>
         <url>https://totalfreedom.me</url>
     </organization>
 
@@ -39,11 +39,6 @@
     </scm>
 
     <repositories>
-        <repository>
-            <id>ess-repo</id>
-            <url>https://ci.ender.zone/plugin/repository/everything/</url>
-        </repository>
-
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -142,21 +137,14 @@
         <dependency>
             <groupId>com.github.TFPatches</groupId>
             <artifactId>TF-LibsDisguises</artifactId>
-            <version>89efd2c93e</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.TFPatches</groupId>
-            <artifactId>TotalFreedomMod</artifactId>
-            <version>4a91c81</version>
+            <version>11aea9b3cd</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.TFPatches</groupId>
             <artifactId>TF-WorldEdit</artifactId>
-            <version>0909dc1972</version>
+            <version>fd3f56f015</version>
             <scope>provided</scope>
         </dependency>
 
@@ -184,7 +172,7 @@
         <dependency>
             <groupId>com.github.TFPatches</groupId>
             <artifactId>TF-WorldGuard</artifactId>
-            <version>50fd4cb470</version>
+            <version>bb12813214</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
