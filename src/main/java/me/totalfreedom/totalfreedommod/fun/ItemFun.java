@@ -49,26 +49,26 @@ public class ItemFun extends FreedomService
 
     private static final String COOLDOWN_MESSAGE = ChatColor.RED + "You're on cooldown for this feature.";
 
-    private final Map<Player, String> cooldownTracker = new HashMap<>();
+    private final Map<String, String> cooldownTracker = new HashMap<>();
 
     private final Map<Player, Float> orientationTracker = new HashMap<>();
 
     private void cooldown(Player player, String feature, int seconds)
     {
-        cooldownTracker.put(player, feature);
+        cooldownTracker.put(player.getName(), feature);
         new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                cooldownTracker.remove(player);
+                cooldownTracker.remove(player.getName());
             }
         }.runTaskLater(plugin, seconds * 20);
     }
 
     public boolean onCooldown(Player player, String feature)
     {
-        return cooldownTracker.containsKey(player) && cooldownTracker.containsValue(feature);
+        return cooldownTracker.containsKey(player.getName()) && cooldownTracker.containsValue(feature);
     }
 
     public ItemFun(TotalFreedomMod plugin)
@@ -379,7 +379,7 @@ public class ItemFun extends FreedomService
                 if (sd.validate(stack, "Electrical Diamond Sword"))
                 {
                     player.getWorld().strikeLightning(player.getTargetBlock(null, 20).getLocation());
-                    cooldown(player, "eds", 60);
+                    cooldown(player, "eds", 15);
                 }
                 break;
             }
@@ -398,7 +398,7 @@ public class ItemFun extends FreedomService
                 {
                     Entity fireball = player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREBALL);
                     fireball.setVelocity(player.getLocation().getDirection());
-                    cooldown(player, "ss", 60);
+                    cooldown(player, "ss", 3);
                 }
             }
         }
