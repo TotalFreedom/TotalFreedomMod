@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.TimerTask;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.shop.ShopData;
@@ -19,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Access the shop", usage = "/<command> <buy <item> | action | list>")
@@ -57,7 +57,7 @@ public class Command_shop extends FreedomCommand
                     sd.setCoins(sd.getCoins() + 100);
                     plugin.sh.save(sd);
                     msg(prefix + ChatColor.GREEN + "You received your 100 coins!");
-                    cooldown(86400, args[0]);
+                    cooldown(86400, sender, args[0]);
                     return true;
                 }
                 case "search":
@@ -67,7 +67,7 @@ public class Command_shop extends FreedomCommand
                     sd.setCoins(sd.getCoins() + amount);
                     plugin.sh.save(sd);
                     msg(prefix + ChatColor.AQUA + location + ChatColor.GREEN + " - Found " + ChatColor.RED + amount + ChatColor.GREEN + " coins!");
-                    cooldown(30, args[0]);
+                    cooldown(30, sender, args[0]);
                     return true;
                 }
                 case "list":
@@ -80,11 +80,16 @@ public class Command_shop extends FreedomCommand
                     }
                     return true;
                 }
-                default:
-                {
-                    return false;
-                }
             }
+            Player player = getPlayer(args[0]);
+            if (player == null)
+            {
+                msg(PLAYER_NOT_FOUND);
+                return true;
+            }
+            ShopData psd = plugin.sh.getData(player);
+            msg(prefix + ChatColor.AQUA + player.getName() + ChatColor.GREEN + "'s balance: " + ChatColor.RED + psd.getCoins());
+            return true;
         }
         if (args.length != 2)
         {
@@ -150,17 +155,17 @@ public class Command_shop extends FreedomCommand
         }
     }
 
-    private void cooldown(int seconds, String feature)
+    private void cooldown(int seconds, CommandSender sender, String feature)
     {
         featureCooldown.put(sender, feature);
-        FreedomCommandExecutor.timer.schedule(new TimerTask()
+        new BukkitRunnable()
         {
             @Override
             public void run()
             {
                 featureCooldown.remove(sender);
             }
-        }, seconds * 1000);
+        }.runTaskLater(plugin, seconds * 20);
     }
 
 }

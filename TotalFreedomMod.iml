@@ -47,80 +47,42 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.json:json:20160810" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.coreprotect:coreprotect:2.15.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.13-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm:7.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-commons:7.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-tree:7.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-analysis:7.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.0" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.9" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.15-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.Pravian:Aero:5f82926" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: commons-lang:commons-lang:2.6" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: junit:junit:4.10" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.guava:guava:21.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.18" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.12-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:21.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.18" level="project" />
+    <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.12-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TotalFreedom:BukkitTelnet:4.5-pre1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-core:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-api:2.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-LibsDisguises:11aea9b3cd" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.comphenix.protocol:ProtocolLib:4.5.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: cglib:cglib-nodep:3.2.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.comphenix.executors:BukkitExecutors:1.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-WorldEdit:fd3f56f015" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:ap:fd3f56f015" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:bukkit:fd3f56f015" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:core:fd3f56f015" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-bukkit:fd3f56f015" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.8.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bstats:bstats-bukkit:1.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-core:fd3f56f015" level="project" />
+    <orderEntry type="library" name="Maven: com.github.TFPatches:TF-LibsDisguises:11aea9b3cd" level="project" />
+    <orderEntry type="library" name="Maven: com.comphenix.protocol:ProtocolLib:4.5.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib-nodep:3.2.5" level="project" />
+    <orderEntry type="library" name="Maven: com.comphenix.executors:BukkitExecutors:1.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TotalFreedomMod:4a91c81" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-WorldEdit:0909dc1972" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-bukkit:0909dc1972" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:dummypermscompat:1.8" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bstats:bstats-bukkit:1.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldEdit:worldedit-core:0909dc1972" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: de.schlichtherle:truezip:6.8.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-profile-default_2.13:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.scala-lang:scala-library:2.13.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-http:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-kernel-spec:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-annotations:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.findbugs:annotations:3.0.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-cio:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-io:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-services:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-logging:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.inject:javax.inject:1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.httpcomponents:httpclient:4.5.10" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.httpcomponents:httpcore:4.4.12" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: commons-codec:commons-codec:1.11" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:jcl-over-slf4j:1.7.28" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-odf:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-comp-zipdriver:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-comp-zip:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bouncycastle:bcprov-jdk15on:1.63" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-tar:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-comp-tardriver:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.commons:commons-compress:1.19" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-tar-bzip2:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-tar-gzip:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-tar-xz:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.tukaani:xz:1.8" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-zip-raes:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-profile-base_2.13:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-access-swing:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-access:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-file:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-jar:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-zip:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-comp-ibm437:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-kernel-impl_2.13:0.12.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-key-console:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-key-default:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-key-swing:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-key-macosx:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-key-spec:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-shed:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.mozilla:rhino:1.7.11" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: it.unimi.dsi:fastutil:8.2.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.antlr:antlr4-runtime:4.7.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: rhino:js:1.7R2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:jchronic:0.2.4a" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.thoughtworks.paranamer:paranamer:2.6" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.lib:jlibnoise:1.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.ess3:EssentialsX:2.16.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.papermc:paperlib:1.0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.ess3:NMSProvider:2.16.1" level="project" />
@@ -150,18 +112,16 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-core:7.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit.worldedit-libs:core:7.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: rhino:js:1.7R2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit.worldedit-libs:bukkit:7.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-WorldGuard:bb12813214" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldGuard:core:bb12813214" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldGuard:worldguard-bukkit:bb12813214" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:commandbook:2.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldGuard:worldguard-core:bb12813214" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.destroystokyo.paper:paper-api:1.15-R0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm:7.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-commons:7.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-tree:7.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-analysis:7.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.8.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-WorldGuard:50fd4cb470" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldGuard:worldguard-core:50fd4cb470" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.intake:intake:4.2-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:squirrelid:0.2.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.flywaydb:flyway-core:3.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.khelekore:prtree:1.5.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.sf.opencsv:opencsv:2.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches.TF-WorldGuard:worldguard-legacy:50fd4cb470" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:commandbook:2.3" level="project" />
   </component>
 </module>

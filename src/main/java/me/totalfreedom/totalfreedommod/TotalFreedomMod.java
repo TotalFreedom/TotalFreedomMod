@@ -34,6 +34,7 @@ import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.fun.Landminer;
 import me.totalfreedom.totalfreedommod.fun.MP44;
 import me.totalfreedom.totalfreedommod.fun.MobStacker;
+import me.totalfreedom.totalfreedommod.fun.RealTimer;
 import me.totalfreedom.totalfreedommod.fun.Trailer;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
@@ -127,6 +128,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public SignBlocker snp;
     public PlayerVerification pv;
     public EntityWiper ew;
+    public RealTimer rt;
     //public HubWorldRestrictions hwr;
     //
     // Bridges
@@ -240,6 +242,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         mp = services.registerService(MP44.class);
         jp = services.registerService(Jumppads.class);
         tr = services.registerService(Trailer.class);
+        rt = services.registerService(RealTimer.class);
 
         // HTTPD
         hd = services.registerService(HTTPDaemon.class);

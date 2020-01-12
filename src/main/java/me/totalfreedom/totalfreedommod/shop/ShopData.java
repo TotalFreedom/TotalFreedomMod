@@ -100,7 +100,15 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
     {
         for (String i : items)
         {
-            int id = Integer.valueOf(i.substring(0, 1));
+            int id;
+            try
+            {
+                id = Integer.valueOf(i.substring(0, 1));
+            }
+            catch (NumberFormatException ex)
+            {
+                continue;
+            }
             if (item.ordinal() == id)
             {
                 return true;

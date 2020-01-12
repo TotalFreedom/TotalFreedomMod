@@ -19,6 +19,8 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Bans a player", usage = "/<command> <username> [reason] [-nrb]", aliases = "ban")
@@ -82,11 +84,20 @@ public class Command_gtfo extends FreedomCommand
 
         String reason = null;
         Boolean cancelRollback = false;
+        Boolean epicFail = false;
         if (args.length >= 2)
         {
             if (args[args.length - 1].equalsIgnoreCase("-nrb"))
             {
                 cancelRollback = true;
+                if (args.length >= 3)
+                {
+                    reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
+                }
+            }
+            if (args[args.length - 1].equalsIgnoreCase("-ef"))
+            {
+                epicFail =  true;
                 if (args.length >= 3)
                 {
                     reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
@@ -119,6 +130,26 @@ public class Command_gtfo extends FreedomCommand
             {
                 plugin.cpb.rollback(username);
             }
+        }
+
+        if (epicFail)
+        {
+            for (int i = 0; i < 25; i++)
+            {
+                player.setVelocity(player.getVelocity().clone().add(new Vector(0, 50, 0)));
+                new BukkitRunnable()
+                {
+                    public void run()
+                    {
+                        for (int i = 0; i < 8; i++)
+                        {
+                            player.getWorld().strikeLightning(player.getLocation());
+                            //FUtil.
+                        }
+                    }
+                }.runTaskLater(plugin, 2L * 20L);
+            }
+            return true;
         }
 
         if (player != null)

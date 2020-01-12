@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -27,6 +28,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -61,12 +63,31 @@ public class FUtil
             ChatColor.LIGHT_PURPLE);
     private static Iterator<ChatColor> CHAT_COLOR_ITERATOR;
     private static String CHARACTER_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static Map<Integer, String> TIMEZONE_LOOKUP = new HashMap<>();
 
     static
     {
         for (ChatColor chatColor : CHAT_COLOR_POOL)
         {
             CHAT_COLOR_NAMES.put(chatColor.name().toLowerCase().replace("_", ""), chatColor);
+        }
+
+        for (int i = -12; i <= 12; i++)
+        {
+            String sec = String.valueOf(i).replace("-", "");
+            if (i > -10 && i < 10)
+            {
+                sec = "0" + sec;
+            }
+            if (i >= 0)
+            {
+                sec = "+" + sec;
+            }
+            else
+            {
+                sec = "-" + sec;
+            }
+            TIMEZONE_LOOKUP.put(i, "GMT" + sec + ":00");
         }
     }
 
@@ -528,5 +549,38 @@ public class FUtil
     {
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         return players.get(random(0, players.size() - 1));
+    }
+
+    // convert the current time
+    public static int getTimeInTicks(int tz)
+    {
+        if (timeZoneOutOfBounds(tz))
+        {
+            return -1;
+        }
+        Calendar date = Calendar.getInstance(TimeZone.getTimeZone(TIMEZONE_LOOKUP.get(tz)));
+        int res = 0;
+        for (int i = 0; i < date.get(Calendar.HOUR_OF_DAY) - 6; i++) // oh yeah i don't know why this is 6 hours ahead
+        {
+            res += 1000;
+        }
+        int addExtra = 0; // we're adding extra to account for repeating decimals
+        for (int i = 0; i < date.get(Calendar.MINUTE); i++)
+        {
+            res += 16;
+            addExtra++;
+            if (addExtra == 3)
+            {
+                res += 1;
+                addExtra = 0;
+            }
+        }
+        // this is the best it can be. trust me.
+        return res;
+    }
+
+    public static boolean timeZoneOutOfBounds(int tz)
+    {
+        return tz < -12 || tz > 12;
     }
 }

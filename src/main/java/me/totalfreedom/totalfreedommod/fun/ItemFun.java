@@ -21,6 +21,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -45,29 +47,28 @@ public class ItemFun extends FreedomService
 
     private final Random random = new Random();
 
-    private static final String COOLDOWN_MESSAGE = ChatColor.RED + "You're on cooldown for this item.";
+    private static final String COOLDOWN_MESSAGE = ChatColor.RED + "You're on cooldown for this feature.";
 
-    private final Timer timer = new Timer();
-    private final Map<Player, Material> cooldownTracker = new HashMap<>();
+    private final Map<Player, String> cooldownTracker = new HashMap<>();
 
     private final Map<Player, Float> orientationTracker = new HashMap<>();
 
-    private void cooldown(Player player, Material material, int seconds)
+    private void cooldown(Player player, String feature, int seconds)
     {
-        cooldownTracker.put(player, material);
-        timer.schedule(new TimerTask()
+        cooldownTracker.put(player, feature);
+        new BukkitRunnable()
         {
             @Override
             public void run()
             {
                 cooldownTracker.remove(player);
             }
-        }, seconds * 1000);
+        }.runTaskLater(plugin, seconds * 20);
     }
 
-    public boolean onCooldown(Player player, Material material)
+    public boolean onCooldown(Player player, String feature)
     {
-        return cooldownTracker.containsKey(player) && cooldownTracker.containsValue(material);
+        return cooldownTracker.containsKey(player) && cooldownTracker.containsValue(feature);
     }
 
     public ItemFun(TotalFreedomMod plugin)
@@ -319,7 +320,7 @@ public class ItemFun extends FreedomService
 
             case NETHER_STAR:
             {
-                if (onCooldown(player, Material.NETHER_STAR))
+                if (onCooldown(player, "nether_star"))
                 {
                     FUtil.playerMsg(player, COOLDOWN_MESSAGE);
                     break;
@@ -340,26 +341,65 @@ public class ItemFun extends FreedomService
                 {
                     player.getWorld().strikeLightning(targetBlock.getLocation());
                 }
+
+                boolean superior = FUtil.random(1, 100) == 50;
                 Player rplayer = FUtil.getRandomPlayer();
-                FUtil.bcastMsg("Thor's Star has granted " + rplayer.getName() + " an " + ChatColor.YELLOW + "Electrical Diamond Sword" + ChatColor.RED + "!", ChatColor.RED);
                 ShopData psd = plugin.sh.getData(rplayer);
                 String key = FUtil.generateKey(8);
                 psd.giveRawItem(key);
                 plugin.sh.save(psd);
-                FUtil.give(rplayer, Material.DIAMOND_SWORD, "&eElectrical Diamond Sword", 1, "&7RMB - Strike lightning", ChatColor.DARK_GRAY + key);
-                cooldown(player, Material.NETHER_STAR, 600);
+                if (superior)
+                {
+                    for (int i = 0; i < 25; i++)
+                    {
+                        rplayer.getWorld().strikeLightning(rplayer.getLocation());
+                    }
+                    FUtil.bcastMsg("THOR'S STAR HAS GRANTED " + rplayer.getName().toUpperCase() + " A " + ChatColor.GOLD + "SUPERIOR SWORD" + ChatColor.RED + "!!!!", ChatColor.RED);
+                    FUtil.give(rplayer, Material.GOLDEN_SWORD, "&6Superior Sword", 1, "&7RMB - Shoot fireball", ChatColor.DARK_GRAY + key);
+                }
+                else
+                {
+                    FUtil.bcastMsg("Thor's Star has granted " + rplayer.getName() + " an " + ChatColor.YELLOW + "Electrical Diamond Sword" + ChatColor.RED + "!", ChatColor.RED);
+                    FUtil.give(rplayer, Material.DIAMOND_SWORD, "&eElectrical Diamond Sword", 1, "&7RMB - Strike lightning", ChatColor.DARK_GRAY + key);
+                }
+                cooldown(player, "nether_star", 600);
                 break;
             }
 
             case DIAMOND_SWORD:
             {
+                if (onCooldown(player, "eds"))
+                {
+                    FUtil.playerMsg(player, COOLDOWN_MESSAGE);
+                    break;
+                }
+
                 ShopData sd = plugin.sh.getData(player);
                 ItemStack stack = player.getInventory().getItemInMainHand();
                 if (sd.validate(stack, "Electrical Diamond Sword"))
                 {
                     player.getWorld().strikeLightning(player.getTargetBlock(null, 20).getLocation());
+                    cooldown(player, "eds", 60);
                 }
                 break;
+            }
+
+            case GOLDEN_SWORD:
+            {
+                if (onCooldown(player, "ss"))
+                {
+                    FUtil.playerMsg(player, COOLDOWN_MESSAGE);
+                    break;
+                }
+
+                ShopData sd = plugin.sh.getData(player);
+                ItemStack stack = player.getInventory().getItemInMainHand();
+                if (sd.validate(stack, "Superior Sword"))
+                {
+                    Entity fireball = player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREBALL);
+                    fireball.setVelocity(player.getLocation().getDirection());
+                    cooldown(player, "ss", 60);
+                }
             }
         }
     }

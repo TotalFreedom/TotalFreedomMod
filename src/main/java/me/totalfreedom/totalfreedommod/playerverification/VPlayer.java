@@ -41,6 +41,12 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private ChatColor color = null;
+    @Getter
+    @Setter
+    private int utcOffset = 0;
+    @Getter
+    @Setter
+    private boolean realTime = false;
 
     public VPlayer(String name)
     {
@@ -64,6 +70,8 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         clearChatOptOut = cs.getBoolean("clearChatOptOut", false);
         rideMode = cs.getString("rideMode", rideMode);
         color = ChatColor.getByChar(String.valueOf(cs.get("color")));
+        utcOffset = cs.getInt("utcOffset", 0);
+        realTime = cs.getBoolean("realTime", false);
     }
 
     @Override
@@ -78,6 +86,8 @@ public class VPlayer implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("clearChatOptOut", clearChatOptOut);
         cs.set("rideMode", rideMode);
         cs.set("color", color == null ? null : color.getChar());
+        cs.set("utcOffset", utcOffset);
+        cs.set("realTime", realTime);
     }
 
     public List<String> getIps()
