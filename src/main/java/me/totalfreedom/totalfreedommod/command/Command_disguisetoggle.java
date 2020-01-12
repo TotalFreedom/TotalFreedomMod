@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.disguise.DisguiseBlocker;
+import me.totalfreedom.libsdisguises.BlockedDisguises;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;
@@ -21,7 +21,7 @@ public class Command_disguisetoggle extends FreedomCommand
             return true;
         }
 
-        FUtil.adminAction(sender.getName(), (DisguiseBlocker.enabled ? "Disabling" : "Enabling") + " disguises", false);
+        FUtil.adminAction(sender.getName(), (BlockedDisguises.disabled ? "Enabling" : "Disabling") + " disguises", false);
 
         if (plugin.ldb.isDisguisesEnabled())
         {
@@ -33,7 +33,7 @@ public class Command_disguisetoggle extends FreedomCommand
             plugin.ldb.setDisguisesEnabled(true);
         }
 
-        msg("Disguises are now " + (DisguiseBlocker.enabled ? "enabled." : "disabled."));
+        msg("Disguises are now " + (BlockedDisguises.disabled ? "disabled." : "enabled."));
 
         return true;
     }

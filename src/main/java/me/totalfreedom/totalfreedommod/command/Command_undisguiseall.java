@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.disguise.DisguiseBlocker;
+import me.totalfreedom.libsdisguises.BlockedDisguises;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;
@@ -21,7 +21,7 @@ public class Command_undisguiseall extends FreedomCommand
             return true;
         }
 
-        if (!DisguiseBlocker.enabled)
+        if (BlockedDisguises.disabled)
         {
             msg("Disguises are not enabled.");
             return true;

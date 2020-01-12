@@ -1,8 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import com.sk89q.worldedit.blocks.metadata.MobType;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -14,15 +12,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Ambient;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Slime;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command> [name]", aliases = "mp")
