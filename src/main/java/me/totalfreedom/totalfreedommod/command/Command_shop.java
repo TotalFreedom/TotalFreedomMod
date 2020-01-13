@@ -100,7 +100,7 @@ public class Command_shop extends FreedomCommand
             case "buy":
             {
                 ShopItem item = ShopItem.findItem(args[1]);
-                if (item == null)
+                if (item == null || !item.isPurchaseable())
                 {
                     msg("Invalid item: " + item);
                     return true;
@@ -133,7 +133,7 @@ public class Command_shop extends FreedomCommand
             case "get":
             {
                 ShopItem item = ShopItem.findItem(args[1]);
-                if (item == null)
+                if (item == null || !item.isPurchaseable())
                 {
                     msg("Invalid item: " + item);
                     return true;

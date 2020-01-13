@@ -82,11 +82,7 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
 
     public String giveItem(ShopItem item)
     {
-        String signature = String.valueOf(item.ordinal());
-        for (int i = 0; i < 7; i++)
-        {
-            signature += FUtil.getRandomCharacter();
-        }
+        String signature = FUtil.generateSignature(item);
         items.add(signature);
         return signature;
     }
@@ -103,7 +99,7 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
             int id;
             try
             {
-                id = Integer.valueOf(i.substring(0, 1));
+                id = Integer.valueOf(i.substring(0, i.indexOf("A")));
             }
             catch (NumberFormatException ex)
             {
@@ -122,7 +118,15 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         String signature = "";
         for (String i : items)
         {
-            int id = Integer.valueOf(i.substring(0, 1));
+            int id;
+            try
+            {
+                id = Integer.valueOf(i.substring(0, i.indexOf("A")));
+            }
+            catch (NumberFormatException ex)
+            {
+                continue;
+            }
             if (item.ordinal() == id)
             {
                 signature = i;

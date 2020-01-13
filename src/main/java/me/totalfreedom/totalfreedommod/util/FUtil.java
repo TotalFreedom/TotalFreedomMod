@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.util;
 
+import com.comphenix.protocol.PacketType;
 import java.io.File;
 import java.io.FileFilter;
 import java.lang.reflect.Field;
@@ -22,6 +23,7 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.shop.ShopItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -535,14 +537,25 @@ public class FUtil
         player.getInventory().setItem(player.getInventory().firstEmpty(), stack);
     }
 
-    public static String generateKey(int length)
+    public static void give(Player player, ShopItem item, String... lore)
     {
-        StringBuilder key = new StringBuilder();
-        for (int i = 0; i < length; i++)
+        give(player, item.getMaterial(), item.getColoredName(), 1, lore);
+    }
+
+    public static String generateSignature(ShopItem item)
+    {
+        String signature = String.valueOf(item.ordinal());
+        signature += "A"; // mark the ending
+        for (int i = 0; i < 8; i++)
         {
-            key.append(getRandomCharacter());
+            char c = FUtil.getRandomCharacter();
+            while (c == 'A')
+            {
+                c = FUtil.getRandomCharacter();
+            }
+            signature += FUtil.getRandomCharacter();
         }
-        return key.toString();
+        return signature;
     }
 
     public static Player getRandomPlayer()

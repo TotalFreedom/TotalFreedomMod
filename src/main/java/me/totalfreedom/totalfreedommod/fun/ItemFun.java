@@ -49,26 +49,39 @@ public class ItemFun extends FreedomService
 
     private static final String COOLDOWN_MESSAGE = ChatColor.RED + "You're on cooldown for this feature.";
 
-    private final Map<String, String> cooldownTracker = new HashMap<>();
+    private final Map<String, List<String>> cooldownTracker = new HashMap<>();
 
     private final Map<Player, Float> orientationTracker = new HashMap<>();
 
     private void cooldown(Player player, String feature, int seconds)
     {
-        cooldownTracker.put(player.getName(), feature);
+        if (cooldownTracker.get(player.getName()) == null)
+        {
+            List<String> featureList = new ArrayList<>();
+            featureList.add(feature);
+            cooldownTracker.put(player.getName(), featureList);
+        }
+        else
+        {
+            cooldownTracker.get(player.getName()).add(feature);
+        }
         new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                cooldownTracker.remove(player.getName());
+                cooldownTracker.get(player.getName()).remove(feature);
             }
         }.runTaskLater(plugin, seconds * 20);
     }
 
     public boolean onCooldown(Player player, String feature)
     {
-        return cooldownTracker.containsKey(player.getName()) && cooldownTracker.containsValue(feature);
+        if (cooldownTracker.get(player.getName()) == null)
+        {
+            return false;
+        }
+        return cooldownTracker.get(player.getName()).contains(feature);
     }
 
     public ItemFun(TotalFreedomMod plugin)
@@ -345,23 +358,23 @@ public class ItemFun extends FreedomService
                 boolean superior = FUtil.random(1, 100) == 50;
                 Player rplayer = FUtil.getRandomPlayer();
                 ShopData psd = plugin.sh.getData(rplayer);
-                String key = FUtil.generateKey(8);
-                psd.giveRawItem(key);
-                plugin.sh.save(psd);
                 if (superior)
                 {
                     for (int i = 0; i < 25; i++)
                     {
                         rplayer.getWorld().strikeLightning(rplayer.getLocation());
                     }
+                    String key = psd.giveItem(ShopItem.SUPERIOR_SWORD);
                     FUtil.bcastMsg("THOR'S STAR HAS GRANTED " + rplayer.getName().toUpperCase() + " A " + ChatColor.GOLD + "SUPERIOR SWORD" + ChatColor.RED + "!!!!", ChatColor.RED);
-                    FUtil.give(rplayer, Material.GOLDEN_SWORD, "&6Superior Sword", 1, "&7RMB - Shoot fireball", ChatColor.DARK_GRAY + key);
+                    FUtil.give(player, ShopItem.SUPERIOR_SWORD, "&7RMB - Shoot fireball", ChatColor.DARK_GRAY + key);
                 }
                 else
                 {
+                    String key = psd.giveItem(ShopItem.ELECTRICAL_DIAMOND_SWORD);
                     FUtil.bcastMsg("Thor's Star has granted " + rplayer.getName() + " an " + ChatColor.YELLOW + "Electrical Diamond Sword" + ChatColor.RED + "!", ChatColor.RED);
-                    FUtil.give(rplayer, Material.DIAMOND_SWORD, "&eElectrical Diamond Sword", 1, "&7RMB - Strike lightning", ChatColor.DARK_GRAY + key);
+                    FUtil.give(player, ShopItem.ELECTRICAL_DIAMOND_SWORD, "&7RMB - Strike lightning", ChatColor.DARK_GRAY + key);
                 }
+                plugin.sh.save(psd);
                 cooldown(player, "nether_star", 600);
                 break;
             }
