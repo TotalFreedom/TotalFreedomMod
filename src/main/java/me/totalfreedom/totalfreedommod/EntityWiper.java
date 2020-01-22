@@ -58,7 +58,7 @@ public class EntityWiper extends FreedomService
         {
             for (Entity entity : world.getEntities())
             {
-                if (!BLACKLIST.contains(entity.getType()) && !Groups.MOB_TYPES.contains(entity.getType()))
+                if (!BLACKLIST.contains(entity.getType()) || !Groups.MOB_TYPES.contains(entity.getType()))
                 {
                     entity.remove();
                     removed++;
