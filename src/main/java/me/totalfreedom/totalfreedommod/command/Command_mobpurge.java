@@ -6,15 +6,10 @@ import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.util.Groups;
-import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
@@ -41,41 +36,20 @@ public class Command_mobpurge extends FreedomCommand
 
             if (!Groups.MOB_TYPES.contains(type))
             {
-                msg(WordUtils.capitalizeFully(type.name().replace("_", " ")) + " is an entity, however it is not a mob.", ChatColor.RED);
+                msg(FUtil.formatName(type.name()) + " is an entity, however it is not a mob.", ChatColor.RED);
                 return true;
             }
         }
 
         if (type != null)
         {
-            mobName = WordUtils.capitalizeFully(type.name().replace("_", " "));
+            mobName = FUtil.formatName(type.name());
         }
 
-        FUtil.adminAction(sender.getName(), "Purging all " + (type != null ? mobName  + "s" : "mobs"), true);
-        msg(purgeMobs(type) + " " + (type != null ? mobName : "mob") + "s removed.");
+        FUtil.adminAction(sender.getName(), "Purging all " + (type != null ? mobName + "s" : "mobs"), true);
+        int count = plugin.ew.purgeMobs(type);
+        msg(count + " " + (type != null ? mobName : "mob") + FUtil.showS(count) + " removed.");
         return true;
-    }
-
-    public static int purgeMobs(EntityType type)
-    {
-        int removed = 0;
-        for (World world : Bukkit.getWorlds())
-        {
-            for (Entity ent : world.getLivingEntities())
-            {
-                if (ent instanceof LivingEntity && !(ent instanceof Player))
-                {
-                    if (type != null && !ent.getType().equals(type))
-                    {
-                        continue;
-                    }
-                    ent.remove();
-                    removed++;
-                }
-            }
-        }
-
-        return removed;
     }
 
     public static List<String> getAllMobNames()

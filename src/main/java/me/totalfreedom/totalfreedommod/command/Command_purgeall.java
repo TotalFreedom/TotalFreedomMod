@@ -78,7 +78,7 @@ public class Command_purgeall extends FreedomCommand
         plugin.fm.setGlobalFreeze(false);
 
         // Remove all mobs
-        Command_mobpurge.purgeMobs(null);
+        plugin.ew.purgeMobs(null);
 
         return true;
     }

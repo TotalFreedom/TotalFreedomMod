@@ -51,7 +51,7 @@ public class PlayerVerification extends FreedomService
                 && !vPlayer.getIps().contains(Ips.getIp(player));
     }
 
-    public void verifyPlayer(Player player)
+    public void verifyPlayer(Player player, String backupCode)
     {
         if (!isPlayerImpostor(player))
         {
@@ -59,6 +59,10 @@ public class PlayerVerification extends FreedomService
         }
 
         VPlayer vPlayer = getVerificationPlayer(player);
+        if (backupCode != null)
+        {
+            vPlayer.removeBackupCode(backupCode);
+        }
         vPlayer.addIp(Ips.getIp(player));
         dataMap.put(player.getName(), vPlayer);
         YamlConfig config = getConfig(vPlayer);

@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.admin;
 
 import com.google.common.collect.Lists;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     private Rank rank = Rank.SUPER_ADMIN;
     @Getter
     private final List<String> ips = Lists.newArrayList();
+    private final List<String> backupCodes = Lists.newArrayList();
     @Getter
     @Setter
     private Date lastLogin = new Date();
@@ -92,7 +94,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Potion Spy: ").append(potionSpy).append("\n")
                 .append("- Admin Chat Format: ").append(acFormat).append("\n")
                 .append("- Old Tags: ").append(oldTags).append("\n")
-                .append("- Log Stick: ").append(logStick);
+                .append("- Log Stick: ").append(logStick)
+                .append("- Backup Codes: ").append(backupCodes.size()).append("/10").append("\n");
 
         return output.toString();
     }
@@ -113,6 +116,8 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         rank = Rank.findRank(cs.getString("rank"));
         ips.clear();
         ips.addAll(cs.getStringList("ips"));
+        backupCodes.clear();
+        backupCodes.addAll(cs.getStringList("backupCodes"));
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         loginMessage = cs.getString("login_message", null);
         discordID = cs.getString("discord_id", null);
@@ -132,6 +137,7 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         cs.set("active", active);
         cs.set("rank", rank.toString());
         cs.set("ips", Lists.newArrayList(ips));
+        cs.set("backupCodes", Lists.newArrayList(backupCodes));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("login_message", loginMessage);
         cs.set("discord_id", discordID);
@@ -181,6 +187,22 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
     public void clearIPs()
     {
         ips.clear();
+    }
+
+    public List<String> getBackupCodes()
+    {
+        return Collections.unmodifiableList(backupCodes);
+    }
+
+    public void setBackupCodes(List<String> codes)
+    {
+        backupCodes.clear();
+        backupCodes.addAll(codes);
+    }
+
+    public void removeBackupCode(String code)
+    {
+        backupCodes.remove(code);
     }
 
     public void setActive(boolean active)

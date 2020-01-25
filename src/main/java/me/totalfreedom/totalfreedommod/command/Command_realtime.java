@@ -41,7 +41,7 @@ public class Command_realtime extends FreedomCommand
                 player.setUtcOffset(tz);
                 player.setRealTime(true);
                 plugin.rt.enable(playerSender);
-                plugin.pv.save();
+                plugin.pv.saveVerificationData(player);
                 msg("Your in-game time is now synced with real time.");
                 return true;
             }
@@ -56,7 +56,7 @@ public class Command_realtime extends FreedomCommand
             player.setRealTime(false);
             msg("Your in-game time is no longer synced with real time.");
             plugin.rt.disable(playerSender);
-            plugin.pv.save();
+            plugin.pv.saveVerificationData(player);
             return true;
         }
         return true;

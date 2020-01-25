@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.masterbuilder;
 
 import com.google.common.collect.Lists;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
     private String name;
     @Getter
     private final List<String> ips = Lists.newArrayList();
+    private final List<String> backupCodes = Lists.newArrayList();
     @Getter
     @Setter
     private Date lastLogin = new Date();
@@ -62,7 +64,8 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Discord ID: ").append(discordID).append("\n")
                 .append("- Tag: ").append(tag).append("\n")
-                .append("- Clear Chat Opt Out: ").append(clearChatOptOut);
+                .append("- Clear Chat Opt Out: ").append(clearChatOptOut)
+                .append("- Backup Codes: ").append(backupCodes.size()).append("/10").append("\n");
 
         return output.toString();
     }
@@ -81,6 +84,8 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
         name = cs.getString("username", configKey);
         ips.clear();
         ips.addAll(cs.getStringList("ips"));
+        backupCodes.clear();
+        backupCodes.addAll(cs.getStringList("backupCodes"));
         lastLogin = FUtil.stringToDate(cs.getString("last_login"));
         discordID = cs.getString("discord_id", null);
         tag = cs.getString("tag", null);
@@ -93,6 +98,7 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
         Validate.isTrue(isValid(), "Could not save master builder entry: " + name + ". Entry not valid!");
         cs.set("username", name);
         cs.set("ips", Lists.newArrayList(ips));
+        cs.set("backupCodes", Lists.newArrayList(backupCodes));
         cs.set("last_login", FUtil.dateToString(lastLogin));
         cs.set("discord_id", discordID);
         cs.set("tag", tag);
@@ -123,6 +129,22 @@ public class MasterBuilder implements ConfigLoadable, ConfigSavable, Validatable
     public void clearIPs()
     {
         ips.clear();
+    }
+
+    public List<String> getBackupCodes()
+    {
+        return Collections.unmodifiableList(backupCodes);
+    }
+
+    public void setBackupCodes(List<String> codes)
+    {
+        backupCodes.clear();
+        backupCodes.addAll(codes);
+    }
+
+    public void removeBackupCode(String code)
+    {
+        backupCodes.remove(code);
     }
 
     @Override

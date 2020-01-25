@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.Random;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.discord.Discord;
+import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
@@ -24,6 +24,8 @@ public class Command_linkdiscord extends FreedomCommand
             return true;
         }
 
+        String code;
+
         if (plugin.al.isAdmin(playerSender))
         {
             Admin admin = plugin.al.getAdmin(playerSender);
@@ -33,20 +35,33 @@ public class Command_linkdiscord extends FreedomCommand
                 return true;
             }
 
-            if (Discord.LINK_CODES.containsValue(admin))
+            if (Discord.ADMIN_LINK_CODES.containsValue(admin))
             {
-                msg("Your linking code is " + ChatColor.GREEN + Discord.getCodeForAdmin(admin), ChatColor.AQUA);
+                code = Discord.getCodeForAdmin(admin);
             }
             else
             {
-                String code = "";
-                Random random = new Random();
-                for (int i = 0; i < 5; i++)
-                {
-                    code += random.nextInt(10);
-                }
-                Discord.LINK_CODES.put(code, admin);
-                msg("Your linking code is " + ChatColor.GREEN + code, ChatColor.AQUA);
+                code = plugin.dc.generateCode(5);
+                Discord.ADMIN_LINK_CODES.put(code, admin);
+            }
+        }
+        else if (plugin.mbl.isMasterBuilder(playerSender))
+        {
+            MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(playerSender);
+            if (masterBuilder.getDiscordID() != null)
+            {
+                msg("Your Minecraft account is already linked to a Discord account.", ChatColor.RED);
+                return true;
+            }
+
+            if (Discord.MASTER_BUILDER_LINK_CODES.containsValue(masterBuilder))
+            {
+                code = Discord.getCodeForMasterBuilder(masterBuilder);
+            }
+            else
+            {
+                code = plugin.dc.generateCode(5);
+                Discord.MASTER_BUILDER_LINK_CODES.put(code, masterBuilder);
             }
         }
         else
@@ -60,21 +75,16 @@ public class Command_linkdiscord extends FreedomCommand
 
             if (Discord.PLAYER_LINK_CODES.containsValue(data))
             {
-                msg("Your linking code is " + ChatColor.GREEN + Discord.getCodeForPlayer(data), ChatColor.AQUA);
-                msg("Take this code and DM the server bot (" + plugin.dc.formatBotTag() + ") the code (do not put anything else in the message, only the code)");
+                code = Discord.getCodeForPlayer(data);
             }
             else
             {
-                String code = "";
-                Random random = new Random();
-                for (int i = 0; i < 5; i++)
-                {
-                    code += random.nextInt(10);
-                }
+                code = plugin.dc.generateCode(5);
                 Discord.PLAYER_LINK_CODES.put(code, data);
-                msg("Your linking code is " + ChatColor.GREEN + code, ChatColor.AQUA);
             }
         }
+        msg("Your linking code is " + ChatColor.AQUA + code, ChatColor.GREEN);
+        msg("Take this code and DM the server bot (" + plugin.dc.formatBotTag() + ") the code (do not put anything else in the message, only the code)");
         return true;
     }
 }

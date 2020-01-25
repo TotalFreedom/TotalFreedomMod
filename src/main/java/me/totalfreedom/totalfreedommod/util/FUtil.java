@@ -26,6 +26,7 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.shop.ShopItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -122,6 +123,20 @@ public class FUtil
     public static boolean canManageMasterBuilders(String name)
     {
         return ConfigEntry.SERVER_OWNERS.getStringList().contains(name) || ConfigEntry.SERVER_EXECUTIVES.getStringList().contains(name) || ConfigEntry.SERVER_MASTER_BUILDER_MANAGEMENT.getStringList().contains(name);
+    }
+
+    public static String formatName(String name)
+    {
+        return WordUtils.capitalizeFully(name.replace("_", " "));
+    }
+
+    public static String showS(int count)
+    {
+        if (count == 1)
+        {
+            return "";
+        }
+        return "s";
     }
 
     public static List<String> getPlayerList()

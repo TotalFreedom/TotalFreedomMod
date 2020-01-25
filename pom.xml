@@ -94,6 +94,11 @@
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
+
+        <repository>
+            <id>rayzr-repo</id>
+            <url>https://cdn.rawgit.com/Rayzr522/maven-repo/master/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -115,6 +120,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.9</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
             <scope>compile</scope>
         </dependency>
 
@@ -186,6 +198,12 @@
             <artifactId>paper-api</artifactId>
             <version>1.15.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>me.rayzr522</groupId>
+            <artifactId>jsonmessage</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
@@ -344,6 +362,7 @@
                             <includes>
                                 <include>commons-io:commons-io</include>
                                 <include>org.apache.commons:commons-lang3</include>
+                                <include>commons-codec:commons-codec</include>
                             </includes>
                         </artifactSet>
                     </configuration>

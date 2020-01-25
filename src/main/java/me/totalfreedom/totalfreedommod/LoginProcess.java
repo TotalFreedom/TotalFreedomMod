@@ -8,6 +8,7 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
@@ -19,6 +20,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import me.rayzr522.jsonmessage.JSONMessage;
 
 public class LoginProcess extends FreedomService
 {
@@ -245,6 +247,22 @@ public class LoginProcess extends FreedomService
                 if (vPlayer.getEnabled() && vPlayer.getTag() != null)
                 {
                     fPlayer.setTag(FUtil.colorize(vPlayer.getTag()));
+                }
+                int noteCount = vPlayer.getNotes().size();
+                if (noteCount != 0)
+                {
+                    String noteMessage = "This player has " + noteCount + " staff note" + (noteCount > 1 ? "s" : "") + ".";
+                    JSONMessage notice = JSONMessage.create(ChatColor.GOLD + noteMessage + " Click here to view them.")
+                            .tooltip("Click here to view them.")
+                            .runCommand("/notes " + player.getName() + " list");
+                    FLog.info(noteMessage);
+                    for (Player p : server.getOnlinePlayers())
+                    {
+                        if (plugin.al.isAdminImpostor(p))
+                        {
+                            notice.send(p);
+                        }
+                    }
                 }
             }
         }

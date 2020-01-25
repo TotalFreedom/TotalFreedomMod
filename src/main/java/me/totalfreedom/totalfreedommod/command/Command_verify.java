@@ -1,12 +1,11 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.Date;
-import java.util.Random;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.discord.Discord;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
@@ -44,7 +43,7 @@ public class Command_verify extends FreedomCommand
                 plugin.pl.getPlayer(player).getFreezeData().setFrozen(false);
                 player.sendMessage(ChatColor.GRAY + "You have been unfrozen.");
             }
-            plugin.pv.verifyPlayer(player);
+            plugin.pv.verifyPlayer(player, null);
             plugin.rm.updateDisplay(player);
             return true;
         }
@@ -62,7 +61,7 @@ public class Command_verify extends FreedomCommand
                 return true;
             }
 
-            if (!plugin.pv.isPlayerImpostor(playerSender) && !plugin.al.isAdminImpostor(playerSender))
+            if (!plugin.pv.isPlayerImpostor(playerSender) && !plugin.al.isAdminImpostor(playerSender) && !plugin.mbl.isMasterBuilderImpostor(playerSender))
             {
                 msg("You are not an impostor, therefore you do not need to verify.", ChatColor.RED);
                 return true;
@@ -70,7 +69,17 @@ public class Command_verify extends FreedomCommand
 
             String discordId = "";
 
-            if (plugin.al.isAdminImpostor(playerSender))
+            if (plugin.pv.isPlayerImpostor(playerSender))
+            {
+                VPlayer vPlayer = plugin.pv.getVerificationPlayer(playerSender);
+                if (vPlayer.getDiscordId() == null)
+                {
+                    msg("You do not have a Discord account linked to your Minecraft account, please verify the manual way.", ChatColor.RED);
+                    return true;
+                }
+                discordId = vPlayer.getDiscordId();
+            }
+            else if (plugin.al.isAdminImpostor(playerSender))
             {
                 Admin admin = plugin.al.getEntryByName(playerSender.getName());
                 if (admin.getDiscordID() == null)
@@ -80,47 +89,108 @@ public class Command_verify extends FreedomCommand
                 }
                 discordId = admin.getDiscordID();
             }
-
-            if (plugin.pv.isPlayerImpostor(playerSender))
+            else if (plugin.mbl.isMasterBuilderImpostor(playerSender))
             {
-                if (plugin.pv.getVerificationPlayer(playerSender).getDiscordId() == null)
+                MasterBuilder masterBuilder = plugin.mbl.getEntryByName(playerSender.getName());
+                if (masterBuilder.getDiscordID() == null)
                 {
                     msg("You do not have a Discord account linked to your Minecraft account, please verify the manual way.", ChatColor.RED);
                     return true;
                 }
-                discordId = plugin.pv.getVerificationPlayer(playerSender).getDiscordId();
+                discordId = masterBuilder.getDiscordID();
             }
 
             if (args.length < 1)
             {
-                String code = "";
-                Random random = new Random();
-                for (int i = 0; i < 10; i++)
+                String code = plugin.dc.generateCode(10);
+                if (plugin.pv.isPlayerImpostor(playerSender))
                 {
-                    code += random.nextInt(10);
+                    VPlayer vPlayer = plugin.pv.getVerificationPlayer(playerSender);
+                    plugin.dc.addPlayerVerificationCode(code, vPlayer);
                 }
-                Discord.VERIFY_CODES.add(code);
-                Discord.bot.getUserById(discordId).openPrivateChannel().complete().sendMessage("A user with the IP `" + Ips.getIp(playerSender) + "` has sent a verification request. Please run the following in-game command: `/verify " + code + "`").complete();
+                else if (plugin.al.isAdminImpostor(playerSender))
+                {
+                    Admin admin = plugin.al.getEntryByName(playerSender.getName());
+                    plugin.dc.addAdminVerificationCode(code, admin);
+                }
+                else if (plugin.mbl.isMasterBuilderImpostor(playerSender))
+                {
+                    MasterBuilder masterBuilder = plugin.mbl.getEntryByName(playerSender.getName());
+                    plugin.dc.addMasterBuilderVerificationCode(code, masterBuilder);
+                }
+                plugin.dc.bot.getUserById(discordId).openPrivateChannel().complete().sendMessage("A user with the IP `" + Ips.getIp(playerSender) + "` has sent a verification request. Please run the following in-game command: `/verify " + code + "`").complete();
                 msg("A verification code has been sent to your account, please copy the code and run /verify <code>", ChatColor.GREEN);
             }
             else
             {
                 String code = args[0];
-                if (!Discord.VERIFY_CODES.contains(code))
+                String backupCode = null;
+
+                if (plugin.pv.isPlayerImpostor(playerSender))
                 {
-                    msg("You have entered an invalid verification code", ChatColor.RED);
+                    VPlayer vPlayer = plugin.pv.getVerificationPlayer(playerSender);
+                    VPlayer mapPlayer = plugin.dc.getPlayerVerificationCodes().get(code);
+                    if (mapPlayer == null)
+                    {
+                        if (!vPlayer.getBackupCodes().contains(plugin.dc.getMD5(code)))
+                        {
+                            msg("You have entered an invalid verification code", ChatColor.RED);
+                            return true;
+                        }
+                        else
+                        {
+                            backupCode = plugin.dc.getMD5(code);
+                        }
+                    }
+                    else
+                    {
+                        plugin.dc.removePlayerVerificationCode(code);
+                    }
+
+                    final FPlayer fPlayer = plugin.pl.getPlayer(playerSender);
+                    FUtil.bcastMsg(playerSender.getName() + " has verified!", ChatColor.GOLD);
+                    plugin.rm.updateDisplay(playerSender);
+                    playerSender.setOp(true);
+                    msg(YOU_ARE_OP);
+                    if (fPlayer.getFreezeData().isFrozen())
+                    {
+                        fPlayer.getFreezeData().setFrozen(false);
+                        msg("You have been unfrozen.");
+                    }
+                    plugin.pv.verifyPlayer(playerSender, backupCode);
                     return true;
                 }
-
-                if (plugin.al.isAdminImpostor(playerSender))
+                else if (plugin.al.isAdminImpostor(playerSender))
                 {
                     Admin admin = plugin.al.getEntryByName(playerSender.getName());
-                    Discord.VERIFY_CODES.remove(code);
+                    Admin mapAdmin = plugin.dc.getAdminVerificationCodes().get(code);
+                    if (mapAdmin == null)
+                    {
+                        if (!admin.getBackupCodes().contains(plugin.dc.getMD5(code)))
+                        {
+                            msg("You have entered an invalid verification code", ChatColor.RED);
+                            return true;
+                        }
+                        else
+                        {
+                            backupCode = plugin.dc.getMD5(code);
+                        }
+                    }
+                    else
+                    {
+                        plugin.dc.removeAdminVerificationCode(code);
+                    }
+
                     FUtil.bcastMsg(playerSender.getName() + " has verified!", ChatColor.GOLD);
                     FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Re-adding " + admin.getName() + " to the admin list", true);
 
                     admin.setName(playerSender.getName());
                     admin.addIp(Ips.getIp(playerSender));
+
+                    if (backupCode != null)
+                    {
+                        admin.removeBackupCode(backupCode);
+                    }
 
                     if (!plugin.mbl.isMasterBuilder(playerSender))
                     {
@@ -161,11 +231,38 @@ public class Command_verify extends FreedomCommand
                     }
                     return true;
                 }
-
-                if (plugin.pv.isPlayerImpostor(playerSender))
+                else if (plugin.mbl.isMasterBuilderImpostor(playerSender))
                 {
+                    MasterBuilder masterBuilder = plugin.mbl.getEntryByName(playerSender.getName());
+                    MasterBuilder mapMasterBuilder = plugin.dc.getMasterBuilderVerificationCodes().get(code);
+                    if (mapMasterBuilder == null)
+                    {
+                        if (!masterBuilder.getBackupCodes().contains(plugin.dc.getMD5(code)))
+                        {
+                            msg("You have entered an invalid verification code", ChatColor.RED);
+                            return true;
+                        }
+                        else
+                        {
+                            backupCode = plugin.dc.getMD5(code);
+                        }
+                    }
+                    else
+                    {
+                        plugin.dc.removeMasterBuilderVerificationCode(code);
+                    }
+
+                    if (backupCode != null)
+                    {
+                        masterBuilder.removeBackupCode(backupCode);
+                    }
+
                     final FPlayer fPlayer = plugin.pl.getPlayer(playerSender);
                     FUtil.bcastMsg(playerSender.getName() + " has verified!", ChatColor.GOLD);
+                    masterBuilder.setLastLogin(new Date());
+                    masterBuilder.addIp(Ips.getIp(playerSender));
+                    plugin.mbl.save();
+                    plugin.mbl.updateTables();
                     plugin.rm.updateDisplay(playerSender);
                     playerSender.setOp(true);
                     msg(YOU_ARE_OP);
@@ -174,7 +271,6 @@ public class Command_verify extends FreedomCommand
                         fPlayer.getFreezeData().setFrozen(false);
                         msg("You have been unfrozen.");
                     }
-                    plugin.pv.verifyPlayer(playerSender);
                     return true;
                 }
             }
