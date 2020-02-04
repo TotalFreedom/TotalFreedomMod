@@ -56,7 +56,8 @@ public class Command_gtfo extends FreedomCommand
         {
             final PlayerData entry = plugin.pl.getData(player);
             username = player.getName();
-            ips.addAll(entry.getIps());
+            //ips.addAll(entry.getIps());
+            ips.add(Ips.getIp(player));
 
             // Deop
             player.setOp(false);
