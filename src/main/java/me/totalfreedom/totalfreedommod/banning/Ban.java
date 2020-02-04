@@ -45,6 +45,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private long expiryUnix = -1;
+    private Player player;
 
     public Ban()
     {
@@ -171,7 +172,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         return hasExpiry() && expiryUnix < FUtil.getUnixTime();
     }
 
-    public String bakeKickMessage(Player player)
+    public String bakeKickMessage()
     {
         final StringBuilder message = new StringBuilder(ChatColor.GOLD + "You");
 
