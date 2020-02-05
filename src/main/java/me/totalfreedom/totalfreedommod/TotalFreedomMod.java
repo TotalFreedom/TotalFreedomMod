@@ -21,6 +21,7 @@ import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
 import me.totalfreedom.totalfreedommod.caging.Cager;
 import me.totalfreedom.totalfreedommod.command.CommandLoader;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
+import me.totalfreedom.totalfreedommod.discord.Discord;
 import me.totalfreedom.totalfreedommod.freeze.Freezer;
 import me.totalfreedom.totalfreedommod.fun.ItemFun;
 import me.totalfreedom.totalfreedommod.fun.Jumppads;
@@ -75,6 +76,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public PlayerList pl;
     public Announcer an;
     public ChatManager cm;
+    public Discord dc;
     public BanManager bm;
     public PermbanList pm;
     public ProtectArea pa;
@@ -169,6 +171,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         pl = services.registerService(PlayerList.class);
         an = services.registerService(Announcer.class);
         cm = services.registerService(ChatManager.class);
+        dc = services.registerService(Discord.class);
         bm = services.registerService(BanManager.class);
         pm = services.registerService(PermbanList.class);
         pa = services.registerService(ProtectArea.class);
