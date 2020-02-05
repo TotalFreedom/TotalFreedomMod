@@ -76,6 +76,10 @@ public class Command_shop extends FreedomCommand
                     msg(prefix + ChatColor.GREEN + "Available items:");
                     for (ShopItem item : ShopItem.values())
                     {
+                        if (!item.isPurchaseable())
+                        {
+                            continue;
+                        }
                         msg(prefix + ChatColor.AQUA + item.getName() + ChatColor.GREEN + " - " + ChatColor.RED + item.getCost());
                     }
                     return true;
@@ -133,14 +137,14 @@ public class Command_shop extends FreedomCommand
             case "get":
             {
                 ShopItem item = ShopItem.findItem(args[1]);
-                if (item == null || !item.isPurchaseable())
+                if (item == null)
                 {
                     msg("Invalid item: " + item);
                     return true;
                 }
                 if (!sd.hasItem(item))
                 {
-                    msg(prefix + ChatColor.GREEN + "You don't have that item! To buy iy, use " + ChatColor.RED + "/shop buy " + item.name() + ChatColor.GREEN + "!");
+                    msg(prefix + ChatColor.GREEN + "You don't have that item! To buy it, use " + ChatColor.RED + "/shop buy " + item.name() + ChatColor.GREEN + "!");
                     return true;
                 }
                 Inventory inv = playerSender.getInventory();

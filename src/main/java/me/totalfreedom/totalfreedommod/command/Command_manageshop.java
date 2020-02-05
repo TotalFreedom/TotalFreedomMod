@@ -3,14 +3,16 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.shop.ShopData;
+import me.totalfreedom.totalfreedommod.shop.ShopItem;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Manage the shop", usage = "/<command> <coins: <add | set | remove> <amount> <player | all>>", aliases = "ms")
+@CommandParameters(description = "Manage the shop", usage = "/<command> <coins: <add | set | remove> <amount> <player | all> | items: <give | remove> <player> <item>>", aliases = "ms")
 public class Command_manageshop extends FreedomCommand
 {
     @Override
@@ -21,9 +23,9 @@ public class Command_manageshop extends FreedomCommand
             msg("The shop is currently disabled!", ChatColor.RED);
             return true;
         }
-        if (!FUtil.isExecutive(sender.getName()))
+        if (!FUtil.isExecutive(sender.getName()) && !FUtil.isDeveloper(sender.getName()))
         {
-            msg("Only executives can use this command!", ChatColor.RED);
+            msg("Only executives and developers can use this command!", ChatColor.RED);
             return true;
         }
         final String prefix = FUtil.colorize(ConfigEntry.SHOP_PREFIX.getString() + " ");
@@ -156,6 +158,63 @@ public class Command_manageshop extends FreedomCommand
                 {
                     msg(FreedomCommand.PLAYER_NOT_FOUND);
                     return true;
+                }
+            }
+            if (args[0].equalsIgnoreCase("items"))
+            {
+                switch (args[1])
+                {
+                    case "give":
+                    {
+                        Player player = Bukkit.getPlayer(args[2]);
+                        if (player == null)
+                        {
+                            msg(FreedomCommand.PLAYER_NOT_FOUND);
+                            return true;
+                        }
+                        ShopItem item = ShopItem.findItem(args[3]);
+                        if (item == null)
+                        {
+                            msg("Invalid item: " + item);
+                            return true;
+                        }
+                        ShopData sd = plugin.sh.getData(player);
+                        if (sd.hasItem(item))
+                        {
+                            msg("That player already has a(n) " + item.getName() + "!");
+                            return true;
+                        }
+                        String key = sd.giveItem(item);
+                        plugin.sh.save(sd);
+                        FUtil.give(player, item, ChatColor.DARK_GRAY + key);
+                        msg(prefix + ChatColor.GREEN + "Gave " + ChatColor.RED + player.getName() + ChatColor.GREEN + " a(n) " + item.getColoredName());
+                        return true;
+                    }
+                    case "remove":
+                    {
+                        Player player = Bukkit.getPlayer(args[2]);
+                        if (player == null)
+                        {
+                            msg(FreedomCommand.PLAYER_NOT_FOUND);
+                            return true;
+                        }
+                        ShopItem item = ShopItem.findItem(args[3]);
+                        if (item == null)
+                        {
+                            msg("Invalid item: " + item);
+                            return true;
+                        }
+                        ShopData sd = plugin.sh.getData(player);
+                        if (!sd.hasItem(item))
+                        {
+                            msg("That player doesn't have a(n) " + item.getName() + "!");
+                            return true;
+                        }
+                        sd.takeItem(item);
+                        plugin.sh.save(sd);
+                        msg(prefix + ChatColor.GREEN + "Took " + ChatColor.RED + player.getName() + ChatColor.GREEN + "'s " + item.getColoredName());
+                        return true;
+                    }
                 }
             }
         }
