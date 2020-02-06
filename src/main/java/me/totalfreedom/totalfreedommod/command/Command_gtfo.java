@@ -183,7 +183,7 @@ public class Command_gtfo extends FreedomCommand
         // Kick player and handle others on IP
         if (player != null)
         {
-            player.kickPlayer(ban.bakeKickMessage());
+            player.kickPlayer(ban.bakeKickMessage(Ips.getIp(player)));
             for (Player p : Bukkit.getOnlinePlayers())
             {
                 if (Ips.getIp(p).equals(Ips.getIp(player)))
