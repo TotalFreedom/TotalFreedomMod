@@ -147,6 +147,17 @@ public class BlockBlocker extends FreedomService
                 }
                 break;
             }
+            case BEEHIVE:
+            case BEE_NEST:
+            {
+                if (!ConfigEntry.ALLOW_BEEHIVES.getBoolean())
+                {
+                    player.sendMessage(ChatColor.GRAY + "Bee hives are disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    event.setCancelled(true);
+                }
+                break;
+            }
             case PLAYER_HEAD:
             case PLAYER_WALL_HEAD:
             {

@@ -47,6 +47,7 @@ public class Command_toggle extends FreedomCommand
             msg("- jukeboxes");
             msg("- spawners");
             msg("- 4chan");
+            msg("- beehives");
             return false;
         }
 
@@ -219,6 +220,11 @@ public class Command_toggle extends FreedomCommand
             toggle("4chan mode is", ConfigEntry.FOURCHAN_ENABLED);
             return true;
         }
+        else if (args[0].equalsIgnoreCase("beehives"))
+        {
+            toggle("Beehives are", ConfigEntry.ALLOW_BEEHIVES);
+            return true;
+        }
         else
         {
             return false;
@@ -238,7 +244,7 @@ public class Command_toggle extends FreedomCommand
             return Arrays.asList(
                     "waterplace", "fireplace", "lavaplace", "fluidspread", "lavadmg", "firespread", "frostwalk",
                     "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs",
-                    "bells", "armorstands", "clearonjoin", "tpronjoin", "structureblocks", "jigsaws", "grindstones", "jukeboxes", "spawners", "4chan");
+                    "bells", "armorstands", "clearonjoin", "tpronjoin", "structureblocks", "jigsaws", "grindstones", "jukeboxes", "spawners", "4chan", "beehives");
         }
 
         return Collections.emptyList();

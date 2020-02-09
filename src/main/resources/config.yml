@@ -151,6 +151,7 @@ allow:
   grindstones: false
   jukeboxes: false
   spawners: false
+  beehives: false
 
 # Blocked commands:
 #
