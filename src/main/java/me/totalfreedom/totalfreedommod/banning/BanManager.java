@@ -246,7 +246,7 @@ public class BanManager extends FreedomService
 
         if (ban != null && !ban.isExpired())
         {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ban.bakeKickMessage());
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ban.bakeKickMessage(ip));
         }
     }
 

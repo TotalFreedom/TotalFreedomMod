@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.shop;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -220,6 +221,19 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         }
 
         return true;
+    }
+
+    public void takeItem(ShopItem item)
+    {
+        Iterator<String> it = items.iterator();
+        while (it.hasNext())
+        {
+            String i = it.next();
+            if (i.startsWith(item.ordinal() + ""))
+            {
+                it.remove();
+            }
+        }
     }
 
     @Override

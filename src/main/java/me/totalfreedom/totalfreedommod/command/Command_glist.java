@@ -8,11 +8,12 @@ import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import net.pravian.aero.util.Ips;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.ChatColor;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 
 
@@ -103,7 +104,7 @@ public class Command_glist extends FreedomCommand
 
                 if (player != null)
                 {
-                    player.kickPlayer(playerBan.bakeKickMessage());
+                    player.kickPlayer(playerBan.bakeKickMessage(Ips.getIp(player)));
                 }
 
                 plugin.pul.logPunishment(new Punishment(username, ips.get(0), sender.getName(), PunishmentType.BAN, null));
@@ -148,7 +149,7 @@ public class Command_glist extends FreedomCommand
 
                 if (player != null)
                 {
-                    player.kickPlayer(nameBan.bakeKickMessage());
+                    player.kickPlayer(nameBan.bakeKickMessage(Ips.getIp(player)));
                 }
 
                 return true;

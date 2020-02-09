@@ -366,13 +366,13 @@ public class ItemFun extends FreedomService
                     }
                     String key = psd.giveItem(ShopItem.SUPERIOR_SWORD);
                     FUtil.bcastMsg("THOR'S STAR HAS GRANTED " + rplayer.getName().toUpperCase() + " A " + ChatColor.GOLD + "SUPERIOR SWORD" + ChatColor.RED + "!!!!", ChatColor.RED);
-                    FUtil.give(player, ShopItem.SUPERIOR_SWORD, "&7RMB - Shoot fireball", ChatColor.DARK_GRAY + key);
+                    FUtil.give(rplayer, ShopItem.SUPERIOR_SWORD, "&7RMB - Shoot fireball", ChatColor.DARK_GRAY + key);
                 }
                 else
                 {
                     String key = psd.giveItem(ShopItem.ELECTRICAL_DIAMOND_SWORD);
                     FUtil.bcastMsg("Thor's Star has granted " + rplayer.getName() + " an " + ChatColor.YELLOW + "Electrical Diamond Sword" + ChatColor.RED + "!", ChatColor.RED);
-                    FUtil.give(player, ShopItem.ELECTRICAL_DIAMOND_SWORD, "&7RMB - Strike lightning", ChatColor.DARK_GRAY + key);
+                    FUtil.give(rplayer, ShopItem.ELECTRICAL_DIAMOND_SWORD, "&7RMB - Strike lightning", ChatColor.DARK_GRAY + key);
                 }
                 plugin.sh.save(psd);
                 cooldown(player, "nether_star", 600);

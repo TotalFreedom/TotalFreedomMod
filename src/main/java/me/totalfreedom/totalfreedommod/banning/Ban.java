@@ -171,7 +171,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         return hasExpiry() && expiryUnix < FUtil.getUnixTime();
     }
 
-    public String bakeKickMessage()
+    public String bakeKickMessage(String ip)
     {
         final StringBuilder message = new StringBuilder(ChatColor.GOLD + "You");
 
@@ -202,6 +202,9 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
             message.append("\n").append(ChatColor.RED).append("Expires: ").append(ChatColor.GOLD)
                     .append(DATE_FORMAT.format(FUtil.getUnixDate(expiryUnix)));
         }
+
+        message.append("\n").append(ChatColor.RED).append("IP Address: ").append(ChatColor.GOLD)
+                .append(ip);
 
         return message.toString();
     }
