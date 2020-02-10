@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                mvn build 
+                mvn -B package --file pom.xml
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true 
             }
         }
