@@ -18,21 +18,13 @@ public class CommandBlockerEntry
     @Getter
     private final String command;
     @Getter
-    private final String subCommand;
-    @Getter
     private final String message;
 
     public CommandBlockerEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String message)
     {
-        this(rank, action, command, null, message);
-    }
-
-    public CommandBlockerEntry(CommandBlockerRank rank, CommandBlockerAction action, String command, String subCommand, String message)
-    {
         this.rank = rank;
         this.action = action;
         this.command = command;
-        this.subCommand = ((subCommand == null) ? null : subCommand.toLowerCase().trim());
         this.message = ((message == null || message.equals("_")) ? "That command is blocked." : message);
     }
 
