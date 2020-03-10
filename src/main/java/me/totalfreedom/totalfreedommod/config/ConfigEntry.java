@@ -25,8 +25,6 @@ public enum ConfigEntry
     ALLOW_BELLS(Boolean.class, "allow.bells"),
     ALLOW_ARMOR_STANDS(Boolean.class, "allow.armorstands"),
     ALLOW_MINECARTS(Boolean.class, "allow.minecarts"),
-    ALLOW_CLEAR_ON_JOIN(Boolean.class, "allow.clearonjoin"),
-    ALLOW_TPR_ON_JOIN(Boolean.class, "allow.tpronjoin"),
     ALLOW_STRUCTURE_BLOCKS(Boolean.class, "allow.structureblocks"),
     ALLOW_JIGSAWS(Boolean.class, "allow.jigsaws"),
     ALLOW_GRINDSTONES(Boolean.class, "allow.grindstones"),

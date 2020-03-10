@@ -145,7 +145,6 @@ allow:
   armorstands: true
   minecarts: false
   clearonjoin: false
-  tpronjoin: false
   structureblocks: false
   jigsaws: false
   grindstones: false

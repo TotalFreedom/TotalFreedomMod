@@ -39,8 +39,6 @@ public class Command_toggle extends FreedomCommand
             msg("- unsafeenchs");
             msg("- bells");
             msg("- armorstands");
-            msg("- clearonjoin");
-            msg("- tpronjoin");
             msg("- structureblocks");
             msg("- jigsaws");
             msg("- grindstones");
@@ -180,16 +178,6 @@ public class Command_toggle extends FreedomCommand
             toggle("The placement of armor stands is", ConfigEntry.ALLOW_ARMOR_STANDS);
             return true;
         }
-        else if (args[0].equalsIgnoreCase("clearonjoin"))
-        {
-            toggle("The clearing of inventories on join is", ConfigEntry.ALLOW_CLEAR_ON_JOIN);
-            return true;
-        }
-        else if (args[0].equalsIgnoreCase("tpronjoin"))
-        {
-            toggle("The random teleporting of players on join is", ConfigEntry.ALLOW_TPR_ON_JOIN);
-            return true;
-        }
         else if (args[0].equalsIgnoreCase("structureblocks"))
         {
             toggle("Structure blocks are", ConfigEntry.ALLOW_STRUCTURE_BLOCKS);
@@ -244,7 +232,7 @@ public class Command_toggle extends FreedomCommand
             return Arrays.asList(
                     "waterplace", "fireplace", "lavaplace", "fluidspread", "lavadmg", "firespread", "frostwalk",
                     "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs",
-                    "bells", "armorstands", "clearonjoin", "tpronjoin", "structureblocks", "jigsaws", "grindstones", "jukeboxes", "spawners", "4chan", "beehives");
+                    "bells", "armorstands", "structureblocks", "jigsaws", "grindstones", "jukeboxes", "spawners", "4chan", "beehives");
         }
 
         return Collections.emptyList();

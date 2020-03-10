@@ -8,6 +8,7 @@ import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.amp.AMP;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.banning.PermbanList;
+import me.totalfreedom.totalfreedommod.banning.VPNBanList;
 import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EditBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
@@ -99,6 +100,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public PunishmentList pul;
     public BanManager bm;
     public PermbanList pm;
+    public VPNBanList vn;
     public ProtectArea pa;
     public GameRuleHandler gr;
     public RollbackManager rb;
@@ -174,6 +176,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         backups.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
         backups.createBackups(AdminList.CONFIG_FILENAME);
         backups.createBackups(PermbanList.CONFIG_FILENAME);
+        backups.createBackups(VPNBanList.CONFIG_FILENAME);
         backups.createBackups(MasterBuilder.CONFIG_FILENAME);
         backups.createBackups(PunishmentList.CONFIG_FILENAME);
 
@@ -210,6 +213,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         pul = services.registerService(PunishmentList.class);
         bm = services.registerService(BanManager.class);
         pm = services.registerService(PermbanList.class);
+        vn = services.registerService(VPNBanList.class);
         pa = services.registerService(ProtectArea.class);
         gr = services.registerService(GameRuleHandler.class);
         snp = services.registerService(SignBlocker.class);

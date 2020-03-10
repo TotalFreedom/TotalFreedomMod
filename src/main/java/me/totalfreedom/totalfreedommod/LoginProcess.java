@@ -1,5 +1,7 @@
 package me.totalfreedom.totalfreedommod;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +31,8 @@ public class LoginProcess extends FreedomService
     public static final int MIN_USERNAME_LENGTH = 2;
     public static final int MAX_USERNAME_LENGTH = 20;
     public static final Pattern USERNAME_REGEX = Pattern.compile("^[\\w\\d_]{3,20}$");
+    public List<String> TELEPORT_ON_JOIN = new ArrayList<>();
+    public List<String> CLEAR_ON_JOIN = new ArrayList<>();
     //
     @Getter
     @Setter
@@ -195,18 +199,18 @@ public class LoginProcess extends FreedomService
         player.sendTitle(FUtil.colorize(ConfigEntry.SERVER_LOGIN_TITLE.getString()), FUtil.colorize(ConfigEntry.SERVER_LOGIN_SUBTITLE.getString()), 20, 100, 60);
         player.setOp(true);
 
-        if (ConfigEntry.ALLOW_TPR_ON_JOIN.getBoolean())
+        if (TELEPORT_ON_JOIN.contains(player.getName()))
         {
             int x = FUtil.random(-10000, 10000);
             int z = FUtil.random(-10000, 10000);
             int y = player.getWorld().getHighestBlockYAt(x, z);
             Location location = new Location(player.getLocation().getWorld(), x, y, z);
             player.teleport(location);
-            player.sendMessage(ChatColor.GOLD + "You have been teleported to a random location automatically.");
+            player.sendMessage(ChatColor.AQUA + "You have been teleported to a random location automatically.");
             return;
         }
 
-        if (ConfigEntry.ALLOW_CLEAR_ON_JOIN.getBoolean())
+        if (CLEAR_ON_JOIN.contains(player.getName()))
         {
             player.getInventory().clear();
             player.sendMessage(ChatColor.AQUA + "Your inventory has been cleared automatically.");
