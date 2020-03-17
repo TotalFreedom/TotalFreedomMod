@@ -62,7 +62,7 @@ public class Command_potion extends FreedomCommand
                 {
                     target = getPlayer(args[1]);
 
-                    if (target == null)
+                    if (target == null || Command_vanish.VANISHED.contains(target) && !plugin.al.isAdmin(sender))
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;
@@ -103,10 +103,9 @@ public class Command_potion extends FreedomCommand
 
                 if (args.length == 5)
                 {
-
                     target = getPlayer(args[4]);
 
-                    if (target == null)
+                    if (target == null || Command_vanish.VANISHED.contains(target) && !plugin.al.isAdmin(sender))
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;

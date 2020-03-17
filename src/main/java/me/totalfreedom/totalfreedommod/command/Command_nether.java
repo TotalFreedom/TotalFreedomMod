@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Goto the nether.", usage = "/<command>")
+@CommandParameters(description = "Go to the Nether.", usage = "/<command>")
 public class Command_nether extends FreedomCommand
 {
 

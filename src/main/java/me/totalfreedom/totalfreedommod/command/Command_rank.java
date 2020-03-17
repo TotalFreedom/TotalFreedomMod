@@ -37,7 +37,7 @@ public class Command_rank extends FreedomCommand
 
         final Player player = getPlayer(args[0]);
 
-        if (player == null)
+        if (player == null || Command_vanish.VANISHED.contains(player) && !plugin.al.isAdmin(sender))
         {
             sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
             return true;

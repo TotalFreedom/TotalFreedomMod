@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Goto the flatlands.", usage = "/<command>")
+@CommandParameters(description = "Go to the Flatlands.", usage = "/<command>")
 public class Command_flatlands extends FreedomCommand
 {
 

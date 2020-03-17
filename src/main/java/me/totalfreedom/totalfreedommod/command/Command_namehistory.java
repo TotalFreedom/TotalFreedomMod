@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Check name history of username.", usage = "/<command> <username>", aliases = "nh")
+@CommandParameters(description = "Check the name history of a username.", usage = "/<command> <username>", aliases = "nh")
 public class Command_namehistory extends FreedomCommand
 {
     @Override

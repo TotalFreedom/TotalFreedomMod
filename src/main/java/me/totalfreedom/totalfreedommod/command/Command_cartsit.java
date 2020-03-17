@@ -21,7 +21,7 @@ public class Command_cartsit extends FreedomCommand
 
             targetPlayer = getPlayer(args[0]);
 
-            if (targetPlayer == null)
+            if (targetPlayer == null || Command_vanish.VANISHED.contains(targetPlayer) && !plugin.al.isAdmin(sender))
             {
                 sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
                 return true;

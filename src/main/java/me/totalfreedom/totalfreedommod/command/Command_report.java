@@ -23,7 +23,7 @@ public class Command_report extends FreedomCommand
 
         Player player = getPlayer(args[0]);
 
-        if (player == null)
+        if (player == null || Command_vanish.VANISHED.contains(player) && !plugin.al.isAdmin(sender))
         {
             msg(PLAYER_NOT_FOUND);
             return true;

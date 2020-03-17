@@ -40,6 +40,10 @@ public class Command_whohas extends FreedomCommand
 
         for (final Player player : server.getOnlinePlayers())
         {
+            if (!plugin.al.isAdmin(sender) && Command_vanish.VANISHED.contains(player))
+            {
+                continue;
+            }
             if (player.getInventory().contains(material))
             {
                 players.add(player.getName());

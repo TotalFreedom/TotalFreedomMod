@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Goto the plot world", usage = "/<command>", aliases = "pw")
+@CommandParameters(description = "Go to the PlotWorld.", usage = "/<command>", aliases = "pw")
 public class Command_plotworld extends FreedomCommand
 {
 

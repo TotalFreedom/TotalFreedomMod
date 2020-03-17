@@ -37,8 +37,8 @@ public class Command_op extends FreedomCommand
             }
         }
 
-        // if the player is not online
-        if (player == null)
+        // if the player is not online or is vanished
+        if (player == null || Command_vanish.VANISHED.contains(player) && !plugin.al.isAdmin(sender))
         {
             if (plugin.al.isAdmin(sender) || senderIsConsole)
             {

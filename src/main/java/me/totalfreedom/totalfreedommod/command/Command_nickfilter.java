@@ -41,11 +41,11 @@ public class Command_nickfilter extends FreedomCommand
 
                     player = getPlayerByDisplayName(displayName);
 
-                    if (player == null)
+                    if (player == null || Command_vanish.VANISHED.contains(player) && !plugin.al.isAdmin(sender))
                     {
                         player = getPlayerByDisplayNameAlt(displayName);
 
-                        if (player == null)
+                        if (player == null || Command_vanish.VANISHED.contains(player) && !plugin.al.isAdmin(sender))
                         {
                             sender.sendMessage(ChatColor.GRAY + "Can't find player by nickname: " + displayName);
                             return true;

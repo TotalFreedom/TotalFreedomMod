@@ -35,7 +35,7 @@ public class Command_qop extends FreedomCommand
         {
             if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName))
             {
-                if (!player.isOp())
+                if (!player.isOp() && !Command_vanish.VANISHED.contains(player))
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(true);
