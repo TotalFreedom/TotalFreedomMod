@@ -71,20 +71,21 @@ public class CommandBlocker extends FreedomService
 
             final CommandBlockerRank rank = CommandBlockerRank.fromToken(parts[0]);
             final CommandBlockerAction action = CommandBlockerAction.fromToken(parts[1]);
-            String strCommand = parts[2].toLowerCase().substring(1);
+            String commandName = parts[2].toLowerCase().substring(1);
             final String message = (parts.length > 3 ? parts[3] : null);
 
-            if (rank == null || action == null || strCommand == null || strCommand.isEmpty())
+            if (rank == null || action == null || commandName == null || commandName.isEmpty())
             {
                 FLog.warning("Invalid command blocker entry: " + rawEntry);
                 continue;
             }
 
-            final String[] commandParts = strCommand.split(" ");
-            String commandName = strCommand.toLowerCase();
+            final String[] commandParts = commandName.split(" ");
+            String subCommand = null;
             if (commandParts.length > 1)
             {
                 commandName = commandParts[0];
+                subCommand = StringUtils.join(commandParts, " ", 1, commandParts.length).trim().toLowerCase();
             }
 
             final Command command = commandMap.getCommand(commandName);
@@ -94,21 +95,25 @@ public class CommandBlocker extends FreedomService
             {
                 unknownCommands.add(commandName);
             }
-
-            if (entryList.containsKey(strCommand))
+            else
             {
-                FLog.warning("Not blocking: /" + strCommand + " - Duplicate entry exists!");
+                commandName = command.getName().toLowerCase();
+            }
+
+            if (entryList.containsKey(commandName))
+            {
+                FLog.warning("Not blocking: /" + commandName + " - Duplicate entry exists!");
                 continue;
             }
 
-            final CommandBlockerEntry blockedCommandEntry = new CommandBlockerEntry(rank, action, strCommand, message);
+            final CommandBlockerEntry blockedCommandEntry = new CommandBlockerEntry(rank, action, commandName, subCommand, message);
             entryList.put(blockedCommandEntry.getCommand(), blockedCommandEntry);
 
             if (command != null)
             {
                 for (String alias : command.getAliases())
                 {
-                    entryList.put(strCommand.replaceFirst(commandName, alias), blockedCommandEntry);
+                    entryList.put(alias.toLowerCase(), blockedCommandEntry);
                 }
             }
         }
@@ -148,7 +153,6 @@ public class CommandBlocker extends FreedomService
         // Format
         command = command.toLowerCase().trim();
         command = command.startsWith("/") ? command.substring(1) : command;
-        command = command.replaceAll("\"", "");
 
         // Check for plugin specific commands
         final String[] commandParts = command.split(" ");
@@ -180,11 +184,27 @@ public class CommandBlocker extends FreedomService
             return true;
         }
 
+        // Obtain sub command, if it exists
+        String subCommand = null;
+        if (commandParts.length > 1)
+        {
+            subCommand = StringUtils.join(commandParts, " ", 1, commandParts.length).toLowerCase();
+        }
+
         // Obtain entry
-        final CommandBlockerEntry entry = entryList.get(command);
+        final CommandBlockerEntry entry = entryList.get(commandParts[0]);
         if (entry == null)
         {
             return false;
+        }
+
+        // Validate sub command
+        if (entry.getSubCommand() != null)
+        {
+            if (subCommand == null || !subCommand.startsWith(entry.getSubCommand()))
+            {
+                return false;
+            }
         }
 
         if (entry.getRank().hasPermission(sender))
