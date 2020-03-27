@@ -11,6 +11,7 @@ public enum Title implements Displayable
     ASSISTANT_EXECUTIVE("an", "Assistant Executive", ChatColor.RED, "Asst Exec"),
     EXECUTIVE("an", "Executive", ChatColor.RED, "Exec"),
     DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, "Dev"),
+    CONTRIBUTOR("a", "TotalFreedom Contributor", ChatColor.DARK_PURPLE, "Contributor"),
     OWNER("the", "Owner", ChatColor.DARK_RED, "Owner");
 
     private final String determiner;

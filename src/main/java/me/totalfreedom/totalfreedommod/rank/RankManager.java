@@ -61,6 +61,12 @@ public class RankManager extends FreedomService
         {
             return Title.DEVELOPER;
         }
+        
+        // Contributors always show up
+        if (FUtil.CONTRIBUTORS.contains(player.getName()))
+        {
+            return Title.CONTRIBUTOR;
+        }
 
         if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(player.getName()) && plugin.al.isAdmin(player))
         {

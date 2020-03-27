@@ -10,6 +10,7 @@ import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 
@@ -115,7 +115,7 @@ public class ChatManager extends FreedomService
         event.setMessage(message);
 
         // Make format
-        String format = "<%1$s> %2$s";
+        String format = "%1$s §8» §f%2$s";
 
         String tag = fPlayer.getTag();
         if (tag != null && !tag.isEmpty())
