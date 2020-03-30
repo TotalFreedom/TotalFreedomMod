@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Kick a player.", usage = "/<command> <player> [reason]", aliases = "k")
+@CommandParameters(description = "Kick the specified player.", usage = "/<command> <player> [reason]", aliases = "k")
 public class Command_kick extends FreedomCommand
 {
     @Override

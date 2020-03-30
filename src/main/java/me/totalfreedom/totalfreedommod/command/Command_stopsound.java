@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Stop playing sounds", usage = "/<command> [sound]")
+@CommandParameters(description = "Stops all sounds or a specified sound.", usage = "/<command> [sound]")
 public class Command_stopsound extends FreedomCommand
 {
 

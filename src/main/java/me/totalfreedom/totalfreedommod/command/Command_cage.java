@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Place a cage around someone.", usage = "/<command> <purge | off | <partialname> [skull | block] [playername | blockname]")
+@CommandParameters(description = "Place a cage around someone with certain blocks, or someone's player head.", usage = "/<command> <purge | off | <partialname> [head | block] [playername | blockname]")
 public class Command_cage extends FreedomCommand
 {
 
@@ -64,7 +64,7 @@ public class Command_cage extends FreedomCommand
                     fPlayer.getCageData().setCaged(false);
                     return true;
                 }
-                case "skull":
+                case "head":
                 {
                     outerMaterial = Material.PLAYER_HEAD;
                     if (args.length >= 3)
@@ -130,7 +130,7 @@ public class Command_cage extends FreedomCommand
         {
             if (!args[0].equals("purge"))
             {
-                return Arrays.asList("off", "skull", "block");
+                return Arrays.asList("off", "head", "block");
             }
         }
         else if (args.length == 3)
@@ -139,7 +139,7 @@ public class Command_cage extends FreedomCommand
             {
                 return FUtil.getAllMaterialNames();
             }
-            else if (args[1].equals("skull"))
+            else if (args[1].equals("head"))
             {
                 return FUtil.getPlayerList();
             }

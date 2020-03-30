@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "For the people that are still alive.", usage = "/<command>")
+@CommandParameters(description = "For the people that are still alive - gives a cake to everyone on the server.", usage = "/<command>")
 public class Command_cake extends FreedomCommand
 {
 

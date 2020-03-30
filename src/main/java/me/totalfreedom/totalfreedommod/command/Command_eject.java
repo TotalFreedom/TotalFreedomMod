@@ -11,7 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Eject everything off of you.", usage = "/<command>")
+@CommandParameters(description = "Eject players that are riding you.", usage = "/<command>")
 public class Command_eject extends FreedomCommand
 {
 

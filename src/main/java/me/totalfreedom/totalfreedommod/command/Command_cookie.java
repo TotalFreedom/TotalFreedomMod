@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "For those who have no friends", usage = "/<command>")
+@CommandParameters(description = "For those who have no friends - gives a cookie to everyone on the server.", usage = "/<command>")
 public class Command_cookie extends FreedomCommand
 {
     public static final String COOKIE_LYRICS = "Imagine that you have zero cookies and you split them evenly among zero friends. How many cookies does each person get? See? It doesn't make sense. And Cookie Monster is sad that there are no cookies, and you are sad that you have no friends.";

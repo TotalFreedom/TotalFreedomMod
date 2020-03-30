@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
-@CommandParameters(description = "Manage banned VPN ips.", usage = "/<command> reload")
+@CommandParameters(description = "Reload the banned VPN IP list.", usage = "/<command> reload")
 public class Command_vpnbanlist extends FreedomCommand
 {
 

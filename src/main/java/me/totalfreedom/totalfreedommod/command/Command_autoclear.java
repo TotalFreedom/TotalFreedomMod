@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,7 +29,7 @@ public class Command_autoclear extends FreedomCommand
             plugin.lp.CLEAR_ON_JOIN.add(args[0]);
         }
 
-        msg(args[0] + " will " + (enabled ? "no longer" : "now") + " have their inventory cleared when they join", ChatColor.GREEN);
+        msg(args[0] + " will " + (enabled ? "no longer" : "now") + " have their inventory cleared when they join.");
 
         return true;
     }

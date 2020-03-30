@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Sync your time up with the real world time.", usage = "/<command> <on <utc_offset> | off>", aliases = "rt")
+@CommandParameters(description = "Sync your time with the real world time.", usage = "/<command> <on <utc_offset> | off>", aliases = "rt")
 public class Command_realtime extends FreedomCommand
 {
     @Override

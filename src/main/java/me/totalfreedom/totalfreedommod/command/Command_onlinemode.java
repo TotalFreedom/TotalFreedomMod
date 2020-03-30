@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
-@CommandParameters(description = "Switch server online-mode on and off.", usage = "/<command> <on | off>")
+@CommandParameters(description = "Switch server to premium or cracked.", usage = "/<command> <on | off>")
 public class Command_onlinemode extends FreedomCommand
 {
 

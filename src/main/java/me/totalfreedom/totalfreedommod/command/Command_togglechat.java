@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Toggle the server chat.", usage = "/<command>", aliases = "tc")
+@CommandParameters(description = "Toggle online players' ability to chat.", usage = "/<command>", aliases = "tc")
 public class Command_togglechat extends FreedomCommand
 {
     @Override

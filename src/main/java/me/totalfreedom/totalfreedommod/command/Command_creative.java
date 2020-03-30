@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Quickly change your own gamemode to creative, or define someone's username to change theirs.", usage = "/<command> <-a | [partialname]>", aliases = "gmc")
+@CommandParameters(description = "Quickly change your own gamemode to creative, define someone's username to change theirs, or change everyone's gamemode on the server.", usage = "/<command> <-a | [partialname]>", aliases = "gmc")
 public class Command_creative extends FreedomCommand
 {
 
@@ -24,7 +24,7 @@ public class Command_creative extends FreedomCommand
             }
 
             playerSender.setGameMode(GameMode.CREATIVE);
-            msg("Gamemode set to creative.");
+            msg("Your gamemode has been set to creative.");
             return true;
         }
 
@@ -38,6 +38,7 @@ public class Command_creative extends FreedomCommand
             }
 
             FUtil.adminAction(sender.getName(), "Changing everyone's gamemode to creative", false);
+            msg("Your gamemode has been set to creative.");
             return true;
         }
 

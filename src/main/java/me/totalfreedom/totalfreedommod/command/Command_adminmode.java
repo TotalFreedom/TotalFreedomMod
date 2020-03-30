@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Close server to non-admins.", usage = "/<command> [on | off]")
+@CommandParameters(description = "Denies joining of operators and only allows admins to join.", usage = "/<command> [on | off]")
 public class Command_adminmode extends FreedomCommand
 {
 

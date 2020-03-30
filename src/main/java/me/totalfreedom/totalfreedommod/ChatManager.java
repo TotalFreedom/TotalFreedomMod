@@ -74,6 +74,20 @@ public class ChatManager extends FreedomService
             return;
         }
         
+        if (message.contains("nigger") || message.contains("nigga"))
+        {
+            event.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "This is racist and therefore is prohibited.");
+            return;
+        }
+        
+        if (message.contains("dyke") || message.contains("fag") || message.contains("kike"))
+        {
+            event.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "This is homophobic and therefore is prohibited.");
+            return;
+        }
+        
         // Truncate messages that are too long - 256 characters is vanilla client max
         if (message.length() > 256)
         {

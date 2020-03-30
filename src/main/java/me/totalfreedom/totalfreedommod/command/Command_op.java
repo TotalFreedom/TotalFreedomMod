@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH, cooldown = 5)
-@CommandParameters(description = "Makes a player operator", usage = "/<command> <playername>")
+@CommandParameters(description = "OPs the specified player.", usage = "/<command> <playername>")
 public class Command_op extends FreedomCommand
 {
 
@@ -47,7 +47,7 @@ public class Command_op extends FreedomCommand
             else
             {
                 msg("That player is not online.");
-                msg("You don't have permissions to OP offline players.", ChatColor.YELLOW);
+                msg("You don't have permissions to OP offline players.", ChatColor.RED);
                 return true;
             }
         }

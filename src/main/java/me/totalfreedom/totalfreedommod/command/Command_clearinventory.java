@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Clear your inventory", usage = "/<command> [player]", aliases = "ci,clear")
+@CommandParameters(description = "Clear your inventory.", usage = "/<command> [player]", aliases = "ci,clear")
 public class Command_clearinventory extends FreedomCommand
 {
 
@@ -25,7 +25,7 @@ public class Command_clearinventory extends FreedomCommand
             }
 
             playerSender.getInventory().clear();
-            msg("Cleared your inventory");
+            msg("Your inventory has been cleared.");
         }
         else
         {
@@ -38,7 +38,7 @@ public class Command_clearinventory extends FreedomCommand
                     {
                         player.getInventory().clear();
                     }
-                    msg("Cleared everyone's inventory");
+                    msg("Sucessfully cleared everyone's inventory.");
                 }
                 else
                 {
@@ -51,8 +51,8 @@ public class Command_clearinventory extends FreedomCommand
                     }
 
                     player.getInventory().clear();
-                    msg("Cleared " + player.getName() + "'s inventory");
-                    player.sendMessage(sender.getName() + " has cleared your inventory");
+                    msg("Cleared " + player.getName() + "'s inventory.");
+                    player.sendMessage(sender.getName() + " has cleared your inventory.");
                 }
             }
             else

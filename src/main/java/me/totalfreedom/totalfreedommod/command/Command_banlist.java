@@ -2,13 +2,12 @@ package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.", usage = "/<command> [purge]")
+@CommandParameters(description = "Shows all banned player names. Senior Admins may optionally use 'purge' to clear the list.", usage = "/<command> [purge]")
 public class Command_banlist extends FreedomCommand
 {
 
@@ -23,7 +22,7 @@ public class Command_banlist extends FreedomCommand
 
                 FUtil.adminAction(sender.getName(), "Purging the ban list", true);
                 int amount = plugin.bm.purge();
-                sender.sendMessage(ChatColor.GRAY + "Purged " + amount + " player bans.");
+                msg("Purged " + amount + " player bans.");
 
                 return true;
 

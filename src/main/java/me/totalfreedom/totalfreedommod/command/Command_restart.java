@@ -25,7 +25,7 @@ public class Command_restart extends FreedomCommand
 
         for (Player player : server.getOnlinePlayers())
         {
-            player.kickPlayer("Server is going offline, come back in about 20 seconds.");
+            player.kickPlayer(ChatColor.LIGHT_PURPLE + "Server is going offline, come back in about 20 seconds.");
         }
 
         plugin.amp.restartServer();

@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.Random;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = ":goodbird:", usage = "/<command>")
+@CommandParameters(description = "Spawns a random type of fish at your location.", usage = "/<command>")
 public class Command_bird extends FreedomCommand
 {
 

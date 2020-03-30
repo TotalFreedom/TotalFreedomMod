@@ -18,7 +18,7 @@ import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Bans or unbans any player, even those who are not logged in anymore.", usage = "/<command> <ban <username> [reason] | unban <username> | banip <ip> <reason> | unbanip <ip> | nameban <name> | unbanname <name>>")
+@CommandParameters(description = "Bans or unbans any player, including those offline.", usage = "/<command> <ban <username> [reason] | unban <username> | banip <ip> <reason> | unbanip <ip> | nameban <name> | unbanname <name>>")
 public class Command_glist extends FreedomCommand
 {
 

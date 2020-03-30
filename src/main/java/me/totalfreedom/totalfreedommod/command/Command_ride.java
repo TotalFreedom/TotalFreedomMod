@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Make other people your bitch.", usage = "/<command> <playername | mode <normal | off | ask>>")
+@CommandParameters(description = "Ride on the top of the specified player.", usage = "/<command> <playername | mode <normal | off | ask>>")
 public class Command_ride extends FreedomCommand
 {
     private final Map<Player, Player> RIDE_REQUESTS = new HashMap<>(); // requested, requester

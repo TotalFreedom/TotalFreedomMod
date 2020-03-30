@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH, cooldown = 5)
-@CommandParameters(description = "Quick Op - op someone based on a partial name.", usage = "/<command> <partialname>")
+@CommandParameters(description = "Quickly OP someone based on only their partial name.", usage = "/<command> <partialname>")
 public class Command_qop extends FreedomCommand
 {
 

@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Warns a player.", usage = "/<command> <player> <reason>")
+@CommandParameters(description = "Warns the specified player.", usage = "/<command> <player> <reason>")
 public class Command_warn extends FreedomCommand
 {
 

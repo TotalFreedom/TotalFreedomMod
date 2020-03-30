@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
-@CommandParameters(description = "Show misc. server info.", usage = "/<command>")
+@CommandParameters(description = "Shows Minecraft server info, such as authentication status.", usage = "/<command>")
 public class Command_status extends FreedomCommand
 {
 

@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Broadcasts the given message as the console, includes sender name.", usage = "/<command> <message>")
+@CommandParameters(description = "Broadcasts the given message as the server, includes sender name.", usage = "/<command> <message>")
 public class Command_say extends FreedomCommand
 {
 
@@ -31,7 +31,7 @@ public class Command_say extends FreedomCommand
 
                 for (Player player : server.getOnlinePlayers())
                 {
-                    player.kickPlayer("Server is going offline, come back in about 20 seconds.");
+                    player.kickPlayer(ChatColor.LIGHT_PURPLE + "Server is going offline, come back in about 20 seconds.");
                 }
 
                 server.shutdown();

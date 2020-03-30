@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Go to the MasterBuilderWorld.",
+@CommandParameters(description = "Allows for master builders to configure the time, the weather of the MasterBuilder, and allows for players to go to the MasterBuilderWorld.",
         usage = "/<command> [time <morning | noon | evening | night> | weather <off | rain | storm>]",
         aliases = "mbw,mbworld")
 public class Command_masterbuilderworld extends FreedomCommand

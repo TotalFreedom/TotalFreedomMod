@@ -12,17 +12,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Sends a guardian particle effect with an enderman scream to the specified player.", usage = "/<command> <player>")
-public class Command_scare extends FreedomCommand
+@CommandParameters(description = "Surprise someone.", usage = "/<command> <player>")
+public class Command_explode extends FreedomCommand
 {
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!FUtil.isPaper())
-        {
-            msg("This command won't work without Paper!", ChatColor.RED);
-            return true;
-        }
 
         if (args.length == 0)
         {
@@ -37,13 +32,9 @@ public class Command_scare extends FreedomCommand
             return true;
         }
 
-        msg("Scared " + player.getName());
-
-        player.spawnParticle(Particle.MOB_APPEARANCE, player.getLocation(), 4);
-        for (int i = 0; i < 10; ++i)
-        {
-            player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_SCREAM, 1, 0);
-        }
+        msg("Exploded " + player.getName());
+        player.setHealth(0.0);
+        player.getWorld().createExplosion(player.getLocation(), 0F, false);
 
 
         return true;

@@ -17,7 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Manage master builders.", usage = "/<command> <list | reload | | <add | remove | info> <username>>")
+@CommandParameters(description = "List, add, or remove master builders, reload the master builder list, or view the info of master builders.", usage = "/<command> <list | reload | | <add | remove | info> <username>>")
 public class Command_mbconfig extends FreedomCommand
 {
 

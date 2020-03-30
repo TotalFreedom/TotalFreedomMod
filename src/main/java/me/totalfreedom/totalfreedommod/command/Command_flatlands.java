@@ -20,7 +20,7 @@ public class Command_flatlands extends FreedomCommand
         }
         else
         {
-            msg("Flatlands is currently disabled.");
+            msg("Flatlands is currently disabled in the TotalFreedomMod configuration.");
         }
         return true;
     }

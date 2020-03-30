@@ -23,7 +23,7 @@ public class Command_spectator extends FreedomCommand
             }
 
             playerSender.setGameMode(GameMode.SPECTATOR);
-            msg("Gamemode set to spectator.");
+            msg("Your gamemode has been set to spectator.");
             return true;
         }
 

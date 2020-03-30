@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Get social media links.", usage = "/<command>", aliases = "link")
+@CommandParameters(description = "See TotalFreedom's social media links.", usage = "/<command>", aliases = "link")
 public class Command_links extends FreedomCommand
 {
     @Override

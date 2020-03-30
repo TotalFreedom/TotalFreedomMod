@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Send a chat message as someone else.", usage = "/<command> <fromname> <outmessage>")
+@CommandParameters(description = "Send a chat message as the specified player.", usage = "/<command> <fromname> <outmessage>")
 public class Command_gchat extends FreedomCommand
 {
 

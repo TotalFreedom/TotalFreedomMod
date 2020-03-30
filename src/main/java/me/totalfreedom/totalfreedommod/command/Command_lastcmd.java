@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Show the last command that someone used.", usage = "/<command> <player>")
+@CommandParameters(description = "Show the last command the specified player used.", usage = "/<command> <player>")
 public class Command_lastcmd extends FreedomCommand
 {
 

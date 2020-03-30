@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Go to \"The End\".", usage = "/<command>")
+@CommandParameters(description = "Go to \"The End\".", usage = "/<command>", aliases = "end")
 public class Command_ender extends FreedomCommand
 {
 

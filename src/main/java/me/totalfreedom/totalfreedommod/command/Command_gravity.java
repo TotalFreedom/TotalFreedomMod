@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Make other people your bitch.", usage = "/<command>")
+@CommandParameters(description = "Toggles player gravity on/off.", usage = "/<command>")
 public class Command_gravity extends FreedomCommand
 {
 

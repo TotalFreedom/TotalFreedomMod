@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
-@CommandParameters(description = "Shows ranks", usage = "/<command> [player]")
+@CommandParameters(description = "Show the rank of the sender or a specified user.", usage = "/<command> [player]")
 public class Command_rank extends FreedomCommand
 {
 

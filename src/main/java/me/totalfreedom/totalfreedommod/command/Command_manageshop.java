@@ -11,23 +11,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "Manage the shop", usage = "/<command> <coins: <add | set | remove> <amount> <player | all> | items: <give | remove> <player> <item>>", aliases = "ms")
 public class Command_manageshop extends FreedomCommand
 {
     @Override
     public boolean run(final CommandSender sender, final Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!ConfigEntry.SHOP_ENABLED.getBoolean())
-        {
-            msg("The shop is currently disabled!", ChatColor.RED);
-            return true;
-        }
-        if (!FUtil.isExecutive(sender.getName()) && !FUtil.isDeveloper(sender.getName()))
-        {
-            msg("Only executives and developers can use this command!", ChatColor.RED);
-            return true;
-        }
         final String prefix = FUtil.colorize(ConfigEntry.SHOP_PREFIX.getString() + " ");
         if (args.length > 3)
         {

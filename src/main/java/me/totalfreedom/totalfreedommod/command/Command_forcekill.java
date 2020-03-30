@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Kill someone with force, for those who REALLY need to die.", usage = "/<command> <playername>")
+@CommandParameters(description = "Forcefully kill someone - for those who REALLY need to die.", usage = "/<command> <playername>")
 public class Command_forcekill extends FreedomCommand
 {
 

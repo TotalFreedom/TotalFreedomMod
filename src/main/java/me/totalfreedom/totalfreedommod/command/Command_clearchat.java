@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Clear chat", usage = "/<command>", aliases = "cc")
+@CommandParameters(description = "Clears the chat for players who are not opt-out.", usage = "/<command>", aliases = "cc")
 public class Command_clearchat extends FreedomCommand
 {
 

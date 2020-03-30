@@ -17,7 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Manage jumppads", usage = "/<command> <on | off | info | sideways <on | off>>", aliases = "launchpads,jp")
+@CommandParameters(description = "Toggles jumppads on/off, view the status of jumppads, or make them sideways.", usage = "/<command> <on | off | info | sideways <on | off>>", aliases = "launchpads,jp")
 public class Command_jumppads extends FreedomCommand
 {
 

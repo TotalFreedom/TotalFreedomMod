@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Sets your experience level.", usage = "/<command> [level]")
+@CommandParameters(description = "Sets your experience level (XP).", usage = "/<command> [level]")
 public class Command_setlevel extends FreedomCommand
 {
 
@@ -42,7 +42,7 @@ public class Command_setlevel extends FreedomCommand
 
         playerSender.setLevel(new_level);
 
-        msg("You have been set to level " + Integer.toString(new_level), ChatColor.AQUA);
+        msg("Your XP level is now set to " + ChatColor.GOLD + Integer.toString(new_level));
 
         return true;
     }

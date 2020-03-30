@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Verify an admin without giving them admin perms.", usage = "/<command> <player>", aliases = "vna")
+@CommandParameters(description = "Verify an admin without giving them administrator permissions.", usage = "/<command> <player>", aliases = "vna")
 public class Command_verifynoadmin extends FreedomCommand
 {
 
@@ -59,7 +59,7 @@ public class Command_verifynoadmin extends FreedomCommand
                 }
             }
             plugin.rm.updateDisplay(player);
-            FUtil.adminAction(sender.getName(), "Verified " + player.getName() + ", but didn't give them admin permissions", true);
+            FUtil.adminAction(sender.getName(), "Verified " + player.getName() + ", without administrator permissions.", true);
             player.setOp(true);
             player.sendMessage(YOU_ARE_OP);
             final FPlayer fPlayer = plugin.pl.getPlayer(player);

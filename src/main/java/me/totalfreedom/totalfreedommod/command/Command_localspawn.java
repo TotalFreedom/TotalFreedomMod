@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Teleport to the spawn point for the current world.", usage = "/<command>", aliases = "worldspawn,gotospawn")
+@CommandParameters(description = "Teleport to the spawn point for the current world, instead of the Essentials spawn point.", usage = "/<command>", aliases = "worldspawn,gotospawn")
 public class Command_localspawn extends FreedomCommand
 {
     @Override

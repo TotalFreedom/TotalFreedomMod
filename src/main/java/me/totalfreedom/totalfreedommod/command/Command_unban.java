@@ -14,7 +14,7 @@ import org.bukkit.ChatColor;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Unbans a player", usage = "/<command> <username> [-r[estore]]")
+@CommandParameters(description = "Unbans the specified player.", usage = "/<command> <username> [-r[estore]]")
 public class Command_unban extends FreedomCommand
 {
 

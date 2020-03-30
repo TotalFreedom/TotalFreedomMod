@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Automatically ops user.", usage = "/<command>")
+@CommandParameters(description = "OPs the command sender.", usage = "/<command>")
 public class Command_opme extends FreedomCommand
 {
 

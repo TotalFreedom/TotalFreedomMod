@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
-@CommandParameters(description = "Manage permanently banned players and IPs.", usage = "/<command> reload")
+@CommandParameters(description = "Reload the permban list.", usage = "/<command> reload", aliases = "pb")
 public class Command_permban extends FreedomCommand
 {
 

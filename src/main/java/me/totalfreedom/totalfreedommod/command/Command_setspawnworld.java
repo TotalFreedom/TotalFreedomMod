@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Set world spawnpoint.", usage = "/<command>")
+@CommandParameters(description = "Set the spawn point of the world you are in.", usage = "/<command>")
 public class Command_setspawnworld extends FreedomCommand
 {
 

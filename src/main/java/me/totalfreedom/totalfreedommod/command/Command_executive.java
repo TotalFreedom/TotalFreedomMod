@@ -23,7 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Executive things...", usage = "/<command> [hell: <username>]", aliases = "exec")
+@CommandParameters(description = "Executive only commands - more items will be added shortly!", usage = "/<command> [hell: <username>]", aliases = "exec")
 public class Command_executive extends FreedomCommand
 {
 
@@ -131,7 +131,8 @@ public class Command_executive extends FreedomCommand
         username = playerName;
         if (!silent)
         {
-            FUtil.adminAction(sender.getName(), "Banning " + username + " and IPs: " + StringUtils.join(ips, ", "), true);
+            FUtil.adminAction(sender.getName(), "Banning " + username, true);
+            msg(sender, player.getName() + " has been banned and IP is: " + ips);
         }
         Ban ban = Ban.forPlayerName(username, sender, null, reason);
         for (String ip : ips)

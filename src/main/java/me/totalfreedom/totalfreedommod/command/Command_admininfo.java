@@ -22,7 +22,7 @@ public class Command_admininfo extends FreedomCommand
 
         if (adminInfo.isEmpty())
         {
-            msg("There is no admin information set in the config.", ChatColor.RED);
+            msg("The admin information section of the config.yml file has not been configured.", ChatColor.RED);
         }
         else
         {

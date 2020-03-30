@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Kick all non-admins on server.", usage = "/<command>")
+@CommandParameters(description = "Kick all non-admins on server.", usage = "/<command>", aliases = "kickall")
 public class Command_kicknoob extends FreedomCommand
 {
 

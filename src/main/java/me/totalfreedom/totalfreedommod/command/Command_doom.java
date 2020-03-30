@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
-@CommandParameters(description = "For the bad admins", usage = "/<command> <playername>")
+@CommandParameters(description = "Sends the specified player to their doom.", usage = "/<command> <playername>")
 public class Command_doom extends FreedomCommand
 {
 
@@ -112,7 +112,7 @@ public class Command_doom extends FreedomCommand
             {
                 // message
                 FUtil.adminAction(sender.getName(), "Banning " + player.getName(), true);
-                playerMsg(sender, ChatColor.GRAY + player.getName() + " has been banned and IP is: " + ip);
+                msg(sender, player.getName() + " has been banned and IP is: " + ip);
 
                 // generate explosion
                 player.getWorld().createExplosion(player.getLocation(), 0F, false);

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Check the stats of the server", usage = "/<command>", aliases = "ss")
+@CommandParameters(description = "Check the status of the server, including opped players, staff, etc.", usage = "/<command>", aliases = "ss")
 public class Command_serverstats extends FreedomCommand
 {
 

@@ -22,7 +22,7 @@ public class Command_vote extends FreedomCommand
 
         if (voteInfo.isEmpty())
         {
-            msg("There is no voting information set in the config.", ChatColor.RED);
+            msg("The voting information section of the config.yml file has not been configured.", ChatColor.RED);
         }
         else
         {

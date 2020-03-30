@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Purge everything! (except for bans).", usage = "/<command>")
+@CommandParameters(description = "Purge current mutes, command blocks, orbits, freezes, potion effects, cages, and entities.", usage = "/<command>")
 public class Command_purgeall extends FreedomCommand
 {
 

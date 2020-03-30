@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "You know the words.", usage = "/<command>")
+@CommandParameters(description = "You know the words - gives a campfire to everyone on the server.", usage = "/<command>")
 public class Command_campfire extends FreedomCommand
 {
 

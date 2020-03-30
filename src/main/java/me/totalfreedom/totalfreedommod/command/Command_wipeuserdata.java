@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
-@CommandParameters(description = "Removes essentials playerdata", usage = "/<command>")
+@CommandParameters(description = "Removes all essentials playerdata", usage = "/<command>")
 public class Command_wipeuserdata extends FreedomCommand
 {
 

@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Validates if a given account is premium.", usage = "/<command> <player>", aliases = "prem")
+@CommandParameters(description = "Validates if a given account is premium, or cracked.", usage = "/<command> <player>", aliases = "prem")
 public class Command_premium extends FreedomCommand
 {
 

@@ -27,7 +27,7 @@ public class Command_stop extends FreedomCommand
 
         for (Player player : server.getOnlinePlayers())
         {
-            player.kickPlayer(reason);
+            player.kickPlayer(ChatColor.LIGHT_PURPLE + reason);
         }
 
         server.shutdown();

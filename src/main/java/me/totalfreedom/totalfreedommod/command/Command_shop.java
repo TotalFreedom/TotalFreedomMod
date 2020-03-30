@@ -21,7 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Access the shop", usage = "/<command> <buy <item> | action | list>")
+@CommandParameters(description = "Access the shop - this will be much simplified in the future.", usage = "/<command> <buy <item> | action | list>")
 public class Command_shop extends FreedomCommand
 {
     private final List<String> locations = Arrays.asList("Sofa", "Car", "Bed", "Kitchen", "Garage", "Basement", "Home Study");

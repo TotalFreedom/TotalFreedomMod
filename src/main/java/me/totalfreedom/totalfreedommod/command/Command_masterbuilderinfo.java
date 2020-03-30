@@ -22,7 +22,7 @@ public class Command_masterbuilderinfo extends FreedomCommand
 
         if (masterBuilderInfo.isEmpty())
         {
-            msg("There is no Master Builder information set in the config.", ChatColor.RED);
+            msg("The master builder information section of the config.yml file has not been configured.", ChatColor.RED);
         }
         else
         {

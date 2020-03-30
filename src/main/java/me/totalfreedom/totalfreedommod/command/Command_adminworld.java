@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Go to the AdminWorld.",
+@CommandParameters(description = "Allows for admins to configure guests, time, and weather of the AdminWorld, and allows for admins and guests to go to the AdminWorld.",
         usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | rain | storm>]",
         aliases = "aw")
 public class Command_adminworld extends FreedomCommand

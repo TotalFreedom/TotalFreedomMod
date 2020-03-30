@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Quickly change your own gamemode to adventure, or define someone's username to change theirs.", usage = "/<command> <[partialname] | -a>", aliases = "gma")
+@CommandParameters(description = "Quickly change your own gamemode to adventure, define someone's username to change theirs, or change everyone's gamemode on the server.", usage = "/<command> <[partialname] | -a>", aliases = "gma")
 public class Command_adventure extends FreedomCommand
 {
 
@@ -24,7 +24,7 @@ public class Command_adventure extends FreedomCommand
             }
 
             playerSender.setGameMode(GameMode.ADVENTURE);
-            msg("Gamemode set to adventure.");
+            msg("Your gamemode has been set to adventure.");
             return true;
         }
 
@@ -38,6 +38,7 @@ public class Command_adventure extends FreedomCommand
             }
 
             FUtil.adminAction(sender.getName(), "Changing everyone's gamemode to adventure", false);
+            msg("Your gamemode has been set to adventure.");
             return true;
         }
 

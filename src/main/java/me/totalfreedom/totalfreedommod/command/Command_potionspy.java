@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Toggles PotionSpy.", usage = "/<command>", aliases = "potspy")
+@CommandParameters(description = "Allows admins to see every time a potion is splashed.", usage = "/<command>", aliases = "potspy")
 public class Command_potionspy extends FreedomCommand
 {
 

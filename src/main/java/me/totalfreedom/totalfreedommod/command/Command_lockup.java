@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Block a player's Minecraft input. This is evil, and I never should have wrote it.", usage = "/<command> <all | purge | <<partialname> on | off>>")
+@CommandParameters(description = "This is evil, and I never should have wrote it - blocks specified player's input.", usage = "/<command> <all | purge | <<partialname> on | off>>")
 public class Command_lockup extends FreedomCommand
 {
 

@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Send a command as someone else.", usage = "/<command> <fromname> <outcommand>")
+@CommandParameters(description = "Send a command as the specified player.", usage = "/<command> <fromname> <outcommand>")
 public class Command_gcmd extends FreedomCommand
 {
 

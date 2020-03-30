@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "See who has an item and optionally clear said item.", usage = "/<command> <item> [clear]", aliases = "wh")
+@CommandParameters(description = "See who has an item and optionally clear the specified item.", usage = "/<command> <item> [clear]", aliases = "wh")
 public class Command_whohas extends FreedomCommand
 {
 

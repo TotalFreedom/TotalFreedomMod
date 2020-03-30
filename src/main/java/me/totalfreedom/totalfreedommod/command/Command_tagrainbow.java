@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Gives you a rainbow tag", usage = "/<command> <tag>")
+@CommandParameters(description = "Give yourself a prefix with rainbow colors.", usage = "/<command> <tag>")
 public class Command_tagrainbow extends FreedomCommand
 {
 
