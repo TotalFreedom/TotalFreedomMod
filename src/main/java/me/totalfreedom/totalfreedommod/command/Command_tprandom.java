@@ -15,8 +15,8 @@ public class Command_tprandom extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        int x = FUtil.random(-10000, 10000);
-        int z = FUtil.random(-10000, 10000);
+        int x = FUtil.randomInteger(-10000, 10000);
+        int z = FUtil.randomInteger(-10000, 10000);
         int y = playerSender.getWorld().getHighestBlockYAt(x, z);
         Location location = new Location(playerSender.getLocation().getWorld(), x, y, z);
         playerSender.teleport(location);

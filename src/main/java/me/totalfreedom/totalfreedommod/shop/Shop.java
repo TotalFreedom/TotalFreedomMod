@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -29,6 +31,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 public class Shop extends FreedomService
 {
@@ -36,6 +40,10 @@ public class Shop extends FreedomService
     public final Map<UUID, ShopData> dataMap = Maps.newHashMap(); // uuid, dataMap
     @Getter
     private final File configFolder;
+    private BukkitTask reactions;
+    public String reactionString = "";
+    public Date reactionStartTime;
+    public final int coinsPerReactionWin = ConfigEntry.SHOP_REACTIONS_COINS_PER_WIN.getInteger();
 
     public Shop(TotalFreedomMod plugin)
     {
@@ -48,6 +56,25 @@ public class Shop extends FreedomService
     protected void onStart()
     {
         dataMap.clear();
+        if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean())
+        {
+            long interval = ConfigEntry.SHOP_REACTIONS_INTERVAL.getInteger() * 20L;
+
+            reactions = new BukkitRunnable()
+            {
+
+                @Override
+                public void run()
+                {
+                    reactionString = FUtil.randomString(ConfigEntry.SHOP_REACTIONS_STRING_LENGTH.getInteger());
+                    String reactionMessage = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "Reaction" + ChatColor.DARK_GRAY + "] "
+                            + ChatColor.AQUA + "Type the string " + ChatColor.DARK_AQUA + reactionString
+                            + ChatColor.AQUA + " to win " + ChatColor.GOLD + plugin.sh.coinsPerReactionWin + ChatColor.AQUA + " coins!";
+                    FUtil.bcastMsg(reactionMessage, false);
+                    reactionStartTime = new Date();
+                }
+            }.runTaskTimer(plugin, interval, interval);
+        }
     }
 
     @Override
@@ -56,6 +83,11 @@ public class Shop extends FreedomService
         for (ShopData sd : dataMap.values())
         {
             save(sd);
+        }
+
+        if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean())
+        {
+            reactions.cancel();
         }
     }
     

@@ -212,7 +212,15 @@ public class FUtil
 
     public static void bcastMsg(String message, ChatColor color)
     {
-        FLog.info(message, true);
+        bcastMsg(message, color, true);
+    }
+
+    public static void bcastMsg(String message, ChatColor color, Boolean toConsole)
+    {
+        if (toConsole)
+        {
+            FLog.info(message, true);
+        }
 
         for (Player player : Bukkit.getOnlinePlayers())
         {
@@ -220,9 +228,14 @@ public class FUtil
         }
     }
 
+    public static void bcastMsg(String message, Boolean toConsole)
+    {
+        bcastMsg(message, null, toConsole);
+    }
+
     public static void bcastMsg(String message)
     {
-        FUtil.bcastMsg(message, null);
+        FUtil.bcastMsg(message, null, true);
     }
 
     // Still in use by listeners
@@ -549,11 +562,27 @@ public class FUtil
         return packageName.substring(packageName.lastIndexOf('.') + 1);
     }
 
-    public static int random(int min, int max)
+    public static int randomInteger(int min, int max)
     {
         int range = max - min + 1;
         int value = (int)(Math.random() * range) + min;
         return value;
+    }
+
+    public static String randomString(int length)
+    {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
+        String randomString = "";
+        for (int i = 0; i < length; i++)
+        {
+
+            int selectedCharacter = randomInteger(1, characters.length()) - 1;
+
+            randomString += characters.charAt(selectedCharacter);
+        }
+
+        return randomString;
+
     }
 
     public static boolean isPaper()
@@ -606,7 +635,7 @@ public class FUtil
     public static Player getRandomPlayer()
     {
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
-        return players.get(random(0, players.size() - 1));
+        return players.get(randomInteger(0, players.size() - 1));
     }
 
     // convert the current time

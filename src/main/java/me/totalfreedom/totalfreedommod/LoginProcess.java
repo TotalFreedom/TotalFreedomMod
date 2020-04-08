@@ -201,8 +201,8 @@ public class LoginProcess extends FreedomService
 
         if (TELEPORT_ON_JOIN.contains(player.getName()))
         {
-            int x = FUtil.random(-10000, 10000);
-            int z = FUtil.random(-10000, 10000);
+            int x = FUtil.randomInteger(-10000, 10000);
+            int z = FUtil.randomInteger(-10000, 10000);
             int y = player.getWorld().getHighestBlockYAt(x, z);
             Location location = new Location(player.getLocation().getWorld(), x, y, z);
             player.teleport(location);

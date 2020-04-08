@@ -1,10 +1,14 @@
 package me.totalfreedom.totalfreedommod;
 
 import com.google.common.base.Strings;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Date;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
+import me.totalfreedom.totalfreedommod.shop.ShopData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -58,6 +62,22 @@ public class ChatManager extends FreedomService
         // Format colors and strip &k
         message = FUtil.colorize(message);
         message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
+
+        if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean() && !plugin.sh.reactionString.isEmpty() && message.equals(plugin.sh.reactionString))
+        {
+            event.setCancelled(true);
+            ShopData data = plugin.sh.getData(player);
+            data.setCoins(data.getCoins() + plugin.sh.coinsPerReactionWin);
+            plugin.sh.save(data);
+            plugin.sh.reactionString = "";
+            Date currentTime = new Date();
+            long seconds = (currentTime.getTime() - plugin.sh.reactionStartTime.getTime()) / 1000;
+            String reactionMessage = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "Reaction" + ChatColor.DARK_GRAY + "] "
+                    + ChatColor.GREEN + player.getName() + ChatColor.AQUA + " won in " + seconds + " seconds!";
+            FUtil.bcastMsg(reactionMessage, false);
+            player.sendMessage(ChatColor.GREEN + "You have been given " + ChatColor.GOLD + plugin.sh.coinsPerReactionWin + ChatColor.GREEN + " coins!");
+            return;
+        }
 
         if (!ConfigEntry.TOGGLE_CHAT.getBoolean() && !plugin.al.isAdmin(player))
         {
