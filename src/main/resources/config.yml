@@ -32,7 +32,7 @@ server:
 
   # All players who show up as owner
   owners:
-    - Catholic_Mario
+    - Demonic_Mario
 
   # All players who show up as executive
   executives: []
@@ -88,9 +88,22 @@ discord:
 shop:
   # Enable the shop
   enabled: true
+
+  # Shop title
+  title: '&e&lTotalFreedom Shop'
   
   # Shop prefix
-  prefix: '&7&l[&8&lTF Shop&7&l]'
+  prefix: '&8[&eTF Shop&8]'
+
+  # How many coins to voters get per vote?
+  coins_per_vote: 20
+
+  # Item prices
+  prices:
+    grappling_hook: 100
+    lightning_rod: 1000
+    fire_ball: 500
+    rideable_pearl: 700
 
 # Admin list
 adminlist:

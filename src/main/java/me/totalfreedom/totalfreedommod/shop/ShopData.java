@@ -1,22 +1,17 @@
 package me.totalfreedom.totalfreedommod.shop;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.base.ConfigLoadable;
 import net.pravian.aero.base.ConfigSavable;
 import net.pravian.aero.base.Validatable;
-import org.apache.commons.lang3.Validate;
-import org.bukkit.ChatColor;
+import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
 {
@@ -24,30 +19,33 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
     @Getter
     @Setter
     private String username;
-    private final List<String> ips = Lists.newArrayList();
+    private String uuid;
     @Getter
     @Setter
     private int coins;
     private List<String> items = Lists.newArrayList();
+    @Getter
+    @Setter
+    private int totalVotes;
 
     public ShopData(Player player)
     {
-        this(player.getName());
+        this(player.getUniqueId());
     }
 
-    public ShopData(String username)
+    public ShopData(UUID uuid)
     {
-        this.username = username;
+        this.uuid = uuid.toString();
     }
 
     @Override
     public void loadFrom(ConfigurationSection cs)
     {
         this.username = cs.getString("username", username);
-        this.ips.clear();
-        this.ips.addAll(cs.getStringList("ips"));
+        this.uuid = cs.getString("uuid", uuid);
         this.coins = cs.getInt("coins", coins);
         this.items.addAll(cs.getStringList("items"));
+        this.totalVotes = cs.getInt("totalVotes");
     }
 
     @Override
@@ -55,25 +53,10 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
     {
         Validate.isTrue(isValid(), "Could not save shop entry: " + username + ". Entry not valid!");
         cs.set("username", username);
-        cs.set("ips", ips);
+        cs.set("uuid", uuid);
         cs.set("coins", coins);
         cs.set("items", items);
-    }
-
-    public List<String> getIps()
-    {
-        return Collections.unmodifiableList(ips);
-    }
-
-    // IP utils
-    public boolean addIp(String ip)
-    {
-        return ips.contains(ip) ? false : ips.add(ip);
-    }
-
-    public boolean removeIp(String ip)
-    {
-        return ips.remove(ip);
+        cs.set("totalVotes", totalVotes);
     }
 
     public List<String> getItems()
@@ -81,165 +64,38 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
         return Collections.unmodifiableList(items);
     }
 
-    public String giveItem(ShopItem item)
+    public void setUUID(UUID id)
     {
-        String signature = FUtil.generateSignature(item);
-        items.add(signature);
-        return signature;
+        uuid = id.toString();
     }
 
-    public void giveRawItem(String signature)
+    public UUID getUUID()
     {
-        items.add(signature);
+        return UUID.fromString(uuid);
+    }
+
+    public void giveItem(ShopItem item)
+    {
+        items.add(item.getDataName());
     }
 
     public boolean hasItem(ShopItem item)
     {
-        for (String i : items)
+        if (items.contains(item.getDataName()))
         {
-            int id;
-            try
-            {
-                id = Integer.valueOf(i.substring(0, i.indexOf("A")));
-            }
-            catch (NumberFormatException ex)
-            {
-                continue;
-            }
-            if (item.ordinal() == id)
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }
 
-    public ItemStack getItem(ShopItem item)
+    public void removeItem(ShopItem item)
     {
-        String signature = "";
-        for (String i : items)
-        {
-            int id;
-            try
-            {
-                id = Integer.valueOf(i.substring(0, i.indexOf("A")));
-            }
-            catch (NumberFormatException ex)
-            {
-                continue;
-            }
-            if (item.ordinal() == id)
-            {
-                signature = i;
-            }
-        }
-        ItemStack stack = new ItemStack(item.getMaterial(), 1);
-        ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName(item.getColoredName());
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.DARK_GRAY + signature);
-        meta.setLore(lore);
-        stack.setItemMeta(meta);
-        return stack;
-    }
-
-    public boolean validate(ItemStack stack, String nameSegment)
-    {
-        if (!stack.hasItemMeta())
-        {
-            return false;
-        }
-
-        if (!stack.getItemMeta().hasDisplayName())
-        {
-            return false;
-        }
-
-        if (!stack.getItemMeta().getDisplayName().contains(nameSegment))
-        {
-            return false;
-        }
-
-        if (!stack.getItemMeta().hasLore())
-        {
-            return false;
-        }
-
-        boolean loreValid = false;
-
-        for (String i : items)
-        {
-            if (stack.getItemMeta().getLore().contains(ChatColor.DARK_GRAY + i))
-            {
-                loreValid = true;
-            }
-        }
-
-        if (!loreValid)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean validate(ItemStack stack, ShopItem item)
-    {
-        if (!stack.hasItemMeta())
-        {
-            return false;
-        }
-
-        if (!stack.getItemMeta().hasDisplayName())
-        {
-            return false;
-        }
-
-        if (!stack.getItemMeta().getDisplayName().contains(item.getName()))
-        {
-            return false;
-        }
-
-        if (!stack.getItemMeta().hasLore())
-        {
-            return false;
-        }
-
-        boolean loreValid = false;
-
-        for (String i : items)
-        {
-            if (stack.getItemMeta().getLore().contains(ChatColor.DARK_GRAY + i))
-            {
-                loreValid = true;
-            }
-        }
-
-        if (!loreValid)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public void takeItem(ShopItem item)
-    {
-        Iterator<String> it = items.iterator();
-        while (it.hasNext())
-        {
-            String i = it.next();
-            if (i.startsWith(item.ordinal() + ""))
-            {
-                it.remove();
-            }
-        }
+        items.remove(item.getDataName());
     }
 
     @Override
     public boolean isValid()
     {
-        return username != null
-                && !ips.isEmpty();
+        return username != null;
     }
 }

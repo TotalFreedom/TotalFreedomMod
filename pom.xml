@@ -205,6 +205,14 @@
             <artifactId>jsonmessage</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.vexsoftware</groupId>
+            <artifactId>votifier</artifactId>
+            <version>v1.9</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

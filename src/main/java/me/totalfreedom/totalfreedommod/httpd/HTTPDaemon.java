@@ -24,6 +24,7 @@ import me.totalfreedom.totalfreedommod.httpd.module.Module_permbans;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_players;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_punishments;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_schematic;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_vpnbans;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -69,6 +70,7 @@ public class HTTPDaemon extends FreedomService
         module("players", Module_players.class, false);
         module("punishments", Module_punishments.class, true);
         module("schematic", Module_schematic.class, true);
+        module("vpnbans", Module_vpnbans.class, true);
 
         try
         {

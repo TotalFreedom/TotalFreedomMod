@@ -4,12 +4,10 @@ import com.google.common.base.Strings;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import me.totalfreedom.totalfreedommod.admin.Admin;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -68,23 +66,9 @@ public class ChatManager extends FreedomService
             return;
         }
 
-        if (message.equals("Connected using PickaxeChat for Android"))
+        if (message.startsWith("Connected using PickaxeChat for "))
         {
             event.setCancelled(true);
-            return;
-        }
-        
-        if (message.contains("nigger") || message.contains("nigga"))
-        {
-            event.setCancelled(true);
-            player.sendMessage(ChatColor.RED + "This is racist and therefore is prohibited.");
-            return;
-        }
-        
-        if (message.contains("dyke") || message.contains("fag") || message.contains("kike"))
-        {
-            event.setCancelled(true);
-            player.sendMessage(ChatColor.RED + "This is homophobic and therefore is prohibited.");
             return;
         }
         
@@ -95,7 +79,7 @@ public class ChatManager extends FreedomService
             FSync.playerMsg(player, "Message was shortened because it was too long to send.");
         }
 
-        // Check for adminchat
+
         final FPlayer fPlayer = plugin.pl.getPlayerSync(player);
         if (fPlayer.isLockedUp())
         {
@@ -103,6 +87,8 @@ public class ChatManager extends FreedomService
             event.setCancelled(true);
             return;
         }
+
+        // Check for adminchat
         if (fPlayer.inAdminChat())
         {
             FSync.adminChatMessage(player, message);
@@ -129,7 +115,7 @@ public class ChatManager extends FreedomService
         event.setMessage(message);
 
         // Make format
-        String format = "%1$s §8» §f%2$s";
+        String format = "%1$s §8\u00BB §f%2$s";
 
         String tag = fPlayer.getTag();
         if (tag != null && !tag.isEmpty())
@@ -233,6 +219,7 @@ public class ChatManager extends FreedomService
             if (plugin.al.isAdmin(player))
             {
                 playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
+                FLog.info("[REPORTS] " + reporter.getName() + " has reported " + reported.getName() + " for " + report);
             }
         }
     }

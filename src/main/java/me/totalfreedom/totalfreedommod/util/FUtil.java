@@ -1,10 +1,13 @@
 package me.totalfreedom.totalfreedommod.util;
 
-import com.comphenix.protocol.PacketType;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.security.SecureRandom;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,10 +23,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.net.ssl.HttpsURLConnection;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.shop.ShopItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
@@ -31,8 +35,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -40,6 +42,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.Material;
+import org.json.simple.JSONArray;
 
 public class FUtil
 {
@@ -48,8 +51,7 @@ public class FUtil
     //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "Wild1145", "Catholic_Mario", "Arcaknight", "smartnt");
-    public static final List<String> CONTRIBUTORS = Arrays.asList("supernt", "OxLemonxO", "AcidicCyanide", "aggelosQQ");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "Wild1145", "Demonic_Mario", "RobinGall2910", "smartnt");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
@@ -158,6 +160,54 @@ public class FUtil
             names.add(material.name());
         }
         return names;
+    }
+
+    public static UUID nameToUUID(String name)
+    {
+        try
+        {
+            JSONArray json = new JSONArray();
+            json.add(name);
+            String response = postRequestToEndpoint("https://api.mojang.com/profiles/minecraft", json.toString());
+            // Don't care how stupid this looks, couldn't find anything to parse a json string to something readable in java with something not horrendously huge, maybe im just retarded
+            Pattern pattern = Pattern.compile("(?<=\"id\":\")[a-f0-9].{31}");
+            Matcher matcher = pattern.matcher(response);
+            if (matcher.find())
+            {
+                String rawUUID = matcher.group(0).replaceFirst("([a-f0-9]{8})([a-f0-9]{4})([a-f0-9]{4})([a-f0-9]{4})([a-f0-9]+)", "$1-$2-$3-$4-$5");
+                return UUID.fromString(rawUUID);
+            }
+        }
+        catch (Exception e)
+        {
+            FLog.severe("Failed to convert name to UUID:\n" + e.toString());
+        }
+        return null;
+    }
+
+    public static String postRequestToEndpoint(String endpoint, String body) throws IOException
+    {
+        URL url = new URL(endpoint);
+        HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setDoOutput(true);
+        DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+        outputStream.writeBytes(body);
+        outputStream.flush();
+        outputStream.close();
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null)
+        {
+            response.append(inputLine);
+        }
+
+        in.close();
+        return response.toString();
     }
 
     public static void bcastMsg(String message, ChatColor color)
@@ -553,27 +603,6 @@ public class FUtil
         player.getInventory().setItem(player.getInventory().firstEmpty(), stack);
     }
 
-    public static void give(Player player, ShopItem item, String... lore)
-    {
-        give(player, item.getMaterial(), item.getColoredName(), 1, lore);
-    }
-
-    public static String generateSignature(ShopItem item)
-    {
-        String signature = String.valueOf(item.ordinal());
-        signature += "A"; // mark the ending
-        for (int i = 0; i < 8; i++)
-        {
-            char c = FUtil.getRandomCharacter();
-            while (c == 'A')
-            {
-                c = FUtil.getRandomCharacter();
-            }
-            signature += FUtil.getRandomCharacter();
-        }
-        return signature;
-    }
-
     public static Player getRandomPlayer()
     {
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
@@ -611,5 +640,11 @@ public class FUtil
     public static boolean timeZoneOutOfBounds(int tz)
     {
         return tz < -12 || tz > 12;
+    }
+
+    private static class MojangResponse
+    {
+        String id;
+        String name;
     }
 }

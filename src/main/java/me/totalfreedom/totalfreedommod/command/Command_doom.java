@@ -9,6 +9,7 @@ import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 import net.pravian.aero.util.Ips;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -19,14 +20,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
-@CommandParameters(description = "Sends the specified player to their doom.", usage = "/<command> <playername>")
+@CommandParameters(description = "Sends the specified player to their doom.", usage = "/<command> <playername> [reason]")
 public class Command_doom extends FreedomCommand
 {
 
     @Override
     public boolean run(final CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length != 1)
+        if (args.length == 0)
         {
             return false;
         }
@@ -89,8 +90,17 @@ public class Command_doom extends FreedomCommand
         // Shoot the player in the sky
         player.setVelocity(player.getVelocity().clone().add(new Vector(0, 20, 0)));
 
+        String reason = null;
+
+        if (args.length > 1)
+        {
+            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
+        }
+
+        final String kickReason = (reason == null ? "FUCKOFF, and get your shit together!" : reason);
+
         // Log doom
-        plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.DOOM, null));
+        plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.DOOM, reason));
 
         new BukkitRunnable()
         {
@@ -115,10 +125,10 @@ public class Command_doom extends FreedomCommand
                 msg(sender, player.getName() + " has been banned and IP is: " + ip);
 
                 // generate explosion
-                player.getWorld().createExplosion(player.getLocation(), 0F, false);
+                player.getWorld().createExplosion(player.getLocation(), 0F, false);;
 
                 // kick player
-                player.kickPlayer(ChatColor.RED + "FUCKOFF, and get your shit together!");
+                player.kickPlayer(ChatColor.RED + kickReason);
             }
         }.runTaskLater(plugin, 3L * 20L);
 

@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(description = "Makes random sounds to everyone online.", usage = "/<command>")
 public class Command_deafen extends FreedomCommand
 {
@@ -20,7 +20,6 @@ public class Command_deafen extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        for (final Player player : server.getOnlinePlayers())
         {
             for (double percent = 0.0; percent <= 1.0; percent += (1.0 / STEPS))
             {
@@ -31,7 +30,7 @@ public class Command_deafen extends FreedomCommand
                     @Override
                     public void run()
                     {
-                        player.playSound(randomOffset(player.getLocation(), 5.0), Sound.values()[random.nextInt(Sound.values().length)], 100.0f, pitch);
+                        playerSender.playSound(randomOffset(playerSender.getLocation(), 5.0), Sound.values()[random.nextInt(Sound.values().length)], 100.0f, pitch);
                     }
                 }.runTaskLater(plugin, Math.round(20.0 * percent * 2.0));
             }

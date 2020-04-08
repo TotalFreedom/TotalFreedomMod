@@ -81,7 +81,13 @@ public enum ConfigEntry
     DISCORD_SERVER_OWNER_ROLE_ID(String.class, "discord.server_owner_role_id"),
     //
     SHOP_ENABLED(Boolean.class, "shop.enabled"),
+    SHOP_TITLE(String.class, "shop.title"),
     SHOP_PREFIX(String.class, "shop.prefix"),
+    SHOP_COINS_PER_VOTE(Integer.class, "shop.coins_per_vote"),
+    SHOP_PRICES_GRAPPLING_HOOK(Integer.class, "shop.prices.grappling_hook"),
+    SHOP_PRICES_LIGHTNING_ROD(Integer.class, "shop.prices.lightning_rod"),
+    SHOP_PRICES_FIRE_BALL(Integer.class, "shop.prices.fire_ball"),
+    SHOP_PRICES_RIDEABLE_PEARL(Integer.class, "shop.prices.rideable_pearl"),
     //
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),

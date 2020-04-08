@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 import javax.security.auth.login.FailedLoginException;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
@@ -19,11 +20,18 @@ import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -37,7 +45,9 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 public class ItemFun extends FreedomService
@@ -47,41 +57,41 @@ public class ItemFun extends FreedomService
 
     private final Random random = new Random();
 
-    private static final String COOLDOWN_MESSAGE = ChatColor.RED + "You're on cooldown for this feature.";
-
     private final Map<String, List<String>> cooldownTracker = new HashMap<>();
 
     private final Map<Player, Float> orientationTracker = new HashMap<>();
 
-    private void cooldown(Player player, String feature, int seconds)
+    private final List<UUID> FIRE_BALL_UUIDS = new ArrayList<>();
+
+    private void cooldown(Player player, ShopItem item, int seconds)
     {
         if (cooldownTracker.get(player.getName()) == null)
         {
             List<String> featureList = new ArrayList<>();
-            featureList.add(feature);
+            featureList.add(item.getDataName());
             cooldownTracker.put(player.getName(), featureList);
         }
         else
         {
-            cooldownTracker.get(player.getName()).add(feature);
+            cooldownTracker.get(player.getName()).add(item.getDataName());
         }
-        new BukkitRunnable()
+        BukkitTask thing = new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                cooldownTracker.get(player.getName()).remove(feature);
+                cooldownTracker.get(player.getName()).remove(item.getDataName());
             }
         }.runTaskLater(plugin, seconds * 20);
     }
 
-    public boolean onCooldown(Player player, String feature)
+    public boolean onCooldown(Player player, ShopItem item)
     {
         if (cooldownTracker.get(player.getName()) == null)
         {
             return false;
         }
-        return cooldownTracker.get(player.getName()).contains(feature);
+        return cooldownTracker.get(player.getName()).contains(item.getDataName());
     }
 
     public ItemFun(TotalFreedomMod plugin)
@@ -193,11 +203,6 @@ public class ItemFun extends FreedomService
                 {
                     break;
                 }
-                
-                /*if (player.getWorld().equals(plugin.wm.hubworld.getWorld()) && plugin.hwr.doRestrict(player))
-                {
-                    break;
-                }*/
 
                 Location location = player.getLocation().clone();
 
@@ -292,58 +297,14 @@ public class ItemFun extends FreedomService
 
             case BLAZE_ROD:
             {
-                if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
+                if (!plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.LIGHTNING_ROD, player.getInventory().getItemInMainHand(), plugin.sh.getLightningRod()))
                 {
                     break;
                 }
 
-                if (!plugin.al.isSeniorAdmin(player))
+                if (onCooldown(player, ShopItem.LIGHTNING_ROD))
                 {
-                    break;
-                }
-
-                if (player.getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()) && plugin.mbwr.doRestrict(player))
-                {
-                    break;
-                }
-
-                event.setCancelled(true);
-                Block targetBlock;
-
-                if (event.getAction().equals(Action.LEFT_CLICK_AIR))
-                {
-                    targetBlock = DepreciationAggregator.getTargetBlock(player, null, 120);
-                }
-                else
-                {
-                    targetBlock = event.getClickedBlock();
-                }
-
-                if (targetBlock == null)
-                {
-                    player.sendMessage("Can't resolve target block.");
-                    break;
-                }
-
-                player.getWorld().createExplosion(targetBlock.getLocation(), 4F, true);
-                player.getWorld().strikeLightning(targetBlock.getLocation());
-
-                break;
-            }
-
-            case NETHER_STAR:
-            {
-                if (onCooldown(player, "nether_star"))
-                {
-                    FUtil.playerMsg(player, COOLDOWN_MESSAGE);
-                    break;
-                }
-
-                ShopData sd = plugin.sh.getData(player);
-                ItemStack stack = player.getInventory().getItemInMainHand();
-
-                if (!sd.validate(stack, ShopItem.THOR_STAR))
-                {
+                    player.sendMessage(ChatColor.RED + "You're are currently on a cooldown for 10 seconds.");
                     break;
                 }
 
@@ -354,65 +315,43 @@ public class ItemFun extends FreedomService
                 {
                     player.getWorld().strikeLightning(targetBlock.getLocation());
                 }
-
-                boolean superior = FUtil.random(1, 100) == 50;
-                Player rplayer = FUtil.getRandomPlayer();
-                ShopData psd = plugin.sh.getData(rplayer);
-                if (superior)
-                {
-                    for (int i = 0; i < 25; i++)
-                    {
-                        rplayer.getWorld().strikeLightning(rplayer.getLocation());
-                    }
-                    String key = psd.giveItem(ShopItem.SUPERIOR_SWORD);
-                    FUtil.bcastMsg("THOR'S STAR HAS GRANTED " + rplayer.getName().toUpperCase() + " A " + ChatColor.GOLD + "SUPERIOR SWORD" + ChatColor.RED + "!!!!", ChatColor.RED);
-                    FUtil.give(rplayer, ShopItem.SUPERIOR_SWORD, "&7RMB - Shoot fireball", ChatColor.DARK_GRAY + key);
-                }
-                else
-                {
-                    String key = psd.giveItem(ShopItem.ELECTRICAL_DIAMOND_SWORD);
-                    FUtil.bcastMsg("Thor's Star has granted " + rplayer.getName() + " an " + ChatColor.YELLOW + "Electrical Diamond Sword" + ChatColor.RED + "!", ChatColor.RED);
-                    FUtil.give(rplayer, ShopItem.ELECTRICAL_DIAMOND_SWORD, "&7RMB - Strike lightning", ChatColor.DARK_GRAY + key);
-                }
-                plugin.sh.save(psd);
-                cooldown(player, "nether_star", 600);
+                cooldown(player, ShopItem.LIGHTNING_ROD, 10);
                 break;
             }
 
-            case DIAMOND_SWORD:
+            case FIRE_CHARGE:
             {
-                if (onCooldown(player, "eds"))
+                if (!plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.FIRE_BALL, player.getInventory().getItemInMainHand(), plugin.sh.getFireBall()))
                 {
-                    FUtil.playerMsg(player, COOLDOWN_MESSAGE);
                     break;
                 }
 
-                ShopData sd = plugin.sh.getData(player);
-                ItemStack stack = player.getInventory().getItemInMainHand();
-                if (sd.validate(stack, "Electrical Diamond Sword"))
+                if (onCooldown(player, ShopItem.FIRE_BALL))
                 {
-                    player.getWorld().strikeLightning(player.getTargetBlock(null, 20).getLocation());
-                    cooldown(player, "eds", 15);
+                    player.sendMessage(ChatColor.RED + "You're are currently on a cooldown for 5 seconds.");
+                    break;
                 }
+
+                event.setCancelled(true);
+                Entity fireball = player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREBALL);
+                FIRE_BALL_UUIDS.add(fireball.getUniqueId());
+                fireball.setVelocity(player.getLocation().getDirection().multiply(2));
+                cooldown(player, ShopItem.FIRE_BALL, 5);
                 break;
             }
+        }
+    }
 
-            case GOLDEN_SWORD:
+    @EventHandler
+    public void onProjectileLaunch(ProjectileLaunchEvent event)
+    {
+        Projectile entity = event.getEntity();
+        if (entity instanceof EnderPearl && entity.getShooter() instanceof Player)
+        {
+            Player player = (Player)entity.getShooter();
+            if (plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.RIDEABLE_PEARL, player.getInventory().getItemInMainHand(), plugin.sh.getRideablePearl()))
             {
-                if (onCooldown(player, "ss"))
-                {
-                    FUtil.playerMsg(player, COOLDOWN_MESSAGE);
-                    break;
-                }
-
-                ShopData sd = plugin.sh.getData(player);
-                ItemStack stack = player.getInventory().getItemInMainHand();
-                if (sd.validate(stack, "Superior Sword"))
-                {
-                    Entity fireball = player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREBALL);
-                    fireball.setVelocity(player.getLocation().getDirection());
-                    cooldown(player, "ss", 3);
-                }
+                entity.addPassenger(player);
             }
         }
     }
@@ -434,6 +373,24 @@ public class ItemFun extends FreedomService
                 arrow.remove();
             }
         }
+
+        if (entity instanceof Fireball)
+        {
+            if (FIRE_BALL_UUIDS.contains(entity.getUniqueId()))
+            {
+                FIRE_BALL_UUIDS.remove(entity.getUniqueId());
+                Firework firework = (Firework)entity.getWorld().spawnEntity(entity.getLocation(), EntityType.FIREWORK);
+                firework.setSilent(true);
+                FireworkMeta meta = firework.getFireworkMeta();
+                FireworkEffect explosionEffect = FireworkEffect.builder().withColor(Color.ORANGE).withFade(Color.YELLOW).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
+                meta.addEffect(explosionEffect);
+                meta.setPower(0);
+                firework.setFireworkMeta(meta);
+                entity.remove();
+                firework.detonate();
+                entity.getWorld().playSound(firework.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 10f, 1f);
+            }
+        }
     }
 
     private Location randomOffset(Location a, double magnitude)
@@ -453,7 +410,7 @@ public class ItemFun extends FreedomService
         ShopData sd = plugin.sh.getData(player);
         PlayerInventory inv = event.getPlayer().getInventory();
         ItemStack rod = inv.getItemInMainHand();
-        if (sd.validate(rod, ShopItem.GRAPPLING_HOOK))
+        if (plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.GRAPPLING_HOOK, player.getInventory().getItemInMainHand(), plugin.sh.getGrapplingHook()))
         {
             if (event.getState() == PlayerFishEvent.State.REEL_IN || event.getState() == PlayerFishEvent.State.IN_GROUND)
             {

@@ -49,7 +49,7 @@ public class Command_coins extends FreedomCommand
             }
         }
         ShopData sd = plugin.sh.getData(p);
-        msg(prefix + ChatColor.GREEN + (args.length > 0 ? p.getName() + " has " : "You have ") + ChatColor.RED + sd.getCoins() + ChatColor.GREEN + " coins." + " This will be in use shortly.");
+        msg(prefix + ChatColor.GREEN + (args.length > 0 ? p.getName() + " has " : "You have ") + ChatColor.RED + sd.getCoins() + ChatColor.GREEN + " coins.");
         return true;
     }
 }
