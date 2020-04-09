@@ -81,6 +81,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-services:2.5.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-logging:2.5.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.httpcomponents:httpclient:4.5.10" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.httpcomponents:httpcore:4.4.12" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:jcl-over-slf4j:1.7.28" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-driver-odf:0.12.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truevfs:truevfs-comp-zipdriver:0.12.1" level="project" />
@@ -163,8 +165,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-analysis:7.1" level="project" />
     <orderEntry type="library" name="Maven: me.rayzr522:jsonmessage:1.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.vexsoftware:votifier:v1.9" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.5.12" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.13" level="project" />
-    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.ConnorLinfoot:ActionBarAPI:5b2d642d3d" level="project" />
   </component>
 </module>

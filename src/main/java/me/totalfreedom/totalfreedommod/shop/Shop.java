@@ -7,12 +7,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import lombok.Getter;
+import me.rayzr522.jsonmessage.JSONMessage;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -37,7 +37,7 @@ import org.bukkit.scheduler.BukkitTask;
 public class Shop extends FreedomService
 {
     @Getter
-    public final Map<UUID, ShopData> dataMap = Maps.newHashMap(); // uuid, dataMap
+    public final Map<UUID, ShopData> dataMap = Maps.newHashMap();
     @Getter
     private final File configFolder;
     private BukkitTask reactions;
@@ -67,11 +67,17 @@ public class Shop extends FreedomService
                 public void run()
                 {
                     reactionString = FUtil.randomString(ConfigEntry.SHOP_REACTIONS_STRING_LENGTH.getInteger());
-                    String reactionMessage = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "Reaction" + ChatColor.DARK_GRAY + "] "
-                            + ChatColor.AQUA + "Type the string " + ChatColor.DARK_AQUA + reactionString
-                            + ChatColor.AQUA + " to win " + ChatColor.GOLD + plugin.sh.coinsPerReactionWin + ChatColor.AQUA + " coins!";
-                    FUtil.bcastMsg(reactionMessage, false);
-                    reactionStartTime = new Date();
+                    for (Player player : server.getOnlinePlayers())
+                    {
+                        String reactionMessage = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "Reaction" + ChatColor.DARK_GRAY + "] "
+                                + ChatColor.AQUA + "Hover over this message or click on it and type the "
+                                + ChatColor.AQUA + "string to win " + ChatColor.GOLD + plugin.sh.coinsPerReactionWin + ChatColor.AQUA + " coins!";
+                        JSONMessage.create(reactionMessage)
+                                .tooltip(ChatColor.DARK_AQUA + reactionString)
+                                .runCommand("/reactionbar")
+                                .send(player);
+                        reactionStartTime = new Date();
+                    }
                 }
             }.runTaskTimer(plugin, interval, interval);
         }

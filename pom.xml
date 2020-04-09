@@ -213,6 +213,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.ConnorLinfoot</groupId>
+            <artifactId>ActionBarAPI</artifactId>
+            <version>5b2d642d3d</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
