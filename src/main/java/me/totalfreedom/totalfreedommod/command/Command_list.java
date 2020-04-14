@@ -71,7 +71,7 @@ public class Command_list extends FreedomCommand
         }
         StringBuilder onlineStats = new StringBuilder();
         StringBuilder onlineUsers = new StringBuilder();
-        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - Command_vanish.VANISHED.size())
+        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - plugin.al.vanished.size())
                 .append(ChatColor.BLUE)
                 .append(" out of a maximum ")
                 .append(ChatColor.RED)
@@ -85,11 +85,11 @@ public class Command_list extends FreedomCommand
             {
                 continue;
             }
-            if (listFilter == ListFilter.ADMINS && Command_vanish.VANISHED.contains(p))
+            if (listFilter == ListFilter.ADMINS && plugin.al.vanished.contains(p))
             {
                 continue;
             }
-            if (listFilter == ListFilter.VANISHED_ADMINS && !Command_vanish.VANISHED.contains(p))
+            if (listFilter == ListFilter.VANISHED_ADMINS && !plugin.al.vanished.contains(p))
             {
                 continue;
             }
@@ -101,7 +101,7 @@ public class Command_list extends FreedomCommand
             {
                 continue;
             }
-            if (listFilter == ListFilter.PLAYERS && Command_vanish.VANISHED.contains(p))
+            if (listFilter == ListFilter.PLAYERS && plugin.al.vanished.contains(p))
             {
                 continue;
             }

@@ -6,6 +6,7 @@ import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.RegionGroup;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
@@ -23,14 +24,15 @@ import org.bukkit.entity.Player;
 public class Command_makeopregion extends FreedomCommand
 {
 
-    final Map<Flag<?>, Object> flags = new HashMap<Flag<?>, Object>() {{
-        put(Flags.BLOCK_PLACE, StateFlag.State.DENY);
-        put(Flags.BLOCK_BREAK, StateFlag.State.DENY);
-        put(Flags.BUILD, StateFlag.State.DENY);
-        put(Flags.PLACE_VEHICLE, StateFlag.State.DENY);
-        put(Flags.DESTROY_VEHICLE, StateFlag.State.DENY);
-        put(Flags.ENTITY_ITEM_FRAME_DESTROY, StateFlag.State.DENY);
-        put(Flags.ENTITY_PAINTING_DESTROY, StateFlag.State.DENY);
+    final Map<Flag<?>, Object> flags = new HashMap<Flag<?>, Object>()
+    {{
+        put(Flags.BLOCK_PLACE, StateFlag.State.ALLOW);
+        put(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
+        put(Flags.BUILD, StateFlag.State.ALLOW);
+        put(Flags.PLACE_VEHICLE, StateFlag.State.ALLOW);
+        put(Flags.DESTROY_VEHICLE, StateFlag.State.ALLOW);
+        put(Flags.ENTITY_ITEM_FRAME_DESTROY, StateFlag.State.ALLOW);
+        put(Flags.ENTITY_PAINTING_DESTROY, StateFlag.State.ALLOW);
     }};
 
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)
@@ -78,7 +80,12 @@ public class Command_makeopregion extends FreedomCommand
         region.setOwners(owners);
         region.setFlags(flags);
 
-        RegionManager regionManager = plugin.wgb.getWorldGuardPlugin().getRegionManager(playerSender.getWorld());
+        for (Flag flag : flags.keySet())
+        {
+            region.setFlag(flag.getRegionGroupFlag(), RegionGroup.MEMBERS);
+        }
+
+        RegionManager regionManager = plugin.wgb.getRegionManager(playerSender.getWorld());
 
         regionManager.addRegion(region);
 

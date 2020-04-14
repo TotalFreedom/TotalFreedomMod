@@ -1,19 +1,18 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
 public class WorldGuardBridge extends FreedomService
 {
-
-    private WorldGuardPlugin worldGuardPlugin;
 
     public WorldGuardBridge(TotalFreedomMod plugin)
     {
@@ -30,31 +29,16 @@ public class WorldGuardBridge extends FreedomService
     {
     }
 
-    public WorldGuardPlugin getWorldGuardPlugin()
+    public RegionManager getRegionManager(World world)
     {
-        if (worldGuardPlugin == null)
-        {
-            try
-            {
-                final Plugin worldGuard = server.getPluginManager().getPlugin("WorldGuard");
-                if (worldGuard != null && worldGuard instanceof WorldGuardPlugin)
-                {
-                    worldGuardPlugin = (WorldGuardPlugin)worldGuard;
-                }
-            }
-            catch (Exception ex)
-            {
-                FLog.severe(ex);
-            }
-        }
-
-        return worldGuardPlugin;
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        return container.get(BukkitAdapter.adapt(world));
     }
 
     public int wipeRegions(World world)
     {
         int count = 0;
-        RegionManager regionManager = getWorldGuardPlugin().getRegionManager(world);
+        RegionManager regionManager = getRegionManager(world);
         if (regionManager != null)
         {
             Map<String, ProtectedRegion> regions = regionManager.getRegions();
@@ -69,8 +53,8 @@ public class WorldGuardBridge extends FreedomService
 
     public boolean isEnabled()
     {
-        final WorldGuardPlugin wg = getWorldGuardPlugin();
+        Plugin plugin = server.getPluginManager().getPlugin("WorldGuard");
 
-        return wg != null && wg.isEnabled();
+        return plugin != null && plugin.isEnabled();
     }
 }

@@ -12,26 +12,22 @@ import org.bukkit.plugin.Plugin;
 public class WorldEditBridge extends FreedomService
 {
 
-    private final WorldEditListener listener;
     //
     private WorldEditPlugin worldeditPlugin = null;
 
     public WorldEditBridge(TotalFreedomMod plugin)
     {
         super(plugin);
-        listener = new WorldEditListener(plugin);
     }
 
     @Override
     protected void onStart()
     {
-        listener.register();
     }
 
     @Override
     protected void onStop()
     {
-        listener.unregister();
     }
 
     public WorldEditPlugin getWorldEditPlugin()

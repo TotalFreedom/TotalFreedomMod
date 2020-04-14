@@ -53,7 +53,7 @@ public class Command_tag extends FreedomCommand
 
                 for (final Player player : server.getOnlinePlayers())
                 {
-                    if (Command_vanish.VANISHED.contains(player) && !plugin.al.isAdmin(sender))
+                    if (plugin.al.vanished.contains(player) && !plugin.al.isAdmin(sender))
                     {
                         continue;
                     }

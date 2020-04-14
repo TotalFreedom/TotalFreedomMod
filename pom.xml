@@ -5,7 +5,7 @@
 
     <groupId>me.totalfreedom</groupId>
     <artifactId>TotalFreedomMod</artifactId>
-    <version>5.4</version>
+    <version>5.5</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -47,6 +47,11 @@
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <repository>
+            <id>enginehub</id>
+            <url>https://maven.enginehub.org/repo/</url>
         </repository>
 
         <repository>
@@ -159,9 +164,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.TFPatches</groupId>
-            <artifactId>TF-WorldEdit</artifactId>
-            <version>fd3f56f015</version>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.1.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -187,9 +192,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.TFPatches</groupId>
-            <artifactId>TF-WorldGuard</artifactId>
-            <version>bb12813214</version>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.0.2</version>
             <scope>provided</scope>
         </dependency>
 

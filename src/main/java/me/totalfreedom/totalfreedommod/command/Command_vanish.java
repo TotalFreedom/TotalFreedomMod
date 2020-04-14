@@ -19,7 +19,6 @@ import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 @CommandParameters(description = "Vanish/unvanish yourself.", usage = "/<command> [-s[ilent]]", aliases = "v")
 public class Command_vanish extends FreedomCommand
 {
-    public static ArrayList<Player> VANISHED = new ArrayList<>();
 
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)
     {
@@ -36,7 +35,7 @@ public class Command_vanish extends FreedomCommand
                 silent = true;
             }
         }
-        if (VANISHED.contains(playerSender))
+        if (plugin.al.vanished.contains(playerSender))
         {
             msg(ChatColor.GOLD + "You have been unvanished.");
             if (admin.hasLoginMessage())
@@ -68,7 +67,7 @@ public class Command_vanish extends FreedomCommand
             }
             plugin.esb.setVanished(playerSender.getName(), false);
             playerSender.setPlayerListName(StringUtils.substring(displayName, 0, 16));
-            VANISHED.remove(playerSender);
+            plugin.al.vanished.remove(playerSender);
         }
         else
         {
@@ -89,7 +88,7 @@ public class Command_vanish extends FreedomCommand
                 }
             }
             plugin.esb.setVanished(playerSender.getName(), true);
-            VANISHED.add(playerSender);
+            plugin.al.vanished.add(playerSender);
         }
         return true;
     }

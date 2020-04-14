@@ -1,64 +1,59 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH, cooldown = 5)
-@CommandParameters(description = "OPs the specified player.", usage = "/<command> <playername>")
+@CommandParameters(description = "OP a player", usage = "/<command> <partialname>")
 public class Command_op extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length != 1)
+        if (args.length < 1)
         {
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("everyone"))
+        boolean silent = false;
+        if (args.length == 2)
         {
-            msg("Correct usage: /opall");
-            return true;
+            silent = args[1].equalsIgnoreCase("-s");
         }
 
-        OfflinePlayer player = null;
-        for (Player onlinePlayer : server.getOnlinePlayers())
+        final String targetName = args[0].toLowerCase();
+
+        final List<String> matchedPlayerNames = new ArrayList<>();
+        for (final Player player : server.getOnlinePlayers())
         {
-            if (args[0].equalsIgnoreCase(onlinePlayer.getName()))
+            if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName))
             {
-                player = onlinePlayer;
+                if (!player.isOp() && !plugin.al.vanished.contains(player))
+                {
+                    matchedPlayerNames.add(player.getName());
+                    player.setOp(true);
+                    player.sendMessage(FreedomCommand.YOU_ARE_OP);
+                }
             }
         }
 
-        // if the player is not online or is vanished
-        if (player == null || Command_vanish.VANISHED.contains(player) && !plugin.al.isAdmin(sender))
+        if (!matchedPlayerNames.isEmpty())
         {
-            if (plugin.al.isAdmin(sender) || senderIsConsole)
+            if (!silent)
             {
-                player = DepreciationAggregator.getOfflinePlayer(server, args[0]);
-            }
-            else
-            {
-                msg("That player is not online.");
-                msg("You don't have permissions to OP offline players.", ChatColor.RED);
-                return true;
+                FUtil.adminAction(sender.getName(), "Opping " + StringUtils.join(matchedPlayerNames, ", "), false);
             }
         }
-
-        FUtil.adminAction(sender.getName(), "Opping " + player.getName(), false);
-        player.setOp(true);
-
-        if (player.isOnline())
+        else
         {
-            Player p = (Player)player;
-            p.sendMessage(YOU_ARE_OP);
+            msg("No targets matched.");
         }
 
         return true;

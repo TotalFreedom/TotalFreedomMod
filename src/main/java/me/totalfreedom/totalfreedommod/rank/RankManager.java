@@ -175,6 +175,7 @@ public class RankManager extends FreedomService
             fPlayer.setTag(null);
             player.setPlayerListName(null);
         }
+        plugin.pem.setPermissions(player);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

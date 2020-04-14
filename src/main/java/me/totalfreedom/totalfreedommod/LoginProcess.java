@@ -227,7 +227,7 @@ public class LoginProcess extends FreedomService
             player.setPlayerListFooter(FUtil.colorize(ConfigEntry.SERVER_TABLIST_FOOTER.getString()).replace("\\n", "\n"));
         }
 
-        for (Player p : Command_vanish.VANISHED)
+        for (Player p : plugin.al.vanished)
         {
             if (!plugin.al.isAdmin(player))
             {

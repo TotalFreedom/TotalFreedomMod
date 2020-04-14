@@ -41,6 +41,8 @@ import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilderList;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilderWorldRestrictions;
+import me.totalfreedom.totalfreedommod.permissions.PermissionConfig;
+import me.totalfreedom.totalfreedommod.permissions.PermissionManager;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
 import me.totalfreedom.totalfreedommod.playerverification.PlayerVerification;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
@@ -72,6 +74,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public static String pluginVersion;
     //
     public MainConfig config;
+    public PermissionConfig permissions;
     //
     // Services
     public ServiceManager<TotalFreedomMod> services;
@@ -100,6 +103,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public PunishmentList pul;
     public BanManager bm;
     public PermbanList pm;
+    public PermissionManager pem;
     public VPNBanList vn;
     public ProtectArea pa;
     public GameRuleHandler gr;
@@ -176,12 +180,16 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         backups.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
         backups.createBackups(AdminList.CONFIG_FILENAME);
         backups.createBackups(PermbanList.CONFIG_FILENAME);
+        backups.createBackups(PermissionConfig.PERMISSIONS_FILENAME, true);
         backups.createBackups(VPNBanList.CONFIG_FILENAME);
         backups.createBackups(MasterBuilder.CONFIG_FILENAME);
         backups.createBackups(PunishmentList.CONFIG_FILENAME);
 
         config = new MainConfig(this);
         config.load();
+
+        permissions = new PermissionConfig(this);
+        permissions.load();
 
         // Start services
         services = new ServiceManager<>(plugin);
@@ -213,6 +221,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         pul = services.registerService(PunishmentList.class);
         bm = services.registerService(BanManager.class);
         pm = services.registerService(PermbanList.class);
+        pem = services.registerService(PermissionManager.class);
         vn = services.registerService(VPNBanList.class);
         pa = services.registerService(ProtectArea.class);
         gr = services.registerService(GameRuleHandler.class);

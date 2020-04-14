@@ -38,6 +38,7 @@ public class AdminList extends FreedomService
     private final Map<String, Admin> ipTable = Maps.newHashMap();
     public final List<String> verifiedNoAdmins = new ArrayList<>();
     public final Map<String, List<String>> verifiedNoAdminIps = Maps.newHashMap();
+    public static ArrayList<Player> vanished = new ArrayList<>();
     //
     private final YamlConfig config;
 

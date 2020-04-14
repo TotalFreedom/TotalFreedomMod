@@ -4,7 +4,6 @@ import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.command.Command_vanish;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -40,7 +39,6 @@ public class EssentialsBridge extends FreedomService
     @Override
     protected void onStop()
     {
-        Command_vanish.VANISHED.clear();
     }
 
     public Essentials getEssentialsPlugin()
@@ -215,10 +213,6 @@ public class EssentialsBridge extends FreedomService
     public void onPlayerQuit(PlayerQuitEvent event)
     {
         Player player = event.getPlayer();
-        if (Command_vanish.VANISHED.contains(player))
-        {
-            Command_vanish.VANISHED.remove(player);
-        }
     }
 
     public boolean isEnabled()

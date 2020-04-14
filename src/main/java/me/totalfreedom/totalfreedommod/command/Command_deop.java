@@ -1,50 +1,59 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.OfflinePlayer;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Deop a player.", usage = "/<command> <playername>")
+@CommandParameters(description = "Deop a player", usage = "/<command> <partialname>")
 public class Command_deop extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length != 1)
+        if (args.length < 1)
         {
             return false;
         }
 
-        OfflinePlayer player = null;
-
-        for (Player onlinePlayer : server.getOnlinePlayers())
+        boolean silent = false;
+        if (args.length == 2)
         {
-            if (args[0].equalsIgnoreCase(onlinePlayer.getName()))
+            silent = args[1].equalsIgnoreCase("-s");
+        }
+
+        final String targetName = args[0].toLowerCase();
+
+        final List<String> matchedPlayerNames = new ArrayList<>();
+        for (final Player player : server.getOnlinePlayers())
+        {
+            if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName))
             {
-                player = onlinePlayer;
+                if (player.isOp() && !plugin.al.vanished.contains(player))
+                {
+                    matchedPlayerNames.add(player.getName());
+                    player.setOp(false);
+                    player.sendMessage(FreedomCommand.YOU_ARE_NOT_OP);
+                }
             }
         }
 
-        // if the player is not online
-        if (player == null)
+        if (!matchedPlayerNames.isEmpty())
         {
-            player = DepreciationAggregator.getOfflinePlayer(server, args[0]);
+            if (!silent)
+            {
+                FUtil.adminAction(sender.getName(), "De-opping " + StringUtils.join(matchedPlayerNames, ", "), false);
+            }
         }
-
-        FUtil.adminAction(sender.getName(), "De-opping " + player.getName(), false);
-
-        player.setOp(false);
-
-        if (player.isOnline())
+        else
         {
-            Player p = (Player)player;
-            p.sendMessage(YOU_ARE_NOT_OP);
+            msg("No targets matched.");
         }
 
         return true;

@@ -1,0 +1,78 @@
+#
+# TotalFreedomMod 5.5 Permissions
+# by ZeroEpoch1969
+#
+
+# Note that every group inherits the previous groups' permissions
+# Meaning Telnet Admins have the permissions of Operators and Super Admins, and etc
+
+# This is used to remove all permission begging with the root node
+# This is useful when a plugin gives all permissions to a player because they are opped
+remove:
+  - "coreprotect"
+
+# Operator permission nodes
+operators:
+  # WorldEdit
+  - "worldedit.help"
+  - "worldedit.history.undo.self"
+  - "worldedit.history.redo.self"
+  - "worldedit.history.clear"
+  - "worldedit.limit"
+  - "worldedit.reorder"
+  - "worldedit.drawsel"
+  - "worldedit.searchitem"
+  - "worldedit.navigation.*"
+  - "worldedit.selection.*"
+  - "worldedit.wand"
+  - "worldedit.wand.*"
+  - "worldedit.region.*"
+  - "worldedit.generation.*"
+  - "worldedit.clipboard.*"
+  - "worldedit.tool.info"
+  - "worldedit.biome.*"
+  - "worldedit.removeabove"
+  - "worldedit.removebelow"
+  - "worldedit.removenear"
+  - "worldedit.replacenear"
+
+  # CoreProtect
+  - "coreprotect.inspect"
+  - "coreprotect.lookup"
+  - "coreprotect.help"
+  - "coreprotect.status"
+  - "coreprotect.lookup.block"
+  - "coreprotect.lookup.click"
+  - "coreprotect.lookup.container"
+  - "coreprotect.container"
+  - "coreprotect.core"
+  - "coreprotect.coreprotect"
+  - "coreprotect.co"
+
+  # WorldGuard
+  - "worldgyardregion.list.own"
+  - "worldguard.region.addmember.own.*"
+  - "worldguard.region.removemember.own.*"
+  - "worldguard.region.info.*"
+
+# Master Builder permission nodes
+master_builders:
+  - "worldedit.tool.*"
+  - "worldedit.brush.*"
+  - "worldedit.snow"
+  - "worldedit.green"
+  - "worldedit.extinguish"
+  - "worldedit.thaw"
+
+# Super Admin permission nodes
+super_admins:
+  - "coreprotect.*"
+  - "worldedit.*"
+  - "worldguard.*"
+
+# Telnet Admin permission nodes
+telnet_admins: []
+
+# Senior Admin permission nodes
+senior_admins: []
+
