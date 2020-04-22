@@ -94,7 +94,6 @@ public class InteractBlocker extends FreedomService
             player.sendMessage(ChatColor.RED + "You can't sleep in hell.");
             event.setCancelled(true);
             return;
-
         }
 
         switch (event.getMaterial())

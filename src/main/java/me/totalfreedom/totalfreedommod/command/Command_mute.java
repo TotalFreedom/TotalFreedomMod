@@ -160,7 +160,6 @@ public class Command_mute extends FreedomCommand
             msg(ChatColor.RED + "That player is already muted.");
         }
 
-
         return true;
     }
 
