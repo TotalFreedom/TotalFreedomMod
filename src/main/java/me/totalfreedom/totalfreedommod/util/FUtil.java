@@ -27,6 +27,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.net.ssl.HttpsURLConnection;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -147,7 +148,10 @@ public class FUtil
         List<String> names = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            names.add(player.getName());
+            if (!TotalFreedomMod.plugin().al.vanished.contains(player))
+            {
+                names.add(player.getName());
+            }
         }
         return names;
     }

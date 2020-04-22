@@ -194,4 +194,22 @@ public class Groups
             Material.WHITE_WALL_BANNER,
             Material.YELLOW_BANNER,
             Material.YELLOW_WALL_BANNER);
+
+    public static final List<Material> BED_COLORS = Arrays.asList(
+            Material.WHITE_BED,
+            Material.RED_BED,
+            Material.ORANGE_BED,
+            Material.YELLOW_BED,
+            Material.GREEN_BED,
+            Material.LIME_BED,
+            Material.LIGHT_BLUE_BED,
+            Material.CYAN_BED,
+            Material.BLUE_BED,
+            Material.PURPLE_BED,
+            Material.MAGENTA_BED,
+            Material.PINK_BED,
+            Material.BROWN_BED,
+            Material.GRAY_BED,
+            Material.LIGHT_GRAY_BED,
+            Material.BLACK_BED);
 }

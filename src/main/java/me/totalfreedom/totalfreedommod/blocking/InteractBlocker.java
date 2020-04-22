@@ -7,6 +7,7 @@ import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -86,6 +87,14 @@ public class InteractBlocker extends FreedomService
             player.sendMessage(ChatColor.GRAY + "Spawn eggs are currently disabled.");
             event.setCancelled(true);
             return;
+        }
+
+        if (Groups.BED_COLORS.contains(event.getMaterial()) && event.getClickedBlock().getBiome().equals(Biome.NETHER))
+        {
+            player.sendMessage(ChatColor.RED + "You can't sleep in hell.");
+            event.setCancelled(true);
+            return;
+
         }
 
         switch (event.getMaterial())

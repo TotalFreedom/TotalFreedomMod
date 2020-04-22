@@ -40,6 +40,11 @@ public class Module_list extends HTTPDModule
             for (Player player : Bukkit.getOnlinePlayers())
             {
 
+                if (plugin.al.vanished.contains(player))
+                {
+                    continue;
+                }
+
                 if (isImposter(player))
                 {
                     imposters.add(player.getName());
@@ -123,6 +128,10 @@ public class Module_list extends HTTPDModule
 
             for (Player player : onlinePlayers)
             {
+                if (plugin.al.vanished.contains(player))
+                {
+                    continue;
+                }
                 String tag = plugin.rm.getDisplay(player).getTag();
                 body.append("<li>").append(tag).append(player.getName()).append("</li>\r\n");
             }

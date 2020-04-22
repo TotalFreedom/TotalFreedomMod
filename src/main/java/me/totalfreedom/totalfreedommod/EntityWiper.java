@@ -61,7 +61,7 @@ public class EntityWiper extends FreedomService
             {
                 if (!(entity instanceof Player))
                 {
-                    if (!bypassBlacklist && (BLACKLIST.contains(entity.getType()) || Groups.MOB_TYPES.contains(entity.getType())))
+                    if ((!bypassBlacklist && BLACKLIST.contains(entity.getType())) || Groups.MOB_TYPES.contains(entity.getType()))
                     {
                         continue;
                     }

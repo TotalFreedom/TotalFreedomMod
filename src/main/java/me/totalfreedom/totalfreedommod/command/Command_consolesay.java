@@ -25,12 +25,7 @@ public class Command_consolesay extends FreedomCommand
 
         String message = StringUtils.join(args, " ");
         FUtil.bcastMsg(String.format("§7[CONSOLE] §c%s §8» §f%s", sender.getName(), StringUtils.join(args, " ")));
-
-        // Send the message to Discord
-        if (!ConfigEntry.ADMIN_ONLY_MODE.getBoolean() && !Bukkit.hasWhitelist())
-        {
-            plugin.dc.messageChatChannel("[CONSOLE] " + sender.getName() + " \u00BB " + ChatColor.stripColor(message));
-        }
+        plugin.dc.messageChatChannel("[CONSOLE] " + sender.getName() + " \u00BB " + ChatColor.stripColor(message));
         return true;
     }
 }

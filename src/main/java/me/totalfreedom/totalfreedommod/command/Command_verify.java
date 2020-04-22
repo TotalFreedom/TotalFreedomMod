@@ -149,7 +149,6 @@ public class Command_verify extends FreedomCommand
 
                     final FPlayer fPlayer = plugin.pl.getPlayer(playerSender);
                     FUtil.bcastMsg(playerSender.getName() + " has verified!", ChatColor.GOLD);
-                    plugin.rm.updateDisplay(playerSender);
                     playerSender.setOp(true);
                     msg(YOU_ARE_OP);
                     if (fPlayer.getFreezeData().isFrozen())
@@ -158,6 +157,7 @@ public class Command_verify extends FreedomCommand
                         msg("You have been unfrozen.");
                     }
                     plugin.pv.verifyPlayer(playerSender, backupCode);
+                    plugin.rm.updateDisplay(playerSender);
                     return true;
                 }
                 else if (plugin.al.isAdminImpostor(playerSender))

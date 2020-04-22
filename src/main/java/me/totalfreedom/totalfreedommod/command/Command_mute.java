@@ -18,8 +18,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [[-s | -q] <player> [reason] | list | purge | all]", aliases = "mute")
-public class Command_stfu extends FreedomCommand
+@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [[-s | -q] <player> [reason] | list | purge | all]", aliases = "stfu")
+public class Command_mute extends FreedomCommand
 {
 
     @Override
@@ -121,31 +121,14 @@ public class Command_stfu extends FreedomCommand
         }
 
         FPlayer playerdata = plugin.pl.getPlayer(player);
-        if (playerdata.isMuted())
+        if (plugin.al.isAdmin(player))
         {
-            if (quiet || playerdata.isQuietMuted())
-            {
-                playerdata.setMuted(false);
-                playerdata.setQuietMuted(false);
-                msg("Unmuted " + player.getName() + " quietly");
-                return true;
-            }
-
-            FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
-            playerdata.setMuted(false);
-            msg("Unmuted " + player.getName());
-
-            msg(player, "You have been unmuted.", ChatColor.RED);
-            player.sendTitle(ChatColor.RED + "You've been unmuted.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
+            msg(player.getName() + " is an admin, and can't be muted.");
+            return true;
         }
-        else
-        {
-            if (plugin.al.isAdmin(player))
-            {
-                msg(player.getName() + " is an admin, and can't be muted.");
-                return true;
-            }
 
+        if (!playerdata.isMuted())
+        {
             if (quiet)
             {
                 playerdata.setMuted(true);
@@ -166,13 +149,17 @@ public class Command_stfu extends FreedomCommand
             player.sendTitle(ChatColor.RED + "You've been muted.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
             if (reason != null)
             {
-                msg(player, "Reason: " + ChatColor.YELLOW + reason);
+                msg(player, ChatColor.RED + "Reason: " + ChatColor.YELLOW + reason);
             }
             msg("Muted " + player.getName());
 
             plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.MUTE, reason));
-
         }
+        else
+        {
+            msg(ChatColor.RED + "That player is already muted.");
+        }
+
 
         return true;
     }
