@@ -156,10 +156,13 @@ public class Command_ro extends FreedomCommand
                             if (data instanceof Waterlogged)
                             {
                                 Waterlogged waterloggedData = (Waterlogged)data;
-                                waterloggedData.setWaterlogged(false);
-                                block.setBlockData(waterloggedData);
-                                affected++;
-                                continue;
+                                if (waterloggedData.isWaterlogged())
+                                {
+                                    waterloggedData.setWaterlogged(false);
+                                    block.setBlockData(waterloggedData);
+                                    affected++;
+                                    continue;
+                                }
                             }
                             block.setType(toMaterial);
                             affected++;

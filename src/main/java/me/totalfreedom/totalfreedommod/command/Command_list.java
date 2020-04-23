@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -49,6 +50,11 @@ public class Command_list extends FreedomCommand
                     listFilter = ListFilter.VANISHED_ADMINS;
                     break;
                 }
+                case "-t":
+                {
+                    listFilter = ListFilter.TELNET_SESSIONS;
+                    break;
+                }
                 case "-i":
                 {
                     listFilter = ListFilter.IMPOSTORS;
@@ -71,49 +77,65 @@ public class Command_list extends FreedomCommand
         }
         StringBuilder onlineStats = new StringBuilder();
         StringBuilder onlineUsers = new StringBuilder();
-        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - plugin.al.vanished.size())
-                .append(ChatColor.BLUE)
-                .append(" out of a maximum ")
-                .append(ChatColor.RED)
-                .append(server.getMaxPlayers())
-                .append(ChatColor.BLUE)
-                .append(" players online.");
-        List<String> n = new ArrayList<>();
-        for (Player p : server.getOnlinePlayers())
-        {
-            if (listFilter == ListFilter.ADMINS && !plugin.al.isAdmin(p))
-            {
-                continue;
-            }
-            if (listFilter == ListFilter.ADMINS && plugin.al.vanished.contains(p))
-            {
-                continue;
-            }
-            if (listFilter == ListFilter.VANISHED_ADMINS && !plugin.al.vanished.contains(p))
-            {
-                continue;
-            }
-            if (listFilter == ListFilter.IMPOSTORS && !plugin.al.isAdminImpostor(p))
-            {
-                continue;
-            }
-            if (listFilter == ListFilter.FAMOUS_PLAYERS && !ConfigEntry.FAMOUS_PLAYERS.getList().contains(p.getName().toLowerCase()))
-            {
-                continue;
-            }
-            if (listFilter == ListFilter.PLAYERS && plugin.al.vanished.contains(p))
-            {
-                continue;
-            }
 
-            final Displayable display = plugin.rm.getDisplay(p);
-            if (!senderIsConsole && plugin.al.isAdmin(playerSender) && plugin.al.getAdmin(playerSender).getOldTags())
+        List<String> n = new ArrayList<>();
+
+        if (listFilter == ListFilter.TELNET_SESSIONS && plugin.al.isAdmin(sender) && plugin.al.getAdmin(sender).getRank().isAtLeast(Rank.TELNET_ADMIN))
+        {
+            List<Admin> connectedAdmins = plugin.btb.getConnectedAdmins();
+            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(connectedAdmins.size())
+                    .append(ChatColor.BLUE)
+                    .append(" admins connected to telnet.");
+            for (Admin admin : connectedAdmins)
             {
-                n.add(getOldPrefix(display) + p.getName());
+                n.add(plugin.rm.getDisplay(admin).getColoredTag() + admin.getName());
             }
-            else
+        }
+        else
+        {
+            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - plugin.al.vanished.size())
+                    .append(ChatColor.BLUE)
+                    .append(" out of a maximum ")
+                    .append(ChatColor.RED)
+                    .append(server.getMaxPlayers())
+                    .append(ChatColor.BLUE)
+                    .append(" players online.");
+            for (Player p : server.getOnlinePlayers())
             {
-                n.add(display.getColoredTag() + p.getName());
+                if (listFilter == ListFilter.ADMINS && !plugin.al.isAdmin(p))
+                {
+                    continue;
+                }
+                if (listFilter == ListFilter.ADMINS && plugin.al.vanished.contains(p))
+                {
+                    continue;
+                }
+                if (listFilter == ListFilter.VANISHED_ADMINS && !plugin.al.vanished.contains(p))
+                {
+                    continue;
+                }
+                if (listFilter == ListFilter.IMPOSTORS && !plugin.al.isAdminImpostor(p))
+                {
+                    continue;
+                }
+                if (listFilter == ListFilter.FAMOUS_PLAYERS && !ConfigEntry.FAMOUS_PLAYERS.getList().contains(p.getName().toLowerCase()))
+                {
+                    continue;
+                }
+                if (listFilter == ListFilter.PLAYERS && plugin.al.vanished.contains(p))
+                {
+                    continue;
+                }
+
+                final Displayable display = plugin.rm.getDisplay(p);
+                if (!senderIsConsole && plugin.al.isAdmin(playerSender) && plugin.al.getAdmin(playerSender).getOldTags())
+                {
+                    n.add(getOldPrefix(display) + p.getName());
+                }
+                else
+                {
+                    n.add(display.getColoredTag() + p.getName());
+                }
             }
         }
         String playerType = listFilter.toString().toLowerCase().replace('_', ' ');
@@ -158,6 +180,7 @@ public class Command_list extends FreedomCommand
         PLAYERS,
         ADMINS,
         VANISHED_ADMINS,
+        TELNET_SESSIONS,
         FAMOUS_PLAYERS,
         IMPOSTORS
     }

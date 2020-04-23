@@ -15,7 +15,6 @@ public class Command_reactionbar extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
         if (!plugin.sh.reactionString.isEmpty())
         {
             ActionBarAPI.sendActionBar(playerSender, ChatColor.BOLD + plugin.sh.reactionString, 15 * 20);

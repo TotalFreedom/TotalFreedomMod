@@ -83,8 +83,8 @@ public class Command_ride extends FreedomCommand
             }
         }
 
-        final Player player = getPlayer(args[0]);
-        if (player == null || plugin.al.vanished.contains(player) && !plugin.al.isAdmin(sender))
+        final Player player = getPlayer(args[0], true);
+        if (player == null)
         {
             msg(PLAYER_NOT_FOUND);
             return true;

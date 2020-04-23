@@ -37,10 +37,13 @@ public class Module_players extends HTTPDModule
         // All online players
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            players.add(player.getName());
-            if (plugin.al.isAdmin(player) && !plugin.al.isAdminImpostor(player))
+            if (!plugin.al.vanished.contains(player))
             {
-                onlineadmins.add(player.getName());
+                players.add(player.getName());
+                if (plugin.al.isAdmin(player) && !plugin.al.isAdminImpostor(player))
+                {
+                    onlineadmins.add(player.getName());
+                }
             }
         }
 

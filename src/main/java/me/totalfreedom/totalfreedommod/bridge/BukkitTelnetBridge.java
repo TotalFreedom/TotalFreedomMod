@@ -127,6 +127,24 @@ public class BukkitTelnetBridge extends FreedomService
         return bukkitTelnetPlugin;
     }
 
+    public List<Admin> getConnectedAdmins()
+    {
+        List<Admin> admins = new ArrayList<>();
+        final BukkitTelnet telnet = getBukkitTelnetPlugin();
+        if (telnet != null)
+        {
+            for (ClientSession session : telnet.appender.getSessions())
+            {
+                Admin admin = plugin.al.getEntryByName(session.getUserName().toLowerCase());
+                if (admin != null && !admins.contains(admin))
+                {
+                    admins.add(admin);
+                }
+            }
+        }
+        return admins;
+    }
+
     public void killTelnetSessions(final String name)
     {
         try

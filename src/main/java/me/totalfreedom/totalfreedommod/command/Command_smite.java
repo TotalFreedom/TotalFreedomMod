@@ -5,6 +5,7 @@ import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -15,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> <player> [reason]")
+@CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> <player> [reason] [-q]")
 public class Command_smite extends FreedomCommand
 {
 
@@ -27,13 +28,29 @@ public class Command_smite extends FreedomCommand
             return false;
         }
 
-        final Player player = getPlayer(args[0]);
-
         String reason = null;
-        if (args.length > 1)
+        Boolean silent = false;
+        if (args.length >= 2)
         {
-            reason = StringUtils.join(args, " ", 1, args.length);
+            if (args[args.length - 1].equalsIgnoreCase("-q"))
+            {
+                if (args[args.length - 1].equalsIgnoreCase("-q"))
+                {
+                    silent = true;
+                }
+
+                if (args.length >= 3)
+                {
+                    reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
+                }
+            }
+            else
+            {
+                reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+            }
         }
+
+        final Player player = getPlayer(args[0]);
 
         if (player == null)
         {
@@ -41,7 +58,7 @@ public class Command_smite extends FreedomCommand
             return true;
         }
 
-        smite(sender, player, reason);
+        smite(sender, player, reason, silent);
 
         plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.SMITE, reason));
 
@@ -50,10 +67,15 @@ public class Command_smite extends FreedomCommand
 
     public static void smite(CommandSender sender, Player player)
     {
-        smite(sender, player, null);
+        smite(sender, player, null, false);
     }
 
     public static void smite(CommandSender sender, Player player, String reason)
+    {
+        smite(sender, player, reason, false);
+    }
+
+    public static void smite(CommandSender sender, Player player, String reason, Boolean silent)
     {
         FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
         player.sendTitle(ChatColor.RED + "You've been smitten.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
@@ -62,7 +84,11 @@ public class Command_smite extends FreedomCommand
         {
             FUtil.bcastMsg("  Reason: " + ChatColor.YELLOW + reason, ChatColor.RED);
         }
-        FUtil.bcastMsg("  Smitten by: " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
+
+        if (!silent)
+        {
+            FUtil.bcastMsg("  Smitten by: " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
+        }
 
         // Deop
         player.setOp(false);

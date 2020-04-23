@@ -239,17 +239,8 @@ public class RankManager extends FreedomService
         if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()) || plugin.mbl.isMasterBuilder(player))
         {
             final Displayable display = getDisplay(player);
-            String loginMsg = display.getColoredLoginMessage();
 
-            if (isAdmin)
-            {
-                Admin admin = plugin.al.getAdmin(player);
-                if (admin.hasLoginMessage())
-                {
-                    loginMsg = ChatUtils.colorize(admin.getLoginMessage()).replace("%rank%", plugin.rm.getDisplay(admin).getName()).replace("%coloredrank%", plugin.rm.getDisplay(admin).getColoredName());
-                }
-            }
-            FUtil.bcastMsg(ChatColor.AQUA + (loginMsg.contains("%name%") ? "" : player.getName() + " is ") + FUtil.colorize(loginMsg).replace("%name%", player.getName()));
+            FUtil.bcastMsg(craftLoginMessage(player, null));
             plugin.pl.getPlayer(player).setTag(display.getColoredTag());
 
             if (isAdmin)
@@ -278,5 +269,27 @@ public class RankManager extends FreedomService
                 plugin.pl.getPlayer(player).setTag(FUtil.colorize(target.getTag()));
             }
         }
+    }
+
+    public String craftLoginMessage(Player player, String message)
+    {
+        Displayable display = plugin.rm.getDisplay(player);
+        String loginMessage = ChatColor.AQUA + player.getName() + " is " + display.getColoredLoginMessage();
+        if (plugin.al.isAdmin(player))
+        {
+            Admin admin = plugin.al.getAdmin(player);
+            if (admin.hasLoginMessage())
+            {
+                if (message == null)
+                {
+                    message = admin.getLoginMessage();
+                }
+                loginMessage = FUtil.colorize(ChatColor.AQUA + (message.contains("%name%") ? "" : player.getName() + " is ")
+                        + FUtil.colorize(message).replace("%name%", player.getName())
+                        .replace("%rank%", display.getName())
+                        .replace("%coloredrank%", display.getColoredName()));
+            }
+        }
+        return loginMessage;
     }
 }

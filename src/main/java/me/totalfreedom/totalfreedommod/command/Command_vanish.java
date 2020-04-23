@@ -62,8 +62,10 @@ public class Command_vanish extends FreedomCommand
             for (Player player : server.getOnlinePlayers())
             {
                 if (plugin.al.isAdmin(player))
-                playerMsg(player, ChatColor.YELLOW + sender.getName() + " has unvanished and is now visible to everyone." );
-                player.showPlayer(plugin, playerSender);
+                {
+                    playerMsg(player, ChatColor.YELLOW + sender.getName() + " has unvanished and is now visible to everyone.");
+                    player.showPlayer(plugin, playerSender);
+                }
             }
             plugin.esb.setVanished(playerSender.getName(), false);
             playerSender.setPlayerListName(StringUtils.substring(displayName, 0, 16));

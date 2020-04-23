@@ -5,13 +5,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.punishments.Punishment;
-import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -58,11 +54,12 @@ public class Command_unmute extends FreedomCommand
 
         if (playerdata.isMuted())
         {
-            if (quiet || playerdata.isQuietMuted())
+            playerdata.setMuted(false);
+            msg(player, "You have been unmuted.", ChatColor.RED);
+            player.sendTitle(ChatColor.RED + "You've been unmuted.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
+            if (quiet)
             {
                 playerdata.setMuted(false);
-                playerdata.setQuietMuted(false);
-                msg("Unmuted " + player.getName() + " quietly");
                 return true;
             }
 
@@ -77,7 +74,6 @@ public class Command_unmute extends FreedomCommand
         {
             msg(ChatColor.RED + "That player is not muted.");
         }
-
 
         return true;
     }

@@ -219,14 +219,7 @@ public class CoreProtectBridge extends FreedomService
         // This exits for flatlands wipes
         if (shutdown)
         {
-            if (plugin.amp.enabled)
-            {
-                plugin.amp.restartServer();
-            }
-            else
-            {
-                server.shutdown();
-            }
+            server.shutdown();
         }
     }
 }

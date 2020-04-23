@@ -150,12 +150,7 @@ public enum ConfigEntry
     VOTING_INFO(List.class, "votinginfo"), 
     MASTER_BUILDER_INFO(List.class, "masterbuilderinfo"),
     AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
-    TOGGLE_CHAT(Boolean.class, "toggle_chat"),
-    //
-    AMP_ENABLED(Boolean.class, "amp.enabled"),
-    AMP_USERNAME(String.class, "amp.username"),
-    AMP_PASSWORD(String.class, "amp.password"),
-    AMP_URL(String.class, "amp.url");
+    TOGGLE_CHAT(Boolean.class, "toggle_chat");
     //
     private final Class<?> type;
     private final String configName;

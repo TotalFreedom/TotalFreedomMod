@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Properties;
 import me.totalfreedom.totalfreedommod.admin.ActivityLog;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
-import me.totalfreedom.totalfreedommod.amp.AMP;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.banning.PermbanList;
 import me.totalfreedom.totalfreedommod.banning.VPNBanList;
@@ -47,7 +46,6 @@ import me.totalfreedom.totalfreedommod.player.PlayerList;
 import me.totalfreedom.totalfreedommod.playerverification.PlayerVerification;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
-import me.totalfreedom.totalfreedommod.rollback.RollbackManager;
 import me.totalfreedom.totalfreedommod.shop.Shop;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -107,7 +105,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public VPNBanList vn;
     public ProtectArea pa;
     public GameRuleHandler gr;
-    public RollbackManager rb;
     public CommandSpy cs;
     public Cager ca;
     public Freezer fm;
@@ -145,7 +142,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public CoreProtectBridge cpb;
     public WorldEditBridge web;
     public WorldGuardBridge wgb;
-    public AMP amp;
 
     @Override
     public void load()
@@ -229,7 +225,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         ew = services.registerService(EntityWiper.class);
 
         // Single admin utils
-        rb = services.registerService(RollbackManager.class);
         cs = services.registerService(CommandSpy.class);
         ca = services.registerService(Cager.class);
         fm = services.registerService(Freezer.class);
@@ -269,7 +264,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         ldb = bridges.registerService(LibsDisguisesBridge.class);
         web = bridges.registerService(WorldEditBridge.class);
         wgb = bridges.registerService(WorldGuardBridge.class);
-        amp = bridges.registerService(AMP.class);
         bridges.start();
 
         timer.update();

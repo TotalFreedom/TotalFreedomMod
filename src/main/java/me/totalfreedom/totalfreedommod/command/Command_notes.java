@@ -100,7 +100,7 @@ public class Command_notes extends FreedomCommand
             }
             else
             {
-                msg("No note with the ID of " + args[2] + "exists.", ChatColor.RED);
+                msg("No note with the ID of " + args[2] + " exists.", ChatColor.RED);
             }
             return true;
         }

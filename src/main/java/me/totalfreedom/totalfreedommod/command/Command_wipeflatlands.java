@@ -4,6 +4,7 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,9 +28,11 @@ public class Command_wipeflatlands extends FreedomCommand
 
         FUtil.bcastMsg("Server is going offline for flatlands wipe.", ChatColor.GRAY);
 
+        World flatlands = plugin.wm.flatlands.getWorld();
+
         if (plugin.wgb.isEnabled())
         {
-            plugin.wgb.wipeRegions(plugin.wm.flatlands.getWorld());
+            plugin.wgb.wipeRegions(flatlands);
         }
 
         for (Player player : server.getOnlinePlayers())
@@ -37,13 +40,13 @@ public class Command_wipeflatlands extends FreedomCommand
             player.kickPlayer("Server is going offline for flatlands wipe, come back in a few minutes.");
         }
 
-        if (!plugin.amp.enabled)
+        if (plugin.cpb.isEnabled())
         {
-            server.shutdown();
+            plugin.cpb.clearDatabase(flatlands, true);
         }
         else
         {
-            plugin.amp.restartServer();
+            server.shutdown();
         }
 
         return true;

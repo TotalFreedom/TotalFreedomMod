@@ -8,7 +8,6 @@ import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -19,11 +18,9 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Bans the specified player.", usage = "/<command> <username> [reason] [-nrb]", aliases = "gtfo")
+@CommandParameters(description = "Bans the specified player.", usage = "/<command> <username> [reason] [-nrb | -q]", aliases = "gtfo")
 public class Command_ban extends FreedomCommand
 {
 
@@ -33,6 +30,34 @@ public class Command_ban extends FreedomCommand
         if (args.length == 0)
         {
             return false;
+        }
+
+        String reason = null;
+        Boolean silent = false;
+        Boolean cancelRollback = false;
+        if (args.length >= 2)
+        {
+            if (args[args.length - 1].equalsIgnoreCase("-nrb") || args[args.length - 1].equalsIgnoreCase("-q"))
+            {
+                if (args[args.length - 1].equalsIgnoreCase("-nrb"))
+                {
+                    cancelRollback = true;
+                }
+
+                if (args[args.length - 1].equalsIgnoreCase("-q"))
+                {
+                    silent = true;
+                }
+
+                if (args.length >= 3)
+                {
+                    reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
+                }
+            }
+            else
+            {
+                reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+            }
         }
 
         final String username;
@@ -56,7 +81,7 @@ public class Command_ban extends FreedomCommand
         {
             final PlayerData entry = plugin.pl.getData(player);
             username = player.getName();
-            //ips.addAll(entry.getIps());
+            //ips.addAll(entry.getIps());/
             ips.add(Ips.getIp(player));
 
             // Deop
@@ -68,14 +93,17 @@ public class Command_ban extends FreedomCommand
             // Clear inventory
             player.getInventory().clear();
 
-            // Strike with lightning
-            final Location targetPos = player.getLocation();
-            for (int x = -1; x <= 1; x++)
+            if (!silent)
             {
-                for (int z = -1; z <= 1; z++)
+                // Strike with lightning
+                final Location targetPos = player.getLocation();
+                for (int x = -1; x <= 1; x++)
                 {
-                    final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                    targetPos.getWorld().strikeLightning(strike_pos);
+                    for (int z = -1; z <= 1; z++)
+                    {
+                        final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
+                        targetPos.getWorld().strikeLightning(strike_pos);
+                    }
                 }
             }
 
@@ -83,77 +111,13 @@ public class Command_ban extends FreedomCommand
             player.setHealth(0.0);
         }
 
-        String reason = null;
-        Boolean cancelRollback = false;
-        Boolean epicFail = false;
-        if (args.length >= 2)
-        {
-            if (args[args.length - 1].equalsIgnoreCase("-nrb"))
-            {
-                cancelRollback = true;
-                if (args.length >= 3)
-                {
-                    reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
-                }
-            }
-            if (args[args.length - 1].equalsIgnoreCase("-ef"))
-            {
-                epicFail =  true;
-                if (args.length >= 3)
-                {
-                    reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
-                }
-            }
-            else
-            {
-                reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
-            }
-        }
-
         // Checks if CoreProtect is loaded and installed, and skips the rollback and uses CoreProtect directly
         if (!cancelRollback)
         {
-            if (!plugin.cpb.isEnabled())
-            {
-                // Undo WorldEdits
-                try
-                {
-                    plugin.web.undo(player, 15);
-                }
-                catch (NoClassDefFoundError | NullPointerException ex)
-                {
-                }
-
-                // Rollback
-                plugin.rb.rollback(username);
-            }
-            else
-            {
-                plugin.cpb.rollback(username);
-            }
+            plugin.cpb.rollback(username);
         }
 
-        if (epicFail)
-        {
-            for (int i = 0; i < 25; i++)
-            {
-                player.setVelocity(player.getVelocity().clone().add(new Vector(0, 50, 0)));
-                new BukkitRunnable()
-                {
-                    public void run()
-                    {
-                        for (int i = 0; i < 8; i++)
-                        {
-                            player.getWorld().strikeLightning(player.getLocation());
-                            //FUtil.
-                        }
-                    }
-                }.runTaskLater(plugin, 2L * 20L);
-            }
-            return true;
-        }
-
-        if (player != null)
+        if (player != null && !silent)
         {
             FUtil.bcastMsg(player.getName() + " has been a VERY naughty, naughty boy.", ChatColor.RED);
         }
@@ -166,16 +130,20 @@ public class Command_ban extends FreedomCommand
         }
         plugin.bm.addBan(ban);
 
-        // Broadcast
-        final StringBuilder bcast = new StringBuilder()
-                .append("Banning: ")
-                .append(username);
-        if (reason != null)
+
+        if (!silent)
         {
-            bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
+            // Broadcast
+            final StringBuilder bcast = new StringBuilder()
+                    .append("Banning: ")
+                    .append(username);
+            if (reason != null)
+            {
+                bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
+            }
+            msg(sender, ChatColor.GRAY + username + " has been banned and IP is: " + StringUtils.join(ips, ", "));
+            FUtil.adminAction(sender.getName(), String.format(bcast.toString()), true);
         }
-        msg(sender, ChatColor.GRAY + username + " has been banned and IP is: " + StringUtils.join(ips, ", "));
-        FUtil.adminAction(sender.getName(), String.format(bcast.toString()), true);
 
         // Kick player and handle others on IP
         if (player != null)

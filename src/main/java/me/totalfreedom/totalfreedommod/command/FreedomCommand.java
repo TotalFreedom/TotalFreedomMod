@@ -71,12 +71,6 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
         }
     }
 
-    /*@Override
-    public List<String> tabComplete(CommandSender sender, Command command, String alias, String[] args)
-    {
-        return null;
-    }*/
-    // Doesn't need to do any starts-with checks
     protected List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args) {
         return null;
     }
@@ -85,7 +79,8 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
     public List<String> tabComplete(CommandSender sender, Command command, String alias, String[] args)
     {
         List<String> options = getTabCompleteOptions(sender, command, alias, args);
-        if (options == null) {
+        if (options == null)
+        {
             return null;
         }
         return StringUtil.copyPartialMatches(args[args.length - 1], options, Lists.<String>newArrayList());
@@ -137,6 +132,16 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
 
     protected Player getPlayer(String name)
     {
+        return Players.getPlayer(name);
+    }
+
+    protected Player getPlayer(String name, Boolean nullVanished)
+    {
+        Player player = Players.getPlayer(name);
+        if (nullVanished && plugin.al.vanished.contains(player) && !plugin.al.isAdmin(sender))
+        {
+            return null;
+        }
         return Players.getPlayer(name);
     }
 

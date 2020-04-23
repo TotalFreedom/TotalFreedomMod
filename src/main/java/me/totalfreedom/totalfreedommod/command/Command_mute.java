@@ -18,7 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [[-s | -q] <player> [reason] | list | purge | all]", aliases = "stfu")
+@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> <[-s | -q] <player> [reason] | list | purge | all>", aliases = "stfu")
 public class Command_mute extends FreedomCommand
 {
 
@@ -129,16 +129,21 @@ public class Command_mute extends FreedomCommand
 
         if (!playerdata.isMuted())
         {
+            playerdata.setMuted(true);
+            player.sendTitle(ChatColor.RED + "You've been muted.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
+            if (reason != null)
+            {
+                msg(player, ChatColor.RED + "Reason: " + ChatColor.YELLOW + reason);
+            }
             if (quiet)
             {
-                playerdata.setMuted(true);
-                playerdata.setQuietMuted(true);
                 msg("Muted " + player.getName() + " quietly");
                 return true;
             }
 
             FUtil.adminAction(sender.getName(), "Muting " + player.getName(), true);
-            playerdata.setMuted(true);
+
+            msg(player, "You have been muted by " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
 
             if (smite)
             {
@@ -146,11 +151,6 @@ public class Command_mute extends FreedomCommand
             }
 
             msg(player, "You have been muted by " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
-            player.sendTitle(ChatColor.RED + "You've been muted.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
-            if (reason != null)
-            {
-                msg(player, ChatColor.RED + "Reason: " + ChatColor.YELLOW + reason);
-            }
             msg("Muted " + player.getName());
 
             plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.MUTE, reason));

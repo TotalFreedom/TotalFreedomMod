@@ -142,16 +142,23 @@ public class Command_myadmin extends FreedomCommand
                     return false;
                 }
 
-                String msg = StringUtils.join(args, " ", 1, args.length);
-                if (!msg.contains("%rank%") && !msg.contains("%coloredrank%"))
+                String message = StringUtils.join(args, " ", 1, args.length);
+                if (!message.contains("%rank%") && !message.contains("%coloredrank%"))
                 {
                     msg("Your login message must contain your rank. Use either %rank% or %coloredrank% to specify where you want the rank", ChatColor.RED);
                     return true;
                 }
+                int length = message.replace("%name%", "").replace("%rank%", "").replace("%coloredrank%", "").length();
+                if (length > 64)
+                {
+                    msg("Your login message cannot be more than 64 characters (excluding your rank and your name)", ChatColor.RED);
+                    return true;
+                }
+                String previewMessage = plugin.rm.craftLoginMessage(targetPlayer, message);
                 FUtil.adminAction(sender.getName(), "Setting personal login message" + (init == null ? "" : " for " + targetPlayer.getName()), false);
-                target.setLoginMessage(msg);
+                target.setLoginMessage(message);
                 msg((init == null ? "Your" : targetPlayer.getName() + "'s") + " login message is now: ");
-                msg("> " + ChatColor.AQUA + (msg.contains("%name%") ? "" : target.getName() + " is ") + FUtil.colorize(msg).replace("%name%", targetPlayer.getName()).replace("%rank%", plugin.rm.getDisplay(target).getName()).replace("%coloredrank%", plugin.rm.getDisplay(target).getColoredName()));
+                msg("> " + previewMessage);
                 plugin.al.save();
                 plugin.al.updateTables();
                 return true;

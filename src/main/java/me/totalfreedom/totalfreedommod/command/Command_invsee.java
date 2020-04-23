@@ -21,11 +21,11 @@ public class Command_invsee extends FreedomCommand
             return false;
         }
 
-        Player player = getPlayer(args[0]);
+        Player player = getPlayer(args[0], true);
 
-        if (player == null || plugin.al.vanished.contains(player) && !plugin.al.isAdmin(sender))
+        if (player == null)
         {
-            msg("This player is not online.");
+            msg(PLAYER_NOT_FOUND);
             return false;
         }
 

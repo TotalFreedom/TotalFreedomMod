@@ -60,9 +60,9 @@ public class Command_potion extends FreedomCommand
 
                 if (args.length == 2)
                 {
-                    target = getPlayer(args[1]);
+                    target = getPlayer(args[1], true);
 
-                    if (target == null || plugin.al.vanished.contains(target) && !plugin.al.isAdmin(sender))
+                    if (target == null)
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;

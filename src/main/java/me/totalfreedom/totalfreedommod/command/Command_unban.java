@@ -10,11 +10,9 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.ChatColor;
-import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Unbans the specified player.", usage = "/<command> <username> [-r[estore]]")
+@CommandParameters(description = "Unbans the specified player.", usage = "/<command> <username> [-r]")
 public class Command_unban extends FreedomCommand
 {
 
@@ -26,7 +24,6 @@ public class Command_unban extends FreedomCommand
             String username;
             final List<String> ips = new ArrayList<>();
             final PlayerData entry = plugin.pl.getData(args[0]);
-            final Player player = getPlayer(args[0]);
 
             if (entry == null)
             {
@@ -38,30 +35,14 @@ public class Command_unban extends FreedomCommand
             ips.addAll(entry.getIps());
 
             FUtil.adminAction(sender.getName(), "Unbanning " + username, true);
-            playerMsg(sender, ChatColor.GRAY + username + " has been unbanned and IP is: " + StringUtils.join(ips, ", "));
+            msg(username + " has been unbanned along with the following IPs: " + StringUtils.join(ips, ", "));
             plugin.bm.removeBan(plugin.bm.getByUsername(username));
 
             if (args.length >= 2)
             {
-                if (args[1].equalsIgnoreCase("-r") || args[1].equalsIgnoreCase("-restore"))
+                if (args[1].equalsIgnoreCase("-r"))
                 {
-                    if (!plugin.cpb.isEnabled())
-                    {
-                        // Redo WorldEdits
-                        try
-                        {
-                            plugin.web.redo(player, 15);
-                        }
-                        catch (NoClassDefFoundError | NullPointerException ex)
-                        {
-                        }
-                        // Rollback
-                        plugin.rb.undoRollback(username);
-                    }
-                    else
-                    {
-                        plugin.cpb.restore(username);
-                    }
+                    plugin.cpb.restore(username);
                     msg("Restored edits for: " + username);
                 }
             }

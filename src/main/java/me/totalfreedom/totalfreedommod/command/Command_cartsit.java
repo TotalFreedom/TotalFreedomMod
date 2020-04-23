@@ -16,12 +16,12 @@ public class Command_cartsit extends FreedomCommand
     {
         Player targetPlayer = playerSender;
 
-        if (args.length == 1)
+        if (args.length == 1 && plugin.al.isAdmin(sender))
         {
 
             targetPlayer = getPlayer(args[0]);
 
-            if (targetPlayer == null || plugin.al.vanished.contains(targetPlayer) && !plugin.al.isAdmin(sender))
+            if (targetPlayer == null)
             {
                 sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
                 return true;
@@ -35,11 +35,6 @@ public class Command_cartsit extends FreedomCommand
                 sender.sendMessage("When used from the console, you must define a target player: /cartsit <player>");
                 return true;
             }
-        }
-        else if (targetPlayer != playerSender && !isAdmin(sender))
-        {
-            sender.sendMessage("Only admins can select another player as a /cartsit target.");
-            return true;
         }
 
         if (targetPlayer.isInsideVehicle())
