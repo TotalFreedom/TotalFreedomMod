@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.command;
 import java.util.ArrayList;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -52,6 +53,7 @@ public class Command_list extends FreedomCommand
                 }
                 case "-t":
                 {
+                    checkRank(Rank.TELNET_ADMIN);
                     listFilter = ListFilter.TELNET_SESSIONS;
                     break;
                 }
@@ -106,11 +108,11 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.ADMINS && plugin.al.vanished.contains(p))
+                if (listFilter == ListFilter.ADMINS && AdminList.vanished.contains(p))
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.VANISHED_ADMINS && !plugin.al.vanished.contains(p))
+                if (listFilter == ListFilter.VANISHED_ADMINS && !AdminList.vanished.contains(p))
                 {
                     continue;
                 }
@@ -122,7 +124,7 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.PLAYERS && plugin.al.vanished.contains(p))
+                if (listFilter == ListFilter.PLAYERS && AdminList.vanished.contains(p))
                 {
                     continue;
                 }
@@ -144,11 +146,13 @@ public class Command_list extends FreedomCommand
                 .append(": ")
                 .append(StringUtils.join(n, ChatColor.WHITE + ", "));
         if (senderIsConsole)
+
         {
             sender.sendMessage(ChatColor.stripColor(onlineStats.toString()));
             sender.sendMessage(ChatColor.stripColor(onlineUsers.toString()));
         }
         else
+
         {
             sender.sendMessage(onlineStats.toString());
             sender.sendMessage(onlineUsers.toString());

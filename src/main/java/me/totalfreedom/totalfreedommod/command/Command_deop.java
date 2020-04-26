@@ -2,6 +2,7 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +14,6 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Deop a player", usage = "/<command> <partialname>")
 public class Command_deop extends FreedomCommand
 {
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -33,9 +33,10 @@ public class Command_deop extends FreedomCommand
         final List<String> matchedPlayerNames = new ArrayList<>();
         for (final Player player : server.getOnlinePlayers())
         {
-            if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName))
+            if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName)
+                    || player.getName().contains(targetName) || player.getDisplayName().contains(targetName))
             {
-                if (player.isOp() && !plugin.al.vanished.contains(player))
+                if (player.isOp() && !AdminList.vanished.contains(player))
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(false);
@@ -53,7 +54,7 @@ public class Command_deop extends FreedomCommand
         }
         else
         {
-            msg("No targets matched.");
+            msg("Either the player is already deopped, or the player could not be found.");
         }
 
         return true;

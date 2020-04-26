@@ -35,6 +35,11 @@ operators:
   - "worldedit.removebelow"
   - "worldedit.removenear"
   - "worldedit.replacenear"
+  - "worldedit.clipboard.save"
+  - "worldedit.clipboard.load"
+  - "worldedit.schematic.save"
+  - "worldedit.schematic.load"
+  - "worldedit.schematic.formats"
 
   # CoreProtect
   - "coreprotect.inspect"
@@ -50,7 +55,7 @@ operators:
   - "coreprotect.co"
 
   # WorldGuard
-  - "worldgyardregion.list.own"
+  - "worldguard.region.list.own"
   - "worldguard.region.addmember.own.*"
   - "worldguard.region.removemember.own.*"
   - "worldguard.region.info.*"
