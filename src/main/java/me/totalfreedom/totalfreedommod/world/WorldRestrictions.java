@@ -1,11 +1,19 @@
-package me.totalfreedom.totalfreedommod.masterbuilder;
+package me.totalfreedom.totalfreedommod.world;
 
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,13 +24,25 @@ import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class MasterBuilderWorldRestrictions extends FreedomService
+public class WorldRestrictions extends FreedomService
 {
 
-    public final List<String> BLOCKED_WORLDEDIT_COMMANDS = Arrays.asList(
+    private final List<String> BLOCKED_WORLDEDIT_COMMANDS = Arrays.asList(
             "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock", "tree", "replacenear");
 
-    public MasterBuilderWorldRestrictions(TotalFreedomMod plugin)
+    private final Map<Flag<?>, Object> flags = new HashMap<Flag<?>, Object>()
+    {{
+        put(Flags.BLOCK_PLACE, StateFlag.State.DENY);
+        put(Flags.BLOCK_BREAK, StateFlag.State.DENY);
+        put(Flags.BUILD, StateFlag.State.DENY);
+        put(Flags.PLACE_VEHICLE, StateFlag.State.DENY);
+        put(Flags.DESTROY_VEHICLE, StateFlag.State.DENY);
+        put(Flags.ENTITY_ITEM_FRAME_DESTROY, StateFlag.State.DENY);
+        put(Flags.ENTITY_PAINTING_DESTROY, StateFlag.State.DENY);
+        put(net.goldtreeservers.worldguardextraflags.flags.Flags.WORLDEDIT, StateFlag.State.DENY);
+    }};
+
+    public WorldRestrictions(TotalFreedomMod plugin)
     {
         super(plugin);
     }
@@ -39,9 +59,12 @@ public class MasterBuilderWorldRestrictions extends FreedomService
 
     public boolean doRestrict(Player player)
     {
-        if (!plugin.mbl.isMasterBuilder(player) && !FUtil.canManageMasterBuilders(player.getName()) && player.getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()))
+        if (!plugin.mbl.isMasterBuilder(player) && !FUtil.canManageMasterBuilders(player.getName()))
         {
-            return true;
+            if (player.getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()) || player.getWorld().equals(plugin.wm.hubworld.getWorld()))
+            {
+                return true;
+            }
         }
 
         return false;
@@ -117,18 +140,32 @@ public class MasterBuilderWorldRestrictions extends FreedomService
 
             if (command.startsWith("/") || BLOCKED_WORLDEDIT_COMMANDS.contains(command))
             {
-                player.sendMessage(ChatColor.RED + "Only Master Builders are allowed to use WorldEdit in the Master Builder world.");
+                player.sendMessage(ChatColor.RED + "Only Master Builders are allowed to use WorldEdit here.");
                 event.setCancelled(true);
             }
 
-            if (!plugin.al.isSeniorAdmin(player))
+            if (command.equals("coreprotect") || command.equals("core") || command.equals("co"))
             {
-                if (command.equals("coreprotect") || command.equals("co"))
-                {
-                    player.sendMessage(ChatColor.RED + "Only Senior Admins are allowed to use CoreProtect in the Master Builder world.");
-                    event.setCancelled(true);
-                }
+                player.sendMessage(ChatColor.RED + "Only Master Builders are allowed to use CoreProtect here.");
+                event.setCancelled(true);
             }
         }
+    }
+
+
+    public void protectWorld(World world)
+    {
+        if (!plugin.wgb.isEnabled())
+        {
+            return;
+        }
+
+        RegionManager regionManager = plugin.wgb.getRegionManager(world);
+
+        ProtectedRegion region = regionManager.getRegion("__global__");
+
+        region.setFlags(flags);
+
+        regionManager.addRegion(region);
     }
 }

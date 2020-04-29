@@ -33,6 +33,7 @@ public class Command_makeopregion extends FreedomCommand
         put(Flags.DESTROY_VEHICLE, StateFlag.State.ALLOW);
         put(Flags.ENTITY_ITEM_FRAME_DESTROY, StateFlag.State.ALLOW);
         put(Flags.ENTITY_PAINTING_DESTROY, StateFlag.State.ALLOW);
+        put(net.goldtreeservers.worldguardextraflags.flags.Flags.WORLDEDIT, StateFlag.State.ALLOW);
     }};
 
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)

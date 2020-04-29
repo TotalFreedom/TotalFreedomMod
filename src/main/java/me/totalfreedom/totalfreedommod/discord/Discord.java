@@ -331,13 +331,13 @@ public class Discord extends FreedomService
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        messageChatChannel("**" + event.getPlayer().getName() + " joined the server" + "**");
+        messageChatChannel("**" + deformat(event.getPlayer().getName()) + " joined the server" + "**");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLeave(PlayerQuitEvent event)
     {
-        messageChatChannel("**" + event.getPlayer().getName() + " left the server" + "**");
+        messageChatChannel("**" + deformat(event.getPlayer().getName()) + " left the server" + "**");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -354,7 +354,7 @@ public class Discord extends FreedomService
         {
         }
 
-        messageChatChannel("**" + event.getDeathMessage() + "**");
+        messageChatChannel("**" + deformat(event.getDeathMessage()) + "**");
     }
 
     @Override
@@ -428,6 +428,11 @@ public class Discord extends FreedomService
             bot.shutdown();
         }
         FLog.info("Discord verification bot has successfully shutdown.");
+    }
+
+    public String deformat(String input)
+    {
+        return input.replace("_", "\\_");
     }
 
     public boolean sendReport(Player reporter, Player reported, String reason)

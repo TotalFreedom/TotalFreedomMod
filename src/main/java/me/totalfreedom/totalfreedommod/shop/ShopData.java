@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
 {
 
+    private final List<String> ips = Lists.newArrayList();
     @Getter
     @Setter
     private String username;
@@ -30,19 +31,19 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
 
     public ShopData(Player player)
     {
-        this(player.getUniqueId());
+        this(player.getName());
     }
 
-    public ShopData(UUID uuid)
+    public ShopData(String name)
     {
-        this.uuid = uuid.toString();
+        this.username = name;
     }
 
     @Override
     public void loadFrom(ConfigurationSection cs)
     {
         this.username = cs.getString("username", username);
-        this.uuid = cs.getString("uuid", uuid);
+        this.ips.addAll(cs.getStringList("ips"));
         this.coins = cs.getInt("coins", coins);
         this.items.addAll(cs.getStringList("items"));
         this.totalVotes = cs.getInt("totalVotes");
@@ -53,7 +54,7 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
     {
         Validate.isTrue(isValid(), "Could not save shop entry: " + username + ". Entry not valid!");
         cs.set("username", username);
-        cs.set("uuid", uuid);
+        cs.set("ips", ips);
         cs.set("coins", coins);
         cs.set("items", items);
         cs.set("totalVotes", totalVotes);
@@ -62,16 +63,6 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
     public List<String> getItems()
     {
         return Collections.unmodifiableList(items);
-    }
-
-    public void setUUID(UUID id)
-    {
-        uuid = id.toString();
-    }
-
-    public UUID getUUID()
-    {
-        return UUID.fromString(uuid);
     }
 
     public void giveItem(ShopItem item)
@@ -86,6 +77,21 @@ public class ShopData implements ConfigLoadable, ConfigSavable, Validatable
             return true;
         }
         return false;
+    }
+
+    public boolean addIp(String ip)
+    {
+        return !ips.contains(ip) && ips.add(ip);
+    }
+
+    public void removeIp(String ip)
+    {
+        ips.remove(ip);
+    }
+
+    public List<String> getsIps()
+    {
+        return Collections.unmodifiableList(ips);
     }
 
     public void removeItem(ShopItem item)

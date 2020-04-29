@@ -41,7 +41,7 @@ public class Command_say extends FreedomCommand
         }
 
         FUtil.bcastMsg(String.format("[Server:%s] %s", sender.getName(), message), ChatColor.LIGHT_PURPLE);
-        plugin.dc.messageChatChannel(String.format("[Server:%s] \u00BB %s", sender.getName(), message));
+        plugin.dc.messageChatChannel(String.format("[Server:%s] \u00BB %s", plugin.dc.deformat(sender.getName()), message));
 
         return true;
     }

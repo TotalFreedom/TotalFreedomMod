@@ -180,7 +180,7 @@ public class Command_tag extends FreedomCommand
                 plugin.pl.getPlayer(playerSender).setTag(outputTag);
                 if (save)
                 {
-                    save(playerSender, outputTag);
+                    save(playerSender, strippedTag);
                 }
                 msg("Tag set to '" + outputTag + ChatColor.GRAY + "'." + (save ? " (Saved)" : ""));
 

@@ -39,7 +39,7 @@ import me.totalfreedom.totalfreedommod.fun.Trailer;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilderList;
-import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilderWorldRestrictions;
+import me.totalfreedom.totalfreedommod.world.WorldRestrictions;
 import me.totalfreedom.totalfreedommod.permissions.PermissionConfig;
 import me.totalfreedom.totalfreedommod.permissions.PermissionManager;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
@@ -127,7 +127,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Trailer tr;
     public HTTPDaemon hd;
     public MasterBuilderList mbl;
-    public MasterBuilderWorldRestrictions mbwr;
+    public WorldRestrictions wr;
     public SignBlocker snp;
     public PlayerVerification pv;
     public EntityWiper ew;
@@ -207,8 +207,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         nu = services.registerService(AntiNuke.class);
         as = services.registerService(AntiSpam.class);
         mbl = services.registerService(MasterBuilderList.class);
-        mbwr = services.registerService(MasterBuilderWorldRestrictions.class);
-        //hwr = services.registerService(HubWorldRestrictions.class);
+        wr = services.registerService(WorldRestrictions.class);
         pl = services.registerService(PlayerList.class);
         sh = services.registerService(Shop.class);
         an = services.registerService(Announcer.class);

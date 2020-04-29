@@ -189,17 +189,7 @@ public class ItemFun extends FreedomService
 
             case CARROT:
             {
-                if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
-                {
-                    break;
-                }
-
-                if (!plugin.al.isSeniorAdmin(player))
-                {
-                    break;
-                }
-
-                if (player.getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()) && plugin.mbwr.doRestrict(player))
+                if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean() || !plugin.al.isSeniorAdmin(player) || plugin.wr.doRestrict(player))
                 {
                     break;
                 }

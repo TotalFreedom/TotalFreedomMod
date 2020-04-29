@@ -16,6 +16,7 @@ import me.rayzr522.jsonmessage.JSONMessage;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.config.YamlConfig;
@@ -37,7 +38,7 @@ import org.bukkit.scheduler.BukkitTask;
 public class Shop extends FreedomService
 {
     @Getter
-    public final Map<UUID, ShopData> dataMap = Maps.newHashMap();
+    public final Map<String, ShopData> dataMap = Maps.newHashMap();
     @Getter
     private final File configFolder;
     private BukkitTask reactions;
@@ -102,8 +103,8 @@ public class Shop extends FreedomService
         YamlConfig config = getConfig(data);
         data.saveTo(config);
         config.save();
-        dataMap.remove(data.getUUID());
-        dataMap.put(data.getUUID(), data);
+        dataMap.remove(data.getUsername());
+        dataMap.put(data.getUsername(), data);
     }
     
     public String getShopPrefix()
@@ -119,30 +120,29 @@ public class Shop extends FreedomService
     // May not return null
     public ShopData getData(Player player)
     {
-        // Check already loaded
-        ShopData data = dataMap.get(player.getUniqueId());
+        // Check for existing data
+        ShopData data = dataMap.get(player.getName());
         if (data != null)
         {
             return data;
         }
 
         // Load data
-        data = getData(player.getUniqueId());
+        data = getData(player.getName());
 
-        // Create data if nonexistent
+        String ip = Ips.getIp(player);
+
+        // Create new data if nonexistent
         if (data == null)
         {
-            FLog.info("Creating new shop data entry for " + player.getName());
+            FLog.info("Creating new player verification entry for " + player.getName());
 
             // Create new player
             data = new ShopData(player);
-            data.setUsername(player.getName());
-            
-            // Set defaults
-            data.setCoins(0);
+            data.addIp(Ips.getIp(player));
 
             // Store player
-            dataMap.put(player.getUniqueId(), data);
+            dataMap.put(player.getName(), data);
 
             // Save player
             YamlConfig config = getConfig(data);
@@ -150,34 +150,46 @@ public class Shop extends FreedomService
             config.save();
         }
 
-        dataMap.put(player.getUniqueId(), data);
+        if (!data.getsIps().contains(ip))
+        {
+            data.addIp(ip);
+            save(data);
+        }
 
         return data;
     }
 
     public ShopData getData(String username)
     {
-        UUID uuid = FUtil.nameToUUID(username);
-        if (uuid != null)
-        {
-            return getData(uuid);
-        }
-        return null;
-    }
+        username = username.toLowerCase();
 
-    public ShopData getData(UUID uuid)
-    {
-        // Check if the player is a known player
-        final File configFile = getConfigFile(uuid);
+        final File configFile = getConfigFile(username);
         if (!configFile.exists())
         {
             return null;
         }
 
-        // Load entry
-        final ShopData data = new ShopData(uuid);
-        data.loadFrom(getConfig(data));
-        return data;
+        final ShopData shopData = new ShopData(username);
+        shopData.loadFrom(getConfig(shopData));
+
+        if (!shopData.isValid())
+        {
+            FLog.warning("Could not load player verification entry for " + username + ". Entry is not valid!");
+            configFile.delete();
+            return null;
+        }
+
+        // Only store data in map if the player is online
+        for (Player players : server.getOnlinePlayers())
+        {
+            if (players.getName().equals(username))
+            {
+                dataMap.put(username, shopData);
+                return shopData;
+            }
+        }
+
+        return shopData;
     }
 
     public Inventory generateShopGUI(ShopData shopData)
@@ -329,7 +341,7 @@ public class Shop extends FreedomService
         }
 
         Player player = (Player) event.getWhoClicked();
-        ShopData shopData = plugin.sh.getData(player);
+        ShopData shopData = getData(player);
         int price = shopItem.getCost();
         int coins = shopData.getCoins();
 
@@ -420,14 +432,14 @@ public class Shop extends FreedomService
         return dataMap.values();
     }
 
-    protected File getConfigFile(UUID uuid)
+    protected File getConfigFile(String name)
     {
-        return new File(getConfigFolder(), uuid + ".yml");
+        return new File(getConfigFolder(), name.toLowerCase() + ".yml");
     }
 
     protected YamlConfig getConfig(ShopData data)
     {
-        final YamlConfig config = new YamlConfig(plugin, getConfigFile(data.getUUID()), false);
+        final YamlConfig config = new YamlConfig(plugin, getConfigFile(data.getUsername()), false);
         config.load();
         return config;
     }

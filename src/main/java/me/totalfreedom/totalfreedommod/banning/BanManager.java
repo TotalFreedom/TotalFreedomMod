@@ -204,6 +204,7 @@ public class BanManager extends FreedomService
             saveAll();
             return true;
         }
+        updateViews();
 
         return false;
     }
@@ -215,6 +216,7 @@ public class BanManager extends FreedomService
             saveAll();
             return true;
         }
+        updateViews();
 
         return false;
     }
@@ -231,7 +233,7 @@ public class BanManager extends FreedomService
         return size;
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         final String username = event.getPlayer().getName();
@@ -250,7 +252,7 @@ public class BanManager extends FreedomService
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         final Player player = event.getPlayer();

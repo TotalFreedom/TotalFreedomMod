@@ -44,12 +44,7 @@ public class Command_vanish extends FreedomCommand
             }
             if (!silent)
             {
-                String beginning = sender.getName() + " is ";
-                if (admin.getLoginMessage().contains("%name%"))
-                {
-                    beginning = "";
-                }
-                FUtil.bcastMsg(ChatColor.AQUA + beginning + loginMsg);
+                FUtil.bcastMsg(plugin.rm.craftLoginMessage(playerSender, null));
                 FUtil.bcastMsg(playerSender.getName() + " joined the game.", ChatColor.YELLOW);
                 plugin.dc.messageChatChannel("**" + playerSender.getName() + " joined the server" + "**");
             }
