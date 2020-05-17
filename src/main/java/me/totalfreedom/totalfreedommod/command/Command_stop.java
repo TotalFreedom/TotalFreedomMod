@@ -1,5 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.HashMap;
+import java.util.Map;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
@@ -7,16 +9,30 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Kicks everyone and stops the server.", usage = "/<command> [reason]")
 public class Command_stop extends FreedomCommand
 {
+    private static final Map<CommandSender, String> STOP_CONFIRM = new HashMap<>();
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        FUtil.bcastMsg("Server is going offline!", ChatColor.LIGHT_PURPLE);
+        if (STOP_CONFIRM.containsKey(sender))
+        {
+            FUtil.bcastMsg("Server is going offline!", ChatColor.LIGHT_PURPLE);
+
+            for (Player player : server.getOnlinePlayers())
+            {
+                player.kickPlayer(ChatColor.LIGHT_PURPLE + STOP_CONFIRM.get(sender));
+            }
+
+            STOP_CONFIRM.remove(sender);
+
+            server.shutdown();
+        }
 
         String reason = "Server is going offline, come back in about 20 seconds.";
 
@@ -25,13 +41,21 @@ public class Command_stop extends FreedomCommand
             reason = StringUtils.join(args, " ");
         }
 
-        for (Player player : server.getOnlinePlayers())
+        msg("Warning: You're about to stop the server. Type /stop again to confirm you want to do this.");
+
+        STOP_CONFIRM.put(sender, reason);
+        new BukkitRunnable()
         {
-            player.kickPlayer(ChatColor.LIGHT_PURPLE + reason);
-        }
-
-        server.shutdown();
-
+            @Override
+            public void run()
+            {
+                if (STOP_CONFIRM.containsKey(sender))
+                {
+                    STOP_CONFIRM.remove(sender);
+                    msg("Stop request expired.");
+                }
+            }
+        }.runTaskLater(plugin, 15 * 20);
         return true;
     }
 }
