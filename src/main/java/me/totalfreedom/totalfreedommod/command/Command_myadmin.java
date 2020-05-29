@@ -83,7 +83,7 @@ public class Command_myadmin extends FreedomCommand
                 target.clearIPs();
                 target.addIp(targetIp);
 
-                plugin.al.save();
+                plugin.al.save(target);
                 plugin.al.updateTables();
 
                 msg(counter + " IPs removed.");
@@ -127,7 +127,7 @@ public class Command_myadmin extends FreedomCommand
                 FUtil.adminAction(sender.getName(), "Removing a supered IP" + (init == null ? "" : " from " + targetPlayer.getName() + "'s IPs"), true);
 
                 target.removeIp(args[1]);
-                plugin.al.save();
+                plugin.al.save(target);
                 plugin.al.updateTables();
 
                 msg("Removed IP " + args[1]);
@@ -159,7 +159,7 @@ public class Command_myadmin extends FreedomCommand
                 target.setLoginMessage(message);
                 msg((init == null ? "Your" : targetPlayer.getName() + "'s") + " login message is now: ");
                 msg("> " + previewMessage);
-                plugin.al.save();
+                plugin.al.save(target);
                 plugin.al.updateTables();
                 return true;
             }
@@ -168,7 +168,7 @@ public class Command_myadmin extends FreedomCommand
             {
                 FUtil.adminAction(sender.getName(), "Clearing personal login message" + (init == null ? "" : " for " + targetPlayer.getName()), false);
                 target.setLoginMessage(null);
-                plugin.al.save();
+                plugin.al.save(target);
                 plugin.al.updateTables();
                 return true;
             }
@@ -188,7 +188,7 @@ public class Command_myadmin extends FreedomCommand
             {
                 String format = StringUtils.join(args, " ", 1, args.length);
                 target.setAcFormat(format);
-                plugin.al.save();
+                plugin.al.save(target);
                 plugin.al.updateTables();
                 msg("Set admin chat format to \"" + format + "\".", ChatColor.GRAY);
                 String example = format.replace("%name%", "ExampleAdmin").replace("%rank%", Rank.TELNET_ADMIN.getAbbr()).replace("%rankcolor%", Rank.TELNET_ADMIN.getColor().toString()).replace("%msg%", "The quick brown fox jumps over the lazy dog.");
@@ -198,7 +198,7 @@ public class Command_myadmin extends FreedomCommand
             case "clearacformat":
             {
                 target.setAcFormat(null);
-                plugin.al.save();
+                plugin.al.save(target);
                 plugin.al.updateTables();
                 msg("Cleared admin chat format.", ChatColor.GRAY);
                 return true;
@@ -206,7 +206,7 @@ public class Command_myadmin extends FreedomCommand
             case "oldtags":
             {
                 target.setOldTags(!target.getOldTags());
-                plugin.al.save();
+                plugin.al.save(target);
                 plugin.al.updateTables();
                 msg((target.getOldTags() ? "Enabled" : "Disabled") + " old tags.");
                 return true;
@@ -214,7 +214,7 @@ public class Command_myadmin extends FreedomCommand
             case "logstick":
             {
                 target.setLogStick(!target.getLogStick());
-                plugin.al.save();
+                plugin.al.save(target);
                 plugin.al.updateTables();
                 msg((target.getLogStick() ? "Enabled" : "Disabled") + " log-stick lookup.");
                 return true;

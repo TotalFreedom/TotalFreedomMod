@@ -104,7 +104,7 @@ public class Command_glist extends FreedomCommand
 
                 if (player != null)
                 {
-                    player.kickPlayer(playerBan.bakeKickMessage(Ips.getIp(player)));
+                    player.kickPlayer(playerBan.bakeKickMessage());
                 }
 
                 plugin.pul.logPunishment(new Punishment(username, ips.get(0), sender.getName(), PunishmentType.BAN, null));
@@ -149,7 +149,7 @@ public class Command_glist extends FreedomCommand
 
                 if (player != null)
                 {
-                    player.kickPlayer(nameBan.bakeKickMessage(Ips.getIp(player)));
+                    player.kickPlayer(nameBan.bakeKickMessage());
                 }
 
                 return true;

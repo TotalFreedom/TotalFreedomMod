@@ -99,7 +99,7 @@ public class Command_saconfig extends FreedomCommand
                 FUtil.adminAction(sender.getName(), "Setting " + admin.getName() + "'s rank to " + rank.getName(), true);
 
                 admin.setRank(rank);
-                plugin.al.save();
+                plugin.al.save(admin);
 
                 Player player = getPlayer(admin.getName());
                 if (player != null)
@@ -175,7 +175,7 @@ public class Command_saconfig extends FreedomCommand
                 // Find the old admin entry
                 String name = player != null ? player.getName() : args[1];
                 Admin admin = null;
-                for (Admin loopAdmin : plugin.al.getAllAdmins().values())
+                for (Admin loopAdmin : plugin.al.getAllAdmins())
                 {
                     if (loopAdmin.getName().equalsIgnoreCase(name))
                     {
@@ -204,11 +204,7 @@ public class Command_saconfig extends FreedomCommand
                     }
 
                     FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the admin list", true);
-                    plugin.al.addAdmin(new Admin(player));
-                    if (player != null)
-                    {
-                        plugin.rm.updateDisplay(player);
-                    }
+                    admin = new Admin(player);
 
                     // Attempt to find discord account
                     if (plugin.mbl.isMasterBuilder(player))
@@ -224,6 +220,8 @@ public class Command_saconfig extends FreedomCommand
                             admin.setDiscordID(vPlayer.getDiscordId());
                         }
                     }
+                    plugin.al.addAdmin(admin);
+                    plugin.rm.updateDisplay(player);
                 }
                 else // Existing admin
                 {
@@ -231,7 +229,9 @@ public class Command_saconfig extends FreedomCommand
 
                     if (player != null)
                     {
+                        String oldName = admin.getName();
                         admin.setName(player.getName());
+                        plugin.sql.updateAdminName(oldName, admin.getName());
                         admin.addIp(Ips.getIp(player));
                     }
 
@@ -287,7 +287,7 @@ public class Command_saconfig extends FreedomCommand
                         plugin.al.verifiedNoAdminIps.remove(player.getName());
                     }
 
-                    plugin.al.save();
+                    plugin.al.save(admin);
                     plugin.al.updateTables();
                     if (player != null)
                     {
@@ -339,7 +339,7 @@ public class Command_saconfig extends FreedomCommand
 
                 FUtil.adminAction(sender.getName(), "Removing " + admin.getName() + " from the admin list", true);
                 admin.setActive(false);
-                plugin.al.save();
+                plugin.al.save(admin);
                 plugin.al.updateTables();
                 if (player != null)
                 {

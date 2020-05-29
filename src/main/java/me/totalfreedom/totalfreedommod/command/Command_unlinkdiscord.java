@@ -31,7 +31,7 @@ public class Command_unlinkdiscord extends FreedomCommand
                 return true;
             }
             admin.setDiscordID(null);
-            plugin.al.save();
+            plugin.al.save(admin);
             msg("Your Minecraft account has been successfully unlinked from the Discord account.", ChatColor.GREEN);
             return true;
         }

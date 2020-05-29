@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -14,16 +15,13 @@ import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.base.ConfigLoadable;
-import net.pravian.aero.base.ConfigSavable;
 import net.pravian.aero.base.Validatable;
 import net.pravian.aero.util.Ips;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-public class Ban implements ConfigLoadable, ConfigSavable, Validatable
+public class Ban implements Validatable
 {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
@@ -53,22 +51,19 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
     public Ban(String username, String ip, String by, Date at, Date expire, String reason)
     {
         this(username,
-                new String[]
-                        {
-                                ip
-                        },
+                Arrays.asList(ip),
                 by,
                 at,
                 expire,
                 reason);
     }
 
-    public Ban(String username, String[] ips, String by, Date at, Date expire, String reason)
+    public Ban(String username, List<String> ips, String by, Date at, Date expire, String reason)
     {
         this.username = username;
         if (ips != null)
         {
-            this.ips.addAll(Arrays.asList(ips));
+            this.ips.addAll(ips);
         }
         dedupeIps();
         this.by = by;
@@ -86,10 +81,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
 
     public static Ban forPlayerIp(Player player, CommandSender by, Date expiry, String reason)
     {
-        return new Ban(null, new String[]
-                {
-                        Ips.getIp(player)
-                }, by.getName(), Date.from(Instant.now()), expiry, reason);
+        return new Ban(null, Arrays.asList(Ips.getIp(player)), by.getName(), Date.from(Instant.now()), expiry, reason);
     }
 
     public static Ban forPlayerIp(String ip, CommandSender by, Date expiry, String reason)
@@ -107,7 +99,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
     public static Ban forPlayerName(String player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player,
-                (String[])null,
+                new ArrayList<String>(),
                 by.getName(),
                 Date.from(Instant.now()),
                 expiry,
@@ -171,7 +163,7 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         return hasExpiry() && expiryUnix < FUtil.getUnixTime();
     }
 
-    public String bakeKickMessage(String ip)
+    public String bakeKickMessage()
     {
         final StringBuilder message = new StringBuilder(ChatColor.GOLD + "You");
 
@@ -202,9 +194,6 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
             message.append("\n").append(ChatColor.RED).append("Expires: ").append(ChatColor.GOLD)
                     .append(DATE_FORMAT.format(FUtil.getUnixDate(expiryUnix)));
         }
-
-        message.append("\n").append(ChatColor.RED).append("IP Address: ").append(ChatColor.GOLD)
-                .append(ip);
 
         return message.toString();
     }
@@ -244,31 +233,6 @@ public class Ban implements ConfigLoadable, ConfigSavable, Validatable
         hash = 79 * hash + (this.username != null ? this.username.toLowerCase().hashCode() : 0);
         hash = 79 * hash + (this.ips != null ? this.ips.hashCode() : 0);
         return hash;
-    }
-
-    @Override
-    public void loadFrom(ConfigurationSection cs)
-    {
-        this.username = cs.getString("username", null);
-        this.ips.clear();
-        this.ips.addAll(cs.getStringList("ips"));
-        this.by = cs.getString("by", null);
-        this.at = FUtil.stringToDate(cs.getString("at", null));
-        this.reason = cs.getString("reason", null);
-        this.expiryUnix = cs.getLong("expiry_unix", 0);
-        dedupeIps();
-    }
-
-    @Override
-    public void saveTo(ConfigurationSection cs)
-    {
-        dedupeIps();
-        cs.set("username", username);
-        cs.set("ips", ips.isEmpty() ? null : ips);
-        cs.set("by", by);
-        cs.set("at", FUtil.dateToString(at));
-        cs.set("reason", reason);
-        cs.set("expiry_unix", expiryUnix > 0 ? expiryUnix : null);
     }
 
     @Override

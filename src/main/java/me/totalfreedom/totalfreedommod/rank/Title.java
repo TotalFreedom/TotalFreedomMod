@@ -6,12 +6,12 @@ import org.bukkit.ChatColor;
 public enum Title implements Displayable
 {
 
-    MASTER_BUILDER("a", "Master Builder", ChatColor.DARK_AQUA, "MB"),
-    VERIFIED_ADMIN("a", "Verified Admin", ChatColor.LIGHT_PURPLE, "VA"),
-    ASSISTANT_EXECUTIVE("an", "Assistant Executive", ChatColor.RED, "Asst Exec"),
-    EXECUTIVE("an", "Executive", ChatColor.RED, "Exec"),
-    DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, "Dev"),
-    OWNER("the", "Owner", ChatColor.DARK_RED, "Owner");
+    MASTER_BUILDER("a", "Master Builder", ChatColor.DARK_AQUA, "MB", false),
+    VERIFIED_ADMIN("a", "Verified Admin", ChatColor.LIGHT_PURPLE, "VA", false),
+    ASSISTANT_EXECUTIVE("an", "Assistant Executive", ChatColor.RED, "Asst Exec", false),
+    EXECUTIVE("an", "Executive", ChatColor.RED, "Exec", true),
+    DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, "Dev", true),
+    OWNER("the", "Owner", ChatColor.DARK_RED, "Owner", true);
 
     private final String determiner;
     @Getter
@@ -24,8 +24,10 @@ public enum Title implements Displayable
     private final String coloredTag;
     @Getter
     private final ChatColor color;
+    @Getter
+    private final boolean hasTeam;
 
-    private Title(String determiner, String name, ChatColor color, String tag)
+    private Title(String determiner, String name, ChatColor color, String tag, Boolean hasTeam)
     {
         this.determiner = determiner;
         this.name = name;
@@ -33,12 +35,19 @@ public enum Title implements Displayable
         this.abbr = tag;
         this.tag = "[" + tag + "]";
         this.color = color;
+        this.hasTeam = hasTeam;
     }
 
     @Override
     public String getColoredName()
     {
         return color + name;
+    }
+
+    @Override
+    public boolean hasTeam()
+    {
+        return hasTeam;
     }
 
     @Override

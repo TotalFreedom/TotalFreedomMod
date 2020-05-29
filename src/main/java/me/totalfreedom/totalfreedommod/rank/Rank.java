@@ -6,14 +6,14 @@ import org.bukkit.ChatColor;
 public enum Rank implements Displayable
 {
 
-    IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW),
-    NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.WHITE),
-    OP("an", "Op", Type.PLAYER, "OP", ChatColor.GREEN),
-    SUPER_ADMIN("a", "Super Admin", Type.ADMIN, "SA", ChatColor.AQUA),
-    TELNET_ADMIN("a", "Telnet Admin", Type.ADMIN, "STA", ChatColor.DARK_GREEN),
-    SENIOR_ADMIN("a", "Senior Admin", Type.ADMIN, "SrA", ChatColor.GOLD),
-    TELNET_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE),
-    SENIOR_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE);
+    IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW, false),
+    NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.WHITE, false),
+    OP("an", "Operator", Type.PLAYER, "OP", ChatColor.GREEN, false),
+    SUPER_ADMIN("a", "Super Admin", Type.ADMIN, "SA", ChatColor.AQUA, true),
+    TELNET_ADMIN("a", "Telnet Admin", Type.ADMIN, "STA", ChatColor.DARK_GREEN, true),
+    SENIOR_ADMIN("a", "Senior Admin", Type.ADMIN, "SrA", ChatColor.GOLD, true),
+    TELNET_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE, false),
+    SENIOR_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE, false);
     @Getter
     private final Type type;
     @Getter
@@ -27,8 +27,10 @@ public enum Rank implements Displayable
     private final String coloredTag;
     @Getter
     private final ChatColor color;
+    @Getter
+    private final boolean hasTeam;
 
-    private Rank(String determiner, String name, Type type, String abbr, ChatColor color)
+    private Rank(String determiner, String name, Type type, String abbr, ChatColor color, Boolean hasTeam)
     {
         this.type = type;
         this.name = name;
@@ -37,6 +39,7 @@ public enum Rank implements Displayable
         this.tag = abbr.isEmpty() ? "" : "[" + abbr + "]";
         this.coloredTag = abbr.isEmpty() ? "" : ChatColor.DARK_GRAY + "[" + color + abbr + ChatColor.DARK_GRAY + "]" + color;
         this.color = color;
+        this.hasTeam = hasTeam;
     }
 
     @Override
@@ -49,6 +52,12 @@ public enum Rank implements Displayable
     public String getColoredLoginMessage()
     {
         return determiner + " " + color + ChatColor.ITALIC + name;
+    }
+
+    @Override
+    public boolean hasTeam()
+    {
+        return hasTeam;
     }
 
     @Override

@@ -26,7 +26,8 @@ public class EntityWiper extends FreedomService
             EntityType.PAINTING,
             EntityType.BOAT,
             EntityType.LEASH_HITCH,
-            EntityType.ITEM_FRAME
+            EntityType.ITEM_FRAME,
+            EntityType.MINECART
     );
 
     @Override

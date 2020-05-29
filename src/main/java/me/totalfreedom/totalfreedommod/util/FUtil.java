@@ -52,7 +52,7 @@ public class FUtil
     //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "Wild1145", "Demonic_Mario", "OxLemonxO");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "Wild1145", "Demonic_Mario");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
@@ -156,6 +156,25 @@ public class FUtil
         return names;
     }
 
+    public static String listToString(List<String> list)
+    {
+        if (list.size() == 0)
+        {
+            return null;
+        }
+
+        return String.join(", ", list);
+    }
+
+    public static List<String> stringToList(String string)
+    {
+        if (string == null)
+        {
+            return new ArrayList<>();
+        }
+
+        return Arrays.asList(string.split(", "));
+    }
     public static List<String> getAllMaterialNames()
     {
         List<String> names = new ArrayList<>();

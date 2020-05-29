@@ -18,6 +18,8 @@ import org.bukkit.plugin.PluginManager;
 public class Command_plugincontrol extends FreedomCommand
 {
 
+    private final List<String> UNTOUCHABLE_PLUGINS = Arrays.asList(plugin.getName(), "BukkitTelnet");
+
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -88,9 +90,9 @@ public class Command_plugincontrol extends FreedomCommand
                 return true;
             }
 
-            if (target.getName().equals(plugin.getName()))
+            if (UNTOUCHABLE_PLUGINS.contains(target.getName()))
             {
-                msg("You cannot disable " + plugin.getName());
+                msg("You cannot disable " + target.getName());
                 return true;
             }
 
@@ -115,9 +117,9 @@ public class Command_plugincontrol extends FreedomCommand
                 return true;
             }
 
-            if (target.getName().equals(plugin.getName()))
+            if (UNTOUCHABLE_PLUGINS.contains(target.getName()))
             {
-                msg("Use /tfm reload to reload instead.");
+                msg("You cannot reload " + target.getName());
                 return true;
             }
 
@@ -157,7 +159,10 @@ public class Command_plugincontrol extends FreedomCommand
         List<String> names = new ArrayList<>();
         for (Plugin plugin : server.getPluginManager().getPlugins())
         {
-            names.add(plugin.getName());
+            if (!UNTOUCHABLE_PLUGINS.contains(plugin.getName()))
+            {
+                names.add(plugin.getName());
+            }
         }
         names.remove(plugin.getName());
         return names;

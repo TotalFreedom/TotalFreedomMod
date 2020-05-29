@@ -45,6 +45,8 @@ public class Muter extends FreedomService
 
         FPlayer fPlayer = plugin.pl.getPlayerSync(player);
 
+        FLog.info("checking mute");
+
         if (!fPlayer.isMuted())
         {
             return;

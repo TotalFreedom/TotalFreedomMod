@@ -203,7 +203,7 @@ public class Command_tag extends FreedomCommand
         {
             Admin admin = plugin.al.getAdmin(player);
             admin.setTag(tag);
-            plugin.al.save();
+            plugin.al.save(admin);
             plugin.al.updateTables();
         }
         else if (plugin.mbl.isMasterBuilder(player))

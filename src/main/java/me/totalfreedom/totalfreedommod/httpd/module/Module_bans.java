@@ -18,7 +18,9 @@ public class Module_bans extends HTTPDModule
     @Override
     public NanoHTTPD.Response getResponse()
     {
-        File banFile = new File(plugin.getDataFolder(), BanManager.CONFIG_FILENAME);
+        return new NanoHTTPD.Response(NanoHTTPD.Response.Status.NOT_FOUND, NanoHTTPD.MIME_PLAINTEXT,
+                "Error 404: Not Found - i have to re-work this");
+        /*File banFile = new File(plugin.getDataFolder(), BanManager.CONFIG_FILENAME);
         if (banFile.exists())
         {
             final String remoteAddress = socket.getInetAddress().getHostAddress();
@@ -37,7 +39,7 @@ public class Module_bans extends HTTPDModule
         {
             return new NanoHTTPD.Response(NanoHTTPD.Response.Status.NOT_FOUND, NanoHTTPD.MIME_PLAINTEXT,
                     "Error 404: Not Found - The requested resource was not found on this server.");
-        }
+        }*/
     }
 
     private boolean isAuthorized(String remoteAddress)

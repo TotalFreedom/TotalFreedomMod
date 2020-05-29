@@ -183,7 +183,7 @@ public class CoreProtectBridge extends FreedomService
             String password = ConfigEntry.COREPROTECT_MYSQL_PASSWORD.getString();
             String database = ConfigEntry.COREPROTECT_MYSQL_DATABASE.getString();
             String url = host + ":" + port + "/" + database + "?user=" + username + "&password=" + password + "&useSSL=false";
-            connection = DriverManager.getConnection("jdbc:mysql://" + url);
+            connection = DriverManager.getConnection("jdbc:sql://" + url);
             final Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
 
@@ -196,6 +196,7 @@ public class CoreProtectBridge extends FreedomService
             }
 
             // Ensure the world ID is not null
+
             if (worldID == null)
             {
                 FLog.warning("Failed to obtain the world ID for the " + world.getName());

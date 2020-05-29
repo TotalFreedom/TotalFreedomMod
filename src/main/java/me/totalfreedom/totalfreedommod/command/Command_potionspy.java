@@ -16,7 +16,7 @@ public class Command_potionspy extends FreedomCommand
     {
         Admin admin = plugin.al.getAdmin(playerSender);
         admin.setPotionSpy(!admin.getPotionSpy());
-        plugin.al.save();
+        plugin.al.save(admin);
         plugin.al.updateTables();
         msg("PotionSpy is now " + (admin.getPotionSpy() ? "enabled." : "disabled."));
         return true;

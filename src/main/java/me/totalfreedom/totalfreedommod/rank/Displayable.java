@@ -19,4 +19,6 @@ public interface Displayable
 
     public String getColoredLoginMessage();
 
+    public boolean hasTeam();
+
 }

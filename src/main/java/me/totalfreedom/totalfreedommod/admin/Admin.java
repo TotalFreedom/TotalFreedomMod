@@ -1,30 +1,26 @@
 package me.totalfreedom.totalfreedommod.admin;
 
 import com.google.common.collect.Lists;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.LogViewer.LogsRegistrationMode;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.base.ConfigLoadable;
-import net.pravian.aero.base.ConfigSavable;
-import net.pravian.aero.base.Validatable;
 import net.pravian.aero.util.Ips;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-public class Admin implements ConfigLoadable, ConfigSavable, Validatable
+public class Admin
 {
 
-    @Getter
-    private String configKey;
     @Getter
     @Setter
     private String name;
@@ -68,14 +64,28 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
 
     public Admin(Player player)
     {
-        this.configKey = player.getName().toLowerCase();
         this.name = player.getName();
         this.ips.add(Ips.getIp(player));
     }
 
-    public Admin(String configKey)
+    public Admin(String username, List<String> ips, Rank rank, Boolean active, Date lastLogin, String loginMessage, String tag, String discordID, List<String> backupCodes, Boolean commandSpy, Boolean potionSpy, String acFormat, Boolean oldTags, Boolean logStick)
     {
-        this.configKey = configKey;
+        this.name = username;
+        this.active = active;
+        this.rank = rank;
+        this.ips.clear();
+        this.ips.addAll(ips);
+        this.lastLogin = lastLogin;
+        this.loginMessage = loginMessage;
+        this.tag = tag;
+        this.discordID = discordID;
+        this.backupCodes.clear();
+        this.backupCodes.addAll(backupCodes);
+        this.commandSpy = commandSpy;
+        this.potionSpy = potionSpy;
+        this.acFormat = acFormat;
+        this.oldTags = oldTags;
+        this.logStick = logStick;
     }
 
     @Override
@@ -94,59 +104,39 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
                 .append("- Potion Spy: ").append(potionSpy).append("\n")
                 .append("- Admin Chat Format: ").append(acFormat).append("\n")
                 .append("- Old Tags: ").append(oldTags).append("\n")
-                .append("- Log Stick: ").append(logStick)
-                .append("- Backup Codes: ").append(backupCodes.size()).append("/10").append("\n");
+                .append("- Log Stick: ").append(logStick).append("\n")
+                .append("- Backup Codes: ").append(backupCodes.size()).append("/10");
 
         return output.toString();
     }
 
     public void loadFrom(Player player)
     {
-        configKey = player.getName().toLowerCase();
         name = player.getName();
         ips.clear();
         ips.add(Ips.getIp(player));
     }
 
-    @Override
-    public void loadFrom(ConfigurationSection cs)
+    public Map<String, Object> toSQLStorable()
     {
-        name = cs.getString("username", configKey);
-        active = cs.getBoolean("active", true);
-        rank = Rank.findRank(cs.getString("rank"));
-        ips.clear();
-        ips.addAll(cs.getStringList("ips"));
-        backupCodes.clear();
-        backupCodes.addAll(cs.getStringList("backupCodes"));
-        lastLogin = FUtil.stringToDate(cs.getString("last_login"));
-        loginMessage = cs.getString("login_message", null);
-        discordID = cs.getString("discord_id", null);
-        tag = cs.getString("tag", null);
-        commandSpy = cs.getBoolean("command_spy", false);
-        potionSpy = cs.getBoolean("potion_spy", false);
-        acFormat = cs.getString("acformat", null);
-        oldTags = cs.getBoolean("oldtags", false);
-        logStick = cs.getBoolean("logstick", false);
-    }
-
-    @Override
-    public void saveTo(ConfigurationSection cs)
-    {
-        Validate.isTrue(isValid(), "Could not save admin entry: " + name + ". Entry not valid!");
-        cs.set("username", name);
-        cs.set("active", active);
-        cs.set("rank", rank.toString());
-        cs.set("ips", Lists.newArrayList(ips));
-        cs.set("backupCodes", Lists.newArrayList(backupCodes));
-        cs.set("last_login", FUtil.dateToString(lastLogin));
-        cs.set("login_message", loginMessage);
-        cs.set("discord_id", discordID);
-        cs.set("tag", tag);
-        cs.set("command_spy", commandSpy);
-        cs.set("potion_spy", potionSpy);
-        cs.set("acformat", acFormat);
-        cs.set("oldtags", oldTags);
-        cs.set("logstick", logStick);
+        Map<String, Object> map = new HashMap<String, Object>()
+        {{
+            put("username", name);
+            put("active", active);
+            put("rank", rank.toString());
+            put("ips", FUtil.listToString(ips));
+            put("backup_codes", FUtil.listToString(backupCodes));
+            put("last_login", lastLogin.getTime());
+            put("login_message", loginMessage);
+            put("discord_id", discordID);
+            put("tag", tag);
+            put("command_spy", commandSpy);
+            put("potion_spy", potionSpy);
+            put("ac_format", acFormat);
+            put("old_tags", oldTags);
+            put("log_stick", logStick);
+        }};
+        return map;
     }
 
     public boolean isAtLeast(Rank pRank)
@@ -225,11 +215,9 @@ public class Admin implements ConfigLoadable, ConfigSavable, Validatable
         }
     }
 
-    @Override
     public boolean isValid()
     {
-        return configKey != null
-                && name != null
+        return name != null
                 && rank != null
                 && !ips.isEmpty()
                 && lastLogin != null;

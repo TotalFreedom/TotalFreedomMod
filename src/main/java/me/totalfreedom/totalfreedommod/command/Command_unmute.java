@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [-q] <player>")
+@CommandParameters(description = "Unmutes a player", usage = "/<command> [-q] <player>")
 public class Command_unmute extends FreedomCommand
 {
 

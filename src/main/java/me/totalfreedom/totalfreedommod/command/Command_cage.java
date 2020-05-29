@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Place a cage around someone with certain blocks, or someone's player head.", usage = "/<command> <purge | off | <partialname> [head | block] [playername | blockname]")
+@CommandParameters(description = "Place a cage around someone with certain blocks, or someone's player head.", usage = "/<command> <purge | <partialname> [head | block] [playername | blockname]")
 public class Command_cage extends FreedomCommand
 {
 
@@ -26,14 +26,8 @@ public class Command_cage extends FreedomCommand
         {
             return false;
         }
+
         String skullName = null;
-        if ("off".equals(args[0]) && sender instanceof Player)
-        {
-            FUtil.adminAction(sender.getName(), "Uncaging " + sender.getName(), true);
-            final FPlayer playerdata = plugin.pl.getPlayer(playerSender);
-            playerdata.getCageData().setCaged(false);
-            return true;
-        }
         if ("purge".equals(args[0]))
         {
             FUtil.adminAction(sender.getName(), "Uncaging all players", true);
@@ -44,13 +38,24 @@ public class Command_cage extends FreedomCommand
             }
             return true;
         }
+
         Player player = getPlayer(args[0]);
         if (player == null)
         {
             sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
             return true;
         }
+
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
+
+        if (fPlayer.getCageData().isCaged())
+        {
+            FUtil.adminAction(sender.getName(), "Uncaging " + sender.getName(), true);
+            final FPlayer playerdata = plugin.pl.getPlayer(playerSender);
+            playerdata.getCageData().setCaged(false);
+            return true;
+        }
+
         Material outerMaterial = Material.GLASS;
         Material innerMaterial = Material.AIR;
         if (args.length >= 2 && args[1] != null)
@@ -58,12 +63,6 @@ public class Command_cage extends FreedomCommand
             final String s = args[1];
             switch (s)
             {
-                case "off":
-                {
-                    FUtil.adminAction(sender.getName(), "Uncaging " + player.getName(), true);
-                    fPlayer.getCageData().setCaged(false);
-                    return true;
-                }
                 case "head":
                 {
                     outerMaterial = Material.PLAYER_HEAD;
@@ -91,6 +90,7 @@ public class Command_cage extends FreedomCommand
         }
 
         Location location = player.getLocation().clone().add(0.0, 1.0, 0.0);
+
         if (skullName != null)
         {
             fPlayer.getCageData().cage(location, outerMaterial, innerMaterial, skullName);
@@ -99,7 +99,9 @@ public class Command_cage extends FreedomCommand
         {
             fPlayer.getCageData().cage(location, outerMaterial, innerMaterial);
         }
+
         player.setGameMode(GameMode.SURVIVAL);
+
         if (outerMaterial == Material.PLAYER_HEAD)
         {
             FUtil.adminAction(sender.getName(), "Caging " + player.getName() + " in " + skullName, true);
@@ -130,7 +132,7 @@ public class Command_cage extends FreedomCommand
         {
             if (!args[0].equals("purge"))
             {
-                return Arrays.asList("off", "head", "block");
+                return Arrays.asList("head", "block");
             }
         }
         else if (args.length == 3)

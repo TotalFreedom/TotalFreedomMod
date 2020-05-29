@@ -4,6 +4,7 @@ import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.GlobalProtectedRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -162,7 +163,7 @@ public class WorldRestrictions extends FreedomService
 
         RegionManager regionManager = plugin.wgb.getRegionManager(world);
 
-        ProtectedRegion region = regionManager.getRegion("__global__");
+        GlobalProtectedRegion region = new GlobalProtectedRegion("__global__");
 
         region.setFlags(flags);
 

@@ -46,6 +46,8 @@ public class Command_toggle extends FreedomCommand
             msg("- spawners");
             msg("- 4chan");
             msg("- beehives");
+            msg("- autotp");
+            msg("- autoclear");
             return false;
         }
 
@@ -213,6 +215,16 @@ public class Command_toggle extends FreedomCommand
             toggle("Beehives are", ConfigEntry.ALLOW_BEEHIVES);
             return true;
         }
+        else if (args[0].equalsIgnoreCase("autotp"))
+        {
+            toggle("Teleportation on join is", ConfigEntry.AUTO_TP);
+            return true;
+        }
+        else if (args[0].equalsIgnoreCase("autoclear"))
+        {
+            toggle("Clearing inventories on join is", ConfigEntry.AUTO_CLEAR);
+            return true;
+        }
         else
         {
             return false;
@@ -232,7 +244,8 @@ public class Command_toggle extends FreedomCommand
             return Arrays.asList(
                     "waterplace", "fireplace", "lavaplace", "fluidspread", "lavadmg", "firespread", "frostwalk",
                     "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs",
-                    "bells", "armorstands", "structureblocks", "jigsaws", "grindstones", "jukeboxes", "spawners", "4chan", "beehives");
+                    "bells", "armorstands", "structureblocks", "jigsaws", "grindstones", "jukeboxes", "spawners", "4chan", "beehives",
+                    "autotp", "autoclear");
         }
 
         return Collections.emptyList();

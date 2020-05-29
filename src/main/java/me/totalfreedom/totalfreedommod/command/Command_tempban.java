@@ -69,7 +69,7 @@ public class Command_tempban extends FreedomCommand
         }
         message.append(" until ").append(date_format.format(expires));
 
-        String reason = "Banned by " + sender.getName();
+        String reason = null;
         if (args.length >= 3)
         {
             reason = StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ") + " (" + sender.getName() + ")";
@@ -95,7 +95,7 @@ public class Command_tempban extends FreedomCommand
             ban.addIp(ip);
         }
         plugin.bm.addBan(ban);
-        player.kickPlayer(sender.getName() + " - " + message.toString());
+        player.kickPlayer(ban.bakeKickMessage());
 
         plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.TEMPBAN, reason));
 

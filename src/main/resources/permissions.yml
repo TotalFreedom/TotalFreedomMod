@@ -68,6 +68,8 @@ master_builders:
   - "worldedit.green"
   - "worldedit.extinguish"
   - "worldedit.thaw"
+  - "worldguard.region.bypass.hubworld"
+  - "worldguard.region.bypass.masterbuilderworld"
 
 # Super Admin permission nodes
 super_admins:

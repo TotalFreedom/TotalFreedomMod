@@ -184,7 +184,7 @@ public class Discord extends FreedomService
         PrivateChannel privateChannel = user.openPrivateChannel().complete();
         privateChannel.sendMessage("Do not share these codes with anyone as they can be used to impose as you.").addFile(file).complete();
         admin.setBackupCodes(encryptedCodes);
-        plugin.al.save();
+        plugin.al.save(admin);
         plugin.al.updateTables();
         file.delete();
         return true;

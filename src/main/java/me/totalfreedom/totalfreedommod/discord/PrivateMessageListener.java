@@ -23,7 +23,7 @@ public class PrivateMessageListener extends ListenerAdapter
                     Admin admin = Discord.ADMIN_LINK_CODES.get(code);
                     name = admin.getName();
                     admin.setDiscordID(event.getMessage().getAuthor().getId());
-                    TotalFreedomMod.plugin().al.save();
+                    TotalFreedomMod.plugin().al.save(admin);
                     TotalFreedomMod.plugin().al.updateTables();
                     Discord.ADMIN_LINK_CODES.remove(code);
                     Discord.syncRoles(admin);

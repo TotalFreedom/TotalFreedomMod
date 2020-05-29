@@ -10,13 +10,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "This is evil, and I never should have wrote it - blocks specified player's input.", usage = "/<command> <all | purge | <<partialname> on | off>>")
+@CommandParameters(description = "This is evil, and I never should have wrote it - blocks specified player's input.", usage = "/<command> <all | purge | <<partialname> on | off> [-q]>")
 public class Command_lockup extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        Boolean silent = (args[args.length - 1].equalsIgnoreCase("-q"));
         if (args.length == 1)
         {
             if (args[0].equalsIgnoreCase("all"))
@@ -56,7 +57,10 @@ public class Command_lockup extends FreedomCommand
                     return true;
                 }
 
-                FUtil.adminAction(sender.getName(), "Locking up " + player.getName(), true);
+                if (!silent)
+                {
+                    FUtil.adminAction(sender.getName(), "Locking up " + player.getName(), true);
+                }
                 startLockup(player);
                 msg("Locked up " + player.getName() + ".");
             }
@@ -70,7 +74,10 @@ public class Command_lockup extends FreedomCommand
                     return true;
                 }
 
-                FUtil.adminAction(sender.getName(), "Unlocking " + player.getName(), true);
+                if (!silent)
+                {
+                    FUtil.adminAction(sender.getName(), "Unlocking " + player.getName(), true);
+                }
                 cancelLockup(player);
                 msg("Unlocked " + player.getName() + ".");
             }

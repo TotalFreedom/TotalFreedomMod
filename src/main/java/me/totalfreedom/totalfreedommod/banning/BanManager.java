@@ -3,8 +3,12 @@ package me.totalfreedom.totalfreedommod.banning;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +19,6 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,41 +33,38 @@ public class BanManager extends FreedomService
     private final Map<String, Ban> ipBans = Maps.newHashMap();
     private final Map<String, Ban> nameBans = Maps.newHashMap();
     private final List<String> unbannableUsernames = Lists.newArrayList();
-    public static final String CONFIG_FILENAME = "bans.yml";
 
     //
-    private final YamlConfig config;
 
     public BanManager(TotalFreedomMod plugin)
     {
         super(plugin);
-        this.config = new YamlConfig(plugin, "bans.yml");
     }
 
     @Override
     protected void onStart()
     {
-        config.load();
-
         bans.clear();
-        for (String id : config.getKeys(false))
+        try
         {
-            if (!config.isConfigurationSection(id))
+            ResultSet banSet = plugin.sql.getBanList();
             {
-                FLog.warning("Could not load username ban: " + id + ". Invalid format!");
-                continue;
+                while (banSet.next())
+                {
+                    String name = banSet.getString("name");
+                    List<String> ips = FUtil.stringToList(banSet.getString("ips"));
+                    String by = banSet.getString("by");
+                    Date at = new Date(banSet.getLong("at"));
+                    Date expires = new Date(banSet.getLong("expires"));
+                    String reason = banSet.getString("reason");
+                    Ban ban = new Ban(name, ips, by, at, expires, reason);
+                    bans.add(ban);
+                }
             }
-
-            Ban ban = new Ban();
-            ban.loadFrom(config.getConfigurationSection(id));
-
-            if (!ban.isValid())
-            {
-                FLog.warning("Not adding username ban: " + id + ". Missing information.");
-                continue;
-            }
-
-            bans.add(ban);
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to load ban list: " + e.getMessage());
         }
 
         // Remove expired bans, repopulate ipBans and nameBans,
@@ -81,8 +81,6 @@ public class BanManager extends FreedomService
     @Override
     protected void onStop()
     {
-        saveAll();
-        logger.info("Saved " + bans.size() + " player bans");
     }
 
     public Set<Ban> getAllBans()
@@ -98,21 +96,6 @@ public class BanManager extends FreedomService
     public Collection<Ban> getUsernameBans()
     {
         return Collections.unmodifiableCollection(nameBans.values());
-    }
-
-    public void saveAll()
-    {
-        // Remove expired
-        updateViews();
-
-        config.clear();
-        for (Ban ban : bans)
-        {
-            ban.saveTo(config.createSection(String.valueOf(ban.hashCode())));
-        }
-
-        // Save config
-        config.save();
     }
 
     public Ban getByIp(String ip)
@@ -168,7 +151,6 @@ public class BanManager extends FreedomService
         if (ban != null)
         {
             bans.remove(ban);
-            saveAll();
         }
 
         return ban;
@@ -181,7 +163,6 @@ public class BanManager extends FreedomService
         if (ban != null)
         {
             bans.remove(ban);
-            saveAll();
         }
 
         return ban;
@@ -199,12 +180,16 @@ public class BanManager extends FreedomService
 
     public boolean addBan(Ban ban)
     {
+        if (getByUsername(ban.getUsername()) != null)
+        {
+            removeBan(ban);
+        }
         if (bans.add(ban))
         {
-            saveAll();
+            plugin.sql.addBan(ban);
+            updateViews();
             return true;
         }
-        updateViews();
 
         return false;
     }
@@ -213,23 +198,20 @@ public class BanManager extends FreedomService
     {
         if (bans.remove(ban))
         {
-            saveAll();
+            plugin.sql.removeBan(ban);
+            updateViews();
             return true;
         }
-        updateViews();
 
         return false;
     }
 
     public int purge()
     {
-        config.clear();
-        config.save();
-
         int size = bans.size();
         bans.clear();
         updateViews();
-
+        plugin.sql.truncate("bans");
         return size;
     }
 
@@ -248,7 +230,7 @@ public class BanManager extends FreedomService
 
         if (ban != null && !ban.isExpired())
         {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ban.bakeKickMessage(ip));
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ban.bakeKickMessage());
         }
     }
 
@@ -277,11 +259,12 @@ public class BanManager extends FreedomService
     private void updateViews()
     {
         // Remove expired bans
-        for (Iterator<Ban> it = bans.iterator(); it.hasNext(); )
+        for (Ban ban : new ArrayList<>(bans))
         {
-            if (it.next().isExpired())
+            if (ban.isExpired())
             {
-                it.remove();
+                bans.remove(ban);
+                plugin.sql.removeBan(ban);
             }
         }
 

@@ -17,7 +17,8 @@ import org.bukkit.potion.PotionEffectType;
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
 @CommandParameters(
         description = "Manipulate your potion effects. Duration is measured in server ticks (~20 ticks per second).",
-        usage = "/<command> <list | clear [target name] | add <type> <duration> <amplifier> [target name]>")
+        usage = "/<command> <list | clear [target name] | add <type> <duration> <amplifier> [target name]>",
+        aliases="effect")
 public class Command_potion extends FreedomCommand
 {
 

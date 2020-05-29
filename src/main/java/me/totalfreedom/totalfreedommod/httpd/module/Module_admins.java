@@ -17,7 +17,10 @@ public class Module_admins extends HTTPDModule
     @Override
     public NanoHTTPD.Response getResponse()
     {
-        File adminFile = new File(plugin.getDataFolder(), Admin.CONFIG_FILENAME);
+
+        return new NanoHTTPD.Response(NanoHTTPD.Response.Status.NOT_FOUND, NanoHTTPD.MIME_PLAINTEXT,
+                "Error 404: Not Found - i have to re-work this");
+        /*File adminFile = new File(plugin.getDataFolder(), Admin.CONFIG_FILENAME);
         if (adminFile.exists())
         {
             final String remoteAddress = socket.getInetAddress().getHostAddress();
@@ -36,7 +39,7 @@ public class Module_admins extends HTTPDModule
         {
             return new NanoHTTPD.Response(NanoHTTPD.Response.Status.NOT_FOUND, NanoHTTPD.MIME_PLAINTEXT,
                     "Error 404: Not Found - The requested resource was not found on this server.");
-        }
+        }*/
     }
 
     private boolean isAuthorized(String remoteAddress)

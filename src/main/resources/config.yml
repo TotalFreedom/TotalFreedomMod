@@ -179,6 +179,8 @@ allow:
   jukeboxes: false
   spawners: false
   beehives: false
+  auto_tp: false
+  auto_clear: false
 
 # Blocked commands:
 #
@@ -221,7 +223,6 @@ blocked_commands:
   - 'n:b:/ban-ip:_'
   - 'n:b:/pardon-ip:_'
   - 'n:b:/toggledownfall:_'
-  - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
   - 'n:b:/spreadplayers:_'
   - 'n:b:/execute:_'
@@ -233,9 +234,6 @@ blocked_commands:
   - 'n:b:/skinrestorer:_'
   - 'n:b:/packet:_'
   - 'n:b:/thaw:_'
-  - 'n:b:/pp largeexplode:You may not use this particle! Please use another.'
-  - 'n:b:/pp hugeexplosion:You may not use this particle! Please use another.'
-  - 'n:b:/pp barrier:You may not use this particle! Please use another.'
   - 'n:b:/setjail:_'
   - 'n:b:/function:_'
   - 'n:b:/data:_'

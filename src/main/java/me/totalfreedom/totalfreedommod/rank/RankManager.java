@@ -6,6 +6,7 @@ import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.ChatUtils;
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +17,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 public class RankManager extends FreedomService
 {
@@ -175,6 +178,7 @@ public class RankManager extends FreedomService
             fPlayer.setTag(null);
             player.setPlayerListName(null);
         }
+        updatePlayerTeam(player);
         plugin.pem.setPermissions(player);
     }
 
@@ -241,25 +245,8 @@ public class RankManager extends FreedomService
             final Displayable display = getDisplay(player);
 
             FUtil.bcastMsg(craftLoginMessage(player, null));
-            plugin.pl.getPlayer(player).setTag(display.getColoredTag());
 
-            if (isAdmin)
-            {
-                Admin admin = plugin.al.getAdmin(player);
-                if (admin.getTag() != null)
-                {
-                    plugin.pl.getPlayer(player).setTag(FUtil.colorize(admin.getTag()));
-                }
-            }
-
-            String displayName = display.getColor() + player.getName();
-            try
-            {
-                player.setPlayerListName(StringUtils.substring(displayName, 0, 16));
-            }
-            catch (IllegalArgumentException ex)
-            {
-            }
+            updateDisplay(player);
         }
 
         if (!plugin.pv.isPlayerImpostor(player) && target.getEnabled())
@@ -291,5 +278,29 @@ public class RankManager extends FreedomService
             }
         }
         return loginMessage;
+    }
+
+    public void updatePlayerTeam(Player player)
+    {
+        FLog.info("Updating team data...");
+        Displayable display = getDisplay(player);
+        Scoreboard scoreboard = server.getScoreboardManager().getMainScoreboard();
+        Team team = scoreboard.getPlayerTeam(player);
+        if (team != null && !display.hasTeam())
+        {
+            FLog.info("Removing from team");
+            team.removePlayer(player);
+            return;
+        }
+        team = scoreboard.getTeam(display.toString());
+        if (team == null)
+        {
+            FLog.info("Creating team...");
+            team = scoreboard.registerNewTeam(display.toString());
+            FLog.info("Created team " + team.getName());
+            team.setColor(display.getColor());
+        }
+        team.addPlayer(player);
+        FLog.info("Added player to team");
     }
 }

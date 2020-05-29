@@ -7,7 +7,6 @@ import me.totalfreedom.totalfreedommod.admin.ActivityLog;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.banning.PermbanList;
-import me.totalfreedom.totalfreedommod.banning.VPNBanList;
 import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EditBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
@@ -47,6 +46,7 @@ import me.totalfreedom.totalfreedommod.playerverification.PlayerVerification;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.shop.Shop;
+import me.totalfreedom.totalfreedommod.sql.SQLite;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.util.MethodTimer;
@@ -95,6 +95,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public AntiSpam as;
     public PlayerList pl;
     public Shop sh;
+    public SQLite sql;
     public Announcer an;
     public ChatManager cm;
     public Discord dc;
@@ -102,7 +103,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public BanManager bm;
     public PermbanList pm;
     public PermissionManager pem;
-    public VPNBanList vn;
     public ProtectArea pa;
     public GameRuleHandler gr;
     public CommandSpy cs;
@@ -177,9 +177,9 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         backups.createBackups(AdminList.CONFIG_FILENAME);
         backups.createBackups(PermbanList.CONFIG_FILENAME);
         backups.createBackups(PermissionConfig.PERMISSIONS_FILENAME, true);
-        backups.createBackups(VPNBanList.CONFIG_FILENAME);
         backups.createBackups(MasterBuilder.CONFIG_FILENAME);
         backups.createBackups(PunishmentList.CONFIG_FILENAME);
+        backups.createBackups("");
 
         config = new MainConfig(this);
         config.load();
@@ -193,6 +193,7 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         sf = services.registerService(SavedFlags.class);
         wm = services.registerService(WorldManager.class);
         lv = services.registerService(LogViewer.class);
+        sql = services.registerService(SQLite.class);
         al = services.registerService(AdminList.class);
         acl = services.registerService(ActivityLog.class);
         rm = services.registerService(RankManager.class);
@@ -217,7 +218,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         bm = services.registerService(BanManager.class);
         pm = services.registerService(PermbanList.class);
         pem = services.registerService(PermissionManager.class);
-        vn = services.registerService(VPNBanList.class);
         pa = services.registerService(ProtectArea.class);
         gr = services.registerService(GameRuleHandler.class);
         snp = services.registerService(SignBlocker.class);

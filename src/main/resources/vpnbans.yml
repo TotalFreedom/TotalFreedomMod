@@ -1,9 +1,0 @@
-#
-# TotalFreedomMod 5.5 VPN Bans
-#
-
-badnetwork1:
-  - 123.123.123.123
-  - 321.321.321.321
-badnetwork2:
-  - 111.111.111.111

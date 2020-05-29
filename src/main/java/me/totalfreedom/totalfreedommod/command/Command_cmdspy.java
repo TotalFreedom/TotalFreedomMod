@@ -17,7 +17,7 @@ public class Command_cmdspy extends FreedomCommand
 
         Admin admin = plugin.al.getAdmin(playerSender);
         admin.setCommandSpy(!admin.getCommandSpy());
-        plugin.al.save();
+        plugin.al.save(admin);
         plugin.al.updateTables();
         msg("CommandSpy " + (admin.getCommandSpy() ? "enabled." : "disabled."));
 

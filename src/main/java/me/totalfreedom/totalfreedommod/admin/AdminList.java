@@ -3,6 +3,8 @@ package me.totalfreedom.totalfreedommod.admin;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +22,6 @@ import net.pravian.aero.config.YamlConfig;
 import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
 
@@ -30,7 +31,7 @@ public class AdminList extends FreedomService
     public static final String CONFIG_FILENAME = "admins.yml";
 
     @Getter
-    private final Map<String, Admin> allAdmins = Maps.newHashMap(); // Includes disabled admins
+    private final Set<Admin> allAdmins = Sets.newHashSet(); // Includes disabled admins
     // Only active admins below
     @Getter
     private final Set<Admin> activeAdmins = Sets.newHashSet();
@@ -69,7 +70,6 @@ public class AdminList extends FreedomService
     @Override
     protected void onStop()
     {
-        save();
     }
 
     public void load()
@@ -77,45 +77,38 @@ public class AdminList extends FreedomService
         config.load();
 
         allAdmins.clear();
-        for (String key : config.getKeys(false))
+        try
         {
-            ConfigurationSection section = config.getConfigurationSection(key);
-            if (section == null)
+            ResultSet adminSet = plugin.sql.getAdminList();
             {
-                logger.warning("Invalid admin list format: " + key);
-                continue;
+                while (adminSet.next())
+                {
+                    String name = adminSet.getString("username");
+                    List<String> ips = FUtil.stringToList(adminSet.getString("ips"));
+                    Rank rank = Rank.findRank(adminSet.getString("rank"));
+                    Boolean active = adminSet.getBoolean("active");;
+                    Date lastLogin = new Date(adminSet.getLong("last_login"));
+                    String loginMessage = adminSet.getString("login_message");
+                    String tag = adminSet.getString("tag");
+                    String discordID = adminSet.getString("discord_id");
+                    List<String> backupCodes = FUtil.stringToList(adminSet.getString("backup_codes"));
+                    Boolean commandSpy = adminSet.getBoolean("command_spy");
+                    Boolean potionSpy = adminSet.getBoolean("potion_spy");
+                    String acFormat = adminSet.getString("ac_format");
+                    Boolean oldTags = adminSet.getBoolean("old_tags");
+                    Boolean logStick = adminSet.getBoolean("log_stick");
+                    Admin admin = new Admin(name, ips, rank, active, lastLogin, loginMessage, tag, discordID, backupCodes, commandSpy, potionSpy, acFormat, oldTags, logStick);
+                    allAdmins.add(admin);
+                }
             }
-
-            Admin admin = new Admin(key);
-            admin.loadFrom(section);
-
-            if (!admin.isValid())
-            {
-                FLog.warning("Could not load admin: " + key + ". Missing details!");
-                continue;
-            }
-
-            allAdmins.put(key, admin);
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to get adminlist: " + e.getMessage());
         }
 
         updateTables();
         FLog.info("Loaded " + allAdmins.size() + " admins (" + nameTable.size() + " active,  " + ipTable.size() + " IPs)");
-    }
-
-    public void save()
-    {
-        // Clear the config
-        for (String key : config.getKeys(false))
-        {
-            config.set(key, null);
-        }
-
-        for (Admin admin : allAdmins.values())
-        {
-            admin.saveTo(config.createSection(admin.getConfigKey()));
-        }
-
-        config.save();
     }
 
     public void messageAllAdmins(String message)
@@ -194,7 +187,7 @@ public class AdminList extends FreedomService
                 {
                     // Add the new IP if we have to
                     admin.addIp(ip);
-                    save();
+                    save(admin);
                     updateTables();
                 }
                 return admin;
@@ -206,8 +199,9 @@ public class AdminList extends FreedomService
         if (admin != null)
         {
             // Set the new username
+            String oldName = admin.getName();
             admin.setName(player.getName());
-            save();
+            plugin.sql.updateAdminName(oldName, admin.getName());
             updateTables();
         }
 
@@ -253,7 +247,7 @@ public class AdminList extends FreedomService
 
         admin.setLastLogin(new Date());
         admin.setName(player.getName());
-        save();
+        save(admin);
     }
 
     public boolean isAdminImpostor(Player player)
@@ -281,19 +275,16 @@ public class AdminList extends FreedomService
     {
         if (!admin.isValid())
         {
-            logger.warning("Could not add admin: " + admin.getConfigKey() + " Admin is missing details!");
+            logger.warning("Could not add admin: " + admin.getName() + " Admin is missing details!");
             return false;
         }
 
-        final String key = admin.getConfigKey();
-
         // Store admin, update views
-        allAdmins.put(key, admin);
+        allAdmins.add(admin);
         updateTables();
 
         // Save admin
-        admin.saveTo(config.createSection(key));
-        config.save();
+        plugin.sql.addAdmin(admin);
 
         return true;
     }
@@ -309,15 +300,14 @@ public class AdminList extends FreedomService
         }
 
         // Remove admin, update views
-        if (allAdmins.remove(admin.getConfigKey()) == null)
+        if (!allAdmins.remove(admin))
         {
             return false;
         }
         updateTables();
 
-        // 'Unsave' admin
-        config.set(admin.getConfigKey(), null);
-        config.save();
+        // Unsave admin
+        plugin.sql.removeAdmin(admin);
 
         return true;
     }
@@ -328,7 +318,7 @@ public class AdminList extends FreedomService
         nameTable.clear();
         ipTable.clear();
 
-        for (Admin admin : allAdmins.values())
+        for (Admin admin : allAdmins)
         {
             if (!admin.isActive())
             {
@@ -358,9 +348,29 @@ public class AdminList extends FreedomService
         return ipTable.keySet();
     }
 
+    public void save(Admin admin)
+    {
+        try
+        {
+            ResultSet currentSave = plugin.sql.getAdminByName(admin.getName());
+            for (Map.Entry<String, Object> entry : admin.toSQLStorable().entrySet())
+            {
+                Object storedValue = plugin.sql.getValue(currentSave, entry.getKey(), entry.getValue());
+                if (storedValue != null && !storedValue.equals(entry.getValue()) || storedValue == null && entry.getValue() != null)
+                {
+                    plugin.sql.setAdminValue(admin, entry.getKey(), entry.getValue());
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to save admin: " + e.getMessage());
+        }
+    }
+
     public void deactivateOldEntries(boolean verbose)
     {
-        for (Admin admin : allAdmins.values())
+        for (Admin admin : allAdmins)
         {
             if (!admin.isActive() || admin.getRank().isAtLeast(Rank.SENIOR_ADMIN))
             {
@@ -381,9 +391,9 @@ public class AdminList extends FreedomService
             }
 
             admin.setActive(false);
+            save(admin);
         }
 
-        save();
         updateTables();
     }
 }

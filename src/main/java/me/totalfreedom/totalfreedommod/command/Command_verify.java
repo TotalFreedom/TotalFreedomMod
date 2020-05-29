@@ -218,7 +218,7 @@ public class Command_verify extends FreedomCommand
 
                     admin.setActive(true);
                     admin.setLastLogin(new Date());
-                    plugin.al.save();
+                    plugin.al.save(admin);
                     plugin.al.updateTables();
                     plugin.rm.updateDisplay(playerSender);
                     playerSender.setOp(true);

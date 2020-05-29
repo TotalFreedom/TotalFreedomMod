@@ -199,7 +199,7 @@ public class LoginProcess extends FreedomService
         player.sendTitle(FUtil.colorize(ConfigEntry.SERVER_LOGIN_TITLE.getString()), FUtil.colorize(ConfigEntry.SERVER_LOGIN_SUBTITLE.getString()), 20, 100, 60);
         player.setOp(true);
 
-        if (TELEPORT_ON_JOIN.contains(player.getName()))
+        if (TELEPORT_ON_JOIN.contains(player.getName()) || ConfigEntry.AUTO_TP.getBoolean())
         {
             int x = FUtil.randomInteger(-10000, 10000);
             int z = FUtil.randomInteger(-10000, 10000);
@@ -210,7 +210,7 @@ public class LoginProcess extends FreedomService
             return;
         }
 
-        if (CLEAR_ON_JOIN.contains(player.getName()))
+        if (CLEAR_ON_JOIN.contains(player.getName()) || ConfigEntry.AUTO_CLEAR.getBoolean())
         {
             player.getInventory().clear();
             player.sendMessage(ChatColor.AQUA + "Your inventory has been cleared automatically.");

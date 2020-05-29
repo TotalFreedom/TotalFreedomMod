@@ -7,6 +7,7 @@ import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -95,7 +96,7 @@ public class Command_list extends FreedomCommand
         }
         else
         {
-            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - plugin.al.vanished.size())
+            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - AdminList.vanished.size())
                     .append(ChatColor.BLUE)
                     .append(" out of a maximum ")
                     .append(ChatColor.RED)
