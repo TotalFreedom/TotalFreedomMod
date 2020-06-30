@@ -29,7 +29,7 @@ public class WorldRestrictions extends FreedomService
 {
 
     private final List<String> BLOCKED_WORLDEDIT_COMMANDS = Arrays.asList(
-            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock", "tree", "replacenear");
+            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock", "tree", "replacenear", "bigtree");
 
     private final Map<Flag<?>, Object> flags = new HashMap<Flag<?>, Object>()
     {{
@@ -60,7 +60,7 @@ public class WorldRestrictions extends FreedomService
 
     public boolean doRestrict(Player player)
     {
-        if (!plugin.mbl.isMasterBuilder(player) && !FUtil.canManageMasterBuilders(player.getName()))
+        if (!plugin.pl.getData(player).isMasterBuilder() && !plugin.pl.canManageMasterBuilders(player.getName()))
         {
             if (player.getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()) || player.getWorld().equals(plugin.wm.hubworld.getWorld()))
             {

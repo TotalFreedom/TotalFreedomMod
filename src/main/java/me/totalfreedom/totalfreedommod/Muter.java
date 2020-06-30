@@ -38,14 +38,12 @@ public class Muter extends FreedomService
     {
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event)
     {
         Player player = event.getPlayer();
 
         FPlayer fPlayer = plugin.pl.getPlayerSync(player);
-
-        FLog.info("checking mute");
 
         if (!fPlayer.isMuted())
         {

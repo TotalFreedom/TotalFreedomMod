@@ -1,19 +1,19 @@
 package me.totalfreedom.totalfreedommod.rank;
 
 import lombok.Getter;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 
 public enum Rank implements Displayable
 {
 
-    IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW, false),
-    NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.WHITE, false),
-    OP("an", "Operator", Type.PLAYER, "OP", ChatColor.GREEN, false),
-    SUPER_ADMIN("a", "Super Admin", Type.ADMIN, "SA", ChatColor.AQUA, true),
-    TELNET_ADMIN("a", "Telnet Admin", Type.ADMIN, "STA", ChatColor.DARK_GREEN, true),
-    SENIOR_ADMIN("a", "Senior Admin", Type.ADMIN, "SrA", ChatColor.GOLD, true),
-    TELNET_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE, false),
-    SENIOR_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE, false);
+    IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW, null, false),
+    NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.WHITE, null, false),
+    OP("an", "Operator", Type.PLAYER, "OP", ChatColor.GREEN, null, false),
+    SUPER_ADMIN("a", "Super Admin", Type.ADMIN, "SA", ChatColor.AQUA, org.bukkit.ChatColor.AQUA, true),
+    TELNET_ADMIN("a", "Telnet Admin", Type.ADMIN, "STA", ChatColor.DARK_GREEN, org.bukkit.ChatColor.DARK_GREEN, true),
+    SENIOR_ADMIN("a", "Senior Admin", Type.ADMIN, "SrA", ChatColor.GOLD, org.bukkit.ChatColor.GOLD, true),
+    TELNET_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false),
+    SENIOR_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false);
     @Getter
     private final Type type;
     @Getter
@@ -28,9 +28,11 @@ public enum Rank implements Displayable
     @Getter
     private final ChatColor color;
     @Getter
+    private final org.bukkit.ChatColor teamColor;
+    @Getter
     private final boolean hasTeam;
 
-    private Rank(String determiner, String name, Type type, String abbr, ChatColor color, Boolean hasTeam)
+    private Rank(String determiner, String name, Type type, String abbr, ChatColor color, org.bukkit.ChatColor teamColor, Boolean hasTeam)
     {
         this.type = type;
         this.name = name;
@@ -39,6 +41,7 @@ public enum Rank implements Displayable
         this.tag = abbr.isEmpty() ? "" : "[" + abbr + "]";
         this.coloredTag = abbr.isEmpty() ? "" : ChatColor.DARK_GRAY + "[" + color + abbr + ChatColor.DARK_GRAY + "]" + color;
         this.color = color;
+        this.teamColor = teamColor;
         this.hasTeam = hasTeam;
     }
 

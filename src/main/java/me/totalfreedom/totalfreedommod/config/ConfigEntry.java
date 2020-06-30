@@ -82,6 +82,11 @@ public enum ConfigEntry
     DISCORD_EXECUTIVE_ROLE_ID(String.class, "discord.executive_role_id"),
     DISCORD_SERVER_OWNER_ROLE_ID(String.class, "discord.server_owner_role_id"),
     //
+    DONATION_PROBOARDS_URL(String.class, "donation.proboards_url"),
+    DONATION_GROUP_ID(String.class, "donation.donator_group_id"),
+    DONATION_SESSION_ID(String.class, "donation.session_id"),
+    DONATION_CSRF_TOKEN(String.class, "donation.csrf_token"),
+    //
     SHOP_ENABLED(Boolean.class, "shop.enabled"),
     SHOP_TITLE(String.class, "shop.title"),
     SHOP_PREFIX(String.class, "shop.prefix"),

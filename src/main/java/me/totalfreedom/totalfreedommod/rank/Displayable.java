@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.rank;
 
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 
 public interface Displayable
 {
@@ -13,11 +13,14 @@ public interface Displayable
 
     public ChatColor getColor();
 
+    public org.bukkit.ChatColor getTeamColor();
+
     public String getColoredName();
 
     public String getColoredTag();
 
     public String getColoredLoginMessage();
+
 
     public boolean hasTeam();
 

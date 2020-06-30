@@ -91,4 +91,9 @@ public class Trailer extends FreedomService
     {
         trailPlayers.add(player.getName());
     }
+
+    public boolean contains(Player player)
+    {
+        return trailPlayers.contains(player.getName());
+    }
 }

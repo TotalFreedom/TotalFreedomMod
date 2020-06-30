@@ -31,7 +31,7 @@ public class Command_unban extends FreedomCommand
                 return true;
             }
 
-            username = entry.getUsername();
+            username = entry.getName();
             ips.addAll(entry.getIps());
 
             FUtil.adminAction(sender.getName(), "Unbanning " + username, true);

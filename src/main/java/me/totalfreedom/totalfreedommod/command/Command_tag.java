@@ -2,10 +2,8 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.Arrays;
 import java.util.List;
-import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.ArrayUtils;
@@ -35,11 +33,6 @@ public class Command_tag extends FreedomCommand
 
         if (args[0].equals("-s") || args[0].equals("-save"))
         {
-            if (!plugin.al.isAdmin(playerSender) && !plugin.mbl.isMasterBuilder(playerSender) && !plugin.pv.getVerificationPlayer(playerSender).getEnabled())
-            {
-                msg("Only admins, Master Builders, and players with verification enabled can save their tags.", ChatColor.RED);
-                return true;
-            }
             save = true;
             args = ArrayUtils.remove(args, 0);
         }
@@ -199,25 +192,8 @@ public class Command_tag extends FreedomCommand
 
     public void save(Player player, String tag)
     {
-        if (plugin.al.isAdmin(player))
-        {
-            Admin admin = plugin.al.getAdmin(player);
-            admin.setTag(tag);
-            plugin.al.save(admin);
-            plugin.al.updateTables();
-        }
-        else if (plugin.mbl.isMasterBuilder(player))
-        {
-            MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(player);
-            masterBuilder.setTag(tag);
-            plugin.mbl.save();
-            plugin.mbl.updateTables();
-        }
-        else if (plugin.pv.getVerificationPlayer(player).getEnabled())
-        {
-            VPlayer vPlayer = plugin.pv.getVerificationPlayer(player);
-            vPlayer.setTag(tag);
-            plugin.pv.saveVerificationData(vPlayer);
-        }
+        PlayerData playerData = plugin.pl.getData(player);
+        playerData.setTag(tag);
+        plugin.pl.save(playerData);
     }
 }

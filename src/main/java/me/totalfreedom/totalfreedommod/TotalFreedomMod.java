@@ -33,16 +33,12 @@ import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.fun.Landminer;
 import me.totalfreedom.totalfreedommod.fun.MP44;
 import me.totalfreedom.totalfreedommod.fun.MobStacker;
-import me.totalfreedom.totalfreedommod.fun.RealTimer;
 import me.totalfreedom.totalfreedommod.fun.Trailer;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
-import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
-import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilderList;
 import me.totalfreedom.totalfreedommod.world.WorldRestrictions;
 import me.totalfreedom.totalfreedommod.permissions.PermissionConfig;
 import me.totalfreedom.totalfreedommod.permissions.PermissionManager;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
-import me.totalfreedom.totalfreedommod.playerverification.PlayerVerification;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.shop.Shop;
@@ -126,12 +122,9 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
     public Jumppads jp;
     public Trailer tr;
     public HTTPDaemon hd;
-    public MasterBuilderList mbl;
     public WorldRestrictions wr;
     public SignBlocker snp;
-    public PlayerVerification pv;
     public EntityWiper ew;
-    public RealTimer rt;
     //public HubWorldRestrictions hwr;
     //
     // Bridges
@@ -174,12 +167,10 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
         BackupManager backups = new BackupManager(this);
         backups.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
-        backups.createBackups(AdminList.CONFIG_FILENAME);
         backups.createBackups(PermbanList.CONFIG_FILENAME);
         backups.createBackups(PermissionConfig.PERMISSIONS_FILENAME, true);
-        backups.createBackups(MasterBuilder.CONFIG_FILENAME);
         backups.createBackups(PunishmentList.CONFIG_FILENAME);
-        backups.createBackups("");
+        backups.createBackups("database.db");
 
         config = new MainConfig(this);
         config.load();
@@ -207,7 +198,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         lp = services.registerService(LoginProcess.class);
         nu = services.registerService(AntiNuke.class);
         as = services.registerService(AntiSpam.class);
-        mbl = services.registerService(MasterBuilderList.class);
         wr = services.registerService(WorldRestrictions.class);
         pl = services.registerService(PlayerList.class);
         sh = services.registerService(Shop.class);
@@ -239,7 +229,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
 
         mv = services.registerService(MovementValidator.class);
         sp = services.registerService(ServerPing.class);
-        pv = services.registerService(PlayerVerification.class);
 
         // Fun
         cul = services.registerService(CurseListener.class);
@@ -249,8 +238,6 @@ public class TotalFreedomMod extends AeroPlugin<TotalFreedomMod>
         mp = services.registerService(MP44.class);
         jp = services.registerService(Jumppads.class);
         tr = services.registerService(Trailer.class);
-        rt = services.registerService(RealTimer.class);
-
         // HTTPD
         hd = services.registerService(HTTPDaemon.class);
         services.start();

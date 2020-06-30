@@ -4,7 +4,6 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
-import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -66,11 +65,7 @@ public class Module_players extends HTTPDModule
             }
         }
 
-        // Master Builders
-        for (MasterBuilder masterBuilder : plugin.mbl.getAllMasterBuilders().values())
-        {
-            masterbuilders.add(masterBuilder.getName());
-        }
+        masterbuilders.addAll(plugin.pl.getMasterBuilderNames());
 
         // Developers
         developers.addAll(FUtil.DEVELOPERS);

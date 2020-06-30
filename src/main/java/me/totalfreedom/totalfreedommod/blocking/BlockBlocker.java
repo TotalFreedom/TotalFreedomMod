@@ -68,6 +68,7 @@ public class BlockBlocker extends FreedomService
                 break;
             }
             case FIRE:
+            case SOUL_FIRE:
             {
                 if (!ConfigEntry.ALLOW_FIRE_PLACE.getBoolean())
                 {
@@ -173,13 +174,10 @@ public class BlockBlocker extends FreedomService
         if (Groups.BANNERS.contains(event.getBlockPlaced().getType()))
         {
             Banner banner = (Banner) event.getBlockPlaced().getState();
-            List<Pattern> patterns = banner.getPatterns();
-            Banner handBanner = (Banner) (((Block) event.getItemInHand()).getState());
-            List<Pattern> handPatterns = banner.getPatterns();
+            List<Pattern> patterns = banner.getPatterns();;
             if (patterns.size() >= 2)
             {
                 banner.setPatterns(patterns.subList(0, 2));
-                handBanner.setPatterns(handPatterns.subList(0, 2));
                 player.sendMessage(ChatColor.GRAY + "Your banner had too many patterns on it, so some were removed.");
             }
         }

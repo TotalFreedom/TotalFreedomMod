@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
@@ -16,7 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Manage your admin entry.", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin | setacformat <format> | clearacformat> | oldtags | logstick | syncroles | genbackupcodes>")
+@CommandParameters(description = "Manage your admin entry.", usage = "/<command> [-o <admin>] <clearips | clearip <ip> | setlogin <message> | clearlogin | setacformat <format> | clearacformat> | oldtags | logstick | syncroles>")
 public class Command_myadmin extends FreedomCommand
 {
 
@@ -86,6 +87,8 @@ public class Command_myadmin extends FreedomCommand
                 plugin.al.save(target);
                 plugin.al.updateTables();
 
+                plugin.pl.syncIps(target);
+
                 msg(counter + " IPs removed.");
                 msg(targetPlayer, target.getIps().get(0) + " is now your only IP address");
                 return true;
@@ -130,6 +133,8 @@ public class Command_myadmin extends FreedomCommand
                 plugin.al.save(target);
                 plugin.al.updateTables();
 
+                plugin.pl.syncIps(target);
+
                 msg("Removed IP " + args[1]);
                 msg("Current IPs: " + StringUtils.join(target.getIps(), ", "));
                 return true;
@@ -173,17 +178,6 @@ public class Command_myadmin extends FreedomCommand
                 return true;
             }
 
-            case "settag":
-            {
-                msg("Please use /tag set to set your tag.", ChatColor.RED);
-                return true;
-            }
-
-            case "cleartag":
-            {
-                msg("Please use /tag off to remove your tag.", ChatColor.RED);
-                return true;
-            }
             case "setacformat":
             {
                 String format = StringUtils.join(args, " ", 1, args.length);
@@ -229,12 +223,13 @@ public class Command_myadmin extends FreedomCommand
                         msg("Role syncing is not enabled.", ChatColor.RED);
                         return true;
                     }
-                    boolean synced = plugin.dc.syncRoles(target);
-                    if (target.getDiscordID() == null)
+                    PlayerData playerData = plugin.pl.getData(target.getName());
+                    if (playerData.getDiscordID() == null)
                     {
                         msg("Please run /linkdiscord first!", ChatColor.RED);
                         return true;
                     }
+                    boolean synced = plugin.dc.syncRoles(target, playerData.getDiscordID());
                     if (synced)
                     {
                         msg("Successfully synced your roles.", ChatColor.GREEN);
@@ -249,29 +244,7 @@ public class Command_myadmin extends FreedomCommand
             }
 
             case "genbackupcodes":
-                if (!plugin.dc.enabled)
-                {
-                    msg("The Discord verification system is currently disabled.", ChatColor.RED);
-                    return true;
-                }
-                else if (target.getDiscordID() == null || target.getDiscordID().isEmpty())
-                {
-                    msg("Discord verification is not enabled for you.", ChatColor.RED);
-                    return true;
-                }
-
-                msg("Generating backup codes...", ChatColor.GREEN);
-
-                boolean generated = plugin.dc.sendBackupCodes(target);
-
-                if (generated)
-                {
-                    msg("Your backup codes have been sent to your discord account. They can be re-generated at anytime.", ChatColor.GREEN);
-                }
-                else
-                {
-                    msg("Failed to generate backup codes, please contact a developer (preferably Seth)", ChatColor.RED);
-                }
+                msg("Moved to /pv genbackupcodes", ChatColor.RED);
                 return true;
 
             default:
@@ -290,7 +263,7 @@ public class Command_myadmin extends FreedomCommand
         }
 
         List<String> singleArguments = Arrays.asList("clearips", "setlogin", "setacformat");
-        List<String> doubleArguments = Arrays.asList("clearip", "clearlogin", "clearacformat", "oldtags", "logstick", "syncroles", "genbackupcodes");
+        List<String> doubleArguments = Arrays.asList("clearip", "clearlogin", "clearacformat", "oldtags", "logstick", "syncroles");
         if (args.length == 1)
         {
             List<String> options = new ArrayList<>();

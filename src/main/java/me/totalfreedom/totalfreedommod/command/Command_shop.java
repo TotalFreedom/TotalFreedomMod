@@ -20,7 +20,7 @@ public class Command_shop extends FreedomCommand
             msg("The shop is currently disabled!", ChatColor.RED);
             return true;
         }
-        playerSender.openInventory(plugin.sh.generateShopGUI(plugin.sh.getData(playerSender)));
+        playerSender.openInventory(plugin.sh.generateShopGUI(plugin.pl.getData(playerSender)));
         return true;
     }
 }

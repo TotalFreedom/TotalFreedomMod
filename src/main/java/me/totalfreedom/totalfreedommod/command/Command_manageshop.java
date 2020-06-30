@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.shop.ShopData;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.shop.ShopItem;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
@@ -48,21 +48,21 @@ public class Command_manageshop extends FreedomCommand
                                 msg(PLAYER_NOT_FOUND);
                                 return true;
                             }
-                            ShopData shopData = plugin.sh.getData(player);
-                            shopData.setCoins(shopData.getCoins() + amount);
-                            plugin.sh.save(shopData);
-                            msg("Successfully added " + amount + " coins to " + player.getName() + ". Their new balance is " + shopData.getCoins(), ChatColor.GREEN);
-                            player.sendMessage(ChatColor.GREEN + sender.getName() + " gave you " + amount + " coins. Your new balance is " + shopData.getCoins());
+                            PlayerData playerData = plugin.pl.getData(player);
+                            playerData.setCoins(playerData.getCoins() + amount);
+                            plugin.pl.save(playerData);
+                            msg("Successfully added " + amount + " coins to " + player.getName() + ". Their new balance is " + playerData.getCoins(), ChatColor.GREEN);
+                            player.sendMessage(ChatColor.GREEN + sender.getName() + " gave you " + amount + " coins. Your new balance is " + playerData.getCoins());
                             return true;
                         }
                         else
                         {
                             for (Player player : server.getOnlinePlayers())
                             {
-                                ShopData shopData = plugin.sh.getData(player);
-                                shopData.setCoins(shopData.getCoins() + amount);
-                                plugin.sh.save(shopData);
-                                player.sendMessage(ChatColor.GREEN + sender.getName() + " gave you " + amount + " coins. Your new balance is " + shopData.getCoins());
+                                PlayerData playerData = plugin.pl.getData(player);
+                                playerData.setCoins(playerData.getCoins() + amount);
+                                plugin.pl.save(playerData);
+                                player.sendMessage(ChatColor.GREEN + sender.getName() + " gave you " + amount + " coins. Your new balance is " + playerData.getCoins());
                             }
                             msg("Successfully added " + amount + " coins to all online players.", ChatColor.GREEN);
                             return true;
@@ -85,29 +85,29 @@ public class Command_manageshop extends FreedomCommand
                                 msg(PLAYER_NOT_FOUND);
                                 return true;
                             }
-                            ShopData shopData = plugin.sh.getData(player);
-                            shopData.setCoins(shopData.getCoins() + amount);
-                            if (shopData.getCoins() < 0)
+                            PlayerData playerData = plugin.pl.getData(player);
+                            playerData.setCoins(playerData.getCoins() + amount);
+                            if (playerData.getCoins() < 0)
                             {
-                                shopData.setCoins(0);
+                                playerData.setCoins(0);
                             }
-                            plugin.sh.save(shopData);
-                            msg("Successfully removed " + amount + " coins from " + player.getName() + ". Their new balance is " + shopData.getCoins(), ChatColor.GREEN);
-                            player.sendMessage(ChatColor.RED + sender.getName() + " took " + amount + " coins from you. Your new balance is " + shopData.getCoins());
+                            plugin.pl.save(playerData);
+                            msg("Successfully removed " + amount + " coins from " + player.getName() + ". Their new balance is " + playerData.getCoins(), ChatColor.GREEN);
+                            player.sendMessage(ChatColor.RED + sender.getName() + " took " + amount + " coins from you. Your new balance is " + playerData.getCoins());
                             return true;
                         }
                         else
                         {
                             for (Player player : server.getOnlinePlayers())
                             {
-                                ShopData shopData = plugin.sh.getData(player);
-                                shopData.setCoins(shopData.getCoins() - amount);
-                                if (shopData.getCoins() < 0)
+                                PlayerData playerData = plugin.pl.getData(player);
+                                playerData.setCoins(playerData.getCoins() - amount);
+                                if (playerData.getCoins() < 0)
                                 {
-                                    shopData.setCoins(0);
+                                    playerData.setCoins(0);
                                 }
-                                plugin.sh.save(shopData);
-                                player.sendMessage(ChatColor.RED + sender.getName() + " took " + amount + " coins from you. Your new balance is " + shopData.getCoins());
+                                plugin.pl.save(playerData);
+                                player.sendMessage(ChatColor.RED + sender.getName() + " took " + amount + " coins from you. Your new balance is " + playerData.getCoins());
                             }
                             msg("Successfully took " + amount + " coins from all online players.", ChatColor.GREEN);
                             return true;
@@ -128,9 +128,9 @@ public class Command_manageshop extends FreedomCommand
                             msg(PLAYER_NOT_FOUND);
                             return true;
                         }
-                        ShopData shopData = plugin.sh.getData(player);
-                        shopData.setCoins(amount);
-                        plugin.sh.save(shopData);
+                        PlayerData playerData = plugin.pl.getData(player);
+                        playerData.setCoins(amount);
+                        plugin.pl.save(playerData);
                         msg("Successfully set " + player.getName() + "'s coins to " + amount, ChatColor.GREEN);
                         player.sendMessage(ChatColor.GREEN + sender.getName() + " set your coin balance to " + amount);
                         return true;
@@ -171,9 +171,9 @@ public class Command_manageshop extends FreedomCommand
                     return true;
                 }
 
-                ShopData shopData = plugin.sh.getData(player);
-                shopData.giveItem(item);
-                plugin.sh.save(shopData);
+                PlayerData playerData = plugin.pl.getData(player);
+                playerData.giveItem(item);
+                plugin.pl.save(playerData);
                 msg("Successfully gave the " + item.getName() + " to " + player.getName(), ChatColor.GREEN);
                 player.sendMessage(ChatColor.GREEN + sender.getName() + " gave the " + item.getName() + " to you");
                 return true;
@@ -194,9 +194,9 @@ public class Command_manageshop extends FreedomCommand
                     return true;
                 }
 
-                ShopData shopData = plugin.sh.getData(player);
-                shopData.removeItem(item);
-                plugin.sh.save(shopData);
+                PlayerData playerData = plugin.pl.getData(player);
+                playerData.removeItem(item);
+                plugin.pl.save(playerData);
                 msg("Successfully took the " + item.getName() + " from " + player.getName(), ChatColor.GREEN);
                 player.sendMessage(ChatColor.RED + sender.getName() + " took the " + item.getName() + " from you");
                 return true;

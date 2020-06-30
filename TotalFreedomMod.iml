@@ -51,16 +51,18 @@
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.9" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.15-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.16.1-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.Pravian:Aero:5f82926" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TotalFreedom:BukkitTelnet:4.5-pre1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-core:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-api:2.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.TFPatches:TF-LibsDisguises:11aea9b3cd" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.comphenix.protocol:ProtocolLib:4.5.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: cglib:cglib-nodep:3.2.5" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.comphenix.executors:BukkitExecutors:1.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.github.libraryaddict:LibsDisguises:31672fce7b" level="project" />
+    <orderEntry type="library" name="Maven: org.ow2.asm:asm:7.3.1" level="project" />
+    <orderEntry type="library" name="Maven: com.comphenix.protocol:ProtocolLib:4.5.0" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib-nodep:3.2.5" level="project" />
+    <orderEntry type="library" name="Maven: com.comphenix.executors:BukkitExecutors:1.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.16-R0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-core:7.1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit.worldedit-libs:core:7.1.0" level="project" />
@@ -109,7 +111,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: it.unimi.dsi:fastutil:8.2.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.antlr:antlr4-runtime:4.7.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit.worldedit-libs:bukkit:7.1.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.13.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.papermc:paperlib:1.0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.8.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bstats:bstats-bukkit:1.7" level="project" />
@@ -142,21 +143,20 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard.worldguard-libs:core:7.0.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.flywaydb:flyway-core:3.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:commandbook:2.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.destroystokyo.paper:paper-api:1.15.1-R0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: commons-lang:commons-lang:2.6" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: junit:junit:4.10" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.guava:guava:21.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.13-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.25" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm:7.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-commons:7.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-tree:7.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-analysis:7.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.destroystokyo.paper:paper-api:1.16.1-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:21.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.26" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-commons:8.0.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-tree:8.0.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-analysis:8.0.1" level="project" />
     <orderEntry type="library" name="Maven: me.rayzr522:jsonmessage:1.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.vexsoftware:votifier:v1.9" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.16.1-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.ConnorLinfoot:ActionBarAPI:5b2d642d3d" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.goldtreeservers:worldguardextraflags:4.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.boydti:fawe-api:17.07.12-6b6f285-750-13.7.8" level="project" />

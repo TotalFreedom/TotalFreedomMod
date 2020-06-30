@@ -1,59 +1,116 @@
 package me.totalfreedom.totalfreedommod.player;
 
 import com.google.common.collect.Lists;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
-import net.pravian.aero.base.ConfigLoadable;
-import net.pravian.aero.base.ConfigSavable;
-import net.pravian.aero.base.Validatable;
-import org.apache.commons.lang.Validate;
-import org.bukkit.configuration.ConfigurationSection;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.shop.ShopItem;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
-public class PlayerData implements ConfigLoadable, ConfigSavable, Validatable
+public class PlayerData
 {
 
     @Getter
     @Setter
-    private String username;
-    @Getter
-    @Setter
-    private long firstJoinUnix;
-    @Getter
-    @Setter
-    private long lastJoinUnix;
+    private String name;
     private final List<String> ips = Lists.newArrayList();
+    private final List<String> notes = Lists.newArrayList();
+    @Getter
+    @Setter
+    private String tag = null;
+    @Getter
+    @Setter
+    private String discordID = null;
+    private final List<String> backupCodes = Lists.newArrayList();
+    @Setter
+    private Boolean donator = false;
+    @Setter
+    private Boolean masterBuilder = false;
+    @Setter
+    private Boolean verification = false;
+    @Getter
+    @Setter
+    private String rideMode = "ask";
+    @Getter
+    @Setter
+    private int coins;
+    private List<String> items = Lists.newArrayList();
+    @Getter
+    @Setter
+    private int totalVotes;
+
+    public PlayerData(ResultSet resultSet)
+    {
+        try
+        {
+            name = resultSet.getString("username");
+            ips.clear();
+            ips.addAll(FUtil.stringToList(resultSet.getString("ips")));
+            notes.clear();
+            notes.addAll(FUtil.stringToList(resultSet.getString("notes")));
+            tag = resultSet.getString("tag");
+            discordID = resultSet.getString("discord_id");
+            backupCodes.clear();
+            backupCodes.addAll(FUtil.stringToList(resultSet.getString("backup_codes")));
+            donator = resultSet.getBoolean("donator");
+            masterBuilder = resultSet.getBoolean("master_builder");
+            verification = resultSet.getBoolean("verification");
+            rideMode = resultSet.getString("ride_mode");
+            coins = resultSet.getInt("coins");
+            items.clear();
+            items.addAll(FUtil.stringToList(resultSet.getString("items")));
+            totalVotes = resultSet.getInt("total_votes");
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to load player: " + e.getMessage());
+        }
+
+        // Force verification for Master Builders
+        if (masterBuilder && !verification)
+        {
+            verification = true;
+            TotalFreedomMod.plugin().pl.save(this);
+        }
+        else if (!masterBuilder && discordID == null && verification)
+        {
+            this.verification = false;
+            TotalFreedomMod.plugin().pl.save(this);
+        }
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder output = new StringBuilder();
+
+        output.append("Player: ").append(name).append("\n")
+                .append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n")
+                .append("- Discord ID: ").append(discordID).append("\n")
+                .append("- Donator: ").append(donator).append("\n")
+                .append("- Master Builder: ").append(masterBuilder).append("\n")
+                .append("- Has Verification: ").append(verification).append("\n")
+                .append("- Coins: ").append(coins).append("\n")
+                .append("- Total Votes: ").append(totalVotes).append("\n")
+                .append("- Tag: ").append(tag).append("\n")
+                .append("- Ride Mode: ").append(rideMode)
+                .append("- Backup Codes: ").append(backupCodes.size()).append("/10").append("\n");
+
+        return output.toString();
+    }
 
     public PlayerData(Player player)
     {
-        this(player.getName());
-    }
-
-    public PlayerData(String username)
-    {
-        this.username = username;
-    }
-
-    @Override
-    public void loadFrom(ConfigurationSection cs)
-    {
-        this.username = cs.getString("username", username);
-        this.ips.clear();
-        this.ips.addAll(cs.getStringList("ips"));
-        this.firstJoinUnix = cs.getLong("first_join", 0);
-        this.lastJoinUnix = cs.getLong("last_join", 0);
-    }
-
-    @Override
-    public void saveTo(ConfigurationSection cs)
-    {
-        Validate.isTrue(isValid(), "Could not save player entry: " + username + ". Entry not valid!");
-        cs.set("username", username);
-        cs.set("ips", ips);
-        cs.set("first_join", firstJoinUnix);
-        cs.set("last_join", lastJoinUnix);
+        this.name = player.getName();
     }
 
     public List<String> getIps()
@@ -61,23 +118,127 @@ public class PlayerData implements ConfigLoadable, ConfigSavable, Validatable
         return Collections.unmodifiableList(ips);
     }
 
-    // IP utils
     public boolean addIp(String ip)
     {
-        return ips.contains(ip) ? false : ips.add(ip);
+        return !ips.contains(ip) && ips.add(ip);
     }
 
-    public boolean removeIp(String ip)
+    public void removeIp(String ip)
     {
-        return ips.remove(ip);
+        ips.remove(ip);
     }
 
-    @Override
-    public boolean isValid()
+    public void clearIps()
     {
-        return username != null
-                && firstJoinUnix != 0
-                && lastJoinUnix != 0
-                && !ips.isEmpty();
+        ips.clear();
+    }
+
+    public void addIps(List<String> ips)
+    {
+        ips.addAll(ips);
+    }
+
+    public List<String> getNotes()
+    {
+        return Collections.unmodifiableList(notes);
+    }
+
+    public void clearNotes()
+    {
+        notes.clear();
+    }
+
+    public List<String> getBackupCodes()
+    {
+        return Collections.unmodifiableList(backupCodes);
+    }
+
+    public void setBackupCodes(List<String> codes)
+    {
+        backupCodes.clear();
+        backupCodes.addAll(codes);
+    }
+
+    public void removeBackupCode(String code)
+    {
+        backupCodes.remove(code);
+    }
+
+    public void addNote(String note)
+    {
+        notes.add(note);
+    }
+
+    public boolean removeNote(int id) throws IndexOutOfBoundsException
+    {
+        try
+        {
+            notes.remove(id);
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isDonator()
+    {
+        return donator;
+    }
+
+    public void giveItem(ShopItem item)
+    {
+        items.add(item.getDataName());
+    }
+
+    public List<String> getItems()
+    {
+        return Collections.unmodifiableList(items);
+    }
+
+    public boolean hasItem(ShopItem item)
+    {
+        if (items.contains(item.getDataName()))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void removeItem(ShopItem item)
+    {
+        items.remove(item.getDataName());
+    }
+
+    public boolean hasVerification()
+    {
+        return verification;
+    }
+
+    public boolean isMasterBuilder()
+    {
+        return masterBuilder;
+    }
+
+    public Map<String, Object> toSQLStorable()
+    {
+        Map<String, Object> map = new HashMap<String, Object>()
+        {{
+            put("username", name);
+            put("ips", FUtil.listToString(ips));
+            put("notes", FUtil.listToString(notes));
+            put("tag", tag);
+            put("discord_id", discordID);
+            put("backup_codes", FUtil.listToString(backupCodes));
+            put("donator", donator);
+            put("master_builder", masterBuilder);
+            put("verification", verification);
+            put("ride_mode", rideMode);
+            put("coins", coins);
+            put("items", FUtil.listToString(items));
+            put("total_votes", totalVotes);
+        }};
+        return map;
     }
 }

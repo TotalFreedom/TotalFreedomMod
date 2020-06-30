@@ -74,7 +74,7 @@ public class Command_ban extends FreedomCommand
                 return true;
             }
 
-            username = entry.getUsername();
+            username = entry.getName();
             ips.addAll(entry.getIps());
         }
         else

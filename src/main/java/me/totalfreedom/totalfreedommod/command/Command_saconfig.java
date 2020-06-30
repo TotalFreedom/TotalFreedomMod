@@ -7,9 +7,7 @@ import java.util.Date;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.pravian.aero.util.Ips;
@@ -109,7 +107,7 @@ public class Command_saconfig extends FreedomCommand
 
                 if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
                 {
-                    plugin.dc.syncRoles(admin);
+                    plugin.dc.syncRoles(admin, plugin.pl.getData(admin.getName()).getDiscordID());
                 }
 
                 msg("Set " + admin.getName() + "'s rank to " + rank.getName());
@@ -166,7 +164,7 @@ public class Command_saconfig extends FreedomCommand
                     return true;
                 }
 
-                if (player != null && plugin.al.isAdmin(player))
+                if (plugin.al.isAdmin(player))
                 {
                     msg("That player is already admin.");
                     return true;
@@ -177,14 +175,14 @@ public class Command_saconfig extends FreedomCommand
                 Admin admin = null;
                 for (Admin loopAdmin : plugin.al.getAllAdmins())
                 {
-                    if (loopAdmin.getName().equalsIgnoreCase(name))
+                    if (loopAdmin.getName().equalsIgnoreCase(name) || loopAdmin.getIps().contains(Ips.getIp(player)))
                     {
                         admin = loopAdmin;
                         break;
                     }
                 }
 
-                if (plugin.pv.isPlayerImpostor(player))
+                if (plugin.pl.isPlayerImpostor(player))
                 {
                     msg("This player was labeled as a Player impostor and is not an admin, therefore they cannot be added to the admin list.", ChatColor.RED);
                     return true;
@@ -192,11 +190,6 @@ public class Command_saconfig extends FreedomCommand
 
                 if (admin == null) // New admin
                 {
-                    if (plugin.mbl.isMasterBuilderImpostor(player))
-                    {
-                        msg("This player was labeled as a Master Builder impostor and is not an admin, therefore they cannot be added to the admin list.", ChatColor.RED);
-                        return true;
-                    }
                     if (player == null)
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND);
@@ -206,80 +199,24 @@ public class Command_saconfig extends FreedomCommand
                     FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the admin list", true);
                     admin = new Admin(player);
 
-                    // Attempt to find discord account
-                    if (plugin.mbl.isMasterBuilder(player))
-                    {
-                        MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(player);
-                        admin.setDiscordID(plugin.mbl.getMasterBuilder(player).getDiscordID());
-                    }
-                    else if (plugin.pv.getVerificationPlayer(player.getName()) != null)
-                    {
-                        VPlayer vPlayer = plugin.pv.getVerificationPlayer(player.getName());
-                        if (vPlayer.getDiscordId() != null)
-                        {
-                            admin.setDiscordID(vPlayer.getDiscordId());
-                        }
-                    }
                     plugin.al.addAdmin(admin);
                     plugin.rm.updateDisplay(player);
                 }
                 else // Existing admin
                 {
-                    FUtil.adminAction(sender.getName(), "Re-adding " + admin.getName() + " to the admin list", true);
+                    FUtil.adminAction(sender.getName(), "Re-adding " + player.getName() + " to the admin list", true);
 
                     if (player != null)
                     {
                         String oldName = admin.getName();
+                        if (oldName != player.getName())
                         admin.setName(player.getName());
                         plugin.sql.updateAdminName(oldName, admin.getName());
                         admin.addIp(Ips.getIp(player));
                     }
 
-                    // Handle master builders
-                    if (!plugin.mbl.isMasterBuilder(player))
-                    {
-                        MasterBuilder masterBuilder = null;
-                        for (MasterBuilder loopMasterBuilder : plugin.mbl.getAllMasterBuilders().values())
-                        {
-                            if (loopMasterBuilder.getName().equalsIgnoreCase(name))
-                            {
-                                masterBuilder = loopMasterBuilder;
-                                break;
-                            }
-                        }
-
-                        if (masterBuilder != null)
-                        {
-                            if (player != null)
-                            {
-                                masterBuilder.setName(player.getName());
-                                masterBuilder.addIp(Ips.getIp(player));
-                            }
-
-                            masterBuilder.setLastLogin(new Date());
-
-                            plugin.mbl.save();
-                            plugin.mbl.updateTables();
-                        }
-                    }
-
                     admin.setActive(true);
                     admin.setLastLogin(new Date());
-
-                    // Attempt to find discord account
-                    if (plugin.mbl.isMasterBuilder(player))
-                    {
-                        MasterBuilder masterBuilder = plugin.mbl.getMasterBuilder(player);
-                        admin.setDiscordID(plugin.mbl.getMasterBuilder(player).getDiscordID());
-                    }
-                    else if (plugin.pv.getVerificationPlayer(admin.getName()) != null)
-                    {
-                        VPlayer vPlayer = plugin.pv.getVerificationPlayer(admin.getName());
-                        if (vPlayer.getDiscordId() != null)
-                        {
-                            admin.setDiscordID(vPlayer.getDiscordId());
-                        }
-                    }
 
                     if (plugin.al.isVerifiedAdmin(player))
                     {
@@ -296,7 +233,7 @@ public class Command_saconfig extends FreedomCommand
 
                     if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
                     {
-                        plugin.dc.syncRoles(admin);
+                        plugin.dc.syncRoles(admin, plugin.pl.getData(player).getDiscordID());
                     }
                 }
 
@@ -314,7 +251,6 @@ public class Command_saconfig extends FreedomCommand
                         player.setOp(true);
                         player.sendMessage(YOU_ARE_OP);
                     }
-                    plugin.pv.removeEntry(player.getName()); // admins can't have player verification entries
                 }
                 return true;
             }
@@ -348,7 +284,7 @@ public class Command_saconfig extends FreedomCommand
 
                 if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
                 {
-                    plugin.dc.syncRoles(admin);
+                    plugin.dc.syncRoles(admin, plugin.pl.getData(player).getDiscordID());
                 }
 
                 return true;

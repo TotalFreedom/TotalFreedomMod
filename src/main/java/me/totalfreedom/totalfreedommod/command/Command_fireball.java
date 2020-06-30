@@ -15,7 +15,7 @@ public class Command_fireball extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (plugin.sh.getData(playerSender).hasItem(ShopItem.FIRE_BALL))
+        if (plugin.pl.getData(playerSender).hasItem(ShopItem.FIRE_BALL))
         {
             playerSender.getInventory().addItem(plugin.sh.getFireBall());
             msg("You have been given a Fire Ball", ChatColor.GREEN);

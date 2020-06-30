@@ -11,6 +11,7 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.banning.Ban;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 
@@ -77,7 +78,7 @@ public class SQLite extends FreedomService
             {
                 try
                 {
-                    connection.createStatement().execute("CREATE TABLE `bans` ( `name` VARCHAR NOT NULL, `ips` VARCHAR, `by` VARCHAR NOT NULL, `at` LONG NOT NULL, `expires` LONG, `reason` VARCHAR );");
+                    connection.createStatement().execute("CREATE TABLE `bans` ( `name` VARCHAR, `ips` VARCHAR, `by` VARCHAR NOT NULL, `at` LONG NOT NULL, `expires` LONG, `reason` VARCHAR );");
                 }
                 catch (SQLException e)
                 {
@@ -89,11 +90,22 @@ public class SQLite extends FreedomService
             {
                 try
                 {
-                    connection.createStatement().execute("CREATE TABLE `admins` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `rank` VARCHAR NOT NULL, `active` BOOLEAN NOT NULL, `last_login` LONG NOT NULL, `login_message` VARCHAR, `tag` VARCHAR, `discord_id` VARCHAR, `backup_codes` VARCHAR, `command_spy` BOOLEAN NOT NULL, `potion_spy` BOOLEAN NOT NULL, `ac_format` VARCHAR, `old_tags` BOOLEAN NOT NULL, `log_stick` BOOLEAN NOT NULL, `discord_chat` BOOLEAN NOT NULL);");
+                    connection.createStatement().execute("CREATE TABLE `admins` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `rank` VARCHAR NOT NULL, `active` BOOLEAN NOT NULL, `last_login` LONG NOT NULL, `login_message` VARCHAR, `command_spy` BOOLEAN NOT NULL, `potion_spy` BOOLEAN NOT NULL, `ac_format` VARCHAR, `old_tags` BOOLEAN NOT NULL, `log_stick` BOOLEAN NOT NULL, `discord_chat` BOOLEAN NOT NULL);");
                 }
                 catch (SQLException e)
                 {
                     FLog.severe("Failed to create the admins table: " + e.getMessage());
+                }
+            }
+            if (!tableExists(meta, "players"))
+            {
+                try
+                {
+                    connection.createStatement().execute("CREATE TABLE `players` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `notes` VARCHAR, `tag` VARCHAR, `discord_id` VARCHAR, `backup_codes` VARCHAR, `donator` BOOLEAN NOT NULL, `master_builder` BOOLEAN NOT NULL,`verification` BOOLEAN NOT NULL, `ride_mode` VARCHAR NOT NULL, `coins` INT NOT NULL, `items` VARCHAR, `total_votes` INT NOT NULL);");
+                }
+                catch (SQLException e)
+                {
+                    FLog.severe("Failed to create the players table: " + e.getMessage());
                 }
             }
         }
@@ -107,7 +119,7 @@ public class SQLite extends FreedomService
     {
         try
         {
-            connection.createStatement().execute("TRUNCATE TABLE " + table);
+            connection.createStatement().execute("DELETE FROM " + table);
         }
         catch (SQLException e)
         {
@@ -119,7 +131,6 @@ public class SQLite extends FreedomService
     {
         return connection.createStatement().executeQuery("SELECT * FROM bans");
     }
-
 
     public ResultSet getAdminList() throws SQLException
     {
@@ -138,7 +149,24 @@ public class SQLite extends FreedomService
         }
         catch (SQLException e)
         {
-            FLog.severe("Failed to update value: " + e.getMessage());
+            FLog.severe("Failed to update admin value: " + e.getMessage());
+        }
+    }
+
+    public void setPlayerValue(PlayerData player, String key, Object value)
+    {
+        try
+        {
+            Object[] data = {key, player.getName()};
+            PreparedStatement statement = connection.prepareStatement(MessageFormat.format("UPDATE players SET {0}=? WHERE username=''{1}''", data));
+            FLog.info(statement.toString());
+            statement = setUnknownType(statement, 1, value);
+            statement.executeUpdate();
+
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to update player value: " + e.getMessage());
         }
     }
 
@@ -153,7 +181,22 @@ public class SQLite extends FreedomService
         }
         catch (SQLException e)
         {
-            FLog.severe("Failed to update value: " + e.getMessage());
+            FLog.severe("Failed to update admin name: " + e.getMessage());
+        }
+    }
+
+    public void updatePlayerName(String oldName, String newName)
+    {
+        try
+        {
+            PreparedStatement statement = connection.prepareStatement(MessageFormat.format("UPDATE players SET username=? WHERE username=''{0}''", oldName));
+            statement = setUnknownType(statement, 1, newName);
+            statement.executeUpdate();
+
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to update player name: " + e.getMessage());
         }
     }
 
@@ -208,26 +251,49 @@ public class SQLite extends FreedomService
     {
         try
         {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO admins VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO admins VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, admin.getName());
             statement.setString(2, FUtil.listToString(admin.getIps()));
             statement.setString(3, admin.getRank().toString());
             statement.setBoolean(4, admin.isActive());
             statement.setLong(5, admin.getLastLogin().getTime());
             statement.setString(6, admin.getLoginMessage());
-            statement.setString(7, admin.getTag());
-            statement.setString(8, admin.getDiscordID());
-            statement.setString(9, FUtil.listToString(admin.getBackupCodes()));
-            statement.setBoolean(10, admin.getCommandSpy());
-            statement.setBoolean(11, admin.getPotionSpy());
-            statement.setString(12, admin.getAcFormat());
-            statement.setBoolean(13, admin.getOldTags());
-            statement.setBoolean(14, admin.getLogStick());
+            statement.setBoolean(7, admin.getCommandSpy());
+            statement.setBoolean(8, admin.getPotionSpy());
+            statement.setString(9, admin.getAcFormat());
+            statement.setBoolean(10, admin.getOldTags());
+            statement.setBoolean(11, admin.getLogStick());
             statement.executeUpdate();
         }
         catch (SQLException e)
         {
             FLog.severe("Failed to add admin: " + e.getMessage());
+        }
+    }
+
+    public void addPlayer(PlayerData player)
+    {
+        try
+        {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO players VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            statement.setString(1, player.getName());
+            statement.setString(2, FUtil.listToString(player.getIps()));
+            statement.setString(3, FUtil.listToString(player.getNotes()));
+            statement.setString(4, player.getTag());
+            statement.setString(5, player.getDiscordID());
+            statement.setString(6, FUtil.listToString(player.getBackupCodes()));
+            statement.setBoolean(7, player.isDonator());
+            statement.setBoolean(8, player.isMasterBuilder());
+            statement.setBoolean(9, player.hasVerification());
+            statement.setString(10, player.getRideMode());
+            statement.setInt(11, player.getCoins());
+            statement.setString(12, FUtil.listToString(player.getItems()));
+            statement.setInt(13, player.getTotalVotes());
+            statement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to add player: " + e.getMessage());
         }
     }
 
@@ -249,12 +315,65 @@ public class SQLite extends FreedomService
         return null;
     }
 
-    public void removeAdmin(Admin admin)
+    public ResultSet getPlayerByName(String name)
     {
-        Object[] data = {admin.getName(), FUtil.listToString(admin.getBackupCodes())};
         try
         {
-            connection.createStatement().executeUpdate(MessageFormat.format("DELETE FROM bans where name=''{0}'' and ips=''{1}''", data));
+            ResultSet resultSet = connection.createStatement().executeQuery(MessageFormat.format("SELECT * FROM players WHERE username=''{0}''", name));
+            if (resultSet.next())
+            {
+                return resultSet;
+            }
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to get player by name: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ResultSet getMasterBuilders()
+    {
+        try
+        {
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM players WHERE master_builder=true");
+            if (resultSet.next())
+            {
+                return resultSet;
+            }
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to get Master Builders: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ResultSet getPlayerByIp(String ip)
+    {
+        try
+        {
+            ResultSet resultSet = connection.createStatement().executeQuery(MessageFormat.format("SELECT * FROM players WHERE ips LIKE ''%{0}%''", ip));
+            if (resultSet.next())
+            {
+                return resultSet;
+            }
+        }
+        catch (SQLException e)
+        {
+            FLog.severe("Failed to get player by ip: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void removeAdmin(Admin admin)
+    {
+        try
+        {
+            connection.createStatement().executeUpdate(MessageFormat.format("DELETE FROM admins where name=''{0}''", admin.getName()));
         }
         catch (SQLException e)
         {
@@ -283,10 +402,13 @@ public class SQLite extends FreedomService
 
     public void removeBan(Ban ban)
     {
-        Object[] data = {ban.getUsername(), String.join(", ", ban.getIps())};
         try
         {
-            connection.createStatement().executeUpdate(MessageFormat.format("DELETE FROM bans where name=''{0}'' and ips=''{1}''", data));
+            connection.createStatement().executeUpdate(MessageFormat.format("DELETE FROM bans WHERE name=''{0}''", ban.getUsername()));
+            for (String ip : ban.getIps())
+            {
+                connection.createStatement().executeUpdate(MessageFormat.format("DELETE FROM bans WHERE ips LIKE ''%{0}%''", ip));
+            }
         }
         catch (SQLException e)
         {

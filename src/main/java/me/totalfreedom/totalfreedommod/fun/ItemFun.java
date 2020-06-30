@@ -5,20 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
-import javax.security.auth.login.FailedLoginException;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.shop.ShopData;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.shop.ShopItem;
 import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -287,7 +282,7 @@ public class ItemFun extends FreedomService
 
             case BLAZE_ROD:
             {
-                if (!plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.LIGHTNING_ROD, player.getInventory().getItemInMainHand(), plugin.sh.getLightningRod()))
+                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.LIGHTNING_ROD, player.getInventory().getItemInMainHand(), plugin.sh.getLightningRod()))
                 {
                     break;
                 }
@@ -311,7 +306,7 @@ public class ItemFun extends FreedomService
 
             case FIRE_CHARGE:
             {
-                if (!plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.FIRE_BALL, player.getInventory().getItemInMainHand(), plugin.sh.getFireBall()))
+                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.FIRE_BALL, player.getInventory().getItemInMainHand(), plugin.sh.getFireBall()))
                 {
                     break;
                 }
@@ -339,7 +334,7 @@ public class ItemFun extends FreedomService
         if (entity instanceof EnderPearl && entity.getShooter() instanceof Player)
         {
             Player player = (Player)entity.getShooter();
-            if (plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.RIDEABLE_PEARL, player.getInventory().getItemInMainHand(), plugin.sh.getRideablePearl()))
+            if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.RIDEABLE_PEARL, player.getInventory().getItemInMainHand(), plugin.sh.getRideablePearl()))
             {
                 entity.addPassenger(player);
             }
@@ -397,10 +392,10 @@ public class ItemFun extends FreedomService
     public void onFish(PlayerFishEvent event)
     {
         Player player = event.getPlayer();
-        ShopData sd = plugin.sh.getData(player);
+        PlayerData data = plugin.pl.getData(player);
         PlayerInventory inv = event.getPlayer().getInventory();
         ItemStack rod = inv.getItemInMainHand();
-        if (plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.GRAPPLING_HOOK, player.getInventory().getItemInMainHand(), plugin.sh.getGrapplingHook()))
+        if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.GRAPPLING_HOOK, player.getInventory().getItemInMainHand(), plugin.sh.getGrapplingHook()))
         {
             if (event.getState() == PlayerFishEvent.State.REEL_IN || event.getState() == PlayerFishEvent.State.IN_GROUND)
             {

@@ -1,8 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
@@ -10,11 +8,7 @@ import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -47,7 +41,7 @@ public class Command_tban extends FreedomCommand
                 return true;
             }
 
-            username = entry.getUsername();
+            username = entry.getName();
             ips.addAll(entry.getIps());
         }
         else

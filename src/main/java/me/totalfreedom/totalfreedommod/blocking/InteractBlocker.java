@@ -56,15 +56,9 @@ public class InteractBlocker extends FreedomService
     @EventHandler(priority = EventPriority.HIGH)
     public void onRightClickBell(PlayerInteractEvent event)
     {
-        if (event.getClickedBlock() != null)
+        if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.BELL) && !ConfigEntry.ALLOW_BELLS.getBoolean())
         {
-            if (event.getClickedBlock().getType().equals(Material.BELL))
-            {
-                if (!ConfigEntry.ALLOW_BELLS.getBoolean())
-                {
-                    event.setCancelled(true);
-                }
-            }
+            event.setCancelled(true);
         }
     }
 
@@ -89,12 +83,14 @@ public class InteractBlocker extends FreedomService
             return;
         }
 
-        if (Groups.BED_COLORS.contains(event.getMaterial()) && event.getClickedBlock().getBiome().equals(Biome.NETHER))
+        // TODO: lookup new biomes that have bed explosions in 1.16
+
+        /*if (Groups.BED_COLORS.contains(event.getMaterial()) && event.getClickedBlock().getBiome().equals(Biome.NETHER))
         {
             player.sendMessage(ChatColor.RED + "You can't sleep in hell.");
             event.setCancelled(true);
             return;
-        }
+        }*/
 
         switch (event.getMaterial())
         {

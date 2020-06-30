@@ -155,6 +155,12 @@ social_links:
   Website: 'https://totalfreedom.me/'
   Discord: 'https://discordapp.com/invite/XXjmAmV/'
 
+donation:
+  proboards_url: ''
+  donator_group_id: ''
+  session_id: ''
+  csrf_token: ''
+
 # Blocking certain events
 allow:
   fire_place: false
@@ -343,7 +349,7 @@ protectarea:
 # Make sure these are all lower-case.
 host_sender_names:
   - rcon
-  - remotebukkit
+  - console
 
 # Announcer
 announcer:

@@ -154,6 +154,20 @@ public abstract class FreedomCommand extends AbstractCommandBase<TotalFreedomMod
         sender.sendMessage(color + message);
     }
 
+    protected void msg(final CommandSender sender, final String message, final net.md_5.bungee.api.ChatColor color)
+    {
+        if (sender == null)
+        {
+            return;
+        }
+        sender.sendMessage(color + message);
+    }
+
+    protected void msg(final String message, final net.md_5.bungee.api.ChatColor color)
+    {
+        msg(sender, message, color);
+    }
+
     protected void msg(final String message, final ChatColor color)
     {
         msg(sender, message, color);

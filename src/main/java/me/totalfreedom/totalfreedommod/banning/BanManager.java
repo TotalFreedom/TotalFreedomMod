@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -180,10 +179,23 @@ public class BanManager extends FreedomService
 
     public boolean addBan(Ban ban)
     {
-        if (getByUsername(ban.getUsername()) != null)
+        if (ban.getUsername() != null && getByUsername(ban.getUsername()) != null)
         {
             removeBan(ban);
         }
+        else
+        {
+
+            for (String ip : ban.getIps())
+            {
+                if (getByIp(ip) != null)
+                {
+                    removeBan(ban);
+                    break;
+                }
+            }
+        }
+
         if (bans.add(ban))
         {
             plugin.sql.addBan(ban);
@@ -246,14 +258,19 @@ public class BanManager extends FreedomService
         }
 
         // Unban admins
-        for (String storedIp : data.getIps())
+        Ban ban = getByUsername(player.getName());
+        if (ban != null)
         {
-            unbanIp(storedIp);
-            unbanIp(FUtil.getFuzzyIp(storedIp));
+            removeBan(ban);
         }
-
-        unbanUsername(player.getName());
-        player.setOp(true);
+        else
+        {
+            ban = getByIp(Ips.getIp(player));
+            if (ban != null)
+            {
+                removeBan(ban);
+            }
+        }
     }
 
     private void updateViews()

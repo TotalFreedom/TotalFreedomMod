@@ -1,34 +1,24 @@
 package me.totalfreedom.totalfreedommod.shop;
 
-import com.google.common.collect.Maps;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import lombok.Getter;
 import me.rayzr522.jsonmessage.JSONMessage;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
-import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.config.YamlConfig;
-import net.pravian.aero.util.Ips;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -37,10 +27,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class Shop extends FreedomService
 {
-    @Getter
-    public final Map<String, ShopData> dataMap = Maps.newHashMap();
-    @Getter
-    private final File configFolder;
     private BukkitTask reactions;
     public String reactionString = "";
     public Date reactionStartTime;
@@ -49,14 +35,11 @@ public class Shop extends FreedomService
     public Shop(TotalFreedomMod plugin)
     {
         super(plugin);
-
-        this.configFolder = new File(plugin.getDataFolder(), "shopdata");
     }
 
     @Override
     protected void onStart()
     {
-        dataMap.clear();
         if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean())
         {
             long interval = ConfigEntry.SHOP_REACTIONS_INTERVAL.getInteger() * 20L;
@@ -87,24 +70,10 @@ public class Shop extends FreedomService
     @Override
     protected void onStop()
     {
-        for (ShopData sd : dataMap.values())
-        {
-            save(sd);
-        }
-
         if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean())
         {
             reactions.cancel();
         }
-    }
-    
-    public void save(ShopData data)
-    {
-        YamlConfig config = getConfig(data);
-        data.saveTo(config);
-        config.save();
-        dataMap.remove(data.getUsername());
-        dataMap.put(data.getUsername(), data);
     }
     
     public String getShopPrefix()
@@ -117,82 +86,7 @@ public class Shop extends FreedomService
         return FUtil.colorize(ConfigEntry.SHOP_TITLE.getString());
     }
 
-    // May not return null
-    public ShopData getData(Player player)
-    {
-        // Check for existing data
-        ShopData data = dataMap.get(player.getName());
-        if (data != null)
-        {
-            return data;
-        }
-
-        // Load data
-        data = getData(player.getName());
-
-        String ip = Ips.getIp(player);
-
-        // Create new data if nonexistent
-        if (data == null)
-        {
-            FLog.info("Creating new player verification entry for " + player.getName());
-
-            // Create new player
-            data = new ShopData(player);
-            data.addIp(Ips.getIp(player));
-
-            // Store player
-            dataMap.put(player.getName(), data);
-
-            // Save player
-            YamlConfig config = getConfig(data);
-            data.saveTo(config);
-            config.save();
-        }
-
-        if (!data.getsIps().contains(ip))
-        {
-            data.addIp(ip);
-            save(data);
-        }
-
-        return data;
-    }
-
-    public ShopData getData(String username)
-    {
-        username = username.toLowerCase();
-
-        final File configFile = getConfigFile(username);
-        if (!configFile.exists())
-        {
-            return null;
-        }
-
-        final ShopData shopData = new ShopData(username);
-        shopData.loadFrom(getConfig(shopData));
-
-        if (!shopData.isValid())
-        {
-            FLog.warning("Could not load player verification entry for " + username + ". Entry is not valid!");
-            configFile.delete();
-            return null;
-        }
-
-        // Only store data in map if the player is online
-        for (Player players : server.getOnlinePlayers())
-        {
-            if (players.getName().equals(username))
-            {
-                dataMap.put(username, shopData);
-                return shopData;
-            }
-        }
-
-        return shopData;
-    }
-
-    public Inventory generateShopGUI(ShopData shopData)
+    public Inventory generateShopGUI(PlayerData playerData)
     {
         Inventory gui = server.createInventory(null, 36, getShopTitle());
         for (int slot = 0; slot < 36; slot++)
@@ -205,19 +99,19 @@ public class Shop extends FreedomService
         }
         for (ShopItem shopItem : ShopItem.values())
         {
-            ItemStack item = shopGUIItem(shopItem, shopData);
+            ItemStack item = shopGUIItem(shopItem, playerData);
             gui.setItem(shopItem.getSlot(), item);
         }
         // Coins
         ItemStack coins = new ItemStack(Material.GOLD_NUGGET);
         ItemMeta meta = coins.getItemMeta();
-        meta.setDisplayName(FUtil.colorize("&c&lYou have &e&l" + shopData.getCoins() + "&c&l coins"));
+        meta.setDisplayName(FUtil.colorize("&c&lYou have &e&l" + playerData.getCoins() + "&c&l coins"));
         coins.setItemMeta(meta);
         gui.setItem(35, coins);
         return gui;
     }
 
-    public boolean isRealItem(ShopData data, ShopItem shopItem, ItemStack givenItem, ItemStack realItem)
+    public boolean isRealItem(PlayerData data, ShopItem shopItem, ItemStack givenItem, ItemStack realItem)
     {
         if (!data.hasItem(shopItem) || !givenItem.getType().equals(realItem.getType()))
         {
@@ -292,7 +186,7 @@ public class Shop extends FreedomService
         return price - coins;
     }
 
-    public ItemStack shopGUIItem(ShopItem item, ShopData data)
+    public ItemStack shopGUIItem(ShopItem item, PlayerData data)
     {
         ItemStack itemStack = new ItemStack(item.getIcon());
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -341,18 +235,18 @@ public class Shop extends FreedomService
         }
 
         Player player = (Player) event.getWhoClicked();
-        ShopData shopData = getData(player);
+        PlayerData playerData = plugin.pl.getData(player);
         int price = shopItem.getCost();
-        int coins = shopData.getCoins();
+        int coins = playerData.getCoins();
 
-        if (shopData.hasItem(shopItem) || !plugin.sh.canAfford(price, coins))
+        if (playerData.hasItem(shopItem) || !plugin.sh.canAfford(price, coins))
         {
             return;
         }
 
-        shopData.giveItem(shopItem);
-        shopData.setCoins(coins - price);
-        save(shopData);
+        playerData.giveItem(shopItem);
+        playerData.setCoins(coins - price);
+        plugin.pl.save(playerData);
 
         player.closeInventory();
 
@@ -389,13 +283,6 @@ public class Shop extends FreedomService
         return null;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerQuit(PlayerQuitEvent event)
-    {
-        final String ip = Ips.getIp(event.getPlayer());
-        dataMap.remove(ip);
-    }
-
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerVote(VotifierEvent event)
     {
@@ -403,21 +290,21 @@ public class Shop extends FreedomService
         String name = vote.getUsername();
         int coinsPerVote =  ConfigEntry.SHOP_COINS_PER_VOTE.getInteger();
         Player player = server.getPlayer(name);
-        ShopData data = null;
+        PlayerData data = null;
         if (player != null)
         {
-            data = plugin.sh.getData(player);
+            data = plugin.pl.getData(player);
         }
         else
         {
-            data = plugin.sh.getData(name);
+            data = plugin.pl.getData(name);
         }
 
         if (data != null)
         {
             data.setCoins(data.getCoins() + coinsPerVote);
             data.setTotalVotes(data.getTotalVotes() + 1);
-            save(data);
+            plugin.pl.save(data);
             FUtil.bcastMsg(ChatColor.GREEN + name + ChatColor.AQUA + " has voted for us on " + ChatColor.GREEN + vote.getServiceName() + ChatColor.AQUA + "!");
         }
 
@@ -425,22 +312,5 @@ public class Shop extends FreedomService
         {
             player.sendMessage(ChatColor.GREEN + "Thank you for voting for us! Here are " + coinsPerVote + " coins!");
         }
-    }
-
-    public Collection<ShopData> getLoadedData()
-    {
-        return dataMap.values();
-    }
-
-    protected File getConfigFile(String name)
-    {
-        return new File(getConfigFolder(), name.toLowerCase() + ".yml");
-    }
-
-    protected YamlConfig getConfig(ShopData data)
-    {
-        final YamlConfig config = new YamlConfig(plugin, getConfigFile(data.getUsername()), false);
-        config.load();
-        return config;
     }
 }

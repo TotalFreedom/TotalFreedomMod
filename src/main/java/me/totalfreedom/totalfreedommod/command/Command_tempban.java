@@ -47,7 +47,7 @@ public class Command_tempban extends FreedomCommand
                 return true;
             }
 
-            username = entry.getUsername();
+            username = entry.getName();
             ips.addAll(entry.getIps());
         }
         else
