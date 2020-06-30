@@ -6,7 +6,7 @@ import net.md_5.bungee.api.ChatColor;
 public enum Title implements Displayable
 {
 
-    DONATOR("is a", "Premium Member", ChatColor.of("#ff5600"), org.bukkit.ChatColor.LIGHT_PURPLE, "Premium", true),
+    DONATOR("a", "Premium Member", ChatColor.of("#ff5600"), org.bukkit.ChatColor.LIGHT_PURPLE, "Premium", true),
     MASTER_BUILDER("a", "Master Builder", ChatColor.DARK_AQUA, org.bukkit.ChatColor.DARK_AQUA, "MB", true),
     VERIFIED_ADMIN("a", "Verified Admin", ChatColor.LIGHT_PURPLE, org.bukkit.ChatColor.LIGHT_PURPLE, "VA", false),
     ASSISTANT_EXECUTIVE("an", "Assistant Executive", ChatColor.RED, org.bukkit.ChatColor.RED, "Asst Exec", true),
