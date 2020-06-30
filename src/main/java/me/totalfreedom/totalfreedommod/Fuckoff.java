@@ -53,7 +53,7 @@ public class Fuckoff extends FreedomService
 
             if (distanceSquared < (fuckoffRange * fuckoffRange))
             {
-                fuckoffPlayer.setVelocity(onlinePlayer.getLocation().toVector().subtract(foLocation.toVector()).normalize().multiply(fPlayer.getFuckoffRadius()));
+                fuckoffPlayer.setVelocity(onlinePlayer.getLocation().toVector().add(foLocation.toVector()).normalize().multiply(fPlayer.getFuckoffRadius()));
                 break;
             }
         }
