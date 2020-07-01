@@ -15,7 +15,6 @@ import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -58,7 +57,7 @@ public class Admin
     public Admin(Player player)
     {
         this.name = player.getName();
-        this.ips.add(Ips.getIp(player));
+        this.ips.add(FUtil.getIp(player));
     }
 
     public Admin(ResultSet resultSet)
@@ -107,7 +106,7 @@ public class Admin
     {
         name = player.getName();
         ips.clear();
-        ips.add(Ips.getIp(player));
+        ips.add(FUtil.getIp(player));
     }
 
     public Map<String, Object> toSQLStorable()

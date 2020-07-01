@@ -23,19 +23,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class LogViewer extends FreedomService
 {
-
-    public LogViewer(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

@@ -21,20 +21,15 @@ public class SQLite extends FreedomService
 
     private Connection connection;
 
-    public SQLite(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         connect();
         checkTables();
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         disconnect();
     }

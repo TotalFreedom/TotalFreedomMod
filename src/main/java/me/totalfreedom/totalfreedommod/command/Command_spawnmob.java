@@ -20,7 +20,7 @@ public class Command_spawnmob extends FreedomCommand
 {
 
     @Override
-    protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length > 0 && args[0].equalsIgnoreCase("list"))
         {

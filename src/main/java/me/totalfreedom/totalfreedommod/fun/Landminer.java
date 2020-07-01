@@ -23,19 +23,14 @@ public class Landminer extends FreedomService
     @Getter
     private final List<Landmine> landmines = new ArrayList<>();
 
-    public Landminer(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         landmines.clear();
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

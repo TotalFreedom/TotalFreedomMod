@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod.admin;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import java.sql.ResultSet;
@@ -13,16 +12,13 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.ServicePriority;
 
 public class AdminList extends FreedomService
 {
@@ -37,20 +33,15 @@ public class AdminList extends FreedomService
     public final Map<String, List<String>> verifiedNoAdminIps = Maps.newHashMap();
     public static ArrayList<Player> vanished = new ArrayList<>();
 
-    public AdminList(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         load();
         deactivateOldEntries(false);
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -139,7 +130,7 @@ public class AdminList extends FreedomService
     public Admin getAdmin(Player player)
     {
         // Find admin
-        String ip = Ips.getIp(player);
+        String ip = FUtil.getIp(player);
         Admin admin = getEntryByName(player.getName());
 
         // Admin by name
@@ -223,7 +214,7 @@ public class AdminList extends FreedomService
 
     public boolean isVerifiedAdmin(Player player)
     {
-        return verifiedNoAdmins.contains(player.getName()) && verifiedNoAdminIps.get(player.getName()).contains(Ips.getIp(player));
+        return verifiedNoAdmins.contains(player.getName()) && verifiedNoAdminIps.get(player.getName()).contains(FUtil.getIp(player));
     }
 
     public boolean isIdentityMatched(Player player)

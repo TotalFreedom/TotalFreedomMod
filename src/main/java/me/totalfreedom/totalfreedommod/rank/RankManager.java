@@ -20,19 +20,13 @@ import org.bukkit.scoreboard.Team;
 
 public class RankManager extends FreedomService
 {
-
-    public RankManager(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

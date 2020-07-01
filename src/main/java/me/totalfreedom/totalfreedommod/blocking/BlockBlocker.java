@@ -23,19 +23,13 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class BlockBlocker extends FreedomService
 {
-
-    public BlockBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

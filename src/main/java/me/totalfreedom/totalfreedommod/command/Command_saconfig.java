@@ -10,7 +10,6 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -175,7 +174,7 @@ public class Command_saconfig extends FreedomCommand
                 Admin admin = null;
                 for (Admin loopAdmin : plugin.al.getAllAdmins())
                 {
-                    if (loopAdmin.getName().equalsIgnoreCase(name) || loopAdmin.getIps().contains(Ips.getIp(player)))
+                    if (loopAdmin.getName().equalsIgnoreCase(name) || loopAdmin.getIps().contains(FUtil.getIp(player)))
                     {
                         admin = loopAdmin;
                         break;
@@ -212,7 +211,7 @@ public class Command_saconfig extends FreedomCommand
                         if (oldName != player.getName())
                         admin.setName(player.getName());
                         plugin.sql.updateAdminName(oldName, admin.getName());
-                        admin.addIp(Ips.getIp(player));
+                        admin.addIp(FUtil.getIp(player));
                     }
 
                     admin.setActive(true);

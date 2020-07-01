@@ -30,17 +30,20 @@ public class Command_wildcard extends FreedomCommand
             return false;
         }
 
-        Command runCmd = server.getPluginCommand(args[0]);
-        if (runCmd == null)
+        FreedomCommand command = plugin.cl.getByName(args[0]);
+        if (command == null)
         {
             msg("Unknown command: " + args[0], ChatColor.RED);
             return true;
         }
 
-        if (BLOCKED_COMMANDS.contains(runCmd.getName()))
+        for (String blockedCommand : BLOCKED_COMMANDS)
         {
-            msg("Did you really think that was going to work?", ChatColor.RED);
-            return true;
+            if (blockedCommand.equals(command.getName()) || command.getAliases().contains(blockedCommand))
+            {
+                msg("Did you really think that was going to work?", ChatColor.RED);
+                return true;
+            }
         }
 
         String baseCommand = StringUtils.join(args, " ");

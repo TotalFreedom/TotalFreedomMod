@@ -13,21 +13,15 @@ import org.bukkit.plugin.Plugin;
 
 public class WorldGuardBridge extends FreedomService
 {
-
-    public WorldGuardBridge(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         plugin.wr.protectWorld(plugin.wm.hubworld.getWorld());
         plugin.wr.protectWorld(plugin.wm.masterBuilderWorld.getWorld());
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import net.pravian.aero.util.Ips;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 public class Command_playerverification extends FreedomCommand
 {
     @Override
-    protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         PlayerData target = plugin.pl.getData(playerSender);
 
@@ -31,14 +31,14 @@ public class Command_playerverification extends FreedomCommand
                 int cleared = 0;
                 for (String ip : ips)
                 {
-                    if (!ip.equals(Ips.getIp(playerSender)))
+                    if (!ip.equals(FUtil.getIp(playerSender)))
                     {
                         target.removeIp(ip);
                         cleared++;
                     }
                 }
 
-                msg("Cleared all IP's except your current IP \"" + Ips.getIp(playerSender) + "\"");
+                msg("Cleared all IP's except your current IP \"" + FUtil.getIp(playerSender) + "\"");
                 msg("Cleared " + cleared + " IP's.");
                 plugin.pl.save(target);
                 plugin.pl.syncIps(target);

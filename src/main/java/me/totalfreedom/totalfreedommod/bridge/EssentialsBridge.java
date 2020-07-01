@@ -26,18 +26,13 @@ public class EssentialsBridge extends FreedomService
 
     private Essentials essentialsPlugin = null;
 
-    public EssentialsBridge(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

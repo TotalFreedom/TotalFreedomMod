@@ -89,18 +89,13 @@ public class ItemFun extends FreedomService
         return cooldownTracker.get(player.getName()).contains(item.getDataName());
     }
 
-    public ItemFun(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

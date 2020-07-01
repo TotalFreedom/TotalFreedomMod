@@ -17,19 +17,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Cager extends FreedomService
 {
-
-    public Cager(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

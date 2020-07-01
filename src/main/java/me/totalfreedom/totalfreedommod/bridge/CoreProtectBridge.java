@@ -28,18 +28,13 @@ public class CoreProtectBridge extends FreedomService
 
     private BukkitTask wiper;
 
-    public CoreProtectBridge(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

@@ -143,13 +143,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.Pravian</groupId>
-            <artifactId>Aero</artifactId>
-            <version>5f82926</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.github.TotalFreedom</groupId>
             <artifactId>BukkitTelnet</artifactId>
             <version>4.5-pre1</version>
@@ -236,6 +229,18 @@
             <artifactId>worldguardextraflags</artifactId>
             <version>4.0.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.12.1.GA</version>
         </dependency>
 
     </dependencies>
@@ -396,12 +401,22 @@
                                 <include>commons-io:commons-io</include>
                                 <include>org.apache.commons:commons-lang3</include>
                                 <include>commons-codec:commons-codec</include>
+                                <include>org.reflections:reflections</include>
+                                <include>javassist:javassist</include>
                             </includes>
                         </artifactSet>
                     </configuration>
                 </execution>
             </executions>
         </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <outputDirectory>C:\Users\Jax\Desktop\STUFF\ts116\plugins</outputDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

@@ -19,18 +19,13 @@ public class PotionBlocker extends FreedomService
 
     public static final int POTION_BLOCK_RADIUS_SQUARED = 20 * 20;
 
-    public PotionBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

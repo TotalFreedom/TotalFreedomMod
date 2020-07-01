@@ -9,7 +9,6 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,7 +21,7 @@ public class Command_myadmin extends FreedomCommand
 {
 
     @Override
-    protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 1)
         {
@@ -60,7 +59,7 @@ public class Command_myadmin extends FreedomCommand
             }
         }
 
-        final String targetIp = Ips.getIp(targetPlayer);
+        final String targetIp = FUtil.getIp(targetPlayer);
 
         switch (args[0])
         {
@@ -285,7 +284,7 @@ public class Command_myadmin extends FreedomCommand
                     if (args[0].equals("clearip"))
                     {
                         List<String> ips = plugin.al.getAdmin(sender).getIps();
-                        ips.remove(Ips.getIp(playerSender));
+                        ips.remove(FUtil.getIp((Player) sender));
                         return ips;
                     }
                 }

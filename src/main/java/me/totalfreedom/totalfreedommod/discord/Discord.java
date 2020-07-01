@@ -16,7 +16,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import javax.security.auth.login.LoginException;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
@@ -37,8 +36,8 @@ import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.internal.utils.concurrent.CountingThreadFactory;
-import net.pravian.aero.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.GameRule;
 import org.bukkit.entity.Player;
@@ -59,11 +58,6 @@ public class Discord extends FreedomService
     public Boolean enabled = false;
 
     Random random = new Random();
-
-    public Discord(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
 
     public void startBot()
     {
@@ -285,7 +279,7 @@ public class Discord extends FreedomService
     }
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
         startBot();
     }
@@ -323,7 +317,7 @@ public class Discord extends FreedomService
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         if (bot != null)
         {

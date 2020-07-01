@@ -12,19 +12,13 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class AntiNuke extends FreedomService
 {
-
-    public AntiNuke(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

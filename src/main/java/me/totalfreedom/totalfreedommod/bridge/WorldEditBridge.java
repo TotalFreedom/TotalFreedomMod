@@ -15,18 +15,13 @@ public class WorldEditBridge extends FreedomService
     //
     private WorldEditPlugin worldeditPlugin = null;
 
-    public WorldEditBridge(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

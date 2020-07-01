@@ -13,10 +13,8 @@ public class GameRuleHandler extends FreedomService
 
     private final Map<GameRule, Boolean> rules = new EnumMap<>(GameRule.class);
 
-    public GameRuleHandler(TotalFreedomMod plugin)
+    public GameRuleHandler()
     {
-        super(plugin);
-
         for (GameRule gameRule : GameRule.values())
         {
             rules.put(gameRule, gameRule.getDefaultValue());
@@ -24,7 +22,7 @@ public class GameRuleHandler extends FreedomService
     }
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
         setGameRule(GameRule.DO_DAYLIGHT_CYCLE, !ConfigEntry.DISABLE_NIGHT.getBoolean(), false);
         setGameRule(GameRule.DO_FIRE_TICK, ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean(), false);
@@ -41,7 +39,7 @@ public class GameRuleHandler extends FreedomService
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

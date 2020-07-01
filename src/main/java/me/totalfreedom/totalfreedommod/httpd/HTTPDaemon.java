@@ -39,11 +39,6 @@ public class HTTPDaemon extends FreedomService
     private HTTPD httpd;
     public Map<String, ModuleExecutable> modules = new HashMap<>();
 
-    public HTTPDaemon(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
     public void onStart()
     {

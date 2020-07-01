@@ -14,7 +14,7 @@ import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import net.pravian.aero.util.Ips;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -27,20 +27,15 @@ public class PlayerList extends FreedomService
     @Getter
     public final Map<String, PlayerData> dataMap = Maps.newHashMap(); // username, data
 
-    public PlayerList(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         dataMap.clear();
         loadMasterBuilders();
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -79,7 +74,7 @@ public class PlayerList extends FreedomService
     {
         if (player.isOnline())
         {
-            return Ips.getIp(player.getPlayer());
+            return FUtil.getIp(player.getPlayer());
         }
 
         final PlayerData entry = getData(player.getName());
@@ -128,14 +123,14 @@ public class PlayerList extends FreedomService
     // May not return null
     public FPlayer getPlayer(Player player)
     {
-        FPlayer tPlayer = playerMap.get(Ips.getIp(player));
+        FPlayer tPlayer = playerMap.get(FUtil.getIp(player));
         if (tPlayer != null)
         {
             return tPlayer;
         }
 
         tPlayer = new FPlayer(plugin, player);
-        playerMap.put(Ips.getIp(player), tPlayer);
+        playerMap.put(FUtil.getIp(player), tPlayer);
 
         return tPlayer;
     }
@@ -164,7 +159,7 @@ public class PlayerList extends FreedomService
         PlayerData playerData = getData(player);
         return !plugin.al.isAdmin(player)
                 && (playerData.hasVerification())
-                && !playerData.getIps().contains(Ips.getIp(player));
+                && !playerData.getIps().contains(FUtil.getIp(player));
     }
 
     public boolean isImposter(Player player)
@@ -179,7 +174,7 @@ public class PlayerList extends FreedomService
         {
             playerData.removeBackupCode(backupCode);
         }
-        playerData.addIp(Ips.getIp(player));
+        playerData.addIp(FUtil.getIp(player));
         save(playerData);
 
         if (plugin.al.isAdminImpostor(player))
@@ -194,7 +189,7 @@ public class PlayerList extends FreedomService
                 }
             }
             admin.setLastLogin(new Date());
-            admin.addIp(Ips.getIp(player));
+            admin.addIp(FUtil.getIp(player));
             plugin.al.updateTables();
             plugin.al.save(admin);
         }
@@ -257,7 +252,7 @@ public class PlayerList extends FreedomService
 
         if (playerData == null)
         {
-            playerData = loadByIp(Ips.getIp(player));
+            playerData = loadByIp(FUtil.getIp(player));
             if (playerData != null)
             {
                 plugin.sql.updatePlayerName(playerData.getName(),player.getName());
@@ -279,7 +274,7 @@ public class PlayerList extends FreedomService
 
             // Create new player
             playerData = new PlayerData(player);
-            playerData.addIp(Ips.getIp(player));
+            playerData.addIp(FUtil.getIp(player));
 
             // Store player
             dataMap.put(player.getName(), playerData);

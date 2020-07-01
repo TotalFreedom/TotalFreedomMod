@@ -27,18 +27,13 @@ public class MovementValidator extends FreedomService
     public static final int MAX_XYZ_COORD = 29999998;
     public static final int MAX_DISTANCE_TRAVELED = 100;
 
-    public MovementValidator(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

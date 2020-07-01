@@ -16,19 +16,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class InteractBlocker extends FreedomService
 {
-
-    public InteractBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

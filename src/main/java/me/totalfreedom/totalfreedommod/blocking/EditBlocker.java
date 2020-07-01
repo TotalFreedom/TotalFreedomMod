@@ -12,19 +12,13 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class EditBlocker extends FreedomService
 {
-
-    public EditBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

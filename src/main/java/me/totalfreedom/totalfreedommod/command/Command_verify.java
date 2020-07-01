@@ -4,7 +4,6 @@ import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -50,7 +49,7 @@ public class Command_verify extends FreedomCommand
         {
             String code = plugin.dc.generateCode(10);
             plugin.dc.addVerificationCode(code, playerData);
-            plugin.dc.bot.getUserById(discordId).openPrivateChannel().complete().sendMessage("A user with the IP `" + Ips.getIp(playerSender) + "` has sent a verification request. Please run the following in-game command: `/verify " + code + "`").complete();
+            plugin.dc.bot.getUserById(discordId).openPrivateChannel().complete().sendMessage("A user with the IP `" + FUtil.getIp(playerSender) + "` has sent a verification request. Please run the following in-game command: `/verify " + code + "`").complete();
             msg("A verification code has been sent to your account, please copy the code and run /verify <code>", ChatColor.GREEN);
             return true;
         }

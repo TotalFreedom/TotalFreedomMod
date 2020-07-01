@@ -9,7 +9,6 @@ import me.totalfreedom.totalfreedommod.caging.CageData;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.freeze.FreezeData;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
@@ -79,7 +78,7 @@ public class FPlayer
 
     public FPlayer(TotalFreedomMod plugin, Player player)
     {
-        this(plugin, player.getName(), Ips.getIp(player));
+        this(plugin, player.getName(), FUtil.getIp(player));
     }
 
     private FPlayer(TotalFreedomMod plugin, String name, String ip)
@@ -100,7 +99,7 @@ public class FPlayer
         {
             for (Player onlinePlayer : Bukkit.getOnlinePlayers())
             {
-                if (Ips.getIp(onlinePlayer).equals(ip))
+                if (FUtil.getIp(onlinePlayer).equals(ip))
                 {
                     player = onlinePlayer;
                     break;

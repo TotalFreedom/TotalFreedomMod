@@ -9,19 +9,13 @@ import org.bukkit.util.Vector;
 
 public class Orbiter extends FreedomService
 {
-
-    public Orbiter(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

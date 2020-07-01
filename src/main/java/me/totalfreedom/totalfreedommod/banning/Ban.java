@@ -14,14 +14,14 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
+import me.totalfreedom.totalfreedommod.config.IConfig;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.base.Validatable;
-import net.pravian.aero.util.Ips;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-public class Ban implements Validatable
+public class Ban implements IConfig
 {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
@@ -81,7 +81,7 @@ public class Ban implements Validatable
 
     public static Ban forPlayerIp(Player player, CommandSender by, Date expiry, String reason)
     {
-        return new Ban(null, Arrays.asList(Ips.getIp(player)), by.getName(), Date.from(Instant.now()), expiry, reason);
+        return new Ban(null, Arrays.asList(FUtil.getIp(player)), by.getName(), Date.from(Instant.now()), expiry, reason);
     }
 
     public static Ban forPlayerIp(String ip, CommandSender by, Date expiry, String reason)
@@ -116,7 +116,7 @@ public class Ban implements Validatable
     public static Ban forPlayer(Player player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player.getName(),
-                Ips.getIp(player),
+                FUtil.getIp(player),
                 by.getName(),
                 Date.from(Instant.now()),
                 expiry,
@@ -126,7 +126,7 @@ public class Ban implements Validatable
     public static Ban forPlayerFuzzy(Player player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player.getName(),
-                FUtil.getFuzzyIp(Ips.getIp(player)),
+                FUtil.getFuzzyIp(FUtil.getIp(player)),
                 by.getName(),
                 Date.from(Instant.now()),
                 expiry,
@@ -233,6 +233,16 @@ public class Ban implements Validatable
         hash = 79 * hash + (this.username != null ? this.username.toLowerCase().hashCode() : 0);
         hash = 79 * hash + (this.ips != null ? this.ips.hashCode() : 0);
         return hash;
+    }
+
+    @Override
+    public void loadFrom(ConfigurationSection cs)
+    {
+    }
+
+    @Override
+    public void saveTo(ConfigurationSection cs)
+    {
     }
 
     @Override

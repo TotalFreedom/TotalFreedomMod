@@ -106,12 +106,6 @@ public class Command_ride extends FreedomCommand
             return true;
         }
 
-        if (player.getName().equals("Catholic_Mario"))
-        {
-            msg("no", ChatColor.RED);
-            return true;
-        }
-
         if (playerData.getRideMode().equals("ask") && !FUtil.isExecutive(playerSender.getName()))
         {
             msg("Sent a request to the player.", ChatColor.GREEN);
@@ -120,7 +114,7 @@ public class Command_ride extends FreedomCommand
             player.sendMessage(ChatColor.AQUA + "Type " + ChatColor.RED + "/ride deny" + ChatColor.AQUA + " to deny the player permission.");
             player.sendMessage(ChatColor.AQUA + "Request will expire after 30 seconds.");
             RIDE_REQUESTS.put(player, playerSender);
-            FreedomCommandExecutor.timer.schedule(new TimerTask()
+            timer.schedule(new TimerTask()
             {
                 @Override
                 public void run()

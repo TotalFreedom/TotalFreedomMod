@@ -9,19 +9,13 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 public class ServerPing extends FreedomService
 {
-
-    public ServerPing(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

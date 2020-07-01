@@ -7,11 +7,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.command.FreedomCommand;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.command.CommandReflection;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -29,19 +28,14 @@ public class CommandBlocker extends FreedomService
     private final Map<String, CommandBlockerEntry> entryList = Maps.newHashMap();
     private final List<String> unknownCommands = Lists.newArrayList();
 
-    public CommandBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         load();
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         entryList.clear();
     }
@@ -50,13 +44,6 @@ public class CommandBlocker extends FreedomService
     {
         entryList.clear();
         unknownCommands.clear();
-
-        final CommandMap commandMap = CommandReflection.getCommandMap();
-        if (commandMap == null)
-        {
-            FLog.severe("Error loading commandMap.");
-            return;
-        }
 
         @SuppressWarnings("unchecked")
         List<String> blockedCommands = (List<String>)ConfigEntry.BLOCKED_COMMANDS.getList();
@@ -88,7 +75,7 @@ public class CommandBlocker extends FreedomService
                 subCommand = StringUtils.join(commandParts, " ", 1, commandParts.length).trim().toLowerCase();
             }
 
-            final Command command = commandMap.getCommand(commandName);
+            final FreedomCommand command = plugin.cl.getByName(commandName);
 
             // Obtain command from alias
             if (command == null)
@@ -111,7 +98,7 @@ public class CommandBlocker extends FreedomService
 
             if (command != null)
             {
-                for (String alias : command.getAliases())
+                for (String alias : command.getAliases().split(","))
                 {
                     entryList.put(alias.toLowerCase(), blockedCommandEntry);
                 }

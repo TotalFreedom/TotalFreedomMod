@@ -26,10 +26,8 @@ public class WorldManager extends FreedomService
     public MasterBuilderWorld masterBuilderWorld;
     public HubWorld hubworld;
 
-    public WorldManager(TotalFreedomMod plugin)
+    public WorldManager()
     {
-        super(plugin);
-
         this.flatlands = new Flatlands();
         this.adminworld = new AdminWorld();
         this.masterBuilderWorld = new MasterBuilderWorld();
@@ -37,7 +35,7 @@ public class WorldManager extends FreedomService
     }
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
         flatlands.getWorld();
         adminworld.getWorld();
@@ -58,7 +56,7 @@ public class WorldManager extends FreedomService
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         flatlands.getWorld().save();
         adminworld.getWorld().save();

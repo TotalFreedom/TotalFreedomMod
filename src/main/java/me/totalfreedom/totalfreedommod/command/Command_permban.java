@@ -25,8 +25,8 @@ public class Command_permban extends FreedomCommand
         }
 
         msg("Reloading permban list...", ChatColor.RED);
-        plugin.pm.stop();
-        plugin.pm.start();
+        plugin.pm.onStop();
+        plugin.pm.onStart();
         msg("Reloaded permban list.");
         msg(plugin.pm.getPermbannedIps().size() + " IPs and "
                 + plugin.pm.getPermbannedNames().size() + " usernames loaded.");

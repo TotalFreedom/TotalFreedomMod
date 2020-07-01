@@ -18,18 +18,13 @@ public class Monitors extends FreedomService
     private final DecimalFormat decimalFormat = new DecimalFormat("#");
     private String potionSpyPrefix = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "PotionSpy" + ChatColor.DARK_GRAY + "] ";
 
-    public Monitors(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

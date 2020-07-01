@@ -13,12 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,13 +33,8 @@ public class BanManager extends FreedomService
 
     //
 
-    public BanManager(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         bans.clear();
         try
@@ -78,7 +71,7 @@ public class BanManager extends FreedomService
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -120,7 +113,7 @@ public class BanManager extends FreedomService
                     continue;
                 }
 
-                if (Ips.fuzzyIpMatch(ip, loopIp, 4))
+                if (FUtil.fuzzyIpMatch(ip, loopIp, 4))
                 {
                     return loopBan;
                 }
@@ -231,7 +224,7 @@ public class BanManager extends FreedomService
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         final String username = event.getPlayer().getName();
-        final String ip = Ips.getIp(event);
+        final String ip = FUtil.getIp(event);
 
         // Regular ban
         Ban ban = getByUsername(username);
@@ -265,7 +258,7 @@ public class BanManager extends FreedomService
         }
         else
         {
-            ban = getByIp(Ips.getIp(player));
+            ban = getByIp(FUtil.getIp(player));
             if (ban != null)
             {
                 removeBan(ban);

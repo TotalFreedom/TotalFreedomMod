@@ -32,13 +32,8 @@ public class Shop extends FreedomService
     public Date reactionStartTime;
     public final int coinsPerReactionWin = ConfigEntry.SHOP_REACTIONS_COINS_PER_WIN.getInteger();
 
-    public Shop(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean())
         {
@@ -68,7 +63,7 @@ public class Shop extends FreedomService
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean())
         {

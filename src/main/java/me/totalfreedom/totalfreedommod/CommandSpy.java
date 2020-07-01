@@ -9,19 +9,13 @@ import org.bukkit.ChatColor;
 
 public class CommandSpy extends FreedomService
 {
-
-    public CommandSpy(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

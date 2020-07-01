@@ -11,7 +11,6 @@ import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -37,18 +36,13 @@ public class LoginProcess extends FreedomService
     @Setter
     private static boolean lockdownEnabled = false;
 
-    public LoginProcess(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -209,9 +203,9 @@ public class LoginProcess extends FreedomService
             return;
         }
 
-        if (!playerData.hasVerification() && !playerData.getIps().contains(Ips.getIp(player)))
+        if (!playerData.hasVerification() && !playerData.getIps().contains(FUtil.getIp(player)))
         {
-            playerData.addIp(Ips.getIp(player));
+            playerData.addIp(FUtil.getIp(player));
             plugin.pl.save(playerData);
         }
 
@@ -242,7 +236,11 @@ public class LoginProcess extends FreedomService
 
         if (!plugin.al.isAdmin(player))
         {
-            fPlayer.setTag(FUtil.colorize(playerData.getTag()));
+            String tag = playerData.getTag();
+            if (tag != null)
+            {
+                fPlayer.setTag(FUtil.colorize(tag));
+            }
             int noteCount = playerData.getNotes().size();
             if (noteCount != 0)
             {

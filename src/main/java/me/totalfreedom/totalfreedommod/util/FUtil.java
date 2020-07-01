@@ -40,6 +40,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
@@ -702,6 +703,16 @@ public class FUtil
     public static boolean timeZoneOutOfBounds(int tz)
     {
         return tz < -12 || tz > 12;
+    }
+
+    public static String getIp(Player player)
+    {
+        return player.getAddress().getAddress().getHostAddress().trim();
+    }
+
+    public static String getIp(PlayerLoginEvent event)
+    {
+        return event.getAddress().getHostAddress().trim();
     }
 
     private static class MojangResponse

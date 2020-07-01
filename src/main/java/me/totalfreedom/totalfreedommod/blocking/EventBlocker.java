@@ -35,19 +35,13 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class EventBlocker extends FreedomService
 {
-
-    public EventBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

@@ -23,19 +23,14 @@ public class PermissionManager extends FreedomService
 
     public Map<Player, PermissionAttachment> attachments = Maps.newHashMap();
 
-    public PermissionManager(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         loadPermissionNodes();
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
