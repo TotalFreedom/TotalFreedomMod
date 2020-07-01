@@ -47,16 +47,6 @@ public class SignBlocker extends FreedomService
                 player.sendMessage(ChatColor.GRAY + "You are not allowed to place command signs.");
                 event.setCancelled(true);
             }
-            if (line1.contains("translate") || line2.contains("translate") || line3.contains("translate") || line4.contains("translate"))
-            {
-                player.sendMessage(ChatColor.GRAY + "You are not allowed to place broken strings that Mojang never fixed.");
-                event.setCancelled(true);
-            }
-            if (line1.contains("translation.test.") || line2.contains("translation.test.") || line3.contains("translation.test.") || line4.contains("translation.test."))
-            {
-                player.sendMessage(ChatColor.BOLD + "No.");
-                event.setCancelled(true);
-            }
         }
     }
 
