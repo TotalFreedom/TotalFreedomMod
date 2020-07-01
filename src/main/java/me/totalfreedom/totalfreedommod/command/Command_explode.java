@@ -31,6 +31,7 @@ public class Command_explode extends FreedomCommand
             return true;
         }
 
+        player.setFlying(false);
         player.setVelocity(player.getVelocity().clone().add(new Vector(0, 50, 0)));
         for (int i = 1; i <= 3; i++)
         {
