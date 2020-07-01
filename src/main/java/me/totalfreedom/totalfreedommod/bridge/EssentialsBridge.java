@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.bridge;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;

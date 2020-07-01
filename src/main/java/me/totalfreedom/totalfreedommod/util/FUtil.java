@@ -29,13 +29,13 @@ import java.util.regex.Pattern;
 import javax.net.ssl.HttpsURLConnection;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.player.PlayerData;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -43,8 +43,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.Material;
 import org.json.simple.JSONArray;
 
 public class FUtil
@@ -559,7 +559,7 @@ public class FUtil
 
     public static String colorize(String string)
     {
-        Matcher matcher = Pattern.compile("&#[a-f0-9]{6}").matcher(string);
+        Matcher matcher = Pattern.compile("&#[a-f0-9A-F]{6}").matcher(string);
         while (matcher.find())
         {
             String code = matcher.group().replace("&", "");
@@ -713,6 +713,18 @@ public class FUtil
     public static String getIp(PlayerLoginEvent event)
     {
         return event.getAddress().getHostAddress().trim();
+    }
+
+    public static void createExplosionOnDelay(Location location, float power, int delay)
+    {
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                location.getWorld().createExplosion(location, power);
+            }
+        }.runTaskLater(TotalFreedomMod.getPlugin(), delay);
     }
 
     private static class MojangResponse

@@ -2,7 +2,6 @@ package me.totalfreedom.totalfreedommod.freeze;
 
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

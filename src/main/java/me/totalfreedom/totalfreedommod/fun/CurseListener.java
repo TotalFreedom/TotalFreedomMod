@@ -2,13 +2,11 @@ package me.totalfreedom.totalfreedommod.fun;
 
 import java.util.HashMap;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
-
 import static org.bukkit.event.player.PlayerResourcePackStatusEvent.Status;
 
 public class CurseListener extends FreedomService

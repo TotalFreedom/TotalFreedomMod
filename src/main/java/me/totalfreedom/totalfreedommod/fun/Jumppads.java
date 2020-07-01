@@ -6,7 +6,6 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

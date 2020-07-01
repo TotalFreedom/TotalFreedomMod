@@ -2,7 +2,6 @@ package me.totalfreedom.totalfreedommod.blocking;
 
 import java.util.Collection;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;

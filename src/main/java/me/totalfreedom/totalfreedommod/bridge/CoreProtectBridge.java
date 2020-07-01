@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import net.coreprotect.CoreProtect;
