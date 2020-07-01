@@ -118,30 +118,19 @@ public class Command_mbconfig extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (sender instanceof Player)
+        if (args.length == 1)
         {
-            if (args.length == 1)
-            {
-                return Arrays.asList("list");
-            }
-            return Collections.emptyList();
+            return Arrays.asList("add", "remove", "list");
         }
-        else
+        else if (args.length == 2)
         {
-            if (args.length == 1)
+            if (args[0].equals("add"))
             {
-                return Arrays.asList("add", "remove", "list");
+                return FUtil.getPlayerList();
             }
-            else if (args.length == 2)
+            else if (args[0].equals("remove"))
             {
-                if (args[0].equals("add"))
-                {
-                    return FUtil.getPlayerList();
-                }
-                else if (args[0].equals("remove"))
-                {
-                    return plugin.pl.getMasterBuilderNames();
-                }
+                return plugin.pl.getMasterBuilderNames();
             }
         }
         return Collections.emptyList();

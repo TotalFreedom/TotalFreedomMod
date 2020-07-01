@@ -299,41 +299,34 @@ public class Command_saconfig extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (sender instanceof Player)
+        if (args.length == 1)
         {
-            if (args.length == 1)
+            List<String> arguments = new ArrayList<>();
+            arguments.add("list");
+            if (plugin.al.isAdmin(sender))
             {
-                List<String> arguments = new ArrayList<>();
-                arguments.add("list");
-                if (plugin.al.isAdmin(sender))
-                {
-                    arguments.add("info");
-                }
-                return arguments;
+                arguments.add("info");
             }
-            else if (args.length == 2 && args[0].equals("info") && plugin.al.isAdmin(sender))
+            if (plugin.al.isTelnetAdmin(sender))
             {
-                return plugin.al.getActiveAdminNames();
+                arguments.add("add");
+                arguments.add("remove");
             }
-            return Collections.emptyList();
+            if (plugin.al.isSeniorAdmin(sender))
+            {
+                arguments.add("reload");
+                arguments.add("clean");
+                arguments.add("setrank");
+            }
+            return arguments;
         }
-        else
+        if (args.length == 2 && (args[0].equals("add") || args[0].equals("remove") || args[0].equals("setrank") || args[0].equals("info")))
         {
-            if (args.length == 1)
-            {
-                return Arrays.asList("add", "remove", "clean", "reload", "setrank", "info", "list");
-            }
-            else if (args.length == 2)
-            {
-                if (args[0].equals("add") || args[0].equals("remove") || args[0].equals("setrank") || args[0].equals("info"))
-                {
-                    return FUtil.getPlayerList();
-                }
-            }
-            else if (args.length == 3 && args[0].equals("setrank"))
-            {
-                return Arrays.asList("super_admin", "telnet_admin", "senior_admin");
-            }
+            return FUtil.getPlayerList();
+        }
+        if (args.length == 3 && args[0].equals("setrank"))
+        {
+            return Arrays.asList("SUPER_ADMIN", "TELNET_ADMIN", "SENIOR_ADMIN");
         }
 
         return Collections.emptyList();

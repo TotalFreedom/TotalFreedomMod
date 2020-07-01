@@ -293,7 +293,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
 
     protected List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        return null;
+        return FUtil.getPlayerList();
     }
 
     protected boolean isConsole()

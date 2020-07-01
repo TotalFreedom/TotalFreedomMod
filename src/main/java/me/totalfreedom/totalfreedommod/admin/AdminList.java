@@ -106,6 +106,17 @@ public class AdminList extends FreedomService
         return admin != null && admin.isActive();
     }
 
+    public boolean isTelnetAdmin(CommandSender sender)
+    {
+        Admin admin = getAdmin(sender);
+        if (admin == null)
+        {
+            return false;
+        }
+
+        return admin.getRank().ordinal() >= Rank.TELNET_ADMIN.ordinal();
+    }
+
     public boolean isSeniorAdmin(CommandSender sender)
     {
         Admin admin = getAdmin(sender);
