@@ -89,27 +89,22 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
         cmd.setExecutor(this);
     }
 
-    public static final CommandMap getCommandMap()
+    public static CommandMap getCommandMap()
     {
         if (commandMap == null)
         {
             try
             {
-                final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+                final Field f = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("commandMap");
                 f.setAccessible(true);
-                commandMap = (CommandMap) f.get(Bukkit.getServer());
-                return getCommandMap();
+                commandMap = (CommandMap) f.get(Bukkit.getServer().getPluginManager());
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
         }
-        else if (commandMap != null)
-        {
-            return commandMap;
-        }
-        return getCommandMap();
+        return commandMap;
     }
 
     private final class FCommand extends Command

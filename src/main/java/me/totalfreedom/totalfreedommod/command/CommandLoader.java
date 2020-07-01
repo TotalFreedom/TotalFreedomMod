@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
@@ -39,6 +40,16 @@ public class CommandLoader extends FreedomService
                 return command;
         }
         return null;
+    }
+
+    public boolean isAlias(String alias)
+    {
+        for (FreedomCommand command : commands)
+        {
+            if (Arrays.asList(command.getAliases().split(",")).contains(alias))
+                return true;
+        }
+        return false;
     }
 
     public int getCommandAmount()
