@@ -51,7 +51,7 @@ public class Discord extends FreedomService
 {
     public static HashMap<String, PlayerData> LINK_CODES = new HashMap<>();
     public static HashMap<String, PlayerData> VERIFICATION_CODES = new HashMap<>();
-    public ScheduledThreadPoolExecutor RATELIMIT_EXECUTOR = new ScheduledThreadPoolExecutor(5, new CountingThreadFactory(this::poolIdentifier, "RateLimit"));
+    public ScheduledThreadPoolExecutor RATELIMIT_EXECUTOR;
     public List<CompletableFuture<Message>> sentMessages = new ArrayList<>();
 
     public static JDA bot = null;
@@ -68,6 +68,7 @@ public class Discord extends FreedomService
         }
         if (bot != null)
         {
+            RATELIMIT_EXECUTOR = new ScheduledThreadPoolExecutor(5, new CountingThreadFactory(this::poolIdentifier, "RateLimit")); // To avoid ClassNotFoundException as net.dv8tion.jda.internal.utils.concurrent.CountingThreadFactory doesn't exist.
             for (Object object : bot.getRegisteredListeners())
             {
                 bot.removeEventListener(object);
