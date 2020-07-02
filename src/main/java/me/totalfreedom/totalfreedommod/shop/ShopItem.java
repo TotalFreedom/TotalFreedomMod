@@ -10,17 +10,18 @@ public enum ShopItem
     GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, 10, ConfigEntry.SHOP_PRICES_GRAPPLING_HOOK, ChatColor.GREEN, "grapplingHook"),
     LIGHTNING_ROD("Lightning Rod", Material.BLAZE_ROD, 12, ConfigEntry.SHOP_PRICES_LIGHTNING_ROD, ChatColor.LIGHT_PURPLE, "lightningRod"),
     FIRE_BALL("Fire Ball", Material.FIRE_CHARGE, 14, ConfigEntry.SHOP_PRICES_FIRE_BALL, ChatColor.RED, "fireBall"),
-    RIDEABLE_PEARL("Rideable Ender Pearl", Material.ENDER_PEARL, 16, ConfigEntry.SHOP_PRICES_RIDEABLE_PEARL, ChatColor.DARK_PURPLE, "rideablePearl");
+    RIDEABLE_PEARL("Rideable Ender Pearl", Material.ENDER_PEARL, 16, ConfigEntry.SHOP_PRICES_RIDEABLE_PEARL, ChatColor.DARK_PURPLE, "rideablePearl"),
+    STACKING_POTATO("Stacking Potato", Material.POTATO, 22, ConfigEntry.SHOP_PRICES_STACKING_POTATO, ChatColor.YELLOW, "stackingPotato");
 
     /*
         Shop GUI Layout:
 
         Dimensions: 9x4 = 36
-        Key: g = Grappling Hook, l = Lightning Rod, f = Fire Ball, r = Rideable Ender Pearl, $ = Coins}
+        Key: g = Grappling Hook, l = Lightning Rod, f = Fire Ball, r = Rideable Ender Pearl, S = Stacking Potato $ = Coins}
 
         ---------
         -g-l-f-r-
-        ---------
+        ----s----
         --------$
     */
 

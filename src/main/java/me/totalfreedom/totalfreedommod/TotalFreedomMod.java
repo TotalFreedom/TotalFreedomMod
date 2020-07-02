@@ -34,7 +34,6 @@ import me.totalfreedom.totalfreedommod.fun.ItemFun;
 import me.totalfreedom.totalfreedommod.fun.Jumppads;
 import me.totalfreedom.totalfreedommod.fun.Landminer;
 import me.totalfreedom.totalfreedommod.fun.MP44;
-import me.totalfreedom.totalfreedommod.fun.MobStacker;
 import me.totalfreedom.totalfreedommod.fun.Trailer;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.permissions.PermissionConfig;
@@ -125,7 +124,6 @@ public class TotalFreedomMod extends JavaPlugin
     public CurseListener cul;
     public ItemFun it;
     public Landminer lm;
-    public MobStacker ms;
     public MP44 mp;
     public Jumppads jp;
     public Trailer tr;
@@ -259,7 +257,6 @@ public class TotalFreedomMod extends JavaPlugin
         cul = new CurseListener();
         it = new ItemFun();
         lm = new Landminer();
-        ms = new MobStacker();
         mp = new MP44();
         jp = new Jumppads();
         tr = new Trailer();

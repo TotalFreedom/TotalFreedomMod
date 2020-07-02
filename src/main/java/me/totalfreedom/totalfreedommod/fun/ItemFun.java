@@ -11,8 +11,6 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.shop.ShopItem;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -30,12 +28,14 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -99,6 +99,55 @@ public class ItemFun extends FreedomService
     }
 
     @EventHandler
+    public void onPlayerEntityInteract(PlayerInteractEntityEvent event)
+    {
+
+        Player player = event.getPlayer();
+
+        Entity entity = event.getRightClicked();
+
+        if (!player.getInventory().getItemInMainHand().getType().equals(Material.POTATO) || entity.getType().equals(EntityType.PLAYER))
+        {
+            return;
+        }
+
+        if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory().getItemInMainHand(), plugin.sh.getStackingPotato()))
+        {
+            return;
+        }
+
+        player.addPassenger(entity);
+        player.sendMessage("Stacked " + entity.getName());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityDamage(EntityDamageByEntityEvent event)
+    {
+
+        Entity entity = event.getEntity();
+
+        if (entity instanceof Player || !(event.getDamager() instanceof Player))
+        {
+            return;
+        }
+
+        Player player = (Player)event.getDamager();
+
+        if (!player.getInventory().getItemInMainHand().getType().equals(Material.POTATO))
+        {
+            return;
+        }
+
+        if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory().getItemInMainHand(), plugin.sh.getStackingPotato()))
+        {
+            return;
+        }
+
+        event.setCancelled(true);
+        entity.addPassenger(player);
+    }
+
+    @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEvent event)
     {
         if (event.getAction() == Action.LEFT_CLICK_AIR
@@ -112,130 +161,6 @@ public class ItemFun extends FreedomService
 
         switch (event.getMaterial())
         {
-            case TROPICAL_FISH:
-            {
-                final int RADIUS_HIT = 5;
-                final int STRENGTH = 4;
-
-                if (!plugin.al.isSeniorAdmin(player))
-                {
-                    final StringBuilder msg = new StringBuilder();
-                    final char[] chars = ("That's clownery, luv").toCharArray();
-                    for (char c : chars)
-                    {
-                        msg.append(FUtil.randomChatColor()).append(c);
-                    }
-                    player.sendMessage(msg.toString());
-
-                    player.getEquipment().getItemInMainHand().setType(Material.POTATO);
-                    break;
-                }
-
-                event.setCancelled(true);
-                boolean didHit = false;
-
-                final Location playerLoc = player.getLocation();
-                final Vector playerLocVec = playerLoc.toVector();
-
-                final List<Player> players = player.getWorld().getPlayers();
-                for (final Player target : players)
-                {
-                    if (target == player)
-                    {
-                        continue;
-                    }
-
-                    final Location targetPos = target.getLocation();
-                    final Vector targetPosVec = targetPos.toVector();
-
-                    try
-                    {
-                        if (targetPosVec.distanceSquared(playerLocVec) < (RADIUS_HIT * RADIUS_HIT))
-                        {
-                            FUtil.setFlying(player, false);
-                            target.setVelocity(targetPosVec.subtract(playerLocVec).normalize().multiply(STRENGTH));
-                            didHit = true;
-                        }
-                    }
-                    catch (IllegalArgumentException ex)
-                    {
-                    }
-                }
-
-                if (didHit)
-                {
-                    final Sound[] sounds = Sound.values();
-                    for (Sound sound : sounds)
-                    {
-                        if (sound.toString().contains("HIT"))
-                        {
-                            playerLoc.getWorld().playSound(randomOffset(playerLoc, 5.0), sound, 100.0f, randomDoubleRange(0.5, 2.0).floatValue());
-                        }
-                    }
-                }
-                break;
-            }
-
-            case CARROT:
-            {
-                if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean() || !plugin.al.isSeniorAdmin(player) || plugin.wr.doRestrict(player))
-                {
-                    break;
-                }
-
-                Location location = player.getLocation().clone();
-
-                Vector playerPosition = location.toVector().add(new Vector(0.0, 1.65, 0.0));
-                Vector playerDirection = location.getDirection().normalize();
-
-                double distance = 150.0;
-                Block targetBlock = DepreciationAggregator.getTargetBlock(player, null, Math.round((float)distance));
-                if (targetBlock != null)
-                {
-                    distance = location.distance(targetBlock.getLocation());
-                }
-
-                final List<Block> affected = new ArrayList<>();
-
-                Block lastBlock = null;
-                for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))
-                {
-                    Block block = playerPosition.clone().add(playerDirection.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
-
-                    if (!block.equals(lastBlock))
-                    {
-                        if (block.isEmpty())
-                        {
-                            affected.add(block);
-                            block.setType(Material.TNT);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    lastBlock = block;
-                }
-
-                new BukkitRunnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        for (Block tntBlock : affected)
-                        {
-                            TNTPrimed tnt = tntBlock.getWorld().spawn(tntBlock.getLocation(), TNTPrimed.class);
-                            tnt.setFuseTicks(5);
-                            tntBlock.setType(Material.AIR);
-                        }
-                    }
-                }.runTaskLater(plugin, 30L);
-
-                event.setCancelled(true);
-                break;
-            }
-
             case BONE:
             {
                 if (!fPlayer.mobThrowerEnabled())

@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import me.rayzr522.jsonmessage.JSONMessage;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,35 +34,95 @@ public class Shop extends FreedomService
     public String reactionString = "";
     public Date reactionStartTime;
     public final int coinsPerReactionWin = ConfigEntry.SHOP_REACTIONS_COINS_PER_WIN.getInteger();
+    public final String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "Reaction" + ChatColor.DARK_GRAY + "] ";
+    public BukkitTask countdownTask;
+    private BossBar countdownBar = null;
 
     @Override
     public void onStart()
     {
         if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean())
         {
-            long interval = ConfigEntry.SHOP_REACTIONS_INTERVAL.getInteger() * 20L;
+            startReactionTimer();
+        }
+    }
 
-            reactions = new BukkitRunnable()
+    public void startReactionTimer()
+    {
+
+        long interval = ConfigEntry.SHOP_REACTIONS_INTERVAL.getInteger() * 20L;
+
+        reactions = new BukkitRunnable()
+        {
+
+            @Override
+            public void run()
             {
+                startReaction();
+            }
+        }.runTaskLater(plugin, interval);
+    }
 
-                @Override
-                public void run()
+    public void forceStartReaction()
+    {
+        reactions.cancel();
+        startReaction();
+    }
+
+    public void startReaction()
+    {
+        reactionString = FUtil.randomString(ConfigEntry.SHOP_REACTIONS_STRING_LENGTH.getInteger());
+
+        FUtil.bcastMsg(prefix + ChatColor.AQUA + "Enter the code above to win " + ChatColor.GOLD + plugin.sh.coinsPerReactionWin + ChatColor.AQUA + " coins!", false);
+
+        reactionStartTime = new Date();
+
+        countdownBar = server.createBossBar(reactionString, BarColor.GREEN, BarStyle.SOLID);
+        for (Player player : server.getOnlinePlayers())
+        {
+            countdownBar.addPlayer(player);
+        }
+        countdownBar.setVisible(true);
+        countdownTask = new BukkitRunnable()
+        {
+            double seconds = 30;
+            double max = seconds;
+            @Override
+            public void run()
+            {
+                if ((seconds -= 1) == 0)
                 {
-                    reactionString = FUtil.randomString(ConfigEntry.SHOP_REACTIONS_STRING_LENGTH.getInteger());
-                    for (Player player : server.getOnlinePlayers())
+                    endReaction(null);
+                }
+                else
+                {
+                    countdownBar.setProgress(seconds / max);
+                    if (!countdownBar.getColor().equals(BarColor.YELLOW) && seconds / max <= 0.25)
                     {
-                        String reactionMessage = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "Reaction" + ChatColor.DARK_GRAY + "] "
-                                + ChatColor.AQUA + "Hover over this message or click on it and type the "
-                                + ChatColor.AQUA + "string to win " + ChatColor.GOLD + plugin.sh.coinsPerReactionWin + ChatColor.AQUA + " coins!";
-                        JSONMessage.create(reactionMessage)
-                                .tooltip(ChatColor.DARK_AQUA + reactionString)
-                                .runCommand("/reactionbar")
-                                .send(player);
-                        reactionStartTime = new Date();
+                        countdownBar.setColor(BarColor.YELLOW);
                     }
                 }
-            }.runTaskTimer(plugin, interval, interval);
+            }
+        }.runTaskTimer(plugin, 0, 20);
+    }
+
+    public void endReaction(String winner)
+    {
+        countdownTask.cancel();
+        countdownBar.removeAll();
+        countdownBar = null;
+        reactionString = "";
+
+        if (winner != null)
+        {
+            Date currentTime = new Date();
+            long seconds = (currentTime.getTime() - reactionStartTime.getTime()) / 1000;
+            FUtil.bcastMsg(prefix + ChatColor.GREEN + winner + ChatColor.AQUA + " won in " + seconds + " seconds!", false);
+            return;
         }
+
+        FUtil.bcastMsg(prefix + ChatColor.RED + "No one reacted fast enough", false);
+        startReactionTimer();
     }
 
     @Override
@@ -167,6 +229,16 @@ public class Shop extends FreedomService
         return itemStack;
     }
 
+    public ItemStack getStackingPotato()
+    {
+        ItemStack itemStack = new ItemStack(Material.POTATO);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.YELLOW + "Stacking Potato");
+        itemMeta.setLore(Arrays.asList(ChatColor.GREEN + "Left click to ride a mob, right click to put a mob on your head."));
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
 
     public boolean canAfford(int price, int coins)
     {
@@ -263,6 +335,10 @@ public class Shop extends FreedomService
         else if (shopItem.equals(ShopItem.RIDEABLE_PEARL))
         {
             player.sendMessage(ChatColor.GREEN + "Run /rideablepearl to get one!");
+        }
+        else if (shopItem.equals(ShopItem.STACKING_POTATO))
+        {
+            player.sendMessage(ChatColor.GREEN + "Run /stackingpotato to get one!");
         }
 
     }

@@ -61,12 +61,7 @@ public class ChatManager extends FreedomService
             PlayerData data = plugin.pl.getData(player);
             data.setCoins(data.getCoins() + plugin.sh.coinsPerReactionWin);
             plugin.pl.save(data);
-            plugin.sh.reactionString = "";
-            Date currentTime = new Date();
-            long seconds = (currentTime.getTime() - plugin.sh.reactionStartTime.getTime()) / 1000;
-            String reactionMessage = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "Reaction" + ChatColor.DARK_GRAY + "] "
-                    + ChatColor.GREEN + player.getName() + ChatColor.AQUA + " won in " + seconds + " seconds!";
-            FUtil.bcastMsg(reactionMessage, false);
+            plugin.sh.endReaction(player.getName());
             player.sendMessage(ChatColor.GREEN + "You have been given " + ChatColor.GOLD + plugin.sh.coinsPerReactionWin + ChatColor.GREEN + " coins!");
             return;
         }

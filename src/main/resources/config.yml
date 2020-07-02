@@ -107,6 +107,9 @@ shop:
     # How much time (in seconds) before a new reaction prompt is made
     interval: 300
 
+    # How much time do players have to react
+    time: 30
+
     # How many coins do winners get?
     coins_per_win: 5
 
@@ -119,6 +122,7 @@ shop:
     lightning_rod: 1000
     fire_ball: 500
     rideable_pearl: 700
+    stacking_potato: 300
 
 # Admin list
 adminlist:
@@ -154,12 +158,6 @@ social_links:
   Forum: 'https://totalfreedom.boards.net/'
   Website: 'https://totalfreedom.me/'
   Discord: 'https://discordapp.com/invite/XXjmAmV/'
-
-donation:
-  proboards_url: ''
-  donator_group_id: ''
-  session_id: ''
-  csrf_token: ''
 
 # Blocking certain events
 allow:
