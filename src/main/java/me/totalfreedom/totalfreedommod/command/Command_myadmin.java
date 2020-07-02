@@ -158,9 +158,9 @@ public class Command_myadmin extends FreedomCommand
                     msg("Your login message cannot be more than 64 characters (excluding your rank and your name)", ChatColor.RED);
                     return true;
                 }
-                String previewMessage = plugin.rm.craftLoginMessage(targetPlayer, message);
                 FUtil.adminAction(sender.getName(), "Setting personal login message" + (init == null ? "" : " for " + targetPlayer.getName()), false);
                 target.setLoginMessage(message);
+                String previewMessage = plugin.rm.craftLoginMessage(targetPlayer, message);
                 msg((init == null ? "Your" : targetPlayer.getName() + "'s") + " login message is now: ");
                 msg("> " + previewMessage);
                 plugin.al.save(target);
