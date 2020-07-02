@@ -159,6 +159,16 @@ public class BlockBlocker extends FreedomService
                 }
                 break;
             }
+            case RESPAWN_ANCHOR:
+            {
+                if (!ConfigEntry.ALLOW_RESPAWN_ANCHORS.getBoolean())
+                {
+                    player.sendMessage(ChatColor.GRAY + "Respawn anchors are disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    event.setCancelled(true);
+                }
+                break;
+            }
         }
 
         if (Groups.BANNERS.contains(event.getBlockPlaced().getType()))

@@ -183,6 +183,7 @@ allow:
   jukeboxes: false
   spawners: false
   beehives: false
+  respawnanchors: false
   auto_tp: false
   auto_clear: false
 

@@ -31,6 +31,7 @@ public enum ConfigEntry
     ALLOW_JUKEBOXES(Boolean.class, "allow.jukeboxes"),
     ALLOW_SPAWNERS(Boolean.class, "allow.spawners"),
     ALLOW_BEEHIVES(Boolean.class, "allow.beehives"),
+    ALLOW_RESPAWN_ANCHORS(Boolean.class, "allow.respawnanchors"),
     AUTO_TP(Boolean.class, "allow.auto_tp"),
     AUTO_CLEAR(Boolean.class, "allow.auto_clear"),
     //
