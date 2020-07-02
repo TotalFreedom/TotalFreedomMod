@@ -32,8 +32,6 @@ public class PlayerData
     private String discordID = null;
     private final List<String> backupCodes = Lists.newArrayList();
     @Setter
-    private Boolean donator = false;
-    @Setter
     private Boolean masterBuilder = false;
     @Setter
     private Boolean verification = false;
@@ -61,7 +59,6 @@ public class PlayerData
             discordID = resultSet.getString("discord_id");
             backupCodes.clear();
             backupCodes.addAll(FUtil.stringToList(resultSet.getString("backup_codes")));
-            donator = resultSet.getBoolean("donator");
             masterBuilder = resultSet.getBoolean("master_builder");
             verification = resultSet.getBoolean("verification");
             rideMode = resultSet.getString("ride_mode");
@@ -96,7 +93,6 @@ public class PlayerData
         output.append("Player: ").append(name).append("\n")
                 .append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n")
                 .append("- Discord ID: ").append(discordID).append("\n")
-                .append("- Donator: ").append(donator).append("\n")
                 .append("- Master Builder: ").append(masterBuilder).append("\n")
                 .append("- Has Verification: ").append(verification).append("\n")
                 .append("- Coins: ").append(coins).append("\n")
@@ -182,11 +178,6 @@ public class PlayerData
         return true;
     }
 
-    public boolean isDonator()
-    {
-        return donator;
-    }
-
     public void giveItem(ShopItem item)
     {
         items.add(item.getDataName());
@@ -231,7 +222,6 @@ public class PlayerData
             put("tag", tag);
             put("discord_id", discordID);
             put("backup_codes", FUtil.listToString(backupCodes));
-            put("donator", donator);
             put("master_builder", masterBuilder);
             put("verification", verification);
             put("ride_mode", rideMode);

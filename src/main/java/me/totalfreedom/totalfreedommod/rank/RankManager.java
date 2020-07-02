@@ -77,12 +77,6 @@ public class RankManager extends FreedomService
             return Title.MASTER_BUILDER;
         }
 
-        PlayerData playerData = plugin.pl.getData(player);
-        if (!plugin.al.isAdmin(player) && playerData.isDonator())
-        {
-            return Title.DONATOR;
-        }
-
         return getRank(player);
     }
 
@@ -179,7 +173,7 @@ public class RankManager extends FreedomService
         FPlayer fPlayer = plugin.pl.getPlayer(player);
         PlayerData data = plugin.pl.getData(player);
         Displayable display = getDisplay(player);
-        if (plugin.al.isAdmin(player) || data.isMasterBuilder() || data.isDonator() || FUtil.isDeveloper(player.getName()))
+        if (plugin.al.isAdmin(player) || data.isMasterBuilder() || FUtil.isDeveloper(player.getName()))
         {
             String displayName = display.getColor() + player.getName();
             player.setPlayerListName(displayName);
@@ -247,7 +241,7 @@ public class RankManager extends FreedomService
         }
 
         // Set display
-        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()) || plugin.pl.getData(player).isMasterBuilder() || plugin.pl.getData(player).isDonator())
+        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()) || plugin.pl.getData(player).isMasterBuilder())
         {
             final Displayable display = getDisplay(player);
 
