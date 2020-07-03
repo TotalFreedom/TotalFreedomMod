@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.blocking;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.FreedomService;
@@ -9,19 +10,14 @@ import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.data.AnaloguePowerable;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.block.BlockGrowEvent;
-import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.BlockPistonRetractEvent;
-import org.bukkit.event.block.BlockRedstoneEvent;
-import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -31,6 +27,7 @@ import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.material.Redstone;
 
 public class EventBlocker extends FreedomService
 {
@@ -199,12 +196,26 @@ public class EventBlocker extends FreedomService
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    //@EventHandler(priority = EventPriority.HIGH)
     public void onBlockRedstone(BlockRedstoneEvent event)
     {
         if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
         {
             event.setNewCurrent(0);
+        }
+    }
+
+    // TODO: Revert back to old redstone block system when (or if) it is fixed in Bukkit, Spigot or Paper.
+    private ArrayList<Material> redstoneBlocks = new ArrayList<>(Arrays.asList(Material.REDSTONE, Material.DISPENSER, Material.DROPPER, Material.REDSTONE_LAMP));
+    @EventHandler
+    public void onBlockPhysics(BlockPhysicsEvent event) {
+        if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
+        {
+            // Check if the block is involved with redstone.
+            if(event.getBlock().getBlockData() instanceof AnaloguePowerable || event.getBlock().getBlockData() instanceof Powerable || redstoneBlocks.contains(event.getBlock().getType()))
+            {
+                event.setCancelled(true);
+            }
         }
     }
 

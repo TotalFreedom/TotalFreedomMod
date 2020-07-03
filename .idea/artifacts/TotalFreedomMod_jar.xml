@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="TotalFreedomMod:jar">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="TotalFreedomMod.jar">
-      <element id="module-output" name="TotalFreedomMod" />
-    </root>
-  </artifact>
-</component>
