@@ -133,7 +133,7 @@ public class BlockBlocker extends FreedomService
             case PLAYER_WALL_HEAD:
             {
                 Skull skull = (Skull) event.getBlockPlaced().getState();
-                if (skull.hasOwner())
+                if (skull.getOwner() != null)
                 {
                     if (skull.getOwner().contains("\u00A7"))
                     {
