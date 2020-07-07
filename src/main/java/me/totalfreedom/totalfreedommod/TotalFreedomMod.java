@@ -42,6 +42,7 @@ import me.totalfreedom.totalfreedommod.player.PlayerList;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.shop.Shop;
+import me.totalfreedom.totalfreedommod.shop.Votifier;
 import me.totalfreedom.totalfreedommod.sql.SQLite;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -98,6 +99,7 @@ public class TotalFreedomMod extends JavaPlugin
     public AntiSpam as;
     public PlayerList pl;
     public Shop sh;
+    public Votifier vo;
     public SQLite sql;
     public Announcer an;
     public ChatManager cm;
@@ -224,6 +226,7 @@ public class TotalFreedomMod extends JavaPlugin
         wr = new WorldRestrictions();
         pl = new PlayerList();
         sh = new Shop();
+        vo = new Votifier();
         an = new Announcer();
         cm = new ChatManager();
         dc = new Discord();

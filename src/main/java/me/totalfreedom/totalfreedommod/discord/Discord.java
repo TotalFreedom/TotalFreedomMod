@@ -68,7 +68,8 @@ public class Discord extends FreedomService
         }
         if (bot != null)
         {
-            RATELIMIT_EXECUTOR = new ScheduledThreadPoolExecutor(5, new CountingThreadFactory(this::poolIdentifier, "RateLimit")); // To avoid ClassNotFoundException as net.dv8tion.jda.internal.utils.concurrent.CountingThreadFactory doesn't exist.
+            RATELIMIT_EXECUTOR = new ScheduledThreadPoolExecutor(5, new CountingThreadFactory(this::poolIdentifier, "RateLimit"));
+            RATELIMIT_EXECUTOR.setRemoveOnCancelPolicy(true);
             for (Object object : bot.getRegisteredListeners())
             {
                 bot.removeEventListener(object);
@@ -76,7 +77,6 @@ public class Discord extends FreedomService
         }
         try
         {
-            RATELIMIT_EXECUTOR.setRemoveOnCancelPolicy(true);
             bot = new JDABuilder(AccountType.BOT)
                     .setToken(ConfigEntry.DISCORD_TOKEN.getString())
                     .addEventListeners(new PrivateMessageListener())

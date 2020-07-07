@@ -26,8 +26,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-;
-
 public class Shop extends FreedomService
 {
     private BukkitTask reactions;
@@ -73,7 +71,7 @@ public class Shop extends FreedomService
     {
         reactionString = FUtil.randomString(ConfigEntry.SHOP_REACTIONS_STRING_LENGTH.getInteger());
 
-        FUtil.bcastMsg(prefix + ChatColor.AQUA + "Enter the code above to win " + ChatColor.GOLD + plugin.sh.coinsPerReactionWin + ChatColor.AQUA + " coins!", false);
+        FUtil.bcastMsg(prefix + ChatColor.AQUA + "Enter the code above to win " + ChatColor.GOLD + coinsPerReactionWin + ChatColor.AQUA + " coins!", false);
 
         reactionStartTime = new Date();
 
@@ -290,7 +288,7 @@ public class Shop extends FreedomService
         }
 
         Inventory inventory = event.getInventory();
-        if (inventory.getSize() != 36 || !event.getView().getTitle().equals(plugin.sh.getShopTitle()))
+        if (inventory.getSize() != 36 || !event.getView().getTitle().equals(getShopTitle()))
         {
             return;
         }
@@ -307,7 +305,7 @@ public class Shop extends FreedomService
         int price = shopItem.getCost();
         int coins = playerData.getCoins();
 
-        if (playerData.hasItem(shopItem) || !plugin.sh.canAfford(price, coins))
+        if (playerData.hasItem(shopItem) || !canAfford(price, coins))
         {
             return;
         }
@@ -318,7 +316,7 @@ public class Shop extends FreedomService
 
         player.closeInventory();
 
-        player.sendMessage(plugin.sh.getShopPrefix() + " " + ChatColor.GREEN + "Successfully purchased the \"" + shopItem.getColoredName() + ChatColor.GREEN + "\" for " + ChatColor.GOLD + price + ChatColor.GREEN + "!");
+        player.sendMessage(getShopPrefix() + " " + ChatColor.GREEN + "Successfully purchased the \"" + shopItem.getColoredName() + ChatColor.GREEN + "\" for " + ChatColor.GOLD + price + ChatColor.GREEN + "!");
 
         if (shopItem.equals(ShopItem.GRAPPLING_HOOK))
         {
@@ -353,36 +351,5 @@ public class Shop extends FreedomService
             }
         }
         return null;
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerVote(VotifierEvent event)
-    {
-        Vote vote = event.getVote();
-        String name = vote.getUsername();
-        int coinsPerVote =  ConfigEntry.SHOP_COINS_PER_VOTE.getInteger();
-        Player player = server.getPlayer(name);
-        PlayerData data = null;
-        if (player != null)
-        {
-            data = plugin.pl.getData(player);
-        }
-        else
-        {
-            data = plugin.pl.getData(name);
-        }
-
-        if (data != null)
-        {
-            data.setCoins(data.getCoins() + coinsPerVote);
-            data.setTotalVotes(data.getTotalVotes() + 1);
-            plugin.pl.save(data);
-            FUtil.bcastMsg(ChatColor.GREEN + name + ChatColor.AQUA + " has voted for us on " + ChatColor.GREEN + vote.getServiceName() + ChatColor.AQUA + "!");
-        }
-
-        if (player != null)
-        {
-            player.sendMessage(ChatColor.GREEN + "Thank you for voting for us! Here are " + coinsPerVote + " coins!");
-        }
     }
 }
