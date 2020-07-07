@@ -318,25 +318,9 @@ public class Shop extends FreedomService
 
         player.sendMessage(getShopPrefix() + " " + ChatColor.GREEN + "Successfully purchased the \"" + shopItem.getColoredName() + ChatColor.GREEN + "\" for " + ChatColor.GOLD + price + ChatColor.GREEN + "!");
 
-        if (shopItem.equals(ShopItem.GRAPPLING_HOOK))
+        if (shopItem.getCommand() != null)
         {
-            player.sendMessage(ChatColor.GREEN + "Run /grapplinghook to get one!");
-        }
-        else if (shopItem.equals(ShopItem.LIGHTNING_ROD))
-        {
-            player.sendMessage(ChatColor.GREEN + "Run /lightningrod to get one!");
-        }
-        else if (shopItem.equals(ShopItem.FIRE_BALL))
-        {
-            player.sendMessage(ChatColor.GREEN + "Run /fireball to get one!");
-        }
-        else if (shopItem.equals(ShopItem.RIDEABLE_PEARL))
-        {
-            player.sendMessage(ChatColor.GREEN + "Run /rideablepearl to get one!");
-        }
-        else if (shopItem.equals(ShopItem.STACKING_POTATO))
-        {
-            player.sendMessage(ChatColor.GREEN + "Run /stackingpotato to get one!");
+            player.sendMessage(ChatColor.GREEN + "Run " + shopItem.getCommand() + " to get one!");
         }
 
     }

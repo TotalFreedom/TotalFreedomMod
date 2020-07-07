@@ -7,11 +7,11 @@ import org.bukkit.Material;
 
 public enum ShopItem
 {
-    GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, 10, ConfigEntry.SHOP_PRICES_GRAPPLING_HOOK, ChatColor.GREEN, "grapplingHook"),
-    LIGHTNING_ROD("Lightning Rod", Material.BLAZE_ROD, 12, ConfigEntry.SHOP_PRICES_LIGHTNING_ROD, ChatColor.LIGHT_PURPLE, "lightningRod"),
-    FIRE_BALL("Fire Ball", Material.FIRE_CHARGE, 14, ConfigEntry.SHOP_PRICES_FIRE_BALL, ChatColor.RED, "fireBall"),
-    RIDEABLE_PEARL("Rideable Ender Pearl", Material.ENDER_PEARL, 16, ConfigEntry.SHOP_PRICES_RIDEABLE_PEARL, ChatColor.DARK_PURPLE, "rideablePearl"),
-    STACKING_POTATO("Stacking Potato", Material.POTATO, 22, ConfigEntry.SHOP_PRICES_STACKING_POTATO, ChatColor.YELLOW, "stackingPotato");
+    GRAPPLING_HOOK("Grappling Hook", Material.FISHING_ROD, 10, ConfigEntry.SHOP_PRICES_GRAPPLING_HOOK, ChatColor.GREEN, "grapplingHook", "/grapplinghook"),
+    LIGHTNING_ROD("Lightning Rod", Material.BLAZE_ROD, 12, ConfigEntry.SHOP_PRICES_LIGHTNING_ROD, ChatColor.LIGHT_PURPLE, "lightningRod", "/lightningrod"),
+    FIRE_BALL("Fire Ball", Material.FIRE_CHARGE, 14, ConfigEntry.SHOP_PRICES_FIRE_BALL, ChatColor.RED, "fireBall", "/fireball"),
+    RIDEABLE_PEARL("Rideable Ender Pearl", Material.ENDER_PEARL, 16, ConfigEntry.SHOP_PRICES_RIDEABLE_PEARL, ChatColor.DARK_PURPLE, "rideablePearl", "/rideablepearl"),
+    STACKING_POTATO("Stacking Potato", Material.POTATO, 22, ConfigEntry.SHOP_PRICES_STACKING_POTATO, ChatColor.YELLOW, "stackingPotato", "/stackingpotato");
 
     /*
         Shop GUI Layout:
@@ -36,8 +36,10 @@ public enum ShopItem
     private final ChatColor color;
     @Getter
     private final String dataName;
+    @Getter
+    private final String command;
 
-    ShopItem(String name, Material icon, int slot, ConfigEntry cost, ChatColor color, String dataName)
+    ShopItem(String name, Material icon, int slot, ConfigEntry cost, ChatColor color, String dataName, String command)
     {
         this.name = name;
         this.icon = icon;
@@ -45,6 +47,7 @@ public enum ShopItem
         this.cost = cost;
         this.color = color;
         this.dataName = dataName;
+        this.command = command;
     }
 
     public String getColoredName()
