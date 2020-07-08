@@ -2,21 +2,27 @@ package me.totalfreedom.totalfreedommod.blocking.command;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.command.FreedomCommand;
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.SimplePluginManager;
 
 public class CommandBlocker extends FreedomService
 {
@@ -38,10 +44,31 @@ public class CommandBlocker extends FreedomService
         entryList.clear();
     }
 
+    public static CommandMap getCommandMap()
+    {
+        try
+        {
+            SimplePluginManager simplePluginManager = (SimplePluginManager) Bukkit.getServer().getPluginManager();
+
+            Field commandMapField = SimplePluginManager.class.getDeclaredField("commandMap");
+            commandMapField.setAccessible(true);
+
+            SimpleCommandMap simpleCommandMap = (SimpleCommandMap) commandMapField.get(simplePluginManager);
+            return simpleCommandMap;
+        }
+        catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e)
+        {
+            FLog.severe("Failed to get command map field (" + e.getMessage() + ")");
+        }
+        return null;
+    }
+
     public void load()
     {
         entryList.clear();
         unknownCommands.clear();
+
+        final CommandMap commandMap = getCommandMap();
 
         @SuppressWarnings("unchecked")
         List<String> blockedCommands = (List<String>)ConfigEntry.BLOCKED_COMMANDS.getList();
@@ -73,7 +100,7 @@ public class CommandBlocker extends FreedomService
                 subCommand = StringUtils.join(commandParts, " ", 1, commandParts.length).trim().toLowerCase();
             }
 
-            final FreedomCommand command = plugin.cl.getByName(commandName);
+            final Command command = commandMap.getCommand(commandName);
 
             // Obtain command from alias
             if (command == null)
@@ -91,12 +118,12 @@ public class CommandBlocker extends FreedomService
                 continue;
             }
 
-            final CommandBlockerEntry blockedCommandEntry = new CommandBlockerEntry(rank, action, commandName, subCommand, message);
-            entryList.put(blockedCommandEntry.getCommand(), blockedCommandEntry);
 
+            final CommandBlockerEntry blockedCommandEntry = new CommandBlockerEntry(rank, action, commandName, subCommand, message);
+            entryList.put(commandName, blockedCommandEntry);
             if (command != null)
             {
-                for (String alias : command.getAliases().split(","))
+                for (String alias : command.getAliases())
                 {
                     entryList.put(alias.toLowerCase(), blockedCommandEntry);
                 }
@@ -114,12 +141,6 @@ public class CommandBlocker extends FreedomService
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
-        }
-
-        if (event.getMessage().contains("translation.test.invalid") || event.getMessage().contains("translation.test.invalid2"))
-        {
-            event.setCancelled(true);
-            FUtil.playerMsg(event.getPlayer(), ChatColor.RED + "No crishy crashy faggy");
         }
     }
 
