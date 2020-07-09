@@ -83,6 +83,11 @@ public enum ConfigEntry
     DISCORD_EXECUTIVE_ROLE_ID(String.class, "discord.executive_role_id"),
     DISCORD_SERVER_OWNER_ROLE_ID(String.class, "discord.server_owner_role_id"),
     //
+    DONATION_PROBOARDS_URL(String.class, "donation.proboards_url"),
+    DONATION_GROUP_ID(String.class, "donation.donator_group_id"),
+    DONATION_SESSION_ID(String.class, "donation.session_id"),
+    DONATION_CSRF_TOKEN(String.class, "donation.csrf_token"),
+    //
     SHOP_ENABLED(Boolean.class, "shop.enabled"),
     SHOP_TITLE(String.class, "shop.title"),
     SHOP_PREFIX(String.class, "shop.prefix"),
@@ -97,6 +102,7 @@ public enum ConfigEntry
     SHOP_PRICES_FIRE_BALL(Integer.class, "shop.prices.fire_ball"),
     SHOP_PRICES_RIDEABLE_PEARL(Integer.class, "shop.prices.rideable_pearl"),
     SHOP_PRICES_STACKING_POTATO(Integer.class, "shop.prices.stacking_potato"),
+    SHOP_PRICES_CLOWN_FISH(Integer.class, "shop.prices.clown_fish"),
     //
     ADMINLIST_CLEAN_THESHOLD_HOURS(Integer.class, "adminlist.clean_threshold_hours"),
     ADMINLIST_CONSOLE_IS_SENIOR(Boolean.class, "adminlist.console_is_senior"),

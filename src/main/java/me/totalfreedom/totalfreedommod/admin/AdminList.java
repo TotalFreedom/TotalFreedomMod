@@ -324,7 +324,7 @@ public class AdminList extends FreedomService
             for (Map.Entry<String, Object> entry : admin.toSQLStorable().entrySet())
             {
                 Object storedValue = plugin.sql.getValue(currentSave, entry.getKey(), entry.getValue());
-                if (storedValue != null && !storedValue.equals(entry.getValue()) || storedValue == null && entry.getValue() != null)
+                if (storedValue != null && !storedValue.equals(entry.getValue()) || storedValue == null && entry.getValue() != null || entry.getValue() == null)
                 {
                     plugin.sql.setAdminValue(admin, entry.getKey(), entry.getValue());
                 }

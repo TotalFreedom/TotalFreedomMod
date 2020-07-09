@@ -11,6 +11,8 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.shop.ShopItem;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -232,7 +234,7 @@ public class ItemFun extends FreedomService
 
                 if (onCooldown(player, ShopItem.FIRE_BALL))
                 {
-                    player.sendMessage(ChatColor.RED + "You're are currently on a cooldown for 5 seconds.");
+                    player.sendMessage(ChatColor.RED + "You're are currently on a cool-down for 5 seconds.");
                     break;
                 }
 
@@ -241,6 +243,67 @@ public class ItemFun extends FreedomService
                 FIRE_BALL_UUIDS.add(fireball.getUniqueId());
                 fireball.setVelocity(player.getLocation().getDirection().multiply(2));
                 cooldown(player, ShopItem.FIRE_BALL, 5);
+                break;
+            }
+            case TROPICAL_FISH:
+            {
+                final int RADIUS_HIT = 5;
+                final int STRENGTH = 4;
+
+                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.CLOWN_FISH, player.getInventory().getItemInMainHand(), plugin.sh.getClownFish()))
+                {
+                    break;
+                }
+
+                if (onCooldown(player, ShopItem.CLOWN_FISH))
+                {
+                    player.sendMessage(ChatColor.RED + "You're are currently on a cool-down for 30 seconds.");
+                    break;
+                }
+
+                event.setCancelled(true);
+                boolean didHit = false;
+
+                final Location playerLoc = player.getLocation();
+                final Vector playerLocVec = playerLoc.toVector();
+
+                final List<Player> players = player.getWorld().getPlayers();
+                for (final Player target : players)
+                {
+                    if (target == player)
+                    {
+                        continue;
+                    }
+
+                    final Location targetPos = target.getLocation();
+                    final Vector targetPosVec = targetPos.toVector();
+
+                    try
+                    {
+                        if (targetPosVec.distanceSquared(playerLocVec) < (RADIUS_HIT * RADIUS_HIT))
+                        {
+                            FUtil.setFlying(player, false);
+                            target.setVelocity(targetPosVec.subtract(playerLocVec).normalize().multiply(STRENGTH));
+                            didHit = true;
+                        }
+                    }
+                    catch (IllegalArgumentException ex)
+                    {
+                    }
+                }
+
+                if (didHit)
+                {
+                    final Sound[] sounds = Sound.values();
+                    for (Sound sound : sounds)
+                    {
+                        if (sound.toString().contains("HIT"))
+                        {
+                            playerLoc.getWorld().playSound(randomOffset(playerLoc, 5.0), sound, 20f, randomDoubleRange(0.5, 2.0).floatValue());
+                        }
+                    }
+                    cooldown(player, ShopItem.CLOWN_FISH, 30);
+                }
                 break;
             }
         }

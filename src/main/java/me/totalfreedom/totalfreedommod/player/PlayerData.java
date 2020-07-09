@@ -32,6 +32,8 @@ public class PlayerData
     private String discordID = null;
     private final List<String> backupCodes = Lists.newArrayList();
     @Setter
+    private boolean donator = false;
+    @Setter
     private Boolean masterBuilder = false;
     @Setter
     private Boolean verification = false;
@@ -207,6 +209,11 @@ public class PlayerData
         return verification;
     }
 
+    public boolean isDonator()
+    {
+        return donator;
+    }
+
     public boolean isMasterBuilder()
     {
         return masterBuilder;
@@ -222,6 +229,7 @@ public class PlayerData
             put("tag", tag);
             put("discord_id", discordID);
             put("backup_codes", FUtil.listToString(backupCodes));
+            put("donator", masterBuilder);
             put("master_builder", masterBuilder);
             put("verification", verification);
             put("ride_mode", rideMode);

@@ -237,6 +237,15 @@ public class Shop extends FreedomService
         return itemStack;
     }
 
+    public ItemStack getClownFish()
+    {
+        ItemStack itemStack = new ItemStack(Material.TROPICAL_FISH);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.GOLD + "Clown Fish");
+        itemMeta.setLore(Arrays.asList(ChatColor.AQUA + ":clown:"));
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
 
     public boolean canAfford(int price, int coins)
     {

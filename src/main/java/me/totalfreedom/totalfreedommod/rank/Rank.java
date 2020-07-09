@@ -54,7 +54,7 @@ public enum Rank implements Displayable
     @Override
     public String getColoredLoginMessage()
     {
-        return determiner + " " + color + ChatColor.ITALIC + name;
+        return determiner + " " + color + name;
     }
 
     @Override

@@ -21,11 +21,12 @@ public class Command_tag extends FreedomCommand
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(
             "admin", "owner", "moderator", "developer", "console", "dev", "staff", "mod", "sra", "tca", "sta", "sa");
 
-    public boolean save = false;
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+
+        boolean save = false;
+
         if (args.length < 1)
         {
             return false;

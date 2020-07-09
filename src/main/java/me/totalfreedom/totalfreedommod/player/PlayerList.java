@@ -225,7 +225,7 @@ public class PlayerList extends FreedomService
             for (Map.Entry<String, Object> entry : player.toSQLStorable().entrySet())
             {
                 Object storedValue = plugin.sql.getValue(currentSave, entry.getKey(), entry.getValue());
-                if (storedValue != null && !storedValue.equals(entry.getValue()) || storedValue == null && entry.getValue() != null)
+                if (storedValue != null && !storedValue.equals(entry.getValue()) || storedValue == null && entry.getValue() != null || entry.getValue() == null)
                 {
                     plugin.sql.setPlayerValue(player, entry.getKey(), entry.getValue());
                 }
