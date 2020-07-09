@@ -455,10 +455,6 @@ famous_players:
   - gizzy14gazza
   - furiousdestroyer
 
-# IPs that can not be supered
-noadmin_ips:
-  - 167.114.97.16
-
 # Pet Protect - Prevent tamed pets from being killed.
 petprotect:
   enabled: true
