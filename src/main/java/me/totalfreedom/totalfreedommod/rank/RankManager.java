@@ -5,6 +5,7 @@ import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -51,7 +52,7 @@ public class RankManager extends FreedomService
         }
 
         // Developers always show up
-        if (FUtil.DEVELOPERS.contains(player.getName()))
+        if (FUtil.isDeveloper(player.getName()))
         {
             return Title.DEVELOPER;
         }
@@ -95,7 +96,7 @@ public class RankManager extends FreedomService
         }
 
         // Developers always show up
-        if (FUtil.DEVELOPERS.contains(admin.getName()))
+        if (FUtil.isDeveloper(admin.getName()))
         {
             return Title.DEVELOPER;
         }
@@ -246,15 +247,14 @@ public class RankManager extends FreedomService
             return;
         }
 
-        // Set display
-        if (isAdmin || FUtil.DEVELOPERS.contains(player.getName()) || plugin.pl.getData(player).isMasterBuilder() || plugin.pl.getData(player).isDonator())
+        // Broadcast login message
+        if (isAdmin || FUtil.isDeveloper(player.getName()) || plugin.pl.getData(player).isMasterBuilder() || plugin.pl.getData(player).isDonator())
         {
-            final Displayable display = getDisplay(player);
-
             FUtil.bcastMsg(craftLoginMessage(player, null));
-
-            updateDisplay(player);
         }
+
+        // Set display
+        updateDisplay(player);
 
         if (!plugin.pl.isPlayerImpostor(player) && target.hasVerification())
         {

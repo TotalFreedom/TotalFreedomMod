@@ -36,17 +36,24 @@ public class Command_donator extends FreedomCommand
             forum_id = args[4];
         }
 
-        PlayerData player = plugin.pl.getData(name);
+        PlayerData data = plugin.pl.getData(name);
 
-        if (player == null)
+        if (data == null)
         {
-            player = plugin.pl.getDataByIp(ip);
+            data = plugin.pl.getDataByIp(ip);
         }
+
+        if (data != null)
+        {
+            data.setDonator(mode);
+            plugin.pl.save(data);
+        }
+
+        Player player = getPlayer(name);
 
         if (player != null)
         {
-            player.setDonator(mode);
-            plugin.pl.save(player);
+            plugin.rm.updateDisplay(player);
         }
 
         if (forum_id != null && !forum_id.equals("0"))
