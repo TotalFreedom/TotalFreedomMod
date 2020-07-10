@@ -29,7 +29,6 @@ public class PrivateMessageListener extends ListenerAdapter
                     {
                         Discord.syncRoles(admin, player.getDiscordID());
                     }
-
                     TotalFreedomMod.plugin().pl.save(player);
                     Discord.LINK_CODES.remove(code);
                 }

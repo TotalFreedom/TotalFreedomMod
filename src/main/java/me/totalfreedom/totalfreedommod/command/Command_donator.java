@@ -54,7 +54,6 @@ public class Command_donator extends FreedomCommand
         {
             FUtil.bcastMsg(ChatColor.AQUA + name + ChatColor.GREEN + " has donated to the server!");
         }
-
         Player player = getPlayer(name);
 
         if (player != null)
@@ -79,6 +78,8 @@ public class Command_donator extends FreedomCommand
             try
             {
                 FUtil.postRequestToEndpoint(url, "POST", headers, payload);
+                String result = FUtil.postRequestToEndpoint(url, "POST", headers, payload);
+                msg(result);
             }
             catch (IOException e)
             {

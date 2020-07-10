@@ -104,6 +104,8 @@ public class PlayerData
                 .append("- Total Votes: ").append(totalVotes).append("\n")
                 .append("- Tag: ").append(FUtil.colorize(tag)).append(ChatColor.GRAY).append("\n")
                 .append("- Ride Mode: ").append(rideMode).append("\n")
+                .append("- Tag: ").append(tag).append("\n")
+                .append("- Ride Mode: ").append(rideMode)
                 .append("- Backup Codes: ").append(backupCodes.size()).append("/10").append("\n");
 
         return output.toString();
@@ -233,6 +235,7 @@ public class PlayerData
             put("discord_id", discordID);
             put("backup_codes", FUtil.listToString(backupCodes));
             put("donator", donator);
+            put("donator", masterBuilder);
             put("master_builder", masterBuilder);
             put("verification", verification);
             put("ride_mode", rideMode);
