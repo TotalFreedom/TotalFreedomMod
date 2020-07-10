@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.shop.ShopItem;
@@ -18,7 +19,7 @@ public class Command_manageshop extends FreedomCommand
     public boolean run(final CommandSender sender, final Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
 
-        if (!FUtil.isExecutive(sender.getName()))
+        if (!ConfigEntry.SERVER_OWNERS.getStringList().contains(sender.getName()))
         {
             return noPerms();
         }

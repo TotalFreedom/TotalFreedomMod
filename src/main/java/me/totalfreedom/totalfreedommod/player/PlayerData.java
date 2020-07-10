@@ -14,6 +14,7 @@ import me.totalfreedom.totalfreedommod.shop.ShopItem;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class PlayerData
@@ -61,6 +62,7 @@ public class PlayerData
             discordID = resultSet.getString("discord_id");
             backupCodes.clear();
             backupCodes.addAll(FUtil.stringToList(resultSet.getString("backup_codes")));
+            donator = resultSet.getBoolean("donator");
             masterBuilder = resultSet.getBoolean("master_builder");
             verification = resultSet.getBoolean("verification");
             rideMode = resultSet.getString("ride_mode");
@@ -95,10 +97,13 @@ public class PlayerData
         output.append("Player: ").append(name).append("\n")
                 .append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n")
                 .append("- Discord ID: ").append(discordID).append("\n")
+                .append("- Donator: ").append(donator).append("\n")
                 .append("- Master Builder: ").append(masterBuilder).append("\n")
                 .append("- Has Verification: ").append(verification).append("\n")
                 .append("- Coins: ").append(coins).append("\n")
                 .append("- Total Votes: ").append(totalVotes).append("\n")
+                .append("- Tag: ").append(FUtil.colorize(tag)).append(ChatColor.GRAY).append("\n")
+                .append("- Ride Mode: ").append(rideMode).append("\n")
                 .append("- Tag: ").append(tag).append("\n")
                 .append("- Ride Mode: ").append(rideMode)
                 .append("- Backup Codes: ").append(backupCodes.size()).append("/10").append("\n");
@@ -229,6 +234,7 @@ public class PlayerData
             put("tag", tag);
             put("discord_id", discordID);
             put("backup_codes", FUtil.listToString(backupCodes));
+            put("donator", donator);
             put("donator", masterBuilder);
             put("master_builder", masterBuilder);
             put("verification", verification);
