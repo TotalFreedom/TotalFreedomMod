@@ -8,6 +8,7 @@ import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -49,6 +50,11 @@ public class Command_donator extends FreedomCommand
             plugin.pl.save(data);
         }
 
+        if (mode)
+        {
+            FUtil.bcastMsg(ChatColor.AQUA + name + ChatColor.GREEN + " has donated to the server!");
+        }
+
         Player player = getPlayer(name);
 
         if (player != null)
@@ -72,8 +78,7 @@ public class Command_donator extends FreedomCommand
 
             try
             {
-                String result = FUtil.postRequestToEndpoint(url, "POST", headers, payload);
-                msg(result);
+                FUtil.postRequestToEndpoint(url, "POST", headers, payload);
             }
             catch (IOException e)
             {
