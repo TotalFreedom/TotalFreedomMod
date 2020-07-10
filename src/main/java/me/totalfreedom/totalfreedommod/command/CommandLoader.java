@@ -1,45 +1,59 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.util.FLog;
-import net.pravian.aero.command.handler.SimpleCommandHandler;
-import org.bukkit.ChatColor;
 
 public class CommandLoader extends FreedomService
 {
-
     @Getter
-    private final SimpleCommandHandler<TotalFreedomMod> handler;
+    private final List<FreedomCommand> commands;
 
-    public CommandLoader(TotalFreedomMod plugin)
+    public CommandLoader()
     {
-        super(plugin);
-
-        handler = new SimpleCommandHandler<>(plugin);
+        commands = new ArrayList<>();
     }
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
-        handler.clearCommands();
-        handler.setExecutorFactory(new FreedomCommandExecutor.FreedomExecutorFactory(plugin));
-        handler.setCommandClassPrefix("Command_");
-        handler.setPermissionMessage(ChatColor.RED + "You do not have permission to use this command.");
-        handler.setOnlyConsoleMessage(ChatColor.RED + "This command can only be used from the console.");
-        handler.setOnlyPlayerMessage(ChatColor.RED + "This command can only be used by players.");
-
-        handler.loadFrom(FreedomCommand.class.getPackage());
-        handler.registerAll(plugin.getDescription().getName(), true);
-
-        FLog.info("Loaded " + handler.getExecutors().size() + " commands.");
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
-        handler.clearCommands();
     }
 
+    public void add(FreedomCommand command)
+    {
+        commands.add(command);
+        command.register();
+    }
+
+    public FreedomCommand getByName(String name)
+    {
+        for (FreedomCommand command : commands)
+        {
+            if (name.equals(command.getName()))
+                return command;
+        }
+        return null;
+    }
+
+    public boolean isAlias(String alias)
+    {
+        for (FreedomCommand command : commands)
+        {
+            if (Arrays.asList(command.getAliases().split(",")).contains(alias))
+                return true;
+        }
+        return false;
+    }
+
+    public int getCommandAmount()
+    {
+        return commands.size();
+    }
 }

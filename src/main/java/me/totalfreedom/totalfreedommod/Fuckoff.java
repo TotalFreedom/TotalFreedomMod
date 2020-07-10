@@ -9,18 +9,13 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Fuckoff extends FreedomService
 {
-    public Fuckoff(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -53,7 +48,7 @@ public class Fuckoff extends FreedomService
 
             if (distanceSquared < (fuckoffRange * fuckoffRange))
             {
-                onlinePlayer.setVelocity(onlinePlayer.getLocation().toVector().subtract(foLocation.toVector()).normalize().multiply(fPlayer.getFuckoffRadius()));
+                fuckoffPlayer.setVelocity(onlinePlayer.getLocation().toVector().add(foLocation.toVector()).normalize().multiply(fPlayer.getFuckoffRadius()));
                 break;
             }
         }

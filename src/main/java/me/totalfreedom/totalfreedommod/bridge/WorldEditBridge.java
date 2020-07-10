@@ -4,7 +4,6 @@ import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -15,18 +14,13 @@ public class WorldEditBridge extends FreedomService
     //
     private WorldEditPlugin worldeditPlugin = null;
 
-    public WorldEditBridge(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

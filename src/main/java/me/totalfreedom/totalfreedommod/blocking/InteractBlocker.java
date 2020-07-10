@@ -1,13 +1,10 @@
 package me.totalfreedom.totalfreedommod.blocking;
 
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,19 +13,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class InteractBlocker extends FreedomService
 {
-
-    public InteractBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -56,15 +47,9 @@ public class InteractBlocker extends FreedomService
     @EventHandler(priority = EventPriority.HIGH)
     public void onRightClickBell(PlayerInteractEvent event)
     {
-        if (event.getClickedBlock() != null)
+        if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.BELL) && !ConfigEntry.ALLOW_BELLS.getBoolean())
         {
-            if (event.getClickedBlock().getType().equals(Material.BELL))
-            {
-                if (!ConfigEntry.ALLOW_BELLS.getBoolean())
-                {
-                    event.setCancelled(true);
-                }
-            }
+            event.setCancelled(true);
         }
     }
 
@@ -89,12 +74,14 @@ public class InteractBlocker extends FreedomService
             return;
         }
 
-        if (Groups.BED_COLORS.contains(event.getMaterial()) && event.getClickedBlock().getBiome().equals(Biome.NETHER))
+        // TODO: lookup new biomes that have bed explosions in 1.16
+
+        /*if (Groups.BED_COLORS.contains(event.getMaterial()) && event.getClickedBlock().getBiome().equals(Biome.NETHER))
         {
             player.sendMessage(ChatColor.RED + "You can't sleep in hell.");
             event.setCancelled(true);
             return;
-        }
+        }*/
 
         switch (event.getMaterial())
         {

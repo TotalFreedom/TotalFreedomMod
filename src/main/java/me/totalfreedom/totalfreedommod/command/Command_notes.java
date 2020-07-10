@@ -3,13 +3,11 @@ package me.totalfreedom.totalfreedommod.command;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
-import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -28,7 +26,7 @@ public class Command_notes extends FreedomCommand
             return false;
         }
 
-        VPlayer vPlayer;
+        PlayerData playerData;
 
         final Player player = getPlayer(args[0]);
         if (player == null)
@@ -41,23 +39,21 @@ public class Command_notes extends FreedomCommand
                 return true;
             }
 
-            vPlayer = plugin.pv.getVerificationPlayer(entry.getUsername());
+            playerData = plugin.pl.getData(entry.getName());
         }
         else
         {
-            vPlayer = plugin.pv.getVerificationPlayer(player);
+            playerData = plugin.pl.getData(player);
         }
 
         if (args[1].equals("list"))
         {
             final StringBuilder noteList = new StringBuilder();
-            noteList.append(ChatColor.GREEN + "Player notes for " + vPlayer.getName() + ":");
+            noteList.append(ChatColor.GREEN + "Player notes for " + playerData.getName() + ":");
             int id = 1;
-            for (Map<?, ?> noteMap : vPlayer.getNotes())
+            for (String note : playerData.getNotes())
             {
-                String admin = String.valueOf(noteMap.keySet().toArray()[0]);
-                String note = String.valueOf(noteMap.get(admin));
-                String noteLine = id + ". " + admin + ": " + note;
+                String noteLine = id + ". " + note;
                 noteList.append("\n" + ChatColor.GOLD + noteLine);
                 id++;
             }
@@ -70,9 +66,9 @@ public class Command_notes extends FreedomCommand
             {
                 return false;
             }
-            String note = StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ");
-            vPlayer.addNote(sender.getName(), note);
-            plugin.pv.saveVerificationData(vPlayer);
+            String note = sender.getName() + ": " +  StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ");
+            playerData.addNote(note);
+            plugin.pl.save(playerData);
             msg("Note added.", ChatColor.GREEN);
             return true;
         }
@@ -93,9 +89,9 @@ public class Command_notes extends FreedomCommand
                 return true;
             }
             id--;
-            if (vPlayer.removeNote(id))
+            if (playerData.removeNote(id))
             {
-                plugin.pv.saveVerificationData(vPlayer);
+                plugin.pl.save(playerData);
                 msg("Note removed.");
             }
             else
@@ -106,9 +102,9 @@ public class Command_notes extends FreedomCommand
         }
         else if (args[1].equals("clear"))
         {
-            int count = vPlayer.getNotes().size();
-            vPlayer.clearNotes();
-            plugin.pv.saveVerificationData(vPlayer);
+            int count = playerData.getNotes().size();
+            playerData.clearNotes();
+            plugin.pl.save(playerData);
             msg("Cleared " + count + " notes.", ChatColor.GREEN);
             return true;
         }

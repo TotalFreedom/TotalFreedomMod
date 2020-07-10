@@ -1,13 +1,11 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -40,7 +38,7 @@ public class Command_verifynoadmin extends FreedomCommand
             {
                 plugin.al.verifiedNoAdmins.add(player.getName());
             }
-            String ip = Ips.getIp(player);
+            String ip = FUtil.getIp(player);
             if (!plugin.al.verifiedNoAdminIps.containsKey(player.getName()))
             {
                 List<String> ips = new ArrayList<>();

@@ -16,11 +16,6 @@ public class EntityWiper extends FreedomService
 {
     private BukkitTask wiper;
 
-    public EntityWiper(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     public List<EntityType> BLACKLIST = Arrays.asList(
             EntityType.ARMOR_STAND,
             EntityType.PAINTING,
@@ -31,7 +26,7 @@ public class EntityWiper extends FreedomService
     );
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
         // Continuous Entity Wiper
         wiper = new BukkitRunnable()
@@ -45,7 +40,7 @@ public class EntityWiper extends FreedomService
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         wiper.cancel();
         wiper = null;

@@ -3,8 +3,8 @@ package me.totalfreedom.totalfreedommod.command;
 import java.util.List;
 import java.util.Set;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.EnumUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,7 +20,7 @@ public class Command_spawnmob extends FreedomCommand
 {
 
     @Override
-    protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length > 0 && args[0].equalsIgnoreCase("list"))
         {

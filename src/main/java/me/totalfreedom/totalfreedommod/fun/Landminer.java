@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -23,19 +22,14 @@ public class Landminer extends FreedomService
     @Getter
     private final List<Landmine> landmines = new ArrayList<>();
 
-    public Landminer(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         landmines.clear();
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

@@ -17,7 +17,7 @@ public class Module_logs extends Module_file
     @Override
     public NanoHTTPD.Response getResponse()
     {
-        if (ConfigEntry.LOGS_SECRET.getString().equals(params.get("password")))
+        if (ConfigEntry.LOGS_SECRET.getString().equals(params.get("password")) && !ConfigEntry.LOGS_SECRET.getString().isEmpty())
         {
             FLog.info(session.getSocket().getInetAddress() + " is downloading latest.log.");
             return serveFile("latest.log", params, new File("./logs"));

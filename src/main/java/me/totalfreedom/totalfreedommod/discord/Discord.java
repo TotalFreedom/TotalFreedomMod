@@ -16,11 +16,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import javax.security.auth.login.LoginException;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
-import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import net.dv8tion.jda.api.AccountType;
@@ -33,13 +31,13 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.SelfUser;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.internal.utils.concurrent.CountingThreadFactory;
-import net.pravian.aero.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.GameRule;
 import org.bukkit.entity.Player;
@@ -51,24 +49,15 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Discord extends FreedomService
 {
-    public static HashMap<String, VPlayer> PLAYER_LINK_CODES = new HashMap<>();
-    public static HashMap<String, VPlayer> PLAYER_VERIFICATION_CODES = new HashMap<>();
-    public static HashMap<String, Admin> ADMIN_LINK_CODES = new HashMap<>();
-    public static HashMap<String, Admin> ADMIN_VERIFICATION_CODES = new HashMap<>();
-    public static HashMap<String, MasterBuilder> MASTER_BUILDER_LINK_CODES = new HashMap<>();
-    public static HashMap<String, MasterBuilder> MASTER_BUILDER_VERIFICATION_CODES = new HashMap<>();
-    public ScheduledThreadPoolExecutor RATELIMIT_EXECUTOR = new ScheduledThreadPoolExecutor(5, new CountingThreadFactory(this::poolIdentifier, "RateLimit"));
+    public static HashMap<String, PlayerData> LINK_CODES = new HashMap<>();
+    public static HashMap<String, PlayerData> VERIFICATION_CODES = new HashMap<>();
+    public ScheduledThreadPoolExecutor RATELIMIT_EXECUTOR;
     public List<CompletableFuture<Message>> sentMessages = new ArrayList<>();
 
     public static JDA bot = null;
     public Boolean enabled = false;
 
     Random random = new Random();
-
-    public Discord(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
 
     public void startBot()
     {
@@ -79,6 +68,8 @@ public class Discord extends FreedomService
         }
         if (bot != null)
         {
+            RATELIMIT_EXECUTOR = new ScheduledThreadPoolExecutor(5, new CountingThreadFactory(this::poolIdentifier, "RateLimit"));
+            RATELIMIT_EXECUTOR.setRemoveOnCancelPolicy(true);
             for (Object object : bot.getRegisteredListeners())
             {
                 bot.removeEventListener(object);
@@ -86,7 +77,6 @@ public class Discord extends FreedomService
         }
         try
         {
-            RATELIMIT_EXECUTOR.setRemoveOnCancelPolicy(true);
             bot = new JDABuilder(AccountType.BOT)
                     .setToken(ConfigEntry.DISCORD_TOKEN.getString())
                     .addEventListeners(new PrivateMessageListener())
@@ -153,58 +143,20 @@ public class Discord extends FreedomService
         }
     }
 
-    public boolean sendBackupCodes(VPlayer vPlayer)
+    public boolean sendBackupCodes(PlayerData playerData)
     {
         List<String> codes = generateBackupCodes();
         List<String> encryptedCodes = generateEncryptedBackupCodes(codes);
-        net.dv8tion.jda.api.entities.User user = bot.getUserById(vPlayer.getDiscordId());
-        File file = generateBackupCodesFile(vPlayer.getName(), codes);
+        net.dv8tion.jda.api.entities.User user = bot.getUserById(playerData.getDiscordID());
+        File file = generateBackupCodesFile(playerData.getName(), codes);
         if (file == null)
         {
             return false;
         }
         PrivateChannel privateChannel = user.openPrivateChannel().complete();
         privateChannel.sendMessage("Do not share these codes with anyone as they can be used to impose as you.").addFile(file).complete();
-        vPlayer.setBackupCodes(encryptedCodes);
-        plugin.pv.saveVerificationData(vPlayer);
-        file.delete();
-        return true;
-    }
-
-    public boolean sendBackupCodes(Admin admin)
-    {
-        List<String> codes = generateBackupCodes();
-        List<String> encryptedCodes = generateEncryptedBackupCodes(codes);
-        net.dv8tion.jda.api.entities.User user = bot.getUserById(admin.getDiscordID());
-        File file = generateBackupCodesFile(admin.getName(), codes);
-        if (file == null)
-        {
-            return false;
-        }
-        PrivateChannel privateChannel = user.openPrivateChannel().complete();
-        privateChannel.sendMessage("Do not share these codes with anyone as they can be used to impose as you.").addFile(file).complete();
-        admin.setBackupCodes(encryptedCodes);
-        plugin.al.save(admin);
-        plugin.al.updateTables();
-        file.delete();
-        return true;
-    }
-
-    public boolean sendBackupCodes(MasterBuilder masterBuilder)
-    {
-        List<String> codes = generateBackupCodes();
-        List<String> encryptedCodes = generateEncryptedBackupCodes(codes);
-        net.dv8tion.jda.api.entities.User user = bot.getUserById(masterBuilder.getDiscordID());
-        File file = generateBackupCodesFile(masterBuilder.getName(), codes);
-        if (file == null)
-        {
-            return false;
-        }
-        PrivateChannel privateChannel = user.openPrivateChannel().complete();
-        privateChannel.sendMessage("Do not share these codes with anyone as they can be used to impose as you.").addFile(file).complete();
-        masterBuilder.setBackupCodes(encryptedCodes);
-        plugin.mbl.save();
-        plugin.mbl.updateTables();
+        playerData.setBackupCodes(encryptedCodes);
+        plugin.pl.save(playerData);
         file.delete();
         return true;
     }
@@ -283,49 +235,19 @@ public class Discord extends FreedomService
         return DigestUtils.md5Hex(string);
     }
 
-    public void addPlayerVerificationCode(String code, VPlayer vPlayer)
+    public void addVerificationCode(String code, PlayerData playerData)
     {
-        PLAYER_VERIFICATION_CODES.put(code, vPlayer);
+        VERIFICATION_CODES.put(code, playerData);
     }
 
-    public void removePlayerVerificationCode(String code)
+    public void removeVerificationCode(String code)
     {
-        PLAYER_VERIFICATION_CODES.remove(code);
+        VERIFICATION_CODES.remove(code);
     }
 
-    public HashMap<String, VPlayer> getPlayerVerificationCodes()
+    public HashMap<String, PlayerData> getVerificationCodes()
     {
-        return PLAYER_VERIFICATION_CODES;
-    }
-
-    public void addAdminVerificationCode(String code, Admin admin)
-    {
-        ADMIN_VERIFICATION_CODES.put(code, admin);
-    }
-
-    public void removeAdminVerificationCode(String code)
-    {
-        ADMIN_VERIFICATION_CODES.remove(code);
-    }
-
-    public HashMap<String, Admin> getAdminVerificationCodes()
-    {
-        return ADMIN_VERIFICATION_CODES;
-    }
-
-    public void addMasterBuilderVerificationCode(String code, MasterBuilder masterBuilder)
-    {
-        MASTER_BUILDER_VERIFICATION_CODES.put(code, masterBuilder);
-    }
-
-    public void removeMasterBuilderVerificationCode(String code)
-    {
-        MASTER_BUILDER_VERIFICATION_CODES.remove(code);
-    }
-
-    public HashMap<String, MasterBuilder> getMasterBuilderVerificationCodes()
-    {
-        return MASTER_BUILDER_VERIFICATION_CODES;
+        return VERIFICATION_CODES;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -358,7 +280,7 @@ public class Discord extends FreedomService
     }
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
         startBot();
     }
@@ -383,35 +305,11 @@ public class Discord extends FreedomService
         return user.getName() + "#" + user.getDiscriminator();
     }
 
-    public static String getCodeForAdmin(Admin admin)
+    public static String getCode(PlayerData playerData)
     {
-        for (String code : ADMIN_LINK_CODES.keySet())
+        for (String code : LINK_CODES.keySet())
         {
-            if (ADMIN_LINK_CODES.get(code).equals(admin))
-            {
-                return code;
-            }
-        }
-        return null;
-    }
-
-    public static String getCodeForPlayer(VPlayer playerData)
-    {
-        for (String code : PLAYER_LINK_CODES.keySet())
-        {
-            if (PLAYER_LINK_CODES.get(code).equals(playerData))
-            {
-                return code;
-            }
-        }
-        return null;
-    }
-
-    public static String getCodeForMasterBuilder(MasterBuilder masterBuilder)
-    {
-        for (String code : MASTER_BUILDER_LINK_CODES.keySet())
-        {
-            if (MASTER_BUILDER_LINK_CODES.get(code).equals(masterBuilder))
+            if (LINK_CODES.get(code).equals(playerData))
             {
                 return code;
             }
@@ -420,7 +318,7 @@ public class Discord extends FreedomService
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         if (bot != null)
         {
@@ -477,9 +375,9 @@ public class Discord extends FreedomService
         return true;
     }
 
-    public static boolean syncRoles(Admin admin)
+    public static boolean syncRoles(Admin admin, String discordID)
     {
-        if (admin.getDiscordID() == null)
+        if (discordID == null)
         {
             return false;
         }
@@ -491,7 +389,7 @@ public class Discord extends FreedomService
             return false;
         }
 
-        Member member = server.getMemberById(admin.getDiscordID());
+        Member member = server.getMemberById(discordID);
         if (member == null)
         {
             return false;

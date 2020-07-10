@@ -4,10 +4,9 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.config.YamlConfig;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import net.pravian.aero.config.YamlConfig;
-import net.pravian.aero.util.Ips;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -28,21 +27,19 @@ public class ActivityLog extends FreedomService
 
     private final YamlConfig config;
 
-    public ActivityLog(TotalFreedomMod plugin)
+    public ActivityLog()
     {
-        super(plugin);
-
         this.config = new YamlConfig(plugin, FILENAME, true);
     }
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
         load();
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         save();
     }
@@ -110,7 +107,7 @@ public class ActivityLog extends FreedomService
         ActivityLogEntry activityLog = getEntryByName(player.getName());
         if (activityLog == null)
         {
-            String ip = Ips.getIp(player);
+            String ip = FUtil.getIp(player);
             activityLog = getEntryByIp(ip);
             if (activityLog != null)
             {
@@ -129,7 +126,7 @@ public class ActivityLog extends FreedomService
                 config.save();
             }
         }
-        String ip = Ips.getIp(player);
+        String ip = FUtil.getIp(player);
         if (!activityLog.getIps().contains(ip))
         {
             activityLog.addIp(ip);

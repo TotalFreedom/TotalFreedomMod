@@ -1,9 +1,7 @@
 package me.totalfreedom.totalfreedommod.blocking;
 
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Bat;
@@ -22,19 +20,13 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 
 public class MobBlocker extends FreedomService
 {
-
-    public MobBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

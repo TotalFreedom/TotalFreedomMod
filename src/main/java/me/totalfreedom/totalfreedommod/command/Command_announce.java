@@ -12,7 +12,7 @@ public class Command_announce extends FreedomCommand
 {
 
     @Override
-    protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length < 1)
         {

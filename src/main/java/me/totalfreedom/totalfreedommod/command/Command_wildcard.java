@@ -1,8 +1,11 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.nio.channels.FileLock;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -31,16 +34,33 @@ public class Command_wildcard extends FreedomCommand
         }
 
         Command runCmd = server.getPluginCommand(args[0]);
-        if (runCmd == null)
+        FreedomCommand fCmd = plugin.cl.getByName(args[0]);
+        boolean alias = plugin.cl.isAlias(args[0]);
+        if (runCmd == null && fCmd == null && !alias)
         {
             msg("Unknown command: " + args[0], ChatColor.RED);
             return true;
         }
 
-        if (BLOCKED_COMMANDS.contains(runCmd.getName()))
+        List<String> aliases = new ArrayList<>();
+
+        if (runCmd != null)
         {
-            msg("Did you really think that was going to work?", ChatColor.RED);
-            return true;
+            aliases = runCmd.getAliases();
+        }
+
+        if (fCmd != null)
+        {
+            aliases = Arrays.asList(fCmd.getAliases().split(","));
+        }
+
+        for (String blockedCommand : BLOCKED_COMMANDS)
+        {
+            if (blockedCommand.equals(args[0].toLowerCase()) || aliases.contains(blockedCommand))
+            {
+                msg("Did you really think that was going to work?", ChatColor.RED);
+                return true;
+            }
         }
 
         String baseCommand = StringUtils.join(args, " ");

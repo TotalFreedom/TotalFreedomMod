@@ -7,27 +7,20 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
 public class WorldGuardBridge extends FreedomService
 {
-
-    public WorldGuardBridge(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         plugin.wr.protectWorld(plugin.wm.hubworld.getWorld());
         plugin.wr.protectWorld(plugin.wm.masterBuilderWorld.getWorld());
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

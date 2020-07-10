@@ -1,24 +1,25 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import org.bukkit.ChatColor;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Brings the current reaction string up on your action bar", usage = "/<command>")
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
+@CommandParameters(description = "Forcefully start a reaction", usage = "/<command>")
 public class Command_reactionbar extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!plugin.sh.reactionString.isEmpty())
+        if (!FUtil.isDeveloper(sender.getName()))
         {
-            ActionBarAPI.sendActionBar(playerSender, ChatColor.BOLD + plugin.sh.reactionString, 15 * 20);
+            return noPerms();
         }
+        plugin.sh.forceStartReaction();
+        msg("Started a reaction.");
         return true;
     }
 }

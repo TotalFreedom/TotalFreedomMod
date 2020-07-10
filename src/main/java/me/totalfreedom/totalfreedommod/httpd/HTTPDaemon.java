@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
 import me.totalfreedom.totalfreedommod.httpd.module.HTTPDModule;
@@ -38,11 +37,6 @@ public class HTTPDaemon extends FreedomService
     public int port;
     private HTTPD httpd;
     public Map<String, ModuleExecutable> modules = new HashMap<>();
-
-    public HTTPDaemon(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
 
     @Override
     public void onStart()

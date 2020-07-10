@@ -10,7 +10,6 @@ import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Location;
@@ -47,7 +46,7 @@ public class Command_tempban extends FreedomCommand
                 return true;
             }
 
-            username = entry.getUsername();
+            username = entry.getName();
             ips.addAll(entry.getIps());
         }
         else
@@ -97,7 +96,7 @@ public class Command_tempban extends FreedomCommand
         plugin.bm.addBan(ban);
         player.kickPlayer(ban.bakeKickMessage());
 
-        plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.TEMPBAN, reason));
+        plugin.pul.logPunishment(new Punishment(player.getName(), FUtil.getIp(player), sender.getName(), PunishmentType.TEMPBAN, reason));
 
         return true;
     }

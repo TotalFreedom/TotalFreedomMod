@@ -15,7 +15,7 @@ public class Command_rideablepearl extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (plugin.sh.getData(playerSender).hasItem(ShopItem.RIDEABLE_PEARL))
+        if (plugin.pl.getData(playerSender).hasItem(ShopItem.RIDEABLE_PEARL))
         {
             playerSender.getInventory().addItem(plugin.sh.getRideablePearl());
             msg("You have been given a Rideable Ender Pearl", ChatColor.GREEN);

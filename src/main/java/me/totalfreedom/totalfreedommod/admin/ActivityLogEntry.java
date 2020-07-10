@@ -6,15 +6,13 @@ import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import me.totalfreedom.totalfreedommod.config.IConfig;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.base.ConfigLoadable;
-import net.pravian.aero.base.ConfigSavable;
-import net.pravian.aero.base.Validatable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-public class ActivityLogEntry implements ConfigLoadable, ConfigSavable, Validatable
+public class ActivityLogEntry implements IConfig
 {
 
     @Getter

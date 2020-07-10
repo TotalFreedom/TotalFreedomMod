@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod.admin;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import java.sql.ResultSet;
@@ -13,23 +12,16 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.config.YamlConfig;
-import net.pravian.aero.util.Ips;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.ServicePriority;
 
 public class AdminList extends FreedomService
 {
-
-    public static final String CONFIG_FILENAME = "admins.yml";
-
     @Getter
     private final Set<Admin> allAdmins = Sets.newHashSet(); // Includes disabled admins
     // Only active admins below
@@ -40,42 +32,21 @@ public class AdminList extends FreedomService
     public final List<String> verifiedNoAdmins = new ArrayList<>();
     public final Map<String, List<String>> verifiedNoAdminIps = Maps.newHashMap();
     public static ArrayList<Player> vanished = new ArrayList<>();
-    //
-    private final YamlConfig config;
-
-    public AdminList(TotalFreedomMod plugin)
-    {
-        super(plugin);
-
-        this.config = new YamlConfig(plugin, CONFIG_FILENAME, true);
-    }
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
         load();
-
-        server.getServicesManager().register(Function.class, new Function<Player, Boolean>()
-        {
-            @Override
-            public Boolean apply(Player player)
-            {
-                return isAdmin(player);
-            }
-        }, plugin, ServicePriority.Normal);
-
         deactivateOldEntries(false);
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
     public void load()
     {
-        config.load();
-
         allAdmins.clear();
         try
         {
@@ -83,28 +54,14 @@ public class AdminList extends FreedomService
             {
                 while (adminSet.next())
                 {
-                    String name = adminSet.getString("username");
-                    List<String> ips = FUtil.stringToList(adminSet.getString("ips"));
-                    Rank rank = Rank.findRank(adminSet.getString("rank"));
-                    Boolean active = adminSet.getBoolean("active");;
-                    Date lastLogin = new Date(adminSet.getLong("last_login"));
-                    String loginMessage = adminSet.getString("login_message");
-                    String tag = adminSet.getString("tag");
-                    String discordID = adminSet.getString("discord_id");
-                    List<String> backupCodes = FUtil.stringToList(adminSet.getString("backup_codes"));
-                    Boolean commandSpy = adminSet.getBoolean("command_spy");
-                    Boolean potionSpy = adminSet.getBoolean("potion_spy");
-                    String acFormat = adminSet.getString("ac_format");
-                    Boolean oldTags = adminSet.getBoolean("old_tags");
-                    Boolean logStick = adminSet.getBoolean("log_stick");
-                    Admin admin = new Admin(name, ips, rank, active, lastLogin, loginMessage, tag, discordID, backupCodes, commandSpy, potionSpy, acFormat, oldTags, logStick);
+                    Admin admin = new Admin(adminSet);
                     allAdmins.add(admin);
                 }
             }
         }
         catch (SQLException e)
         {
-            FLog.severe("Failed to get adminlist: " + e.getMessage());
+            FLog.severe("Failed to load adminlist: " + e.getMessage());
         }
 
         updateTables();
@@ -149,6 +106,17 @@ public class AdminList extends FreedomService
         return admin != null && admin.isActive();
     }
 
+    public boolean isTelnetAdmin(CommandSender sender)
+    {
+        Admin admin = getAdmin(sender);
+        if (admin == null)
+        {
+            return false;
+        }
+
+        return admin.getRank().ordinal() >= Rank.TELNET_ADMIN.ordinal();
+    }
+
     public boolean isSeniorAdmin(CommandSender sender)
     {
         Admin admin = getAdmin(sender);
@@ -173,7 +141,7 @@ public class AdminList extends FreedomService
     public Admin getAdmin(Player player)
     {
         // Find admin
-        String ip = Ips.getIp(player);
+        String ip = FUtil.getIp(player);
         Admin admin = getEntryByName(player.getName());
 
         // Admin by name
@@ -257,7 +225,7 @@ public class AdminList extends FreedomService
 
     public boolean isVerifiedAdmin(Player player)
     {
-        return verifiedNoAdmins.contains(player.getName()) && verifiedNoAdminIps.get(player.getName()).contains(Ips.getIp(player));
+        return verifiedNoAdmins.contains(player.getName()) && verifiedNoAdminIps.get(player.getName()).contains(FUtil.getIp(player));
     }
 
     public boolean isIdentityMatched(Player player)
@@ -356,7 +324,7 @@ public class AdminList extends FreedomService
             for (Map.Entry<String, Object> entry : admin.toSQLStorable().entrySet())
             {
                 Object storedValue = plugin.sql.getValue(currentSave, entry.getKey(), entry.getValue());
-                if (storedValue != null && !storedValue.equals(entry.getValue()) || storedValue == null && entry.getValue() != null)
+                if (storedValue != null && !storedValue.equals(entry.getValue()) || storedValue == null && entry.getValue() != null || entry.getValue() == null)
                 {
                     plugin.sql.setAdminValue(admin, entry.getKey(), entry.getValue());
                 }

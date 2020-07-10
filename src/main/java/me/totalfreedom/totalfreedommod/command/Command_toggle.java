@@ -46,6 +46,7 @@ public class Command_toggle extends FreedomCommand
             msg("- spawners");
             msg("- 4chan");
             msg("- beehives");
+            msg("- respawnanchors");
             msg("- autotp");
             msg("- autoclear");
             return false;
@@ -215,6 +216,11 @@ public class Command_toggle extends FreedomCommand
             toggle("Beehives are", ConfigEntry.ALLOW_BEEHIVES);
             return true;
         }
+        else if (args[0].equalsIgnoreCase("respawnanchors"))
+        {
+            toggle("Respawn anchors are", ConfigEntry.ALLOW_RESPAWN_ANCHORS);
+            return true;
+        }
         else if (args[0].equalsIgnoreCase("autotp"))
         {
             toggle("Teleportation on join is", ConfigEntry.AUTO_TP);
@@ -245,7 +251,7 @@ public class Command_toggle extends FreedomCommand
                     "waterplace", "fireplace", "lavaplace", "fluidspread", "lavadmg", "firespread", "frostwalk",
                     "firework", "prelog", "lockdown", "petprotect", "entitywipe", "nonuke", "explosives", "unsafeenchs",
                     "bells", "armorstands", "structureblocks", "jigsaws", "grindstones", "jukeboxes", "spawners", "4chan", "beehives",
-                    "autotp", "autoclear");
+                    "respawnanchors", "autotp", "autoclear");
         }
 
         return Collections.emptyList();

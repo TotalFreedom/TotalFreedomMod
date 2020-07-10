@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.rank.Title;
@@ -23,19 +22,14 @@ public class PermissionManager extends FreedomService
 
     public Map<Player, PermissionAttachment> attachments = Maps.newHashMap();
 
-    public PermissionManager(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         loadPermissionNodes();
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -72,7 +66,9 @@ public class PermissionManager extends FreedomService
         seniorAdminPermissions.addAll(telnetAdminPermissions);
         permissions.put(Rank.SENIOR_ADMIN, seniorAdminPermissions);
 
-        FLog.info("Loaded " + permissions.values().size() + " permission nodes");
+        int count = PermissionEntry.OPERATORS.getEntry().size() + PermissionEntry.MASTER_BUILDERS.getEntry().size() + PermissionEntry.SUPER_ADMINS.getEntry().size() + PermissionEntry.TELNET_ADMINS.getEntry().size() + PermissionEntry.SENIOR_ADMINS.getEntry().size();
+
+        FLog.info("Loaded " + count + " permission nodes");
     }
 
     public void setPermissions(Player player)
@@ -106,7 +102,7 @@ public class PermissionManager extends FreedomService
             }
         }
 
-        if (plugin.mbl.isMasterBuilder(player) && !plugin.al.isAdmin(player))
+        if (plugin.pl.getData(player).isMasterBuilder() && !plugin.al.isAdmin(player))
         {
             if (nodes != null)
             {

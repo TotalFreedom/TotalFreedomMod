@@ -1,5 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -34,8 +35,11 @@ public class Command_totalfreedommod extends FreedomCommand
             }
 
             plugin.config.load();
-            plugin.services.stop();
-            plugin.services.start();
+            for (FreedomService service : plugin.fsh.getServices())
+            {
+                service.onStop();
+                service.onStart();
+            }
 
             final String message = String.format("%s v%s reloaded.",
                     TotalFreedomMod.pluginName,

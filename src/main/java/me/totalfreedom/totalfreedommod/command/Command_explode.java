@@ -4,12 +4,11 @@ import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.ChatColor;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Surprise someone.", usage = "/<command> <player>")
@@ -32,10 +31,26 @@ public class Command_explode extends FreedomCommand
             return true;
         }
 
-        msg("Exploded " + player.getName());
-        player.setHealth(0.0);
-        player.getWorld().createExplosion(player.getLocation(), 0F, false);
-
+        player.setFlying(false);
+        player.setVelocity(player.getVelocity().clone().add(new Vector(0, 50, 0)));
+        for (int i = 1; i <= 3; i++)
+        {
+            FUtil.createExplosionOnDelay(player.getLocation(), 2L, i * 10);
+        }
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().createExplosion(player.getLocation(), 4L);
+                }
+                player.setHealth(0.0);
+                msg("Exploded " + player.getName());
+            }
+        }.runTaskLater(plugin, 40);
 
         return true;
     }

@@ -9,17 +9,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -36,13 +33,8 @@ public class BanManager extends FreedomService
 
     //
 
-    public BanManager(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         bans.clear();
         try
@@ -79,7 +71,7 @@ public class BanManager extends FreedomService
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -121,7 +113,7 @@ public class BanManager extends FreedomService
                     continue;
                 }
 
-                if (Ips.fuzzyIpMatch(ip, loopIp, 4))
+                if (FUtil.fuzzyIpMatch(ip, loopIp, 4))
                 {
                     return loopBan;
                 }
@@ -180,10 +172,23 @@ public class BanManager extends FreedomService
 
     public boolean addBan(Ban ban)
     {
-        if (getByUsername(ban.getUsername()) != null)
+        if (ban.getUsername() != null && getByUsername(ban.getUsername()) != null)
         {
             removeBan(ban);
         }
+        else
+        {
+
+            for (String ip : ban.getIps())
+            {
+                if (getByIp(ip) != null)
+                {
+                    removeBan(ban);
+                    break;
+                }
+            }
+        }
+
         if (bans.add(ban))
         {
             plugin.sql.addBan(ban);
@@ -219,7 +224,7 @@ public class BanManager extends FreedomService
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         final String username = event.getPlayer().getName();
-        final String ip = Ips.getIp(event);
+        final String ip = FUtil.getIp(event);
 
         // Regular ban
         Ban ban = getByUsername(username);
@@ -246,14 +251,19 @@ public class BanManager extends FreedomService
         }
 
         // Unban admins
-        for (String storedIp : data.getIps())
+        Ban ban = getByUsername(player.getName());
+        if (ban != null)
         {
-            unbanIp(storedIp);
-            unbanIp(FUtil.getFuzzyIp(storedIp));
+            removeBan(ban);
         }
-
-        unbanUsername(player.getName());
-        player.setOp(true);
+        else
+        {
+            ban = getByIp(FUtil.getIp(player));
+            if (ban != null)
+            {
+                removeBan(ban);
+            }
+        }
     }
 
     private void updateViews()

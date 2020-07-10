@@ -1,14 +1,13 @@
 package me.totalfreedom.totalfreedommod.world;
 
 import lombok.Getter;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import net.pravian.aero.component.PluginComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-public abstract class CustomWorld extends PluginComponent<TotalFreedomMod>
+public abstract class CustomWorld extends FreedomService
 {
 
     @Getter
@@ -19,6 +18,16 @@ public abstract class CustomWorld extends PluginComponent<TotalFreedomMod>
     public CustomWorld(String name)
     {
         this.name = name;
+    }
+
+    @Override
+    public void onStart()
+    {
+    }
+
+    @Override
+    public void onStop()
+    {
     }
 
     public final World getWorld()

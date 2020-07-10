@@ -50,7 +50,7 @@ public class Module_list extends HTTPDModule
                     imposters.add(player.getName());
                 }
 
-                if (plugin.mbl.isMasterBuilder(player))
+                if (plugin.pl.getData(player).isMasterBuilder())
                 {
                     masterbuilders.add(player.getName());
                 }
@@ -146,7 +146,7 @@ public class Module_list extends HTTPDModule
 
     public boolean isImposter(Player player)
     {
-        if (plugin.al.isAdminImpostor(player) || plugin.pv.isPlayerImpostor(player) || plugin.mbl.isMasterBuilderImpostor(player))
+        if (plugin.al.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player))
         {
             return true;
         }

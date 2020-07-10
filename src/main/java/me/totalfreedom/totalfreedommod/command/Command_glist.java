@@ -8,7 +8,6 @@ import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,25 +24,6 @@ public class Command_glist extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length < 1)
-        {
-            return false;
-        }
-
-        if (args.length == 1)
-        {
-            if ("purge".equals(args[0]))
-            {
-                checkRank(Rank.SENIOR_ADMIN);
-                plugin.pl.purgeAllData();
-                msg("Purged playerbase.");
-
-                return true;
-            }
-
-            return false;
-        }
-
         if (args.length < 2)
         {
             return false;
@@ -71,13 +51,13 @@ public class Command_glist extends FreedomCommand
                     return true;
                 }
 
-                username = entry.getUsername();
+                username = entry.getName();
                 ips.addAll(entry.getIps());
             }
             else
             {
                 final PlayerData entry = plugin.pl.getData(player);
-                username = entry.getUsername();
+                username = entry.getName();
                 ips.addAll(entry.getIps());
             }
         }

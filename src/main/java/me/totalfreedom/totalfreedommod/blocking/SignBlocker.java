@@ -1,12 +1,10 @@
 package me.totalfreedom.totalfreedommod.blocking;
 
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import net.minecraft.server.v1_15_R1.NBTTagCompound;
+import net.minecraft.server.v1_16_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.Tag;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_16_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,19 +17,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class SignBlocker extends FreedomService
 {
-
-    public SignBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -43,7 +35,7 @@ public class SignBlocker extends FreedomService
         if (Tag.SIGNS.getValues().contains(event.getBlock().getType()))
         {
             ItemStack sign = event.getItemInHand();
-            net.minecraft.server.v1_15_R1.ItemStack nmsSign = CraftItemStack.asNMSCopy(sign);
+            net.minecraft.server.v1_16_R1.ItemStack nmsSign = CraftItemStack.asNMSCopy(sign);
             NBTTagCompound compound = (nmsSign.hasTag()) ? nmsSign.getTag() : new NBTTagCompound();
             NBTTagCompound bet = compound.getCompound("BlockEntityTag");
             String line1 = bet.getString("Text1");
@@ -53,16 +45,6 @@ public class SignBlocker extends FreedomService
             if (line1.contains("run_command") || line2.contains("run_command") || line3.contains("run_command") || line4.contains("run_command"))
             {
                 player.sendMessage(ChatColor.GRAY + "You are not allowed to place command signs.");
-                event.setCancelled(true);
-            }
-            if (line1.contains("translate") || line2.contains("translate") || line3.contains("translate") || line4.contains("translate"))
-            {
-                player.sendMessage(ChatColor.GRAY + "You are not allowed to place broken strings that Mojang never fixed.");
-                event.setCancelled(true);
-            }
-            if (line1.contains("translation.test.") || line2.contains("translation.test.") || line3.contains("translation.test.") || line4.contains("translation.test."))
-            {
-                player.sendMessage(ChatColor.BOLD + "No.");
                 event.setCancelled(true);
             }
         }

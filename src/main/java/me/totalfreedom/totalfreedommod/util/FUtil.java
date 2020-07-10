@@ -35,14 +35,16 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.Material;
 import org.json.simple.JSONArray;
 
 public class FUtil
@@ -52,7 +54,7 @@ public class FUtil
     //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "Wild1145", "Demonic_Mario");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "Wild1145", "aggelosQQ", "supernt");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
@@ -124,11 +126,6 @@ public class FUtil
         return FUtil.DEVELOPERS.contains(name);
     }
 
-    public static boolean canManageMasterBuilders(String name)
-    {
-        return ConfigEntry.SERVER_OWNERS.getStringList().contains(name) || ConfigEntry.SERVER_EXECUTIVES.getStringList().contains(name) || ConfigEntry.SERVER_MASTER_BUILDER_MANAGEMENT.getStringList().contains(name);
-    }
-
     public static String formatName(String name)
     {
         return WordUtils.capitalizeFully(name.replace("_", " "));
@@ -191,7 +188,10 @@ public class FUtil
         {
             JSONArray json = new JSONArray();
             json.add(name);
-            String response = postRequestToEndpoint("https://api.mojang.com/profiles/minecraft", json.toString());
+            List<String> headers = new ArrayList<>();
+            headers.add("Accept:application/json");
+            headers.add("Content-Type:application/json");
+            String response = postRequestToEndpoint("https://api.mojang.com/profiles/minecraft", "POST", headers, json.toString());
             // Don't care how stupid this looks, couldn't find anything to parse a json string to something readable in java with something not horrendously huge, maybe im just retarded
             Pattern pattern = Pattern.compile("(?<=\"id\":\")[a-f0-9].{31}");
             Matcher matcher = pattern.matcher(response);
@@ -208,13 +208,16 @@ public class FUtil
         return null;
     }
 
-    public static String postRequestToEndpoint(String endpoint, String body) throws IOException
+    public static String postRequestToEndpoint(String endpoint, String method, List<String>headers, String body) throws IOException
     {
         URL url = new URL(endpoint);
         HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestMethod(method);
+        for (String header :  headers)
+        {
+            String[] kv = header.split(":");
+            connection.setRequestProperty(kv[0], kv[1]);
+        }
         connection.setDoOutput(true);
         DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
         outputStream.writeBytes(body);
@@ -556,7 +559,15 @@ public class FUtil
 
     public static String colorize(String string)
     {
-        return ChatColor.translateAlternateColorCodes('&', string);
+        Matcher matcher = Pattern.compile("&#[a-f0-9A-F]{6}").matcher(string);
+        while (matcher.find())
+        {
+            String code = matcher.group().replace("&", "");
+            string = string.replace("&" + code, net.md_5.bungee.api.ChatColor.of(code) + "");
+        }
+
+        string = ChatColor.translateAlternateColorCodes('&', string);
+        return string;
     }
 
     public static Date getUnixDate(long unix)
@@ -692,6 +703,28 @@ public class FUtil
     public static boolean timeZoneOutOfBounds(int tz)
     {
         return tz < -12 || tz > 12;
+    }
+
+    public static String getIp(Player player)
+    {
+        return player.getAddress().getAddress().getHostAddress().trim();
+    }
+
+    public static String getIp(PlayerLoginEvent event)
+    {
+        return event.getAddress().getHostAddress().trim();
+    }
+
+    public static void createExplosionOnDelay(Location location, float power, int delay)
+    {
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                location.getWorld().createExplosion(location, power);
+            }
+        }.runTaskLater(TotalFreedomMod.getPlugin(), delay);
     }
 
     private static class MojangResponse

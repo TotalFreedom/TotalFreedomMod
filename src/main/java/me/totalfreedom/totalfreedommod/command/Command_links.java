@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 public class Command_links extends FreedomCommand
 {
     @Override
-    protected boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         YamlConfiguration config = plugin.config.configuration;
         ConfigurationSection section = config.getConfigurationSection("social_links");

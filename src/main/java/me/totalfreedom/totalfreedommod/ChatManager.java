@@ -1,47 +1,39 @@
 package me.totalfreedom.totalfreedommod;
 
 import com.google.common.base.Strings;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.Date;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
-import me.totalfreedom.totalfreedommod.shop.ShopData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
+import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 
 public class ChatManager extends FreedomService
 {
-
-    public ChatManager(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerChatFormat(AsyncPlayerChatEvent event)
     {
         try
@@ -66,15 +58,10 @@ public class ChatManager extends FreedomService
         if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean() && !plugin.sh.reactionString.isEmpty() && message.equals(plugin.sh.reactionString))
         {
             event.setCancelled(true);
-            ShopData data = plugin.sh.getData(player);
+            PlayerData data = plugin.pl.getData(player);
             data.setCoins(data.getCoins() + plugin.sh.coinsPerReactionWin);
-            plugin.sh.save(data);
-            plugin.sh.reactionString = "";
-            Date currentTime = new Date();
-            long seconds = (currentTime.getTime() - plugin.sh.reactionStartTime.getTime()) / 1000;
-            String reactionMessage = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "Reaction" + ChatColor.DARK_GRAY + "] "
-                    + ChatColor.GREEN + player.getName() + ChatColor.AQUA + " won in " + seconds + " seconds!";
-            FUtil.bcastMsg(reactionMessage, false);
+            plugin.pl.save(data);
+            plugin.sh.endReaction(player.getName());
             player.sendMessage(ChatColor.GREEN + "You have been given " + ChatColor.GOLD + plugin.sh.coinsPerReactionWin + ChatColor.GREEN + " coins!");
             return;
         }
@@ -82,7 +69,7 @@ public class ChatManager extends FreedomService
         if (!ConfigEntry.TOGGLE_CHAT.getBoolean() && !plugin.al.isAdmin(player))
         {
             event.setCancelled(true);
-            playerMsg(player, "Chat is currently disabled.", ChatColor.RED);
+            playerMsg(player, "Chat is currently disabled.", org.bukkit.ChatColor.RED);
             return;
         }
 

@@ -20,26 +20,25 @@ public class Command_stop extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (STOP_CONFIRM.containsKey(sender))
-        {
-            FUtil.bcastMsg("Server is going offline!", ChatColor.LIGHT_PURPLE);
-
-            for (Player player : server.getOnlinePlayers())
-            {
-                player.kickPlayer(ChatColor.LIGHT_PURPLE + STOP_CONFIRM.get(sender));
-            }
-
-            STOP_CONFIRM.remove(sender);
-
-            server.shutdown();
-        }
 
         String reason = "Server is going offline, come back in about 20 seconds.";
 
-        if (args.length > 0)
+        if (args.length != 0)
         {
             reason = StringUtils.join(args, " ");
         }
+
+        if (sender.getName().equals("CONSOLE"))
+        {
+            shutdown(reason);
+            return true;
+        }
+        else if (STOP_CONFIRM.containsKey(sender))
+        {
+            shutdown(STOP_CONFIRM.get(sender));
+            return true;
+        }
+
 
         msg("Warning: You're about to stop the server. Type /stop again to confirm you want to do this.");
 
@@ -57,5 +56,19 @@ public class Command_stop extends FreedomCommand
             }
         }.runTaskLater(plugin, 15 * 20);
         return true;
+    }
+
+    public void shutdown(String reason)
+    {
+        FUtil.bcastMsg("Server is going offline!", ChatColor.LIGHT_PURPLE);
+
+        for (Player player : server.getOnlinePlayers())
+        {
+            player.kickPlayer(ChatColor.LIGHT_PURPLE + reason);
+        }
+
+        STOP_CONFIRM.remove(sender);
+
+        server.shutdown();
     }
 }

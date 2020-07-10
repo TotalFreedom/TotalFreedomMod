@@ -15,7 +15,7 @@ public class Command_lightningrod extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (plugin.sh.getData(playerSender).hasItem(ShopItem.LIGHTNING_ROD))
+        if (plugin.pl.getData(playerSender).hasItem(ShopItem.LIGHTNING_ROD))
         {
             playerSender.getInventory().addItem(plugin.sh.getLightningRod());
             msg("You have been given a Lightning Rod", ChatColor.GREEN);

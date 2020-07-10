@@ -1,16 +1,16 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.shop.ShopData;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Shows the amount of coins you have or another player", usage = "/<command> [playername]")
+@CommandParameters(description = "Shows the amount of coins you have or another player has", usage = "/<command> [playername]")
 public class Command_coins extends FreedomCommand
 {
 
@@ -48,8 +48,8 @@ public class Command_coins extends FreedomCommand
                 p = playerSender;
             }
         }
-        ShopData sd = plugin.sh.getData(p);
-        msg(prefix + ChatColor.GREEN + (args.length > 0 ? p.getName() + " has " : "You have ") + ChatColor.RED + sd.getCoins() + ChatColor.GREEN + " coins.");
+        PlayerData playerData = plugin.pl.getData(p);
+        msg(prefix + ChatColor.GREEN + (args.length > 0 ? p.getName() + " has " : "You have ") + ChatColor.RED + playerData.getCoins() + ChatColor.GREEN + " coins.");
         return true;
     }
 }

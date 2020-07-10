@@ -48,14 +48,6 @@ public class Command_cage extends FreedomCommand
 
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
 
-        if (fPlayer.getCageData().isCaged())
-        {
-            FUtil.adminAction(sender.getName(), "Uncaging " + sender.getName(), true);
-            final FPlayer playerdata = plugin.pl.getPlayer(playerSender);
-            playerdata.getCageData().setCaged(false);
-            return true;
-        }
-
         Material outerMaterial = Material.GLASS;
         Material innerMaterial = Material.AIR;
         if (args.length >= 2 && args[1] != null)

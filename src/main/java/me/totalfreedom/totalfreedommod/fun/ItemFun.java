@@ -5,43 +5,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
-import javax.security.auth.login.FailedLoginException;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
-import me.totalfreedom.totalfreedommod.shop.ShopData;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.shop.ShopItem;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Firework;
-import org.bukkit.entity.Projectile;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.TNTPrimed;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -94,19 +90,63 @@ public class ItemFun extends FreedomService
         return cooldownTracker.get(player.getName()).contains(item.getDataName());
     }
 
-    public ItemFun(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
+    }
+
+    @EventHandler
+    public void onPlayerEntityInteract(PlayerInteractEntityEvent event)
+    {
+
+        Player player = event.getPlayer();
+
+        Entity entity = event.getRightClicked();
+
+        if (!player.getInventory().getItemInMainHand().getType().equals(Material.POTATO) || entity.getType().equals(EntityType.PLAYER))
+        {
+            return;
+        }
+
+        if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory().getItemInMainHand(), plugin.sh.getStackingPotato()))
+        {
+            return;
+        }
+
+        player.addPassenger(entity);
+        player.sendMessage("Stacked " + entity.getName());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityDamage(EntityDamageByEntityEvent event)
+    {
+
+        Entity entity = event.getEntity();
+
+        if (entity instanceof Player || !(event.getDamager() instanceof Player))
+        {
+            return;
+        }
+
+        Player player = (Player)event.getDamager();
+
+        if (!player.getInventory().getItemInMainHand().getType().equals(Material.POTATO))
+        {
+            return;
+        }
+
+        if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory().getItemInMainHand(), plugin.sh.getStackingPotato()))
+        {
+            return;
+        }
+
+        event.setCancelled(true);
+        entity.addPassenger(player);
     }
 
     @EventHandler
@@ -123,22 +163,101 @@ public class ItemFun extends FreedomService
 
         switch (event.getMaterial())
         {
+            case BONE:
+            {
+                if (!fPlayer.mobThrowerEnabled())
+                {
+                    break;
+                }
+
+                Location player_pos = player.getLocation();
+                Vector direction = player_pos.getDirection().normalize();
+
+                LivingEntity rezzed_mob = (LivingEntity)player.getWorld().spawnEntity(player_pos.add(direction.multiply(2.0)), fPlayer.mobThrowerCreature());
+                rezzed_mob.setVelocity(direction.multiply(fPlayer.mobThrowerSpeed()));
+                fPlayer.enqueueMob(rezzed_mob);
+
+                event.setCancelled(true);
+                break;
+            }
+
+            case GUNPOWDER:
+            {
+                if (!fPlayer.isMP44Armed())
+                {
+                    break;
+                }
+
+                event.setCancelled(true);
+
+                if (fPlayer.toggleMP44Firing())
+                {
+                    fPlayer.startArrowShooter(plugin);
+                }
+                else
+                {
+                    fPlayer.stopArrowShooter();
+                }
+                break;
+            }
+
+            case BLAZE_ROD:
+            {
+                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.LIGHTNING_ROD, player.getInventory().getItemInMainHand(), plugin.sh.getLightningRod()))
+                {
+                    break;
+                }
+
+                if (onCooldown(player, ShopItem.LIGHTNING_ROD))
+                {
+                    player.sendMessage(ChatColor.RED + "You're are currently on a cooldown for 10 seconds.");
+                    break;
+                }
+
+                event.setCancelled(true);
+                Block targetBlock = player.getTargetBlock(null, 20);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    player.getWorld().strikeLightning(targetBlock.getLocation());
+                }
+                cooldown(player, ShopItem.LIGHTNING_ROD, 10);
+                break;
+            }
+
+            case FIRE_CHARGE:
+            {
+                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.FIRE_BALL, player.getInventory().getItemInMainHand(), plugin.sh.getFireBall()))
+                {
+                    break;
+                }
+
+                if (onCooldown(player, ShopItem.FIRE_BALL))
+                {
+                    player.sendMessage(ChatColor.RED + "You're are currently on a cool-down for 5 seconds.");
+                    break;
+                }
+
+                event.setCancelled(true);
+                Entity fireball = player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREBALL);
+                FIRE_BALL_UUIDS.add(fireball.getUniqueId());
+                fireball.setVelocity(player.getLocation().getDirection().multiply(2));
+                cooldown(player, ShopItem.FIRE_BALL, 5);
+                break;
+            }
             case TROPICAL_FISH:
             {
                 final int RADIUS_HIT = 5;
                 final int STRENGTH = 4;
 
-                if (!plugin.al.isSeniorAdmin(player))
+                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.CLOWN_FISH, player.getInventory().getItemInMainHand(), plugin.sh.getClownFish()))
                 {
-                    final StringBuilder msg = new StringBuilder();
-                    final char[] chars = ("That's clownery, luv").toCharArray();
-                    for (char c : chars)
-                    {
-                        msg.append(FUtil.randomChatColor()).append(c);
-                    }
-                    player.sendMessage(msg.toString());
+                    break;
+                }
 
-                    player.getEquipment().getItemInMainHand().setType(Material.POTATO);
+                if (onCooldown(player, ShopItem.CLOWN_FISH))
+                {
+                    player.sendMessage(ChatColor.RED + "You're are currently on a cool-down for 30 seconds.");
                     break;
                 }
 
@@ -180,153 +299,11 @@ public class ItemFun extends FreedomService
                     {
                         if (sound.toString().contains("HIT"))
                         {
-                            playerLoc.getWorld().playSound(randomOffset(playerLoc, 5.0), sound, 100.0f, randomDoubleRange(0.5, 2.0).floatValue());
+                            playerLoc.getWorld().playSound(randomOffset(playerLoc, 5.0), sound, 20f, randomDoubleRange(0.5, 2.0).floatValue());
                         }
                     }
+                    cooldown(player, ShopItem.CLOWN_FISH, 30);
                 }
-                break;
-            }
-
-            case CARROT:
-            {
-                if (!ConfigEntry.ALLOW_EXPLOSIONS.getBoolean() || !plugin.al.isSeniorAdmin(player) || plugin.wr.doRestrict(player))
-                {
-                    break;
-                }
-
-                Location location = player.getLocation().clone();
-
-                Vector playerPosition = location.toVector().add(new Vector(0.0, 1.65, 0.0));
-                Vector playerDirection = location.getDirection().normalize();
-
-                double distance = 150.0;
-                Block targetBlock = DepreciationAggregator.getTargetBlock(player, null, Math.round((float)distance));
-                if (targetBlock != null)
-                {
-                    distance = location.distance(targetBlock.getLocation());
-                }
-
-                final List<Block> affected = new ArrayList<>();
-
-                Block lastBlock = null;
-                for (double offset = 0.0; offset <= distance; offset += (distance / 25.0))
-                {
-                    Block block = playerPosition.clone().add(playerDirection.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
-
-                    if (!block.equals(lastBlock))
-                    {
-                        if (block.isEmpty())
-                        {
-                            affected.add(block);
-                            block.setType(Material.TNT);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    lastBlock = block;
-                }
-
-                new BukkitRunnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        for (Block tntBlock : affected)
-                        {
-                            TNTPrimed tnt = tntBlock.getWorld().spawn(tntBlock.getLocation(), TNTPrimed.class);
-                            tnt.setFuseTicks(5);
-                            tntBlock.setType(Material.AIR);
-                        }
-                    }
-                }.runTaskLater(plugin, 30L);
-
-                event.setCancelled(true);
-                break;
-            }
-
-            case BONE:
-            {
-                if (!fPlayer.mobThrowerEnabled())
-                {
-                    break;
-                }
-
-                Location player_pos = player.getLocation();
-                Vector direction = player_pos.getDirection().normalize();
-
-                LivingEntity rezzed_mob = (LivingEntity)player.getWorld().spawnEntity(player_pos.add(direction.multiply(2.0)), fPlayer.mobThrowerCreature());
-                rezzed_mob.setVelocity(direction.multiply(fPlayer.mobThrowerSpeed()));
-                fPlayer.enqueueMob(rezzed_mob);
-
-                event.setCancelled(true);
-                break;
-            }
-
-            case GUNPOWDER:
-            {
-                if (!fPlayer.isMP44Armed())
-                {
-                    break;
-                }
-
-                event.setCancelled(true);
-
-                if (fPlayer.toggleMP44Firing())
-                {
-                    fPlayer.startArrowShooter(plugin);
-                }
-                else
-                {
-                    fPlayer.stopArrowShooter();
-                }
-                break;
-            }
-
-            case BLAZE_ROD:
-            {
-                if (!plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.LIGHTNING_ROD, player.getInventory().getItemInMainHand(), plugin.sh.getLightningRod()))
-                {
-                    break;
-                }
-
-                if (onCooldown(player, ShopItem.LIGHTNING_ROD))
-                {
-                    player.sendMessage(ChatColor.RED + "You're are currently on a cooldown for 10 seconds.");
-                    break;
-                }
-
-                event.setCancelled(true);
-                Block targetBlock = player.getTargetBlock(null, 20);
-
-                for (int i = 0; i < 5; i++)
-                {
-                    player.getWorld().strikeLightning(targetBlock.getLocation());
-                }
-                cooldown(player, ShopItem.LIGHTNING_ROD, 10);
-                break;
-            }
-
-            case FIRE_CHARGE:
-            {
-                if (!plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.FIRE_BALL, player.getInventory().getItemInMainHand(), plugin.sh.getFireBall()))
-                {
-                    break;
-                }
-
-                if (onCooldown(player, ShopItem.FIRE_BALL))
-                {
-                    player.sendMessage(ChatColor.RED + "You're are currently on a cooldown for 5 seconds.");
-                    break;
-                }
-
-                event.setCancelled(true);
-                Entity fireball = player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREBALL);
-                FIRE_BALL_UUIDS.add(fireball.getUniqueId());
-                fireball.setVelocity(player.getLocation().getDirection().multiply(2));
-                cooldown(player, ShopItem.FIRE_BALL, 5);
                 break;
             }
         }
@@ -339,7 +316,7 @@ public class ItemFun extends FreedomService
         if (entity instanceof EnderPearl && entity.getShooter() instanceof Player)
         {
             Player player = (Player)entity.getShooter();
-            if (plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.RIDEABLE_PEARL, player.getInventory().getItemInMainHand(), plugin.sh.getRideablePearl()))
+            if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.RIDEABLE_PEARL, player.getInventory().getItemInMainHand(), plugin.sh.getRideablePearl()))
             {
                 entity.addPassenger(player);
             }
@@ -397,10 +374,10 @@ public class ItemFun extends FreedomService
     public void onFish(PlayerFishEvent event)
     {
         Player player = event.getPlayer();
-        ShopData sd = plugin.sh.getData(player);
+        PlayerData data = plugin.pl.getData(player);
         PlayerInventory inv = event.getPlayer().getInventory();
         ItemStack rod = inv.getItemInMainHand();
-        if (plugin.sh.isRealItem(plugin.sh.getData(player), ShopItem.GRAPPLING_HOOK, player.getInventory().getItemInMainHand(), plugin.sh.getGrapplingHook()))
+        if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.GRAPPLING_HOOK, player.getInventory().getItemInMainHand(), plugin.sh.getGrapplingHook()))
         {
             if (event.getState() == PlayerFishEvent.State.REEL_IN || event.getState() == PlayerFishEvent.State.IN_GROUND)
             {

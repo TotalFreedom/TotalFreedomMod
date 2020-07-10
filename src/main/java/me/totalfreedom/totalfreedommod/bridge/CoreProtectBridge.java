@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import net.coreprotect.CoreProtect;
@@ -28,18 +27,13 @@ public class CoreProtectBridge extends FreedomService
 
     private BukkitTask wiper;
 
-    public CoreProtectBridge(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

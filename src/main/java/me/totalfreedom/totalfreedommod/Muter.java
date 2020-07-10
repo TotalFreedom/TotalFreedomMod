@@ -21,31 +21,24 @@ public class Muter extends FreedomService
 {
 
     public static final List<String> MUTE_COMMANDS = Arrays.asList(StringUtils.split("say,me,msg,tell,reply,mail", ","));
-    public final List<String> MUTED_PLAYERS = new ArrayList();
-
-    public Muter(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
+    public final List<String> MUTED_PLAYERS = new ArrayList<>();
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event)
     {
         Player player = event.getPlayer();
 
         FPlayer fPlayer = plugin.pl.getPlayerSync(player);
-
-        FLog.info("checking mute");
 
         if (!fPlayer.isMuted())
         {

@@ -21,7 +21,7 @@ import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Method;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
-import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -271,8 +271,8 @@ public class Module_schematic extends HTTPDModule
     private boolean isAuthorized(String remoteAddress)
     {
         Admin adminEntry = plugin.al.getEntryByIp(remoteAddress);
-        MasterBuilder masterBuilderEntry = plugin.mbl.getEntryByIp(remoteAddress);
-        return ((adminEntry != null && adminEntry.isActive()) || masterBuilderEntry != null);
+        PlayerData data = plugin.pl.getDataByIp(remoteAddress);
+        return ((adminEntry != null && adminEntry.isActive()) || data != null && data.isMasterBuilder());
     }
 
     private static class SchematicTransferException extends Exception

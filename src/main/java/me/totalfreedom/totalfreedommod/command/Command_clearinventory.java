@@ -67,7 +67,7 @@ public class Command_clearinventory extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (args.length == 1 && plugin.al.isAdmin(playerSender))
+        if (args.length == 1 && plugin.al.isAdmin(sender))
         {
             List<String> players = FUtil.getPlayerList();
             players.add("-a");

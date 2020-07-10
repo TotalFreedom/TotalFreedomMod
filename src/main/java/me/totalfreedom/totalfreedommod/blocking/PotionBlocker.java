@@ -2,7 +2,6 @@ package me.totalfreedom.totalfreedommod.blocking;
 
 import java.util.Collection;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
@@ -19,18 +18,13 @@ public class PotionBlocker extends FreedomService
 
     public static final int POTION_BLOCK_RADIUS_SQUARED = 20 * 20;
 
-    public PotionBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

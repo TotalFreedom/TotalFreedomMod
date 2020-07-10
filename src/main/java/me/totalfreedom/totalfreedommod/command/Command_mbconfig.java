@@ -1,23 +1,19 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import me.totalfreedom.totalfreedommod.masterbuilder.MasterBuilder;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.OP, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "List, add, or remove master builders, reload the master builder list, or view the info of master builders.", usage = "/<command> <list | reload | | <add | remove | info> <username>>")
+@CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
+@CommandParameters(description = "List, add, or remove master builders, reload the master builder list, or view the info of master builders.", usage = "/<command> <list | <<add | remove> <username>>>")
 public class Command_mbconfig extends FreedomCommand
 {
 
@@ -33,50 +29,7 @@ public class Command_mbconfig extends FreedomCommand
         {
             case "list":
             {
-                msg("Master Builders: " + StringUtils.join(plugin.mbl.getMasterBuilderNames(), ", "), ChatColor.GOLD);
-
-                return true;
-            }
-
-            case "reload":
-            {
-                checkRank(Rank.SENIOR_ADMIN);
-
-                FUtil.adminAction(sender.getName(), "Reloading the Master Builder list", true);
-                plugin.mbl.load();
-                msg("Master Builder list reloaded!");
-                return true;
-            }
-
-            case "info":
-            {
-                if (args.length < 2)
-                {
-                    return false;
-                }
-
-                checkRank(Rank.SUPER_ADMIN);
-
-                MasterBuilder masterBuilder = plugin.mbl.getEntryByName(args[1]);
-
-                if (masterBuilder == null)
-                {
-                    final Player player = getPlayer(args[1]);
-                    if (player != null)
-                    {
-                        masterBuilder = plugin.mbl.getMasterBuilder(player);
-                    }
-                }
-
-                if (masterBuilder == null)
-                {
-                    msg("Master Builder not found: " + args[1]);
-                }
-                else
-                {
-                    msg(masterBuilder.toString());
-                }
-
+                msg("Master Builders: " + StringUtils.join(plugin.pl.getMasterBuilderNames(), ", "), ChatColor.GOLD);
                 return true;
             }
 
@@ -87,89 +40,43 @@ public class Command_mbconfig extends FreedomCommand
                     return false;
                 }
 
-                checkConsole();
-                checkRank(Rank.TELNET_ADMIN);
+                if (!plugin.pl.canManageMasterBuilders(sender.getName()))
+                {
+                    return noPerms();
+                }
 
-                // Player already on the list?
                 final Player player = getPlayer(args[1]);
-                if (player != null && plugin.mbl.isMasterBuilder(player))
+                PlayerData data = plugin.pl.getData(player);
+
+                if (data.isMasterBuilder() && plugin.pl.isPlayerImpostor(player))
+                {
+                    FUtil.adminAction(sender.getName(), "Re-adding " + player.getName() + " to the Master Builder list", true);
+                    player.setOp(true);
+                    player.sendMessage(YOU_ARE_OP);
+
+                    if (plugin.pl.getPlayer(player).getFreezeData().isFrozen())
+                    {
+                        plugin.pl.getPlayer(player).getFreezeData().setFrozen(false);
+                        player.sendMessage(ChatColor.GRAY + "You have been unfrozen.");
+                    }
+                    plugin.pl.verify(player, null);
+                    plugin.rm.updateDisplay(player);
+                }
+                else if (!data.isMasterBuilder())
+                {
+                    FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the Master Builder list", true);
+                    data.setMasterBuilder(true);
+                    data.setVerification(true);
+                    plugin.pl.save(data);
+                    plugin.rm.updateDisplay(player);
+                    return true;
+                }
+                else
                 {
                     msg("That player is already on the Master Builder list.");
                     return true;
                 }
-
-                // Find the entry
-                String name = player != null ? player.getName() : args[1];
-                MasterBuilder masterBuilder = null;
-                for (MasterBuilder loopMasterBuilder : plugin.mbl.getAllMasterBuilders().values())
-                {
-                    if (loopMasterBuilder.getName().equalsIgnoreCase(name))
-                    {
-                        masterBuilder = loopMasterBuilder;
-                        break;
-                    }
-                }
-
-                if (masterBuilder == null) // New entry
-                {
-                    checkRank(Rank.SENIOR_ADMIN);
-                    if (!FUtil.canManageMasterBuilders(sender.getName()))
-                    {
-                        noPerms();
-                    }
-
-                    if (player == null)
-                    {
-                        msg(FreedomCommand.PLAYER_NOT_FOUND);
-                        return true;
-                    }
-
-                    FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the Master Builder list", true);
-                    plugin.mbl.addMasterBuilder(new MasterBuilder(player));
-                    if (player != null)
-                    {
-                        plugin.rm.updateDisplay(player);
-                    }
-                }
-                else // Existing admin
-                {
-                    FUtil.adminAction(sender.getName(), "Readding " + masterBuilder.getName() + " to the Master Builder list", true);
-
-                    if (player != null)
-                    {
-                        masterBuilder.setName(player.getName());
-                        masterBuilder.addIp(Ips.getIp(player));
-                    }
-
-                    masterBuilder.setLastLogin(new Date());
-
-                    plugin.mbl.save();
-                    plugin.mbl.updateTables();
-                    if (player != null)
-                    {
-                        plugin.rm.updateDisplay(player);
-                    }
-                }
-
-                if (player != null)
-                {
-                    final FPlayer fPlayer = plugin.pl.getPlayer(player);
-                    if (fPlayer.getFreezeData().isFrozen())
-                    {
-                        fPlayer.getFreezeData().setFrozen(false);
-                        msg(player.getPlayer(), "You have been unfrozen.");
-                    }
-
-                    if (!player.isOp())
-                    {
-                        player.setOp(true);
-                        player.sendMessage(YOU_ARE_OP);
-                    }
-                    plugin.pv.removeEntry(player.getName()); // master builders can't have player verification entries
-                }
-                return true;
             }
-
             case "remove":
             {
                 if (args.length < 2)
@@ -177,28 +84,28 @@ public class Command_mbconfig extends FreedomCommand
                     return false;
                 }
 
-                checkConsole();
-                checkRank(Rank.SENIOR_ADMIN);
-                if (!FUtil.canManageMasterBuilders(sender.getName()))
+                if (!plugin.pl.canManageMasterBuilders(sender.getName()))
                 {
-                    noPerms();
+                    return noPerms();
                 }
 
                 Player player = getPlayer(args[1]);
-                MasterBuilder masterBuilder = player != null ? plugin.mbl.getMasterBuilder(player) : plugin.mbl.getEntryByName(args[1]);
+                PlayerData data = plugin.pl.getData(player);
 
-                if (masterBuilder == null)
+                if (!data.isMasterBuilder())
                 {
                     msg("Master Builder not found: " + args[1]);
                     return true;
                 }
 
-                FUtil.adminAction(sender.getName(), "Removing " + masterBuilder.getName() + " from the Master Builder list", true);
-                plugin.mbl.removeMasterBuilder(masterBuilder);
-                if (player != null)
+                FUtil.adminAction(sender.getName(), "Removing " + data.getName() + " from the Master Builder list", true);
+                data.setMasterBuilder(false);
+                if (data.getDiscordID() == null)
                 {
-                    plugin.rm.updateDisplay(player);
+                    data.setVerification(false);
                 }
+                plugin.pl.save(data);
+                plugin.rm.updateDisplay(player);
                 return true;
             }
 
@@ -211,39 +118,21 @@ public class Command_mbconfig extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (sender instanceof Player)
+        if (args.length == 1)
         {
-            if (args.length == 1)
-            {
-                List<String> arguments = new ArrayList<>();
-                arguments.add("list");
-                if (plugin.al.isAdmin(sender))
-                {
-                    arguments.add("info");
-                }
-                return arguments;
-            }
-            else if (args.length == 2 && args[0].equals("info") && plugin.al.isAdmin(sender))
-            {
-                return plugin.al.getActiveAdminNames();
-            }
-            return Collections.emptyList();
+            return Arrays.asList("add", "remove", "list");
         }
-        else
+        else if (args.length == 2)
         {
-            if (args.length == 1)
+            if (args[0].equals("add"))
             {
-                return Arrays.asList("add", "remove", "reload", "list", "info");
+                return FUtil.getPlayerList();
             }
-            else if (args.length == 2)
+            else if (args[0].equals("remove"))
             {
-                if (args[0].equals("add") || args[0].equals("remove") || args[0].equals("setrank") || args[0].equals("info"))
-                {
-                    return FUtil.getPlayerList();
-                }
+                return plugin.pl.getMasterBuilderNames();
             }
         }
-
         return Collections.emptyList();
     }
 

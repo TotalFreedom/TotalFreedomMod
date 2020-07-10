@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod.bridge;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -26,18 +25,13 @@ public class EssentialsBridge extends FreedomService
 
     private Essentials essentialsPlugin = null;
 
-    public EssentialsBridge(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

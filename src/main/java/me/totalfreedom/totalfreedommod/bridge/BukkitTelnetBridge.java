@@ -10,7 +10,6 @@ import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetRequestDataTagsEvent;
 import me.totalfreedom.bukkittelnet.session.ClientSession;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -24,18 +23,13 @@ public class BukkitTelnetBridge extends FreedomService
 
     private BukkitTelnet bukkitTelnetPlugin = null;
 
-    public BukkitTelnetBridge(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

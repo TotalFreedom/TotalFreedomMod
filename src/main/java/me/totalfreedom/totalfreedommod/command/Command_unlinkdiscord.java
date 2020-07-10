@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.playerverification.VPlayer;
+import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Unlink your Discord account from your Minecraft account", usage = "/<command>")
+@CommandParameters(description = "Unlink your Discord account from your Minecraft account", usage = "/<command> [player]")
 public class Command_unlinkdiscord extends FreedomCommand
 {
 
@@ -22,32 +21,30 @@ public class Command_unlinkdiscord extends FreedomCommand
             return true;
         }
 
-        if (plugin.al.isAdmin(playerSender))
+        if (args.length != 0 && plugin.al.isAdmin(playerSender))
         {
-            Admin admin = plugin.al.getAdmin(playerSender);
-            if (admin.getDiscordID() == null)
+            PlayerData playerData = plugin.pl.getData(args[0]);
+            if (playerData == null)
             {
-                msg("Your Minecraft account is not linked to a Discord account.", ChatColor.RED);
+                msg(PLAYER_NOT_FOUND);
                 return true;
             }
-            admin.setDiscordID(null);
-            plugin.al.save(admin);
-            msg("Your Minecraft account has been successfully unlinked from the Discord account.", ChatColor.GREEN);
+
+            playerData.setDiscordID(null);
+            msg("Unlinked " + args[0] + "'s discord account.", ChatColor.GREEN);
             return true;
         }
-        else
+
+        PlayerData data = plugin.pl.getData(playerSender);
+        if (data.getDiscordID() == null)
         {
-            VPlayer data = plugin.pv.getVerificationPlayer(playerSender);
-            if (data.getDiscordId() == null)
-            {
-                msg("Your Minecraft account is not linked to a Discord account.", ChatColor.RED);
-                return true;
-            }
-            data.setDiscordId(null);
-            data.setEnabled(false);
-            plugin.pv.saveVerificationData(data);
-            msg("Your Minecraft account has been successfully unlinked from the Discord account.", ChatColor.GREEN);
+            msg("Your Minecraft account is not linked to a Discord account.", ChatColor.RED);
             return true;
         }
+        data.setDiscordID(null);
+        data.setVerification(false);
+        plugin.pl.save(data);
+        msg("Your Minecraft account has been successfully unlinked from the Discord account.", ChatColor.GREEN);
+        return true;
     }
 }

@@ -9,7 +9,6 @@ import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.util.Ips;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -153,7 +152,7 @@ public class Command_mute extends FreedomCommand
             msg(player, "You have been muted by " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
             msg("Muted " + player.getName());
 
-            plugin.pul.logPunishment(new Punishment(player.getName(), Ips.getIp(player), sender.getName(), PunishmentType.MUTE, reason));
+            plugin.pul.logPunishment(new Punishment(player.getName(), FUtil.getIp(player), sender.getName(), PunishmentType.MUTE, reason));
         }
         else
         {

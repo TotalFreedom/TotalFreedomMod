@@ -2,7 +2,6 @@ package me.totalfreedom.totalfreedommod.freeze;
 
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,19 +15,14 @@ public class Freezer extends FreedomService
     @Getter
     private boolean globalFreeze = false;
 
-    public Freezer(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         globalFreeze = false;
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

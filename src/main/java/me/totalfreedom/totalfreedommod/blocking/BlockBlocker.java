@@ -2,15 +2,11 @@ package me.totalfreedom.totalfreedommod.blocking;
 
 import java.util.List;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.util.FLog;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Banner;
-import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.entity.Player;
@@ -23,19 +19,13 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class BlockBlocker extends FreedomService
 {
-
-    public BlockBlocker(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -68,6 +58,7 @@ public class BlockBlocker extends FreedomService
                 break;
             }
             case FIRE:
+            case SOUL_FIRE:
             {
                 if (!ConfigEntry.ALLOW_FIRE_PLACE.getBoolean())
                 {
@@ -142,7 +133,7 @@ public class BlockBlocker extends FreedomService
             case PLAYER_WALL_HEAD:
             {
                 Skull skull = (Skull) event.getBlockPlaced().getState();
-                if (skull.hasOwner())
+                if (skull.getOwner() != null)
                 {
                     if (skull.getOwner().contains("\u00A7"))
                     {
@@ -168,18 +159,25 @@ public class BlockBlocker extends FreedomService
                 }
                 break;
             }
+            case RESPAWN_ANCHOR:
+            {
+                if (!ConfigEntry.ALLOW_RESPAWN_ANCHORS.getBoolean())
+                {
+                    player.sendMessage(ChatColor.GRAY + "Respawn anchors are disabled.");
+                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), new ItemStack(Material.COOKIE, 1));
+                    event.setCancelled(true);
+                }
+                break;
+            }
         }
 
         if (Groups.BANNERS.contains(event.getBlockPlaced().getType()))
         {
             Banner banner = (Banner) event.getBlockPlaced().getState();
-            List<Pattern> patterns = banner.getPatterns();
-            Banner handBanner = (Banner) (((Block) event.getItemInHand()).getState());
-            List<Pattern> handPatterns = banner.getPatterns();
+            List<Pattern> patterns = banner.getPatterns();;
             if (patterns.size() >= 2)
             {
                 banner.setPatterns(patterns.subList(0, 2));
-                handBanner.setPatterns(handPatterns.subList(0, 2));
                 player.sendMessage(ChatColor.GRAY + "Your banner had too many patterns on it, so some were removed.");
             }
         }

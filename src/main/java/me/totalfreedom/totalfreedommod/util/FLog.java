@@ -10,10 +10,6 @@ public class FLog
     private static Logger serverLogger = null;
     private static Logger pluginLogger = null;
 
-    private FLog()
-    {
-    }
-
     // Level.INFO:
     public static void info(String message)
     {

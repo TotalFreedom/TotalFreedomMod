@@ -107,6 +107,9 @@ shop:
     # How much time (in seconds) before a new reaction prompt is made
     interval: 300
 
+    # How much time do players have to react
+    time: 30
+
     # How many coins do winners get?
     coins_per_win: 5
 
@@ -119,6 +122,8 @@ shop:
     lightning_rod: 1000
     fire_ball: 500
     rideable_pearl: 700
+    stacking_potato: 300
+    clown_fish: 1500
 
 # Admin list
 adminlist:
@@ -155,6 +160,12 @@ social_links:
   Website: 'https://totalfreedom.me/'
   Discord: 'https://discordapp.com/invite/XXjmAmV/'
 
+donation:
+  proboards_url: ''
+  donator_group_id: ''
+  session_id: ''
+  csrf_token: ''
+
 # Blocking certain events
 allow:
   fire_place: false
@@ -179,6 +190,7 @@ allow:
   jukeboxes: false
   spawners: false
   beehives: false
+  respawnanchors: false
   auto_tp: false
   auto_clear: false
 
@@ -343,7 +355,7 @@ protectarea:
 # Make sure these are all lower-case.
 host_sender_names:
   - rcon
-  - remotebukkit
+  - console
 
 # Announcer
 announcer:
@@ -357,7 +369,6 @@ announcer:
 
   announcements:
   - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
-  - 'You can always review the server rules here: &6http://totalfreedom.me/'
   - 'If you are not OP, be sure to ask!'
   - 'Somebody breaking the rules? Report it! /report <user> <reason>'
   - 'Griefing is not allowed!'
@@ -365,18 +376,16 @@ announcer:
   - 'Interested in becoming admin? Type "/ai" for more information!'
   - 'You may view all online administrators via "/list -a"'
   - 'Save your buildings via WorldEdit! http://totalfreedom.me for more information!'
-  - 'Famous players, such as Notch, are always fake! We are an offline/cracked server!'
   - 'You may contact TotalFreedom support on Twitter! https://tiny.re/tfsupport'
   - 'You may download TotalFreedomMod here: https://tiny.re/tfm+'
-  - 'Catholic_Mario is the owner of TotalFreedom.'
-  - 'MarkByron is the founder of TotalFreedom.'
+  - 'scripthead is the owner of TotalFreedom.'
+  - 'markbyron is the founder of TotalFreedom.'
   - 'Server lagging? Check the lag via "/tps"'
   - 'You are allowed to record and stream videos on TotalFreedom.'
   - 'Player vs player while in creative or god mode is forbidden!'
   - 'Spawn killing is forbidden!'
   - 'Invisible potions are allowed!'
   - 'Serial griefing and trolling will result in a permanent ban!'
-  - 'TotalFreedom does not accept any form of donations!'
   - 'Racism, nazism, and sexism are strictly forbidden!'
   - 'Join our Discord server! Link: https://discordapp.com/invite/XXjmAmV/'
 
@@ -445,10 +454,6 @@ famous_players:
   - dantdm
   - gizzy14gazza
   - furiousdestroyer
-
-# IPs that can not be supered
-noadmin_ips:
-  - 167.114.97.16
 
 # Pet Protect - Prevent tamed pets from being killed.
 petprotect:

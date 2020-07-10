@@ -12,19 +12,13 @@ import static me.totalfreedom.totalfreedommod.util.FUtil.SAVED_FLAGS_FILENAME;
 
 public class SavedFlags extends FreedomService
 {
-
-    public SavedFlags(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

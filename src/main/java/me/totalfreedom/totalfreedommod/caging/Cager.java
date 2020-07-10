@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod.caging;
 
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
@@ -17,19 +16,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Cager extends FreedomService
 {
-
-    public Cager(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 

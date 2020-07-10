@@ -1,18 +1,23 @@
 package me.totalfreedom.totalfreedommod;
 
+import com.sk89q.worldedit.bukkit.BukkitConfiguration;
 import java.io.File;
+import me.totalfreedom.totalfreedommod.config.YamlConfig;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.pravian.aero.component.PluginComponent;
-import net.pravian.aero.config.YamlConfig;
 import org.bukkit.util.FileUtil;
+import org.yaml.snakeyaml.Yaml;
 
-public class BackupManager extends PluginComponent<TotalFreedomMod>
+public class BackupManager extends FreedomService
 {
-
-    public BackupManager(TotalFreedomMod plugin)
+    @Override
+    public void onStart()
     {
-        super(plugin);
+    }
+
+    @Override
+    public void onStop()
+    {
     }
 
     public void createBackups(String file)

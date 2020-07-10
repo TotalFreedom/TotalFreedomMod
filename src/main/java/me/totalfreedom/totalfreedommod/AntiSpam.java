@@ -1,5 +1,7 @@
 package me.totalfreedom.totalfreedommod;
 
+import java.util.ArrayList;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -10,13 +12,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class AntiSpam extends FreedomService
 {
@@ -27,13 +24,8 @@ public class AntiSpam extends FreedomService
     //
     public BukkitTask cycleTask = null;
 
-    public AntiSpam(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
         new BukkitRunnable()
         {
@@ -47,7 +39,7 @@ public class AntiSpam extends FreedomService
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         FUtil.cancel(cycleTask);
     }

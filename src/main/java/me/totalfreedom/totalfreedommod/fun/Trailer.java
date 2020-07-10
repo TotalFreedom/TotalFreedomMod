@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,18 +19,13 @@ public class Trailer extends FreedomService
     private final Random random = new Random();
     private final Set<String> trailPlayers = new HashSet<>(); // player name
 
-    public Trailer(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -90,5 +84,10 @@ public class Trailer extends FreedomService
     public void add(Player player)
     {
         trailPlayers.add(player.getName());
+    }
+
+    public boolean contains(Player player)
+    {
+        return trailPlayers.contains(player.getName());
     }
 }

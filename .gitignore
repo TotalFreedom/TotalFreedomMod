@@ -19,7 +19,11 @@ manifest.mf
 # IntelliJ excludes
 *.ipr
 *.iws
-/.idea
+/.idea/modules.xml
+/.idea/discord.xml
+/.idea/jarRepositories.xml
+/.idea/workspace.xml
+/.idea/libraries
 *.iml
 
 # Maven excludes
@@ -32,5 +36,3 @@ manifest.mf
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-TotalFreedomMod\.iml

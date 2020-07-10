@@ -1,9 +1,5 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -57,18 +53,11 @@ public class Command_unmute extends FreedomCommand
             playerdata.setMuted(false);
             msg(player, "You have been unmuted.", ChatColor.RED);
             player.sendTitle(ChatColor.RED + "You've been unmuted.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
-            if (quiet)
+            if (!quiet)
             {
-                playerdata.setMuted(false);
-                return true;
+                FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
             }
-
-            FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
-            playerdata.setMuted(false);
-            msg("Unmuted " + player.getName());
-
-            msg(player, "You have been unmuted.", ChatColor.RED);
-            player.sendTitle(ChatColor.RED + "You've been unmuted.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
+            return true;
         }
         else
         {
@@ -76,24 +65,5 @@ public class Command_unmute extends FreedomCommand
         }
 
         return true;
-    }
-
-    @Override
-    public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
-    {
-        if (!plugin.al.isAdmin(sender))
-        {
-            return null;
-        }
-
-        if (args.length == 1)
-        {
-            List<String> arguments = new ArrayList<>();
-            arguments.addAll(FUtil.getPlayerList());
-            arguments.addAll(Arrays.asList("list", "purge", "all"));
-            return arguments;
-        }
-
-        return Collections.emptyList();
     }
 }

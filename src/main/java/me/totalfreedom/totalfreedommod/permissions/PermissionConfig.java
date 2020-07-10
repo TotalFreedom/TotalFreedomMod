@@ -6,14 +6,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.EnumMap;
 import java.util.List;
+import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import net.pravian.aero.component.PluginComponent;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class PermissionConfig extends PluginComponent<TotalFreedomMod>
+public class PermissionConfig extends FreedomService
 {
 
     public static final String PERMISSIONS_FILENAME = "permissions.yml";
@@ -24,8 +24,6 @@ public class PermissionConfig extends PluginComponent<TotalFreedomMod>
 
     public PermissionConfig(TotalFreedomMod plugin)
     {
-        super(plugin);
-
         entries = new EnumMap<>(PermissionEntry.class);
 
         PermissionDefaults tempDefaults = null;
@@ -57,6 +55,18 @@ public class PermissionConfig extends PluginComponent<TotalFreedomMod>
         }
 
         defaults = tempDefaults;
+    }
+
+    @Override
+    public void onStart()
+    {
+
+    }
+
+    @Override
+    public void onStop()
+    {
+
     }
 
     public void load()

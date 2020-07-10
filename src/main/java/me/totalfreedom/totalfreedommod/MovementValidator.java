@@ -5,12 +5,12 @@ import ca.momothereal.mojangson.value.MojangsonCompound;
 import ca.momothereal.mojangson.value.MojangsonValue;
 import java.util.List;
 import java.util.Objects;
-import net.minecraft.server.v1_15_R1.NBTTagCompound;
-import net.minecraft.server.v1_15_R1.NBTTagList;
+import net.minecraft.server.v1_16_R1.NBTTagCompound;
+import net.minecraft.server.v1_16_R1.NBTTagList;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_16_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 public class MovementValidator extends FreedomService
 {
@@ -27,18 +26,13 @@ public class MovementValidator extends FreedomService
     public static final int MAX_XYZ_COORD = 29999998;
     public static final int MAX_DISTANCE_TRAVELED = 100;
 
-    public MovementValidator(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
@@ -137,7 +131,7 @@ public class MovementValidator extends FreedomService
 
     private Boolean exploitItem(ItemStack item)
     {
-        net.minecraft.server.v1_15_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+        net.minecraft.server.v1_16_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
         NBTTagList modifiers = getAttributeList(nmsStack);
         MojangsonCompound compound = new MojangsonCompound();
         boolean foundNegative = false;
@@ -174,7 +168,7 @@ public class MovementValidator extends FreedomService
     }
 
 
-    private NBTTagList getAttributeList(net.minecraft.server.v1_15_R1.ItemStack stack)
+    private NBTTagList getAttributeList(net.minecraft.server.v1_16_R1.ItemStack stack)
     {
         if (stack.getTag() == null)
         {

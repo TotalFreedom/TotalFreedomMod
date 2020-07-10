@@ -5,14 +5,11 @@ import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.GlobalProtectedRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -29,7 +26,7 @@ public class WorldRestrictions extends FreedomService
 {
 
     private final List<String> BLOCKED_WORLDEDIT_COMMANDS = Arrays.asList(
-            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock", "tree", "replacenear");
+            "green", "fixlava", "fixwater", "br", "brush", "tool", "mat", "range", "cs", "up", "fill", "setblock", "tree", "replacenear", "bigtree");
 
     private final Map<Flag<?>, Object> flags = new HashMap<Flag<?>, Object>()
     {{
@@ -43,24 +40,19 @@ public class WorldRestrictions extends FreedomService
         put(net.goldtreeservers.worldguardextraflags.flags.Flags.WORLDEDIT, StateFlag.State.DENY);
     }};
 
-    public WorldRestrictions(TotalFreedomMod plugin)
-    {
-        super(plugin);
-    }
-
     @Override
-    protected void onStart()
+    public void onStart()
     {
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
     }
 
     public boolean doRestrict(Player player)
     {
-        if (!plugin.mbl.isMasterBuilder(player) && !FUtil.canManageMasterBuilders(player.getName()))
+        if (!plugin.pl.getData(player).isMasterBuilder() && !plugin.pl.canManageMasterBuilders(player.getName()))
         {
             if (player.getWorld().equals(plugin.wm.masterBuilderWorld.getWorld()) || player.getWorld().equals(plugin.wm.hubworld.getWorld()))
             {

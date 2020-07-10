@@ -15,7 +15,7 @@ public class Command_grapplinghook extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (plugin.sh.getData(playerSender).hasItem(ShopItem.GRAPPLING_HOOK))
+        if (plugin.pl.getData(playerSender).hasItem(ShopItem.GRAPPLING_HOOK))
         {
             playerSender.getInventory().addItem(plugin.sh.getGrapplingHook());
             msg("You have been given a Grappling Hook", ChatColor.GREEN);

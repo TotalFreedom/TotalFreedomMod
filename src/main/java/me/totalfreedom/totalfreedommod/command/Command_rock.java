@@ -11,25 +11,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "You know the words - gives a campfire to everyone on the server.", usage = "/<command>")
-public class Command_campfire extends FreedomCommand
+@CommandParameters(description = "You have thrown a rock, but you have also summoned a meteor!", usage = "/<command>")
+public class Command_rock extends FreedomCommand
 {
 
-    public static final String CAMPFIRE_LYRICS = "Let's gather round the campfire, and sing our campfire song....";
+    public static final String ROCK_LYRICS = ChatColor.BLUE + "You have thrown a rock, but you have also summoned a meteor!";
 
     @Override
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)
     {
-        final StringBuilder output = new StringBuilder();
-
-        for (final String word : CAMPFIRE_LYRICS.split(" "))
-        {
-            output.append(FUtil.randomChatColor()).append(word).append(" ");
-        }
-
-        final ItemStack heldItem = new ItemStack(Material.CAMPFIRE);
+        final ItemStack heldItem = new ItemStack(Material.STONE);
         final ItemMeta heldItemMeta = heldItem.getItemMeta();
-        heldItemMeta.setDisplayName(ChatColor.DARK_RED + "The " + ChatColor.DARK_RED + "Campfire");
+        heldItemMeta.setDisplayName(ChatColor.BLUE + "Rock");
         heldItem.setItemMeta(heldItemMeta);
 
         for (final Player player : this.server.getOnlinePlayers())
@@ -41,7 +34,7 @@ public class Command_campfire extends FreedomCommand
             }
         }
 
-        FUtil.bcastMsg(output.toString());
+        FUtil.bcastMsg(ROCK_LYRICS);
         return true;
     }
 }
