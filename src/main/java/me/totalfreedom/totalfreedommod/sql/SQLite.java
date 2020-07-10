@@ -334,11 +334,7 @@ public class SQLite extends FreedomService
     {
         try
         {
-            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM players WHERE master_builder=true");
-            if (resultSet.next())
-            {
-                return resultSet;
-            }
+            return connection.createStatement().executeQuery("SELECT * FROM players WHERE master_builder=true");
         }
         catch (SQLException e)
         {

@@ -46,7 +46,22 @@ public class Command_mbconfig extends FreedomCommand
                 }
 
                 final Player player = getPlayer(args[1]);
-                PlayerData data = plugin.pl.getData(player);
+
+                PlayerData data;
+
+                if (player == null)
+                {
+                    data = plugin.pl.getData(args[1]);
+                    if (data == null)
+                    {
+                        msg(PLAYER_NOT_FOUND);
+                        return true;
+                    }
+                }
+                else
+                {
+                    data = plugin.pl.getData(player);
+                }
 
                 if (data.isMasterBuilder() && plugin.pl.isPlayerImpostor(player))
                 {
