@@ -22,7 +22,6 @@ public class Command_settotalvotes extends FreedomCommand
             return noPerms();
         }
 
-
         if (args.length < 2)
         {
             return false;
