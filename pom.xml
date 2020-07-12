@@ -5,12 +5,12 @@
 
     <groupId>me.totalfreedom</groupId>
     <artifactId>TotalFreedomMod</artifactId>
-    <version>5.5</version>
+    <version>5.6</version>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tfm.build.codename>lttstore.com</tfm.build.codename>
+        <tfm.build.codename>Antaeus</tfm.build.codename>
         <jar.finalName>${project.name}</jar.finalName>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>MM/dd/yyyy HH:mm</maven.build.timestamp.format>
