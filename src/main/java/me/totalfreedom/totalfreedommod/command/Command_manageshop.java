@@ -4,7 +4,6 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.shop.ShopItem;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -43,17 +42,20 @@ public class Command_manageshop extends FreedomCommand
                         int amount = Math.max(0, Math.min(1000000, Integer.parseInt(args[2])));
                         if (!args[3].equals("all"))
                         {
-                            Player player = getPlayer(args[3]);
-                            if (player == null)
+                            PlayerData playerData = plugin.pl.getData(args[3]);
+                            if (playerData == null)
                             {
                                 msg(PLAYER_NOT_FOUND);
                                 return true;
                             }
-                            PlayerData playerData = plugin.pl.getData(player);
                             playerData.setCoins(playerData.getCoins() + amount);
                             plugin.pl.save(playerData);
-                            msg("Successfully added " + amount + " coins to " + player.getName() + ". Their new balance is " + playerData.getCoins(), ChatColor.GREEN);
-                            player.sendMessage(ChatColor.GREEN + sender.getName() + " gave you " + amount + " coins. Your new balance is " + playerData.getCoins());
+                            msg("Successfully added " + amount + " coins to " + args[3] + ". Their new balance is " + playerData.getCoins(), ChatColor.GREEN);
+                            Player player = getPlayer(args[3]);
+                            if (player != null)
+                            {
+                                player.sendMessage(ChatColor.GREEN + sender.getName() + " gave you " + amount + " coins. Your new balance is " + playerData.getCoins());
+                            }
                             return true;
                         }
                         else
@@ -80,21 +82,24 @@ public class Command_manageshop extends FreedomCommand
                         int amount = Math.max(0, Math.min(1000000, Integer.parseInt(args[2])));
                         if (!args[3].equals("all"))
                         {
-                            Player player = getPlayer(args[3]);
-                            if (player == null)
+                            PlayerData playerData = plugin.pl.getData(args[3]);
+                            if (playerData == null)
                             {
                                 msg(PLAYER_NOT_FOUND);
                                 return true;
                             }
-                            PlayerData playerData = plugin.pl.getData(player);
                             playerData.setCoins(playerData.getCoins() + amount);
                             if (playerData.getCoins() < 0)
                             {
                                 playerData.setCoins(0);
                             }
                             plugin.pl.save(playerData);
-                            msg("Successfully removed " + amount + " coins from " + player.getName() + ". Their new balance is " + playerData.getCoins(), ChatColor.GREEN);
-                            player.sendMessage(ChatColor.RED + sender.getName() + " took " + amount + " coins from you. Your new balance is " + playerData.getCoins());
+                            msg("Successfully removed " + amount + " coins from " + args[3] + ". Their new balance is " + playerData.getCoins(), ChatColor.GREEN);
+                            Player player = getPlayer(args[3]);
+                            if (player != null)
+                            {
+                                player.sendMessage(ChatColor.RED + sender.getName() + " took " + amount + " coins from you. Your new balance is " + playerData.getCoins());
+                            }
                             return true;
                         }
                         else
@@ -123,17 +128,20 @@ public class Command_manageshop extends FreedomCommand
                     try
                     {
                         int amount = Math.max(0, Math.min(1000000, Integer.parseInt(args[2])));
-                        Player player = getPlayer(args[3]);
-                        if (player == null)
+                        PlayerData playerData = plugin.pl.getData(args[3]);
+                        if (playerData == null)
                         {
                             msg(PLAYER_NOT_FOUND);
                             return true;
                         }
-                        PlayerData playerData = plugin.pl.getData(player);
                         playerData.setCoins(amount);
                         plugin.pl.save(playerData);
-                        msg("Successfully set " + player.getName() + "'s coins to " + amount, ChatColor.GREEN);
-                        player.sendMessage(ChatColor.GREEN + sender.getName() + " set your coin balance to " + amount);
+                        msg("Successfully set " + args[3] + "'s coins to " + amount, ChatColor.GREEN);
+                        Player player = getPlayer(args[3]);
+                        if (player != null)
+                        {
+                            player.sendMessage(ChatColor.GREEN + sender.getName() + " set your coin balance to " + amount);
+                        }
                         return true;
                     }
                     catch (NumberFormatException ex)
@@ -165,18 +173,20 @@ public class Command_manageshop extends FreedomCommand
                     return true;
                 }
 
-                Player player = getPlayer(args[3]);
-                if (player == null)
+                PlayerData playerData = plugin.pl.getData(args[3]);
+                if (playerData == null)
                 {
                     msg(PLAYER_NOT_FOUND);
                     return true;
                 }
-
-                PlayerData playerData = plugin.pl.getData(player);
                 playerData.giveItem(item);
                 plugin.pl.save(playerData);
-                msg("Successfully gave the " + item.getName() + " to " + player.getName(), ChatColor.GREEN);
-                player.sendMessage(ChatColor.GREEN + sender.getName() + " gave the " + item.getName() + " to you");
+                msg("Successfully gave the " + item.getName() + " to " + args[3], ChatColor.GREEN);
+                Player player = getPlayer(args[3]);
+                if (player != null)
+                {
+                    player.sendMessage(ChatColor.GREEN + sender.getName() + " gave the " + item.getName() + " to you");
+                }
                 return true;
             }
             else if (args[1].equals("take"))
@@ -188,18 +198,20 @@ public class Command_manageshop extends FreedomCommand
                     return true;
                 }
 
-                Player player = getPlayer(args[3]);
-                if (player == null)
+                PlayerData playerData = plugin.pl.getData(args[3]);
+                if (playerData == null)
                 {
                     msg(PLAYER_NOT_FOUND);
                     return true;
                 }
-
-                PlayerData playerData = plugin.pl.getData(player);
                 playerData.removeItem(item);
                 plugin.pl.save(playerData);
-                msg("Successfully took the " + item.getName() + " from " + player.getName(), ChatColor.GREEN);
-                player.sendMessage(ChatColor.RED + sender.getName() + " took the " + item.getName() + " from you");
+                msg("Successfully took the " + item.getName() + " from " + args[3], ChatColor.GREEN);
+                Player player = getPlayer(args[3]);
+                if (player != null)
+                {
+                    player.sendMessage(ChatColor.RED + sender.getName() + " took the " + item.getName() + " from you");
+                }
                 return true;
             }
 
