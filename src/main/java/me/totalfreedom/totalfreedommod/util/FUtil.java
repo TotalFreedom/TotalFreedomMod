@@ -173,6 +173,37 @@ public class FUtil
 
         return Arrays.asList(string.split(", "));
     }
+
+    /**
+     * A way to get a sublist with a page index and a page size.
+     * @param list A list of objects that should be split into pages.
+     * @param size The size of the pages.
+     * @param index The page index, if outside of bounds error will be thrown. The page index starts at 0 as with all lists.
+     * @return A list of objects that is the page that has been selected from the previous last parameter.
+     */
+    public static List<String> getPageFromList(List<String> list, int size, int index)
+    {
+        try
+        {
+            if (size >= list.size())
+            {
+                return list;
+            }
+            else if (size * (index + 1) <= list.size())
+            {
+                return list.subList(size * index, size * (index + 1));
+            }
+            else
+            {
+                return list.subList(size * index, (size * index) + (list.size() % size));
+            }
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            return new ArrayList<>();
+        }
+    }
+
     public static List<String> getAllMaterialNames()
     {
         List<String> names = new ArrayList<>();
