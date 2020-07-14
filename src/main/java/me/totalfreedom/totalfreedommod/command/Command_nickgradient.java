@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Essentials Interface Command - Rainbowify your nickname.", usage = "/<command> <hex> <hex> <nick>")
+@CommandParameters(description = "Essentials Interface Command - Rainbowify your nickname.", usage = "/<command> <hex> <hex> <nick>", aliases = "nickgr")
 public class Command_nickgradient extends FreedomCommand
 {
 
