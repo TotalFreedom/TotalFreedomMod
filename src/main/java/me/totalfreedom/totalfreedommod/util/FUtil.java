@@ -34,6 +34,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -713,6 +714,38 @@ public class FUtil
     public static String getIp(PlayerLoginEvent event)
     {
         return event.getAddress().getHostAddress().trim();
+    }
+
+    private static Color interpolateColor(Color c1, Color c2, double factor)
+    {
+        long[] c1values = {c1.getRed(), c1.getGreen(), c1.getBlue()};
+        long[] c2values = {c2.getRed(), c2.getGreen(), c2.getBlue()};
+        for (int i = 0; i < 3; i++)
+        {
+            c1values[i] = Math.round(c1values[i] + factor * (c2values[i] - c1values[i]));
+        }
+        return Color.fromRGB((int) c1values[0], (int) c1values[1], (int) c1values[2]);
+    }
+
+    public static List<Color> createColorGradient(Color c1, Color c2, int steps)
+    {
+        double factor = 1.0 / (steps - 1.0);
+        List<Color> colors = new ArrayList<>();
+        for (int i = 0; i < steps; i++)
+        {
+            colors.add(interpolateColor(c1, c2, factor * i));
+        }
+        return colors;
+    }
+
+    public static Color fromAWT(java.awt.Color color)
+    {
+        return Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
+    }
+
+    public static java.awt.Color toAWT(Color color)
+    {
+        return new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue());
     }
 
     public static void createExplosionOnDelay(Location location, float power, int delay)
