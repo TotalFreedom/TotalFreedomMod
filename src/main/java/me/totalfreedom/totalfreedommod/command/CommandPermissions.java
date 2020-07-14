@@ -8,9 +8,9 @@ import me.totalfreedom.totalfreedommod.rank.Rank;
 public @interface CommandPermissions
 {
 
-    Rank level();
+    Rank level() default Rank.IMPOSTOR;
 
-    SourceType source();
+    SourceType source() default SourceType.BOTH;
 
     boolean blockHostConsole() default false;
 
