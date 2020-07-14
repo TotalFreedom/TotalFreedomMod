@@ -35,6 +35,7 @@ public class GameRuleHandler extends FreedomService
         setGameRule(GameRule.KEEP_INVENTORY, true, false);
         setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false, false);
         setGameRule(GameRule.SHOW_DEATH_MESSAGES, false, false);
+        setGameRule(GameRule.SEND_COMMAND_FEEDBACK, false, false);
         commitGameRules();
     }
 
@@ -95,7 +96,8 @@ public class GameRuleHandler extends FreedomService
         NATURAL_REGENERATION("naturalRegeneration", true),
         DO_DAYLIGHT_CYCLE("doDaylightCycle", true),
         ANNOUNCE_ADVANCEMENTS("announceAdvancements", false),
-        SHOW_DEATH_MESSAGES("showDeathMessages", false);
+        SHOW_DEATH_MESSAGES("showDeathMessages", false),
+        SEND_COMMAND_FEEDBACK("sendCommandFeedback", false);
         //
         private final String gameRuleName;
         private final boolean defaultValue;

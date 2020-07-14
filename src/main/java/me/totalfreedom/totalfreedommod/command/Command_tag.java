@@ -9,12 +9,13 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Allows you to set your own prefix.", usage = "/<command> [-s[ave]] <set <tag..> | list | off | clear <player> | clearall>")
+@CommandParameters(description = "Allows you to set your own prefix.", usage = "/<command> [-s[ave]] <set <tag..> | list | gradient <hex> <hex> <tag..> | off | clear <player> | clearall>")
 public class Command_tag extends FreedomCommand
 {
 
@@ -155,7 +156,7 @@ public class Command_tag extends FreedomCommand
 
                 if (rawTag.length() > tagLimit)
                 {
-                    msg("That tag is too long (Max is " + String.valueOf(tagLimit) + " characters).");
+                    msg("That tag is too long (Max is " + tagLimit + " characters).");
                     return true;
                 }
 
@@ -175,6 +176,62 @@ public class Command_tag extends FreedomCommand
                 if (save)
                 {
                     save(playerSender, strippedTag);
+                }
+                msg("Tag set to '" + outputTag + ChatColor.GRAY + "'." + (save ? " (Saved)" : ""));
+
+                return true;
+            }
+            else if (args[0].equalsIgnoreCase("gradient"))
+            {
+                java.awt.Color awt1, awt2;
+                try
+                {
+                    awt1 = java.awt.Color.decode(args[1]);
+                    awt2 = java.awt.Color.decode(args[2]);
+                }
+                catch (NumberFormatException ex)
+                {
+                    msg("Invalid hex values.");
+                    return true;
+                }
+                Color c1 = FUtil.fromAWT(awt1);
+                Color c2 = FUtil.fromAWT(awt2);
+                String tag = StringUtils.join(args, " ", 3, args.length);
+                List<Color> gradient = FUtil.createColorGradient(c1, c2, tag.length());
+                String[] splitTag = tag.split("");
+                for (int i = 0; i < splitTag.length; i++)
+                {
+                    splitTag[i] = net.md_5.bungee.api.ChatColor.of(FUtil.toAWT(gradient.get(i))) + splitTag[i];
+                }
+                tag = StringUtils.join(splitTag, "");
+                final String outputTag = FUtil.colorize(tag);
+
+                int tagLimit = (plugin.al.isAdmin(sender) ? 30 : 20);
+
+                final String rawTag = ChatColor.stripColor(outputTag).toLowerCase();
+
+                if (rawTag.length() > tagLimit)
+                {
+                    msg("That tag is too long (Max is " + tagLimit + " characters).");
+                    return true;
+                }
+
+                if (!plugin.al.isAdmin(sender))
+                {
+                    for (String word : FORBIDDEN_WORDS)
+                    {
+                        if (rawTag.contains(word))
+                        {
+                            msg("That tag contains a forbidden word.");
+                            return true;
+                        }
+                    }
+                }
+
+                plugin.pl.getPlayer(playerSender).setTag(outputTag);
+                if (save)
+                {
+                    save(playerSender, tag);
                 }
                 msg("Tag set to '" + outputTag + ChatColor.GRAY + "'." + (save ? " (Saved)" : ""));
 

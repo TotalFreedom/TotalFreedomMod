@@ -58,20 +58,17 @@ public class Command_tempban extends FreedomCommand
         final StringBuilder message = new StringBuilder("Temporarily banned " + player.getName());
 
         Date expires = FUtil.parseDateOffset("30m");
+        message.append(" until ").append(date_format.format(expires));
+
+        String reason = null;
         if (args.length >= 2)
         {
             Date parsed_offset = FUtil.parseDateOffset(args[1]);
+            reason = StringUtils.join(ArrayUtils.subarray(args, parsed_offset == null ? 1 : 2, args.length), " ") + " (" + sender.getName() + ")";
             if (parsed_offset != null)
             {
                 expires = parsed_offset;
             }
-        }
-        message.append(" until ").append(date_format.format(expires));
-
-        String reason = null;
-        if (args.length >= 3)
-        {
-            reason = StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ") + " (" + sender.getName() + ")";
             message.append(", Reason: \"").append(reason).append("\"");
         }
 
