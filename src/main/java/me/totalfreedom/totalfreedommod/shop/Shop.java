@@ -116,6 +116,7 @@ public class Shop extends FreedomService
             Date currentTime = new Date();
             long seconds = (currentTime.getTime() - reactionStartTime.getTime()) / 1000;
             FUtil.bcastMsg(prefix + ChatColor.GREEN + winner + ChatColor.AQUA + " won in " + seconds + " seconds!", false);
+            startReactionTimer();
             return;
         }
 
