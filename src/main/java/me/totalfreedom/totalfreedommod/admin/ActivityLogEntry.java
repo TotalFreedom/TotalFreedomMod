@@ -119,6 +119,19 @@ public class ActivityLogEntry implements IConfig
         ips.clear();
     }
 
+    public int getTotalSecondsPlayed()
+    {
+        int result = 0;
+        for (String duration : durations)
+        {
+            String[] spl = duration.split(" ");
+            result += Integer.parseInt(spl[0]) * 60 * 60;
+            result += Integer.parseInt(spl[2]) * 60;
+            result += Integer.parseInt(spl[5]);
+        }
+        return result;
+    }
+
     @Override
     public boolean isValid()
     {

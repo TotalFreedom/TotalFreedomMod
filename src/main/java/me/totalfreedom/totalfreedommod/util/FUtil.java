@@ -779,6 +779,21 @@ public class FUtil
         return new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue());
     }
 
+    public static java.awt.Color getRandomAWTColor()
+    {
+        return new java.awt.Color(randomInteger(0, 255), randomInteger(0, 255), randomInteger(0, 255));
+    }
+
+    public static String getHexStringOfAWTColor(java.awt.Color color)
+    {
+        String hex = Integer.toHexString(color.getRGB() & 0xFFFFFF);
+        if (hex.length() < 6)
+        {
+            hex = "0" + hex;
+        }
+        return "#" + hex;
+    }
+
     public static void createExplosionOnDelay(Location location, float power, int delay)
     {
         new BukkitRunnable()
