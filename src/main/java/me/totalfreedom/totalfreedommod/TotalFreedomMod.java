@@ -275,7 +275,9 @@ public class TotalFreedomMod extends JavaPlugin
         wgb = new WorldGuardBridge();
 
         for (FreedomService service : fsh.getServices())
+        {
             service.onStart();
+        }
 
         FLog.info("Started " + fsh.getServiceAmount() + "services.");
 

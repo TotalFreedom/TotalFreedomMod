@@ -59,7 +59,7 @@ public class InteractBlocker extends FreedomService
 
         if (event.getClickedBlock() != null)
         {
-            if (event.getClickedBlock().getType().equals(Material.STRUCTURE_BLOCK) || event.getClickedBlock().getType().equals(Material.JIGSAW))
+            if (event.getClickedBlock().getType().equals(Material.STRUCTURE_BLOCK) || event.getClickedBlock().getType().equals(Material.JIGSAW) || event.getClickedBlock().getType().equals(Material.RESPAWN_ANCHOR))
             {
                 event.setCancelled(true);
                 event.getPlayer().closeInventory();
