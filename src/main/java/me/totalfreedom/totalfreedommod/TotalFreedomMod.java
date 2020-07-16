@@ -133,6 +133,7 @@ public class TotalFreedomMod extends JavaPlugin
     public WorldRestrictions wr;
     public SignBlocker snp;
     public EntityWiper ew;
+    public Sitter st;
     //public HubWorldRestrictions hwr;
     //
     // Bridges
@@ -238,6 +239,7 @@ public class TotalFreedomMod extends JavaPlugin
         gr = new GameRuleHandler();
         snp = new SignBlocker();
         ew = new EntityWiper();
+        st = new Sitter();
 
         // Single admin utils
         cs = new CommandSpy();
