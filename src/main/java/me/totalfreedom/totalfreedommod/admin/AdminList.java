@@ -302,8 +302,6 @@ public class AdminList extends FreedomService
             }
 
         }
-
-        plugin.wm.adminworld.wipeAccessCache();
     }
 
     public Set<String> getAdminNames()
