@@ -292,6 +292,12 @@ public class Discord extends FreedomService
         {
             message = StringUtils.remove(message, "@");
         }
+
+        if (message.toLowerCase().contains("discord.gg"))
+        {
+            return;
+        }
+
         if (enabled && !chat_channel_id.isEmpty())
         {
             CompletableFuture<Message> sentMessage = bot.getTextChannelById(chat_channel_id).sendMessage(message).submit(true);

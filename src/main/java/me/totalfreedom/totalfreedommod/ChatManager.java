@@ -73,12 +73,6 @@ public class ChatManager extends FreedomService
             return;
         }
 
-        if (message.startsWith("Connected using PickaxeChat for "))
-        {
-            event.setCancelled(true);
-            return;
-        }
-        
         // Truncate messages that are too long - 256 characters is vanilla client max
         if (message.length() > 256)
         {
