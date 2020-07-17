@@ -54,7 +54,7 @@ public class Command_vanish extends FreedomCommand
                 {
                     playerMsg(player, ChatColor.YELLOW + sender.getName() + " has unvanished and is now visible to everyone.");
                 }
-                if (!plugin.al.isAdmin(player)
+                if (!plugin.al.isAdmin(player))
                 {
                     player.showPlayer(plugin, playerSender);
                 }
