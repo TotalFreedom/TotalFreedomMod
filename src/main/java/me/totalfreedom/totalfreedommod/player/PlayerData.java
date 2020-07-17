@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
@@ -49,6 +48,9 @@ public class PlayerData
     @Getter
     @Setter
     private int totalVotes;
+    @Getter
+    @Setter
+    private boolean discordDisplay = true;
 
     public PlayerData(ResultSet resultSet)
     {
@@ -71,6 +73,7 @@ public class PlayerData
             items.clear();
             items.addAll(FUtil.stringToList(resultSet.getString("items")));
             totalVotes = resultSet.getInt("total_votes");
+            discordDisplay = resultSet.getBoolean("discord_display");
         }
         catch (SQLException e)
         {
@@ -103,6 +106,7 @@ public class PlayerData
                 .append("- Has Verification: ").append(verification).append("\n")
                 .append("- Coins: ").append(coins).append("\n")
                 .append("- Total Votes: ").append(totalVotes).append("\n")
+                .append("- Discord Display: ").append(discordDisplay).append("\n")
                 .append("- Tag: ").append(FUtil.colorize(tag)).append(ChatColor.GRAY).append("\n")
                 .append("- Ride Mode: ").append(rideMode).append("\n")
                 .append("- Backup Codes: ").append(backupCodes.size()).append("/10").append("\n");
@@ -240,6 +244,7 @@ public class PlayerData
             put("coins", coins);
             put("items", FUtil.listToString(items));
             put("total_votes", totalVotes);
+            put("discord_display", discordDisplay);
         }};
         return map;
     }
