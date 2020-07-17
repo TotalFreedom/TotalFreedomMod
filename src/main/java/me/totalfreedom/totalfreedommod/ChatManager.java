@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod;
 
 import com.google.common.base.Strings;
-import java.util.Date;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
@@ -138,7 +137,7 @@ public class ChatManager extends FreedomService
         event.setFormat(format);
 
         // Send to discord
-        if (!ConfigEntry.ADMIN_ONLY_MODE.getBoolean() && !Bukkit.hasWhitelist())
+        if (!ConfigEntry.ADMIN_ONLY_MODE.getBoolean() && !Bukkit.hasWhitelist() && !plugin.pl.getPlayer(player).isMuted())
         {
             plugin.dc.messageChatChannel(plugin.dc.deformat(player.getName()) + " \u00BB " + ChatColor.stripColor(message));
         }
