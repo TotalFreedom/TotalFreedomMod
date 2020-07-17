@@ -16,7 +16,7 @@ public class Command_togglediscord extends FreedomCommand
         PlayerData data = plugin.pl.getData(playerSender);
         data.setDiscordDisplay(!data.isDiscordDisplay());
         plugin.pl.save(data);
-        msg("Discord message will " + (data.isDiscordDisplay() ? "now" : "no longer") + " be shown.");
+        msg("Discord messages will " + (data.isDiscordDisplay() ? "now" : "no longer") + " be shown.");
         return true;
     }
 }
