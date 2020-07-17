@@ -209,8 +209,10 @@ public class Command_saconfig extends FreedomCommand
                     {
                         String oldName = admin.getName();
                         if (oldName != player.getName())
-                        admin.setName(player.getName());
-                        plugin.sql.updateAdminName(oldName, admin.getName());
+                        {
+                            admin.setName(player.getName());
+                            plugin.sql.updateAdminName(oldName, admin.getName());
+                        }
                         admin.addIp(FUtil.getIp(player));
                     }
 
