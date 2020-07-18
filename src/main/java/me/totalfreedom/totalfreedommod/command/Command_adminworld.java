@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.world.WorldTime;
 import me.totalfreedom.totalfreedommod.world.WorldWeather;
 import org.bukkit.World;
@@ -13,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Allows for admins to configure guests, time, and weather of the AdminWorld, and allows for admins and guests to go to the AdminWorld.",
+@CommandParameters(description = "Allows for admins to configure time, and weather of the AdminWorld, and allows for admins and ops to go to the AdminWorld.",
         usage = "/<command> [time <morning | noon | evening | night> | weather <off | rain | storm>]",
         aliases = "aw")
 public class Command_adminworld extends FreedomCommand
@@ -184,15 +183,11 @@ public class Command_adminworld extends FreedomCommand
         }
         if (args.length == 1)
         {
-            return Arrays.asList("guest", "time", "weather");
+            return Arrays.asList("time", "weather");
         }
         else if (args.length == 2)
         {
-            if (args[0].equals("guest"))
-            {
-                return Arrays.asList("add", "remove", "list", "purge");
-            }
-            else if (args[0].equals("time"))
+            if (args[0].equals("time"))
             {
                 return Arrays.asList("morning", "noon", "evening", "night");
             }
@@ -203,5 +198,4 @@ public class Command_adminworld extends FreedomCommand
         }
         return Collections.emptyList();
     }
-
 }
