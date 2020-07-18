@@ -142,8 +142,6 @@ public class Command_mute extends FreedomCommand
 
             FUtil.adminAction(sender.getName(), "Muting " + player.getName(), true);
 
-            msg(player, "You have been muted by " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
-
             if (smite)
             {
                 Command_smite.smite(sender, player, reason);
