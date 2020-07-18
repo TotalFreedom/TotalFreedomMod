@@ -591,14 +591,17 @@ public class FUtil
 
     public static String colorize(String string)
     {
-        Matcher matcher = Pattern.compile("&#[a-f0-9A-F]{6}").matcher(string);
-        while (matcher.find())
+        if (string != null)
         {
-            String code = matcher.group().replace("&", "");
-            string = string.replace("&" + code, net.md_5.bungee.api.ChatColor.of(code) + "");
-        }
+            Matcher matcher = Pattern.compile("&#[a-f0-9A-F]{6}").matcher(string);
+            while (matcher.find())
+            {
+                String code = matcher.group().replace("&", "");
+                string = string.replace("&" + code, net.md_5.bungee.api.ChatColor.of(code) + "");
+            }
 
-        string = ChatColor.translateAlternateColorCodes('&', string);
+            string = ChatColor.translateAlternateColorCodes('&', string);
+        }
         return string;
     }
 
