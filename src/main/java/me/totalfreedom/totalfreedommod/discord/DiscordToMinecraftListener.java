@@ -32,7 +32,7 @@ public class DiscordToMinecraftListener extends ListenerAdapter
                 message += " " + ChatColor.RED + ChatColor.stripColor(member.getEffectiveName()) + ChatColor.DARK_GRAY + ": " + ChatColor.RESET + ChatColor.stripColor(event.getMessage().getContentDisplay());
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
-                    if (TotalFreedomMod.getPlugin().pl.getData(player).isDiscordDisplay())
+                    if (TotalFreedomMod.getPlugin().pl.getData(player).doesDisplayDiscord())
                     {
                         player.sendMessage(message);
                     }

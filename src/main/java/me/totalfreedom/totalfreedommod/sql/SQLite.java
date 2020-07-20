@@ -84,7 +84,7 @@ public class SQLite extends FreedomService
             {
                 try
                 {
-                    connection.createStatement().execute("CREATE TABLE `admins` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `rank` VARCHAR NOT NULL, `active` BOOLEAN NOT NULL, `last_login` LONG NOT NULL, `login_message` VARCHAR, `command_spy` BOOLEAN NOT NULL, `potion_spy` BOOLEAN NOT NULL, `ac_format` VARCHAR, `old_tags` BOOLEAN NOT NULL, `log_stick` BOOLEAN NOT NULL);");
+                    connection.createStatement().execute("CREATE TABLE `admins` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `rank` VARCHAR NOT NULL, `active` BOOLEAN NOT NULL, `last_login` LONG NOT NULL, `login_message` VARCHAR, `command_spy` BOOLEAN NOT NULL, `potion_spy` BOOLEAN NOT NULL, `ac_format` VARCHAR, `old_tags` BOOLEAN NOT NULL, `log_stick` BOOLEAN NOT NULL, `display_discord` BOOLEAN NOT NULL,);");
                 }
                 catch (SQLException e)
                 {
@@ -286,6 +286,7 @@ public class SQLite extends FreedomService
             statement.setInt(11, player.getCoins());
             statement.setString(12, FUtil.listToString(player.getItems()));
             statement.setInt(13, player.getTotalVotes());
+            statement.setBoolean(14, player.doesDisplayDiscord());
             statement.executeUpdate();
         }
         catch (SQLException e)

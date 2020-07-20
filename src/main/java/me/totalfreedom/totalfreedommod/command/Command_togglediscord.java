@@ -14,9 +14,9 @@ public class Command_togglediscord extends FreedomCommand
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         PlayerData data = plugin.pl.getData(playerSender);
-        data.setDiscordDisplay(!data.isDiscordDisplay());
+        data.setDisplayDiscord(!data.doesDisplayDiscord());
         plugin.pl.save(data);
-        msg("Discord messages will " + (data.isDiscordDisplay() ? "now" : "no longer") + " be shown.");
+        msg("Discord messages will " + (data.doesDisplayDiscord() ? "now" : "no longer") + " be shown.");
         return true;
     }
 }
