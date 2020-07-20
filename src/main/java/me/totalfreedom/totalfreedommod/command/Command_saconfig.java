@@ -39,6 +39,7 @@ public class Command_saconfig extends FreedomCommand
 
             case "clean":
             {
+                checkConsole();
                 checkRank(Rank.SENIOR_ADMIN);
 
                 FUtil.adminAction(sender.getName(), "Cleaning admin list", true);
@@ -60,6 +61,7 @@ public class Command_saconfig extends FreedomCommand
 
             case "setrank":
             {
+                checkConsole();
                 checkRank(Rank.SENIOR_ADMIN);
 
                 if (args.length < 3)
@@ -70,7 +72,7 @@ public class Command_saconfig extends FreedomCommand
                 Rank rank = Rank.findRank(args[2]);
                 if (rank == null)
                 {
-                    msg("Unknown rank: " + rank);
+                    msg("Unknown rank: " + args[2]);
                     return true;
                 }
 
@@ -152,6 +154,7 @@ public class Command_saconfig extends FreedomCommand
                     return false;
                 }
 
+                checkConsole();
                 checkRank(Rank.TELNET_ADMIN);
 
                 // Player already an admin?
@@ -244,7 +247,7 @@ public class Command_saconfig extends FreedomCommand
                     if (fPlayer.getFreezeData().isFrozen())
                     {
                         fPlayer.getFreezeData().setFrozen(false);
-                        msg(player.getPlayer(), "You have been unfrozen.");
+                        msg(player, "You have been unfrozen.");
                     }
 
                     if (!player.isOp())
@@ -263,6 +266,7 @@ public class Command_saconfig extends FreedomCommand
                     return false;
                 }
 
+                checkConsole();
                 checkRank(Rank.TELNET_ADMIN);
 
                 Player player = getPlayer(args[1]);
