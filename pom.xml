@@ -237,6 +237,12 @@
             <version>1.18.10</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.speedxx</groupId>
+            <artifactId>TFGuilds</artifactId>
+            <version>master-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>
