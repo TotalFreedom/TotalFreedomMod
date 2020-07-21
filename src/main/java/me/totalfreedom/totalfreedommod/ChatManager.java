@@ -79,7 +79,6 @@ public class ChatManager extends FreedomService
             FSync.playerMsg(player, "Message was shortened because it was too long to send.");
         }
 
-
         final FPlayer fPlayer = plugin.pl.getPlayerSync(player);
         if (fPlayer.isLockedUp())
         {
@@ -137,7 +136,7 @@ public class ChatManager extends FreedomService
         event.setFormat(format);
 
         // Send to discord
-        if (!ConfigEntry.ADMIN_ONLY_MODE.getBoolean() && !Bukkit.hasWhitelist() && !plugin.pl.getPlayer(player).isMuted())
+        if (!ConfigEntry.ADMIN_ONLY_MODE.getBoolean() && !Bukkit.hasWhitelist() && !plugin.pl.getPlayer(player).isMuted() && !plugin.tfg.inGuildChat(player))
         {
             plugin.dc.messageChatChannel(plugin.dc.deformat(player.getName()) + " \u00BB " + ChatColor.stripColor(message));
         }
