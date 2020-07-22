@@ -135,6 +135,7 @@ public class TotalFreedomMod extends JavaPlugin
     public SignBlocker snp;
     public EntityWiper ew;
     public Sitter st;
+    public VanishHandler vh;
 
     //public HubWorldRestrictions hwr;
     //
@@ -243,6 +244,7 @@ public class TotalFreedomMod extends JavaPlugin
         snp = new SignBlocker();
         ew = new EntityWiper();
         st = new Sitter();
+        vh = new VanishHandler();
 
         // Single admin utils
         cs = new CommandSpy();

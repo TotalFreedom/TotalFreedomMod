@@ -250,7 +250,10 @@ public class RankManager extends FreedomService
         // Broadcast login message
         if (isAdmin || FUtil.isDeveloper(player.getName()) || plugin.pl.getData(player).isMasterBuilder() || plugin.pl.getData(player).isDonator())
         {
-            FUtil.bcastMsg(craftLoginMessage(player, null));
+            if (!plugin.al.isVanished(player.getName()))
+            {
+                FUtil.bcastMsg(craftLoginMessage(player, null));
+            }
         }
 
         // Set display
