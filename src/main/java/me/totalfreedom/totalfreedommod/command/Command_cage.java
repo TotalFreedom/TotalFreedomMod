@@ -47,6 +47,11 @@ public class Command_cage extends FreedomCommand
         }
 
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
+        if (fPlayer.getCageData().isCaged())
+        {
+            sender.sendMessage(ChatColor.RED + "That player is already caged.");
+            return true;
+        }
 
         Material outerMaterial = Material.GLASS;
         Material innerMaterial = Material.AIR;
