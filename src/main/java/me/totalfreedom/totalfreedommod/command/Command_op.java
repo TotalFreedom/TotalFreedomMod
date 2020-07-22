@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "OP a player", usage = "/<command> <partialname>")
 public class Command_op extends FreedomCommand
 {
+
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -36,7 +37,7 @@ public class Command_op extends FreedomCommand
             if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName)
                     || player.getName().contains(targetName) || player.getDisplayName().contains(targetName))
             {
-                if (!player.isOp() && !AdminList.vanished.contains(player))
+                if (!player.isOp() && !AdminList.vanished.contains(player.getName()))
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(true);

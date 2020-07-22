@@ -31,7 +31,7 @@ public class AdminList extends FreedomService
     private final Map<String, Admin> ipTable = Maps.newHashMap();
     public final List<String> verifiedNoAdmins = new ArrayList<>();
     public final Map<String, List<String>> verifiedNoAdminIps = Maps.newHashMap();
-    public static ArrayList<Player> vanished = new ArrayList<>();
+    public static List<String> vanished = new ArrayList<>();
 
     @Override
     public void onStart()
@@ -361,5 +361,10 @@ public class AdminList extends FreedomService
         }
 
         updateTables();
+    }
+
+    public boolean isVanished(String player)
+    {
+        return vanished.contains(player);
     }
 }
