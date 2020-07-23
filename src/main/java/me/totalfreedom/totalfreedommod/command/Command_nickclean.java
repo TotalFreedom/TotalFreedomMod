@@ -16,15 +16,9 @@ import org.bukkit.entity.Player;
 public class Command_nickclean extends FreedomCommand
 {
 
-    private static final String[] BLOCK = ConfigEntry.BLOCKED_CHATCODES.getString().split(",");
-
-    private static final Pattern REGEX = Pattern.compile(FUtil.colorize(ChatColor.COLOR_CHAR + "[" + StringUtils.join(BLOCK, "") + "]"), Pattern.CASE_INSENSITIVE);
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        FUtil.adminAction(sender.getName(), "Cleaning all nicknames", false);
-
         if (args.length > 1)
         {
             Player player = getPlayer(args[0]);
@@ -40,7 +34,6 @@ public class Command_nickclean extends FreedomCommand
             return true;
         }
 
-
         FUtil.adminAction(sender.getName(), "Cleaning all nicknames", false);
         for (final Player player : server.getOnlinePlayers())
         {
@@ -53,6 +46,7 @@ public class Command_nickclean extends FreedomCommand
     {
         final String playerName = player.getName();
         final String nickName = plugin.esb.getNickname(playerName);
+        final Pattern REGEX = Pattern.compile(FUtil.colorize(ChatColor.COLOR_CHAR + "[" + StringUtils.join(ConfigEntry.BLOCKED_CHATCODES.getString().split(","), "") + "]"), Pattern.CASE_INSENSITIVE);
         if (nickName != null && !nickName.isEmpty() && !nickName.equalsIgnoreCase(playerName))
         {
             final Matcher matcher = REGEX.matcher(nickName);
