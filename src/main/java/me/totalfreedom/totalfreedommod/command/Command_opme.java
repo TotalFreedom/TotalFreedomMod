@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.NON_OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "OPs the command sender.", usage = "/<command>")
 public class Command_opme extends FreedomCommand
 {
@@ -17,7 +17,6 @@ public class Command_opme extends FreedomCommand
         FUtil.adminAction(sender.getName(), "Opping " + sender.getName(), false);
         sender.setOp(true);
         sender.sendMessage(FreedomCommand.YOU_ARE_OP);
-
         return true;
     }
 }
