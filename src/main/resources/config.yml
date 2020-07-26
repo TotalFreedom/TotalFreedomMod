@@ -124,6 +124,7 @@ shop:
     rideable_pearl: 700
     stacking_potato: 300
     clown_fish: 1500
+    magical_saddle: 250
 
 # Admin list
 adminlist:

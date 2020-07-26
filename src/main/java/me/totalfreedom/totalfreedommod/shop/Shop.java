@@ -1,7 +1,5 @@
 package me.totalfreedom.totalfreedommod.shop;
 
-import com.vexsoftware.votifier.model.Vote;
-import com.vexsoftware.votifier.model.VotifierEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -21,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,6 +27,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class Shop extends FreedomService
 {
+
     private BukkitTask reactions;
     public String reactionString = "";
     public Date reactionStartTime;
@@ -244,6 +244,18 @@ public class Shop extends FreedomService
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.GOLD + "Clown Fish");
         itemMeta.setLore(Arrays.asList(ChatColor.AQUA + ":clown:"));
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack getMagicalSaddle()
+    {
+        ItemStack itemStack = new ItemStack(Material.SADDLE);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.DARK_GREEN + "Magical Saddle");
+        itemMeta.setLore(Arrays.asList(ChatColor.GREEN + "Ride anything you want..."));
+        itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
