@@ -28,7 +28,7 @@ public class Command_smite extends FreedomCommand
         }
 
         String reason = null;
-        Boolean silent = false;
+        boolean silent = false;
         if (args.length >= 2)
         {
             if (args[args.length - 1].equalsIgnoreCase("-q"))
@@ -76,17 +76,20 @@ public class Command_smite extends FreedomCommand
 
     public static void smite(CommandSender sender, Player player, String reason, Boolean silent)
     {
-        FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
         player.sendTitle(ChatColor.RED + "You've been smitten.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
-
-        if (reason != null)
-        {
-            FUtil.bcastMsg("  Reason: " + ChatColor.YELLOW + reason, ChatColor.RED);
-        }
 
         if (!silent)
         {
+            FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
+            if (reason != null)
+            {
+                FUtil.bcastMsg("  Reason: " + ChatColor.YELLOW + reason, ChatColor.RED);
+            }
             FUtil.bcastMsg("  Smitten by: " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
+        }
+        else
+        {
+            sender.sendMessage(ChatColor.GRAY + "Smitten " + player.getName() + " quietly.");
         }
 
         // Deop
