@@ -59,16 +59,7 @@ public class InteractBlocker extends FreedomService
     public void onBedEnter(PlayerBedEnterEvent event)
     {
         Player player = event.getPlayer();
-        if (event.getBed().getBiome().equals(Biome.NETHER_WASTES)
-                || event.getBed().getBiome().equals(Biome.CRIMSON_FOREST)
-                || event.getBed().getBiome().equals(Biome.SOUL_SAND_VALLEY)
-                || event.getBed().getBiome().equals(Biome.WARPED_FOREST)
-                || event.getBed().getBiome().equals(Biome.BASALT_DELTAS)
-                || event.getBed().getBiome().equals(Biome.END_BARRENS)
-                || event.getBed().getBiome().equals(Biome.END_HIGHLANDS)
-                || event.getBed().getBiome().equals(Biome.END_MIDLANDS)
-                || event.getBed().getBiome().equals(Biome.THE_END)
-                || event.getBed().getBiome().equals(Biome.SMALL_END_ISLANDS))
+        if (Groups.EXPLOSIVE_BED_BIOMES.contains(event.getBed().getBiome()))
         {
             player.sendMessage(ChatColor.RED + "You may not sleep here.");
             event.setCancelled(true);
