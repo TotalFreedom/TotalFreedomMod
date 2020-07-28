@@ -5,9 +5,11 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -53,6 +55,26 @@ public class InteractBlocker extends FreedomService
         }
     }
 
+    @EventHandler
+    public void onBedEnter(PlayerBedEnterEvent event)
+    {
+        Player player = event.getPlayer();
+        if (event.getBed().getBiome().equals(Biome.NETHER_WASTES)
+                || event.getBed().getBiome().equals(Biome.CRIMSON_FOREST)
+                || event.getBed().getBiome().equals(Biome.SOUL_SAND_VALLEY)
+                || event.getBed().getBiome().equals(Biome.WARPED_FOREST)
+                || event.getBed().getBiome().equals(Biome.BASALT_DELTAS)
+                || event.getBed().getBiome().equals(Biome.END_BARRENS)
+                || event.getBed().getBiome().equals(Biome.END_HIGHLANDS)
+                || event.getBed().getBiome().equals(Biome.END_MIDLANDS)
+                || event.getBed().getBiome().equals(Biome.THE_END)
+                || event.getBed().getBiome().equals(Biome.SMALL_END_ISLANDS))
+        {
+            player.sendMessage(ChatColor.RED + "You may not sleep here.");
+            event.setCancelled(true);
+        }
+    }
+
     private void handleRightClick(PlayerInteractEvent event)
     {
         final Player player = event.getPlayer();
@@ -73,15 +95,6 @@ public class InteractBlocker extends FreedomService
             event.setCancelled(true);
             return;
         }
-
-        // TODO: lookup new biomes that have bed explosions in 1.16
-
-        /*if (Groups.BED_COLORS.contains(event.getMaterial()) && event.getClickedBlock().getBiome().equals(Biome.NETHER))
-        {
-            player.sendMessage(ChatColor.RED + "You can't sleep in hell.");
-            event.setCancelled(true);
-            return;
-        }*/
 
         switch (event.getMaterial())
         {

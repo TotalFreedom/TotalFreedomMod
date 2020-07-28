@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 
 public class Groups
 {
+
     public static final List<Material> WOOL_COLORS = Arrays.asList(
             Material.WHITE_WOOL,
             Material.RED_WOOL,
@@ -24,6 +25,7 @@ public class Groups
             Material.GRAY_WOOL,
             Material.LIGHT_GRAY_WOOL,
             Material.BLACK_WOOL);
+
     public static final List<Material> SHULKER_BOXES = Arrays.asList(
             Material.SHULKER_BOX,
             Material.WHITE_SHULKER_BOX,
@@ -101,6 +103,7 @@ public class Groups
             EntityType.WITCH,
             EntityType.WITHER_SKELETON,
             EntityType.WOLF,
+            EntityType.ZOGLIN,
             EntityType.ZOMBIE,
             EntityType.ZOMBIE_HORSE,
             EntityType.ZOMBIFIED_PIGLIN,
@@ -204,22 +207,4 @@ public class Groups
             Material.WHITE_WALL_BANNER,
             Material.YELLOW_BANNER,
             Material.YELLOW_WALL_BANNER);
-
-    public static final List<Material> BED_COLORS = Arrays.asList(
-            Material.WHITE_BED,
-            Material.RED_BED,
-            Material.ORANGE_BED,
-            Material.YELLOW_BED,
-            Material.GREEN_BED,
-            Material.LIME_BED,
-            Material.LIGHT_BLUE_BED,
-            Material.CYAN_BED,
-            Material.BLUE_BED,
-            Material.PURPLE_BED,
-            Material.MAGENTA_BED,
-            Material.PINK_BED,
-            Material.BROWN_BED,
-            Material.GRAY_BED,
-            Material.LIGHT_GRAY_BED,
-            Material.BLACK_BED);
 }
