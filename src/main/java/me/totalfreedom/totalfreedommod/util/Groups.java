@@ -3,6 +3,7 @@ package me.totalfreedom.totalfreedommod.util;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.EntityType;
 
 public class Groups
@@ -207,4 +208,16 @@ public class Groups
             Material.WHITE_WALL_BANNER,
             Material.YELLOW_BANNER,
             Material.YELLOW_WALL_BANNER);
+
+    public static final List<Biome> EXPLOSIVE_BED_BIOMES = Arrays.asList(
+            Biome.NETHER_WASTES,
+            Biome.CRIMSON_FOREST,
+            Biome.SOUL_SAND_VALLEY,
+            Biome.WARPED_FOREST,
+            Biome.BASALT_DELTAS,
+            Biome.END_BARRENS,
+            Biome.END_HIGHLANDS,
+            Biome.END_MIDLANDS,
+            Biome.THE_END,
+            Biome.SMALL_END_ISLANDS);
 }
