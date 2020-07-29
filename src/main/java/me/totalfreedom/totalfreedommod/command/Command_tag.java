@@ -138,6 +138,12 @@ public class Command_tag extends FreedomCommand
             }
             else if ("set".equalsIgnoreCase(args[0]))
             {
+                if (senderIsConsole)
+                {
+                    msg("\"/tag set\" can't be used from the console.");
+                    return true;
+                }
+
                 final String inputTag = StringUtils.join(args, " ", 1, args.length);
                 final String strippedTag = StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
                         new String[]
@@ -183,6 +189,12 @@ public class Command_tag extends FreedomCommand
             }
             else if (args[0].equalsIgnoreCase("gradient"))
             {
+                if (senderIsConsole)
+                {
+                    msg("\"/tag gradient\" can't be used from the console.");
+                    return true;
+                }
+
                 String from = "", to = "";
                 java.awt.Color awt1, awt2;
                 try

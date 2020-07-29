@@ -57,7 +57,7 @@ public class Command_masterbuilderworld extends FreedomCommand
                 {
                     if (!(sender instanceof Player) || playerSender == null)
                     {
-                        return true;
+                        return false;
                     }
 
                     World masterBuilderWorld = null;
