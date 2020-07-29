@@ -20,6 +20,7 @@ import me.totalfreedom.totalfreedommod.blocking.command.CommandBlocker;
 import me.totalfreedom.totalfreedommod.bridge.BukkitTelnetBridge;
 import me.totalfreedom.totalfreedommod.bridge.CoreProtectBridge;
 import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
+import me.totalfreedom.totalfreedommod.bridge.FAWEBridge;
 import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
 import me.totalfreedom.totalfreedommod.bridge.TFGuildsBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
@@ -146,6 +147,7 @@ public class TotalFreedomMod extends JavaPlugin
     public CoreProtectBridge cpb;
     public TFGuildsBridge tfg;
     public WorldEditBridge web;
+    public FAWEBridge fab;
     public WorldGuardBridge wgb;
 
     @Override
@@ -279,6 +281,7 @@ public class TotalFreedomMod extends JavaPlugin
         ldb = new LibsDisguisesBridge();
         tfg = new TFGuildsBridge();
         web = new WorldEditBridge();
+        fab = new FAWEBridge();
         wgb = new WorldGuardBridge();
 
         for (FreedomService service : fsh.getServices())
