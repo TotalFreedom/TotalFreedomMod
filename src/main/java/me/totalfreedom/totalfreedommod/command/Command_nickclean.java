@@ -20,7 +20,8 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Essentials Interface Command - Remove illegal chatcodes from nicknames of one or all players on server.", usage = "/<command> [player]", aliases = "nc")
 public class Command_nickclean extends FreedomCommand
 {
-    private Map<String, Color> colorCodes = new HashMap<String, Color>() {{
+    private Map<String, Color> colorCodes = new HashMap<String, Color>()
+    {{
         put("&0", Color.BLACK);
         put("&1", Color.BLUE);
         put("&2", Color.GREEN);
