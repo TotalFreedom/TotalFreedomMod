@@ -63,9 +63,16 @@ public class Command_doom extends FreedomCommand
         // Deop
         player.setOp(false);
 
+        String reason = null;
+
+        if (args.length > 1)
+        {
+            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
+        }
+
         // Ban player
         Ban ban = Ban.forPlayer(player, sender);
-        ban.setReason("&cFUCKOFF");
+        ban.setReason((reason == null ? "FUCKOFF" : reason));
         for (String playerIp : plugin.pl.getData(player).getIps())
         {
             ban.addIp(playerIp);
@@ -87,13 +94,6 @@ public class Command_doom extends FreedomCommand
 
         // Shoot the player in the sky
         player.setVelocity(player.getVelocity().clone().add(new Vector(0, 20, 0)));
-
-        String reason = null;
-
-        if (args.length > 1)
-        {
-            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
-        }
 
         final String kickReason = (reason == null ? "FUCKOFF, and get your shit together!" : reason);
 

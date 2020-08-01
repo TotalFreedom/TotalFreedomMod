@@ -161,7 +161,8 @@ public enum ConfigEntry
     VOTING_INFO(List.class, "votinginfo"), 
     MASTER_BUILDER_INFO(List.class, "masterbuilderinfo"),
     AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
-    TOGGLE_CHAT(Boolean.class, "toggle_chat");
+    TOGGLE_CHAT(Boolean.class, "toggle_chat"),
+    DEVELOPER_MODE(Boolean.class, "developer_mode");
     //
     private final Class<?> type;
     private final String configName;

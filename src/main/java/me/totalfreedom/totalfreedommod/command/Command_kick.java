@@ -3,7 +3,9 @@ package me.totalfreedom.totalfreedommod.command;
 import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Kick the specified player.", usage = "/<command> <player> [reason]", aliases = "k")
+@CommandParameters(description = "Kick the specified player.", usage = "/<command> <player> [reason] [-q]")
 public class Command_kick extends FreedomCommand
 {
     @Override
@@ -30,10 +32,24 @@ public class Command_kick extends FreedomCommand
             return true;
         }
 
+        boolean silent = false;
+
         String reason = null;
-        if (args.length > 1)
+        if (args[args.length - 1].equalsIgnoreCase("-q"))
         {
-            reason = StringUtils.join(args, " ", 1, args.length);
+            silent = true;
+            FLog.debug("silent");
+
+            if (args.length >= 2)
+            {
+                FLog.debug("set reason (silent)");
+                reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length - 1), " ");
+            }
+        }
+        else if (args.length > 1)
+        {
+            FLog.debug("set reason");
+            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         }
 
         StringBuilder builder = new StringBuilder()
@@ -43,11 +59,18 @@ public class Command_kick extends FreedomCommand
         if (reason != null)
         {
             builder.append("\n").append(ChatColor.RED).append("Reason: ").append(ChatColor.GOLD).append(reason);
-            FUtil.adminAction(sender.getName(), "Kicking " + player.getName() + " - Reason: " + reason, true);
         }
-        else
+
+        if (!silent)
         {
-            FUtil.adminAction(sender.getName(), "Kicking " + player.getName(), true);
+            if (reason != null)
+            {
+                FUtil.adminAction(sender.getName(), "Kicking " + player.getName() + " - Reason: " + reason, true);
+            }
+            else
+            {
+                FUtil.adminAction(sender.getName(), "Kicking " + player.getName(), true);
+            }
         }
 
         player.kickPlayer(builder.toString());

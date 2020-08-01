@@ -3,14 +3,13 @@ package me.totalfreedom.totalfreedommod.bridge;
 import me.totalfreedom.tfguilds.Common;
 import me.totalfreedom.tfguilds.TFGuilds;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class TFGuildsBridge extends FreedomService
 {
 
-    private TFGuilds tfGuildsPlugin = null;
+    public boolean enabled = false;
 
     @Override
     public void onStart()
@@ -22,31 +21,39 @@ public class TFGuildsBridge extends FreedomService
     {
     }
 
-    public TFGuilds getTfGuildsPlugin()
+    public boolean isTFGuildsEnabled()
     {
-        if (tfGuildsPlugin == null)
+        if (enabled)
         {
-            try
+            return true;
+        }
+
+        try
+        {
+            final Plugin tfGuilds = server.getPluginManager().getPlugin("TFGuilds");
+            if (tfGuilds != null && tfGuilds.isEnabled())
             {
-                final Plugin tfGuilds = server.getPluginManager().getPlugin("TFGuilds");
-                if (tfGuilds != null)
+                if (tfGuilds instanceof TFGuilds)
                 {
-                    if (tfGuilds instanceof TFGuilds)
-                    {
-                        tfGuildsPlugin = (TFGuilds)tfGuilds;
-                    }
+                    enabled = true;
+                    return true;
                 }
             }
-            catch (Exception ex)
-            {
-                FLog.severe(ex);
-            }
         }
-        return tfGuildsPlugin;
+        catch (NoClassDefFoundError ex)
+        {
+            return false;
+        }
+
+        return false;
     }
 
     public boolean inGuildChat(Player player)
     {
+        if (!isTFGuildsEnabled())
+        {
+            return false;
+        }
         return Common.IN_GUILD_CHAT.contains(player);
     }
 }

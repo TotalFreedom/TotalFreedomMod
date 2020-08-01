@@ -47,7 +47,7 @@ public class Command_linkdiscord extends FreedomCommand
 
         if (Discord.LINK_CODES.containsValue(data))
         {
-            code = Discord.getCode(data);
+            code = plugin.dc.getCode(data);
         }
         else
         {

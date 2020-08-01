@@ -126,6 +126,11 @@ public class FUtil
         return FUtil.DEVELOPERS.contains(name);
     }
 
+    public static boolean inDeveloperMode()
+    {
+        return ConfigEntry.DEVELOPER_MODE.getBoolean();
+    }
+
     public static String formatName(String name)
     {
         return WordUtils.capitalizeFully(name.replace("_", " "));
@@ -133,11 +138,7 @@ public class FUtil
 
     public static String showS(int count)
     {
-        if (count == 1)
-        {
-            return "";
-        }
-        return "s";
+        return (count == 1 ? "" : "s");
     }
 
     public static List<String> getPlayerList()
@@ -758,6 +759,16 @@ public class FUtil
             c1values[i] = Math.round(c1values[i] + factor * (c2values[i] - c1values[i]));
         }
         return Color.fromRGB((int) c1values[0], (int) c1values[1], (int) c1values[2]);
+    }
+
+    public static boolean isValidIPv4(String ip)
+    {
+        if (ip.matches("^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))$")
+            || ip.matches("^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([*])\\.([*])$"))
+        {
+            return true;
+        }
+        return false;
     }
 
     public static List<Color> createColorGradient(Color c1, Color c2, int steps)

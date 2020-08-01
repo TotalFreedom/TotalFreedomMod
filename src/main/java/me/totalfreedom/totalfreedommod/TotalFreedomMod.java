@@ -181,33 +181,20 @@ public class TotalFreedomMod extends JavaPlugin
         FUtil.deleteFolder(new File("./_deleteme"));
 
         fsh = new FreedomServiceHandler();
+
+        config = new MainConfig();
+        config.load();
+
         cl = new CommandLoader();
-
-        Reflections commandDir = new Reflections("me.totalfreedom.totalfreedommod.command");
-
-        Set<Class<? extends FreedomCommand>> commandClasses = commandDir.getSubTypesOf(FreedomCommand.class);
-
-        for (Class<? extends FreedomCommand> commandClass : commandClasses)
-        {
-            try
-            {
-                cl.add(commandClass.newInstance());
-            }
-            catch (InstantiationException | IllegalAccessException | ExceptionInInitializerError ex)
-            {
-                FLog.warning("Failed to register command: /" + commandClass.getSimpleName().replace("Command_" , ""));
-            }
-        }
+        cl.loadCommands();
 
         BackupManager backups = new BackupManager();
-        backups.createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
-        backups.createBackups(PermbanList.CONFIG_FILENAME);
-        backups.createBackups(PermissionConfig.PERMISSIONS_FILENAME, true);
-        backups.createBackups(PunishmentList.CONFIG_FILENAME);
-        backups.createBackups("database.db");
+        backups.createAllBackups();
 
-        config = new MainConfig(this);
-        config.load();
+        if (FUtil.inDeveloperMode())
+        {
+            FLog.debug("Developer mode enabled.");
+        }
 
         permissions = new PermissionConfig(this);
         permissions.load();

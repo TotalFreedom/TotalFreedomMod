@@ -131,7 +131,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
                     return true;
                 }
 
-                if (perms.blockHostConsole() && FUtil.isFromHostConsole(sender.getName()))
+                if (perms.blockHostConsole() && FUtil.isFromHostConsole(sender.getName()) && !FUtil.inDeveloperMode())
                 {
                     msg(ChatColor.RED + "Host console is not allowed to use this command!");
                     return true;

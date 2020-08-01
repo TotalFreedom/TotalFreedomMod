@@ -240,8 +240,15 @@
         <dependency>
             <groupId>com.github.speedxx</groupId>
             <artifactId>TFGuilds</artifactId>
-            <version>master-SNAPSHOT</version>
+            <version>master</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -418,7 +425,7 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <version>2.17</version>
+                <version>3.1.1</version>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>

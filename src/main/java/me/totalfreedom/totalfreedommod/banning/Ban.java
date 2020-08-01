@@ -166,7 +166,20 @@ public class Ban implements IConfig
     {
         final StringBuilder message = new StringBuilder(ChatColor.GOLD + "You");
 
-        message.append(!hasUsername() ? "r IP address is" : " are").append(" temporarily banned from this server.");
+        if (!hasUsername())
+        {
+            message.append("r IP address is");
+        }
+        else if (!hasIps())
+        {
+            message.append("r username is");
+        }
+        else
+        {
+            message.append(" are");
+        }
+
+        message.append(" temporarily banned from this server.");
         message.append("\nAppeal at ").append(ChatColor.BLUE)
                 .append(ConfigEntry.SERVER_BAN_URL.getString());
 
