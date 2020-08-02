@@ -41,9 +41,9 @@ public class Monitors extends FreedomService
                     int potionsThrown = playerThrownPotions.size();
                     boolean trollPotions = false;
 
-                    for(ThrownPotion potion : playerThrownPotions)
+                    for (ThrownPotion potion : playerThrownPotions)
                     {
-                        if(isTrollPotion(potion))
+                        if (isTrollPotion(potion))
                         {
                             trollPotions = true;
                         }
@@ -69,7 +69,7 @@ public class Monitors extends FreedomService
         if (event.getEntity().getShooter() instanceof Player)
         {
             ThrownPotion potion = event.getEntity();
-            if(potion.getShooter() instanceof Player)
+            if (potion.getShooter() instanceof Player)
             {
                 Player player = (Player)potion.getShooter();
 
@@ -77,11 +77,11 @@ public class Monitors extends FreedomService
                 recentlyThrownPotions.get(player).add(potion);
                 allThrownPotions.add(new AbstractMap.SimpleEntry<>(potion, System.currentTimeMillis()));
 
-                if(recentlyThrownPotions.get(player).size() > 128)
+                if (recentlyThrownPotions.get(player).size() > 128)
                 {
                     recentlyThrownPotions.get(player).remove(0);
                 }
-                if(allThrownPotions.size() > 1024)
+                if (allThrownPotions.size() > 1024)
                 {
                     allThrownPotions.remove(0); // Remove the first element in the set.
                 }
@@ -95,7 +95,7 @@ public class Monitors extends FreedomService
         if (event.getEntity().getShooter() instanceof Player)
         {
             ThrownPotion potion = event.getEntity();
-            if(potion.getShooter() instanceof Player)
+            if (potion.getShooter() instanceof Player)
             {
                 Player player = (Player)potion.getShooter();
 
@@ -103,11 +103,11 @@ public class Monitors extends FreedomService
                 recentlyThrownPotions.get(player).add(potion);
                 allThrownPotions.add(new AbstractMap.SimpleEntry<>(potion, System.currentTimeMillis()));
 
-                if(recentlyThrownPotions.get(player).size() > 128)
+                if (recentlyThrownPotions.get(player).size() > 128)
                 {
                     recentlyThrownPotions.get(player).remove(0);
                 }
-                if(allThrownPotions.size() > 1024)
+                if (allThrownPotions.size() > 1024)
                 {
                     allThrownPotions.remove(0); // Remove the first element in the set.
                 }
@@ -115,19 +115,14 @@ public class Monitors extends FreedomService
         }
     }
 
-    /**
-     * Get a list of potions the player has thrown with unix time stamps.
-     * @param player The player that has thrown potions.
-     * @return A list of map entries with the key as the thrown potion and the value as a long (unix time stamp when the throw happened).
-     */
     public List<Map.Entry<ThrownPotion, Long>> getPlayerThrownPotions(Player player)
     {
         List<Map.Entry<ThrownPotion, Long>> thrownPotions = new ArrayList<>();
 
-        for(Map.Entry<ThrownPotion, Long> potionEntry : allThrownPotions)
+        for (Map.Entry<ThrownPotion, Long> potionEntry : allThrownPotions)
         {
             ThrownPotion potion = potionEntry.getKey();
-            if(potion.getShooter() != null && potion.getShooter().equals(player))
+            if (potion.getShooter() != null && potion.getShooter().equals(player))
             {
                 thrownPotions.add(potionEntry);
             }
@@ -136,18 +131,13 @@ public class Monitors extends FreedomService
         return thrownPotions;
     }
 
-    /**
-     * Detects if a thrown potion is most likely a troll potion.
-     * @param potion Any thrown potion that should be checked.
-     * @return A boolean that indicates if the potion param is most likely a troll potion.
-     */
     public boolean isTrollPotion(ThrownPotion potion)
     {
         int badEffectsDetected = 0;
 
-        for(PotionEffect effect : potion.getEffects())
+        for (PotionEffect effect : potion.getEffects())
         {
-            if(badPotionEffects.contains(effect.getType()) && effect.getAmplifier() > 2 && effect.getDuration() > 200)
+            if (badPotionEffects.contains(effect.getType()) && effect.getAmplifier() > 2 && effect.getDuration() > 200)
             {
                 badEffectsDetected++;
             }

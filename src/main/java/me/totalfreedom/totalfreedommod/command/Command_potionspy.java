@@ -30,7 +30,7 @@ public class Command_potionspy extends FreedomCommand
     {
         Admin admin = plugin.al.getAdmin(playerSender);
 
-        if(args.length <= 0)
+        if (args.length <= 0)
         {
             setPotionSpyState(admin, !admin.getPotionSpy());
             return true;
@@ -50,10 +50,10 @@ public class Command_potionspy extends FreedomCommand
                     break;
 
                 case "history":
-                    if(args.length == 3)
+                    if (args.length == 3)
                     {
                         Player player = Bukkit.getPlayer(args[1]);
-                        if(player == null)
+                        if (player == null)
                         {
                             msg(sender, "Please specify a valid player name.");
                             return true;
@@ -65,12 +65,12 @@ public class Command_potionspy extends FreedomCommand
                         List<String> potionThrowNotifications = new ArrayList<>();
                         int lastPage = (int)Math.ceil(thrownPotions.size() / 5.0);
 
-                        if(thrownPotions.isEmpty())
+                        if (thrownPotions.isEmpty())
                         {
                             msg(sender, noPlayerRecord);
                             return true;
                         }
-                        if(!NumberUtils.isNumber(args[2]))
+                        if (!NumberUtils.isNumber(args[2]))
                         {
                             msg(sender, String.format(validPageText, lastPage));
                             return true;
@@ -79,7 +79,7 @@ public class Command_potionspy extends FreedomCommand
                         Collections.reverse(thrownPotions);
                         int pageIndex = Integer.parseInt(args[2]);
 
-                        for(Map.Entry<ThrownPotion, Long> potionEntry : thrownPotions)
+                        for (Map.Entry<ThrownPotion, Long> potionEntry : thrownPotions)
                         {
                             ThrownPotion potion = potionEntry.getKey();
                             boolean trollPotions = plugin.mo.isTrollPotion(potion);
@@ -89,7 +89,7 @@ public class Command_potionspy extends FreedomCommand
                         }
 
                         List<String> page = FUtil.getPageFromList(potionThrowNotifications, 5, pageIndex - 1);
-                        if(!page.isEmpty())
+                        if (!page.isEmpty())
                         {
                             msg(sender, ChatColor.translateAlternateColorCodes('&', titleText));
                             for (String potionThrowNotification : page)
@@ -105,7 +105,7 @@ public class Command_potionspy extends FreedomCommand
 
                         msg(sender, ChatColor.translateAlternateColorCodes('&', String.format(bottomText, pageIndex, lastPage)));
                     }
-                    else if(args.length == 2)
+                    else if (args.length == 2)
                     {
                         List<Map.Entry<ThrownPotion, Long>> thrownPotions = new ArrayList<>();
                         thrownPotions.addAll(plugin.mo.getAllThrownPotions()); // Make a copy of the list to avoid modifying the original.
@@ -113,7 +113,7 @@ public class Command_potionspy extends FreedomCommand
                         List<String> potionThrowNotifications = new ArrayList<>();
                         int lastPage = (int)Math.ceil(thrownPotions.size() / 5.0);
 
-                        if(thrownPotions.isEmpty())
+                        if (thrownPotions.isEmpty())
                         {
                             if(Bukkit.getPlayer(args[1]) != null)
                             {
@@ -125,7 +125,7 @@ public class Command_potionspy extends FreedomCommand
                             }
                             return true;
                         }
-                        if(!NumberUtils.isNumber(args[1]))
+                        if (!NumberUtils.isNumber(args[1]))
                         {
                             msg(sender, String.format(validPageText, lastPage));
                             return true;
@@ -134,7 +134,7 @@ public class Command_potionspy extends FreedomCommand
                         Collections.reverse(thrownPotions);
                         int pageIndex = Integer.parseInt(args[1]);
 
-                        for(Map.Entry<ThrownPotion, Long> potionEntry : thrownPotions)
+                        for (Map.Entry<ThrownPotion, Long> potionEntry : thrownPotions)
                         {
                             ThrownPotion potion = potionEntry.getKey();
                             Player player = (Player)potion.getShooter();
@@ -148,7 +148,7 @@ public class Command_potionspy extends FreedomCommand
                         }
 
                         List<String> page = FUtil.getPageFromList(potionThrowNotifications, 5, pageIndex - 1);
-                        if(!page.isEmpty())
+                        if (!page.isEmpty())
                         {
                             msg(sender, ChatColor.translateAlternateColorCodes('&', titleText));
                             for (String potionThrowNotification : page)
@@ -176,11 +176,6 @@ public class Command_potionspy extends FreedomCommand
         return true;
     }
 
-    /**
-     * Sets and updates the potion spy state for an admin.
-     * @param admin The admin that the state should be changed for.
-     * @param state A boolean that will set the state of potion spy for the admin (enabled or disabled).
-     */
     private void setPotionSpyState(Admin admin, boolean state)
     {
         admin.setPotionSpy(state);
@@ -199,21 +194,21 @@ public class Command_potionspy extends FreedomCommand
     {
         long unix = now - past;
         long seconds = Math.round(unix / 1000.0);
-        if(seconds < 60)
+        if (seconds < 60)
         {
             return seconds + "s";
         }
         else
         {
             long minutes = Math.round(seconds / 60.0);
-            if(minutes < 60)
+            if (minutes < 60)
             {
                 return minutes + "m";
             }
             else
             {
                 long hours = Math.round(minutes / 60.0);
-                if(hours < 24)
+                if (hours < 24)
                 {
                     return hours + "h";
                 }

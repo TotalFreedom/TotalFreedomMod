@@ -13,17 +13,12 @@ import java.util.List;
 import java.util.Map;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import net.coreprotect.CoreProtectAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 
-/**
- * Links TF-FAWE and the CoreProtect API together with two functions.
- * @author CoolJWB
- */
 public class FAWEBridge extends FreedomService
 {
     private CoreProtectAPI api;
@@ -39,7 +34,7 @@ public class FAWEBridge extends FreedomService
         /*
          * Iterates over blocks placed by GenerationCommands (in the EditSession) and adds them to the CoreProtect logs.
          */
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
+        server.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
         {
             @Override
             public void run()
@@ -60,9 +55,9 @@ public class FAWEBridge extends FreedomService
                             if (blockVector3 != null)
                             {
                                 EditSession editSession = playerAndSessionEntry.getValue();
-                                World world = Bukkit.getWorld(editSession.getWorld().getName());
+                                World world = server.getWorld(editSession.getWorld().getName());
                                 Location location = new Location(world, blockVector3.getX(), blockVector3.getY(), blockVector3.getZ());
-                                BlockData blockData = Bukkit.createBlockData(dataAndVectorEntry.get(blockVector3));
+                                BlockData blockData = server.createBlockData(dataAndVectorEntry.get(blockVector3));
                                 api.logRemoval(playerAndSessionEntry.getKey(), location, blockData.getMaterial(), blockData);
                             }
                         }
@@ -85,7 +80,7 @@ public class FAWEBridge extends FreedomService
                         {
                             if (blockVector3 != null && !pattern.apply(blockVector3).getBlockType().getMaterial().isAir())
                             {
-                                World world = Bukkit.getWorld(playerAndSessionEntry.getValue().getWorld().getName());
+                                World world = server.getWorld(playerAndSessionEntry.getValue().getWorld().getName());
                                 Location location = new Location(world, blockVector3.getX(), blockVector3.getY(), blockVector3.getZ());
                                 BaseBlock block = pattern.apply(blockVector3);
                                 Material material = Material.getMaterial(block.getBlockType().getId().replaceFirst("minecraft:", "").toUpperCase());
@@ -106,26 +101,20 @@ public class FAWEBridge extends FreedomService
 
     }
 
-    /**
-     * Logs a single block edit to CoreProtect.
-     * @param playerName The name of the player.
-     * @param editSession A WorldEdit edit session to find the world.
-     * @param pattern A WorldEdit pattern for the new block placed.
-     * @param blockVector3 A WorldEdit BlockVector3 for coordinates.
-     */
+
     public void logBlockEdit(String playerName, EditSession editSession, Pattern pattern, BlockVector3 blockVector3)
     {
         // Cache the world used for the next iterations to come.
-        if(world == null || !world.getName().equals(editSession.getWorld().getName()))
+        if (world == null || !world.getName().equals(editSession.getWorld().getName()))
         {
-            world = Bukkit.getWorld(editSession.getWorld().getName());
+            world = server.getWorld(editSession.getWorld().getName());
         }
 
         Map.Entry<String, EditSession> playerAndSessionEntry = new AbstractMap.SimpleEntry(playerName, editSession);
         Block block = world.getBlockAt(blockVector3.getBlockX(), blockVector3.getBlockY(), blockVector3.getBlockZ());
 
         // Add the broken block to CoreProtect if it's not air.
-        if(!block.getType().isAir())
+        if (!block.getType().isAir())
         {
             String blockData = block.getBlockData().getAsString();
             blockData = new Gson().fromJson(new Gson().toJson(blockData), blockData.getClass()); // Overwrite original with deep clones.
@@ -135,24 +124,17 @@ public class FAWEBridge extends FreedomService
         }
 
         // Add the placed block to CoreProtect if it's not air.
-        if(!pattern.apply(blockVector3).getBlockType().getMaterial().isAir())
+        if (!pattern.apply(blockVector3).getBlockType().getMaterial().isAir())
         {
             blocksPlaced.putIfAbsent(playerAndSessionEntry, new AbstractMap.SimpleEntry<>(pattern, new ArrayList<>()));
             blocksPlaced.get(playerAndSessionEntry).getValue().add(new Gson().fromJson(new Gson().toJson(blockVector3), blockVector3.getClass()));
         }
     }
 
-    /**
-     * Logs a pattern within a region to CoreProtect.
-     * @param playerName The name of the player.
-     * @param editSession A WorldEdit edit session to find the world.
-     * @param region A region of blocks.
-     * @param pattern A WorldEdit pattern for the new blocks placed.
-     */
     public void logBlockEdits(String playerName, EditSession editSession, Region region, Pattern pattern)
     {
         // Add the broken blocks to CoreProtect.
-        World world = Bukkit.getWorld(region.getWorld().getName());
+        World world = server.getWorld(region.getWorld().getName());
         List<Block> blocks = new ArrayList<>();
 
         for (BlockVector3 blockVector3 : region)
@@ -163,20 +145,13 @@ public class FAWEBridge extends FreedomService
         logBlockEdit(playerName, editSession, pattern, blocks);
     }
 
-    /**
-     * Logs a list of block edits to CoreProtect.
-     * @param playerName The name of the player.
-     * @param editSession A WorldEdit edit session to find the world.
-     * @param pattern A WorldEdit pattern for the new block placed.
-     * @param blocks A list of blocks.
-     */
     public void logBlockEdit(String playerName, EditSession editSession, Pattern pattern, List<Block> blocks)
     {
         Map.Entry<String, EditSession> playerAndSessionEntry = new AbstractMap.SimpleEntry(playerName, editSession);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () ->
+        server.getScheduler().scheduleSyncDelayedTask(plugin, () ->
         {
-            for(Block block : blocks)
+            for (Block block : blocks)
             {
                 BlockVector3 blockVector3 = BlockVector3.at(block.getX(), block.getY(), block.getZ());
 

@@ -782,13 +782,6 @@ public class FUtil
         return colors;
     }
 
-    /**
-     * Detects if two colors are alike.
-     * @param first The first Color to check.
-     * @param second The second Color to check.
-     * @param tresHold The maximum allowed difference between the colors.
-     * @return Returns true if the colors are alike.
-     */
     public static boolean colorClose(Color first, Color second, int tresHold)
     {
         int redDelta = Math.abs(first.getRed() - second.getRed());
