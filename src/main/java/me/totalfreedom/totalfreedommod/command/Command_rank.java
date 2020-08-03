@@ -15,7 +15,7 @@ public class Command_rank extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (isConsole() && args.length == 0)
+        if (senderIsConsole && args.length == 0)
         {
             for (Player player : server.getOnlinePlayers())
             {

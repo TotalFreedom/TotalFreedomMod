@@ -52,10 +52,9 @@ public class FUtil
 {
 
     private static final Random RANDOM = new Random();
-    //
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
     // See https://github.com/TotalFreedom/License - None of the listed names may be removed.
-    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "Wild1145", "aggelosQQ", "supernt");
+    public static final List<String> DEVELOPERS = Arrays.asList("Madgeek1450", "Prozza", "WickedGamingUK", "Wild1145", "aggelosQQ", "scripthead", "supernt", "Telesphoreo", "CoolJWB");
     public static String DATE_STORAGE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
     public static final Map<String, ChatColor> CHAT_COLOR_NAMES = new HashMap<>();
     public static final List<ChatColor> CHAT_COLOR_POOL = Arrays.asList(
@@ -127,6 +126,11 @@ public class FUtil
         return FUtil.DEVELOPERS.contains(name);
     }
 
+    public static boolean inDeveloperMode()
+    {
+        return ConfigEntry.DEVELOPER_MODE.getBoolean();
+    }
+
     public static String formatName(String name)
     {
         return WordUtils.capitalizeFully(name.replace("_", " "));
@@ -134,11 +138,7 @@ public class FUtil
 
     public static String showS(int count)
     {
-        if (count == 1)
-        {
-            return "";
-        }
-        return "s";
+        return (count == 1 ? "" : "s");
     }
 
     public static List<String> getPlayerList()
@@ -146,7 +146,7 @@ public class FUtil
         List<String> names = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            if (!TotalFreedomMod.plugin().al.vanished.contains(player))
+            if (!TotalFreedomMod.plugin().al.isVanished(player.getName()))
             {
                 names.add(player.getName());
             }
@@ -173,6 +173,37 @@ public class FUtil
 
         return Arrays.asList(string.split(", "));
     }
+
+    /**
+     * A way to get a sublist with a page index and a page size.
+     * @param list A list of objects that should be split into pages.
+     * @param size The size of the pages.
+     * @param index The page index, if outside of bounds error will be thrown. The page index starts at 0 as with all lists.
+     * @return A list of objects that is the page that has been selected from the previous last parameter.
+     */
+    public static List<String> getPageFromList(List<String> list, int size, int index)
+    {
+        try
+        {
+            if (size >= list.size())
+            {
+                return list;
+            }
+            else if (size * (index + 1) <= list.size())
+            {
+                return list.subList(size * index, size * (index + 1));
+            }
+            else
+            {
+                return list.subList(size * index, (size * index) + (list.size() % size));
+            }
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            return new ArrayList<>();
+        }
+    }
+
     public static List<String> getAllMaterialNames()
     {
         List<String> names = new ArrayList<>();
@@ -560,14 +591,17 @@ public class FUtil
 
     public static String colorize(String string)
     {
-        Matcher matcher = Pattern.compile("&#[a-f0-9A-F]{6}").matcher(string);
-        while (matcher.find())
+        if (string != null)
         {
-            String code = matcher.group().replace("&", "");
-            string = string.replace("&" + code, net.md_5.bungee.api.ChatColor.of(code) + "");
-        }
+            Matcher matcher = Pattern.compile("&#[a-f0-9A-F]{6}").matcher(string);
+            while (matcher.find())
+            {
+                String code = matcher.group().replace("&", "");
+                string = string.replace("&" + code, net.md_5.bungee.api.ChatColor.of(code) + "");
+            }
 
-        string = ChatColor.translateAlternateColorCodes('&', string);
+            string = ChatColor.translateAlternateColorCodes('&', string);
+        }
         return string;
     }
 
@@ -727,6 +761,16 @@ public class FUtil
         return Color.fromRGB((int) c1values[0], (int) c1values[1], (int) c1values[2]);
     }
 
+    public static boolean isValidIPv4(String ip)
+    {
+        if (ip.matches("^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))$")
+            || ip.matches("^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\\.([*])\\.([*])$"))
+        {
+            return true;
+        }
+        return false;
+    }
+
     public static List<Color> createColorGradient(Color c1, Color c2, int steps)
     {
         double factor = 1.0 / (steps - 1.0);
@@ -738,6 +782,14 @@ public class FUtil
         return colors;
     }
 
+    public static boolean colorClose(Color first, Color second, int tresHold)
+    {
+        int redDelta = Math.abs(first.getRed() - second.getRed());
+        int greenDelta = Math.abs(first.getGreen() - second.getGreen());
+        int blueDelta = Math.abs(first.getBlue() - second.getBlue());
+        return (redDelta + greenDelta + blueDelta) < tresHold;
+    }
+
     public static Color fromAWT(java.awt.Color color)
     {
         return Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
@@ -746,6 +798,21 @@ public class FUtil
     public static java.awt.Color toAWT(Color color)
     {
         return new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue());
+    }
+
+    public static java.awt.Color getRandomAWTColor()
+    {
+        return new java.awt.Color(randomInteger(0, 255), randomInteger(0, 255), randomInteger(0, 255));
+    }
+
+    public static String getHexStringOfAWTColor(java.awt.Color color)
+    {
+        String hex = Integer.toHexString(color.getRGB() & 0xFFFFFF);
+        if (hex.length() < 6)
+        {
+            hex = "0" + hex;
+        }
+        return "#" + hex;
     }
 
     public static void createExplosionOnDelay(Location location, float power, int delay)

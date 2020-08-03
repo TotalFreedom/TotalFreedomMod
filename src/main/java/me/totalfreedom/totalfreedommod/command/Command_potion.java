@@ -70,17 +70,15 @@ public class Command_potion extends FreedomCommand
                     }
                 }
 
-                if (!target.equals(playerSender))
-                {
-                    if (!plugin.al.isAdmin(sender))
-                    {
-                        msg(ChatColor.RED + "Only admins can clear potion effects from other players.");
-                        return true;
-                    }
-                }
-                else if (senderIsConsole)
+                if (senderIsConsole)
                 {
                     msg("You must specify a target player when using this command from the console.");
+                    return true;
+                }
+
+                if (!plugin.al.isAdmin(sender))
+                {
+                    msg(ChatColor.RED + "Only admins can clear potion effects from other players.");
                     return true;
                 }
 
@@ -106,24 +104,22 @@ public class Command_potion extends FreedomCommand
                 {
                     target = getPlayer(args[4]);
 
-                    if (target == null || plugin.al.vanished.contains(target) && !plugin.al.isAdmin(sender))
+                    if (target == null || plugin.al.isVanished(target.getName()) && !plugin.al.isAdmin(sender))
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;
                     }
                 }
 
-                if (!target.equals(playerSender))
-                {
-                    if (!plugin.al.isAdmin(sender))
-                    {
-                        sender.sendMessage(ChatColor.RED + "Only admins can apply potion effects to other players.");
-                        return true;
-                    }
-                }
-                else if (senderIsConsole)
+                if (senderIsConsole)
                 {
                     sender.sendMessage("You must specify a target player when using this command from the console.");
+                    return true;
+                }
+
+                if (!plugin.al.isAdmin(sender))
+                {
+                    sender.sendMessage(ChatColor.RED + "Only admins can apply potion effects to other players.");
                     return true;
                 }
 
@@ -244,5 +240,4 @@ public class Command_potion extends FreedomCommand
         }
         return types;
     }
-
 }

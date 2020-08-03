@@ -57,7 +57,7 @@ public class Command_hubworld extends FreedomCommand
                 {
                     if (!(sender instanceof Player) || playerSender == null)
                     {
-                        return true;
+                        return false;
                     }
 
                     World hubWorld = null;
@@ -198,5 +198,4 @@ public class Command_hubworld extends FreedomCommand
             super(string);
         }
     }
-
 }

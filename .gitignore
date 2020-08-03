@@ -23,6 +23,7 @@ manifest.mf
 /.idea/discord.xml
 /.idea/jarRepositories.xml
 /.idea/workspace.xml
+/.idea/uiDesigner.xml
 /.idea/libraries
 *.iml
 

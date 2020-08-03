@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f | -v]", aliases = "who,lsit")
 public class Command_list extends FreedomCommand
 {
+    
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)
     {
         if (args.length > 1)
@@ -108,11 +109,11 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.ADMINS && AdminList.vanished.contains(p))
+                if (listFilter == ListFilter.ADMINS && AdminList.vanished.contains(p.getName()))
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.VANISHED_ADMINS && !AdminList.vanished.contains(p))
+                if (listFilter == ListFilter.VANISHED_ADMINS && !AdminList.vanished.contains(p.getName()))
                 {
                     continue;
                 }
@@ -124,7 +125,7 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.PLAYERS && AdminList.vanished.contains(p))
+                if (listFilter == ListFilter.PLAYERS && AdminList.vanished.contains(p.getName()))
                 {
                     continue;
                 }

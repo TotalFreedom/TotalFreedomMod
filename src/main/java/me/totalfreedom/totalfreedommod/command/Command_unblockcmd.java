@@ -9,14 +9,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Uncage a player", usage = "/<command> <name>")
-public class Command_uncage extends FreedomCommand
+@CommandParameters(description = "Unblocks commands for a player.", usage = "/<command> <player>", aliases = "unblockcommand,unblockcommands,ubcmds,unblockcmds,ubc")
+public class Command_unblockcmd extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
         if (args.length == 0)
         {
             return false;
@@ -29,15 +28,16 @@ public class Command_uncage extends FreedomCommand
             return true;
         }
 
-        final FPlayer fPlayer = plugin.pl.getPlayer(player);
-        if (fPlayer.getCageData().isCaged())
+        FPlayer fPlayer = plugin.pl.getPlayer(player);
+        if (fPlayer.allCommandsBlocked())
         {
-            FUtil.adminAction(sender.getName(), "Uncaging " + player.getName(), true);
-            fPlayer.getCageData().setCaged(false);
+            fPlayer.setCommandsBlocked(false);
+            FUtil.adminAction(sender.getName(), "Unblocking all commands for " + player.getName(), true);
+            msg("Unblocked commands for " + player.getName() + ".");
         }
         else
         {
-            msg("That player is not caged!", ChatColor.RED);
+            msg("That players commands aren't blocked.", ChatColor.RED);
         }
         return true;
     }

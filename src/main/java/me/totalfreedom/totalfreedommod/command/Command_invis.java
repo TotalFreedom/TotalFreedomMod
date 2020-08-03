@@ -16,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 @CommandParameters(description = "Shows (optionally clears) invisible players", usage = "/<command> [clear]")
 public class Command_invis extends FreedomCommand
 {
+	
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -42,7 +43,7 @@ public class Command_invis extends FreedomCommand
 
         for (Player player : server.getOnlinePlayers())
         {
-            if (player.hasPotionEffect(PotionEffectType.INVISIBILITY) && !plugin.al.vanished.contains(player))
+            if (player.hasPotionEffect(PotionEffectType.INVISIBILITY) && !plugin.al.isVanished(player.getName()))
             {
                 players.add(player.getName());
                 if (clear && !plugin.al.isAdmin(player))

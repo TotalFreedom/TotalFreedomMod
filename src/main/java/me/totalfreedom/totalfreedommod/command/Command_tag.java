@@ -48,7 +48,7 @@ public class Command_tag extends FreedomCommand
 
                 for (final Player player : server.getOnlinePlayers())
                 {
-                    if (plugin.al.vanished.contains(player) && !plugin.al.isAdmin(sender))
+                    if (plugin.al.isVanished(player.getName()) && !plugin.al.isAdmin(sender))
                     {
                         continue;
                     }
@@ -138,6 +138,12 @@ public class Command_tag extends FreedomCommand
             }
             else if ("set".equalsIgnoreCase(args[0]))
             {
+                if (senderIsConsole)
+                {
+                    msg("\"/tag set\" can't be used from the console.");
+                    return true;
+                }
+
                 final String inputTag = StringUtils.join(args, " ", 1, args.length);
                 final String strippedTag = StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
                         new String[]
@@ -183,11 +189,32 @@ public class Command_tag extends FreedomCommand
             }
             else if (args[0].equalsIgnoreCase("gradient"))
             {
+                if (senderIsConsole)
+                {
+                    msg("\"/tag gradient\" can't be used from the console.");
+                    return true;
+                }
+
+                String from = "", to = "";
                 java.awt.Color awt1, awt2;
                 try
                 {
-                    awt1 = java.awt.Color.decode(args[1]);
-                    awt2 = java.awt.Color.decode(args[2]);
+                    if (args[1].equalsIgnoreCase("random") ||
+                            args[1].equalsIgnoreCase("r"))
+                    {
+                        awt1 = FUtil.getRandomAWTColor();
+                        from = " (From: " + FUtil.getHexStringOfAWTColor(awt1) + ")";
+                    }
+                    else
+                        awt1 = java.awt.Color.decode(args[1]);
+                    if (args[2].equalsIgnoreCase("random") ||
+                            args[2].equalsIgnoreCase("r"))
+                    {
+                        awt2 = FUtil.getRandomAWTColor();
+                        to = " (To: " + FUtil.getHexStringOfAWTColor(awt2) + ")";
+                    }
+                    else
+                        awt2 = java.awt.Color.decode(args[2]);
                 }
                 catch (NumberFormatException ex)
                 {
@@ -233,7 +260,7 @@ public class Command_tag extends FreedomCommand
                 {
                     save(playerSender, tag);
                 }
-                msg("Tag set to '" + outputTag + ChatColor.GRAY + "'." + (save ? " (Saved)" : ""));
+                msg("Tag set to '" + outputTag + ChatColor.GRAY + "'." + (save ? " (Saved)" : "") + from + to);
 
                 return true;
             }

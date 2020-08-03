@@ -42,28 +42,25 @@ public class Command_unmute extends FreedomCommand
         }
 
         FPlayer playerdata = plugin.pl.getPlayer(player);
-        if (plugin.al.isAdmin(player))
-        {
-            msg(player.getName() + " is an admin, and can't be muted.");
-            return true;
-        }
-
         if (playerdata.isMuted())
         {
             playerdata.setMuted(false);
-            msg(player, "You have been unmuted.", ChatColor.RED);
             player.sendTitle(ChatColor.RED + "You've been unmuted.", ChatColor.YELLOW + "Be sure to follow the rules!", 20, 100, 60);
-            if (!quiet)
+
+            if (quiet)
             {
-                FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
+                msg("Unmuted " + player.getName() + " quietly");
+                return true;
             }
-            return true;
+
+            FUtil.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
+            msg("Unmuted " + player.getName());
+            msg(player, "You have been unmuted.", ChatColor.RED);
         }
         else
         {
             msg(ChatColor.RED + "That player is not muted.");
         }
-
         return true;
     }
 }

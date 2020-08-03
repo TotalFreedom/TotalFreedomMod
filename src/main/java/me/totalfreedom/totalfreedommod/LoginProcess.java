@@ -31,7 +31,7 @@ public class LoginProcess extends FreedomService
     public static final Pattern USERNAME_REGEX = Pattern.compile("^[\\w\\d_]{3,20}$");
     public List<String> TELEPORT_ON_JOIN = new ArrayList<>();
     public List<String> CLEAR_ON_JOIN = new ArrayList<>();
-    //
+
     @Getter
     @Setter
     private static boolean lockdownEnabled = false;
@@ -188,7 +188,7 @@ public class LoginProcess extends FreedomService
         final Player player = event.getPlayer();
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
         final PlayerData playerData = plugin.pl.getData(player);
-        
+
         player.sendTitle(FUtil.colorize(ConfigEntry.SERVER_LOGIN_TITLE.getString()), FUtil.colorize(ConfigEntry.SERVER_LOGIN_SUBTITLE.getString()), 20, 100, 60);
         player.setOp(true);
 
@@ -226,14 +226,6 @@ public class LoginProcess extends FreedomService
             player.setPlayerListFooter(FUtil.colorize(ConfigEntry.SERVER_TABLIST_FOOTER.getString()).replace("\\n", "\n"));
         }
 
-        for (Player p : plugin.al.vanished)
-        {
-            if (!plugin.al.isAdmin(player))
-            {
-                player.hidePlayer(plugin, p);
-            }
-        }
-
         if (!plugin.al.isAdmin(player))
         {
             String tag = playerData.getTag();
@@ -241,6 +233,7 @@ public class LoginProcess extends FreedomService
             {
                 fPlayer.setTag(FUtil.colorize(tag));
             }
+
             int noteCount = playerData.getNotes().size();
             if (noteCount != 0)
             {
@@ -274,7 +267,6 @@ public class LoginProcess extends FreedomService
                     FUtil.playerMsg(player, "Warning: Server is currenty in lockdown-mode, new players will not be able to join!", ChatColor.RED);
                 }
             }
-        }.runTaskLater(plugin, 20L * 1L);
+        }.runTaskLater(plugin, 20L);
     }
-
 }

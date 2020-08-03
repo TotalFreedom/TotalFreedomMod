@@ -1,7 +1,6 @@
 package me.totalfreedom.totalfreedommod;
 
 import com.google.common.base.Strings;
-import java.util.Date;
 import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
@@ -55,7 +54,7 @@ public class ChatManager extends FreedomService
         message = FUtil.colorize(message);
         message = message.replaceAll(ChatColor.MAGIC.toString(), "&k");
 
-        if (ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean() && !plugin.sh.reactionString.isEmpty() && message.equals(plugin.sh.reactionString))
+        if (ConfigEntry.SHOP_ENABLED.getBoolean() && ConfigEntry.SHOP_REACTIONS_ENABLED.getBoolean() && !plugin.sh.reactionString.isEmpty() && message.equals(plugin.sh.reactionString))
         {
             event.setCancelled(true);
             PlayerData data = plugin.pl.getData(player);
@@ -73,19 +72,12 @@ public class ChatManager extends FreedomService
             return;
         }
 
-        if (message.startsWith("Connected using PickaxeChat for "))
-        {
-            event.setCancelled(true);
-            return;
-        }
-        
         // Truncate messages that are too long - 256 characters is vanilla client max
         if (message.length() > 256)
         {
             message = message.substring(0, 256);
             FSync.playerMsg(player, "Message was shortened because it was too long to send.");
         }
-
 
         final FPlayer fPlayer = plugin.pl.getPlayerSync(player);
         if (fPlayer.isLockedUp())
@@ -144,7 +136,7 @@ public class ChatManager extends FreedomService
         event.setFormat(format);
 
         // Send to discord
-        if (!ConfigEntry.ADMIN_ONLY_MODE.getBoolean() && !Bukkit.hasWhitelist())
+        if (!ConfigEntry.ADMIN_ONLY_MODE.getBoolean() && !Bukkit.hasWhitelist() && !plugin.pl.getPlayer(player).isMuted() && !plugin.tfg.inGuildChat(player))
         {
             plugin.dc.messageChatChannel(plugin.dc.deformat(player.getName()) + " \u00BB " + ChatColor.stripColor(message));
         }

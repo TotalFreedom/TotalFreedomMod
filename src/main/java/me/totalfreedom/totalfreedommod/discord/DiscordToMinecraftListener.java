@@ -1,14 +1,17 @@
 package me.totalfreedom.totalfreedommod.discord;
 
+import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.rank.Title;
-import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class DiscordToMinecraftListener extends ListenerAdapter
 {
@@ -27,7 +30,14 @@ public class DiscordToMinecraftListener extends ListenerAdapter
                     message += " " + tag;
                 }
                 message += " " + ChatColor.RED + ChatColor.stripColor(member.getEffectiveName()) + ChatColor.DARK_GRAY + ": " + ChatColor.RESET + ChatColor.stripColor(event.getMessage().getContentDisplay());
-                FUtil.bcastMsg(message);
+                for (Player player : Bukkit.getOnlinePlayers())
+                {
+                    if (TotalFreedomMod.getPlugin().pl.getData(player).doesDisplayDiscord())
+                    {
+                        player.sendMessage(message);
+                    }
+                }
+                FLog.info(message);
             }
         }
     }

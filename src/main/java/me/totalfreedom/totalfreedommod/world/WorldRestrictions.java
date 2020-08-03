@@ -60,6 +60,11 @@ public class WorldRestrictions extends FreedomService
             }
         }
 
+        if (!plugin.al.isAdmin(player) && player.getWorld().equals(plugin.wm.adminworld.getWorld()))
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -131,15 +136,17 @@ public class WorldRestrictions extends FreedomService
                for obtaining a list of a plugin's commands are returning null for world edit. */
             String command = event.getMessage().split("\\s+")[0].substring(1, event.getMessage().split("\\s+")[0].length()).toLowerCase();
 
+            String allowed = player.getWorld().equals(plugin.wm.adminworld.getWorld()) ? "Admins" : "Master Builders";
+
             if (command.startsWith("/") || BLOCKED_WORLDEDIT_COMMANDS.contains(command))
             {
-                player.sendMessage(ChatColor.RED + "Only Master Builders are allowed to use WorldEdit here.");
+                player.sendMessage(ChatColor.RED + "Only " + allowed + " are allowed to use WorldEdit here.");
                 event.setCancelled(true);
             }
 
             if (command.equals("coreprotect") || command.equals("core") || command.equals("co"))
             {
-                player.sendMessage(ChatColor.RED + "Only Master Builders are allowed to use CoreProtect here.");
+                player.sendMessage(ChatColor.RED + "Only " + allowed + " are allowed to use CoreProtect here.");
                 event.setCancelled(true);
             }
         }

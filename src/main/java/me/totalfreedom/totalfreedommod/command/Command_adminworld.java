@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.world.WorldTime;
 import me.totalfreedom.totalfreedommod.world.WorldWeather;
 import org.bukkit.World;
@@ -13,15 +12,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Allows for admins to configure guests, time, and weather of the AdminWorld, and allows for admins and guests to go to the AdminWorld.",
-        usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | rain | storm>]",
+@CommandParameters(description = "Allows for admins to configure time, and weather of the AdminWorld, and allows for admins and ops to go to the AdminWorld.",
+        usage = "/<command> [time <morning | noon | evening | night> | weather <off | rain | storm>]",
         aliases = "aw")
 public class Command_adminworld extends FreedomCommand
 {
 
     private enum CommandMode
     {
-        TELEPORT, GUEST, TIME, WEATHER
+        TELEPORT, TIME, WEATHER
     }
 
     @Override
@@ -35,11 +34,7 @@ public class Command_adminworld extends FreedomCommand
         }
         else if (args.length >= 2)
         {
-            if ("guest".equalsIgnoreCase(args[0]))
-            {
-                commandMode = CommandMode.GUEST;
-            }
-            else if ("time".equalsIgnoreCase(args[0]))
+            if ("time".equalsIgnoreCase(args[0]))
             {
                 commandMode = CommandMode.TIME;
             }
@@ -62,7 +57,7 @@ public class Command_adminworld extends FreedomCommand
                 {
                     if (!(sender instanceof Player) || playerSender == null)
                     {
-                        return true;
+                        return false;
                     }
 
                     World adminWorld = null;
@@ -81,77 +76,8 @@ public class Command_adminworld extends FreedomCommand
                     }
                     else
                     {
-                        if (plugin.wm.adminworld.canAccessWorld(playerSender))
-                        {
-                            msg("Going to the AdminWorld.");
-                            plugin.wm.adminworld.sendToWorld(playerSender);
-                        }
-                        else
-                        {
-                            msg("You don't have permission to access the AdminWorld.");
-                        }
-                    }
-
-                    break;
-                }
-                case GUEST:
-                {
-                    if (args.length == 2)
-                    {
-                        if ("list".equalsIgnoreCase(args[1]))
-                        {
-                            msg("AdminWorld guest list: " + plugin.wm.adminworld.guestListToString());
-                        }
-                        else if ("purge".equalsIgnoreCase(args[1]))
-                        {
-                            assertCommandPerms(sender, playerSender);
-                            plugin.wm.adminworld.purgeGuestList();
-                            FUtil.adminAction(sender.getName(), "AdminWorld guest list purged.", false);
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                    else if (args.length == 3)
-                    {
-                        assertCommandPerms(sender, playerSender);
-
-                        if ("add".equalsIgnoreCase(args[1]))
-                        {
-                            final Player player = getPlayer(args[2]);
-
-                            if (player == null)
-                            {
-                                sender.sendMessage(FreedomCommand.PLAYER_NOT_FOUND);
-                                return true;
-                            }
-
-                            if (plugin.wm.adminworld.addGuest(player, playerSender))
-                            {
-                                FUtil.adminAction(sender.getName(), "AdminWorld guest added: " + player.getName(), false);
-                            }
-                            else
-                            {
-                                msg("Could not add player to guest list.");
-                            }
-                        }
-                        else if ("remove".equals(args[1]))
-                        {
-                            final Player player = plugin.wm.adminworld.removeGuest(args[2]);
-                            if (player != null)
-                            {
-                                FUtil.adminAction(sender.getName(), "AdminWorld guest removed: " + player.getName(), false);
-                            }
-                            else
-                            {
-                                msg("Can't find guest entry for: " + args[2]);
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        msg("Going to the AdminWorld.");
+                        plugin.wm.adminworld.sendToWorld(playerSender);
                     }
 
                     break;
@@ -257,15 +183,11 @@ public class Command_adminworld extends FreedomCommand
         }
         if (args.length == 1)
         {
-            return Arrays.asList("guest", "time", "weather");
+            return Arrays.asList("time", "weather");
         }
         else if (args.length == 2)
         {
-            if (args[0].equals("guest"))
-            {
-                return Arrays.asList("add", "remove", "list", "purge");
-            }
-            else if (args[0].equals("time"))
+            if (args[0].equals("time"))
             {
                 return Arrays.asList("morning", "noon", "evening", "night");
             }
@@ -274,21 +196,6 @@ public class Command_adminworld extends FreedomCommand
                 return Arrays.asList("off", "rain", "storm");
             }
         }
-        else if (args.length == 3)
-        {
-            if (args[0].equals("guest"))
-            {
-                if (args[1].equals("add"))
-                {
-                    return FUtil.getPlayerList();
-                }
-                else if (args[1].equals("remove"))
-                {
-                    return plugin.wm.adminworld.getGuestList();
-                }
-            }
-        }
         return Collections.emptyList();
     }
-
 }

@@ -73,12 +73,16 @@ public class Command_blockcmd extends FreedomCommand
         }
 
         FPlayer playerdata = plugin.pl.getPlayer(player);
-
-        playerdata.setCommandsBlocked(!playerdata.allCommandsBlocked());
-
-        FUtil.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all commands for " + player.getName(), true);
-        msg((playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
-
+        if (!playerdata.allCommandsBlocked())
+        {
+            playerdata.setCommandsBlocked(true);
+            FUtil.adminAction(sender.getName(), "Blocking all commands for " + player.getName(), true);
+            msg("Blocked commands for " + player.getName() + ".");
+        }
+        else
+        {
+            msg("That players commands are already blocked.", ChatColor.RED);
+        }
         return true;
     }
 }

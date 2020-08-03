@@ -18,7 +18,7 @@
 
     <name>TotalFreedomMod</name>
     <description>Server modification for the TotalFreedom server</description>
-    <url>https://github.com/TotalFreedom/TotalFreedomMod</url>
+    <url>https://github.com/TFPatches/TotalFreedomMod</url>
 
     <licenses>
         <license>
@@ -42,6 +42,11 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+        </repository>
+
+        <repository>
+            <id>CodeMC</id>
+            <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
 
         <repository>
@@ -105,7 +110,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.0</version>
+            <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
 
@@ -232,11 +237,16 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.10</version>
+            <groupId>com.github.speedxx</groupId>
+            <artifactId>TFGuilds</artifactId>
+            <version>master</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -253,7 +263,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <outputFileName>TotalFreedomMod.jar</outputFileName>
                     <compilerVersion>1.8</compilerVersion>
@@ -266,7 +276,7 @@
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.2.5</version>
+                <version>4.0.1</version>
                 <executions>
                     <execution>
                         <id>get-the-git-infos</id>
@@ -379,30 +389,30 @@
 
             <!-- Shade -->
             <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.4</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                    <configuration>
-                        <minimizeJar>true</minimizeJar>
-                        <artifactSet>
-                            <includes>
-                                <include>commons-io:commons-io</include>
-                                <include>org.apache.commons:commons-lang3</include>
-                                <include>commons-codec:commons-codec</include>
-                                <include>org.reflections:reflections</include>
-                                <include>javassist:javassist</include>
-                            </includes>
-                        </artifactSet>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <minimizeJar>true</minimizeJar>
+                            <artifactSet>
+                                <includes>
+                                    <include>commons-io:commons-io</include>
+                                    <include>org.apache.commons:commons-lang3</include>
+                                    <include>commons-codec:commons-codec</include>
+                                    <include>org.reflections:reflections</include>
+                                    <include>javassist:javassist</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -412,7 +422,7 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <version>2.17</version>
+                <version>3.1.1</version>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>

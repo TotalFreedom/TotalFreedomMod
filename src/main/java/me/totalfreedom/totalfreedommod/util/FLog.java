@@ -26,6 +26,15 @@ public class FLog
         log(Level.INFO, ex);
     }
 
+    // Fuck spigot for not using log4j, we would of had a debug log level if they did
+    public static void debug(String message)
+    {
+        if (FUtil.inDeveloperMode())
+        {
+            log(Level.INFO, "\u001B[35m[TotalFreedomMod | DEBUG] " + message + "\u001B[0m", true);
+        }
+    }
+
     // Level.WARNING:
     public static void warning(String message)
     {

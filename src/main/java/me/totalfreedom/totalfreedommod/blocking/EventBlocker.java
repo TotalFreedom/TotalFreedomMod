@@ -208,7 +208,8 @@ public class EventBlocker extends FreedomService
     // TODO: Revert back to old redstone block system when (or if) it is fixed in Bukkit, Spigot or Paper.
     private ArrayList<Material> redstoneBlocks = new ArrayList<>(Arrays.asList(Material.REDSTONE, Material.DISPENSER, Material.DROPPER, Material.REDSTONE_LAMP));
     @EventHandler
-    public void onBlockPhysics(BlockPhysicsEvent event) {
+    public void onBlockPhysics(BlockPhysicsEvent event)
+    {
         if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
         {
             // Check if the block is involved with redstone.

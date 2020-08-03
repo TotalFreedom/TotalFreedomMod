@@ -11,7 +11,6 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.shop.ShopItem;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -43,13 +42,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 public class ItemFun extends FreedomService
 {
 
-    public List<Player> explosivePlayers = new ArrayList<Player>();
+    public List<Player> explosivePlayers = new ArrayList<>();
 
     private final Random random = new Random();
 
@@ -71,7 +69,7 @@ public class ItemFun extends FreedomService
         {
             cooldownTracker.get(player.getName()).add(item.getDataName());
         }
-        BukkitTask thing = new BukkitRunnable()
+        new BukkitRunnable()
         {
             @Override
             public void run()
@@ -105,21 +103,35 @@ public class ItemFun extends FreedomService
     {
 
         Player player = event.getPlayer();
-
         Entity entity = event.getRightClicked();
 
-        if (!player.getInventory().getItemInMainHand().getType().equals(Material.POTATO) || entity.getType().equals(EntityType.PLAYER))
+        if (player.getInventory().getItemInMainHand().getType().equals(Material.POTATO) || entity.getType().equals(EntityType.PLAYER))
         {
+            if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory().getItemInMainHand(), plugin.sh.getStackingPotato()))
+            {
+                player.addPassenger(entity);
+                player.sendMessage("Stacked " + entity.getName());
+            }
+        }
+
+        if (onCooldown(player, ShopItem.MAGICAL_SADDLE))
+        {
+            player.sendMessage(ChatColor.RED + "You're currently on a cool-down for 15 seconds.");
             return;
         }
 
-        if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory().getItemInMainHand(), plugin.sh.getStackingPotato()))
+        if (player.getInventory().getItemInMainHand().getType().equals(Material.SADDLE) || player.getInventory().getItemInOffHand().getType().equals(Material.SADDLE) || entity.getType().equals(EntityType.PLAYER))
         {
-            return;
+            if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.MAGICAL_SADDLE, player.getInventory().getItemInMainHand(), plugin.sh.getMagicalSaddle()) || plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.MAGICAL_SADDLE, player.getInventory().getItemInOffHand(), plugin.sh.getMagicalSaddle()))
+            {
+                entity.addPassenger(player);
+                cooldown(player, ShopItem.MAGICAL_SADDLE, 15);
+                if (entity instanceof Player)
+                {
+                    entity.sendMessage(ChatColor.GRAY + player.getName() + " is now riding you, run /eject to eject them.");
+                }
+            }
         }
-
-        player.addPassenger(entity);
-        player.sendMessage("Stacked " + entity.getName());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -210,7 +222,7 @@ public class ItemFun extends FreedomService
 
                 if (onCooldown(player, ShopItem.LIGHTNING_ROD))
                 {
-                    player.sendMessage(ChatColor.RED + "You're are currently on a cooldown for 10 seconds.");
+                    player.sendMessage(ChatColor.RED + "You're currently on a cool-down for 10 seconds.");
                     break;
                 }
 
@@ -234,7 +246,7 @@ public class ItemFun extends FreedomService
 
                 if (onCooldown(player, ShopItem.FIRE_BALL))
                 {
-                    player.sendMessage(ChatColor.RED + "You're are currently on a cool-down for 5 seconds.");
+                    player.sendMessage(ChatColor.RED + "You're currently on a cool-down for 5 seconds.");
                     break;
                 }
 
@@ -245,6 +257,7 @@ public class ItemFun extends FreedomService
                 cooldown(player, ShopItem.FIRE_BALL, 5);
                 break;
             }
+
             case TROPICAL_FISH:
             {
                 final int RADIUS_HIT = 5;
@@ -257,7 +270,7 @@ public class ItemFun extends FreedomService
 
                 if (onCooldown(player, ShopItem.CLOWN_FISH))
                 {
-                    player.sendMessage(ChatColor.RED + "You're are currently on a cool-down for 30 seconds.");
+                    player.sendMessage(ChatColor.RED + "You're currently on a cool-down for 30 seconds.");
                     break;
                 }
 
@@ -451,5 +464,4 @@ public class ItemFun extends FreedomService
             }
         }
     }
-
 }

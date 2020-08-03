@@ -64,7 +64,14 @@ public class Command_entitywipe extends FreedomCommand
         {
             count = plugin.ew.wipeEntities(bypassBlacklist);
         }
-        msg(count + " " + (type != null ? entityName : "entities") + FUtil.showS(count) + " removed.");
+        if (count == 1)
+        {
+            msg(count + " " + (type != null ? entityName : "entity") + " removed.");
+        }
+        else
+        {
+            msg(count + " " + (type != null ? entityName : "entitie") + FUtil.showS(count) + " removed.");
+        }
         return true;
     }
 

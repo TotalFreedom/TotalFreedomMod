@@ -63,40 +63,6 @@ public class WorldManager extends FreedomService
         hubworld.getWorld().save();
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPlayerTeleport(PlayerTeleportEvent event)
-    {
-        final Player player = event.getPlayer();
-        final FPlayer fPlayer = plugin.pl.getPlayer(player);
-        if (!plugin.al.isAdmin(player) && fPlayer.getFreezeData().isFrozen())
-        {
-            return; // Don't process adminworld validation
-        }
-
-        adminworld.validateMovement(event);
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPlayerMove(PlayerMoveEvent event)
-    {
-        final Location from = event.getFrom();
-        final Location to = event.getTo();
-
-        try
-        {
-            if (from.getWorld() == to.getWorld() && from.distanceSquared(to) < (0.0002 * 0.0002))
-            {
-                // If player just rotated, but didn't move, don't process this event.
-                return;
-            }
-        }
-        catch (IllegalArgumentException ex)
-        {
-        }
-
-        adminworld.validateMovement(event);
-    }
-
     @EventHandler(priority = EventPriority.HIGH)
     public void onThunderChange(ThunderChangeEvent event)
     {

@@ -15,7 +15,6 @@ public class Command_spectate extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
         if (args.length == 0)
         {
             return false;
@@ -39,8 +38,12 @@ public class Command_spectate extends FreedomCommand
             playerSender.setGameMode(GameMode.SPECTATOR);
         }
 
-        playerSender.setSpectatorTarget(player);
+        if (playerSender.getWorld() != player.getWorld())
+        {
+            playerSender.teleport(player);
+        }
 
+        playerSender.setSpectatorTarget(player);
         return true;
     }
 }

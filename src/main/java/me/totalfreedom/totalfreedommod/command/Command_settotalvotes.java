@@ -46,6 +46,8 @@ public class Command_settotalvotes extends FreedomCommand
             return true;
         }
 
+        msg("Set " + args[1] + "'s votes to " + args[0]);
+
         playerData.setTotalVotes(votes);
         plugin.pl.save(playerData);
 

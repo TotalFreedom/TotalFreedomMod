@@ -3,8 +3,11 @@ package me.totalfreedom.totalfreedommod.command;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
+import me.totalfreedom.totalfreedommod.util.FLog;
+import org.reflections.Reflections;
 
 public class CommandLoader extends FreedomService
 {
@@ -50,6 +53,26 @@ public class CommandLoader extends FreedomService
                 return true;
         }
         return false;
+    }
+
+    public void loadCommands()
+    {
+        Reflections commandDir = new Reflections("me.totalfreedom.totalfreedommod.command");
+
+        Set<Class<? extends FreedomCommand>> commandClasses = commandDir.getSubTypesOf(FreedomCommand.class);
+
+        for (Class<? extends FreedomCommand> commandClass : commandClasses)
+        {
+            try
+            {
+                FLog.debug("Loading command class " + commandClass.getSimpleName());
+                add(commandClass.newInstance());
+            }
+            catch (InstantiationException | IllegalAccessException | ExceptionInInitializerError ex)
+            {
+                FLog.warning("Failed to register command: /" + commandClass.getSimpleName().replace("Command_" , ""));
+            }
+        }
     }
 
     public int getCommandAmount()

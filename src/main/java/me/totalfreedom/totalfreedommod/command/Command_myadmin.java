@@ -153,9 +153,9 @@ public class Command_myadmin extends FreedomCommand
                     return true;
                 }
                 int length = message.replace("%name%", "").replace("%rank%", "").replace("%coloredrank%", "").length();
-                if (length > 64)
+                if (length > 100)
                 {
-                    msg("Your login message cannot be more than 64 characters (excluding your rank and your name)", ChatColor.RED);
+                    msg("Your login message cannot be more than 100 characters (excluding your rank and your name)", ChatColor.RED);
                     return true;
                 }
                 FUtil.adminAction(sender.getName(), "Setting personal login message" + (init == null ? "" : " for " + targetPlayer.getName()), false);

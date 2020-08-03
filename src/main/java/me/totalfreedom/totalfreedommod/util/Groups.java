@@ -3,10 +3,12 @@ package me.totalfreedom.totalfreedommod.util;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.EntityType;
 
 public class Groups
 {
+
     public static final List<Material> WOOL_COLORS = Arrays.asList(
             Material.WHITE_WOOL,
             Material.RED_WOOL,
@@ -24,6 +26,7 @@ public class Groups
             Material.GRAY_WOOL,
             Material.LIGHT_GRAY_WOOL,
             Material.BLACK_WOOL);
+
     public static final List<Material> SHULKER_BOXES = Arrays.asList(
             Material.SHULKER_BOX,
             Material.WHITE_SHULKER_BOX,
@@ -101,6 +104,7 @@ public class Groups
             EntityType.WITCH,
             EntityType.WITHER_SKELETON,
             EntityType.WOLF,
+            EntityType.ZOGLIN,
             EntityType.ZOMBIE,
             EntityType.ZOMBIE_HORSE,
             EntityType.ZOMBIFIED_PIGLIN,
@@ -138,6 +142,7 @@ public class Groups
             Material.PARROT_SPAWN_EGG,
             Material.PHANTOM_SPAWN_EGG,
             Material.PIG_SPAWN_EGG,
+            Material.PIGLIN_SPAWN_EGG,
             Material.PILLAGER_SPAWN_EGG,
             Material.POLAR_BEAR_SPAWN_EGG,
             Material.PUFFERFISH_SPAWN_EGG,
@@ -164,6 +169,7 @@ public class Groups
             Material.WITCH_SPAWN_EGG,
             Material.WITHER_SKELETON_SPAWN_EGG,
             Material.WOLF_SPAWN_EGG,
+            Material.ZOGLIN_SPAWN_EGG,
             Material.ZOMBIE_SPAWN_EGG,
             Material.ZOMBIE_HORSE_SPAWN_EGG,
             Material.ZOMBIFIED_PIGLIN_SPAWN_EGG,
@@ -203,21 +209,15 @@ public class Groups
             Material.YELLOW_BANNER,
             Material.YELLOW_WALL_BANNER);
 
-    public static final List<Material> BED_COLORS = Arrays.asList(
-            Material.WHITE_BED,
-            Material.RED_BED,
-            Material.ORANGE_BED,
-            Material.YELLOW_BED,
-            Material.GREEN_BED,
-            Material.LIME_BED,
-            Material.LIGHT_BLUE_BED,
-            Material.CYAN_BED,
-            Material.BLUE_BED,
-            Material.PURPLE_BED,
-            Material.MAGENTA_BED,
-            Material.PINK_BED,
-            Material.BROWN_BED,
-            Material.GRAY_BED,
-            Material.LIGHT_GRAY_BED,
-            Material.BLACK_BED);
+    public static final List<Biome> EXPLOSIVE_BED_BIOMES = Arrays.asList(
+            Biome.NETHER_WASTES,
+            Biome.CRIMSON_FOREST,
+            Biome.SOUL_SAND_VALLEY,
+            Biome.WARPED_FOREST,
+            Biome.BASALT_DELTAS,
+            Biome.END_BARRENS,
+            Biome.END_HIGHLANDS,
+            Biome.END_MIDLANDS,
+            Biome.THE_END,
+            Biome.SMALL_END_ISLANDS);
 }

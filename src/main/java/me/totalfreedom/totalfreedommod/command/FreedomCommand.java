@@ -131,7 +131,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
                     return true;
                 }
 
-                if (perms.blockHostConsole() && FUtil.isFromHostConsole(sender.getName()))
+                if (perms.blockHostConsole() && FUtil.isFromHostConsole(sender.getName()) && !FUtil.inDeveloperMode())
                 {
                     msg(ChatColor.RED + "Host console is not allowed to use this command!");
                     return true;
@@ -303,9 +303,12 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
     protected Player getPlayer(String name, Boolean nullVanished)
     {
         Player player = Bukkit.getPlayer(name);
-        if (nullVanished && plugin.al.vanished.contains(player) && !plugin.al.isAdmin(sender))
+        if (player != null)
         {
-            return null;
+            if (nullVanished && plugin.al.isVanished(player.getName()) && !plugin.al.isAdmin(sender))
+            {
+                return null;
+            }
         }
         return player;
     }

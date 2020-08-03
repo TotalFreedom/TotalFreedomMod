@@ -124,6 +124,7 @@ shop:
     rideable_pearl: 700
     stacking_potato: 300
     clown_fish: 1500
+    magical_saddle: 250
 
 # Admin list
 adminlist:
@@ -485,3 +486,6 @@ autokick:
   
 # Blocked Chat Codes - Use &code,&code2,&code3 (No spaces)
 blocked_chatcodes: '&0,&k,&m,&n'
+
+# Enables certain things like debug logs and console bypasses
+developer_mode: false

@@ -34,7 +34,7 @@ public class MainConfig extends FreedomService
 
     }
 
-    public MainConfig(TotalFreedomMod plugin)
+    public MainConfig()
     {
         entries = new EnumMap<>(ConfigEntry.class);
 

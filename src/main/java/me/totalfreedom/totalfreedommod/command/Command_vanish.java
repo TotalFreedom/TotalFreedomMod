@@ -1,16 +1,18 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
@@ -23,7 +25,6 @@ public class Command_vanish extends FreedomCommand
         Displayable display = plugin.rm.getDisplay(playerSender);
         String displayName = display.getColor() + playerSender.getName();
         String tag = display.getColoredTag();
-        Admin admin = plugin.al.getAdmin(playerSender);
         boolean silent = false;
         if (args.length > 0)
         {
@@ -32,42 +33,70 @@ public class Command_vanish extends FreedomCommand
                 silent = true;
             }
         }
-        if (plugin.al.vanished.contains(playerSender))
+
+        if (plugin.al.isVanished(playerSender.getName()))
         {
-            msg(ChatColor.GOLD + "You have been unvanished.");
-            if (!silent)
+            if (silent)
             {
+                msg(ChatColor.GOLD + "Silently unvanished.");
+            }
+            else
+            {
+                msg("You have unvanished.", ChatColor.GOLD);
                 FUtil.bcastMsg(plugin.rm.craftLoginMessage(playerSender, null));
                 FUtil.bcastMsg(playerSender.getName() + " joined the game.", ChatColor.YELLOW);
                 plugin.dc.messageChatChannel("**" + playerSender.getName() + " joined the server" + "**");
             }
+
             PlayerData playerData = plugin.pl.getData(playerSender);
             if (playerData.getTag() != null)
             {
                 tag = FUtil.colorize(playerData.getTag());
             }
+
             plugin.pl.getData(playerSender).setTag(tag);
             FLog.info(playerSender.getName() + " is no longer vanished.");
+
             for (Player player : server.getOnlinePlayers())
             {
                 if (plugin.al.isAdmin(player))
                 {
                     playerMsg(player, ChatColor.YELLOW + sender.getName() + " has unvanished and is now visible to everyone.");
+                }
+                if (!plugin.al.isAdmin(player))
+                {
                     player.showPlayer(plugin, playerSender);
                 }
             }
             plugin.esb.setVanished(playerSender.getName(), false);
             playerSender.setPlayerListName(StringUtils.substring(displayName, 0, 16));
-            plugin.al.vanished.remove(playerSender);
+            plugin.al.vanished.remove(playerSender.getName());
         }
         else
         {
-            msg("You have been vanished.", ChatColor.GOLD);
-            if (!silent)
+            new BukkitRunnable()
             {
+                @Override
+                public void run()
+                {
+                    if (plugin.al.isVanished(playerSender.getName()))
+                    {
+                        playerSender.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "You are hidden from other players."));
+                    }
+                }
+            }.runTaskTimer(plugin, 0L, 4L);
+
+            if (silent)
+            {
+                msg("Silently vanished.", ChatColor.GOLD);
+            }
+            else
+            {
+                msg ("You have vanished.", ChatColor.GOLD);
                 FUtil.bcastMsg(playerSender.getName() + " left the game.", ChatColor.YELLOW);
                 plugin.dc.messageChatChannel("**" + playerSender.getName() + " left the server" + "**");
             }
+
             FLog.info(playerSender.getName() + " is now vanished.");
             for (Player player : server.getOnlinePlayers())
             {
@@ -82,8 +111,9 @@ public class Command_vanish extends FreedomCommand
                     }
                 }
             }
+
             plugin.esb.setVanished(playerSender.getName(), true);
-            plugin.al.vanished.add(playerSender);
+            plugin.al.vanished.add(playerSender.getName());
         }
         return true;
     }

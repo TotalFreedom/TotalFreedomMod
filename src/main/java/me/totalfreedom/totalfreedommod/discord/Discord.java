@@ -49,6 +49,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Discord extends FreedomService
 {
+    
     public static HashMap<String, PlayerData> LINK_CODES = new HashMap<>();
     public static HashMap<String, PlayerData> VERIFICATION_CODES = new HashMap<>();
     public ScheduledThreadPoolExecutor RATELIMIT_EXECUTOR;
@@ -253,13 +254,19 @@ public class Discord extends FreedomService
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        messageChatChannel("**" + deformat(event.getPlayer().getName()) + " joined the server" + "**");
+        if (!plugin.al.isVanished(event.getPlayer().getName()))
+        {
+            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " joined the server" + "**");
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLeave(PlayerQuitEvent event)
     {
-        messageChatChannel("**" + deformat(event.getPlayer().getName()) + " left the server" + "**");
+        if (!plugin.al.isVanished(event.getPlayer().getName()))
+        {
+            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " left the server" + "**");
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -292,6 +299,12 @@ public class Discord extends FreedomService
         {
             message = StringUtils.remove(message, "@");
         }
+
+        if (message.toLowerCase().contains("discord.gg"))
+        {
+            return;
+        }
+
         if (enabled && !chat_channel_id.isEmpty())
         {
             CompletableFuture<Message> sentMessage = bot.getTextChannelById(chat_channel_id).sendMessage(message).submit(true);
