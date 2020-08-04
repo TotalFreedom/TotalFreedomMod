@@ -35,7 +35,6 @@ public class SQLite extends FreedomService
 
     public void connect()
     {
-
         try
         {
             connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder() + "/" + FILE_NAME);

@@ -44,6 +44,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Discord extends FreedomService
 {
@@ -272,6 +274,18 @@ public class Discord extends FreedomService
         startBot();
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerJoin(PlayerJoinEvent event)
+    {
+        messageChatChannel("**" + deformat(event.getPlayer().getName()) + " joined the server" + "**");
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerLeave(PlayerQuitEvent event)
+    {
+        messageChatChannel("**" + deformat(event.getPlayer().getName()) + " left the server" + "**");
+    }
+
     public void messageChatChannel(String message)
     {
         String chat_channel_id = ConfigEntry.DISCORD_CHAT_CHANNEL_ID.getString();
@@ -378,7 +392,7 @@ public class Discord extends FreedomService
         Guild server = bot.getGuildById(ConfigEntry.DISCORD_SERVER_ID.getString());
         if (server == null)
         {
-            FLog.severe("The discord server ID specified is invalid, or the bot is not on the server.");
+            FLog.severe("The Discord server ID specified is invalid, or the bot is not on the server.");
             return false;
         }
 
