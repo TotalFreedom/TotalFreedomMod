@@ -30,9 +30,6 @@ public class WorldRestrictions extends FreedomService
 
     private final Map<Flag<?>, Object> flags = new HashMap<Flag<?>, Object>()
     {{
-        put(Flags.BLOCK_PLACE, StateFlag.State.DENY);
-        put(Flags.BLOCK_BREAK, StateFlag.State.DENY);
-        put(Flags.BUILD, StateFlag.State.DENY);
         put(Flags.PLACE_VEHICLE, StateFlag.State.DENY);
         put(Flags.DESTROY_VEHICLE, StateFlag.State.DENY);
         put(Flags.ENTITY_ITEM_FRAME_DESTROY, StateFlag.State.DENY);
