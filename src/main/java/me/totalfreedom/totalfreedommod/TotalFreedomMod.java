@@ -42,6 +42,7 @@ import me.totalfreedom.totalfreedommod.permissions.PermissionManager;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
+import me.totalfreedom.totalfreedommod.reddit.Reddit;
 import me.totalfreedom.totalfreedommod.shop.Shop;
 import me.totalfreedom.totalfreedommod.shop.Votifier;
 import me.totalfreedom.totalfreedommod.sql.SQLite;
@@ -111,6 +112,7 @@ public class TotalFreedomMod extends JavaPlugin
     public PermbanList pm;
     public PermissionManager pem;
     public ProtectArea pa;
+    public Reddit rd;
     public GameRuleHandler gr;
     public CommandSpy cs;
     public Cager ca;
@@ -229,6 +231,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm = new PermbanList();
         pem = new PermissionManager();
         pa = new ProtectArea();
+        rd = new Reddit();
         gr = new GameRuleHandler();
         snp = new SignBlocker();
         ew = new EntityWiper();
@@ -271,10 +274,7 @@ public class TotalFreedomMod extends JavaPlugin
         fab = new FAWEBridge();
         wgb = new WorldGuardBridge();
 
-        for (FreedomService service : fsh.getServices())
-        {
-            service.onStart();
-        }
+        fsh.startServices();
 
         FLog.info("Started " + fsh.getServiceAmount() + "services.");
 
@@ -301,10 +301,7 @@ public class TotalFreedomMod extends JavaPlugin
     public void onDisable()
     {
         // Stop services and bridges
-        for (FreedomService service : fsh.getServices())
-        {
-            service.onStop();
-        }
+        fsh.stopServices();
 
         getServer().getScheduler().cancelTasks(plugin);
 

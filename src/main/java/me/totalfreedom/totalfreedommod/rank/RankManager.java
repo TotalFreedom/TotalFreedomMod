@@ -192,6 +192,7 @@ public class RankManager extends FreedomService
         fPlayer.setTag(getTag(player, display.getColoredTag()));
         updatePlayerTeam(player);
         plugin.pem.setPermissions(player);
+        plugin.rd.updateFlair(player);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

@@ -43,7 +43,6 @@ public class SQLite extends FreedomService
         catch (SQLException e)
         {
             FLog.severe("Failed to connect to the database: " + e.getMessage());
-            FLog.info("Successfully disconnected from the database.");
         }
     }
 
@@ -83,7 +82,7 @@ public class SQLite extends FreedomService
             {
                 try
                 {
-                    connection.createStatement().execute("CREATE TABLE `admins` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `rank` VARCHAR NOT NULL, `active` BOOLEAN NOT NULL, `last_login` LONG NOT NULL, `login_message` VARCHAR, `command_spy` BOOLEAN NOT NULL, `potion_spy` BOOLEAN NOT NULL, `ac_format` VARCHAR, `old_tags` BOOLEAN NOT NULL, `log_stick` BOOLEAN NOT NULL, `display_discord` BOOLEAN NOT NULL);");
+                    connection.createStatement().execute("CREATE TABLE `admins` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `rank` VARCHAR NOT NULL, `active` BOOLEAN NOT NULL, `last_login` LONG NOT NULL, `login_message` VARCHAR, `command_spy` BOOLEAN NOT NULL, `potion_spy` BOOLEAN NOT NULL, `ac_format` VARCHAR, `old_tags` BOOLEAN NOT NULL, `log_stick` BOOLEAN NOT NULL);");
                 }
                 catch (SQLException e)
                 {
@@ -94,7 +93,7 @@ public class SQLite extends FreedomService
             {
                 try
                 {
-                    connection.createStatement().execute("CREATE TABLE `players` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `notes` VARCHAR, `tag` VARCHAR, `discord_id` VARCHAR, `backup_codes` VARCHAR, `donator` BOOLEAN NOT NULL, `master_builder` BOOLEAN NOT NULL,`verification` BOOLEAN NOT NULL, `ride_mode` VARCHAR NOT NULL, `coins` INT NOT NULL, `items` VARCHAR, `total_votes` INT NOT NULL);");
+                    connection.createStatement().execute("CREATE TABLE `players` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `notes` VARCHAR, `tag` VARCHAR, `discord_id` VARCHAR, `backup_codes` VARCHAR, `donator` BOOLEAN NOT NULL, `master_builder` BOOLEAN NOT NULL,`verification` BOOLEAN NOT NULL, `ride_mode` VARCHAR NOT NULL, `coins` INT NOT NULL, `items` VARCHAR, `total_votes` INT NOT NULL, `display_discord` BOOLEAN NOT NULL, `reddit_username` VARCHAR NOT NULL);");
                 }
                 catch (SQLException e)
                 {
@@ -271,7 +270,7 @@ public class SQLite extends FreedomService
     {
         try
         {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO players VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO players VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, player.getName());
             statement.setString(2, FUtil.listToString(player.getIps()));
             statement.setString(3, FUtil.listToString(player.getNotes()));
@@ -286,6 +285,7 @@ public class SQLite extends FreedomService
             statement.setString(12, FUtil.listToString(player.getItems()));
             statement.setInt(13, player.getTotalVotes());
             statement.setBoolean(14, player.doesDisplayDiscord());
+            statement.setString(15, player.getRedditUsername());
             statement.executeUpdate();
         }
         catch (SQLException e)

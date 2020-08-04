@@ -8,7 +8,7 @@ import me.totalfreedom.totalfreedommod.rank.Rank;
 public @interface CommandPermissions
 {
 
-    Rank level() default Rank.IMPOSTOR;
+    Rank level() default Rank.NON_OP;
 
     SourceType source() default SourceType.BOTH;
 

@@ -35,11 +35,9 @@ public class Command_totalfreedommod extends FreedomCommand
             }
 
             plugin.config.load();
-            for (FreedomService service : plugin.fsh.getServices())
-            {
-                service.onStop();
-                service.onStart();
-            }
+
+            plugin.fsh.stopServices();
+            plugin.fsh.startServices();
 
             final String message = String.format("%s v%s reloaded.",
                     TotalFreedomMod.pluginName,

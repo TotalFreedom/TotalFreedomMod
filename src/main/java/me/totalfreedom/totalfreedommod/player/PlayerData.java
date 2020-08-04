@@ -50,6 +50,9 @@ public class PlayerData
     private int totalVotes;
     @Setter
     private boolean displayDiscord = true;
+    @Getter
+    @Setter
+    private String redditUsername;
 
     public PlayerData(ResultSet resultSet)
     {
@@ -73,6 +76,7 @@ public class PlayerData
             items.addAll(FUtil.stringToList(resultSet.getString("items")));
             totalVotes = resultSet.getInt("total_votes");
             displayDiscord = resultSet.getBoolean("display_discord");
+            redditUsername = resultSet.getString("reddit_username");
         }
         catch (SQLException e)
         {
@@ -108,7 +112,8 @@ public class PlayerData
                 .append("- Display Discord: ").append(displayDiscord).append("\n")
                 .append("- Tag: ").append(FUtil.colorize(tag)).append(ChatColor.GRAY).append("\n")
                 .append("- Ride Mode: ").append(rideMode).append("\n")
-                .append("- Backup Codes: ").append(backupCodes.size()).append("/10").append("\n");
+                .append("- Backup Codes: ").append(backupCodes.size()).append("/10").append("\n")
+                .append("- Reddit Username: ").append(redditUsername);
 
         return output.toString();
     }
@@ -244,6 +249,7 @@ public class PlayerData
             put("items", FUtil.listToString(items));
             put("total_votes", totalVotes);
             put("display_discord", displayDiscord);
+            put("reddit_username", redditUsername);
         }};
         return map;
     }

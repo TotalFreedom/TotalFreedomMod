@@ -83,6 +83,37 @@ discord:
   executive_role_id: ''
   # Owner role ID
   server_owner_role_id: ''
+
+# Reddit
+reddit:
+  # Name of your subreddit (the r/NAME, excluding r/)
+  subreddit_name: 'TotalFreedom'
+  # Username of the bot account
+  username: ''
+  # Bot account password
+  password: ''
+  # Developer app id (Make one at https://www.reddit.com/prefs/apps (make sure the type is script))
+  client_id: ''
+  # Developer app secret
+  client_secret: ''
+  # Donator flair ID
+  donator_flair_id: ''
+  # Master Builder flair ID
+  master_builder_flair_id: ''
+  # Super Admin flair ID
+  super_flair_id: ''
+  # Telnet Admin flair ID
+  telnet_flair_id: ''
+  # Senior Admin flair ID
+  senior_flair_id: ''
+  # Developer flair ID
+  developer_flair_id: ''
+  # Assistant Executive Admin flair ID
+  assistant_executive_flair_id: ''
+  # Executive Admin flair ID
+  executive_flair_id: ''
+  # Owner flair ID
+  server_owner_flair_id: ''
   
 # The shop
 shop:
@@ -124,7 +155,6 @@ shop:
     rideable_pearl: 700
     stacking_potato: 300
     clown_fish: 1500
-    magical_saddle: 250
 
 # Admin list
 adminlist:

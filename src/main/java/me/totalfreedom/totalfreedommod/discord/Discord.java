@@ -104,7 +104,7 @@ public class Discord extends FreedomService
         }
         catch (NoClassDefFoundError e)
         {
-            FLog.warning("The JDA plugin is not installed, therefore the bot cannot start.");
+            FLog.warning("The JDA plugin is not installed, therefore the discord bot cannot start.");
             FLog.warning("To resolve this error, please download the latest JDA from: https://github.com/TFPatches/Minecraft-JDA/releases");
         }
 

@@ -178,15 +178,7 @@ public class PlayerList extends FreedomService
 
         if (plugin.al.isAdminImpostor(player))
         {
-            Admin admin = null;
-            for (Admin loopAdmin : plugin.al.getAllAdmins())
-            {
-                if (loopAdmin.getName().equalsIgnoreCase(player.getName()))
-                {
-                    admin = loopAdmin;
-                    break;
-                }
-            }
+            Admin admin = plugin.al.getEntryByName(player.getName());
             admin.setLastLogin(new Date());
             admin.addIp(FUtil.getIp(player));
             plugin.al.updateTables();

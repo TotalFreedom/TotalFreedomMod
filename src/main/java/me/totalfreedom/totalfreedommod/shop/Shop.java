@@ -21,6 +21,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -166,6 +167,16 @@ public class Shop extends FreedomService
         coins.setItemMeta(meta);
         gui.setItem(35, coins);
         return gui;
+    }
+
+    public boolean isRealItem(PlayerData data, ShopItem shopItem, PlayerInventory inventory, ItemStack realItem)
+    {
+        if (isRealItem(data, shopItem, inventory.getItemInMainHand(), realItem) || isRealItem(data, shopItem, inventory.getItemInOffHand(), realItem))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public boolean isRealItem(PlayerData data, ShopItem shopItem, ItemStack givenItem, ItemStack realItem)
