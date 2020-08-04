@@ -82,10 +82,19 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
     public void register()
     {
         FCommand cmd = new FCommand(this.name);
-        if (this.aliases != null) cmd.setAliases(Arrays.asList(StringUtils.split(this.aliases, ",")));
-        if (this.description != null) cmd.setDescription(this.description);
-        if (this.usage != null) cmd.setUsage(this.usage);
-        getCommandMap().register("", cmd);
+        if (this.aliases != null)
+        {
+            cmd.setAliases(Arrays.asList(StringUtils.split(this.aliases, ",")));
+        }
+        if (this.description != null)
+        {
+            cmd.setDescription(this.description);
+        }
+        if (this.usage != null)
+        {
+            cmd.setUsage(this.usage);
+        }
+        getCommandMap().register("totalfreedommod", cmd);
         cmd.setExecutor(this);
     }
 
@@ -97,7 +106,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
             {
                 final Field f = Bukkit.getServer().getPluginManager().getClass().getDeclaredField("commandMap");
                 f.setAccessible(true);
-                commandMap = (CommandMap) f.get(Bukkit.getServer().getPluginManager());
+                commandMap = (CommandMap)f.get(Bukkit.getServer().getPluginManager());
             }
             catch (Exception e)
             {
@@ -110,10 +119,12 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
     private final class FCommand extends Command
     {
         private FreedomCommand cmd = null;
+
         private FCommand(String command)
         {
             super(command);
         }
+
         public void setExecutor(FreedomCommand cmd)
         {
             this.cmd = cmd;
