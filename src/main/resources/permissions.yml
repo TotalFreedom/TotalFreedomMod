@@ -41,7 +41,7 @@ operators:
   - "libsdisguises.noactionbar"
 
   # WorldGuard
-  - "worldgyardregion.list.own"
+  - "worldguardregion.list.own"
   - "worldguard.region.addmember.own.*"
   - "worldguard.region.removemember.own.*"
   - "worldguard.region.info.*"

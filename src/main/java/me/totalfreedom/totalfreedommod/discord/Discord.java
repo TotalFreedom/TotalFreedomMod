@@ -44,12 +44,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Discord extends FreedomService
 {
-    
+
     public static HashMap<String, PlayerData> LINK_CODES = new HashMap<>();
     public static HashMap<String, PlayerData> VERIFICATION_CODES = new HashMap<>();
     public ScheduledThreadPoolExecutor RATELIMIT_EXECUTOR;
@@ -252,24 +250,6 @@ public class Discord extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerJoin(PlayerJoinEvent event)
-    {
-        if (!plugin.al.isVanished(event.getPlayer()))
-        {
-            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " joined the server" + "**");
-        }
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerLeave(PlayerQuitEvent event)
-    {
-        if (!plugin.al.isVanished(event.getPlayer()))
-        {
-            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " left the server" + "**");
-        }
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDeath(PlayerDeathEvent event)
     {
         try
@@ -374,7 +354,7 @@ public class Discord extends FreedomService
         embedBuilder.setDescription(reason);
         embedBuilder.setFooter("Reported by " + reporter.getName(), "https://minotar.net/helm/" + reporter.getName() + ".png");
         embedBuilder.setTimestamp(Instant.from(ZonedDateTime.now()));
-        String location = "World: " + reported.getLocation().getWorld().getName() + ", X: " + reported.getLocation().getBlockX() + ", Y: " + reported.getLocation().getBlockY() + ", Z: " +  reported.getLocation().getBlockZ();
+        String location = "World: " + reported.getLocation().getWorld().getName() + ", X: " + reported.getLocation().getBlockX() + ", Y: " + reported.getLocation().getBlockY() + ", Z: " + reported.getLocation().getBlockZ();
         embedBuilder.addField("Location", location, true);
         embedBuilder.addField("Game Mode", WordUtils.capitalizeFully(reported.getGameMode().name()), true);
         User user = plugin.esb.getEssentialsUser(reported.getName());
