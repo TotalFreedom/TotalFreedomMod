@@ -9,7 +9,8 @@
 # This is used to remove all permission begging with the root node
 # This is useful when a plugin gives all permissions to a player because they are opped
 remove:
-  - "coreprotect"
+  - "voxelsniper"
+  - "bending"
 
 # Operator permission nodes
 operators:
@@ -35,27 +36,12 @@ operators:
   - "worldedit.removebelow"
   - "worldedit.removenear"
   - "worldedit.replacenear"
-  - "worldedit.clipboard.save"
-  - "worldedit.clipboard.load"
-  - "worldedit.schematic.save"
-  - "worldedit.schematic.load"
-  - "worldedit.schematic.formats"
 
-  # CoreProtect
-  - "coreprotect.inspect"
-  - "coreprotect.lookup"
-  - "coreprotect.help"
-  - "coreprotect.status"
-  - "coreprotect.lookup.block"
-  - "coreprotect.lookup.click"
-  - "coreprotect.lookup.container"
-  - "coreprotect.container"
-  - "coreprotect.core"
-  - "coreprotect.coreprotect"
-  - "coreprotect.co"
+  # LibsDisguises
+  - "libsdisguises.noactionbar"
 
   # WorldGuard
-  - "worldguard.region.list.own"
+  - "worldgyardregion.list.own"
   - "worldguard.region.addmember.own.*"
   - "worldguard.region.removemember.own.*"
   - "worldguard.region.info.*"
@@ -70,16 +56,19 @@ master_builders:
   - "worldedit.thaw"
   - "worldguard.region.bypass.hubworld"
   - "worldguard.region.bypass.masterbuilderworld"
+  - "voxelsniper.sniper"
+  - "voxelsniper.goto"
+  - "voxelsniper.brush.*"
 
 # Super Admin permission nodes
 super_admins:
   - "coreprotect.*"
   - "worldedit.*"
   - "worldguard.*"
+  - "bending.*"
 
 # Telnet Admin permission nodes
 telnet_admins: []
 
 # Senior Admin permission nodes
 senior_admins: []
-

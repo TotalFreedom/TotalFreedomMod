@@ -43,7 +43,7 @@ public class Command_invis extends FreedomCommand
 
         for (Player player : server.getOnlinePlayers())
         {
-            if (player.hasPotionEffect(PotionEffectType.INVISIBILITY) && !plugin.al.isVanished(player.getName()))
+            if (player.hasPotionEffect(PotionEffectType.INVISIBILITY) && !plugin.al.isVanished(player))
             {
                 players.add(player.getName());
                 if (clear && !plugin.al.isAdmin(player))

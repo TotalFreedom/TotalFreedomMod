@@ -37,7 +37,7 @@ public class Command_op extends FreedomCommand
             if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName)
                     || player.getName().contains(targetName) || player.getDisplayName().contains(targetName))
             {
-                if (!player.isOp() && !AdminList.vanished.contains(player.getName()))
+                if (!player.isOp() && !plugin.al.isVanished(player))
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(true);

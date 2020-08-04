@@ -104,7 +104,7 @@ public class Command_potion extends FreedomCommand
                 {
                     target = getPlayer(args[4]);
 
-                    if (target == null || plugin.al.isVanished(target.getName()) && !plugin.al.isAdmin(sender))
+                    if (target == null || plugin.al.isVanished(target) && !plugin.al.isAdmin(sender))
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;

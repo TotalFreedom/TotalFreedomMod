@@ -40,7 +40,7 @@ public class Command_whohas extends FreedomCommand
 
         for (final Player player : server.getOnlinePlayers())
         {
-            if (!plugin.al.isAdmin(sender) && plugin.al.isVanished(player.getName()))
+            if (!plugin.al.isAdmin(sender) && plugin.al.isVanished(player))
             {
                 continue;
             }

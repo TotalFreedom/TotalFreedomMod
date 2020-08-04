@@ -40,7 +40,7 @@ public class Module_list extends HTTPDModule
             for (Player player : Bukkit.getOnlinePlayers())
             {
 
-                if (plugin.al.isVanished(player.getName()))
+                if (plugin.al.isVanished(player))
                 {
                     continue;
                 }
@@ -128,7 +128,7 @@ public class Module_list extends HTTPDModule
 
             for (Player player : onlinePlayers)
             {
-                if (plugin.al.isVanished(player.getName()))
+                if (plugin.al.isVanished(player))
                 {
                     continue;
                 }

@@ -146,7 +146,7 @@ public class FUtil
         List<String> names = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            if (!TotalFreedomMod.plugin().al.isVanished(player.getName()))
+            if (!TotalFreedomMod.plugin().al.isVanished(player))
             {
                 names.add(player.getName());
             }

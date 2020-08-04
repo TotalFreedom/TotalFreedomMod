@@ -3,7 +3,6 @@ package me.totalfreedom.totalfreedommod;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.Set;
 import me.totalfreedom.totalfreedommod.admin.ActivityLog;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
@@ -23,11 +22,11 @@ import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
 import me.totalfreedom.totalfreedommod.bridge.FAWEBridge;
 import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
 import me.totalfreedom.totalfreedommod.bridge.TFGuildsBridge;
+import me.totalfreedom.totalfreedommod.bridge.VanishBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldGuardBridge;
 import me.totalfreedom.totalfreedommod.caging.Cager;
 import me.totalfreedom.totalfreedommod.command.CommandLoader;
-import me.totalfreedom.totalfreedommod.command.FreedomCommand;
 import me.totalfreedom.totalfreedommod.config.MainConfig;
 import me.totalfreedom.totalfreedommod.discord.Discord;
 import me.totalfreedom.totalfreedommod.freeze.Freezer;
@@ -58,16 +57,17 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.reflections.Reflections;
 import org.spigotmc.SpigotConfig;
 
 public class TotalFreedomMod extends JavaPlugin
 {
     private static TotalFreedomMod plugin;
+
     public static TotalFreedomMod getPlugin()
     {
         return plugin;
     }
+
     public static final String CONFIG_FILENAME = "config.yml";
     //
     public static final BuildProperties build = new BuildProperties();
@@ -136,7 +136,7 @@ public class TotalFreedomMod extends JavaPlugin
     public SignBlocker snp;
     public EntityWiper ew;
     public Sitter st;
-    public VanishHandler vh;
+    public VanishBridge vb;
 
     //public HubWorldRestrictions hwr;
     //
@@ -185,16 +185,16 @@ public class TotalFreedomMod extends JavaPlugin
         config = new MainConfig();
         config.load();
 
+        if (FUtil.inDeveloperMode())
+        {
+            FLog.debug("Developer mode enabled.");
+        }
+
         cl = new CommandLoader();
         cl.loadCommands();
 
         BackupManager backups = new BackupManager();
         backups.createAllBackups();
-
-        if (FUtil.inDeveloperMode())
-        {
-            FLog.debug("Developer mode enabled.");
-        }
 
         permissions = new PermissionConfig(this);
         permissions.load();
@@ -233,7 +233,7 @@ public class TotalFreedomMod extends JavaPlugin
         snp = new SignBlocker();
         ew = new EntityWiper();
         st = new Sitter();
-        vh = new VanishHandler();
+        vb = new VanishBridge();
 
         // Single admin utils
         cs = new CommandSpy();
@@ -281,8 +281,8 @@ public class TotalFreedomMod extends JavaPlugin
         timer.update();
         FLog.info("Version " + pluginVersion + " for " + ServerInterface.COMPILE_NMS_VERSION + " enabled in " + timer.getTotal() + "ms");
 
-        // Metrics @ https://bstats.org/plugin/bukkit/TotalFreedomMod
-        new Metrics(this);
+        // Metrics @ https://bstats.org/plugin/bukkit/TotalFreedomMod/2966
+        new Metrics(this, 2966);
 
         // Add spawnpoints later - https://github.com/TotalFreedom/TotalFreedomMod/issues/438
         new BukkitRunnable()
@@ -313,7 +313,6 @@ public class TotalFreedomMod extends JavaPlugin
 
     public static class BuildProperties
     {
-
         public String author;
         public String codename;
         public String version;

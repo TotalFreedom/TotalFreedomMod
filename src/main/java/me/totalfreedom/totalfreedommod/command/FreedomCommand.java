@@ -305,7 +305,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
         Player player = Bukkit.getPlayer(name);
         if (player != null)
         {
-            if (nullVanished && plugin.al.isVanished(player.getName()) && !plugin.al.isAdmin(sender))
+            if (nullVanished && plugin.al.isVanished(player) && !plugin.al.isAdmin(sender))
             {
                 return null;
             }

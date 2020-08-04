@@ -31,12 +31,12 @@ public class Command_deop extends FreedomCommand
         final String targetName = args[0].toLowerCase();
 
         final List<String> matchedPlayerNames = new ArrayList<>();
-        for (final Player player : server.getOnlinePlayers())
+        for (Player player : server.getOnlinePlayers())
         {
             if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName)
                     || player.getName().contains(targetName) || player.getDisplayName().contains(targetName))
             {
-                if (player.isOp() && !AdminList.vanished.contains(player.getName()))
+                if (player.isOp() && plugin.al.isVanished(player))
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(false);
