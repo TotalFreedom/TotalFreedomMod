@@ -36,7 +36,7 @@ public class Command_deop extends FreedomCommand
             if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName)
                     || player.getName().contains(targetName) || player.getDisplayName().contains(targetName))
             {
-                if (player.isOp() && plugin.al.isVanished(player))
+                if (player.isOp() && !plugin.al.isVanished(player))
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(false);
