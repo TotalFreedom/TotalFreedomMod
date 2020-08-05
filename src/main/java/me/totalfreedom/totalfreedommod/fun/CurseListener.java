@@ -11,7 +11,6 @@ import static org.bukkit.event.player.PlayerResourcePackStatusEvent.Status;
 
 public class CurseListener extends FreedomService
 {
-
     public HashMap<Player, Player> cursedPlayers = new HashMap<Player, Player>();
 
     @Override

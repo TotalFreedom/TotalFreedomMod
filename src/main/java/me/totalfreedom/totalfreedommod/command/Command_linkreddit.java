@@ -16,13 +16,13 @@ public class Command_linkreddit extends FreedomCommand
     {
         if (!plugin.rd.enabled)
         {
-            msg("The reddit system is currently disabled.", ChatColor.RED);
+            msg("The Reddit system is currently disabled.", ChatColor.RED);
             return true;
         }
 
         if (getData(playerSender).getRedditUsername() != null)
         {
-            msg("Your reddit account is already linked.");
+            msg("Your Reddit account is already linked.");
             return true;
         }
 
@@ -38,11 +38,11 @@ public class Command_linkreddit extends FreedomCommand
 
             try
             {
-                plugin.rd.sendModMessage(username, "Link Code", "Please run the following in-game to link your reddit account: /linkreddit code " + code);
+                plugin.rd.sendModMessage(username, "Link Code", "Please run the following in-game to link your Reddit account: /linkreddit code " + code);
             }
             catch (ApiException e)
             {
-                msg("Could not find a reddit account by the name of " + args[0], ChatColor.RED);
+                msg("Could not find a Reddit account by the name of " + args[0], ChatColor.RED);
                 return true;
             }
 
@@ -59,7 +59,7 @@ public class Command_linkreddit extends FreedomCommand
             return true;
         }
 
-        msg("Successfully linked the reddit account " + username + " to your Minecraft account.", ChatColor.GREEN);
+        msg("Successfully linked the Reddit account " + username + " to your Minecraft account.", ChatColor.GREEN);
         if (plugin.rd.updateFlair(playerSender))
         {
             msg("Your flair has been updated.", ChatColor.GREEN);

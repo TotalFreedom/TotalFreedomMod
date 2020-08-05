@@ -276,7 +276,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         fsh.startServices();
 
-        FLog.info("Started " + fsh.getServiceAmount() + "services.");
+        FLog.info("Started " + fsh.getServiceAmount() + " services.");
 
         timer.update();
         FLog.info("Version " + pluginVersion + " for " + ServerInterface.COMPILE_NMS_VERSION + " enabled in " + timer.getTotal() + "ms");

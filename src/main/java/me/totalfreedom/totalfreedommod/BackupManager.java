@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod;
 
-import com.sk89q.worldedit.bukkit.BukkitConfiguration;
 import java.io.File;
 import me.totalfreedom.totalfreedommod.banning.PermbanList;
 import me.totalfreedom.totalfreedommod.config.YamlConfig;
@@ -9,7 +8,6 @@ import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.util.FileUtil;
-import org.yaml.snakeyaml.Yaml;
 
 public class BackupManager extends FreedomService
 {

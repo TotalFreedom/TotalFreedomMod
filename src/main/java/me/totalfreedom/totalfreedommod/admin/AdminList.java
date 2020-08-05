@@ -20,7 +20,6 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.MetadataValue;
 
 public class AdminList extends FreedomService
 {

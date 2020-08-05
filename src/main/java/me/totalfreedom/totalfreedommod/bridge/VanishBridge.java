@@ -6,12 +6,12 @@ import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 public class VanishBridge extends FreedomService
 {
-
     @Override
     public void onStart()
     {
@@ -29,7 +29,11 @@ public class VanishBridge extends FreedomService
         Displayable display = plugin.rm.getDisplay(player);
         String tag = display.getColoredTag();
 
-        if (!event.isSilent())
+        if (event.isSilent())
+        {
+            plugin.al.messageAllAdmins(ChatColor.GOLD + player.getName() + " silently unvanished.");
+        }
+        else
         {
             FUtil.bcastMsg(plugin.rm.craftLoginMessage(event.getPlayer(), null));
             plugin.dc.messageChatChannel("**" + player.getName() + " joined the server" + "**");
@@ -47,7 +51,11 @@ public class VanishBridge extends FreedomService
     public void onPlayerVanish(PlayerHideEvent event)
     {
         Player player = event.getPlayer();
-        if (!event.isSilent())
+        if (event.isSilent())
+        {
+            plugin.al.messageAllAdmins(ChatColor.GOLD + player.getName() + " silently vanished.");
+        }
+        else
         {
             plugin.dc.messageChatChannel("**" + player.getName() + " left the server" + "**");
         }

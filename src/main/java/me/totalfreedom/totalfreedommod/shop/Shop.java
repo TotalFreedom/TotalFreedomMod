@@ -7,6 +7,7 @@ import java.util.List;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
+import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,7 +20,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,7 +28,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class Shop extends FreedomService
 {
-
     private BukkitTask reactions;
     public String reactionString = "";
     public Date reactionStartTime;
@@ -48,7 +47,6 @@ public class Shop extends FreedomService
 
     public void startReactionTimer()
     {
-
         long interval = ConfigEntry.SHOP_REACTIONS_INTERVAL.getInteger() * 20L;
 
         reactions = new BukkitRunnable()
@@ -70,6 +68,12 @@ public class Shop extends FreedomService
 
     public void startReaction()
     {
+        if (!ConfigEntry.SHOP_ENABLED.getBoolean())
+        {
+            FLog.debug("The shop is not enabled, therefore a reaction did not start.");
+            return;
+        }
+
         reactionString = FUtil.randomString(ConfigEntry.SHOP_REACTIONS_STRING_LENGTH.getInteger());
 
         FUtil.bcastMsg(prefix + ChatColor.AQUA + "Enter the code above to win " + ChatColor.GOLD + coinsPerReactionWin + ChatColor.AQUA + " coins!", false);
@@ -86,6 +90,7 @@ public class Shop extends FreedomService
         {
             double seconds = 30;
             double max = seconds;
+
             @Override
             public void run()
             {
@@ -133,7 +138,7 @@ public class Shop extends FreedomService
             reactions.cancel();
         }
     }
-    
+
     public String getShopPrefix()
     {
         return FUtil.colorize(ConfigEntry.SHOP_PREFIX.getString());
@@ -223,7 +228,7 @@ public class Shop extends FreedomService
         ItemStack itemStack = new ItemStack(Material.FIRE_CHARGE);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.RED + "Fire Ball");
-        itemMeta.setLore(Arrays.asList(ChatColor.GOLD+ "Yeet this at people"));
+        itemMeta.setLore(Arrays.asList(ChatColor.GOLD + "Yeet this at people"));
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
@@ -255,18 +260,6 @@ public class Shop extends FreedomService
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.GOLD + "Clown Fish");
         itemMeta.setLore(Arrays.asList(ChatColor.AQUA + ":clown:"));
-        itemStack.setItemMeta(itemMeta);
-        return itemStack;
-    }
-
-    public ItemStack getMagicalSaddle()
-    {
-        ItemStack itemStack = new ItemStack(Material.SADDLE);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.DARK_GREEN + "Magical Saddle");
-        itemMeta.setLore(Arrays.asList(ChatColor.GREEN + "Ride anything you want..."));
-        itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
@@ -333,7 +326,7 @@ public class Shop extends FreedomService
             return;
         }
 
-        Player player = (Player) event.getWhoClicked();
+        Player player = (Player)event.getWhoClicked();
         PlayerData playerData = plugin.pl.getData(player);
         int price = shopItem.getCost();
         int coins = playerData.getCoins();
@@ -355,7 +348,6 @@ public class Shop extends FreedomService
         {
             player.sendMessage(ChatColor.GREEN + "Run " + shopItem.getCommand() + " to get one!");
         }
-
     }
 
     public ShopItem getShopItem(int slot)

@@ -26,7 +26,6 @@ import org.bukkit.entity.Player;
 
 public class Reddit extends FreedomService
 {
-
     private final String SUBREDDIT_NAME = ConfigEntry.REDDIT_SUBREDDIT_NAME.getString();
     private final String USERNAME = ConfigEntry.REDDIT_USERNAME.getString();
     private final String PASSWORD = ConfigEntry.REDDIT_PASSWORD.getString();
@@ -53,7 +52,7 @@ public class Reddit extends FreedomService
     @Override
     public void onStart()
     {
-        enabled = !Strings.isNullOrEmpty(ConfigEntry.REDDIT_CLIENT_ID.getString());
+        enabled = ConfigEntry.REDDIT_CLIENT_ID.getString() == null;
         if (!enabled)
         {
             return;
@@ -68,14 +67,14 @@ public class Reddit extends FreedomService
             }
             catch (NoClassDefFoundError e)
             {
-                FLog.warning("The JRAW plugin is not installed, therefore the reddit service cannot start.");
+                FLog.warning("The JRAW plugin is not installed, therefore the Reddit service cannot start.");
                 FLog.warning("To resolve this error, please download the latest JRAW from: https://github.com/TFPatches/Minecraft-JRAW/releases");
                 enabled = false;
                 return;
             }
             catch (NullPointerException e)
             {
-                FLog.warning("Invalid reddit credentials specified, please double check everything in the config.");
+                FLog.warning("Invalid Reddit credentials specified, please double check everything in the config.");
                 enabled = false;
                 return;
             }
@@ -163,7 +162,7 @@ public class Reddit extends FreedomService
         Displayable display = plugin.rm.getDisplay(player);
         if (username == null)
         {
-            FLog.debug("No reddit account");
+            FLog.debug("No Reddit account");
             return false;
         }
 
@@ -222,5 +221,4 @@ public class Reddit extends FreedomService
         flairNameList.put(Title.MASTER_BUILDER, "Master Builder");
         flairNameList.put(Title.DONATOR, "Premium");
     }
-
 }
