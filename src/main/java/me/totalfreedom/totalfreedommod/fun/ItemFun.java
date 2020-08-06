@@ -104,6 +104,7 @@ public class ItemFun extends FreedomService
 
         Player player = event.getPlayer();
         Entity entity = event.getRightClicked();
+        FPlayer fPlayer = plugin.pl.getPlayer(player);
 
         if (player.getInventory().getItemInMainHand().getType().equals(Material.POTATO) || entity.getType().equals(EntityType.PLAYER))
         {
@@ -117,12 +118,32 @@ public class ItemFun extends FreedomService
                 player.sendMessage("Stacked " + entity.getName());
             }
         }
+
+        if (player.getInventory().getItemInMainHand().getType().equals(Material.BONE) || entity.getType().equals(EntityType.PLAYER))
+        {
+            if (!fPlayer.mobThrowerEnabled())
+            {
+                return;
+            }
+
+            Location playerLoc = player.getLocation();
+            Vector direction = playerLoc.getDirection().normalize();
+
+            LivingEntity livingEntity = (LivingEntity)event.getRightClicked();
+            EntityType entityType = livingEntity.getType();
+            if (!(entityType == fPlayer.mobThrowerCreature()))
+            {
+                return;
+            }
+
+            livingEntity.setVelocity(direction.multiply(fPlayer.mobThrowerSpeed()));
+            fPlayer.enqueueMob(livingEntity);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamage(EntityDamageByEntityEvent event)
     {
-
         Entity entity = event.getEntity();
 
         if (entity instanceof Player || !(event.getDamager() instanceof Player))
@@ -160,24 +181,6 @@ public class ItemFun extends FreedomService
 
         switch (event.getMaterial())
         {
-            case BONE:
-            {
-                if (!fPlayer.mobThrowerEnabled())
-                {
-                    break;
-                }
-
-                Location player_pos = player.getLocation();
-                Vector direction = player_pos.getDirection().normalize();
-
-                LivingEntity rezzed_mob = (LivingEntity)player.getWorld().spawnEntity(player_pos.add(direction.multiply(2.0)), fPlayer.mobThrowerCreature());
-                rezzed_mob.setVelocity(direction.multiply(fPlayer.mobThrowerSpeed()));
-                fPlayer.enqueueMob(rezzed_mob);
-
-                event.setCancelled(true);
-                break;
-            }
-
             case GUNPOWDER:
             {
                 if (!fPlayer.isMP44Armed())

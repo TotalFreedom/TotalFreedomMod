@@ -1,9 +1,12 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import java.util.ArrayList;
+import java.util.List;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
-import me.totalfreedom.totalfreedommod.util.DepreciationAggregator;
+import me.totalfreedom.totalfreedommod.util.FUtil;
+import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -27,12 +30,17 @@ public class Command_tossmob extends FreedomCommand
             return true;
         }
 
+        if (args.length == 0)
+        {
+            return false;
+        }
+
         FPlayer playerData = plugin.pl.getPlayer(playerSender);
 
         EntityType type = null;
         if (args.length >= 1)
         {
-            if ("off".equals(args[0]))
+            if (args[0].equalsIgnoreCase("off"))
             {
                 playerData.disableMobThrower();
                 msg("MobThrower is disabled.", ChatColor.GREEN);
@@ -41,32 +49,29 @@ public class Command_tossmob extends FreedomCommand
 
             if (args[0].equalsIgnoreCase("list"))
             {
-                StringBuilder sb = new StringBuilder();
-                for (EntityType loop : EntityType.values())
-                {
-                    if (loop.isAlive())
-                    {
-                        sb.append(" ").append(DepreciationAggregator.getName_EntityType(loop));
-                    }
-                }
-                msg("Supported mobs: " + sb.toString().trim(), ChatColor.GREEN);
+                msg("Supported mobs: " + getAllMobNames(), ChatColor.GREEN);
                 return true;
             }
 
-            for (EntityType loopType : EntityType.values())
+            for (EntityType loop : EntityType.values())
             {
-                if (DepreciationAggregator.getName_EntityType(loopType).toLowerCase().equalsIgnoreCase(args[0]))
+                if (loop != null && loop.name().equalsIgnoreCase(args[0]))
                 {
-                    type = loopType;
+                    type = loop;
                     break;
                 }
             }
 
             if (type == null)
             {
-                msg(args[0] + " is not a supported mob type. Using a pig instead.", ChatColor.RED);
-                msg("By the way, you can type /tossmob list to see all possible mobs.", ChatColor.RED);
-                type = EntityType.PIG;
+                msg("Unknown entity type: " + args[0], ChatColor.RED);
+                return true;
+            }
+
+            if (!Groups.MOB_TYPES.contains(type))
+            {
+                msg(FUtil.formatName(type.name()) + " is an entity, however it is not a mob.", ChatColor.RED);
+                return true;
             }
         }
 
@@ -77,8 +82,10 @@ public class Command_tossmob extends FreedomCommand
             {
                 speed = Double.parseDouble(args[1]);
             }
-            catch (NumberFormatException nfex)
+            catch (NumberFormatException ex)
             {
+                msg("The input provided is not a valid integer.");
+                return true;
             }
         }
 
@@ -92,12 +99,20 @@ public class Command_tossmob extends FreedomCommand
         }
 
         playerData.enableMobThrower(type, speed);
-        msg("MobThrower is enabled. Creature: " + type + " - Speed: " + speed + ".", ChatColor.GREEN);
+        msg("MobThrower is enabled. Mob: " + type + " - Speed: " + speed + ".", ChatColor.GREEN);
         msg("Left click while holding a " + Material.BONE.toString() + " to throw mobs!", ChatColor.GREEN);
-        msg("Type '/tossmob off' to disable.  -By Madgeek1450", ChatColor.GREEN);
+        msg("Type '/tossmob off' to disable. -By Madgeek1450", ChatColor.GREEN);
 
         playerSender.getEquipment().setItemInMainHand(new ItemStack(Material.BONE, 1));
-
         return true;
+    }
+    public static List<String> getAllMobNames()
+    {
+        List<String> names = new ArrayList<>();
+        for (EntityType entityType : Groups.MOB_TYPES)
+        {
+            names.add(entityType.name());
+        }
+        return names;
     }
 }
