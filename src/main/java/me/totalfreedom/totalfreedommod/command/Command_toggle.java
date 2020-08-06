@@ -21,39 +21,38 @@ public class Command_toggle extends FreedomCommand
     {
         if (args.length == 0)
         {
-            msg("Available toggles: \n"
-                    + "- waterplace\n"
-                    + "- fireplace\n"
-                    + "- lavaplace\n"
-                    + "- fluidspread\n"
-                    + "- lavadmg\n"
-                    + "- firespread\n"
-                    + "- frostwalk\n"
-                    + "- firework\n"
-                    + "- prelog\n"
-                    + "- lockdown\n"
-                    + "- petprotect\n"
-                    + "- entitywipe\n"
-                    + "- nonuke [range] [count]\n"
-                    + "- explosives [radius]\n"
-                    + "- unsafeenchs\n"
-                    + "- bells\n"
-                    + "- armorstands\n"
-                    + "- structureblocks\n"
-                    + "- jigsaws\n"
-                    + "- grindstones\n"
-                    + "- jukeboxes\n"
-                    + "- spawners\n"
-                    + "- 4chan\n"
-                    + "- beehives\n"
-                    + "- respawnanchors\n"
-                    + "- autotp\n"
-                    + "- autoclear\n"
-                    + "- minecarts\n"
-                    + "- landmines\n"
-                    + "- mp44\n"
-                    + "- tossmob");
-
+            msg("Available toggles: ");
+            msg("- waterplace");
+            msg("- fireplace");
+            msg("- lavaplace");
+            msg("- fluidspread");
+            msg("- lavadmg");
+            msg("- firespread");
+            msg("- frostwalk");
+            msg("- firework");
+            msg("- prelog");
+            msg("- lockdown");
+            msg("- petprotect");
+            msg("- entitywipe");
+            msg("- nonuke [range] [count]");
+            msg("- explosives [radius]");
+            msg("- unsafeenchs");
+            msg("- bells");
+            msg("- armorstands");
+            msg("- structureblocks");
+            msg("- jigsaws");
+            msg("- grindstones");
+            msg("- jukeboxes");
+            msg("- spawners");
+            msg("- 4chan");
+            msg("- beehives");
+            msg("- respawnanchors");
+            msg("- autotp");
+            msg("- autoclear");
+            msg("- minecarts");
+            msg("- landmines");
+            msg("- mp44");
+            msg("- tossmob");
             return false;
         }
 
