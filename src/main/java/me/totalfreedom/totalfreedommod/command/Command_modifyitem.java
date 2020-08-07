@@ -2,12 +2,11 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.minecraft.server.v1_16_R1.NBTTagCompound;
-import net.minecraft.server.v1_16_R1.NBTTagInt;
 import net.minecraft.server.v1_16_R1.NBTTagList;
-import net.minecraft.server.v1_16_R1.NBTTagString;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -160,23 +159,34 @@ public class Command_modifyitem extends FreedomCommand
                     msg("Invalid attribute. Please run /attributelist for a list of valid attributes.");
                     return true;
                 }
-                cmpnd.set("AttributeName", NBTTagString.a(attribute.getAttribute()));
-                cmpnd.set("Name", NBTTagString.a(attribute.getAttribute()));
-                int amount;
+                cmpnd.setString("AttributeName", attribute.getAttribute());
+                cmpnd.setString("Name", attribute.getAttribute());
+                double amount;
                 try
                 {
-                    amount = Integer.parseInt(args[2]);
+                    amount = Double.parseDouble(args[2]);
                 }
                 catch (NumberFormatException ex)
                 {
                     msg("The amount specified is not a valid integer.");
                     return true;
                 }
-                cmpnd.set("Amount", NBTTagInt.a(amount));
-                cmpnd.set("Operation", NBTTagInt.a(0));
-                cmpnd.set("UUIDLeast", NBTTagInt.a(894654));
-                cmpnd.set("UUIDMost", NBTTagInt.a(2872));
-                cmpnd.set("Slot", NBTTagString.a("mainhand"));
+                if (Double.isNaN(amount))
+                {
+                    msg("The amount specified is illegal.");
+                    return true;
+                }
+                cmpnd.setDouble("Amount", amount);
+                cmpnd.setInt("Operation", 0);
+                Random random = new Random();
+                cmpnd.setIntArray("UUID", new int[]
+                        {
+                                random.nextInt(),
+                                random.nextInt(),
+                                random.nextInt(),
+                                random.nextInt()
+                        });
+                cmpnd.setString("Slot", "mainhand");
                 modifiers.add(cmpnd);
                 compound.set("AttributeModifiers", modifiers);
                 nmsStack.setTag(compound);
