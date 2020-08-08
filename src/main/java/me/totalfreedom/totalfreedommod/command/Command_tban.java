@@ -8,6 +8,7 @@ import me.totalfreedom.totalfreedommod.punishments.Punishment;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentType;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -15,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
-@CommandParameters(description = "Temporarily bans a player for five minutes.", usage = "/<command> <username> [reason]", aliases = "noob")
+@CommandParameters(description = "Temporarily bans a player for five minutes.", usage = "/<command> [-q] <username> [reason]", aliases = "noob")
 public class Command_tban extends FreedomCommand
 {
 
@@ -25,6 +26,17 @@ public class Command_tban extends FreedomCommand
         if (args.length == 0)
         {
             return false;
+        }
+
+        boolean quiet = args[0].equalsIgnoreCase("-q");
+        if (quiet)
+        {
+            args = org.apache.commons.lang3.ArrayUtils.subarray(args, 1, args.length);
+
+            if (args.length < 1)
+            {
+                return false;
+            }
         }
 
         final String username;
@@ -49,27 +61,65 @@ public class Command_tban extends FreedomCommand
             final PlayerData entry = plugin.pl.getData(player);
             username = player.getName();
             ips.addAll(entry.getIps());
-
-            // Strike with lightning
-            final Location targetPos = player.getLocation();
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int z = -1; z <= 1; z++)
-                {
-                    final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                    targetPos.getWorld().strikeLightning(strike_pos);
-                }
-            }
-
-            // Kill player
-            player.setHealth(0.0);
         }
 
         String reason = null;
-
-        if (player != null)
+        if (args.length > 1)
         {
-            FUtil.bcastMsg(sender.getName() + " - Tempbanning: " + player.getName() + " for 5 minutes", ChatColor.RED);
+            reason = StringUtils.join(args, " ", 1, args.length);
+        }
+
+        StringBuilder kick = new StringBuilder()
+                .append(ChatColor.RED)
+                .append("You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
+
+        if (!quiet)
+        {
+            // Strike with lightning
+            if (player != null)
+            {
+                final Location targetPos = player.getLocation();
+                for (int x = -1; x <= 1; x++)
+                {
+                    for (int z = -1; z <= 1; z++)
+                    {
+                        final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
+                        targetPos.getWorld().strikeLightning(strike_pos);
+                    }
+                }
+
+                // Kill player
+                player.setHealth(0.0);
+
+                if (reason != null)
+                {
+                    FUtil.adminAction(sender.getName(), "Tempbanning " + player.getName() + " for 5 minutes - Reason: " + reason, true);
+                    kick.append("\n")
+                            .append(ChatColor.RED)
+                            .append("Reason: ")
+                            .append(ChatColor.GOLD)
+                            .append(reason);
+                }
+                else
+                {
+                    FUtil.adminAction(sender.getName(), "Tempbanning " + player.getName() + " for 5 minutes", true);
+                }
+            }
+        }
+        else
+        {
+            if (player != null)
+            {
+                if (reason != null)
+                {
+                    msg("Quietly temporarily banned " + player.getName() + " for 5 minutes.");
+                    kick.append("\n")
+                            .append(ChatColor.RED)
+                            .append("Reason: ")
+                            .append(ChatColor.GOLD)
+                            .append(reason);
+                }
+            }
         }
 
         // Ban player
@@ -83,12 +133,11 @@ public class Command_tban extends FreedomCommand
         // Kick player
         if (player != null)
         {
-            player.kickPlayer(ChatColor.RED + "You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
+            player.kickPlayer(kick.toString());
         }
 
         // Log ban
         plugin.pul.logPunishment(new Punishment(username, ips.get(0), sender.getName(), PunishmentType.TEMPBAN, reason));
-
         return true;
     }
 }
