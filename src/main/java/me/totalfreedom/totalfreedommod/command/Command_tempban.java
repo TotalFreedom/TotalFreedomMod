@@ -18,7 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Temporarily ban someone.", usage = "/<command> [playername] [duration] [reason]")
+@CommandParameters(description = "Temporarily ban someone.", usage = "/<command> [-q] <username> [duration] [reason]")
 public class Command_tempban extends FreedomCommand
 {
 
@@ -30,6 +30,17 @@ public class Command_tempban extends FreedomCommand
         if (args.length < 1)
         {
             return false;
+        }
+
+        boolean quiet = args[0].equalsIgnoreCase("-q");
+        if (quiet)
+        {
+            args = org.apache.commons.lang3.ArrayUtils.subarray(args, 1, args.length);
+
+            if (args.length < 1)
+            {
+                return false;
+            }
         }
 
         final String username;
@@ -55,6 +66,7 @@ public class Command_tempban extends FreedomCommand
             username = player.getName();
             ips.addAll(entry.getIps());
         }
+
         final StringBuilder message = new StringBuilder("Temporarily banned " + player.getName());
 
         Date expires = FUtil.parseDateOffset("30m");
@@ -72,18 +84,25 @@ public class Command_tempban extends FreedomCommand
             message.append(", Reason: \"").append(reason).append("\"");
         }
 
-        // strike with lightning effect:
-        final Location targetPos = player.getLocation();
-        for (int x = -1; x <= 1; x++)
+        if (!quiet)
         {
-            for (int z = -1; z <= 1; z++)
+            // Strike with lightning
+            final Location targetPos = player.getLocation();
+            for (int x = -1; x <= 1; x++)
             {
-                final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
-                targetPos.getWorld().strikeLightningEffect(strike_pos);
+                for (int z = -1; z <= 1; z++)
+                {
+                    final Location strike_pos = new Location(targetPos.getWorld(), targetPos.getBlockX() + x, targetPos.getBlockY(), targetPos.getBlockZ() + z);
+                    targetPos.getWorld().strikeLightningEffect(strike_pos);
+                }
             }
-        }
 
-        FUtil.adminAction(sender.getName(), message.toString(), true);
+            FUtil.adminAction(sender.getName(), message.toString(), true);
+        }
+        else
+        {
+            msg("Quietly temporarily banned " + player.getName() + ".");
+        }
 
         Ban ban = Ban.forPlayerName(username, sender, expires, reason);
         for (String ip : ips)
@@ -92,9 +111,7 @@ public class Command_tempban extends FreedomCommand
         }
         plugin.bm.addBan(ban);
         player.kickPlayer(ban.bakeKickMessage());
-
         plugin.pul.logPunishment(new Punishment(player.getName(), FUtil.getIp(player), sender.getName(), PunishmentType.TEMPBAN, reason));
-
         return true;
     }
 }
