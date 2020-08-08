@@ -114,6 +114,15 @@ reddit:
   executive_flair_id: ''
   # Owner flair ID
   server_owner_flair_id: ''
+
+# AMP
+amp:
+  # URL - do not leave a trailing forward slash
+  url: ''
+  # Username
+  username: ''
+  # Password
+  password: ''
   
 # The shop
 shop:

@@ -70,7 +70,7 @@ public class SQLite extends FreedomService
             {
                 try
                 {
-                    connection.createStatement().execute("CREATE TABLE `bans` ( `name` VARCHAR, `ips` VARCHAR, `by` VARCHAR NOT NULL, `at` LONG NOT NULL, `expires` LONG, `reason` VARCHAR );");
+                    connection.createStatement().execute("CREATE TABLE `bans` (`name` VARCHAR, `ips` VARCHAR, `by` VARCHAR NOT NULL, `at` LONG NOT NULL, `expires` LONG, `reason` VARCHAR);");
                 }
                 catch (SQLException e)
                 {
@@ -82,7 +82,7 @@ public class SQLite extends FreedomService
             {
                 try
                 {
-                    connection.createStatement().execute("CREATE TABLE `admins` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `rank` VARCHAR NOT NULL, `active` BOOLEAN NOT NULL, `last_login` LONG NOT NULL, `login_message` VARCHAR, `command_spy` BOOLEAN NOT NULL, `potion_spy` BOOLEAN NOT NULL, `ac_format` VARCHAR, `old_tags` BOOLEAN NOT NULL, `log_stick` BOOLEAN NOT NULL);");
+                    connection.createStatement().execute("CREATE TABLE `admins` (`username` VARCHAR NOT NULL, `ips` VARCHAR NOT NULL, `rank` VARCHAR NOT NULL, `active` BOOLEAN NOT NULL, `last_login` LONG NOT NULL, `login_message` VARCHAR, `command_spy` BOOLEAN NOT NULL, `potion_spy` BOOLEAN NOT NULL, `ac_format` VARCHAR, `old_tags` BOOLEAN NOT NULL, `amp_username` VARCHAR);");
                 }
                 catch (SQLException e)
                 {
@@ -257,7 +257,7 @@ public class SQLite extends FreedomService
             statement.setBoolean(8, admin.getPotionSpy());
             statement.setString(9, admin.getAcFormat());
             statement.setBoolean(10, admin.getOldTags());
-            statement.setBoolean(11, admin.getLogStick());
+            statement.setString(11, admin.getAmpUsername());
             statement.executeUpdate();
         }
         catch (SQLException e)

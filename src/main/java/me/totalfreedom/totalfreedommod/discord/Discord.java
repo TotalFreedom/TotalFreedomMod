@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod.discord;
 
-import com.earth2me.essentials.User;
 import com.google.common.base.Strings;
 import java.io.File;
 import java.io.FileWriter;
@@ -21,6 +20,7 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -33,6 +33,7 @@ import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.internal.utils.concurrent.CountingThreadFactory;
@@ -144,11 +145,19 @@ public class Discord extends FreedomService
         }
     }
 
+    public void sendAMPInfo(PlayerData playerData, String username, String password)
+    {
+        User user = bot.getUserById(playerData.getDiscordID());
+        String message = "The following is your AMP details:\n\nUsername: " + username + "\nPassword: " + password + "\n\nYou can connect to AMP at " + plugin.amp.URL;
+        PrivateChannel privateChannel = user.openPrivateChannel().complete();
+        privateChannel.sendMessage(message).complete();
+    }
+
     public boolean sendBackupCodes(PlayerData playerData)
     {
         List<String> codes = generateBackupCodes();
         List<String> encryptedCodes = generateEncryptedBackupCodes(codes);
-        net.dv8tion.jda.api.entities.User user = bot.getUserById(playerData.getDiscordID());
+        User user = bot.getUserById(playerData.getDiscordID());
         File file = generateBackupCodesFile(playerData.getName(), codes);
         if (file == null)
         {
@@ -167,20 +176,9 @@ public class Discord extends FreedomService
         List<String> codes = new ArrayList<>();
         for (int i = 0; i < 10; i++)
         {
-            codes.add(randomString(10));
+            codes.add(FUtil.randomAlphanumericString(10));
         }
         return codes;
-    }
-
-    public String randomString(int size)
-    {
-        List<String> chars = Arrays.asList("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz".split("(?!^)"));
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < size; i++)
-        {
-            stringBuilder.append(chars.get(random.nextInt(chars.size())));
-        }
-        return stringBuilder.toString();
     }
 
     public String generateCode(int size)
@@ -371,7 +369,7 @@ public class Discord extends FreedomService
         String location = "World: " + reported.getLocation().getWorld().getName() + ", X: " + reported.getLocation().getBlockX() + ", Y: " + reported.getLocation().getBlockY() + ", Z: " + reported.getLocation().getBlockZ();
         embedBuilder.addField("Location", location, true);
         embedBuilder.addField("Game Mode", WordUtils.capitalizeFully(reported.getGameMode().name()), true);
-        User user = plugin.esb.getEssentialsUser(reported.getName());
+        com.earth2me.essentials.User user = plugin.esb.getEssentialsUser(reported.getName());
         embedBuilder.addField("God Mode", WordUtils.capitalizeFully(String.valueOf(user.isGodModeEnabled())), true);
         if (user.getNickname() != null)
         {

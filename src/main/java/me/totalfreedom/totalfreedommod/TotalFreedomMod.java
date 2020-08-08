@@ -42,7 +42,6 @@ import me.totalfreedom.totalfreedommod.permissions.PermissionManager;
 import me.totalfreedom.totalfreedommod.player.PlayerList;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.rank.RankManager;
-import me.totalfreedom.totalfreedommod.reddit.Reddit;
 import me.totalfreedom.totalfreedommod.shop.Shop;
 import me.totalfreedom.totalfreedommod.shop.Votifier;
 import me.totalfreedom.totalfreedommod.sql.SQLite;
@@ -139,6 +138,7 @@ public class TotalFreedomMod extends JavaPlugin
     public EntityWiper ew;
     public Sitter st;
     public VanishBridge vb;
+    public AMP amp;
 
     //public HubWorldRestrictions hwr;
     //
@@ -237,6 +237,7 @@ public class TotalFreedomMod extends JavaPlugin
         ew = new EntityWiper();
         st = new Sitter();
         vb = new VanishBridge();
+        amp = new AMP();
 
         // Single admin utils
         cs = new CommandSpy();

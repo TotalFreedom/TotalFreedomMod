@@ -111,6 +111,8 @@ public class Command_saconfig extends FreedomCommand
                     plugin.dc.syncRoles(admin, plugin.pl.getData(admin.getName()).getDiscordID());
                 }
 
+                plugin.amp.updateAccountStatus(admin);
+
                 msg("Set " + admin.getName() + "'s rank to " + rank.getName());
                 return true;
             }
@@ -203,6 +205,7 @@ public class Command_saconfig extends FreedomCommand
 
                     plugin.al.addAdmin(admin);
                     plugin.rm.updateDisplay(player);
+                    plugin.amp.updateAccountStatus(admin);
                 }
                 else // Existing admin
                 {
@@ -239,6 +242,7 @@ public class Command_saconfig extends FreedomCommand
                     {
                         plugin.dc.syncRoles(admin, plugin.pl.getData(player).getDiscordID());
                     }
+                    plugin.amp.updateAccountStatus(admin);
                 }
 
                 if (player != null)
@@ -289,8 +293,10 @@ public class Command_saconfig extends FreedomCommand
 
                 if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
                 {
-                    plugin.dc.syncRoles(admin, plugin.pl.getData(player).getDiscordID());
+                    plugin.dc.syncRoles(admin, plugin.pl.getData(admin.getName()).getDiscordID());
                 }
+
+                plugin.amp.updateAccountStatus(admin);
 
                 return true;
             }

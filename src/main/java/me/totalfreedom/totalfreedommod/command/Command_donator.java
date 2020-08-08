@@ -77,7 +77,7 @@ public class Command_donator extends FreedomCommand
 
             try
             {
-                FUtil.postRequestToEndpoint(url, "POST", headers, payload);
+                FUtil.sendRequest(url, "POST", headers, payload);
             }
             catch (IOException e)
             {

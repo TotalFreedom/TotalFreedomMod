@@ -1,11 +1,10 @@
-package me.totalfreedom.totalfreedommod.reddit;
+package me.totalfreedom.totalfreedommod;
 
 import com.google.common.base.Strings;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
@@ -126,7 +125,7 @@ public class Reddit extends FreedomService
 
     public String addLinkCode(PlayerData data, String username)
     {
-        String code = FUtil.randomString(10);
+        String code = FUtil.randomAlphanumericString(10);
         linkCodes.put(code, data);
         pending.put(data, username);
         return code;

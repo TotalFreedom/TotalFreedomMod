@@ -74,7 +74,7 @@ public class Shop extends FreedomService
             return;
         }
 
-        reactionString = FUtil.randomString(ConfigEntry.SHOP_REACTIONS_STRING_LENGTH.getInteger());
+        reactionString = FUtil.randomAlphanumericString(ConfigEntry.SHOP_REACTIONS_STRING_LENGTH.getInteger());
 
         FUtil.bcastMsg(prefix + ChatColor.AQUA + "Enter the code above to win " + ChatColor.GOLD + coinsPerReactionWin + ChatColor.AQUA + " coins!", false);
 

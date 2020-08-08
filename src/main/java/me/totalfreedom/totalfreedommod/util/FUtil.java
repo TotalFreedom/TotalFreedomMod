@@ -223,7 +223,7 @@ public class FUtil
             List<String> headers = new ArrayList<>();
             headers.add("Accept:application/json");
             headers.add("Content-Type:application/json");
-            String response = postRequestToEndpoint("https://api.mojang.com/profiles/minecraft", "POST", headers, json.toString());
+            String response = sendRequest("https://api.mojang.com/profiles/minecraft", "POST", headers, json.toString());
             // Don't care how stupid this looks, couldn't find anything to parse a json string to something readable in java with something not horrendously huge, maybe im just retarded
             Pattern pattern = Pattern.compile("(?<=\"id\":\")[a-f0-9].{31}");
             Matcher matcher = pattern.matcher(response);
@@ -240,7 +240,7 @@ public class FUtil
         return null;
     }
 
-    public static String postRequestToEndpoint(String endpoint, String method, List<String>headers, String body) throws IOException
+    public static String sendRequest(String endpoint, String method, List<String>headers, String body) throws IOException
     {
         URL url = new URL(endpoint);
         HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
@@ -640,11 +640,25 @@ public class FUtil
 
     public static String randomString(int length)
     {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789-_=+[]{};:,.<>~";
+        String randomString = "";
+        for (int i = 0; i < length; i++)
+        {
+            int selectedCharacter = randomInteger(1, characters.length()) - 1;
+
+            randomString += characters.charAt(selectedCharacter);
+        }
+
+        return randomString;
+
+    }
+
+    public static String randomAlphanumericString(int length)
+    {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
         String randomString = "";
         for (int i = 0; i < length; i++)
         {
-
             int selectedCharacter = randomInteger(1, characters.length()) - 1;
 
             randomString += characters.charAt(selectedCharacter);

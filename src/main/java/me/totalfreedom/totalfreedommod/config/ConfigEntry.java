@@ -98,6 +98,10 @@ public enum ConfigEntry
     REDDIT_EXECUTIVE_FLAIR_ID(String.class, "reddit.executive_flair_id"),
     REDDIT_SERVER_OWNER_FLAIR_ID(String.class, "reddit.server_owner_flair_id"),
     //
+    AMP_URL(String.class, "amp.url"),
+    AMP_USERNAME(String.class, "amp.username"),
+    AMP_PASSWORD(String.class, "amp.password"),
+    //
     DONATION_PROBOARDS_URL(String.class, "donation.proboards_url"),
     DONATION_GROUP_ID(String.class, "donation.donator_group_id"),
     DONATION_SESSION_ID(String.class, "donation.session_id"),

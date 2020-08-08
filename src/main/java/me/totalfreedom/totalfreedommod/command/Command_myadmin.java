@@ -204,14 +204,6 @@ public class Command_myadmin extends FreedomCommand
                 msg((target.getOldTags() ? "Enabled" : "Disabled") + " old tags.");
                 return true;
             }
-            case "logstick":
-            {
-                target.setLogStick(!target.getLogStick());
-                plugin.al.save(target);
-                plugin.al.updateTables();
-                msg((target.getLogStick() ? "Enabled" : "Disabled") + " log-stick lookup.");
-                return true;
-            }
 
             case "syncroles":
             {
@@ -262,7 +254,7 @@ public class Command_myadmin extends FreedomCommand
         }
 
         List<String> singleArguments = Arrays.asList("clearips", "setlogin", "setacformat");
-        List<String> doubleArguments = Arrays.asList("clearip", "clearlogin", "clearacformat", "oldtags", "logstick", "syncroles");
+        List<String> doubleArguments = Arrays.asList("clearip", "clearlogin", "clearacformat", "oldtags", "syncroles");
         if (args.length == 1)
         {
             List<String> options = new ArrayList<>();

@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.admin;
 
-import com.google.common.collect.Lists;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Admin
     @Setter
     private Rank rank = Rank.SUPER_ADMIN;
     @Getter
-    private final List<String> ips = Lists.newArrayList();
+    private final List<String> ips = new ArrayList<>();
     @Getter
     @Setter
     private Date lastLogin = new Date();
@@ -50,7 +50,7 @@ public class Admin
     private Boolean oldTags = false;
     @Getter
     @Setter
-    private Boolean logStick = false;
+    private String ampUsername = null;
 
     public Admin(Player player)
     {
@@ -73,7 +73,7 @@ public class Admin
             this.potionSpy = resultSet.getBoolean("potion_spy");
             this.acFormat = resultSet.getString("ac_format");
             this.oldTags = resultSet.getBoolean("old_tags");
-            this.logStick = resultSet.getBoolean("log_stick");
+            this.ampUsername = resultSet.getString("amp_username");
         }
         catch (SQLException e)
         {
@@ -95,16 +95,9 @@ public class Admin
                 .append("- Potion Spy: ").append(potionSpy).append("\n")
                 .append("- Admin Chat Format: ").append(acFormat).append("\n")
                 .append("- Old Tags: ").append(oldTags).append("\n")
-                .append("- Log Stick: ").append(logStick).append("\n");
+                .append("- AMP Username: ").append(ampUsername).append("\n");
 
         return output.toString();
-    }
-
-    public void loadFrom(Player player)
-    {
-        name = player.getName();
-        ips.clear();
-        ips.add(FUtil.getIp(player));
     }
 
     public Map<String, Object> toSQLStorable()
@@ -121,14 +114,9 @@ public class Admin
             put("potion_spy", potionSpy);
             put("ac_format", acFormat);
             put("old_tags", oldTags);
-            put("log_stick", logStick);
+            put("amp_username", ampUsername);
         }};
         return map;
-    }
-
-    public boolean isAtLeast(Rank pRank)
-    {
-        return rank.isAtLeast(pRank);
     }
 
     public boolean hasLoginMessage()

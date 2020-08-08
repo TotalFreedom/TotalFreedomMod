@@ -51,6 +51,7 @@ public class Command_doom extends FreedomCommand
             admin.setActive(false);
             plugin.al.save(admin);
             plugin.al.updateTables();
+            plugin.amp.updateAccountStatus(admin);
             if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
             {
                 plugin.dc.syncRoles(admin, plugin.pl.getData(admin.getName()).getDiscordID());
