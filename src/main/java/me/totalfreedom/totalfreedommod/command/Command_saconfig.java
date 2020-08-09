@@ -284,6 +284,12 @@ public class Command_saconfig extends FreedomCommand
 
                 FUtil.adminAction(sender.getName(), "Removing " + admin.getName() + " from the admin list", true);
                 admin.setActive(false);
+
+                if (plugin.pl.getPlayer(player).inAdminChat())
+                {
+                    plugin.pl.getPlayer(player).setAdminChat(false);
+                }
+
                 plugin.al.save(admin);
                 plugin.al.updateTables();
                 if (player != null)
