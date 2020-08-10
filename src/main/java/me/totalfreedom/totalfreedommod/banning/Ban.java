@@ -13,14 +13,12 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.config.IConfig;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-public class Ban implements IConfig
+public class Ban
 {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
@@ -236,31 +234,6 @@ public class Ban implements IConfig
         }
 
         return !(hasUsername() && !(getUsername().equalsIgnoreCase(ban.getUsername())));
-    }
-
-    @Override
-    public int hashCode()
-    {
-        int hash = 7;
-        hash = 79 * hash + (this.username != null ? this.username.toLowerCase().hashCode() : 0);
-        hash = 79 * hash + (this.ips != null ? this.ips.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public void loadFrom(ConfigurationSection cs)
-    {
-    }
-
-    @Override
-    public void saveTo(ConfigurationSection cs)
-    {
-    }
-
-    @Override
-    public boolean isValid()
-    {
-        return username != null || !ips.isEmpty();
     }
 
     private void dedupeIps()
