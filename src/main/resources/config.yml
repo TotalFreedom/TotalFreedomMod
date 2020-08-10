@@ -1,6 +1,5 @@
 #
-# TotalFreedomMod 5.5 Configuration
-# by Madgeek1450 and Prozza
+# TotalFreedomMod Configuration
 #
 
 # Generic server information
@@ -44,10 +43,10 @@ server:
   master_builder_management: []
 
   # URL players should appeal for bans at
-  ban_url: http://totalfreedom.boards.net/
+  ban_url: ''
 
   # URL players should appeal for permanent bans at
-  permban_url: http://bit.ly/TF_PermBan
+  indefban_url: ''
 
   # What to display at the top of the tab list
   tablist_header: ''
@@ -425,7 +424,7 @@ announcer:
   - 'Player vs player while in creative or god mode is forbidden!'
   - 'Spawn killing is forbidden!'
   - 'Invisible potions are allowed!'
-  - 'Serial griefing and trolling will result in a permanent ban!'
+  - 'Serial griefing and trolling will result in an indefinite ban!'
   - 'Racism, nazism, and sexism are strictly forbidden!'
   - 'Join our Discord server! Link: https://discordapp.com/invite/XXjmAmV/'
 

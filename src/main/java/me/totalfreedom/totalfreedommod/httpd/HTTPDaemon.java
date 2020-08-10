@@ -19,7 +19,7 @@ import me.totalfreedom.totalfreedommod.httpd.module.Module_help;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_list;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_logfile;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_logs;
-import me.totalfreedom.totalfreedommod.httpd.module.Module_permbans;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_indefbans;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_players;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_punishments;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_schematic;
@@ -59,7 +59,7 @@ public class HTTPDaemon extends FreedomService
         module("list", Module_list.class, false);
         module("logfile", Module_logfile.class, true);
         module("logs", Module_logs.class, true);
-        module("permbans", Module_permbans.class, true);
+        module("indefbans", Module_indefbans.class, true);
         module("players", Module_players.class, false);
         module("punishments", Module_punishments.class, true);
         module("schematic", Module_schematic.class, true);

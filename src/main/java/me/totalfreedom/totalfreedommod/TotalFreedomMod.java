@@ -6,7 +6,7 @@ import java.util.Properties;
 import me.totalfreedom.totalfreedommod.admin.ActivityLog;
 import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
-import me.totalfreedom.totalfreedommod.banning.PermbanList;
+import me.totalfreedom.totalfreedommod.banning.IndefiniteBanList;
 import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EditBlocker;
 import me.totalfreedom.totalfreedommod.blocking.EventBlocker;
@@ -108,7 +108,7 @@ public class TotalFreedomMod extends JavaPlugin
     public Discord dc;
     public PunishmentList pul;
     public BanManager bm;
-    public PermbanList pm;
+    public IndefiniteBanList im;
     public PermissionManager pem;
     public ProtectArea pa;
     public Reddit rd;
@@ -228,7 +228,7 @@ public class TotalFreedomMod extends JavaPlugin
         dc = new Discord();
         pul = new PunishmentList();
         bm = new BanManager();
-        pm = new PermbanList();
+        im = new IndefiniteBanList();
         pem = new PermissionManager();
         pa = new ProtectArea();
         rd = new Reddit();

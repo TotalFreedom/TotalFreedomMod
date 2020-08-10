@@ -59,7 +59,7 @@ public enum ConfigEntry
     SERVER_ASSISTANT_EXECUTIVES(List.class, "server.assistant_executives"),
     SERVER_MASTER_BUILDER_MANAGEMENT(List.class, "server.master_builder_management"),
     SERVER_BAN_URL(String.class, "server.ban_url"),
-    SERVER_PERMBAN_URL(String.class, "server.permban_url"),
+    SERVER_INDEFBAN_URL(String.class, "server.indefban_url"),
     SERVER_TABLIST_HEADER(String.class, "server.tablist_header"),
     SERVER_TABLIST_FOOTER(String.class, "server.tablist_footer"),
     //
