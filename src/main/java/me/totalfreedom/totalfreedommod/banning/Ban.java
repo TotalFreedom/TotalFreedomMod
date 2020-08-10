@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
@@ -26,6 +27,9 @@ public class Ban
     @Getter
     @Setter
     private String username = null;
+    @Getter
+    @Setter
+    private UUID uuid = null;
     @Getter
     private final List<String> ips = Lists.newArrayList();
     @Getter
@@ -45,9 +49,10 @@ public class Ban
     {
     }
 
-    public Ban(String username, String ip, String by, Date at, Date expire, String reason)
+    public Ban(String username, UUID uuid, String ip, String by, Date at, Date expire, String reason)
     {
         this(username,
+                uuid,
                 Arrays.asList(ip),
                 by,
                 at,
@@ -55,9 +60,10 @@ public class Ban
                 reason);
     }
 
-    public Ban(String username, List<String> ips, String by, Date at, Date expire, String reason)
+    public Ban(String username, UUID uuid, List<String> ips, String by, Date at, Date expire, String reason)
     {
         this.username = username;
+        this.uuid = uuid;
         if (ips != null)
         {
             this.ips.addAll(ips);
@@ -78,12 +84,12 @@ public class Ban
 
     public static Ban forPlayerIp(Player player, CommandSender by, Date expiry, String reason)
     {
-        return new Ban(null, Arrays.asList(FUtil.getIp(player)), by.getName(), Date.from(Instant.now()), expiry, reason);
+        return new Ban(null, null, Arrays.asList(FUtil.getIp(player)), by.getName(), Date.from(Instant.now()), expiry, reason);
     }
 
     public static Ban forPlayerIp(String ip, CommandSender by, Date expiry, String reason)
     {
-        return new Ban(null, ip, by.getName(), Date.from(Instant.now()), expiry, reason);
+        return new Ban(null, null, ip, by.getName(), Date.from(Instant.now()), expiry, reason);
     }
 
     //
@@ -96,7 +102,8 @@ public class Ban
     public static Ban forPlayerName(String player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player,
-                new ArrayList<String>(),
+                null,
+                new ArrayList<>(),
                 by.getName(),
                 Date.from(Instant.now()),
                 expiry,
@@ -113,6 +120,7 @@ public class Ban
     public static Ban forPlayer(Player player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player.getName(),
+                player.getUniqueId(),
                 FUtil.getIp(player),
                 by.getName(),
                 Date.from(Instant.now()),
@@ -123,6 +131,7 @@ public class Ban
     public static Ban forPlayerFuzzy(Player player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player.getName(),
+                player.getUniqueId(),
                 FUtil.getFuzzyIp(FUtil.getIp(player)),
                 by.getName(),
                 Date.from(Instant.now()),
@@ -133,6 +142,11 @@ public class Ban
     public boolean hasUsername()
     {
         return username != null && !username.isEmpty();
+    }
+
+    public boolean hasUUID()
+    {
+        return uuid != null;
     }
 
     public boolean addIp(String ip)

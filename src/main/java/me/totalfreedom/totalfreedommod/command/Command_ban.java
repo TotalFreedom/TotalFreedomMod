@@ -121,7 +121,17 @@ public class Command_ban extends FreedomCommand
         }
 
         // Ban player
-        Ban ban = Ban.forPlayerName(username, sender, null, reason);
+        Ban ban;
+
+        if (player != null)
+        {
+            ban = Ban.forPlayer(player, sender, null, reason);
+        }
+        else
+        {
+            ban = Ban.forPlayerName(username, sender, null, reason);
+        }
+
         for (String ip : ips)
         {
             ban.addIp(ip);

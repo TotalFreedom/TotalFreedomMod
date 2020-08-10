@@ -70,7 +70,7 @@ public class SQLite extends FreedomService
             {
                 try
                 {
-                    connection.createStatement().execute("CREATE TABLE `bans` (`name` VARCHAR, `ips` VARCHAR, `by` VARCHAR NOT NULL, `at` LONG NOT NULL, `expires` LONG, `reason` VARCHAR);");
+                    connection.createStatement().execute("CREATE TABLE `bans` (`name` VARCHAR, `uuid` VARCHAR, `ips` VARCHAR, `by` VARCHAR NOT NULL, `at` LONG NOT NULL, `expires` LONG, `reason` VARCHAR);");
                 }
                 catch (SQLException e)
                 {
@@ -378,13 +378,19 @@ public class SQLite extends FreedomService
     {
         try
         {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO bans VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO bans VALUES (?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, ban.getUsername());
-            statement.setString(2, FUtil.listToString(ban.getIps()));
-            statement.setString(3, ban.getBy());
-            statement.setLong(4, ban.getAt().getTime());
-            statement.setLong(5, ban.getExpiryUnix());
-            statement.setString(6, ban.getReason());
+            String uuid = null;
+            if (ban.hasUUID())
+            {
+                uuid = ban.getUuid().toString();
+            }
+            statement.setString(2, uuid);
+            statement.setString(3, FUtil.listToString(ban.getIps()));
+            statement.setString(4, ban.getBy());
+            statement.setLong(5, ban.getAt().getTime());
+            statement.setLong(6, ban.getExpiryUnix());
+            statement.setString(7, ban.getReason());
             statement.executeUpdate();
         }
         catch (SQLException e)

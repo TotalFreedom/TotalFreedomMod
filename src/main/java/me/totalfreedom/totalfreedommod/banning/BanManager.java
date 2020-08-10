@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
@@ -27,8 +28,9 @@ public class BanManager extends FreedomService
 {
 
     private final Set<Ban> bans = Sets.newHashSet();
-    private final Map<String, Ban> ipBans = Maps.newHashMap();
     private final Map<String, Ban> nameBans = Maps.newHashMap();
+    private final Map<UUID, Ban> uuidBans = Maps.newHashMap();
+    private final Map<String, Ban> ipBans = Maps.newHashMap();
     private final List<String> unbannableUsernames = Lists.newArrayList();
 
     //
@@ -44,12 +46,18 @@ public class BanManager extends FreedomService
                 while (banSet.next())
                 {
                     String name = banSet.getString("name");
+                    UUID uuid = null;
+                    String strUUID = banSet.getString("uuid");
+                    if (strUUID != null)
+                    {
+                        uuid = UUID.fromString(strUUID);
+                    }
                     List<String> ips = FUtil.stringToList(banSet.getString("ips"));
                     String by = banSet.getString("by");
                     Date at = new Date(banSet.getLong("at"));
                     Date expires = new Date(banSet.getLong("expires"));
                     String reason = banSet.getString("reason");
-                    Ban ban = new Ban(name, ips, by, at, expires, reason);
+                    Ban ban = new Ban(name, uuid, ips, by, at, expires, reason);
                     bans.add(ban);
                 }
             }
@@ -127,6 +135,18 @@ public class BanManager extends FreedomService
     {
         username = username.toLowerCase();
         final Ban directBan = nameBans.get(username);
+
+        if (directBan != null && !directBan.isExpired())
+        {
+            return directBan;
+        }
+
+        return null;
+    }
+
+    public Ban getByUUID(UUID uuid)
+    {
+        final Ban directBan = uuidBans.get(uuid);
 
         if (directBan != null && !directBan.isExpired())
         {
@@ -224,13 +244,19 @@ public class BanManager extends FreedomService
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         final String username = event.getPlayer().getName();
+        final UUID uuid = event.getPlayer().getUniqueId();
         final String ip = FUtil.getIp(event);
 
         // Regular ban
         Ban ban = getByUsername(username);
         if (ban == null)
         {
-            ban = getByIp(ip);
+            ban = getByUUID(uuid);
+
+            if (ban == null)
+            {
+                ban = getByIp(ip);
+            }
         }
 
         if (ban != null && !ban.isExpired())
@@ -279,12 +305,18 @@ public class BanManager extends FreedomService
         }
 
         nameBans.clear();
+        uuidBans.clear();
         ipBans.clear();
         for (Ban ban : bans)
         {
             if (ban.hasUsername())
             {
                 nameBans.put(ban.getUsername().toLowerCase(), ban);
+            }
+
+            if (ban.hasUUID())
+            {
+                uuidBans.put(ban.getUuid(), ban);
             }
 
             if (ban.hasIps())
