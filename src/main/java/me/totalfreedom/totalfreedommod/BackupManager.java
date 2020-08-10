@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod;
 
 import java.io.File;
-import me.totalfreedom.totalfreedommod.banning.IndefiniteBanList;
+import me.totalfreedom.totalfreedommod.banning.PermbanList;
 import me.totalfreedom.totalfreedommod.config.YamlConfig;
 import me.totalfreedom.totalfreedommod.permissions.PermissionConfig;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
@@ -29,7 +29,7 @@ public class BackupManager extends FreedomService
     public void createAllBackups()
     {
         createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
-        createBackups(IndefiniteBanList.CONFIG_FILENAME);
+        createBackups(PermbanList.CONFIG_FILENAME);
         createBackups(PermissionConfig.PERMISSIONS_FILENAME, true);
         createBackups(PunishmentList.CONFIG_FILENAME);
         createBackups("database.db");

@@ -1,13 +1,14 @@
 package me.totalfreedom.totalfreedommod.command;
 
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
-@CommandParameters(description = "Reload the indefinite ban list.", usage = "/<command> reload", aliases = "ib")
-public class Command_indefban extends FreedomCommand
+@CommandParameters(description = "Reload the permban list.", usage = "/<command> reload", aliases = "pb")
+public class Command_permban extends FreedomCommand
 {
 
     @Override
@@ -23,10 +24,12 @@ public class Command_indefban extends FreedomCommand
             return false;
         }
 
-        msg("Reloading the indefinite ban list...");
-        plugin.im.onStop();
-        plugin.im.onStart();
-        msg("Reloaded the indefinite ban list.");
+        msg("Reloading permban list...", ChatColor.RED);
+        plugin.pm.onStop();
+        plugin.pm.onStart();
+        msg("Reloaded permban list.");
+        msg(plugin.pm.getPermbannedIps().size() + " IPs and "
+                + plugin.pm.getPermbannedNames().size() + " usernames loaded.");
         return true;
     }
 
