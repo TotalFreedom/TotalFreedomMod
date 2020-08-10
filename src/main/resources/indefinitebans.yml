@@ -1,0 +1,15 @@
+#
+# TotalFreedomMod Indefinite Bans
+#
+
+badplayer1:
+  uuid: '123e4567-e89b-12d3-a456-426614174000'
+  ips:
+    - 123.123.123.123
+    - 321.321.321.321
+  reason: 'bad player'
+badplayer2:
+  ips:
+    - 111.111.111.111
+badplayer3:
+  ips: []
