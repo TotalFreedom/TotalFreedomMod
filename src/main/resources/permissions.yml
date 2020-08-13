@@ -211,7 +211,7 @@ super_admins:
   - "essentials.tphere"
   - "essentials.tpo"
   - "essentials.tpohere"
-  - "sv.use"
+  - "sv.see"
   - "sv.toggleitems"
 
 # Telnet Admin permission nodes

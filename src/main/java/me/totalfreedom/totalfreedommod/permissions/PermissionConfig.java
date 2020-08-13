@@ -15,7 +15,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class PermissionConfig extends FreedomService
 {
-
     public static final String PERMISSIONS_FILENAME = "permissions.yml";
     //
     private final EnumMap<PermissionEntry, Object> entries;
@@ -60,13 +59,11 @@ public class PermissionConfig extends FreedomService
     @Override
     public void onStart()
     {
-
     }
 
     @Override
     public void onStop()
     {
-
     }
 
     public void load()
@@ -167,7 +164,6 @@ public class PermissionConfig extends FreedomService
 
     public static class PermissionDefaults
     {
-
         private YamlConfiguration defaults = null;
 
         private PermissionDefaults(InputStream defaultConfig)
@@ -190,5 +186,4 @@ public class PermissionConfig extends FreedomService
             return defaults.get(path);
         }
     }
-
 }

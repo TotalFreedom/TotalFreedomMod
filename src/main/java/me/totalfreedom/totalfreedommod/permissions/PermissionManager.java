@@ -17,7 +17,6 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 
 public class PermissionManager extends FreedomService
 {
-
     public Map<Displayable, List<String>> permissions = Maps.newHashMap();
 
     public Map<Player, PermissionAttachment> attachments = Maps.newHashMap();
@@ -35,7 +34,6 @@ public class PermissionManager extends FreedomService
 
     public void loadPermissionNodes()
     {
-
         FLog.info("Loading permission nodes...");
 
         permissions.clear();
