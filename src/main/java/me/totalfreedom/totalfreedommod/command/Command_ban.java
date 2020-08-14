@@ -104,7 +104,10 @@ public class Command_ban extends FreedomCommand
                     }
                 }
             }
-
+            else
+            {
+                sender.sendMessage(ChatColor.GRAY + "Banned " + player.getName() + " quietly.");
+            }
             // Kill player
             player.setHealth(0.0);
         }
