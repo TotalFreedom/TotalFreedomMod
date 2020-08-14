@@ -71,6 +71,10 @@ public class Command_kick extends FreedomCommand
             {
                 FUtil.adminAction(sender.getName(), "Kicking " + player.getName(), true);
             }
+         else
+         {
+            sender.sendMessage(ChatColor.GRAY + "Kicked " + player.getName() + " quietly.");
+         }
         }
 
         player.kickPlayer(builder.toString());
