@@ -134,7 +134,10 @@ public class FAWEBridge extends FreedomService
     public void logBlockEdits(String playerName, EditSession editSession, Region region, Pattern pattern)
     {
         // Add the broken blocks to CoreProtect.
-        World world = server.getWorld(region.getWorld().getName());
+        if (world == null || !world.getName().equals(editSession.getWorld().getName()))
+        {
+            world = server.getWorld(editSession.getWorld().getName());
+        }
         List<Block> blocks = new ArrayList<>();
 
         for (BlockVector3 blockVector3 : region)
