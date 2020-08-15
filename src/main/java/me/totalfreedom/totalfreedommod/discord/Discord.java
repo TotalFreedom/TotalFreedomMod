@@ -274,13 +274,19 @@ public class Discord extends FreedomService
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        messageChatChannel("**" + deformat(event.getPlayer().getName()) + " joined the server" + "**");
+        if (!plugin.sl.isVanished(event.getPlayer().getName()))
+        {
+            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " joined the server" + "**");
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLeave(PlayerQuitEvent event)
     {
-        messageChatChannel("**" + deformat(event.getPlayer().getName()) + " left the server" + "**");
+        if (!plugin.sl.isVanished(event.getPlayer().getName()))
+        {
+            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " left the server" + "**");
+        }
     }
 
     public void messageChatChannel(String message)
