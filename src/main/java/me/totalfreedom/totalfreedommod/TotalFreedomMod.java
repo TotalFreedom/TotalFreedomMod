@@ -3,8 +3,6 @@ package me.totalfreedom.totalfreedommod;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
-import me.totalfreedom.totalfreedommod.staff.ActivityLog;
-import me.totalfreedom.totalfreedommod.staff.StaffList;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.banning.IndefiniteBanList;
 import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
@@ -22,7 +20,6 @@ import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
 import me.totalfreedom.totalfreedommod.bridge.FAWEBridge;
 import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
 import me.totalfreedom.totalfreedommod.bridge.TFGuildsBridge;
-import me.totalfreedom.totalfreedommod.bridge.VanishBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldGuardBridge;
 import me.totalfreedom.totalfreedommod.caging.Cager;
@@ -45,6 +42,8 @@ import me.totalfreedom.totalfreedommod.rank.RankManager;
 import me.totalfreedom.totalfreedommod.shop.Shop;
 import me.totalfreedom.totalfreedommod.shop.Votifier;
 import me.totalfreedom.totalfreedommod.sql.SQLite;
+import me.totalfreedom.totalfreedommod.staff.ActivityLog;
+import me.totalfreedom.totalfreedommod.staff.StaffList;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import me.totalfreedom.totalfreedommod.util.MethodTimer;
@@ -135,7 +134,7 @@ public class TotalFreedomMod extends JavaPlugin
     public SignBlocker snp;
     public EntityWiper ew;
     public Sitter st;
-    public VanishBridge vb;
+    public VanishHandler vh;
     public AMP amp;
 
     //public HubWorldRestrictions hwr;
@@ -233,7 +232,7 @@ public class TotalFreedomMod extends JavaPlugin
         snp = new SignBlocker();
         ew = new EntityWiper();
         st = new Sitter();
-        vb = new VanishBridge();
+        vh = new VanishHandler();
         amp = new AMP();
 
         // Single admin utils

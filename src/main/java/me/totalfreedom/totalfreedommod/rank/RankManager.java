@@ -1,10 +1,10 @@
 package me.totalfreedom.totalfreedommod.rank;
 
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -250,7 +250,7 @@ public class RankManager extends FreedomService
         // Broadcast login message
         if (isAdmin || FUtil.isDeveloper(player.getName()) || plugin.pl.getData(player).isMasterBuilder() || plugin.pl.getData(player).isDonator())
         {
-            if (!plugin.sl.isVanished(player))
+            if (!plugin.sl.isVanished(player.getName()))
             {
                 FUtil.bcastMsg(craftLoginMessage(player, null));
             }

@@ -2,10 +2,10 @@ package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.io.File;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 
 public class Module_punishments extends HTTPDModule
 {

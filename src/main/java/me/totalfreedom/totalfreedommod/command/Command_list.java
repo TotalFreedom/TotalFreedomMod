@@ -1,12 +1,12 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import de.myzelyam.api.vanish.VanishAPI;
 import java.util.ArrayList;
 import java.util.List;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.staff.StaffList;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-s | -i | -f | -v]", aliases = "who,lsit")
 public class Command_list extends FreedomCommand
 {
-
     public boolean run(final CommandSender sender, final Player playerSender, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole)
     {
         if (args.length > 1)
@@ -96,7 +95,7 @@ public class Command_list extends FreedomCommand
         }
         else
         {
-            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - VanishAPI.getInvisiblePlayers().size())
+            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - StaffList.vanished.size())
                     .append(ChatColor.BLUE)
                     .append(" out of a maximum ")
                     .append(ChatColor.RED)
@@ -109,11 +108,11 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.STAFF && plugin.sl.isVanished(p))
+                if (listFilter == ListFilter.STAFF && plugin.sl.isVanished(p.getName()))
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.VANISHED_STAFF && !plugin.sl.isVanished(p))
+                if (listFilter == ListFilter.VANISHED_STAFF && !plugin.sl.isVanished(p.getName()))
                 {
                     continue;
                 }
@@ -125,7 +124,7 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.PLAYERS && plugin.sl.isVanished(p))
+                if (listFilter == ListFilter.PLAYERS && plugin.sl.isVanished(p.getName()))
                 {
                     continue;
                 }

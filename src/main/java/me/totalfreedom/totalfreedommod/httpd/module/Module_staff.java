@@ -1,8 +1,8 @@
 package me.totalfreedom.totalfreedommod.httpd.module;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 
 public class Module_staff extends HTTPDModule
 {

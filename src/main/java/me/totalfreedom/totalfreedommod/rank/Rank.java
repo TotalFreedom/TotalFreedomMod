@@ -5,7 +5,6 @@ import net.md_5.bungee.api.ChatColor;
 
 public enum Rank implements Displayable
 {
-
     IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW, null, false),
     NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.WHITE, null, false),
     OP("an", "Operator", Type.PLAYER, "OP", ChatColor.GREEN, null, false),

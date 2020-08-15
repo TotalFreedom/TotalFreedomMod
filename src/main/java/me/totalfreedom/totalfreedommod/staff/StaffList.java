@@ -2,7 +2,6 @@ package me.totalfreedom.totalfreedommod.staff;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import de.myzelyam.api.vanish.VanishAPI;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class StaffList extends FreedomService
     private final Map<String, StaffMember> ipTable = Maps.newHashMap();
     public final List<String> verifiedNoStaff = new ArrayList<>();
     public final Map<String, List<String>> verifiedNoStaffIps = Maps.newHashMap();
-    public final List<String> vanished = new ArrayList<>();
+    public static final List<String> vanished = new ArrayList<>();
 
     @Override
     public void onStart()

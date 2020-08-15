@@ -48,7 +48,7 @@ public class Command_tag extends FreedomCommand
 
                 for (final Player player : server.getOnlinePlayers())
                 {
-                    if (plugin.sl.isVanished(player) && !plugin.sl.isStaff(sender))
+                    if (plugin.sl.isVanished(player.getName()) && !plugin.sl.isStaff(sender))
                     {
                         continue;
                     }

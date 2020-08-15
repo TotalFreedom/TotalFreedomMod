@@ -10,9 +10,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -316,7 +316,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
         Player player = Bukkit.getPlayer(name);
         if (player != null)
         {
-            if (nullVanished && plugin.sl.isVanished(player) && !plugin.sl.isStaff(sender))
+            if (nullVanished && plugin.sl.isVanished(player.getName()) && !plugin.sl.isStaff(sender))
             {
                 return null;
             }

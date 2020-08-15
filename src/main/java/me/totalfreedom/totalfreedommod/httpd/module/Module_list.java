@@ -2,9 +2,9 @@ package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.util.Collection;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -40,7 +40,7 @@ public class Module_list extends HTTPDModule
             for (Player player : Bukkit.getOnlinePlayers())
             {
 
-                if (plugin.sl.isVanished(player))
+                if (plugin.sl.isVanished(player.getName()))
                 {
                     continue;
                 }
@@ -128,7 +128,7 @@ public class Module_list extends HTTPDModule
 
             for (Player player : onlinePlayers)
             {
-                if (plugin.sl.isVanished(player))
+                if (plugin.sl.isVanished(player.getName()))
                 {
                     continue;
                 }
