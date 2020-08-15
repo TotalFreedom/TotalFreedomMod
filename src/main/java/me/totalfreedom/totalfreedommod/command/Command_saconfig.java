@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -17,8 +17,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "List, add, remove, or set the rank of staff, clean or reload the admin list, or view the info of staff.", usage = "/<command> <list | clean | reload | | setrank <username> <rank> | <add | remove | info> <username>>")
-public class Command_slconfig extends FreedomCommand
+@CommandParameters(description = "List, add, remove, or set the rank of admins, clean or reload the admin list, or view the info of admins.", usage = "/<command> <list | clean | reload | | setrank <username> <rank> | <add | remove | info> <username>>")
+public class Command_saconfig extends FreedomCommand
 {
 
     @Override
@@ -33,36 +33,36 @@ public class Command_slconfig extends FreedomCommand
         {
             case "list":
             {
-                msg("Staff: " + StringUtils.join(plugin.sl.getAdminNames(), ", "), ChatColor.GOLD);
+                msg("Admins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
                 return true;
             }
 
             case "clean":
             {
                 checkConsole();
-                checkRank(Rank.ADMIN);
+                checkRank(Rank.SENIOR_ADMIN);
 
-                FUtil.staffAction(sender.getName(), "Cleaning staff list", true);
-                plugin.sl.deactivateOldEntries(true);
-                msg("Staff: " + StringUtils.join(plugin.sl.getAdminNames(), ", "), ChatColor.GOLD);
+                FUtil.adminAction(sender.getName(), "Cleaning admin list", true);
+                plugin.al.deactivateOldEntries(true);
+                msg("Admins: " + StringUtils.join(plugin.al.getAdminNames(), ", "), ChatColor.GOLD);
 
                 return true;
             }
 
             case "reload":
             {
-                checkRank(Rank.ADMIN);
+                checkRank(Rank.SENIOR_ADMIN);
 
-                FUtil.staffAction(sender.getName(), "Reloading the staff list", true);
-                plugin.sl.load();
-                msg("Staff list reloaded!");
+                FUtil.adminAction(sender.getName(), "Reloading the admin list", true);
+                plugin.al.load();
+                msg("Admin list reloaded!");
                 return true;
             }
 
             case "setrank":
             {
                 checkConsole();
-                checkRank(Rank.ADMIN);
+                checkRank(Rank.SENIOR_ADMIN);
 
                 if (args.length < 3)
                 {
@@ -82,25 +82,25 @@ public class Command_slconfig extends FreedomCommand
                     return true;
                 }
 
-                if (!rank.isAtLeast(Rank.TRIAL_MOD))
+                if (!rank.isAtLeast(Rank.SUPER_ADMIN))
                 {
-                    msg("Rank must be Trial Mod or higher.", ChatColor.RED);
+                    msg("Rank must be Super Admin or higher.", ChatColor.RED);
                     return true;
                 }
 
-                StaffMember staffMember = plugin.sl.getEntryByName(args[1]);
-                if (staffMember == null)
+                Admin admin = plugin.al.getEntryByName(args[1]);
+                if (admin == null)
                 {
-                    msg("Unknown staff member: " + args[1]);
+                    msg("Unknown admin: " + args[1]);
                     return true;
                 }
 
-                FUtil.staffAction(sender.getName(), "Setting " + staffMember.getName() + "'s rank to " + rank.getName(), true);
+                FUtil.adminAction(sender.getName(), "Setting " + admin.getName() + "'s rank to " + rank.getName(), true);
 
-                staffMember.setRank(rank);
-                plugin.sl.save(staffMember);
+                admin.setRank(rank);
+                plugin.al.save(admin);
 
-                Player player = getPlayer(staffMember.getName());
+                Player player = getPlayer(admin.getName());
                 if (player != null)
                 {
                     plugin.rm.updateDisplay(player);
@@ -108,12 +108,12 @@ public class Command_slconfig extends FreedomCommand
 
                 if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
                 {
-                    plugin.dc.syncRoles(staffMember, plugin.pl.getData(staffMember.getName()).getDiscordID());
+                    plugin.dc.syncRoles(admin, plugin.pl.getData(admin.getName()).getDiscordID());
                 }
 
-                plugin.amp.updateAccountStatus(staffMember);
+                plugin.amp.updateAccountStatus(admin);
 
-                msg("Set " + staffMember.getName() + "'s rank to " + rank.getName());
+                msg("Set " + admin.getName() + "'s rank to " + rank.getName());
                 return true;
             }
 
@@ -124,26 +124,26 @@ public class Command_slconfig extends FreedomCommand
                     return false;
                 }
 
-                checkRank(Rank.TRIAL_MOD);
+                checkRank(Rank.SUPER_ADMIN);
 
-                StaffMember staffMember = plugin.sl.getEntryByName(args[1]);
+                Admin admin = plugin.al.getEntryByName(args[1]);
 
-                if (staffMember == null)
+                if (admin == null)
                 {
                     final Player player = getPlayer(args[1]);
                     if (player != null)
                     {
-                        staffMember = plugin.sl.getAdmin(player);
+                        admin = plugin.al.getAdmin(player);
                     }
                 }
 
-                if (staffMember == null)
+                if (admin == null)
                 {
-                    msg("Staff member not found: " + args[1]);
+                    msg("Admin not found: " + args[1]);
                 }
                 else
                 {
-                    msg(staffMember.toString());
+                    msg(admin.toString());
                 }
 
                 return true;
@@ -157,7 +157,7 @@ public class Command_slconfig extends FreedomCommand
                 }
 
                 checkConsole();
-                checkRank(Rank.MOD);
+                checkRank(Rank.TELNET_ADMIN);
 
                 // Player already an admin?
                 final Player player = getPlayer(args[1]);
@@ -168,31 +168,31 @@ public class Command_slconfig extends FreedomCommand
                     return true;
                 }
 
-                if (plugin.sl.isStaff(player))
+                if (plugin.al.isAdmin(player))
                 {
-                    msg("That player is already a staff member.");
+                    msg("That player is already admin.");
                     return true;
                 }
 
                 // Find the old admin entry
                 String name = player != null ? player.getName() : args[1];
-                StaffMember staffMember = null;
-                for (StaffMember loopStaffMember : plugin.sl.getAllStaffMembers())
+                Admin admin = null;
+                for (Admin loopAdmin : plugin.al.getAllAdmins())
                 {
-                    if (loopStaffMember.getName().equalsIgnoreCase(name) || loopStaffMember.getIps().contains(FUtil.getIp(player)))
+                    if (loopAdmin.getName().equalsIgnoreCase(name) || loopAdmin.getIps().contains(FUtil.getIp(player)))
                     {
-                        staffMember = loopStaffMember;
+                        admin = loopAdmin;
                         break;
                     }
                 }
 
                 if (plugin.pl.isPlayerImpostor(player))
                 {
-                    msg("This player was labeled as a Player impostor and is not a staff member, therefore they cannot be added to the staff list.", ChatColor.RED);
+                    msg("This player was labeled as a Player impostor and is not an admin, therefore they cannot be added to the admin list.", ChatColor.RED);
                     return true;
                 }
 
-                if (staffMember == null) // New staff member
+                if (admin == null) // New admin
                 {
                     if (player == null)
                     {
@@ -200,39 +200,39 @@ public class Command_slconfig extends FreedomCommand
                         return true;
                     }
 
-                    FUtil.staffAction(sender.getName(), "Adding " + player.getName() + " to the staff list", true);
-                    staffMember = new StaffMember(player);
+                    FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the admin list", true);
+                    admin = new Admin(player);
 
-                    plugin.sl.addAdmin(staffMember);
+                    plugin.al.addAdmin(admin);
                     plugin.rm.updateDisplay(player);
-                    plugin.amp.updateAccountStatus(staffMember);
+                    plugin.amp.updateAccountStatus(admin);
                 }
-                else // Existing staff member
+                else // Existing admin
                 {
-                    FUtil.staffAction(sender.getName(), "Re-adding " + player.getName() + " to the staff list", true);
+                    FUtil.adminAction(sender.getName(), "Re-adding " + player.getName() + " to the admin list", true);
 
                     if (player != null)
                     {
-                        String oldName = staffMember.getName();
+                        String oldName = admin.getName();
                         if (oldName != player.getName())
                         {
-                            staffMember.setName(player.getName());
-                            plugin.sql.updateStaffMemberName(oldName, staffMember.getName());
+                            admin.setName(player.getName());
+                            plugin.sql.updateAdminName(oldName, admin.getName());
                         }
-                        staffMember.addIp(FUtil.getIp(player));
+                        admin.addIp(FUtil.getIp(player));
                     }
 
-                    staffMember.setActive(true);
-                    staffMember.setLastLogin(new Date());
+                    admin.setActive(true);
+                    admin.setLastLogin(new Date());
 
-                    if (plugin.sl.isVerifiedAdmin(player))
+                    if (plugin.al.isVerifiedAdmin(player))
                     {
-                        plugin.sl.verifiedNoStaff.remove(player.getName());
-                        plugin.sl.verifiedNoStaffIps.remove(player.getName());
+                        plugin.al.verifiedNoAdmins.remove(player.getName());
+                        plugin.al.verifiedNoAdminIps.remove(player.getName());
                     }
 
-                    plugin.sl.save(staffMember);
-                    plugin.sl.updateTables();
+                    plugin.al.save(admin);
+                    plugin.al.updateTables();
                     if (player != null)
                     {
                         plugin.rm.updateDisplay(player);
@@ -240,9 +240,9 @@ public class Command_slconfig extends FreedomCommand
 
                     if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
                     {
-                        plugin.dc.syncRoles(staffMember, plugin.pl.getData(player).getDiscordID());
+                        plugin.dc.syncRoles(admin, plugin.pl.getData(player).getDiscordID());
                     }
-                    plugin.amp.updateAccountStatus(staffMember);
+                    plugin.amp.updateAccountStatus(admin);
                 }
 
                 if (player != null)
@@ -271,27 +271,27 @@ public class Command_slconfig extends FreedomCommand
                 }
 
                 checkConsole();
-                checkRank(Rank.MOD);
+                checkRank(Rank.TELNET_ADMIN);
 
                 Player player = getPlayer(args[1]);
-                StaffMember staffMember = player != null ? plugin.sl.getAdmin(player) : plugin.sl.getEntryByName(args[1]);
+                Admin admin = player != null ? plugin.al.getAdmin(player) : plugin.al.getEntryByName(args[1]);
 
-                if (staffMember == null)
+                if (admin == null)
                 {
-                    msg("Staff member not found: " + args[1]);
+                    msg("Admin not found: " + args[1]);
                     return true;
                 }
 
-                FUtil.staffAction(sender.getName(), "Removing " + staffMember.getName() + " from the staff list", true);
-                staffMember.setActive(false);
+                FUtil.adminAction(sender.getName(), "Removing " + admin.getName() + " from the admin list", true);
+                admin.setActive(false);
 
                 if (plugin.pl.getPlayer(player).inAdminChat())
                 {
                     plugin.pl.getPlayer(player).setAdminChat(false);
                 }
 
-                plugin.sl.save(staffMember);
-                plugin.sl.updateTables();
+                plugin.al.save(admin);
+                plugin.al.updateTables();
                 if (player != null)
                 {
                     plugin.rm.updateDisplay(player);
@@ -299,10 +299,10 @@ public class Command_slconfig extends FreedomCommand
 
                 if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
                 {
-                    plugin.dc.syncRoles(staffMember, plugin.pl.getData(staffMember.getName()).getDiscordID());
+                    plugin.dc.syncRoles(admin, plugin.pl.getData(admin.getName()).getDiscordID());
                 }
 
-                plugin.amp.updateAccountStatus(staffMember);
+                plugin.amp.updateAccountStatus(admin);
 
                 return true;
             }
@@ -321,16 +321,16 @@ public class Command_slconfig extends FreedomCommand
         {
             List<String> arguments = new ArrayList<>();
             arguments.add("list");
-            if (plugin.sl.isStaff(sender))
+            if (plugin.al.isAdmin(sender))
             {
                 arguments.add("info");
             }
-            if (plugin.sl.isMod(sender))
+            if (plugin.al.isTelnetAdmin(sender))
             {
                 arguments.add("add");
                 arguments.add("remove");
             }
-            if (plugin.sl.isAdmin(sender))
+            if (plugin.al.isSeniorAdmin(sender))
             {
                 arguments.add("reload");
                 arguments.add("clean");
@@ -344,7 +344,7 @@ public class Command_slconfig extends FreedomCommand
         }
         if (args.length == 3 && args[0].equals("setrank"))
         {
-            return Arrays.asList("TRIAL_MOD", "MOD", "ADMIN");
+            return Arrays.asList("SUPER_ADMIN", "TELNET_ADMIN", "SENIOR_ADMIN");
         }
 
         return Collections.emptyList();

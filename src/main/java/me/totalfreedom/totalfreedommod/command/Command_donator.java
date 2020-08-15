@@ -13,7 +13,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.ADMIN, source = SourceType.ONLY_CONSOLE)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "Adds or removes donators", usage = "/<command> <mode> <name> <ip> <package> [forum_user]")
 public class Command_donator extends FreedomCommand
 {

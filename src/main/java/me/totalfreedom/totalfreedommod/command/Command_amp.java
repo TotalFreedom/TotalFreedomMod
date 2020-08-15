@@ -3,7 +3,7 @@ package me.totalfreedom.totalfreedommod.command;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -12,7 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.ADMIN, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Manage your AMP account", usage = "/<command> <create | resetpassword>")
 public class Command_amp extends FreedomCommand
 {
@@ -43,9 +43,9 @@ public class Command_amp extends FreedomCommand
         if (args[0].equals("create"))
         {
             msg("Creating your AMP account...", ChatColor.GREEN);
-            StaffMember staffMember = getAdmin(playerSender);
+            Admin admin = getAdmin(playerSender);
 
-            if (staffMember.getAmpUsername() != null)
+            if (admin.getAmpUsername() != null)
             {
                 msg("You already have an AMP account.", ChatColor.RED);
                 return true;
@@ -54,9 +54,9 @@ public class Command_amp extends FreedomCommand
             String username = sender.getName();
             String password = FUtil.randomString(30);
 
-            staffMember.setAmpUsername(username);
-            plugin.sl.save(staffMember);
-            plugin.sl.updateTables();
+            admin.setAmpUsername(username);
+            plugin.al.save(admin);
+            plugin.al.updateTables();
 
             plugin.amp.createAccount(username, password);
             plugin.dc.sendAMPInfo(playerData, username, password);
@@ -65,9 +65,9 @@ public class Command_amp extends FreedomCommand
         }
         else if (args[0].equals("resetpassword"))
         {
-            StaffMember staffMember = getAdmin(playerSender);
+            Admin admin = getAdmin(playerSender);
 
-            if (staffMember.getAmpUsername() == null)
+            if (admin.getAmpUsername() == null)
             {
                 msg("You do not have an AMP account.", ChatColor.RED);
                 return true;
@@ -75,7 +75,7 @@ public class Command_amp extends FreedomCommand
 
             msg("Resetting your password...", ChatColor.GREEN);
 
-            String username = staffMember.getAmpUsername();
+            String username = admin.getAmpUsername();
             String password = FUtil.randomString(30);
             plugin.amp.setPassword(username,password);
             plugin.dc.sendAMPInfo(playerData, username, password);
@@ -90,7 +90,7 @@ public class Command_amp extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (args.length == 1 && plugin.sl.isAdmin(sender))
+        if (args.length == 1 && plugin.al.isSeniorAdmin(sender))
         {
             return Arrays.asList("create", "resetpassword");
         }

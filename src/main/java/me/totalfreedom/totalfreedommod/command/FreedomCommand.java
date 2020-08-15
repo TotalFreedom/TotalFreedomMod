@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -166,7 +166,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
                     return true;
                 }
 
-                if (perms.cooldown() != 0 && !isStaff(sender))
+                if (perms.cooldown() != 0 && !isAdmin(sender))
                 {
                     COOLDOWN_TIMERS.put(sender, cmd);
                     timer.schedule(new TimerTask()
@@ -224,14 +224,14 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
         msg(color + message);
     }
 
-    protected boolean isStaff(Player player)
+    protected boolean isAdmin(Player player)
     {
-        return plugin.sl.isStaff(player);
+        return plugin.al.isAdmin(player);
     }
 
-    protected boolean isStaff(CommandSender sender)
+    protected boolean isAdmin(CommandSender sender)
     {
-        return plugin.sl.isStaff(sender);
+        return plugin.al.isAdmin(sender);
     }
 
     protected void checkConsole()
@@ -316,7 +316,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
         Player player = Bukkit.getPlayer(name);
         if (player != null)
         {
-            if (nullVanished && plugin.sl.isVanished(player) && !plugin.sl.isStaff(sender))
+            if (nullVanished && plugin.al.isVanished(player) && !plugin.al.isAdmin(sender))
             {
                 return null;
             }
@@ -324,14 +324,14 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
         return player;
     }
 
-    protected StaffMember getAdmin(CommandSender sender)
+    protected Admin getAdmin(CommandSender sender)
     {
-        return plugin.sl.getAdmin(sender);
+        return plugin.al.getAdmin(sender);
     }
 
-    protected StaffMember getAdmin(Player player)
+    protected Admin getAdmin(Player player)
     {
-        return plugin.sl.getAdmin(player);
+        return plugin.al.getAdmin(player);
     }
 
     protected PlayerData getData(Player player)

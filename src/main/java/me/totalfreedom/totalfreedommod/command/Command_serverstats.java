@@ -17,7 +17,7 @@ public class Command_serverstats extends FreedomCommand
     {
         msg("-==" + ConfigEntry.SERVER_NAME.getString() + " server stats==-", ChatColor.GOLD);
         msg("Total opped players: " + server.getOperators().size(), ChatColor.RED);
-        msg("Total staff: " + plugin.sl.getAllStaffMembers().size() + " (" + plugin.sl.getActiveStaffMembers().size() + " active)", ChatColor.BLUE);
+        msg("Total staff: " + plugin.al.getAllAdmins().size() + " (" + plugin.al.getActiveAdmins().size() + " active)", ChatColor.BLUE);
         int bans = plugin.im.getIndefBans().size();
         int nameBans = plugin.im.getNameBanCount();
         int uuidBans = plugin.im.getUuidBanCount();

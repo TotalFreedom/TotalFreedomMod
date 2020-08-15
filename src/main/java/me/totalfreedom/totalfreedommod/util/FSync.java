@@ -63,7 +63,7 @@ public class FSync
             @Override
             public void run()
             {
-                plugin.cm.staffChat(sender, message);
+                plugin.cm.adminChat(sender, message);
             }
 
         }.runTask(plugin);

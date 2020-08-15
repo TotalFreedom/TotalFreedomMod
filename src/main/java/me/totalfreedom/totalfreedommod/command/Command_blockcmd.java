@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Block all commands for everyone on the server, or a specific player.", usage = "/<command> <-a | purge | <player>>", aliases = "blockcommands,blockcommand,bc,bcmd")
 public class Command_blockcmd extends FreedomCommand
 {
@@ -23,7 +23,7 @@ public class Command_blockcmd extends FreedomCommand
 
         if (args[0].equals("purge"))
         {
-            FUtil.staffAction(sender.getName(), "Unblocking commands for all players", true);
+            FUtil.adminAction(sender.getName(), "Unblocking commands for all players", true);
             int counter = 0;
             for (Player player : server.getOnlinePlayers())
             {
@@ -40,18 +40,18 @@ public class Command_blockcmd extends FreedomCommand
 
         if (args[0].equals("-a"))
         {
-            FUtil.staffAction(sender.getName(), "Blocking commands for all non-staff", true);
+            FUtil.adminAction(sender.getName(), "Blocking commands for all non-admins", true);
             int counter = 0;
             for (Player player : server.getOnlinePlayers())
             {
-                if (isStaff(player))
+                if (isAdmin(player))
                 {
                     continue;
                 }
 
                 counter += 1;
                 plugin.pl.getPlayer(player).setCommandsBlocked(true);
-                msg(player, "Your commands have been blocked by a staff member.", ChatColor.RED);
+                msg(player, "Your commands have been blocked by an admin.", ChatColor.RED);
             }
 
             msg("Blocked commands for " + counter + " players.");
@@ -66,9 +66,9 @@ public class Command_blockcmd extends FreedomCommand
             return true;
         }
 
-        if (isStaff(player))
+        if (isAdmin(player))
         {
-            msg(player.getName() + " is a staff member, and cannot have their commands blocked.");
+            msg(player.getName() + " is an admin, and cannot have their commands blocked.");
             return true;
         }
 
@@ -76,7 +76,7 @@ public class Command_blockcmd extends FreedomCommand
         if (!playerdata.allCommandsBlocked())
         {
             playerdata.setCommandsBlocked(true);
-            FUtil.staffAction(sender.getName(), "Blocking all commands for " + player.getName(), true);
+            FUtil.adminAction(sender.getName(), "Blocking all commands for " + player.getName(), true);
             msg("Blocked commands for " + player.getName() + ".");
         }
         else

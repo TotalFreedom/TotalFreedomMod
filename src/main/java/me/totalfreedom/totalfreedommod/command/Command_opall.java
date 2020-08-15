@@ -14,7 +14,7 @@ public class Command_opall extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        FUtil.staffAction(sender.getName(), "Opping all players on the server", false);
+        FUtil.adminAction(sender.getName(), "Opping all players on the server", false);
 
         for (Player player : server.getOnlinePlayers())
         {

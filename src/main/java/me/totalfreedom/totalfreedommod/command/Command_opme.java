@@ -14,7 +14,7 @@ public class Command_opme extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        FUtil.staffAction(sender.getName(), "Opping " + sender.getName(), false);
+        FUtil.adminAction(sender.getName(), "Opping " + sender.getName(), false);
         sender.setOp(true);
         sender.sendMessage(FreedomCommand.YOU_ARE_OP);
         return true;

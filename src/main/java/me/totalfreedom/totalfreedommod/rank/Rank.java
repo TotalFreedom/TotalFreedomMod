@@ -9,11 +9,11 @@ public enum Rank implements Displayable
     IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW, null, false),
     NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.WHITE, null, false),
     OP("an", "Operator", Type.PLAYER, "OP", ChatColor.GREEN, null, false),
-    TRIAL_MOD("a", "Trial Moderator", Type.STAFF, "Trial Mod", ChatColor.AQUA, org.bukkit.ChatColor.AQUA, true),
-    MOD("a", "Moderator", Type.STAFF, "Mod", ChatColor.DARK_GREEN, org.bukkit.ChatColor.DARK_GREEN, true),
-    ADMIN("a", "Administrator", Type.STAFF, "Administrator", ChatColor.GOLD, org.bukkit.ChatColor.GOLD, true),
-    MOD_CONSOLE("the", "Console", Type.STAFF_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false),
-    ADMIN_CONSOLE("the", "Console", Type.STAFF_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false);
+    SUPER_ADMIN("a", "Super Admin", Type.ADMIN, "SA", ChatColor.AQUA, org.bukkit.ChatColor.AQUA, true),
+    TELNET_ADMIN("a", "Telnet Admin", Type.ADMIN, "STA", ChatColor.DARK_GREEN, org.bukkit.ChatColor.DARK_GREEN, true),
+    SENIOR_ADMIN("a", "Senior Admin", Type.ADMIN, "SrA", ChatColor.GOLD, org.bukkit.ChatColor.GOLD, true),
+    TELNET_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false),
+    SENIOR_CONSOLE("the", "Console", Type.ADMIN_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false);
     @Getter
     private final Type type;
     @Getter
@@ -71,7 +71,7 @@ public enum Rank implements Displayable
 
     public boolean isConsole()
     {
-        return getType() == Type.STAFF_CONSOLE;
+        return getType() == Type.ADMIN_CONSOLE;
     }
 
     public int getLevel()
@@ -96,7 +96,7 @@ public enum Rank implements Displayable
 
     public boolean isAdmin()
     {
-        return getType() == Type.STAFF || getType() == Type.STAFF_CONSOLE;
+        return getType() == Type.ADMIN || getType() == Type.ADMIN_CONSOLE;
     }
 
     public boolean hasConsoleVariant()
@@ -108,12 +108,12 @@ public enum Rank implements Displayable
     {
         switch (this)
         {
-            case MOD:
-            case MOD_CONSOLE:
-                return MOD_CONSOLE;
-            case ADMIN:
-            case ADMIN_CONSOLE:
-                return ADMIN_CONSOLE;
+            case TELNET_ADMIN:
+            case TELNET_CONSOLE:
+                return TELNET_CONSOLE;
+            case SENIOR_ADMIN:
+            case SENIOR_CONSOLE:
+                return SENIOR_CONSOLE;
             default:
                 return null;
         }
@@ -136,8 +136,8 @@ public enum Rank implements Displayable
     {
 
         PLAYER,
-        STAFF,
-        STAFF_CONSOLE;
+        ADMIN,
+        ADMIN_CONSOLE;
 
         public boolean isAdmin()
         {

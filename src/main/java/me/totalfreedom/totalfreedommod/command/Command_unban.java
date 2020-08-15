@@ -11,7 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Unbans the specified player.", usage = "/<command> <username> [-r]")
 public class Command_unban extends FreedomCommand
 {
@@ -34,7 +34,7 @@ public class Command_unban extends FreedomCommand
             username = entry.getName();
             ips.addAll(entry.getIps());
 
-            FUtil.staffAction(sender.getName(), "Unbanning " + username, true);
+            FUtil.adminAction(sender.getName(), "Unbanning " + username, true);
             msg(username + " has been unbanned along with the following IPs: " + StringUtils.join(ips, ", "));
             plugin.bm.removeBan(plugin.bm.getByUsername(username));
 

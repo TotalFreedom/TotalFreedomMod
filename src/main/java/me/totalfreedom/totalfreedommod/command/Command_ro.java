@@ -17,7 +17,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Remove all blocks of a certain type in the radius of certain players.", usage = "/<command> <block> [radius (default=50)] [player]")
 public class Command_ro extends FreedomCommand
 {
@@ -95,7 +95,7 @@ public class Command_ro extends FreedomCommand
         World adminWorld = null;
         try
         {
-            adminWorld = plugin.wm.staffworld.getWorld();
+            adminWorld = plugin.wm.adminworld.getWorld();
         }
         catch (Exception ex)
         {
@@ -104,7 +104,7 @@ public class Command_ro extends FreedomCommand
         int affected = 0;
         if (targetPlayer == null)
         {
-            FUtil.staffAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of all players... Brace for lag!", false);
+            FUtil.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of all players... Brace for lag!", false);
 
             for (final Player player : server.getOnlinePlayers())
             {
@@ -123,7 +123,7 @@ public class Command_ro extends FreedomCommand
         {
             if (targetPlayer.getWorld() != adminWorld)
             {
-                FUtil.staffAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
+                FUtil.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
                 for (Material material : materials)
                 {
                     affected += replaceBlocks(targetPlayer.getLocation(), material, Material.AIR, radius);
@@ -131,7 +131,7 @@ public class Command_ro extends FreedomCommand
             }
         }
 
-        FUtil.staffAction(sender.getName(), "Remove complete! " + affected + " blocks removed.", false);
+        FUtil.adminAction(sender.getName(), "Remove complete! " + affected + " blocks removed.", false);
 
         return true;
     }

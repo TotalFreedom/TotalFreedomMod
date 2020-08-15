@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.ADMIN, source = SourceType.ONLY_CONSOLE)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "Reload the indefinite ban list.", usage = "/<command> reload", aliases = "ib")
 public class Command_indefban extends FreedomCommand
 {

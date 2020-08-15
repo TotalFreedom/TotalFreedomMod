@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Warns the specified player.", usage = "/<command> [-q] <player> <reason>")
 public class Command_warn extends FreedomCommand
 {
@@ -45,9 +45,9 @@ public class Command_warn extends FreedomCommand
             return true;
         }
 
-        if (plugin.sl.isStaff(player))
+        if (plugin.al.isAdmin(player))
         {
-            msg(ChatColor.RED + "You can not warn staff");
+            msg(ChatColor.RED + "You can not warn admins");
             return true;
         }
 
@@ -70,7 +70,7 @@ public class Command_warn extends FreedomCommand
                 " - Reason: " +
                 ChatColor.YELLOW +
                 warnReason;
-        plugin.sl.messageAllAdmins(adminNotice);
+        plugin.al.messageAllAdmins(adminNotice);
         plugin.pl.getPlayer(player).incrementWarnings();
         return true;
     }

@@ -42,13 +42,13 @@ public class Command_ops extends FreedomCommand
 
         if (args[0].equals("purge"))
         {
-            if (!plugin.sl.isStaff(sender))
+            if (!plugin.al.isAdmin(sender))
             {
                 noPerms();
                 return true;
             }
 
-            FUtil.staffAction(sender.getName(), "Purging all operators", true);
+            FUtil.adminAction(sender.getName(), "Purging all operators", true);
 
             for (OfflinePlayer player : server.getOperators())
             {

@@ -1,4 +1,4 @@
-package me.totalfreedom.totalfreedommod.staff;
+package me.totalfreedom.totalfreedommod.admin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
-public class StaffMember
+public class Admin
 {
 
     @Getter
@@ -27,7 +27,7 @@ public class StaffMember
     private boolean active = true;
     @Getter
     @Setter
-    private Rank rank = Rank.TRIAL_MOD;
+    private Rank rank = Rank.SUPER_ADMIN;
     @Getter
     private final List<String> ips = new ArrayList<>();
     @Getter
@@ -47,15 +47,18 @@ public class StaffMember
     private String acFormat = null;
     @Getter
     @Setter
+    private Boolean oldTags = false;
+    @Getter
+    @Setter
     private String ampUsername = null;
 
-    public StaffMember(Player player)
+    public Admin(Player player)
     {
         this.name = player.getName();
         this.ips.add(FUtil.getIp(player));
     }
 
-    public StaffMember(ResultSet resultSet)
+    public Admin(ResultSet resultSet)
     {
         try
         {
@@ -69,6 +72,7 @@ public class StaffMember
             this.commandSpy = resultSet.getBoolean("command_spy");
             this.potionSpy = resultSet.getBoolean("potion_spy");
             this.acFormat = resultSet.getString("ac_format");
+            this.oldTags = resultSet.getBoolean("old_tags");
             this.ampUsername = resultSet.getString("amp_username");
         }
         catch (SQLException e)
@@ -90,6 +94,7 @@ public class StaffMember
                 .append("- Is Active: ").append(active).append("\n")
                 .append("- Potion Spy: ").append(potionSpy).append("\n")
                 .append("- Admin Chat Format: ").append(acFormat).append("\n")
+                .append("- Old Tags: ").append(oldTags).append("\n")
                 .append("- AMP Username: ").append(ampUsername).append("\n");
 
         return output.toString();
@@ -108,6 +113,7 @@ public class StaffMember
             put("command_spy", commandSpy);
             put("potion_spy", potionSpy);
             put("ac_format", acFormat);
+            put("old_tags", oldTags);
             put("amp_username", ampUsername);
         }};
         return map;
@@ -156,7 +162,7 @@ public class StaffMember
 
         if (!active)
         {
-            if (getRank().isAtLeast(Rank.MOD))
+            if (getRank().isAtLeast(Rank.TELNET_ADMIN))
             {
                 if (plugin.btb != null)
                 {

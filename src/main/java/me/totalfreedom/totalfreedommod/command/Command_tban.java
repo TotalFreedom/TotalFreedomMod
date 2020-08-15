@@ -15,7 +15,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH, blockHostConsole = true)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Temporarily bans a player for five minutes.", usage = "/<command> [-q] <username> [reason]", aliases = "noob")
 public class Command_tban extends FreedomCommand
 {
@@ -93,7 +93,7 @@ public class Command_tban extends FreedomCommand
 
                 if (reason != null)
                 {
-                    FUtil.staffAction(sender.getName(), "Tempbanning " + player.getName() + " for 5 minutes - Reason: " + reason, true);
+                    FUtil.adminAction(sender.getName(), "Tempbanning " + player.getName() + " for 5 minutes - Reason: " + reason, true);
                     kick.append("\n")
                             .append(ChatColor.RED)
                             .append("Reason: ")
@@ -102,7 +102,7 @@ public class Command_tban extends FreedomCommand
                 }
                 else
                 {
-                    FUtil.staffAction(sender.getName(), "Tempbanning " + player.getName() + " for 5 minutes", true);
+                    FUtil.adminAction(sender.getName(), "Tempbanning " + player.getName() + " for 5 minutes", true);
                 }
             }
         }

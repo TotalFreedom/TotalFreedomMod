@@ -45,7 +45,7 @@ public class Muter extends FreedomService
             return;
         }
 
-        if (plugin.sl.isStaffSync(player))
+        if (plugin.al.isAdminSync(player))
         {
             fPlayer.setMuted(false);
             MUTED_PLAYERS.remove(player.getName());
@@ -70,7 +70,7 @@ public class Muter extends FreedomService
         }
 
         String message = event.getMessage();
-        if (plugin.sl.isStaff(player))
+        if (plugin.al.isAdmin(player))
         {
             fPlayer.setMuted(false);
             return;

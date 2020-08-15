@@ -271,7 +271,7 @@ public class BanManager extends FreedomService
         final Player player = event.getPlayer();
         final PlayerData data = plugin.pl.getData(player);
 
-        if (!plugin.sl.isStaff(player))
+        if (!plugin.al.isAdmin(player))
         {
             return;
         }

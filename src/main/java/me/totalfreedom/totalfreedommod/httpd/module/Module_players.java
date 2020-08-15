@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.httpd.module;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -36,10 +36,10 @@ public class Module_players extends HTTPDModule
         // All online players
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            if (!plugin.sl.isVanished(player))
+            if (!plugin.al.isVanished(player))
             {
                 players.add(player.getName());
-                if (plugin.sl.isStaff(player) && !plugin.sl.isAdminImpostor(player))
+                if (plugin.al.isAdmin(player) && !plugin.al.isAdminImpostor(player))
                 {
                     onlineadmins.add(player.getName());
                 }
@@ -47,19 +47,19 @@ public class Module_players extends HTTPDModule
         }
 
         // Admins
-        for (StaffMember staffMember : plugin.sl.getActiveStaffMembers())
+        for (Admin admin : plugin.al.getActiveAdmins())
         {
-            final String username = staffMember.getName();
+            final String username = admin.getName();
 
-            switch (staffMember.getRank())
+            switch (admin.getRank())
             {
-                case TRIAL_MOD:
+                case SUPER_ADMIN:
                     superadmins.add(username);
                     break;
-                case MOD:
+                case TELNET_ADMIN:
                     telnetadmins.add(username);
                     break;
-                case ADMIN:
+                case SENIOR_ADMIN:
                     senioradmins.add(username);
                     break;
             }

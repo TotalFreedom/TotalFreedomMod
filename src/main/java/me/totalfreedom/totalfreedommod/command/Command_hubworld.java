@@ -152,7 +152,7 @@ public class Command_hubworld extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (!plugin.sl.isStaff(sender))
+        if (!plugin.al.isAdmin(sender))
         {
             return Collections.emptyList();
         }
@@ -177,7 +177,7 @@ public class Command_hubworld extends FreedomCommand
     // TODO: Redo this properly
     private void assertCommandPerms(CommandSender sender, Player playerSender) throws PermissionDeniedException
     {
-        if (!(sender instanceof Player) || playerSender == null || !plugin.sl.isAdmin(playerSender))
+        if (!(sender instanceof Player) || playerSender == null || !plugin.al.isSeniorAdmin(playerSender))
         {
             throw new PermissionDeniedException();
         }

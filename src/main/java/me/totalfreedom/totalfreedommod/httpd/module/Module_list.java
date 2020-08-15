@@ -2,7 +2,7 @@ package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.util.Collection;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -29,9 +29,9 @@ public class Module_list extends HTTPDModule
             final JSONArray operators = new JSONArray();
             final JSONArray imposters = new JSONArray();
             final JSONArray masterbuilders = new JSONArray();
-            final JSONArray trialmods = new JSONArray();
-            final JSONArray mods = new JSONArray();
-            final JSONArray admins = new JSONArray();
+            final JSONArray superadmins = new JSONArray();
+            final JSONArray telnetadmins = new JSONArray();
+            final JSONArray senioradmins = new JSONArray();
             final JSONArray developers = new JSONArray();
             final JSONArray assistant_executives = new JSONArray();
             final JSONArray executives = new JSONArray();
@@ -40,7 +40,7 @@ public class Module_list extends HTTPDModule
             for (Player player : Bukkit.getOnlinePlayers())
             {
 
-                if (plugin.sl.isVanished(player))
+                if (plugin.al.isVanished(player))
                 {
                     continue;
                 }
@@ -75,24 +75,24 @@ public class Module_list extends HTTPDModule
                     owners.add(player.getName());
                 }
 
-                if (!plugin.sl.isStaff(player) && !hasSpecialTitle(player))
+                if (!plugin.al.isAdmin(player) && !hasSpecialTitle(player))
                 {
                     operators.add(player.getName());
                 }
 
-                if (!hasSpecialTitle(player) && plugin.sl.isStaff(player))
+                if (!hasSpecialTitle(player) && plugin.al.isAdmin(player))
                 {
-                    StaffMember staffMember = plugin.sl.getAdmin(player);
-                    switch (staffMember.getRank())
+                    Admin admin = plugin.al.getAdmin(player);
+                    switch (admin.getRank())
                     {
-                        case TRIAL_MOD:
-                            trialmods.add(player.getName());
+                        case SUPER_ADMIN:
+                            superadmins.add(player.getName());
                             break;
-                        case MOD:
-                            mods.add(player.getName());
+                        case TELNET_ADMIN:
+                            telnetadmins.add(player.getName());
                             break;
-                        case ADMIN:
-                            admins.add(player.getName());
+                        case SENIOR_ADMIN:
+                            senioradmins.add(player.getName());
                             break;
                     }
                 }
@@ -102,9 +102,9 @@ public class Module_list extends HTTPDModule
             responseObject.put("operators", operators);
             responseObject.put("imposters", imposters);
             responseObject.put("masterbuilders", masterbuilders);
-            responseObject.put("trialmods", trialmods);
-            responseObject.put("mods", mods);
-            responseObject.put("admins", admins);
+            responseObject.put("superadmins", superadmins);
+            responseObject.put("telnetadmins", telnetadmins);
+            responseObject.put("senioradmins", senioradmins);
             responseObject.put("developers", developers);
             responseObject.put("assistant_executives", assistant_executives);
             responseObject.put("executives", executives);
@@ -128,7 +128,7 @@ public class Module_list extends HTTPDModule
 
             for (Player player : onlinePlayers)
             {
-                if (plugin.sl.isVanished(player))
+                if (plugin.al.isVanished(player))
                 {
                     continue;
                 }
@@ -146,7 +146,7 @@ public class Module_list extends HTTPDModule
 
     public boolean isImposter(Player player)
     {
-        if (plugin.sl.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player))
+        if (plugin.al.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player))
         {
             return true;
         }
@@ -165,6 +165,6 @@ public class Module_list extends HTTPDModule
     @Override
     public String getTitle()
     {
-        return "TotalFreedom - Online Players";
+        return "Total Freedom - Online Players";
     }
 }

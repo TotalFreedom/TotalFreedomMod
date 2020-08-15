@@ -236,9 +236,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.TFPatches</groupId>
+            <groupId>com.github.speedxx</groupId>
             <artifactId>TFGuilds</artifactId>
-            <version>ad93b9ed00</version>
+            <version>master</version>
             <scope>provided</scope>
         </dependency>
 

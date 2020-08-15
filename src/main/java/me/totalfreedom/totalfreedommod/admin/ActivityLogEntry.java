@@ -1,4 +1,4 @@
-package me.totalfreedom.totalfreedommod.staff;
+package me.totalfreedom.totalfreedommod.admin;
 
 import com.google.common.collect.Lists;
 import java.time.Instant;

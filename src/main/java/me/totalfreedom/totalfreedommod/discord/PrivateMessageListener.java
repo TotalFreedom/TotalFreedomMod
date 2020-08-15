@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.discord;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -24,10 +24,10 @@ public class PrivateMessageListener extends ListenerAdapter
                     player.setDiscordID(event.getMessage().getAuthor().getId());
                     player.setVerification(true);
 
-                    StaffMember staffMember = TotalFreedomMod.plugin().sl.getEntryByName(name);
-                    if (staffMember != null)
+                    Admin admin = TotalFreedomMod.plugin().al.getEntryByName(name);
+                    if (admin != null)
                     {
-                        Discord.syncRoles(staffMember, player.getDiscordID());
+                        Discord.syncRoles(admin, player.getDiscordID());
                     }
                     TotalFreedomMod.plugin().pl.save(player);
                     Discord.LINK_CODES.remove(code);

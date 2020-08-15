@@ -148,7 +148,7 @@ public class EventBlocker extends FreedomService
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
-        if (!plugin.sl.isStaff(event.getPlayer()))
+        if (!plugin.al.isAdmin(event.getPlayer()))
         {
             event.setCancelled(true);
         }

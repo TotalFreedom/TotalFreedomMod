@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import joptsimple.internal.Strings;
 import lombok.Getter;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -103,16 +103,16 @@ public class AMP extends FreedomService
         FLog.info("Logged out of AMP");
     }
 
-    public void updateAccountStatus(StaffMember staffMember)
+    public void updateAccountStatus(Admin admin)
     {
-        String username = staffMember.getAmpUsername();
+        String username = admin.getAmpUsername();
 
         if (username == null || !enabled)
         {
             return;
         }
 
-        if (!staffMember.isActive() || staffMember.getRank() != Rank.ADMIN)
+        if (!admin.isActive() || admin.getRank() != Rank.SENIOR_ADMIN)
         {
             FLog.debug("Disabling amp acc");
             setAccountEnabled(username, false);

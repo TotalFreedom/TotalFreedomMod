@@ -306,12 +306,12 @@ public class FPlayer
             {
                 if (getPlayer() != null)
                 {
-                    FUtil.staffAction(ConfigEntry.SERVER_NAME.getString(), "Unmuting " + getPlayer().getName(), false);
+                    FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Unmuting " + getPlayer().getName(), false);
                     setMuted(false);
                 }
                 else
                 {
-                    FUtil.staffAction(ConfigEntry.SERVER_NAME.getString(), "Unmuting " + getName(), false);
+                    FUtil.adminAction(ConfigEntry.SERVER_NAME.getString(), "Unmuting " + getName(), false);
                     plugin.mu.MUTED_PLAYERS.remove(getName());
                 }
             }

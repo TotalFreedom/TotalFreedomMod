@@ -40,9 +40,9 @@ public class PermissionManager extends FreedomService
 
         List<String> operatorPermissions;
         List<String> masterBuilderPermissions;
-        List<String> trialModPermissions;
-        List<String> modPermissions;
-        List<String> adminPermissions;
+        List<String> superAdminPermissions;
+        List<String> telnetAdminPermissions;
+        List<String> seniorAdminPermissions;
 
         operatorPermissions = PermissionEntry.OPERATORS.getEntry();
         permissions.put(Rank.OP, operatorPermissions);
@@ -52,19 +52,19 @@ public class PermissionManager extends FreedomService
         permissions.put(Title.MASTER_BUILDER, masterBuilderPermissions);
 
 
-        trialModPermissions = PermissionEntry.TRIAL_MODS.getEntry();
-        trialModPermissions.addAll(masterBuilderPermissions);
-        permissions.put(Rank.TRIAL_MOD, trialModPermissions);
+        superAdminPermissions = PermissionEntry.SUPER_ADMINS.getEntry();
+        superAdminPermissions.addAll(masterBuilderPermissions);
+        permissions.put(Rank.SUPER_ADMIN, superAdminPermissions);
 
-        modPermissions = PermissionEntry.MODS.getEntry();
-        modPermissions.addAll(trialModPermissions);
-        permissions.put(Rank.MOD, trialModPermissions);
+        telnetAdminPermissions = PermissionEntry.TELNET_ADMINS.getEntry();
+        telnetAdminPermissions.addAll(superAdminPermissions);
+        permissions.put(Rank.TELNET_ADMIN, superAdminPermissions);
 
-        adminPermissions = PermissionEntry.ADMINS.getEntry();
-        adminPermissions.addAll(modPermissions);
-        permissions.put(Rank.ADMIN, adminPermissions);
+        seniorAdminPermissions = PermissionEntry.SENIOR_ADMINS.getEntry();
+        seniorAdminPermissions.addAll(telnetAdminPermissions);
+        permissions.put(Rank.SENIOR_ADMIN, seniorAdminPermissions);
 
-        int count = PermissionEntry.OPERATORS.getEntry().size() + PermissionEntry.MASTER_BUILDERS.getEntry().size() + PermissionEntry.TRIAL_MODS.getEntry().size() + PermissionEntry.MODS.getEntry().size() + PermissionEntry.ADMINS.getEntry().size();
+        int count = PermissionEntry.OPERATORS.getEntry().size() + PermissionEntry.MASTER_BUILDERS.getEntry().size() + PermissionEntry.SUPER_ADMINS.getEntry().size() + PermissionEntry.TELNET_ADMINS.getEntry().size() + PermissionEntry.SENIOR_ADMINS.getEntry().size();
 
         FLog.info("Loaded " + count + " permission nodes");
     }
@@ -100,7 +100,7 @@ public class PermissionManager extends FreedomService
             }
         }
 
-        if (plugin.pl.getData(player).isMasterBuilder() && !plugin.sl.isStaff(player))
+        if (plugin.pl.getData(player).isMasterBuilder() && !plugin.al.isAdmin(player))
         {
             if (nodes != null)
             {

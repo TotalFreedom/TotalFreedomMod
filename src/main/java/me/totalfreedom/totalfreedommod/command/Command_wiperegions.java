@@ -11,7 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.ADMIN, source = SourceType.ONLY_CONSOLE)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "Wipe all WorldGuard regions for a specified world.", usage = "/<command> <world>")
 public class Command_wiperegions extends FreedomCommand
 {
@@ -40,7 +40,7 @@ public class Command_wiperegions extends FreedomCommand
 
         if (regionsWiped != 0)
         {
-            FUtil.staffAction(sender.getName(), "Wiped all regions in " + world.getName(), true);
+            FUtil.adminAction(sender.getName(), "Wiped all regions in " + world.getName(), true);
             msg("Wiped " + regionsWiped + " regions in " + world.getName());
             return true;
         }

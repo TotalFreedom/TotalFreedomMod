@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
 @CommandParameters(description = "Removes all Essentials warps", usage = "/<command>")
 public class Command_wipewarps extends FreedomCommand
 {
@@ -23,7 +23,7 @@ public class Command_wipewarps extends FreedomCommand
 
         Essentials essentials = plugin.esb.getEssentialsPlugin();
         File warps = new File(essentials.getDataFolder(), "warps");
-        FUtil.staffAction(sender.getName(), "Wiping Essentials warps", true);
+        FUtil.adminAction(sender.getName(), "Wiping Essentials warps", true);
         FUtil.deleteFolder(warps);
         warps.mkdir();
         essentials.reload();

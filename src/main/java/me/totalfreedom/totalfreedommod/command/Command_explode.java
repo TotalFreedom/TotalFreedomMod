@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-@CommandPermissions(level = Rank.ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Surprise someone.", usage = "/<command> <player>")
 public class Command_explode extends FreedomCommand
 {
@@ -58,7 +58,7 @@ public class Command_explode extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (args.length == 1 && plugin.sl.isStaff(sender))
+        if (args.length == 1 && plugin.al.isAdmin(sender))
         {
             return FUtil.getPlayerList();
         }

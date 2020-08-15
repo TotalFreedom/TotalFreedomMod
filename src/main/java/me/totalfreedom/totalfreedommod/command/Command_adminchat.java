@@ -7,9 +7,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
-@CommandParameters(description = "Talk privately with other staff on the server.", usage = "/<command> [message]", aliases = "o,sc")
-public class Command_staffchat extends FreedomCommand
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandParameters(
+        description = "Talk privately with other administrators on the server.",
+        usage = "/<command> [message...]",
+        aliases = "o,ac")
+public class Command_adminchat extends FreedomCommand
 {
 
     @Override
@@ -25,11 +28,11 @@ public class Command_staffchat extends FreedomCommand
 
             FPlayer userinfo = plugin.pl.getPlayer(playerSender);
             userinfo.setAdminChat(!userinfo.inAdminChat());
-            msg("Toggled your staff chat " + (userinfo.inAdminChat() ? "on" : "off") + ".");
+            msg("Toggled your admin chat " + (userinfo.inAdminChat() ? "on" : "off") + ".");
         }
         else
         {
-            plugin.cm.staffChat(sender, StringUtils.join(args, " "));
+            plugin.cm.adminChat(sender, StringUtils.join(args, " "));
         }
 
         return true;

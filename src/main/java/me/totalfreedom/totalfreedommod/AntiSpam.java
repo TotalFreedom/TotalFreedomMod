@@ -62,7 +62,7 @@ public class AntiSpam extends FreedomService
     {
         final Player player = event.getPlayer();
 
-        if (plugin.sl.isStaff(player))
+        if (plugin.al.isAdmin(player))
         {
             return;
         }
@@ -109,7 +109,7 @@ public class AntiSpam extends FreedomService
             return;
         }
 
-        if (plugin.sl.isStaff(player))
+        if (plugin.al.isAdmin(player))
         {
             return;
         }

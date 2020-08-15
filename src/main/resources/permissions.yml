@@ -196,8 +196,8 @@ master_builders:
   - "voxelsniper.goto"
   - "voxelsniper.brush.*"
 
-# Trial Mod permission nodes
-trial_mods:
+# Super Admin permission nodes
+super_admins:
   - "coreprotect.*"
   - "worldedit.*"
   - "worldguard.*"
@@ -214,9 +214,9 @@ trial_mods:
   - "sv.see"
   - "sv.toggleitems"
 
-# Mod permission nodes
-mods: []
+# Telnet Admin permission nodes
+telnet_admins: []
 
-# Admin permission nodes
-admins:
+# Senior Admin permission nodes
+senior_admins:
   - "sv.others"

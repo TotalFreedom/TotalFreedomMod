@@ -17,14 +17,14 @@ public class WorldManager extends FreedomService
 {
 
     public Flatlands flatlands;
-    public StaffWorld staffworld;
+    public AdminWorld adminworld;
     public MasterBuilderWorld masterBuilderWorld;
     public HubWorld hubworld;
 
     public WorldManager()
     {
         this.flatlands = new Flatlands();
-        this.staffworld = new StaffWorld();
+        this.adminworld = new AdminWorld();
         this.masterBuilderWorld = new MasterBuilderWorld();
         this.hubworld = new HubWorld();
     }
@@ -33,7 +33,7 @@ public class WorldManager extends FreedomService
     public void onStart()
     {
         flatlands.getWorld();
-        staffworld.getWorld();
+        adminworld.getWorld();
         masterBuilderWorld.getWorld();
         hubworld.getWorld();
 
@@ -54,7 +54,7 @@ public class WorldManager extends FreedomService
     public void onStop()
     {
         flatlands.getWorld().save();
-        staffworld.getWorld().save();
+        adminworld.getWorld().save();
         masterBuilderWorld.getWorld().save();
         hubworld.getWorld().save();
     }
@@ -64,7 +64,7 @@ public class WorldManager extends FreedomService
     {
         try
         {
-            if (event.getWorld().equals(staffworld.getWorld()) && staffworld.getWeatherMode() != WorldWeather.OFF)
+            if (event.getWorld().equals(adminworld.getWorld()) && adminworld.getWeatherMode() != WorldWeather.OFF)
             {
                 return;
             }
@@ -92,7 +92,7 @@ public class WorldManager extends FreedomService
     {
         try
         {
-            if (event.getWorld().equals(staffworld.getWorld()) && staffworld.getWeatherMode() != WorldWeather.OFF)
+            if (event.getWorld().equals(adminworld.getWorld()) && adminworld.getWeatherMode() != WorldWeather.OFF)
             {
                 return;
             }

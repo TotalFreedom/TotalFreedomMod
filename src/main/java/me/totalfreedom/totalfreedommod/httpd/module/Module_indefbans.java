@@ -2,7 +2,7 @@ package me.totalfreedom.totalfreedommod.httpd.module;
 
 import java.io.File;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.banning.IndefiniteBanList;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
@@ -39,7 +39,7 @@ public class Module_indefbans extends HTTPDModule
 
     private boolean isAuthorized(String remoteAddress)
     {
-        StaffMember entry = plugin.sl.getEntryByIp(remoteAddress);
+        Admin entry = plugin.al.getEntryByIp(remoteAddress);
         return entry != null && entry.isActive();
     }
 }

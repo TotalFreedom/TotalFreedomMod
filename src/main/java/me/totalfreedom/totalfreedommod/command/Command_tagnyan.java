@@ -31,7 +31,7 @@ public class Command_tagnyan extends FreedomCommand
 
         String tagStr = tag.toString();
 
-        int tagLimit = (plugin.sl.isStaff(sender) ? 30 : 20);
+        int tagLimit = (plugin.al.isAdmin(sender) ? 30 : 20);
 
         final String rawTag = ChatColor.stripColor(tagStr).toLowerCase();
 
@@ -41,7 +41,7 @@ public class Command_tagnyan extends FreedomCommand
             return true;
         }
 
-        if (!plugin.sl.isStaff(sender))
+        if (!plugin.al.isAdmin(sender))
         {
             for (String word : Command_tag.FORBIDDEN_WORDS)
             {

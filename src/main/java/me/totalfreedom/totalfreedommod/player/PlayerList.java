@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
@@ -110,8 +110,8 @@ public class PlayerList extends FreedomService
 
     public boolean isTelnetMasterBuilder(PlayerData playerData)
     {
-        StaffMember staffMember = plugin.sl.getEntryByName(playerData.getName());
-        if (staffMember != null && staffMember.getRank().isAtLeast(Rank.MOD) && playerData.isMasterBuilder())
+        Admin admin = plugin.al.getEntryByName(playerData.getName());
+        if (admin != null && admin.getRank().isAtLeast(Rank.TELNET_ADMIN) && playerData.isMasterBuilder())
         {
             return true;
         }
@@ -156,14 +156,14 @@ public class PlayerList extends FreedomService
     public Boolean isPlayerImpostor(Player player)
     {
         PlayerData playerData = getData(player);
-        return !plugin.sl.isStaff(player)
+        return !plugin.al.isAdmin(player)
                 && (playerData.hasVerification())
                 && !playerData.getIps().contains(FUtil.getIp(player));
     }
 
     public boolean isImposter(Player player)
     {
-        return isPlayerImpostor(player) || plugin.sl.isAdminImpostor(player);
+        return isPlayerImpostor(player) || plugin.al.isAdminImpostor(player);
     }
 
     public void verify(Player player, String backupCode)
@@ -176,35 +176,35 @@ public class PlayerList extends FreedomService
         playerData.addIp(FUtil.getIp(player));
         save(playerData);
 
-        if (plugin.sl.isAdminImpostor(player))
+        if (plugin.al.isAdminImpostor(player))
         {
-            StaffMember staffMember = plugin.sl.getEntryByName(player.getName());
-            staffMember.setLastLogin(new Date());
-            staffMember.addIp(FUtil.getIp(player));
-            plugin.sl.updateTables();
-            plugin.sl.save(staffMember);
+            Admin admin = plugin.al.getEntryByName(player.getName());
+            admin.setLastLogin(new Date());
+            admin.addIp(FUtil.getIp(player));
+            plugin.al.updateTables();
+            plugin.al.save(admin);
         }
 
         plugin.rm.updateDisplay(player);
     }
 
-    public void syncIps(StaffMember staffMember)
+    public void syncIps(Admin admin)
     {
-        PlayerData playerData = getData(staffMember.getName());
+        PlayerData playerData = getData(admin.getName());
         playerData.clearIps();
-        playerData.addIps(staffMember.getIps());
+        playerData.addIps(admin.getIps());
         plugin.pl.save(playerData);
     }
     public void syncIps(PlayerData playerData)
     {
-        StaffMember staffMember = plugin.sl.getEntryByName(playerData.getName());
+        Admin admin = plugin.al.getEntryByName(playerData.getName());
 
-        if (staffMember != null && staffMember.isActive())
+        if (admin != null && admin.isActive())
         {
-            staffMember.clearIPs();
-            staffMember.addIps(playerData.getIps());
-            plugin.sl.updateTables();
-            plugin.sl.save(staffMember);
+            admin.clearIPs();
+            admin.addIps(playerData.getIps());
+            plugin.al.updateTables();
+            plugin.al.save(admin);
         }
     }
 

@@ -19,7 +19,7 @@ server:
   # MOTD Modification
   motds:
     ban: '&cYou are banned.'
-    staffmode: '&cServer is closed.'
+    adminmode: '&cServer is closed.'
     lockdown: '&cServer is in lock-down.'
     whitelist: '&cWhitelist enabled.'
     full: '&cServer is full.'
@@ -68,12 +68,12 @@ discord:
   role_sync: false
   # Master Builder role ID
   master_builder_role_id: ''
-  # Trial Mod role ID
-  trial_mod_role_id: ''
-  # Mod role ID
-  mod_role_id: ''
-  # Admin role ID
-  admin_role_id: ''
+  # Super Admin role ID
+  super_role_id: ''
+  # Telnet Admin role ID
+  telnet_role_id: ''
+  # Senior Admin role ID
+  senior_role_id: ''
   # Developer role ID
   developer_role_id: ''
   # Assistant Executive Admin role ID
@@ -99,12 +99,12 @@ reddit:
   donator_flair_id: ''
   # Master Builder flair ID
   master_builder_flair_id: ''
-  # Trial Mod flair ID
-  trial_mod_flair_id: ''
-  # Mod flair ID
-  mod_flair_id: ''
-  # Admin flair ID
-  admin_flair_id: ''
+  # Super Admin flair ID
+  super_flair_id: ''
+  # Telnet Admin flair ID
+  telnet_flair_id: ''
+  # Senior Admin flair ID
+  senior_flair_id: ''
   # Developer flair ID
   developer_flair_id: ''
   # Assistant Executive Admin flair ID
@@ -164,15 +164,15 @@ shop:
     stacking_potato: 300
     clown_fish: 1500
 
-# Staff list
-stafflist:
+# Admin list
+adminlist:
 
-  # The amount of hours after which staff may be removed from the admin list
+  # The amount of hours after which admins may be removed from the admin list
   clean_threshold_hours: 167
 
-  # Give the default CONSOLE admin privileges.
+  # Give the default CONSOLE senior admin privileges.
   # Handy in development environments.
-  console_is_admin: true
+  console_is_senior: true
   
 # CoreProtect
 coreprotect:
@@ -243,9 +243,9 @@ allow:
 # * The first section is a letter which indicates which rank may use this command
 #   Valid ranks:
 #   n - Nobody (Completely disabled)
-#   c - Trial Mods (Console)
-#   m - Admins (Console)
-#   s - Staff (Any in-game admin)
+#   c - Senior Admins (Console)
+#   t - Telnet Admins (Console)
+#   s - Super Admins (Any in-game admin)
 #   o - Ops (Non-Ops won't be able to use it)
 #
 # * The second section is a letter which indicates what to do when a player executes that command.
@@ -292,7 +292,7 @@ blocked_commands:
   - 'n:b:/bossbar:_'
   - 'n:b://forceload:_'
 
-  # Staff commands
+  # Admin commands
   - 's:b:/save-all:_'
   - 's:b:/kick:_'
   - 's:b:/socialspy:_'
@@ -379,10 +379,16 @@ flatlands:
   generate_params: 16,stone,32,dirt,1,grass_block
 
 # Admin-Only Mode
-staff_only_mode: false
+admin_only_mode: false
 
 # Toggle Chat
 toggle_chat: true
+
+# Protected Areas - Protect areas so that only admins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
+protectarea:
+  enabled: true
+  auto_protect_spawnpoints: true
+  auto_protect_radius: 25.0
 
 # Host Sender Names - Names that indicate automated services or host-based consoles you want to block from using some commands.
 # Make sure these are all lower-case.

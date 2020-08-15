@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.staff.StaffMember;
+import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDPageBuilder;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
@@ -270,9 +270,9 @@ public class Module_schematic extends HTTPDModule
 
     private boolean isAuthorized(String remoteAddress)
     {
-        StaffMember staffMemberEntry = plugin.sl.getEntryByIp(remoteAddress);
+        Admin adminEntry = plugin.al.getEntryByIp(remoteAddress);
         PlayerData data = plugin.pl.getDataByIp(remoteAddress);
-        return ((staffMemberEntry != null && staffMemberEntry.isActive()) || data != null && data.isMasterBuilder());
+        return ((adminEntry != null && adminEntry.isActive()) || data != null && data.isMasterBuilder());
     }
 
     private static class SchematicTransferException extends Exception

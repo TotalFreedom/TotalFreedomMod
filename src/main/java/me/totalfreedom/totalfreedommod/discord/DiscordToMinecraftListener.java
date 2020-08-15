@@ -66,19 +66,19 @@ public class DiscordToMinecraftListener extends ListenerAdapter
             return Title.ASSISTANT_EXECUTIVE.getColoredTag();
         }
         // Senior Admins
-        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_ADMIN_ROLE_ID.getString())))
+        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_SENIOR_ROLE_ID.getString())))
         {
-            return Rank.ADMIN.getColoredTag();
+            return Rank.SENIOR_ADMIN.getColoredTag();
         }
         // Telnet Admins
-        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_MOD_ROLE_ID.getString())))
+        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_TELNET_ROLE_ID.getString())))
         {
-            return Rank.MOD.getColoredTag();
+            return Rank.TELNET_ADMIN.getColoredTag();
         }
         // Super Admins
-        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_TRIAL_MOD_ROLE_ID.getString())))
+        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_SUPER_ROLE_ID.getString())))
         {
-            return Rank.TRIAL_MOD.getColoredTag();
+            return Rank.SUPER_ADMIN.getColoredTag();
         }
         // Master Builders
         else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_MASTER_BUILDER_ROLE_ID.getString())))

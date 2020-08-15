@@ -18,7 +18,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH, blockHostConsole = true)
+@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Bans the specified player.", usage = "/<command> <username> [reason] [-nrb | -q]", aliases = "gtfo")
 public class Command_ban extends FreedomCommand
 {
@@ -151,7 +151,7 @@ public class Command_ban extends FreedomCommand
                 bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
             }
             msg(sender, ChatColor.GRAY + username + " has been banned and IP is: " + StringUtils.join(ips, ", "));
-            FUtil.staffAction(sender.getName(), String.format(bcast.toString()), true);
+            FUtil.adminAction(sender.getName(), String.format(bcast.toString()), true);
         }
 
         // Kick player and handle others on IP

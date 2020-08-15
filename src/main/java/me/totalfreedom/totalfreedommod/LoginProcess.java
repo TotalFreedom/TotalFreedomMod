@@ -53,7 +53,7 @@ public class LoginProcess extends FreedomService
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event)
     {
         final String ip = event.getAddress().getHostAddress().trim();
-        final boolean isAdmin = plugin.sl.getEntryByIp(ip) != null;
+        final boolean isAdmin = plugin.al.getEntryByIp(ip) != null;
 
         // Check if the player is already online
         for (Player onlinePlayer : server.getOnlinePlayers())
@@ -114,7 +114,7 @@ public class LoginProcess extends FreedomService
         }
 
         // Check if player is admin
-        final boolean isAdmin = plugin.sl.getEntryByIp(ip) != null;
+        final boolean isAdmin = plugin.al.getEntryByIp(ip) != null;
 
         // Validation below this point
         if (isAdmin) // Player is admin
@@ -127,7 +127,7 @@ public class LoginProcess extends FreedomService
             {
                 for (Player onlinePlayer : server.getOnlinePlayers())
                 {
-                    if (!plugin.sl.isStaff(onlinePlayer))
+                    if (!plugin.al.isAdmin(onlinePlayer))
                     {
                         onlinePlayer.kickPlayer("You have been kicked to free up room for an admin.");
                         count--;
@@ -149,7 +149,7 @@ public class LoginProcess extends FreedomService
             return;
         }
 
-        // Player is not a staff member
+        // Player is not an admin
         // Server full check
         if (server.getOnlinePlayers().size() >= server.getMaxPlayers())
         {
@@ -157,8 +157,8 @@ public class LoginProcess extends FreedomService
             return;
         }
 
-        // Staff-only mode
-        if (ConfigEntry.STAFF_ONLY_MODE.getBoolean())
+        // Admin-only mode
+        if (ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is temporarily open to admins only.");
             return;
@@ -226,7 +226,7 @@ public class LoginProcess extends FreedomService
             player.setPlayerListFooter(FUtil.colorize(ConfigEntry.SERVER_TABLIST_FOOTER.getString()).replace("\\n", "\n"));
         }
 
-        if (!plugin.sl.isStaff(player))
+        if (!plugin.al.isAdmin(player))
         {
             String tag = playerData.getTag();
             if (tag != null)
@@ -244,7 +244,7 @@ public class LoginProcess extends FreedomService
                 FLog.info(noteMessage);
                 for (Player p : server.getOnlinePlayers())
                 {
-                    if (plugin.sl.isAdminImpostor(p))
+                    if (plugin.al.isAdminImpostor(p))
                     {
                         notice.send(p);
                     }
@@ -257,9 +257,9 @@ public class LoginProcess extends FreedomService
             @Override
             public void run()
             {
-                if (ConfigEntry.STAFF_ONLY_MODE.getBoolean())
+                if (ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
                 {
-                    player.sendMessage(ChatColor.RED + "Server is currently closed to non-staff.");
+                    player.sendMessage(ChatColor.RED + "Server is currently closed to non-admins.");
                 }
 
                 if (lockdownEnabled)

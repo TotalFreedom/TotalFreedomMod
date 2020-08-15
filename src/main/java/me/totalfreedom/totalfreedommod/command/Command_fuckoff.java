@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.ADMIN, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "You'll never even see it coming - repeatedly push players away from you until command is untoggled.", usage = "/<command> <on [radius (default=25)] | off>")
 public class Command_fuckoff extends FreedomCommand
 {
