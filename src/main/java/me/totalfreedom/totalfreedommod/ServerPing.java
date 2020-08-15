@@ -30,7 +30,7 @@ public class ServerPing extends FreedomService
             return;
         }
 
-        if (ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
+            if (ConfigEntry.STAFF_ONLY_MODE.getBoolean())
         {
             event.setMotd(FUtil.colorize(ConfigEntry.SERVER_STAFFMODE_MOTD.getString()));
             return;

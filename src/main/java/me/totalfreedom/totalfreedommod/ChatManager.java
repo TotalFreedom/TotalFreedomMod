@@ -142,47 +142,15 @@ public class ChatManager extends FreedomService
         }
     }
 
-    public ChatColor getColor(StaffMember staffMember, Displayable display)
+    public ChatColor getColor(Displayable display)
     {
         ChatColor color = display.getColor();
-        if (staffMember.getOldTags())
-        {
-
-            if (color.equals(ChatColor.AQUA))
-            {
-                color = ChatColor.GOLD;
-            }
-            else if (color.equals(ChatColor.GOLD))
-            {
-                color = ChatColor.LIGHT_PURPLE;
-            }
-            else if (color.equals(ChatColor.DARK_RED))
-            {
-                color = ChatColor.BLUE;
-            }
-        }
         return color;
     }
 
-    public String getColoredTag(StaffMember staffMember, Displayable display)
+    public String getColoredTag(Displayable display)
     {
         ChatColor color = display.getColor();
-        if (staffMember.getOldTags())
-        {
-
-            if (color.equals(ChatColor.AQUA))
-            {
-                color = ChatColor.GOLD;
-            }
-            else if (color.equals(ChatColor.GOLD))
-            {
-                color = ChatColor.LIGHT_PURPLE;
-            }
-            else if (color.equals(ChatColor.DARK_RED))
-            {
-                color = ChatColor.BLUE;
-            }
-        }
         return color + display.getAbbr();
     }
 
@@ -199,13 +167,13 @@ public class ChatManager extends FreedomService
                 if (!Strings.isNullOrEmpty(staffMember.getAcFormat()))
                 {
                     String format = staffMember.getAcFormat();
-                    ChatColor color = getColor(staffMember, display);
+                    ChatColor color = getColor(display);
                     String msg = format.replace("%name%", sender.getName()).replace("%rank%", display.getAbbr()).replace("%rankcolor%", color.toString()).replace("%msg%", message);
                     player.sendMessage(FUtil.colorize(msg));
                 }
                 else
                 {
-                    player.sendMessage("[" + ChatColor.AQUA + "STAFF" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + ChatColor.DARK_GRAY + " [" + getColoredTag(staffMember, display) + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + ": " + ChatColor.GOLD + FUtil.colorize(message));
+                    player.sendMessage("[" + ChatColor.AQUA + "STAFF" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + ChatColor.DARK_GRAY + " [" + getColoredTag(display) + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + ": " + ChatColor.GOLD + FUtil.colorize(message));
                 }
             }
         }

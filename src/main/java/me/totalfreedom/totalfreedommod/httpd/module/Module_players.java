@@ -53,7 +53,7 @@ public class Module_players extends HTTPDModule
 
             switch (staffMember.getRank())
             {
-                case SUPER_ADMIN:
+                case TRIAL_MOD:
                     superadmins.add(username);
                     break;
                 case MOD:

@@ -149,7 +149,7 @@ public class LoginProcess extends FreedomService
             return;
         }
 
-        // Player is not an admin
+        // Player is not a staff member
         // Server full check
         if (server.getOnlinePlayers().size() >= server.getMaxPlayers())
         {
@@ -157,8 +157,8 @@ public class LoginProcess extends FreedomService
             return;
         }
 
-        // Admin-only mode
-        if (ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
+        // Staff-only mode
+        if (ConfigEntry.STAFF_ONLY_MODE.getBoolean())
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is temporarily open to admins only.");
             return;
@@ -257,9 +257,9 @@ public class LoginProcess extends FreedomService
             @Override
             public void run()
             {
-                if (ConfigEntry.ADMIN_ONLY_MODE.getBoolean())
+                if (ConfigEntry.STAFF_ONLY_MODE.getBoolean())
                 {
-                    player.sendMessage(ChatColor.RED + "Server is currently closed to non-admins.");
+                    player.sendMessage(ChatColor.RED + "Server is currently closed to non-staff.");
                 }
 
                 if (lockdownEnabled)
