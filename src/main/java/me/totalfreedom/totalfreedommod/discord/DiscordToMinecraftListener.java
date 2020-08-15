@@ -75,7 +75,7 @@ public class DiscordToMinecraftListener extends ListenerAdapter
         {
             return Rank.MOD.getColoredTag();
         }
-        // Trail Mods
+        // Trial Mods
         else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_TRIAL_MOD_ROLE_ID.getString())))
         {
             return Rank.TRIAL_MOD.getColoredTag();
