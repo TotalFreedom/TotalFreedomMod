@@ -8,7 +8,6 @@ import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,7 +16,9 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Ride on the top of the specified player.", usage = "/<command> <playername | mode <normal | off | ask>>")
 public class Command_ride extends FreedomCommand
 {
+
     private final Map<Player, Player> RIDE_REQUESTS = new HashMap<>(); // requested, requester
+
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -40,6 +41,7 @@ public class Command_ride extends FreedomCommand
                 msg("You don't have a request currently.");
                 return true;
             }
+
             Player requester = RIDE_REQUESTS.get(playerSender);
             if (requester == null)
             {
@@ -47,8 +49,15 @@ public class Command_ride extends FreedomCommand
                 RIDE_REQUESTS.remove(playerSender);
                 return true;
             }
+
             msg("Request accepted.");
             requester.sendMessage(ChatColor.GRAY + "Your request has been accepted.");
+
+            if (requester.getWorld() != playerSender.getWorld())
+            {
+                requester.teleport(playerSender);
+            }
+
             playerSender.addPassenger(requester);
             return true;
         }
@@ -73,15 +82,18 @@ public class Command_ride extends FreedomCommand
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("mode"))
+        if (args.length >= 2)
         {
-            if (args[1].equalsIgnoreCase("normal") || args[1].equalsIgnoreCase("off") || args[1].equalsIgnoreCase("ask"))
+            if (args[0].equalsIgnoreCase("mode"))
             {
-                PlayerData playerDataSender = plugin.pl.getData(playerSender);
-                playerDataSender.setRideMode(args[1].toLowerCase());
-                plugin.pl.save(playerDataSender);
-                msg("Ride mode is now set to " + args[1].toLowerCase() + ".");
-                return true;
+                if (args[1].equalsIgnoreCase("normal") || args[1].equalsIgnoreCase("off") || args[1].equalsIgnoreCase("ask"))
+                {
+                    PlayerData playerDataSender = plugin.pl.getData(playerSender);
+                    playerDataSender.setRideMode(args[1].toLowerCase());
+                    plugin.pl.save(playerDataSender);
+                    msg("Ride mode is now set to " + args[1].toLowerCase() + ".");
+                    return true;
+                }
             }
         }
 
@@ -133,17 +145,11 @@ public class Command_ride extends FreedomCommand
 
         if (player.getWorld() != playerSender.getWorld())
         {
-            msg("Player is in another world. (" + player.getWorld().getName() + ")");
-            return true;
-        }
-        else
-        {
-            Location loc = player.getLocation();
-            playerSender.teleport(new Location(loc.getWorld(),loc.getX(), loc.getY(), loc.getZ()));
+            playerSender.teleport(player);
         }
 
         player.addPassenger(playerSender);
-
+        msg(player, playerSender.getName() + " is now riding you, run /eject to eject them.");
         return true;
     }
 }

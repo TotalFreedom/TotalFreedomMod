@@ -18,30 +18,36 @@ public class Command_stopsound extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
         if (args.length > 0)
         {
-            Sound sound = Sound.valueOf(args[0].toUpperCase());
-            if (sound != null)
+            Sound sound = null;
+
+            for (Sound loop : Sound.values())
             {
-                playerSender.stopSound(sound);
-                msg("Stopped all " + sound.name() +  " sounds", ChatColor.GREEN);
+                if (loop != null && loop.name().equalsIgnoreCase(args[0]))
+                {
+                    sound = Sound.valueOf(args[0].toUpperCase());
+                    break;
+                }
             }
-            else
+
+            if (sound == null)
             {
                 msg(args[0] + " is not a valid sound.", ChatColor.RED);
+                return true;
             }
+
+            playerSender.stopSound(sound);
+            msg("Stopped all " + sound.name() + " sounds", ChatColor.GREEN);
+            return true;
         }
-        else
+
+        for (Sound sound : Sound.values())
         {
-            for (Sound sound : Sound.values())
-            {
-                playerSender.stopSound(sound);
-            }
-            msg("Stopped all sounds.", ChatColor.GREEN);
-
+            playerSender.stopSound(sound);
         }
 
+        msg("Stopped all sounds.", ChatColor.GREEN);
         return true;
     }
 
