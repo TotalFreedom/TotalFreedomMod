@@ -1,9 +1,9 @@
 package me.totalfreedom.totalfreedommod.command;
 
+import de.myzelyam.api.vanish.VanishAPI;
 import java.util.ArrayList;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.admin.Admin;
-import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -96,7 +96,7 @@ public class Command_list extends FreedomCommand
         }
         else
         {
-            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - AdminList.vanished.size())
+            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().size() - VanishAPI.getInvisiblePlayers().size())
                     .append(ChatColor.BLUE)
                     .append(" out of a maximum ")
                     .append(ChatColor.RED)
@@ -109,11 +109,11 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.ADMINS && plugin.al.isVanished(p.getName()))
+                if (listFilter == ListFilter.ADMINS && plugin.al.isVanished(p))
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.VANISHED_ADMINS && !plugin.al.isVanished(p.getName()))
+                if (listFilter == ListFilter.VANISHED_ADMINS && !plugin.al.isVanished(p))
                 {
                     continue;
                 }

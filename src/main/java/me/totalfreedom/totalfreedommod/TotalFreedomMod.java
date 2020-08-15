@@ -22,6 +22,7 @@ import me.totalfreedom.totalfreedommod.bridge.EssentialsBridge;
 import me.totalfreedom.totalfreedommod.bridge.FAWEBridge;
 import me.totalfreedom.totalfreedommod.bridge.LibsDisguisesBridge;
 import me.totalfreedom.totalfreedommod.bridge.TFGuildsBridge;
+import me.totalfreedom.totalfreedommod.bridge.VanishBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldEditBridge;
 import me.totalfreedom.totalfreedommod.bridge.WorldGuardBridge;
 import me.totalfreedom.totalfreedommod.caging.Cager;
@@ -136,7 +137,7 @@ public class TotalFreedomMod extends JavaPlugin
     public SignBlocker snp;
     public EntityWiper ew;
     public Sitter st;
-    public VanishHandler vh;
+    public VanishBridge vb;
     public AMP amp;
 
     //public HubWorldRestrictions hwr;
@@ -235,7 +236,7 @@ public class TotalFreedomMod extends JavaPlugin
         snp = new SignBlocker();
         ew = new EntityWiper();
         st = new Sitter();
-        vh = new VanishHandler();
+        vb = new VanishBridge();
         amp = new AMP();
 
         // Single admin utils
