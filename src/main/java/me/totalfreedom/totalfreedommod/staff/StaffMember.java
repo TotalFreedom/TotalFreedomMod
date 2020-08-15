@@ -73,7 +73,7 @@ public class StaffMember
         }
         catch (SQLException e)
         {
-            FLog.severe("Failed to load admin: " + e.getMessage());
+            FLog.severe("Failed to load staff: " + e.getMessage());
         }
     }
 
@@ -82,7 +82,7 @@ public class StaffMember
     {
         final StringBuilder output = new StringBuilder();
 
-        output.append("Admin: ").append(name).append("\n")
+        output.append("Staff: ").append(name).append("\n")
                 .append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n")
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")

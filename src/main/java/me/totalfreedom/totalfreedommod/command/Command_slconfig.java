@@ -17,7 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "List, add, remove, or set the rank of staff, clean or reload the admin list, or view the info of staff.", usage = "/<command> <list | clean | reload | | setrank <username> <rank> | <add | remove | info> <username>>")
+@CommandParameters(description = "List, add, remove, or set the rank of staff, clean or reload the staff list, or view the info of staff.", usage = "/<command> <list | clean | reload | | setrank <username> <rank> | <add | remove | info> <username>>")
 public class Command_slconfig extends FreedomCommand
 {
 
@@ -159,7 +159,7 @@ public class Command_slconfig extends FreedomCommand
                 checkConsole();
                 checkRank(Rank.MOD);
 
-                // Player already an admin?
+                // Player already staff?
                 final Player player = getPlayer(args[1]);
 
                 if (player == null)
@@ -174,7 +174,7 @@ public class Command_slconfig extends FreedomCommand
                     return true;
                 }
 
-                // Find the old admin entry
+                // Find the old staff entry
                 String name = player != null ? player.getName() : args[1];
                 StaffMember staffMember = null;
                 for (StaffMember loopStaffMember : plugin.sl.getAllStaffMembers())
@@ -225,7 +225,7 @@ public class Command_slconfig extends FreedomCommand
                     staffMember.setActive(true);
                     staffMember.setLastLogin(new Date());
 
-                    if (plugin.sl.isVerifiedAdmin(player))
+                    if (plugin.sl.isVerifiedStaff(player))
                     {
                         plugin.sl.verifiedNoStaff.remove(player.getName());
                         plugin.sl.verifiedNoStaffIps.remove(player.getName());
@@ -285,9 +285,9 @@ public class Command_slconfig extends FreedomCommand
                 FUtil.staffAction(sender.getName(), "Removing " + staffMember.getName() + " from the staff list", true);
                 staffMember.setActive(false);
 
-                if (plugin.pl.getPlayer(player).inAdminChat())
+                if (plugin.pl.getPlayer(player).inStaffChat())
                 {
-                    plugin.pl.getPlayer(player).setAdminChat(false);
+                    plugin.pl.getPlayer(player).setStaffChat(false);
                 }
 
                 plugin.sl.save(staffMember);

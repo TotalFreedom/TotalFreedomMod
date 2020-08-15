@@ -8,7 +8,7 @@ public enum Title implements Displayable
 
     DONATOR("a", "Premium Member", ChatColor.of("#ff5600"), org.bukkit.ChatColor.LIGHT_PURPLE, "Premium", true),
     MASTER_BUILDER("a", "Master Builder", ChatColor.DARK_AQUA, org.bukkit.ChatColor.DARK_AQUA, "MB", true),
-    VERIFIED_ADMIN("a", "Verified Admin", ChatColor.LIGHT_PURPLE, org.bukkit.ChatColor.LIGHT_PURPLE, "VA", false),
+    VERIFIED_STAFF("a", "Verified Staff", ChatColor.LIGHT_PURPLE, org.bukkit.ChatColor.LIGHT_PURPLE, "VS", false),
     ASSISTANT_EXECUTIVE("an", "Assistant Executive", ChatColor.RED, org.bukkit.ChatColor.RED, "Asst Exec", true),
     EXECUTIVE("an", "Executive", ChatColor.RED, org.bukkit.ChatColor.RED, "Exec", true),
     DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, org.bukkit.ChatColor.DARK_PURPLE, "Dev", true),
@@ -30,7 +30,7 @@ public enum Title implements Displayable
     @Getter
     private final boolean hasTeam;
 
-    private Title(String determiner, String name, ChatColor color, org.bukkit.ChatColor teamColor, String tag, Boolean hasTeam)
+    Title(String determiner, String name, ChatColor color, org.bukkit.ChatColor teamColor, String tag, Boolean hasTeam)
     {
         this.determiner = determiner;
         this.name = name;
@@ -59,5 +59,4 @@ public enum Title implements Displayable
     {
         return determiner + " " + color + name;
     }
-
 }

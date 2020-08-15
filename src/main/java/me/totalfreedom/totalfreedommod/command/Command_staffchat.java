@@ -19,19 +19,18 @@ public class Command_staffchat extends FreedomCommand
         {
             if (senderIsConsole)
             {
-                msg("You must be in-game to toggle admin chat, it cannot be toggled via CONSOLE or Telnet.");
+                msg("You must be in-game to toggle staff chat, it cannot be toggled via CONSOLE or Telnet.");
                 return true;
             }
 
             FPlayer userinfo = plugin.pl.getPlayer(playerSender);
-            userinfo.setAdminChat(!userinfo.inAdminChat());
-            msg("Toggled your staff chat " + (userinfo.inAdminChat() ? "on" : "off") + ".");
+            userinfo.setStaffChat(!userinfo.inStaffChat());
+            msg("Toggled your staff chat " + (userinfo.inStaffChat() ? "on" : "off") + ".");
         }
         else
         {
             plugin.cm.staffChat(sender, StringUtils.join(args, " "));
         }
-
         return true;
     }
 }

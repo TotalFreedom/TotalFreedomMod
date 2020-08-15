@@ -114,7 +114,7 @@ public class Command_blockedit extends FreedomCommand
         {
             if (plugin.sl.isStaff(player2))
             {
-                msg(player2.getName() + " is an admin, and cannot have their block edits blocked.");
+                msg(player2.getName() + " is a staff member, and cannot have their block edits blocked.");
                 return true;
             }
 

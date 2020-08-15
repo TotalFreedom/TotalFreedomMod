@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
-@CommandParameters(description = "Freeze/Unfreeze a specified player, or all non-admins on the server.", usage = "/<command> [target | purge]", aliases = "fr")
+@CommandParameters(description = "Freeze/Unfreeze a specified player, or all non-staff on the server.", usage = "/<command> [target | purge]", aliases = "fr")
 public class Command_freeze extends FreedomCommand
 {
 
@@ -38,7 +38,6 @@ public class Command_freeze extends FreedomCommand
                 }
             }
             msg("Players are now frozen.");
-
             return true;
         }
 
@@ -69,7 +68,6 @@ public class Command_freeze extends FreedomCommand
 
         msg(player.getName() + " has been " + (fd.isFrozen() ? "frozen" : "unfrozen") + ".");
         msg(player, "You have been " + (fd.isFrozen() ? "frozen" : "unfrozen") + ".", ChatColor.AQUA);
-
         return true;
     }
 }

@@ -62,7 +62,7 @@ public class Command_warn extends FreedomCommand
         }
 
         msg(player, ChatColor.RED + "[WARNING] You received a warning from " + sender.getName() + ": " + warnReason);
-        String adminNotice = ChatColor.RED +
+        String staffNotice = ChatColor.RED +
                 sender.getName() +
                 " - " +
                 "Warning: " +
@@ -70,7 +70,7 @@ public class Command_warn extends FreedomCommand
                 " - Reason: " +
                 ChatColor.YELLOW +
                 warnReason;
-        plugin.sl.messageAllAdmins(adminNotice);
+        plugin.sl.messageAllStaff(staffNotice);
         plugin.pl.getPlayer(player).incrementWarnings();
         return true;
     }

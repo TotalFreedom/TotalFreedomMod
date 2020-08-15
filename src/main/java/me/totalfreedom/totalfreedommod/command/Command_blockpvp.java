@@ -115,7 +115,7 @@ public class Command_blockpvp extends FreedomCommand
         {
             if (plugin.sl.isStaff(p))
             {
-                msg(p.getName() + " is an admin, and cannot have their PVP disabled.");
+                msg(p.getName() + " is a staff member, and cannot have their PVP disabled.");
                 return true;
             }
 

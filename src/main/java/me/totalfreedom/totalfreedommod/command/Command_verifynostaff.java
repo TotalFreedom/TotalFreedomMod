@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.MOD, source = SourceType.BOTH)
-@CommandParameters(description = "Verify an admin without giving them staff permissions.", usage = "/<command> <player>", aliases = "vna")
+@CommandParameters(description = "Verify a staff member without giving them staff permissions.", usage = "/<command> <player>", aliases = "vns")
 public class Command_verifynostaff extends FreedomCommand
 {
 
@@ -32,7 +32,7 @@ public class Command_verifynostaff extends FreedomCommand
             return true;
         }
 
-        if (plugin.sl.isAdminImpostor(player))
+        if (plugin.sl.isStaffImpostor(player))
         {
             if (!plugin.sl.verifiedNoStaff.contains(player.getName()))
             {
@@ -70,7 +70,7 @@ public class Command_verifynostaff extends FreedomCommand
         }
         else
         {
-            msg(player.getName() + " is not an admin imposter.", ChatColor.RED);
+            msg(player.getName() + " is not a staff imposter.", ChatColor.RED);
         }
 
         return true;
@@ -84,7 +84,7 @@ public class Command_verifynostaff extends FreedomCommand
             List<String> adminImposters = new ArrayList<>();
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.sl.isAdminImpostor(player))
+                if (plugin.sl.isStaffImpostor(player))
                 {
                     adminImposters.add(player.getName());
                 }

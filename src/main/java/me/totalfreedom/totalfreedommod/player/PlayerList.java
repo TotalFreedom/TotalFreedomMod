@@ -163,7 +163,7 @@ public class PlayerList extends FreedomService
 
     public boolean isImposter(Player player)
     {
-        return isPlayerImpostor(player) || plugin.sl.isAdminImpostor(player);
+        return isPlayerImpostor(player) || plugin.sl.isStaffImpostor(player);
     }
 
     public void verify(Player player, String backupCode)
@@ -173,10 +173,11 @@ public class PlayerList extends FreedomService
         {
             playerData.removeBackupCode(backupCode);
         }
+
         playerData.addIp(FUtil.getIp(player));
         save(playerData);
 
-        if (plugin.sl.isAdminImpostor(player))
+        if (plugin.sl.isStaffImpostor(player))
         {
             StaffMember staffMember = plugin.sl.getEntryByName(player.getName());
             staffMember.setLastLogin(new Date());
@@ -195,6 +196,7 @@ public class PlayerList extends FreedomService
         playerData.addIps(staffMember.getIps());
         plugin.pl.save(playerData);
     }
+
     public void syncIps(PlayerData playerData)
     {
         StaffMember staffMember = plugin.sl.getEntryByName(playerData.getName());
@@ -246,7 +248,7 @@ public class PlayerList extends FreedomService
             playerData = loadByIp(FUtil.getIp(player));
             if (playerData != null)
             {
-                plugin.sql.updatePlayerName(playerData.getName(),player.getName());
+                plugin.sql.updatePlayerName(playerData.getName(), player.getName());
                 playerData.setName(player.getName());
                 dataMap.put(player.getName(), playerData);
                 return playerData;
@@ -312,5 +314,4 @@ public class PlayerList extends FreedomService
 
         return player;
     }
-
 }

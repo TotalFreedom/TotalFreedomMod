@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Information on how to apply for admin.", usage = "/<command>", aliases = "si")
+@CommandParameters(description = "Information on how to apply for staff.", usage = "/<command>", aliases = "si")
 public class Command_staffinfo extends FreedomCommand
 {
 
@@ -28,7 +28,6 @@ public class Command_staffinfo extends FreedomCommand
         {
             msg(FUtil.colorize(StringUtils.join(staffInfo, "\n")));
         }
-
         return true;
     }
 }
