@@ -3,11 +3,7 @@ package me.totalfreedom.totalfreedommod.command;
 import de.myzelyam.api.vanish.VanishAPI;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
-import me.totalfreedom.totalfreedommod.admin.Admin;
-=======
 import me.totalfreedom.totalfreedommod.staff.StaffMember;
->>>>>>> parent of da80f1b6... Revert "Merge branch 'development' of https://github.com/TFPatches/TotalFreedomMod into development"
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -113,19 +109,11 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-<<<<<<< HEAD
-                if (listFilter == ListFilter.ADMINS && plugin.al.isVanished(p))
-                {
-                    continue;
-                }
-                if (listFilter == ListFilter.VANISHED_ADMINS && !plugin.al.isVanished(p))
-=======
                 if (listFilter == ListFilter.STAFF && plugin.sl.isVanished(p))
                 {
                     continue;
                 }
                 if (listFilter == ListFilter.VANISHED_STAFF && !plugin.sl.isVanished(p))
->>>>>>> parent of da80f1b6... Revert "Merge branch 'development' of https://github.com/TFPatches/TotalFreedomMod into development"
                 {
                     continue;
                 }

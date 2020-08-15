@@ -32,6 +32,7 @@ public class StaffList extends FreedomService
     private final Map<String, StaffMember> ipTable = Maps.newHashMap();
     public final List<String> verifiedNoStaff = new ArrayList<>();
     public final Map<String, List<String>> verifiedNoStaffIps = Maps.newHashMap();
+    public final List<String> vanished = new ArrayList<>();
 
     @Override
     public void onStart()
@@ -363,8 +364,8 @@ public class StaffList extends FreedomService
         updateTables();
     }
 
-    public boolean isVanished(Player player)
+    public boolean isVanished(String player)
     {
-        return VanishAPI.isInvisible(player);
+        return vanished.contains(player);
     }
 }
