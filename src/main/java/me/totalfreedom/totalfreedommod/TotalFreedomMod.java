@@ -3,8 +3,8 @@ package me.totalfreedom.totalfreedommod;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
-import me.totalfreedom.totalfreedommod.admin.ActivityLog;
-import me.totalfreedom.totalfreedommod.admin.AdminList;
+import me.totalfreedom.totalfreedommod.staff.ActivityLog;
+import me.totalfreedom.totalfreedommod.staff.StaffList;
 import me.totalfreedom.totalfreedommod.banning.BanManager;
 import me.totalfreedom.totalfreedommod.banning.IndefiniteBanList;
 import me.totalfreedom.totalfreedommod.blocking.BlockBlocker;
@@ -55,7 +55,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.SpigotConfig;
 
 public class TotalFreedomMod extends JavaPlugin
@@ -86,7 +85,7 @@ public class TotalFreedomMod extends JavaPlugin
     public SavedFlags sf;
     public WorldManager wm;
     public LogViewer lv;
-    public AdminList al;
+    public StaffList sl;
     public ActivityLog acl;
     public RankManager rm;
     public CommandBlocker cb;
@@ -109,7 +108,6 @@ public class TotalFreedomMod extends JavaPlugin
     public BanManager bm;
     public IndefiniteBanList im;
     public PermissionManager pem;
-    public ProtectArea pa;
     public Reddit rd;
     public GameRuleHandler gr;
     public CommandSpy cs;
@@ -206,7 +204,7 @@ public class TotalFreedomMod extends JavaPlugin
         wm = new WorldManager();
         lv = new LogViewer();
         sql = new SQLite();
-        al = new AdminList();
+        sl = new StaffList();
         acl = new ActivityLog();
         rm = new RankManager();
         cb = new CommandBlocker();
@@ -229,7 +227,6 @@ public class TotalFreedomMod extends JavaPlugin
         bm = new BanManager();
         im = new IndefiniteBanList();
         pem = new PermissionManager();
-        pa = new ProtectArea();
         rd = new Reddit();
         gr = new GameRuleHandler();
         snp = new SignBlocker();
@@ -284,15 +281,6 @@ public class TotalFreedomMod extends JavaPlugin
         // Metrics @ https://bstats.org/plugin/bukkit/TotalFreedomMod/2966
         new Metrics(this, 2966);
 
-        // Add spawnpoints later - https://github.com/TotalFreedom/TotalFreedomMod/issues/438
-        new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                plugin.pa.autoAddSpawnpoints();
-            }
-        }.runTaskLater(plugin, 60L);
         // little workaround to stop spigot from autorestarting - causing AMP to detach from process.
         SpigotConfig.config.set("settings.restart-on-crash", false);
     }

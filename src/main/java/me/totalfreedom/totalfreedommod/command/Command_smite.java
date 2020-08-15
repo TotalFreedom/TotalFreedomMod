@@ -14,7 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Someone being a little bitch? Smite them down...", usage = "/<command> <player> [reason] [-q]")
 public class Command_smite extends FreedomCommand
 {

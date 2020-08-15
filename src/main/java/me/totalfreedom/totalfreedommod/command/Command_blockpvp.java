@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Toggle PVP mode for everyone or a certain player.", usage = "/<command> [[-s] <player> [reason] | list | purge | all]", aliases = "pvpblock,pvpmode")
 public class Command_blockpvp extends FreedomCommand
 {
@@ -46,7 +46,7 @@ public class Command_blockpvp extends FreedomCommand
 
         if (args[0].equals("purge"))
         {
-            FUtil.adminAction(sender.getName(), "Enabling PVP for all players.", true);
+            FUtil.staffAction(sender.getName(), "Enabling PVP for all players.", true);
             int count = 0;
             for (Player player : server.getOnlinePlayers())
             {
@@ -64,11 +64,11 @@ public class Command_blockpvp extends FreedomCommand
 
         if (args[0].equals("all"))
         {
-            FUtil.adminAction(sender.getName(), "Disabling PVP for all non-admins", true);
+            FUtil.staffAction(sender.getName(), "Disabling PVP for all non-staff", true);
             int counter = 0;
             for (Player player : server.getOnlinePlayers())
             {
-                if (!plugin.al.isAdmin(player))
+                if (!plugin.sl.isStaff(player))
                 {
                     final FPlayer playerdata = plugin.pl.getPlayer(player);
                     playerdata.setPvpBlocked(true);
@@ -106,20 +106,20 @@ public class Command_blockpvp extends FreedomCommand
         final FPlayer pd = plugin.pl.getPlayer(p);
         if (pd.isPvpBlocked())
         {
-            FUtil.adminAction(sender.getName(), "Enabling PVP for " + p.getName(), true);
+            FUtil.staffAction(sender.getName(), "Enabling PVP for " + p.getName(), true);
             pd.setPvpBlocked(false);
             msg("Enabling PVP  for  " + p.getName());
             msg(p, "Your PVP have been enabled.", ChatColor.GREEN);
         }
         else
         {
-            if (plugin.al.isAdmin(p))
+            if (plugin.sl.isStaff(p))
             {
                 msg(p.getName() + " is an admin, and cannot have their PVP disabled.");
                 return true;
             }
 
-            FUtil.adminAction(sender.getName(), "Disabling PVP for " + p.getName(), true);
+            FUtil.staffAction(sender.getName(), "Disabling PVP for " + p.getName(), true);
             pd.setPvpBlocked(true);
             if (smite)
             {

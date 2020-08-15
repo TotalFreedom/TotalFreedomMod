@@ -146,7 +146,7 @@ public class FUtil
         List<String> names = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            if (!TotalFreedomMod.plugin().al.isVanished(player))
+            if (!TotalFreedomMod.plugin().sl.isVanished(player))
             {
                 names.add(player.getName());
             }
@@ -314,9 +314,9 @@ public class FUtil
         player.setFlying(flying);
     }
 
-    public static void adminAction(String adminName, String action, boolean isRed)
+    public static void staffAction(String staffMemberName, String action, boolean isRed)
     {
-        FUtil.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
+        FUtil.bcastMsg(staffMemberName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
     }
 
     public static String formatLocation(Location location)

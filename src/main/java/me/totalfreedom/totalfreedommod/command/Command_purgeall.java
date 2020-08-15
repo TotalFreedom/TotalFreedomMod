@@ -11,7 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Purge current mutes, command blocks, orbits, freezes, potion effects, cages, and entities.", usage = "/<command>")
 public class Command_purgeall extends FreedomCommand
 {
@@ -19,7 +19,7 @@ public class Command_purgeall extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        FUtil.adminAction(sender.getName(), "Purging all player data", true);
+        FUtil.staffAction(sender.getName(), "Purging all player data", true);
 
         // Purge entities
         for (World world : Bukkit.getWorlds())

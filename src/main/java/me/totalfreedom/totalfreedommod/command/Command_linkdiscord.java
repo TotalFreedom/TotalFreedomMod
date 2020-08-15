@@ -22,7 +22,7 @@ public class Command_linkdiscord extends FreedomCommand
             return true;
         }
 
-        if (args.length > 1 && plugin.al.isAdmin(playerSender))
+        if (args.length > 1 && plugin.sl.isStaff(playerSender))
         {
             PlayerData playerData = plugin.pl.getData(args[0]);
             if (playerData == null)

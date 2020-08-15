@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.math.NumberUtils;
@@ -15,8 +15,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Allows admins to see potions that are thrown.", usage = "/<command> <enable | on | disable | off> | history [player] <page>", aliases = "potspy")
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Allows staff to see potions that are thrown.", usage = "/<command> <enable | on | disable | off> | history [player] <page>", aliases = "potspy")
 public class Command_potionspy extends FreedomCommand
 {
     private String titleText = "&8&m------------------&r &ePotionSpy &8&m------------------&r";
@@ -28,11 +28,11 @@ public class Command_potionspy extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        Admin admin = plugin.al.getAdmin(playerSender);
+        StaffMember staffMember = plugin.sl.getAdmin(playerSender);
 
         if (args.length <= 0)
         {
-            setPotionSpyState(admin, !admin.getPotionSpy());
+            setPotionSpyState(staffMember, !staffMember.getPotionSpy());
             return true;
         }
         else
@@ -41,12 +41,12 @@ public class Command_potionspy extends FreedomCommand
             {
                 case "enable":
                 case "on":
-                    setPotionSpyState(admin, true);
+                    setPotionSpyState(staffMember, true);
                     break;
 
                 case "disable":
                 case "off":
-                    setPotionSpyState(admin, false);
+                    setPotionSpyState(staffMember, false);
                     break;
 
                 case "history":
@@ -176,12 +176,12 @@ public class Command_potionspy extends FreedomCommand
         return true;
     }
 
-    private void setPotionSpyState(Admin admin, boolean state)
+    private void setPotionSpyState(StaffMember staffMember, boolean state)
     {
-        admin.setPotionSpy(state);
-        plugin.al.save(admin);
-        plugin.al.updateTables();
-        msg("PotionSpy is now " + (admin.getPotionSpy() ? "enabled." : "disabled."));
+        staffMember.setPotionSpy(state);
+        plugin.sl.save(staffMember);
+        plugin.sl.updateTables();
+        msg("PotionSpy is now " + (staffMember.getPotionSpy() ? "enabled." : "disabled."));
     }
 
     /**

@@ -1,4 +1,4 @@
-package me.totalfreedom.totalfreedommod.admin;
+package me.totalfreedom.totalfreedommod.staff;
 
 import com.google.common.collect.Maps;
 import java.util.Map;
@@ -167,7 +167,7 @@ public class ActivityLog extends FreedomService
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         Player player = event.getPlayer();
-        if (plugin.al.isAdmin(player))
+        if (plugin.sl.isStaff(player))
         {
             getActivityLog(event.getPlayer()).addLogin();
             plugin.acl.save();
@@ -179,7 +179,7 @@ public class ActivityLog extends FreedomService
     public void onPlayerQuit(PlayerQuitEvent event)
     {
         Player player = event.getPlayer();
-        if (plugin.al.isAdmin(player))
+        if (plugin.sl.isStaff(player))
         {
             getActivityLog(event.getPlayer()).addLogout();
             plugin.acl.save();

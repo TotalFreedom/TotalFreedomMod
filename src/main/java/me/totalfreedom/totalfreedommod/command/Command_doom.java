@@ -1,6 +1,6 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.banning.Ban;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.punishments.Punishment;
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandPermissions(level = Rank.ADMIN, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
 @CommandParameters(description = "Sends the specified player to their doom.", usage = "/<command> <playername> [reason]")
 public class Command_doom extends FreedomCommand
 {
@@ -38,23 +38,23 @@ public class Command_doom extends FreedomCommand
             return true;
         }
 
-        FUtil.adminAction(sender.getName(), "Casting oblivion over " + player.getName(), true);
+        FUtil.staffAction(sender.getName(), "Casting oblivion over " + player.getName(), true);
         FUtil.bcastMsg(player.getName() + " will be completely obliviated!", ChatColor.RED);
 
         final String ip = player.getAddress().getAddress().getHostAddress().trim();
 
         // Remove from admin
-        Admin admin = getAdmin(player);
-        if (admin != null)
+        StaffMember staffMember = getAdmin(player);
+        if (staffMember != null)
         {
-            FUtil.adminAction(sender.getName(), "Removing " + player.getName() + " from the admin list", true);
-            admin.setActive(false);
-            plugin.al.save(admin);
-            plugin.al.updateTables();
-            plugin.amp.updateAccountStatus(admin);
+            FUtil.staffAction(sender.getName(), "Removing " + player.getName() + " from the staff list", true);
+            staffMember.setActive(false);
+            plugin.sl.save(staffMember);
+            plugin.sl.updateTables();
+            plugin.amp.updateAccountStatus(staffMember);
             if (plugin.dc.enabled && ConfigEntry.DISCORD_ROLE_SYNC.getBoolean())
             {
-                plugin.dc.syncRoles(admin, plugin.pl.getData(admin.getName()).getDiscordID());
+                plugin.dc.syncRoles(staffMember, plugin.pl.getData(staffMember.getName()).getDiscordID());
             }
         }
 
@@ -120,7 +120,7 @@ public class Command_doom extends FreedomCommand
             public void run()
             {
                 // message
-                FUtil.adminAction(sender.getName(), "Banning " + player.getName(), true);
+                FUtil.staffAction(sender.getName(), "Banning " + player.getName(), true);
                 msg(sender, player.getName() + " has been banned and IP is: " + ip);
 
                 // generate explosion

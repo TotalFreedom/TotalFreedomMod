@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Unblocks commands for a player.", usage = "/<command> <player>", aliases = "unblockcommand,unblockcommands,ubcmds,unblockcmds,ubc")
 public class Command_unblockcmd extends FreedomCommand
 {
@@ -32,7 +32,7 @@ public class Command_unblockcmd extends FreedomCommand
         if (fPlayer.allCommandsBlocked())
         {
             fPlayer.setCommandsBlocked(false);
-            FUtil.adminAction(sender.getName(), "Unblocking all commands for " + player.getName(), true);
+            FUtil.staffAction(sender.getName(), "Unblocking all commands for " + player.getName(), true);
             msg("Unblocked commands for " + player.getName() + ".");
         }
         else

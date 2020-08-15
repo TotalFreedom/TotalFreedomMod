@@ -1,4 +1,4 @@
-package me.totalfreedom.totalfreedommod.admin;
+package me.totalfreedom.totalfreedommod.staff;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
-public class Admin
+public class StaffMember
 {
 
     @Getter
@@ -27,7 +27,7 @@ public class Admin
     private boolean active = true;
     @Getter
     @Setter
-    private Rank rank = Rank.SUPER_ADMIN;
+    private Rank rank = Rank.TRIAL_MOD;
     @Getter
     private final List<String> ips = new ArrayList<>();
     @Getter
@@ -47,18 +47,15 @@ public class Admin
     private String acFormat = null;
     @Getter
     @Setter
-    private Boolean oldTags = false;
-    @Getter
-    @Setter
     private String ampUsername = null;
 
-    public Admin(Player player)
+    public StaffMember(Player player)
     {
         this.name = player.getName();
         this.ips.add(FUtil.getIp(player));
     }
 
-    public Admin(ResultSet resultSet)
+    public StaffMember(ResultSet resultSet)
     {
         try
         {
@@ -72,7 +69,6 @@ public class Admin
             this.commandSpy = resultSet.getBoolean("command_spy");
             this.potionSpy = resultSet.getBoolean("potion_spy");
             this.acFormat = resultSet.getString("ac_format");
-            this.oldTags = resultSet.getBoolean("old_tags");
             this.ampUsername = resultSet.getString("amp_username");
         }
         catch (SQLException e)
@@ -94,7 +90,6 @@ public class Admin
                 .append("- Is Active: ").append(active).append("\n")
                 .append("- Potion Spy: ").append(potionSpy).append("\n")
                 .append("- Admin Chat Format: ").append(acFormat).append("\n")
-                .append("- Old Tags: ").append(oldTags).append("\n")
                 .append("- AMP Username: ").append(ampUsername).append("\n");
 
         return output.toString();
@@ -113,7 +108,6 @@ public class Admin
             put("command_spy", commandSpy);
             put("potion_spy", potionSpy);
             put("ac_format", acFormat);
-            put("old_tags", oldTags);
             put("amp_username", ampUsername);
         }};
         return map;
@@ -162,7 +156,7 @@ public class Admin
 
         if (!active)
         {
-            if (getRank().isAtLeast(Rank.TELNET_ADMIN))
+            if (getRank().isAtLeast(Rank.MOD))
             {
                 if (plugin.btb != null)
                 {

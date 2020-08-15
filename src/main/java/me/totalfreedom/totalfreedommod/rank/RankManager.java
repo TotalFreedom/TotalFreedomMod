@@ -1,7 +1,7 @@
 package me.totalfreedom.totalfreedommod.rank;
 
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
@@ -39,7 +39,7 @@ public class RankManager extends FreedomService
         final Player player = (Player)sender;
 
         // Display impostors
-        if (plugin.al.isAdminImpostor(player))
+        if (plugin.sl.isAdminImpostor(player))
         {
             return Rank.IMPOSTOR;
         }
@@ -56,29 +56,29 @@ public class RankManager extends FreedomService
             return Title.DEVELOPER;
         }
 
-        if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(player.getName()) && plugin.al.isAdmin(player))
+        if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(player.getName()) && plugin.sl.isStaff(player))
         {
             return Title.EXECUTIVE;
         }
 
-        if (ConfigEntry.SERVER_ASSISTANT_EXECUTIVES.getList().contains(player.getName()) && plugin.al.isAdmin(player))
+        if (ConfigEntry.SERVER_ASSISTANT_EXECUTIVES.getList().contains(player.getName()) && plugin.sl.isStaff(player))
         {
             return Title.ASSISTANT_EXECUTIVE;
         }
 
-        if (plugin.al.isVerifiedAdmin(player))
+        if (plugin.sl.isVerifiedAdmin(player))
         {
             return Title.VERIFIED_ADMIN;
         }
 
         // Master builders show up if they are not admins
-        if (plugin.pl.getData(player).isMasterBuilder() && !plugin.al.isAdmin(player))
+        if (plugin.pl.getData(player).isMasterBuilder() && !plugin.sl.isStaff(player))
         {
             return Title.MASTER_BUILDER;
         }
 
         PlayerData playerData = plugin.pl.getData(player);
-        if (!plugin.al.isAdmin(player) && playerData.isDonator())
+        if (!plugin.sl.isStaff(player) && playerData.isDonator())
         {
             return Title.DONATOR;
         }
@@ -86,26 +86,26 @@ public class RankManager extends FreedomService
         return getRank(player);
     }
 
-    public Displayable getDisplay(Admin admin)
+    public Displayable getDisplay(StaffMember staffMember)
     {
         // If the player's an owner, display that
-        if (ConfigEntry.SERVER_OWNERS.getList().contains(admin.getName()))
+        if (ConfigEntry.SERVER_OWNERS.getList().contains(staffMember.getName()))
         {
             return Title.OWNER;
         }
 
         // Developers always show up
-        if (FUtil.isDeveloper(admin.getName()))
+        if (FUtil.isDeveloper(staffMember.getName()))
         {
             return Title.DEVELOPER;
         }
 
-        if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(admin.getName()))
+        if (ConfigEntry.SERVER_EXECUTIVES.getList().contains(staffMember.getName()))
         {
             return Title.EXECUTIVE;
         }
 
-        return admin.getRank();
+        return staffMember.getRank();
     }
 
     public Rank getRank(CommandSender sender)
@@ -118,19 +118,19 @@ public class RankManager extends FreedomService
         // CONSOLE?
         if (sender.getName().equals("CONSOLE"))
         {
-            return ConfigEntry.ADMINLIST_CONSOLE_IS_SENIOR.getBoolean() ? Rank.SENIOR_CONSOLE : Rank.TELNET_CONSOLE;
+            return ConfigEntry.STAFFLIST_CONSOLE_IS_SENIOR.getBoolean() ? Rank.ADMIN_CONSOLE : Rank.MOD_CONSOLE;
         }
 
         // Console admin, get by name
-        Admin admin = plugin.al.getEntryByName(sender.getName());
+        StaffMember staffMember = plugin.sl.getEntryByName(sender.getName());
 
         // Unknown console: RCON?
-        if (admin == null)
+        if (staffMember == null)
         {
-            return Rank.SENIOR_CONSOLE;
+            return Rank.ADMIN_CONSOLE;
         }
 
-        Rank rank = admin.getRank();
+        Rank rank = staffMember.getRank();
 
         // Get console
         if (rank.hasConsoleVariant())
@@ -142,12 +142,12 @@ public class RankManager extends FreedomService
 
     public Rank getRank(Player player)
     {
-        if (plugin.al.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player))
+        if (plugin.sl.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player))
         {
             return Rank.IMPOSTOR;
         }
 
-        final Admin entry = plugin.al.getAdmin(player);
+        final StaffMember entry = plugin.sl.getAdmin(player);
         if (entry != null)
         {
             return entry.getRank();
@@ -179,7 +179,7 @@ public class RankManager extends FreedomService
         FPlayer fPlayer = plugin.pl.getPlayer(player);
         PlayerData data = plugin.pl.getData(player);
         Displayable display = getDisplay(player);
-        if (plugin.al.isAdmin(player) || data.isMasterBuilder() || data.isDonator() || FUtil.isDeveloper(player.getName()))
+        if (plugin.sl.isStaff(player) || data.isMasterBuilder() || data.isDonator() || FUtil.isDeveloper(player.getName()))
         {
             String displayName = display.getColor() + player.getName();
             player.setPlayerListName(displayName);
@@ -203,11 +203,11 @@ public class RankManager extends FreedomService
         PlayerData target = plugin.pl.getData(player);
 
         // Unban admins
-        boolean isAdmin = plugin.al.isAdmin(player);
+        boolean isAdmin = plugin.sl.isStaff(player);
         if (isAdmin)
         {
             // Verify strict IP match
-            if (!plugin.al.isIdentityMatched(player))
+            if (!plugin.sl.isIdentityMatched(player))
             {
                 FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
                 fPlayer.setSuperadminIdVerified(false);
@@ -215,21 +215,21 @@ public class RankManager extends FreedomService
             else
             {
                 fPlayer.setSuperadminIdVerified(true);
-                plugin.al.updateLastLogin(player);
+                plugin.sl.updateLastLogin(player);
             }
         }
 
-        if (plugin.al.isVerifiedAdmin(player))
+        if (plugin.sl.isVerifiedAdmin(player))
         {
             FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but does not have any admin permissions.", ChatColor.RED);
         }
 
         // Handle impostors
-        boolean isImpostor = plugin.al.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player);
+        boolean isImpostor = plugin.sl.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player);
         if (isImpostor)
         {
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
-            if (plugin.al.isAdminImpostor(player))
+            if (plugin.sl.isAdminImpostor(player))
             {
                 FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an admin impostor and has been frozen!", ChatColor.RED);
             }
@@ -250,7 +250,7 @@ public class RankManager extends FreedomService
         // Broadcast login message
         if (isAdmin || FUtil.isDeveloper(player.getName()) || plugin.pl.getData(player).isMasterBuilder() || plugin.pl.getData(player).isDonator())
         {
-            if (!plugin.al.isVanished(player))
+            if (!plugin.sl.isVanished(player))
             {
                 FUtil.bcastMsg(craftLoginMessage(player, null));
             }
@@ -272,14 +272,14 @@ public class RankManager extends FreedomService
     {
         Displayable display = plugin.rm.getDisplay(player);
         String loginMessage = ChatColor.AQUA + player.getName() + " is " + display.getColoredLoginMessage();
-        if (plugin.al.isAdmin(player))
+        if (plugin.sl.isStaff(player))
         {
-            Admin admin = plugin.al.getAdmin(player);
-            if (admin.hasLoginMessage())
+            StaffMember staffMember = plugin.sl.getAdmin(player);
+            if (staffMember.hasLoginMessage())
             {
                 if (message == null)
                 {
-                    message = admin.getLoginMessage();
+                    message = staffMember.getLoginMessage();
                 }
                 loginMessage = FUtil.colorize(ChatColor.AQUA + (message.contains("%name%") ? "" : player.getName() + " is ")
                         + FUtil.colorize(message).replace("%name%", player.getName())
