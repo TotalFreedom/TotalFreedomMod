@@ -53,7 +53,7 @@ public class LoginProcess extends FreedomService
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event)
     {
         final String ip = event.getAddress().getHostAddress().trim();
-        final boolean isAdmin = plugin.al.getEntryByIp(ip) != null;
+        final boolean isAdmin = plugin.sl.getEntryByIp(ip) != null;
 
         // Check if the player is already online
         for (Player onlinePlayer : server.getOnlinePlayers())
@@ -114,7 +114,7 @@ public class LoginProcess extends FreedomService
         }
 
         // Check if player is admin
-        final boolean isAdmin = plugin.al.getEntryByIp(ip) != null;
+        final boolean isAdmin = plugin.sl.getEntryByIp(ip) != null;
 
         // Validation below this point
         if (isAdmin) // Player is admin
@@ -127,7 +127,7 @@ public class LoginProcess extends FreedomService
             {
                 for (Player onlinePlayer : server.getOnlinePlayers())
                 {
-                    if (!plugin.al.isAdmin(onlinePlayer))
+                    if (!plugin.sl.isStaff(onlinePlayer))
                     {
                         onlinePlayer.kickPlayer("You have been kicked to free up room for an admin.");
                         count--;
@@ -226,7 +226,7 @@ public class LoginProcess extends FreedomService
             player.setPlayerListFooter(FUtil.colorize(ConfigEntry.SERVER_TABLIST_FOOTER.getString()).replace("\\n", "\n"));
         }
 
-        if (!plugin.al.isAdmin(player))
+        if (!plugin.sl.isStaff(player))
         {
             String tag = playerData.getTag();
             if (tag != null)
@@ -244,7 +244,7 @@ public class LoginProcess extends FreedomService
                 FLog.info(noteMessage);
                 for (Player p : server.getOnlinePlayers())
                 {
-                    if (plugin.al.isAdminImpostor(p))
+                    if (plugin.sl.isAdminImpostor(p))
                     {
                         notice.send(p);
                     }

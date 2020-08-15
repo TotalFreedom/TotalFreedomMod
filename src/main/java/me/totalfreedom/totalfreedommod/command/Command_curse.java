@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.ADMIN, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Curse someone - sends a cursed texture pack to the specified player.", usage = "/<command> <player>")
 public class Command_curse extends FreedomCommand
 {
@@ -57,7 +57,7 @@ public class Command_curse extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (args.length == 1 && plugin.al.isAdmin(sender) && FUtil.isExecutive(sender.getName()))
+        if (args.length == 1 && plugin.sl.isStaff(sender) && FUtil.isExecutive(sender.getName()))
         {
             return FUtil.getPlayerList();
         }

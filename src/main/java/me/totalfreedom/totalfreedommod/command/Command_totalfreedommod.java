@@ -27,7 +27,7 @@ public class Command_totalfreedommod extends FreedomCommand
                 return false;
             }
 
-            if (!plugin.al.isAdmin(sender))
+            if (!plugin.sl.isStaff(sender))
             {
                 noPerms();
                 return true;

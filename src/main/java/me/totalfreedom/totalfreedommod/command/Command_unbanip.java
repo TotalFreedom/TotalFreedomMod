@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Unbans the specified ip.", usage = "/<command> <ip> [-q]")
 public class Command_unbanip extends FreedomCommand
 {
@@ -54,7 +54,7 @@ public class Command_unbanip extends FreedomCommand
 
         if (!silent)
         {
-            FUtil.adminAction(sender.getName(), "Unbanned the ip " + ip, true);
+            FUtil.staffAction(sender.getName(), "Unbanned the ip " + ip, true);
         }
 
         return true;

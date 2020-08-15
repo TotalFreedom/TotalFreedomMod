@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.MOD, source = SourceType.BOTH)
 @CommandParameters(description = "You have thrown a rock, but you have also summoned a meteor!", usage = "/<command>")
 public class Command_rock extends FreedomCommand
 {

@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_CONSOLE)
+@CommandPermissions(level = Rank.MOD, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "Telnet/Console command - Send a chat message with chat formatting over telnet.", usage = "/<command> <message>", aliases = "csay")
 public class Command_consolesay extends FreedomCommand
 {

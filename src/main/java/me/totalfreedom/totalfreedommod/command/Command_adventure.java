@@ -28,7 +28,7 @@ public class Command_adventure extends FreedomCommand
             return true;
         }
 
-        checkRank(Rank.SUPER_ADMIN);
+        checkRank(Rank.TRIAL_MOD);
 
         if (args[0].equals("-a"))
         {
@@ -37,7 +37,7 @@ public class Command_adventure extends FreedomCommand
                 targetPlayer.setGameMode(GameMode.ADVENTURE);
             }
 
-            FUtil.adminAction(sender.getName(), "Changing everyone's gamemode to adventure", false);
+            FUtil.staffAction(sender.getName(), "Changing everyone's gamemode to adventure", false);
             msg("Your gamemode has been set to adventure.");
             return true;
         }

@@ -63,7 +63,7 @@ public class LibsDisguisesBridge extends FreedomService
         return null;
     }
 
-    public void undisguiseAll(boolean admins)
+    public void undisguiseAll(boolean staff)
     {
         try
         {
@@ -78,7 +78,7 @@ public class LibsDisguisesBridge extends FreedomService
             {
                 if (DisguiseAPI.isDisguised(player))
                 {
-                    if (!admins && plugin.al.isAdmin(player))
+                    if (!staff && plugin.sl.isStaff(player))
                     {
                         continue;
                     }

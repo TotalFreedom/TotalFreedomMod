@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.ONLY_CONSOLE)
+@CommandPermissions(level = Rank.ADMIN, source = SourceType.ONLY_CONSOLE)
 @CommandParameters(description = "Manage the shop", usage = "/<command> <coins: <add | set | remove> <amount> <player | all> | items: <give | take> <item> <player>", aliases = "ms")
 public class Command_manageshop extends FreedomCommand
 {

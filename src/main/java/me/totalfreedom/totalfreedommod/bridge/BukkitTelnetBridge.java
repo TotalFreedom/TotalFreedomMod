@@ -10,7 +10,7 @@ import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetRequestDataTagsEvent;
 import me.totalfreedom.bukkittelnet.session.ClientSession;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.entity.Player;
@@ -43,15 +43,15 @@ public class BukkitTelnetBridge extends FreedomService
             return;
         }
 
-        final Admin admin = plugin.al.getEntryByIpFuzzy(ip);
+        final StaffMember staffMember = plugin.sl.getEntryByIpFuzzy(ip);
 
-        if (admin == null || !admin.isActive() || !admin.getRank().hasConsoleVariant())
+        if (staffMember == null || !staffMember.isActive() || !staffMember.getRank().hasConsoleVariant())
         {
             return;
         }
 
         event.setBypassPassword(true);
-        event.setName(admin.getName());
+        event.setName(staffMember.getName());
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -77,14 +77,14 @@ public class BukkitTelnetBridge extends FreedomService
             boolean isTelnetAdmin = false;
             boolean isSeniorAdmin = false;
 
-            final Admin admin = plugin.al.getAdmin(player);
-            if (admin != null)
+            final StaffMember staffMember = plugin.sl.getAdmin(player);
+            if (staffMember != null)
             {
-                boolean active = admin.isActive();
+                boolean active = staffMember.isActive();
 
                 isAdmin = active;
-                isSeniorAdmin = active && admin.getRank() == Rank.SENIOR_ADMIN;
-                isTelnetAdmin = active && (isSeniorAdmin || admin.getRank() == Rank.TELNET_ADMIN);
+                isSeniorAdmin = active && staffMember.getRank() == Rank.ADMIN;
+                isTelnetAdmin = active && (isSeniorAdmin || staffMember.getRank() == Rank.MOD);
             }
 
             playerTags.put("tfm.admin.isAdmin", isAdmin);
@@ -121,22 +121,22 @@ public class BukkitTelnetBridge extends FreedomService
         return bukkitTelnetPlugin;
     }
 
-    public List<Admin> getConnectedAdmins()
+    public List<StaffMember> getConnectedAdmins()
     {
-        List<Admin> admins = new ArrayList<>();
+        List<StaffMember> staffMembers = new ArrayList<>();
         final BukkitTelnet telnet = getBukkitTelnetPlugin();
         if (telnet != null)
         {
             for (ClientSession session : telnet.appender.getSessions())
             {
-                Admin admin = plugin.al.getEntryByName(session.getUserName().toLowerCase());
-                if (admin != null && !admins.contains(admin))
+                StaffMember staffMember = plugin.sl.getEntryByName(session.getUserName().toLowerCase());
+                if (staffMember != null && !staffMembers.contains(staffMember))
                 {
-                    admins.add(admin);
+                    staffMembers.add(staffMember);
                 }
             }
         }
-        return admins;
+        return staffMembers;
     }
 
     public void killTelnetSessions(final String name)

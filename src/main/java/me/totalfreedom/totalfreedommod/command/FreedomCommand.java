@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import lombok.Getter;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -166,7 +166,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
                     return true;
                 }
 
-                if (perms.cooldown() != 0 && !isAdmin(sender))
+                if (perms.cooldown() != 0 && !isStaff(sender))
                 {
                     COOLDOWN_TIMERS.put(sender, cmd);
                     timer.schedule(new TimerTask()
@@ -224,14 +224,14 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
         msg(color + message);
     }
 
-    protected boolean isAdmin(Player player)
+    protected boolean isStaff(Player player)
     {
-        return plugin.al.isAdmin(player);
+        return plugin.sl.isStaff(player);
     }
 
-    protected boolean isAdmin(CommandSender sender)
+    protected boolean isStaff(CommandSender sender)
     {
-        return plugin.al.isAdmin(sender);
+        return plugin.sl.isStaff(sender);
     }
 
     protected void checkConsole()
@@ -316,7 +316,7 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
         Player player = Bukkit.getPlayer(name);
         if (player != null)
         {
-            if (nullVanished && plugin.al.isVanished(player) && !plugin.al.isAdmin(sender))
+            if (nullVanished && plugin.sl.isVanished(player) && !plugin.sl.isStaff(sender))
             {
                 return null;
             }
@@ -324,14 +324,14 @@ public abstract class FreedomCommand implements CommandExecutor, TabCompleter
         return player;
     }
 
-    protected Admin getAdmin(CommandSender sender)
+    protected StaffMember getAdmin(CommandSender sender)
     {
-        return plugin.al.getAdmin(sender);
+        return plugin.sl.getAdmin(sender);
     }
 
-    protected Admin getAdmin(Player player)
+    protected StaffMember getAdmin(Player player)
     {
-        return plugin.al.getAdmin(player);
+        return plugin.sl.getAdmin(player);
     }
 
     protected PlayerData getData(Player player)

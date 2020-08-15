@@ -23,7 +23,7 @@ public class Command_tagrainbow extends FreedomCommand
 
         final String tag = ChatColor.stripColor(FUtil.colorize(StringUtils.join(args, " ")));
 
-        if (!plugin.al.isAdmin(sender))
+        if (!plugin.sl.isStaff(sender))
         {
             final String rawTag = ChatColor.stripColor(tag).toLowerCase();
 

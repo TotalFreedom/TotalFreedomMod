@@ -40,16 +40,16 @@ public class Command_whohas extends FreedomCommand
 
         for (final Player player : server.getOnlinePlayers())
         {
-            if (!plugin.al.isAdmin(sender) && plugin.al.isVanished(player))
+            if (!plugin.sl.isStaff(sender) && plugin.sl.isVanished(player))
             {
                 continue;
             }
             if (player.getInventory().contains(material))
             {
                 players.add(player.getName());
-                if (plugin.al.isAdmin(sender))
+                if (plugin.sl.isStaff(sender))
                 {
-                    if (doClear && !plugin.al.isAdmin(player))
+                    if (doClear && !plugin.sl.isStaff(player))
                     {
                         player.getInventory().remove(material);
                     }
@@ -87,7 +87,7 @@ public class Command_whohas extends FreedomCommand
             return getAllMaterials();
         }
 
-        if (args.length == 2 && plugin.al.isAdmin(sender))
+        if (args.length == 2 && plugin.sl.isStaff(sender))
         {
             return Arrays.asList("clear");
         }

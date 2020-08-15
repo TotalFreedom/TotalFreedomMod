@@ -31,11 +31,11 @@ public class VanishBridge extends FreedomService
 
         if (event.isSilent())
         {
-            plugin.al.messageAllAdmins(ChatColor.GOLD + player.getName() + " silently unvanished.");
+            plugin.sl.messageAllAdmins(ChatColor.GOLD + player.getName() + " silently unvanished.");
         }
         else
         {
-            plugin.al.messageAllAdmins(ChatColor.GOLD + player.getName() + " unvanished and is now visible to all players.");
+            plugin.sl.messageAllAdmins(ChatColor.GOLD + player.getName() + " unvanished and is now visible to all players.");
             FUtil.bcastMsg(plugin.rm.craftLoginMessage(event.getPlayer(), null));
             plugin.dc.messageChatChannel("**" + player.getName() + " joined the server" + "**");
         }
@@ -54,7 +54,7 @@ public class VanishBridge extends FreedomService
         Player player = event.getPlayer();
         if (event.isSilent())
         {
-            plugin.al.messageAllAdmins(ChatColor.GOLD + player.getName() + " vanished and is now only visible to admins.");
+            plugin.sl.messageAllAdmins(ChatColor.GOLD + player.getName() + " vanished and is now only visible to admins.");
         }
         else
         {

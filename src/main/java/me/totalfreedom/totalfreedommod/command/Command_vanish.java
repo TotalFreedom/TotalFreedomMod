@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Hide yourself from other players", usage = "/<command> [-s]", aliases = "v,ev,evanish")
 public class Command_vanish extends FreedomCommand
 {

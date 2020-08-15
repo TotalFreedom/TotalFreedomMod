@@ -12,7 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Kick the specified player.", usage = "/<command> <player> [reason] [-q]")
 public class Command_kick extends FreedomCommand
 {
@@ -65,11 +65,11 @@ public class Command_kick extends FreedomCommand
         {
             if (reason != null)
             {
-                FUtil.adminAction(sender.getName(), "Kicking " + player.getName() + " - Reason: " + reason, true);
+                FUtil.staffAction(sender.getName(), "Kicking " + player.getName() + " - Reason: " + reason, true);
             }
             else
             {
-                FUtil.adminAction(sender.getName(), "Kicking " + player.getName(), true);
+                FUtil.staffAction(sender.getName(), "Kicking " + player.getName(), true);
             }
         }
 

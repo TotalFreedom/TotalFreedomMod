@@ -95,7 +95,7 @@ public class Command_jumppads extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (!plugin.al.isAdmin(sender))
+        if (!plugin.sl.isStaff(sender))
         {
             return Collections.emptyList();
         }

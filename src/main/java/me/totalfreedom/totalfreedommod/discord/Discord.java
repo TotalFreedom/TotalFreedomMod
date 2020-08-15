@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -15,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import javax.security.auth.login.LoginException;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -380,7 +379,7 @@ public class Discord extends FreedomService
         return true;
     }
 
-    public static boolean syncRoles(Admin admin, String discordID)
+    public static boolean syncRoles(StaffMember staffMember, String discordID)
     {
         if (discordID == null)
         {
@@ -400,87 +399,87 @@ public class Discord extends FreedomService
             return false;
         }
 
-        Role superAdminRole = server.getRoleById(ConfigEntry.DISCORD_SUPER_ROLE_ID.getString());
-        if (superAdminRole == null)
+        Role trialModRole = server.getRoleById(ConfigEntry.DISCORD_TRIAL_MOD_ROLE_ID.getString());
+        if (trialModRole == null)
         {
-            FLog.severe("The specified Super Admin role does not exist!");
+            FLog.severe("The specified Trial Mod role does not exist!");
             return false;
         }
-        Role telnetAdminRole = server.getRoleById(ConfigEntry.DISCORD_TELNET_ROLE_ID.getString());
-        if (telnetAdminRole == null)
+        Role modRole = server.getRoleById(ConfigEntry.DISCORD_MOD_ROLE_ID.getString());
+        if (modRole == null)
         {
-            FLog.severe("The specified Telnet Admin role does not exist!");
+            FLog.severe("The specified Mod role does not exist!");
             return false;
         }
-        Role seniorAdminRole = server.getRoleById(ConfigEntry.DISCORD_SENIOR_ROLE_ID.getString());
-        if (seniorAdminRole == null)
+        Role adminRole = server.getRoleById(ConfigEntry.DISCORD_ADMIN_ROLE_ID.getString());
+        if (adminRole == null)
         {
-            FLog.severe("The specified Senior Admin role does not exist!");
+            FLog.severe("The specified Admin role does not exist!");
             return false;
         }
 
-        if (!admin.isActive())
+        if (!staffMember.isActive())
         {
-            if (member.getRoles().contains(superAdminRole))
+            if (member.getRoles().contains(trialModRole))
             {
-                server.removeRoleFromMember(member, superAdminRole).complete();
+                server.removeRoleFromMember(member, trialModRole).complete();
             }
-            if (member.getRoles().contains(telnetAdminRole))
+            if (member.getRoles().contains(modRole))
             {
-                server.removeRoleFromMember(member, telnetAdminRole).complete();
+                server.removeRoleFromMember(member, modRole).complete();
             }
-            if (member.getRoles().contains(seniorAdminRole))
+            if (member.getRoles().contains(adminRole))
             {
-                server.removeRoleFromMember(member, seniorAdminRole).complete();
+                server.removeRoleFromMember(member, adminRole).complete();
             }
             return true;
         }
 
-        if (admin.getRank().equals(Rank.SUPER_ADMIN))
+        if (staffMember.getRank().equals(Rank.TRIAL_MOD))
         {
-            if (!member.getRoles().contains(superAdminRole))
+            if (!member.getRoles().contains(trialModRole))
             {
-                server.addRoleToMember(member, superAdminRole).complete();
+                server.addRoleToMember(member, trialModRole).complete();
             }
-            if (member.getRoles().contains(telnetAdminRole))
+            if (member.getRoles().contains(modRole))
             {
-                server.removeRoleFromMember(member, telnetAdminRole).complete();
+                server.removeRoleFromMember(member, modRole).complete();
             }
-            if (member.getRoles().contains(seniorAdminRole))
+            if (member.getRoles().contains(adminRole))
             {
-                server.removeRoleFromMember(member, seniorAdminRole).complete();
+                server.removeRoleFromMember(member, adminRole).complete();
             }
             return true;
         }
-        else if (admin.getRank().equals(Rank.TELNET_ADMIN))
+        else if (staffMember.getRank().equals(Rank.MOD))
         {
-            if (!member.getRoles().contains(telnetAdminRole))
+            if (!member.getRoles().contains(modRole))
             {
-                server.addRoleToMember(member, telnetAdminRole).complete();
+                server.addRoleToMember(member, modRole).complete();
             }
-            if (member.getRoles().contains(superAdminRole))
+            if (member.getRoles().contains(trialModRole))
             {
-                server.removeRoleFromMember(member, superAdminRole).complete();
+                server.removeRoleFromMember(member, trialModRole).complete();
             }
-            if (member.getRoles().contains(seniorAdminRole))
+            if (member.getRoles().contains(adminRole))
             {
-                server.removeRoleFromMember(member, seniorAdminRole).complete();
+                server.removeRoleFromMember(member, adminRole).complete();
             }
             return true;
         }
-        else if (admin.getRank().equals(Rank.SENIOR_ADMIN))
+        else if (staffMember.getRank().equals(Rank.ADMIN))
         {
-            if (!member.getRoles().contains(seniorAdminRole))
+            if (!member.getRoles().contains(adminRole))
             {
-                server.addRoleToMember(member, seniorAdminRole).complete();
+                server.addRoleToMember(member, adminRole).complete();
             }
-            if (member.getRoles().contains(superAdminRole))
+            if (member.getRoles().contains(trialModRole))
             {
-                server.removeRoleFromMember(member, superAdminRole).complete();
+                server.removeRoleFromMember(member, trialModRole).complete();
             }
-            if (member.getRoles().contains(telnetAdminRole))
+            if (member.getRoles().contains(modRole))
             {
-                server.removeRoleFromMember(member, telnetAdminRole).complete();
+                server.removeRoleFromMember(member, modRole).complete();
             }
             return true;
         }

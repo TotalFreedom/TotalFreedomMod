@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.MOD, source = SourceType.BOTH)
 @CommandParameters(description = "POW!!! Right in the kisser! One of these days Alice, straight to the Moon - Sends the specified player into orbit.",
         usage = "/<command> <target> [<<power> | stop>]")
 public class Command_orbit extends FreedomCommand
@@ -60,7 +60,7 @@ public class Command_orbit extends FreedomCommand
         playerdata.startOrbiting(strength);
 
         player.setVelocity(new Vector(0, strength, 0));
-        FUtil.adminAction(sender.getName(), "Orbiting " + player.getName(), false);
+        FUtil.staffAction(sender.getName(), "Orbiting " + player.getName(), false);
 
         return true;
     }

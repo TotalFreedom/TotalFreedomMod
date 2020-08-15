@@ -28,7 +28,7 @@ public class Command_survival extends FreedomCommand
             return true;
         }
 
-        checkRank(Rank.SUPER_ADMIN);
+        checkRank(Rank.TRIAL_MOD);
 
         if (args[0].equals("-a"))
         {
@@ -37,7 +37,7 @@ public class Command_survival extends FreedomCommand
                 targetPlayer.setGameMode(GameMode.SURVIVAL);
             }
 
-            FUtil.adminAction(sender.getName(), "Changing everyone's gamemode to survival", false);
+            FUtil.staffAction(sender.getName(), "Changing everyone's gamemode to survival", false);
             msg("Your gamemode has been set to survival.");
             return true;
         }

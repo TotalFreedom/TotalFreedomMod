@@ -34,7 +34,7 @@ public class Monitors extends FreedomService
         {
             for (Player player : recentlyThrownPotions.keySet())
             {
-                if (plugin.al.isAdmin(player) && plugin.al.getAdmin(player).getPotionSpy())
+                if (plugin.sl.isStaff(player) && plugin.sl.getAdmin(player).getPotionSpy())
                 {
                     List<ThrownPotion> playerThrownPotions = recentlyThrownPotions.get(player);
                     ThrownPotion latestThrownPotion = playerThrownPotions.get(playerThrownPotions.size() - 1); // Get most recently thrown potion for the position.

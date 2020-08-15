@@ -171,7 +171,7 @@ public class CommandBlocker extends FreedomService
 
         for (String part : commandParts)
         {
-            if (command.startsWith("/") && !plugin.al.isAdmin(sender) && (part.contains("#copy") || part.contains("#clipboard")))
+            if (command.startsWith("/") && !plugin.sl.isStaff(sender) && (part.contains("#copy") || part.contains("#clipboard")))
             {
                 FUtil.playerMsg(sender, "WorldEdit copy variables are disabled.");
                 return true;

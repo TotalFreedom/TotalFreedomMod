@@ -35,7 +35,7 @@ public class Command_invsee extends FreedomCommand
             return true;
         }
 
-        if (plugin.al.isAdmin(player) && !plugin.al.isAdmin(playerSender))
+        if (plugin.sl.isStaff(player) && !plugin.sl.isStaff(playerSender))
         {
             msg("You cannot spy on administrators.");
             return true;
@@ -44,7 +44,7 @@ public class Command_invsee extends FreedomCommand
 
         Inventory inv;
 
-        if (plugin.al.isAdmin(player))
+        if (plugin.sl.isStaff(player))
         {
             if (args.length > 1)
             {
@@ -75,7 +75,7 @@ public class Command_invsee extends FreedomCommand
             return true;
         }
 
-        if (!plugin.al.isAdmin(player))
+        if (!plugin.sl.isStaff(player))
         {
             if (args.length > 1)
             {
