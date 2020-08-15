@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Remove various server entities that may cause lag, such as dropped items, minecarts, and boats.", usage = "/<command> [name | -a]", aliases = "ew,rd")
 public class Command_entitywipe extends FreedomCommand
 {
@@ -54,7 +54,7 @@ public class Command_entitywipe extends FreedomCommand
             entityName = FUtil.formatName(type.name());
         }
 
-        FUtil.adminAction(sender.getName(), "Purging all " + (type != null ? entityName + "s" : "entities"), true);
+        FUtil.staffAction(sender.getName(), "Purging all " + (type != null ? entityName + "s" : "entities"), true);
         int count;
         if (type != null)
         {

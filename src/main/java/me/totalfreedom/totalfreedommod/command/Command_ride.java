@@ -112,7 +112,7 @@ public class Command_ride extends FreedomCommand
             return true;
         }
 
-        if (playerData.getRideMode().equals("off") && !isAdmin(sender))
+        if (playerData.getRideMode().equals("off") && !isStaff(sender))
         {
             msg("That player cannot be ridden.", ChatColor.RED);
             return true;

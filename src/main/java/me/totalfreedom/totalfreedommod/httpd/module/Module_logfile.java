@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDPageBuilder;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
@@ -158,7 +158,7 @@ public class Module_logfile extends HTTPDModule
 
     private boolean isAuthorized(String remoteAddress)
     {
-        Admin entry = plugin.al.getEntryByIp(remoteAddress);
+        StaffMember entry = plugin.sl.getEntryByIp(remoteAddress);
         return entry != null && entry.isActive();
     }
 

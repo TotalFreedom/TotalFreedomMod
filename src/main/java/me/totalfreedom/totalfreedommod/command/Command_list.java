@@ -3,7 +3,11 @@ package me.totalfreedom.totalfreedommod.command;
 import de.myzelyam.api.vanish.VanishAPI;
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
 import me.totalfreedom.totalfreedommod.admin.Admin;
+=======
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
+>>>>>>> parent of da80f1b6... Revert "Merge branch 'development' of https://github.com/TFPatches/TotalFreedomMod into development"
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -15,7 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.IMPOSTOR, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i | -f | -v]", aliases = "who,lsit")
+@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-s | -i | -f | -v]", aliases = "who,lsit")
 public class Command_list extends FreedomCommand
 {
 
@@ -41,20 +45,20 @@ public class Command_list extends FreedomCommand
             String s = args[0];
             switch (s)
             {
-                case "-a":
+                case "-s":
                 {
-                    listFilter = ListFilter.ADMINS;
+                    listFilter = ListFilter.STAFF;
                     break;
                 }
                 case "-v":
                 {
-                    checkRank(Rank.SUPER_ADMIN);
-                    listFilter = ListFilter.VANISHED_ADMINS;
+                    checkRank(Rank.TRIAL_MOD);
+                    listFilter = ListFilter.VANISHED_STAFF;
                     break;
                 }
                 case "-t":
                 {
-                    checkRank(Rank.TELNET_ADMIN);
+                    checkRank(Rank.MOD);
                     listFilter = ListFilter.TELNET_SESSIONS;
                     break;
                 }
@@ -83,15 +87,15 @@ public class Command_list extends FreedomCommand
 
         List<String> n = new ArrayList<>();
 
-        if (listFilter == ListFilter.TELNET_SESSIONS && plugin.al.isAdmin(sender) && plugin.al.getAdmin(sender).getRank().isAtLeast(Rank.TELNET_ADMIN))
+        if (listFilter == ListFilter.TELNET_SESSIONS && plugin.sl.isStaff(sender) && plugin.sl.getAdmin(sender).getRank().isAtLeast(Rank.MOD))
         {
-            List<Admin> connectedAdmins = plugin.btb.getConnectedAdmins();
-            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(connectedAdmins.size())
+            List<StaffMember> connectedStaffMembers = plugin.btb.getConnectedAdmins();
+            onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(connectedStaffMembers.size())
                     .append(ChatColor.BLUE)
-                    .append(" admins connected to telnet.");
-            for (Admin admin : connectedAdmins)
+                    .append(" staff connected to telnet.");
+            for (StaffMember staffMember : connectedStaffMembers)
             {
-                n.add(plugin.rm.getDisplay(admin).getColoredTag() + admin.getName());
+                n.add(plugin.rm.getDisplay(staffMember).getColoredTag() + staffMember.getName());
             }
         }
         else
@@ -105,19 +109,27 @@ public class Command_list extends FreedomCommand
                     .append(" players online.");
             for (Player p : server.getOnlinePlayers())
             {
-                if (listFilter == ListFilter.ADMINS && !plugin.al.isAdmin(p))
+                if (listFilter == ListFilter.STAFF && !plugin.sl.isStaff(p))
                 {
                     continue;
                 }
+<<<<<<< HEAD
                 if (listFilter == ListFilter.ADMINS && plugin.al.isVanished(p))
                 {
                     continue;
                 }
                 if (listFilter == ListFilter.VANISHED_ADMINS && !plugin.al.isVanished(p))
+=======
+                if (listFilter == ListFilter.STAFF && plugin.sl.isVanished(p))
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.IMPOSTORS && !plugin.al.isAdminImpostor(p))
+                if (listFilter == ListFilter.VANISHED_STAFF && !plugin.sl.isVanished(p))
+>>>>>>> parent of da80f1b6... Revert "Merge branch 'development' of https://github.com/TFPatches/TotalFreedomMod into development"
+                {
+                    continue;
+                }
+                if (listFilter == ListFilter.IMPOSTORS && !plugin.sl.isAdminImpostor(p))
                 {
                     continue;
                 }
@@ -125,20 +137,13 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.PLAYERS && plugin.al.isVanished(p))
+                if (listFilter == ListFilter.PLAYERS && plugin.sl.isVanished(p))
                 {
                     continue;
                 }
 
                 final Displayable display = plugin.rm.getDisplay(p);
-                if (!senderIsConsole && plugin.al.isAdmin(playerSender) && plugin.al.getAdmin(playerSender).getOldTags())
-                {
-                    n.add(getOldPrefix(display) + p.getName());
-                }
-                else
-                {
-                    n.add(display.getColoredTag() + p.getName());
-                }
+                n.add(display.getColoredTag() + p.getName());
             }
         }
         String playerType = listFilter.toString().toLowerCase().replace('_', ' ');
@@ -162,29 +167,12 @@ public class Command_list extends FreedomCommand
         return true;
     }
 
-    public String getOldPrefix(Displayable display)
-    {
-        ChatColor color = display.getColor();
-
-        if (color.equals(ChatColor.AQUA))
-        {
-            color = ChatColor.GOLD;
-        }
-        else if (color.equals(ChatColor.GOLD))
-        {
-            color = ChatColor.LIGHT_PURPLE;
-        }
-
-        String prefix = "[" + display.getAbbr() + "]";
-
-        return color + prefix;
-    }
 
     private enum ListFilter
     {
         PLAYERS,
-        ADMINS,
-        VANISHED_ADMINS,
+        STAFF,
+        VANISHED_STAFF,
         TELNET_SESSIONS,
         FAMOUS_PLAYERS,
         IMPOSTORS

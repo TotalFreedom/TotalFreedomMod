@@ -65,7 +65,7 @@ public class Command_mbconfig extends FreedomCommand
 
                 if (data.isMasterBuilder() && plugin.pl.isPlayerImpostor(player))
                 {
-                    FUtil.adminAction(sender.getName(), "Re-adding " + player.getName() + " to the Master Builder list", true);
+                    FUtil.staffAction(sender.getName(), "Re-adding " + player.getName() + " to the Master Builder list", true);
                     player.setOp(true);
                     player.sendMessage(YOU_ARE_OP);
 
@@ -79,7 +79,7 @@ public class Command_mbconfig extends FreedomCommand
                 }
                 else if (!data.isMasterBuilder())
                 {
-                    FUtil.adminAction(sender.getName(), "Adding " + player.getName() + " to the Master Builder list", true);
+                    FUtil.staffAction(sender.getName(), "Adding " + player.getName() + " to the Master Builder list", true);
                     data.setMasterBuilder(true);
                     data.setVerification(true);
                     plugin.pl.save(data);
@@ -113,7 +113,7 @@ public class Command_mbconfig extends FreedomCommand
                     return true;
                 }
 
-                FUtil.adminAction(sender.getName(), "Removing " + data.getName() + " from the Master Builder list", true);
+                FUtil.staffAction(sender.getName(), "Removing " + data.getName() + " from the Master Builder list", true);
                 data.setMasterBuilder(false);
                 if (data.getDiscordID() == null)
                 {

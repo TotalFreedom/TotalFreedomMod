@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Blocks redstone on the server.", usage = "/<command>", aliases = "bre")
 public class Command_blockredstone extends FreedomCommand
 {
@@ -18,14 +18,14 @@ public class Command_blockredstone extends FreedomCommand
         if (ConfigEntry.ALLOW_REDSTONE.getBoolean())
         {
             ConfigEntry.ALLOW_REDSTONE.setBoolean(false);
-            FUtil.adminAction(sender.getName(), "Blocking all redstone", true);
+            FUtil.staffAction(sender.getName(), "Blocking all redstone", true);
             new BukkitRunnable()
             {
                 public void run()
                 {
                     if (!ConfigEntry.ALLOW_REDSTONE.getBoolean())
                     {
-                        FUtil.adminAction("TotalFreedom", "Unblocking all redstone", false);
+                        FUtil.staffAction("TotalFreedom", "Unblocking all redstone", false);
                         ConfigEntry.ALLOW_REDSTONE.setBoolean(true);
                     }
                 }
@@ -34,7 +34,7 @@ public class Command_blockredstone extends FreedomCommand
         else
         {
             ConfigEntry.ALLOW_REDSTONE.setBoolean(true);
-            FUtil.adminAction(sender.getName(), "Unblocking all redstone", true);
+            FUtil.staffAction(sender.getName(), "Unblocking all redstone", true);
         }
         return true;
     }

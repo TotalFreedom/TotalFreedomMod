@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Deop a player", usage = "/<command> <partialname>")
 public class Command_deop extends FreedomCommand
 {
@@ -35,7 +35,7 @@ public class Command_deop extends FreedomCommand
             if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName)
                     || player.getName().contains(targetName) || player.getDisplayName().contains(targetName))
             {
-                if (player.isOp() && !plugin.al.isVanished(player))
+                if (player.isOp() && !plugin.sl.isVanished(player))
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(false);
@@ -48,7 +48,7 @@ public class Command_deop extends FreedomCommand
         {
             if (!silent)
             {
-                FUtil.adminAction(sender.getName(), "De-opping " + StringUtils.join(matchedPlayerNames, ", "), false);
+                FUtil.staffAction(sender.getName(), "De-opping " + StringUtils.join(matchedPlayerNames, ", "), false);
             }
         }
         else

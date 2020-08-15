@@ -6,7 +6,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+<<<<<<< HEAD
 @CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
+=======
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.ONLY_IN_GAME)
+>>>>>>> parent of da80f1b6... Revert "Merge branch 'development' of https://github.com/TFPatches/TotalFreedomMod into development"
 @CommandParameters(description = "Hide yourself from other players", usage = "/<command> [-s]", aliases = "v,ev,evanish")
 public class Command_vanish extends FreedomCommand
 {

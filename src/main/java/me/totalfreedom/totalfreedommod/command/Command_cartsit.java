@@ -16,7 +16,7 @@ public class Command_cartsit extends FreedomCommand
     {
         Player targetPlayer = playerSender;
 
-        if (args.length == 1 && plugin.al.isAdmin(sender))
+        if (args.length == 1 && plugin.sl.isStaff(sender))
         {
 
             targetPlayer = getPlayer(args[0]);

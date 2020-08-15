@@ -15,7 +15,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public final class AdminWorld extends CustomWorld
+public final class StaffWorld extends CustomWorld
 {
 
     private static final long CACHE_CLEAR_FREQUENCY = 30L * 1000L; //30 seconds, milliseconds
@@ -27,9 +27,9 @@ public final class AdminWorld extends CustomWorld
     private WorldWeather weather = WorldWeather.OFF;
     private WorldTime time = WorldTime.INHERIT;
 
-    public AdminWorld()
+    public StaffWorld()
     {
-        super("adminworld");
+        super("staffworld");
     }
 
     @Override
@@ -59,7 +59,7 @@ public final class AdminWorld extends CustomWorld
         org.bukkit.material.Sign signData = (org.bukkit.material.Sign)welcomeSign.getData();
         signData.setFacingDirection(BlockFace.NORTH);
 
-        welcomeSign.setLine(0, ChatColor.GREEN + "AdminWorld");
+        welcomeSign.setLine(0, ChatColor.GREEN + "StaffWorld");
         welcomeSign.setLine(1, ChatColor.DARK_GRAY + "---");
         welcomeSign.setLine(2, ChatColor.YELLOW + "Spawn Point");
         welcomeSign.setLine(3, ChatColor.DARK_GRAY + "---");
@@ -94,7 +94,7 @@ public final class AdminWorld extends CustomWorld
         if (lastTP == null || lastTP + TP_COOLDOWN_TIME <= currentTimeMillis)
         {
             teleportCooldown.put(player, currentTimeMillis);
-            FLog.info(player.getName() + " attempted to access the AdminWorld.");
+            FLog.info(player.getName() + " attempted to access the StaffWorld.");
             event.setTo(Bukkit.getWorlds().get(0).getSpawnLocation());
         }
         return false;

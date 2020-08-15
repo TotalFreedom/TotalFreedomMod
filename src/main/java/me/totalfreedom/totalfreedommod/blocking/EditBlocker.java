@@ -30,7 +30,7 @@ public class EditBlocker extends FreedomService
             return;
         }
 
-        if (plugin.al.isAdminSync(event.getPlayer()))
+        if (plugin.sl.isStaffSync(event.getPlayer()))
         {
             fPlayer.setEditBlocked(false);
             return;
@@ -49,7 +49,7 @@ public class EditBlocker extends FreedomService
             return;
         }
 
-        if (plugin.al.isAdminSync(event.getPlayer()))
+        if (plugin.sl.isStaffSync(event.getPlayer()))
         {
             fPlayer.setEditBlocked(false);
             return;

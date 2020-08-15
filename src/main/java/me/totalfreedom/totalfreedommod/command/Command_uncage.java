@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Uncage a player", usage = "/<command> <name>")
 public class Command_uncage extends FreedomCommand
 {
@@ -32,7 +32,7 @@ public class Command_uncage extends FreedomCommand
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
         if (fPlayer.getCageData().isCaged())
         {
-            FUtil.adminAction(sender.getName(), "Uncaging " + player.getName(), true);
+            FUtil.staffAction(sender.getName(), "Uncaging " + player.getName(), true);
             fPlayer.getCageData().setCaged(false);
         }
         else

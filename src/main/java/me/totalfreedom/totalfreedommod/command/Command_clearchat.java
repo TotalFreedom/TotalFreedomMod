@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Clears the chat.", usage = "/<command>", aliases = "cc")
 public class Command_clearchat extends FreedomCommand
 {
@@ -16,7 +16,7 @@ public class Command_clearchat extends FreedomCommand
     {
         for (Player player : server.getOnlinePlayers())
         {
-            if (!plugin.al.isAdmin(player))
+            if (!plugin.sl.isStaff(player))
             {
                 for (int i = 0; i < 100; i++)
                 {
@@ -24,7 +24,7 @@ public class Command_clearchat extends FreedomCommand
                 }
             }
         }
-        FUtil.adminAction(sender.getName(), "Cleared chat", true);
+        FUtil.staffAction(sender.getName(), "Cleared chat", true);
         return true;
     }
 }

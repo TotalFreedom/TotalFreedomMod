@@ -61,7 +61,7 @@ public class PVPBlocker extends FreedomService
             }
         }
 
-        if (player != null & !plugin.al.isAdmin(player))
+        if (player != null & !plugin.sl.isStaff(player))
         {
             if (player.getGameMode() == GameMode.CREATIVE)
             {
