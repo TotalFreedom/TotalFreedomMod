@@ -2,7 +2,6 @@ package me.totalfreedom.totalfreedommod.admin;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import de.myzelyam.api.vanish.VanishAPI;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ public class AdminList extends FreedomService
     private final Map<String, Admin> ipTable = Maps.newHashMap();
     public final List<String> verifiedNoAdmins = new ArrayList<>();
     public final Map<String, List<String>> verifiedNoAdminIps = Maps.newHashMap();
+    public static List<String> vanished = new ArrayList<>();
 
     @Override
     public void onStart()
@@ -363,8 +363,8 @@ public class AdminList extends FreedomService
         updateTables();
     }
 
-    public boolean isVanished(Player player)
+    public boolean isVanished(String player)
     {
-        return VanishAPI.isInvisible(player);
+        return vanished.contains(player);
     }
 }
