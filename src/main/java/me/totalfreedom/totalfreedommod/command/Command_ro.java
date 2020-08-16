@@ -92,10 +92,10 @@ public class Command_ro extends FreedomCommand
             names = StringUtils.join(materials, ", ");
         }
 
-        World adminWorld = null;
+        World staffWorld = null;
         try
         {
-            adminWorld = plugin.wm.staffworld.getWorld();
+            staffWorld = plugin.wm.staffworld.getWorld();
         }
         catch (Exception ex)
         {
@@ -108,7 +108,7 @@ public class Command_ro extends FreedomCommand
 
             for (final Player player : server.getOnlinePlayers())
             {
-                if (player.getWorld() == adminWorld)
+                if (player.getWorld() == staffWorld)
                 {
                     continue;
                 }
@@ -121,7 +121,7 @@ public class Command_ro extends FreedomCommand
         }
         else
         {
-            if (targetPlayer.getWorld() != adminWorld)
+            if (targetPlayer.getWorld() != staffWorld)
             {
                 FUtil.staffAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
                 for (Material material : materials)
@@ -132,7 +132,6 @@ public class Command_ro extends FreedomCommand
         }
 
         FUtil.staffAction(sender.getName(), "Remove complete! " + affected + " blocks removed.", false);
-
         return true;
     }
 
@@ -176,7 +175,6 @@ public class Command_ro extends FreedomCommand
                 }
             }
         }
-
         return affected;
     }
 }

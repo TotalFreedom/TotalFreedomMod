@@ -12,9 +12,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Allows for staff to configure time, and weather of the AdminWorld, and allows for staff and ops to go to the AdminWorld.",
+@CommandParameters(description = "Allows for staff to configure time, and weather of the StaffWorld, and allows for staff and ops to go to the StaffWorld.",
         usage = "/<command> [time <morning | noon | evening | night> | weather <off | rain | storm>]",
-        aliases = "aw")
+        aliases = "sw")
 public class Command_staffworld extends FreedomCommand
 {
 
@@ -60,16 +60,16 @@ public class Command_staffworld extends FreedomCommand
                         return false;
                     }
 
-                    World adminWorld = null;
+                    World staffWorld = null;
                     try
                     {
-                        adminWorld = plugin.wm.staffworld.getWorld();
+                        staffWorld = plugin.wm.staffworld.getWorld();
                     }
                     catch (Exception ex)
                     {
                     }
 
-                    if (adminWorld == null || playerSender.getWorld() == adminWorld)
+                    if (staffWorld == null || playerSender.getWorld() == staffWorld)
                     {
                         msg("Going to the main world.");
                         playerSender.teleport(server.getWorlds().get(0).getSpawnLocation());
@@ -79,7 +79,6 @@ public class Command_staffworld extends FreedomCommand
                         msg("Going to the StaffWorld.");
                         plugin.wm.staffworld.sendToWorld(playerSender);
                     }
-
                     break;
                 }
                 case TIME:

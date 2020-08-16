@@ -53,7 +53,7 @@ public class LoginProcess extends FreedomService
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event)
     {
         final String ip = event.getAddress().getHostAddress().trim();
-        final boolean isAdmin = plugin.sl.getEntryByIp(ip) != null;
+        final boolean isStaff = plugin.sl.getEntryByIp(ip) != null;
 
         // Check if the player is already online
         for (Player onlinePlayer : server.getOnlinePlayers())
@@ -63,10 +63,10 @@ public class LoginProcess extends FreedomService
                 continue;
             }
 
-            if (isAdmin)
+            if (isStaff)
             {
                 event.allow();
-                FSync.playerKick(onlinePlayer, "An admin just logged in with the username you are using.");
+                FSync.playerKick(onlinePlayer, "A staff member just logged in with the username you are using.");
                 return;
             }
 
@@ -113,11 +113,11 @@ public class LoginProcess extends FreedomService
             }
         }
 
-        // Check if player is admin
-        final boolean isAdmin = plugin.sl.getEntryByIp(ip) != null;
+        // Check if player is staff
+        final boolean isStaff = plugin.sl.getEntryByIp(ip) != null;
 
         // Validation below this point
-        if (isAdmin) // Player is admin
+        if (isStaff) // Player is staff
         {
             // Force-allow log in
             event.allow();
@@ -129,7 +129,7 @@ public class LoginProcess extends FreedomService
                 {
                     if (!plugin.sl.isStaff(onlinePlayer))
                     {
-                        onlinePlayer.kickPlayer("You have been kicked to free up room for an admin.");
+                        onlinePlayer.kickPlayer("You have been kicked to free up room for a staff member.");
                         count--;
                     }
 
@@ -160,7 +160,7 @@ public class LoginProcess extends FreedomService
         // Staff-only mode
         if (ConfigEntry.STAFF_ONLY_MODE.getBoolean())
         {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is temporarily open to admins only.");
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Server is temporarily open to staff only.");
             return;
         }
 
@@ -244,7 +244,7 @@ public class LoginProcess extends FreedomService
                 FLog.info(noteMessage);
                 for (Player p : server.getOnlinePlayers())
                 {
-                    if (plugin.sl.isAdminImpostor(p))
+                    if (plugin.sl.isStaffImpostor(p))
                     {
                         notice.send(p);
                     }

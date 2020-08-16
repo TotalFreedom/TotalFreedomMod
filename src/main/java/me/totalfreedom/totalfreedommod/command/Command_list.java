@@ -116,7 +116,7 @@ public class Command_list extends FreedomCommand
                 {
                     continue;
                 }
-                if (listFilter == ListFilter.IMPOSTORS && !plugin.sl.isAdminImpostor(p))
+                if (listFilter == ListFilter.IMPOSTORS && !plugin.sl.isStaffImpostor(p))
                 {
                     continue;
                 }
@@ -153,7 +153,6 @@ public class Command_list extends FreedomCommand
         n.clear();
         return true;
     }
-
 
     private enum ListFilter
     {

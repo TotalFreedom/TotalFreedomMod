@@ -32,7 +32,7 @@ public class Command_cake extends FreedomCommand
         heldItemMeta.setDisplayName(ChatColor.WHITE + "The " + ChatColor.DARK_GRAY + "Lie");
         heldItem.setItemMeta(heldItemMeta);
 
-        for (final Player player : this.server.getOnlinePlayers())
+        for (Player player : server.getOnlinePlayers())
         {
             final int firstEmpty = player.getInventory().firstEmpty();
             if (firstEmpty >= 0)

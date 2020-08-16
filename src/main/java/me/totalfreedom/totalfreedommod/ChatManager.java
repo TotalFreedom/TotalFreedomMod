@@ -87,10 +87,10 @@ public class ChatManager extends FreedomService
             return;
         }
 
-        // Check for adminchat
-        if (fPlayer.inAdminChat())
+        // Check for staffchat
+        if (fPlayer.inStaffChat())
         {
-            FSync.adminChatMessage(player, message);
+            FSync.staffChatMessage(player, message);
             event.setCancelled(true);
             return;
         }

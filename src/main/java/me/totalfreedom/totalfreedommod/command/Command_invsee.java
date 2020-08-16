@@ -12,10 +12,10 @@ import org.bukkit.inventory.ItemStack;
 @CommandParameters(description = "Look into another player's inventory, or optionally take items out.", usage = "/<command> <player> [offhand | armor]", aliases = "inv,insee")
 public class Command_invsee extends FreedomCommand
 {
+
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-
         if (args.length < 1)
         {
             return false;
@@ -37,9 +37,8 @@ public class Command_invsee extends FreedomCommand
 
         if (plugin.sl.isStaff(player) && !plugin.sl.isStaff(playerSender))
         {
-            msg("You cannot spy on administrators.");
+            msg("You cannot spy on staff members.");
             return true;
-
         }
 
         Inventory inv;
@@ -110,4 +109,3 @@ public class Command_invsee extends FreedomCommand
         return true;
     }
 }
-

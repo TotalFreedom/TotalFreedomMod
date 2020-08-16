@@ -19,6 +19,7 @@ import org.bukkit.scoreboard.Team;
 
 public class RankManager extends FreedomService
 {
+
     @Override
     public void onStart()
     {
@@ -39,7 +40,7 @@ public class RankManager extends FreedomService
         final Player player = (Player)sender;
 
         // Display impostors
-        if (plugin.sl.isAdminImpostor(player))
+        if (plugin.sl.isStaffImpostor(player))
         {
             return Rank.IMPOSTOR;
         }
@@ -66,12 +67,12 @@ public class RankManager extends FreedomService
             return Title.ASSISTANT_EXECUTIVE;
         }
 
-        if (plugin.sl.isVerifiedAdmin(player))
+        if (plugin.sl.isVerifiedStaff(player))
         {
-            return Title.VERIFIED_ADMIN;
+            return Title.VERIFIED_STAFF;
         }
 
-        // Master builders show up if they are not admins
+        // Master builders show up if they are not staff
         if (plugin.pl.getData(player).isMasterBuilder() && !plugin.sl.isStaff(player))
         {
             return Title.MASTER_BUILDER;
@@ -142,7 +143,7 @@ public class RankManager extends FreedomService
 
     public Rank getRank(Player player)
     {
-        if (plugin.sl.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player))
+        if (plugin.sl.isStaffImpostor(player) || plugin.pl.isPlayerImpostor(player))
         {
             return Rank.IMPOSTOR;
         }
@@ -202,14 +203,14 @@ public class RankManager extends FreedomService
         final FPlayer fPlayer = plugin.pl.getPlayer(player);
         PlayerData target = plugin.pl.getData(player);
 
-        // Unban admins
-        boolean isAdmin = plugin.sl.isStaff(player);
-        if (isAdmin)
+        // Unban staff
+        boolean isStaff = plugin.sl.isStaff(player);
+        if (isStaff)
         {
             // Verify strict IP match
             if (!plugin.sl.isIdentityMatched(player))
             {
-                FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but is using an account not registered to one of their ip-list.", ChatColor.RED);
+                FUtil.bcastMsg("Warning: " + player.getName() + " is a staff member, but is using an account not registered to one of their ip-list.", ChatColor.RED);
                 fPlayer.setSuperadminIdVerified(false);
             }
             else
@@ -219,19 +220,19 @@ public class RankManager extends FreedomService
             }
         }
 
-        if (plugin.sl.isVerifiedAdmin(player))
+        if (plugin.sl.isVerifiedStaff(player))
         {
-            FUtil.bcastMsg("Warning: " + player.getName() + " is an admin, but does not have any admin permissions.", ChatColor.RED);
+            FUtil.bcastMsg("Warning: " + player.getName() + " is a staff member, but does not have any staff permissions.", ChatColor.RED);
         }
 
         // Handle impostors
-        boolean isImpostor = plugin.sl.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player);
+        boolean isImpostor = plugin.sl.isStaffImpostor(player) || plugin.pl.isPlayerImpostor(player);
         if (isImpostor)
         {
             FUtil.bcastMsg(ChatColor.AQUA + player.getName() + " is " + Rank.IMPOSTOR.getColoredLoginMessage());
-            if (plugin.sl.isAdminImpostor(player))
+            if (plugin.sl.isStaffImpostor(player))
             {
-                FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as an admin impostor and has been frozen!", ChatColor.RED);
+                FUtil.bcastMsg("Warning: " + player.getName() + " has been flagged as a staff impostor and has been frozen!", ChatColor.RED);
             }
             else if (plugin.pl.isPlayerImpostor(player))
             {
@@ -248,7 +249,7 @@ public class RankManager extends FreedomService
         }
 
         // Broadcast login message
-        if (isAdmin || FUtil.isDeveloper(player.getName()) || plugin.pl.getData(player).isMasterBuilder() || plugin.pl.getData(player).isDonator())
+        if (isStaff || FUtil.isDeveloper(player.getName()) || plugin.pl.getData(player).isMasterBuilder() || plugin.pl.getData(player).isDonator())
         {
             if (!plugin.sl.isVanished(player.getName()))
             {

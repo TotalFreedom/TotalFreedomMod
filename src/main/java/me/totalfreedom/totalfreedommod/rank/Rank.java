@@ -10,7 +10,7 @@ public enum Rank implements Displayable
     OP("an", "Operator", Type.PLAYER, "OP", ChatColor.GREEN, null, false),
     TRIAL_MOD("a", "Trial Moderator", Type.STAFF, "Trial Mod", ChatColor.AQUA, org.bukkit.ChatColor.AQUA, true),
     MOD("a", "Moderator", Type.STAFF, "Mod", ChatColor.DARK_GREEN, org.bukkit.ChatColor.DARK_GREEN, true),
-    ADMIN("a", "Administrator", Type.STAFF, "Administrator", ChatColor.GOLD, org.bukkit.ChatColor.GOLD, true),
+    ADMIN("an", "Administrator", Type.STAFF, "Administrator", ChatColor.GOLD, org.bukkit.ChatColor.GOLD, true),
     MOD_CONSOLE("the", "Console", Type.STAFF_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false),
     ADMIN_CONSOLE("the", "Console", Type.STAFF_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false);
     @Getter
@@ -31,7 +31,7 @@ public enum Rank implements Displayable
     @Getter
     private final boolean hasTeam;
 
-    private Rank(String determiner, String name, Type type, String abbr, ChatColor color, org.bukkit.ChatColor teamColor, Boolean hasTeam)
+    Rank(String determiner, String name, Type type, String abbr, ChatColor color, org.bukkit.ChatColor teamColor, Boolean hasTeam)
     {
         this.type = type;
         this.name = name;
@@ -93,7 +93,7 @@ public enum Rank implements Displayable
         return getConsoleVariant().getLevel() >= rank.getConsoleVariant().getLevel();
     }
 
-    public boolean isAdmin()
+    public boolean isStaff()
     {
         return getType() == Type.STAFF || getType() == Type.STAFF_CONSOLE;
     }
@@ -138,10 +138,9 @@ public enum Rank implements Displayable
         STAFF,
         STAFF_CONSOLE;
 
-        public boolean isAdmin()
+        public boolean isStaff()
         {
             return this != PLAYER;
         }
     }
-
 }

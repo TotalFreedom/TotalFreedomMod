@@ -23,8 +23,8 @@ import org.bukkit.entity.Player;
 public class StaffList extends FreedomService
 {
     @Getter
-    private final Set<StaffMember> allStaffMembers = Sets.newHashSet(); // Includes disabled admins
-    // Only active admins below
+    private final Set<StaffMember> allStaffMembers = Sets.newHashSet(); // Includes disabled staff
+    // Only active staff below
     @Getter
     private final Set<StaffMember> activeStaffMembers = Sets.newHashSet();
     private final Map<String, StaffMember> nameTable = Maps.newHashMap();
@@ -68,7 +68,7 @@ public class StaffList extends FreedomService
         FLog.info("Loaded " + allStaffMembers.size() + " staff members (" + nameTable.size() + " active,  " + ipTable.size() + " IPs)");
     }
 
-    public void messageAllAdmins(String message)
+    public void messageAllStaff(String message)
     {
         for (Player player : server.getOnlinePlayers())
         {
@@ -218,12 +218,12 @@ public class StaffList extends FreedomService
         save(staffMember);
     }
 
-    public boolean isAdminImpostor(Player player)
+    public boolean isStaffImpostor(Player player)
     {
-        return getEntryByName(player.getName()) != null && !isStaff(player) && !isVerifiedAdmin(player);
+        return getEntryByName(player.getName()) != null && !isStaff(player) && !isVerifiedStaff(player);
     }
 
-    public boolean isVerifiedAdmin(Player player)
+    public boolean isVerifiedStaff(Player player)
     {
         return verifiedNoStaff.contains(player.getName()) && verifiedNoStaffIps.get(player.getName()).contains(FUtil.getIp(player));
     }
@@ -243,7 +243,7 @@ public class StaffList extends FreedomService
     {
         if (!staffMember.isValid())
         {
-            logger.warning("Could not add admin: " + staffMember.getName() + " Admin is missing details!");
+            logger.warning("Could not add staff: " + staffMember.getName() + " Staff is missing details!");
             return false;
         }
 
@@ -267,14 +267,14 @@ public class StaffList extends FreedomService
             }
         }
 
-        // Remove admin, update views
+        // Remove staff, update views
         if (!allStaffMembers.remove(staffMember))
         {
             return false;
         }
         updateTables();
 
-        // Unsave admin
+        // Unsave staff
         plugin.sql.removeStaffMember(staffMember);
 
         return true;
@@ -330,7 +330,7 @@ public class StaffList extends FreedomService
         }
         catch (SQLException e)
         {
-            FLog.severe("Failed to save admin: " + e.getMessage());
+            FLog.severe("Failed to save staff: " + e.getMessage());
         }
     }
 
@@ -353,7 +353,7 @@ public class StaffList extends FreedomService
 
             if (verbose)
             {
-                FUtil.staffAction("TotalFreedomMod", "Deactivating admin " + staffMember.getName() + ", inactive for " + lastLoginHours + " hours", true);
+                FUtil.staffAction("TotalFreedomMod", "Deactivating staff member " + staffMember.getName() + ", inactive for " + lastLoginHours + " hours", true);
             }
 
             staffMember.setActive(false);

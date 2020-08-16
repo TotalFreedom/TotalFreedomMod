@@ -96,7 +96,6 @@ public class Module_list extends HTTPDModule
                             break;
                     }
                 }
-
             }
 
             responseObject.put("operators", operators);
@@ -146,7 +145,7 @@ public class Module_list extends HTTPDModule
 
     public boolean isImposter(Player player)
     {
-        if (plugin.sl.isAdminImpostor(player) || plugin.pl.isPlayerImpostor(player))
+        if (plugin.sl.isStaffImpostor(player) || plugin.pl.isPlayerImpostor(player))
         {
             return true;
         }

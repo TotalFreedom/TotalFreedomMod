@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Manage your staff entry.", usage = "/<command> [-o <staff member>] <clearips | clearip <ip> | setlogin <message> | clearlogin | setacformat <format> | clearacformat> | oldtags | logstick | syncroles>")
+@CommandParameters(description = "Manage your staff entry.", usage = "/<command> [-o <staff member>] <clearips | clearip <ip> | setlogin <message> | clearlogin | setscformat <format> | clearscformat> | oldtags | logstick | syncroles>")
 public class Command_mystaff extends FreedomCommand
 {
 
@@ -190,6 +190,7 @@ public class Command_mystaff extends FreedomCommand
                 msg(ChatColor.GRAY + "Example: " + FUtil.colorize(example));
                 return true;
             }
+
             case "clearscformat":
             {
                 target.setAcFormat(null);
@@ -247,8 +248,8 @@ public class Command_mystaff extends FreedomCommand
             return Collections.emptyList();
         }
 
-        List<String> singleArguments = Arrays.asList("clearips", "setlogin", "setacformat");
-        List<String> doubleArguments = Arrays.asList("clearip", "clearlogin", "clearacformat", "oldtags", "syncroles");
+        List<String> singleArguments = Arrays.asList("clearips", "setlogin", "setscformat");
+        List<String> doubleArguments = Arrays.asList("clearip", "clearlogin", "clearscformat", "oldtags", "syncroles");
         if (args.length == 1)
         {
             List<String> options = new ArrayList<>();
@@ -270,7 +271,7 @@ public class Command_mystaff extends FreedomCommand
                     if (args[0].equals("clearip"))
                     {
                         List<String> ips = plugin.sl.getAdmin(sender).getIps();
-                        ips.remove(FUtil.getIp((Player) sender));
+                        ips.remove(FUtil.getIp((Player)sender));
                         return ips;
                     }
                 }

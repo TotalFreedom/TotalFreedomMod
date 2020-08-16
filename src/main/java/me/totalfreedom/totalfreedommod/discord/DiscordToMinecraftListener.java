@@ -65,17 +65,17 @@ public class DiscordToMinecraftListener extends ListenerAdapter
         {
             return Title.ASSISTANT_EXECUTIVE.getColoredTag();
         }
-        // Senior Admins
+        // Admins
         else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_ADMIN_ROLE_ID.getString())))
         {
             return Rank.ADMIN.getColoredTag();
         }
-        // Telnet Admins
+        // Mods
         else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_MOD_ROLE_ID.getString())))
         {
             return Rank.MOD.getColoredTag();
         }
-        // Super Admins
+        // Trial Mods
         else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_TRIAL_MOD_ROLE_ID.getString())))
         {
             return Rank.TRIAL_MOD.getColoredTag();
@@ -91,5 +91,4 @@ public class DiscordToMinecraftListener extends ListenerAdapter
             return null;
         }
     }
-
 }

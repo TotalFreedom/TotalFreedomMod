@@ -44,7 +44,7 @@ public class Reddit extends FreedomService
 
     private Map<Displayable, String> flairNameList = new HashMap<>();
 
-    private List<Displayable> noFlairDisplays = Arrays.asList(Title.VERIFIED_ADMIN, Rank.IMPOSTOR, Rank.NON_OP, Rank.OP);
+    private List<Displayable> noFlairDisplays = Arrays.asList(Title.VERIFIED_STAFF, Rank.IMPOSTOR, Rank.NON_OP, Rank.OP);
 
     public boolean enabled = false;
 
