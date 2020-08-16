@@ -60,15 +60,15 @@ master_builders:
   - "voxelsniper.goto"
   - "voxelsniper.brush.*"
 
-# Super Admin permission nodes
-super_admins:
+# Trial Mod permission nodes
+trial_mods:
   - "coreprotect.*"
   - "worldedit.*"
   - "worldguard.*"
   - "bending.*"
 
-# Telnet Admin permission nodes
-telnet_admins: []
+# Moderator permission nodes
+mods: []
 
-# Senior Admin permission nodes
-senior_admins: []
+# Admin permission nodes
+admins: []

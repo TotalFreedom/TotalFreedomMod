@@ -51,7 +51,6 @@ public class PermissionManager extends FreedomService
         masterBuilderPermissions.addAll(operatorPermissions);
         permissions.put(Title.MASTER_BUILDER, masterBuilderPermissions);
 
-
         trialModPermissions = PermissionEntry.TRIAL_MODS.getEntry();
         trialModPermissions.addAll(masterBuilderPermissions);
         permissions.put(Rank.TRIAL_MOD, trialModPermissions);
