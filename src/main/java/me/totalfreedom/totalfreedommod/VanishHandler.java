@@ -49,7 +49,7 @@ public class VanishHandler extends FreedomService
         {
             plugin.esb.setVanished(player.getName(), true);
             FLog.info(player.getName() + " joined while still vanished.");
-            plugin.sl.messageAllAdmins(ChatColor.YELLOW + player.getName() + " has joined silently.");
+            plugin.sl.messageAllStaff(ChatColor.YELLOW + player.getName() + " has joined silently.");
             event.setJoinMessage(null);
 
             new BukkitRunnable()
@@ -77,7 +77,7 @@ public class VanishHandler extends FreedomService
         {
             event.setQuitMessage(null);
             FLog.info(player.getName() + " left while still vanished.");
-            plugin.sl.messageAllAdmins(ChatColor.YELLOW + player.getName() + " has left silently.");
+            plugin.sl.messageAllStaff(ChatColor.YELLOW + player.getName() + " has left silently.");
         }
     }
 }
