@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDPageBuilder;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
@@ -114,12 +115,10 @@ public class Module_schematic extends HTTPDModule
                     }
                 });
 
-                out
-                        .append(HTMLGenerationTools.heading("Schematics:", 1))
+                out.append(HTMLGenerationTools.heading("Schematics:", 1))
                         .append("<ul>")
                         .append(StringUtils.join(schematicsFormatted, "\r\n"))
                         .append("</ul>");
-
                 break;
             }
             case DOWNLOAD:
@@ -165,11 +164,23 @@ public class Module_schematic extends HTTPDModule
             }
             default:
             {
-                out.append(HTMLGenerationTools.paragraph("Invalid request mode."));
+                out.append(HTMLGenerationTools.heading("Schematic Submodules", 1));
+                out.append("<ul><li>");
+                out.append("<a href=\"http://")
+                        .append(ConfigEntry.HTTPD_HOST.getString())
+                        .append(":")
+                        .append(ConfigEntry.HTTPD_PORT.getInteger())
+                        .append("/schematic/list")
+                        .append("\">Schematic List</a></li>")
+                        .append("<li><a href=\"http://")
+                        .append(ConfigEntry.HTTPD_HOST.getString())
+                        .append(":")
+                        .append(ConfigEntry.HTTPD_PORT.getInteger())
+                        .append("/schematic/upload")
+                        .append("\">Upload Schematics</a></li></ul>");
                 break;
             }
         }
-
         return out.toString();
     }
 
@@ -215,7 +226,6 @@ public class Module_schematic extends HTTPDModule
         {
             throw new SchematicTransferException("Schematic already exists on the server.");
         }
-
 
         try
         {
@@ -344,5 +354,4 @@ public class Module_schematic extends HTTPDModule
             return INVALID;
         }
     }
-
 }

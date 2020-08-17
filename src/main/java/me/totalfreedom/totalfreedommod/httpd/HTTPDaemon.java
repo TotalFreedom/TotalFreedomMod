@@ -16,6 +16,7 @@ import me.totalfreedom.totalfreedommod.httpd.module.Module_bans;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_file;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_help;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_indefbans;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_index;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_list;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_logfile;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_logs;
@@ -47,7 +48,6 @@ public class HTTPDaemon extends FreedomService
         }
 
         port = ConfigEntry.HTTPD_PORT.getInteger();
-        ;
         httpd = new HTTPD(port);
 
         // Modules
@@ -63,6 +63,7 @@ public class HTTPDaemon extends FreedomService
         module("players", Module_players.class, false);
         module("punishments", Module_punishments.class, true);
         module("schematic", Module_schematic.class, true);
+        module("index", Module_index.class, false);
 
         try
         {
@@ -103,7 +104,6 @@ public class HTTPDaemon extends FreedomService
 
     private class HTTPD extends NanoHTTPD
     {
-
         private HTTPD(int port)
         {
             super(port);
@@ -177,8 +177,6 @@ public class HTTPDaemon extends FreedomService
                 FLog.severe(ex);
             }
         }
-
         return response;
     }
-
 }

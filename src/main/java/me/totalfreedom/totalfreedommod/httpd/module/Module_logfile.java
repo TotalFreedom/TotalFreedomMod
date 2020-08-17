@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDPageBuilder;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
@@ -57,7 +58,6 @@ public class Module_logfile extends HTTPDModule
         {
             FLog.warning("The logfile module failed to find the logs folder.");
             return HTMLGenerationTools.paragraph("Can't find the logs folder.");
-
         }
 
         final StringBuilder out = new StringBuilder();
@@ -128,21 +128,28 @@ public class Module_logfile extends HTTPDModule
             }
             default:
             {
-                out.append(HTMLGenerationTools.paragraph("Invalid request mode."));
+                out.append(HTMLGenerationTools.heading("Logfile Submodules", 1));
+                out.append("<ul><li>");
+                out.append("<a href=\"http://")
+                        .append(ConfigEntry.HTTPD_HOST.getString())
+                        .append(":")
+                        .append(ConfigEntry.HTTPD_PORT.getInteger())
+                        .append("/logfile/list")
+                        .append("\">Logfile List</a></li>")
+                        .append("<li><a href=\"http://")
+                        .append(ConfigEntry.HTTPD_HOST.getString())
+                        .append(":")
+                        .append(ConfigEntry.HTTPD_PORT.getInteger())
+                        .append("/logfile/download")
+                        .append("\">Download Specified Logfile</a></li></ul>");
                 break;
             }
         }
-
         return out.toString();
     }
 
     private Response downloadLogFile(String LogFilesName) throws LogFileTransferException
     {
-        if (LogFilesName == null)
-        {
-            throw new LogFileTransferException("Invalid logfile requested: " + LogFilesName);
-        }
-
         final File targetFile = new File(LOG_FOLDER.getPath(), LogFilesName);
         if (!targetFile.exists())
         {
@@ -230,5 +237,4 @@ public class Module_logfile extends HTTPDModule
             return INVALID;
         }
     }
-
 }

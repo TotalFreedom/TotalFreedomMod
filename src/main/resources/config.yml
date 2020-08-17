@@ -195,7 +195,7 @@ forceip:
 
 # TotalFreedom Social Media Links, casing will be preserved
 social_links:
-  Forum: 'https://totalfreedom.boards.net/'
+  Forum: 'https://forum.totalfreedom.me'
   Website: 'https://totalfreedom.me/'
   Discord: 'https://discordapp.com/invite/XXjmAmV/'
 
@@ -401,7 +401,7 @@ announcer:
   prefix: '&5[&eTotalFreedom&5] &b'
 
   announcements:
-  - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
+  - 'Be sure to visit our forums at &6https://forum.totalfreedom.me/'
   - 'If you are not OP, be sure to ask!'
   - 'Somebody breaking the rules? Report it! /report <user> <reason>'
   - 'Griefing is not allowed!'
@@ -429,7 +429,7 @@ staffinfo:
   - ' &2- Be helpful within the server'
   - ' &6- Report those breaking the rules'
   - ' &2- And apply on our forums at the link:'
-  - '    &9www.totalfreedom.boards.net'
+  - '    &9https://forum.totalfreedom.me/'
   
 # What to display in the vote command.
 votinginfo:
@@ -503,6 +503,7 @@ service_checker_url: http://status.mojang.com/check
 # HTTPD server
 httpd:
   enabled: true
+  host: play.totalfreedom.me
   port: 28966
   public_folder: ./public_html
 

@@ -20,14 +20,10 @@ public class HTTPDPageBuilder
             + "<script src=\"//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js\"></script>\r\n"
             + "<script>\r\n{$SCRIPT}\r\n</script>\r\n";
     //
-    private String body = null;
-    private String title = null;
-    private String style = null;
-    private String script = null;
-
-    public HTTPDPageBuilder()
-    {
-    }
+    private String body;
+    private String title;
+    private String style;
+    private String script;
 
     public HTTPDPageBuilder(String body, String title, String style, String script)
     {
