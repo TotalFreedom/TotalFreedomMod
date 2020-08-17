@@ -73,7 +73,7 @@ public class Command_kick extends FreedomCommand
             }
          else
          {
-            sender.sendMessage(ChatColor.GRAY + "Kicked " + player.getName() + " quietly.");
+            msg("Kicked " + player.getName() + " quietly.");
          }
         }
 
