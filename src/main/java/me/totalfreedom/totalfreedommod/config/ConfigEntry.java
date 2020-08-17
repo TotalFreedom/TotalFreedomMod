@@ -45,6 +45,7 @@ public enum ConfigEntry
     MOB_LIMITER_DISABLE_SLIME(Boolean.class, "moblimiter.disable.slime"),
     //
     HTTPD_ENABLED(Boolean.class, "httpd.enabled"),
+    HTTPD_HOST(String.class, "httpd.host"),
     HTTPD_PORT(Integer.class, "httpd.port"),
     HTTPD_PUBLIC_FOLDER(String.class, "httpd.public_folder"),
     //
@@ -172,7 +173,7 @@ public enum ConfigEntry
     FAMOUS_PLAYERS(List.class, "famous_players"),
     STAFF_ONLY_MODE(Boolean.class, "staff_only_mode"),
     STAFF_INFO(List.class, "staffinfo"),
-    VOTING_INFO(List.class, "votinginfo"), 
+    VOTING_INFO(List.class, "votinginfo"),
     MASTER_BUILDER_INFO(List.class, "masterbuilderinfo"),
     AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
     TOGGLE_CHAT(Boolean.class, "toggle_chat"),
