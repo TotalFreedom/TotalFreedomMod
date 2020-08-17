@@ -124,7 +124,7 @@ public enum ConfigEntry
     SHOP_PRICES_CLOWN_FISH(Integer.class, "shop.prices.clown_fish"),
     //
     STAFFLIST_CLEAN_THESHOLD_HOURS(Integer.class, "stafflist.clean_threshold_hours"),
-    STAFFLIST_CONSOLE_IS_SENIOR(Boolean.class, "stafflist.console_is_senior"),
+    STAFFLIST_CONSOLE_IS_ADMIN(Boolean.class, "stafflist.console_is_admin"),
     //
     COREPROTECT_MYSQL_ENABLED(Boolean.class, "coreprotect.enabled"),
     COREPROTECT_MYSQL_HOST(String.class, "coreprotect.host"),
