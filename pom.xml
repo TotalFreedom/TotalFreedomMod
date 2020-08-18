@@ -158,6 +158,7 @@
             <groupId>com.github.TFPatches</groupId>
             <artifactId>TF-LibsDisguises</artifactId>
             <version>0cfa32159a</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -206,6 +207,7 @@
             <groupId>me.rayzr522</groupId>
             <artifactId>jsonmessage</artifactId>
             <version>1.0.0</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -421,6 +423,7 @@
                                     <include>commons-codec:commons-codec</include>
                                     <include>org.reflections:reflections</include>
                                     <include>javassist:javassist</include>
+                                    <include>me.rayzr522:jsonmessage</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

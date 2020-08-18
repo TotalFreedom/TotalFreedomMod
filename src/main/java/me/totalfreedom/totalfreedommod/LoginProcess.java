@@ -24,7 +24,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class LoginProcess extends FreedomService
 {
-
     public static final int DEFAULT_PORT = 25565;
     public static final int MIN_USERNAME_LENGTH = 2;
     public static final int MAX_USERNAME_LENGTH = 20;
