@@ -47,6 +47,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.json.simple.JSONArray;
+import static org.bukkit.Bukkit.getServer;
 
 public class FUtil
 {
@@ -627,7 +628,7 @@ public class FUtil
 
     public static String getNMSVersion()
     {
-        String packageName = Bukkit.getServer().getClass().getPackage().getName();
+        String packageName = getServer().getClass().getPackage().getName();
         return packageName.substring(packageName.lastIndexOf('.') + 1);
     }
 

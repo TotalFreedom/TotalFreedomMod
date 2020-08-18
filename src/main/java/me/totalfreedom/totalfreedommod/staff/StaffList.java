@@ -106,6 +106,18 @@ public class StaffList extends FreedomService
         return staffMember != null && staffMember.isActive();
     }
 
+    public boolean isStaff(Player player)
+    {
+        if (player == null)
+        {
+            return true;
+        }
+
+        StaffMember staffMember = getAdmin(player);
+
+        return staffMember != null && staffMember.isActive();
+    }
+
     public boolean isMod(CommandSender sender)
     {
         StaffMember staffMember = getAdmin(sender);
