@@ -20,7 +20,6 @@ import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -78,20 +77,20 @@ public class Discord extends FreedomService
         }
         try
         {
-            bot = new JDABuilder(AccountType.BOT)
-                    .setToken(ConfigEntry.DISCORD_TOKEN.getString())
-                    .addEventListeners(new PrivateMessageListener())
-                    .addEventListeners(new DiscordToMinecraftListener())
+            bot = JDABuilder.createDefault(ConfigEntry.DISCORD_TOKEN.getString())
+                    .addEventListeners(new PrivateMessageListener(),
+                            new DiscordToMinecraftListener(),
+                            new ListenerAdapter()
+                            {
+                                @Override
+                                public void onReady(ReadyEvent event)
+                                {
+                                    new StartEvent(event.getJDA()).start();
+                                }
+                            })
                     .setAutoReconnect(true)
                     .setRateLimitPool(RATELIMIT_EXECUTOR)
-                    .addEventListeners(new ListenerAdapter()
-                    {
-                        @Override
-                        public void onReady(ReadyEvent event)
-                        {
-                            new StartEvent(event.getJDA()).start();
-                        }
-                    }).build();
+                    .build();
             FLog.info("Discord verification bot has successfully enabled!");
         }
         catch (LoginException e)
