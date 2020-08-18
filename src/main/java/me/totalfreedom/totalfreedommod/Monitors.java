@@ -22,8 +22,8 @@ import org.bukkit.potion.PotionEffectType;
 public class Monitors extends FreedomService
 {
     @Getter
-    private List<Map.Entry<ThrownPotion, Long>> allThrownPotions = new ArrayList<>();
-    private Map<Player, List<ThrownPotion>> recentlyThrownPotions = new HashMap<>();
+    private final List<Map.Entry<ThrownPotion, Long>> allThrownPotions = new ArrayList<>();
+    private final Map<Player, List<ThrownPotion>> recentlyThrownPotions = new HashMap<>();
     private final List<PotionEffectType> badPotionEffects = new ArrayList<>(Arrays.asList(PotionEffectType.BLINDNESS,
             PotionEffectType.LEVITATION, PotionEffectType.CONFUSION, PotionEffectType.SLOW, PotionEffectType.SLOW_DIGGING, PotionEffectType.HUNGER)); // A list of all effects that count as "troll".
 
@@ -34,25 +34,22 @@ public class Monitors extends FreedomService
         {
             for (Player player : recentlyThrownPotions.keySet())
             {
-                if (plugin.sl.isStaff(player) && plugin.sl.getAdmin(player).getPotionSpy())
+                List<ThrownPotion> playerThrownPotions = recentlyThrownPotions.get(player);
+                ThrownPotion latestThrownPotion = playerThrownPotions.get(playerThrownPotions.size() - 1); // Get most recently thrown potion for the position.
+                int potionsThrown = playerThrownPotions.size();
+                int trollPotions = 0;
+
+                for (ThrownPotion potion : playerThrownPotions)
                 {
-                    List<ThrownPotion> playerThrownPotions = recentlyThrownPotions.get(player);
-                    ThrownPotion latestThrownPotion = playerThrownPotions.get(playerThrownPotions.size() - 1); // Get most recently thrown potion for the position.
-                    int potionsThrown = playerThrownPotions.size();
-                    boolean trollPotions = false;
-
-                    for (ThrownPotion potion : playerThrownPotions)
+                    if (isTrollPotion(potion))
                     {
-                        if (isTrollPotion(potion))
-                        {
-                            trollPotions = true;
-                        }
+                        trollPotions++;
                     }
-
-                    FUtil.playerMsg(player, ChatColor.translateAlternateColorCodes('&', String.format("&8[&ePotionSpy&8] &r%s splashed %s %s at X: %s Y: %s Z: %s in the world '%s'%s.",
-                            player.getName(), potionsThrown, potionsThrown == 1 ? "potion" : "potions", latestThrownPotion.getLocation().getBlockX(), latestThrownPotion.getLocation().getBlockY(), latestThrownPotion.getLocation().getBlockZ(),
-                                latestThrownPotion.getWorld().getName(), trollPotions ? " &c(most likely troll potion/potions)" : "")));
                 }
+
+                plugin.sl.messageAllStaff(ChatColor.translateAlternateColorCodes('&', String.format("&8[&ePotionSpy&8] &r%s splashed %s %s at X: %s Y: %s Z: %s in the world '%s'%s.",
+                        player.getName(), potionsThrown, potionsThrown == 1 ? "potion" : "potions", latestThrownPotion.getLocation().getBlockX(), latestThrownPotion.getLocation().getBlockY(), latestThrownPotion.getLocation().getBlockZ(),
+                            latestThrownPotion.getWorld().getName(), trollPotions > 0 ? String.format(" &c(most likely troll %s)", trollPotions == 1 ? "potion" : "potions") : "")));
             }
             recentlyThrownPotions.clear();
         }, 0L, 40L);
