@@ -1,6 +1,5 @@
 #
-# TotalFreedomMod 5.5 Configuration
-# by Madgeek1450 and Prozza
+# TotalFreedomMod Configuration
 #
 
 # Generic server information
@@ -20,7 +19,7 @@ server:
   # MOTD Modification
   motds:
     ban: '&cYou are banned.'
-    adminmode: '&cServer is closed.'
+    staffmode: '&cServer is closed.'
     lockdown: '&cServer is in lock-down.'
     whitelist: '&cWhitelist enabled.'
     full: '&cServer is full.'
@@ -44,10 +43,10 @@ server:
   master_builder_management: []
 
   # URL players should appeal for bans at
-  ban_url: http://totalfreedom.boards.net/
+  ban_url: ''
 
   # URL players should appeal for permanent bans at
-  permban_url: http://bit.ly/TF_PermBan
+  indefban_url: ''
 
   # What to display at the top of the tab list
   tablist_header: ''
@@ -69,12 +68,12 @@ discord:
   role_sync: false
   # Master Builder role ID
   master_builder_role_id: ''
-  # Super Admin role ID
-  super_role_id: ''
-  # Telnet Admin role ID
-  telnet_role_id: ''
-  # Senior Admin role ID
-  senior_role_id: ''
+  # Trial Mod role ID
+  trial_mod_role_id: ''
+  # Mod role ID
+  mod_role_id: ''
+  # Admin role ID
+  admin_role_id: ''
   # Developer role ID
   developer_role_id: ''
   # Assistant Executive Admin role ID
@@ -83,6 +82,46 @@ discord:
   executive_role_id: ''
   # Owner role ID
   server_owner_role_id: ''
+
+# Reddit
+reddit:
+  # Name of your subreddit (the r/NAME, excluding r/)
+  subreddit_name: 'TotalFreedom'
+  # Username of the bot account
+  username: ''
+  # Bot account password
+  password: ''
+  # Developer app id (Make one at https://www.reddit.com/prefs/apps (make sure the type is script))
+  client_id: ''
+  # Developer app secret
+  client_secret: ''
+  # Donator flair ID
+  donator_flair_id: ''
+  # Master Builder flair ID
+  master_builder_flair_id: ''
+  # Trial Mod flair ID
+  trial_mod_flair_id: ''
+  # Mod flair ID
+  mod_flair_id: ''
+  # Admin flair ID
+  admin_flair_id: ''
+  # Developer flair ID
+  developer_flair_id: ''
+  # Assistant Executive Admin flair ID
+  assistant_executive_flair_id: ''
+  # Executive Admin flair ID
+  executive_flair_id: ''
+  # Owner flair ID
+  server_owner_flair_id: ''
+
+# AMP
+amp:
+  # URL - do not leave a trailing forward slash
+  url: ''
+  # Username
+  username: ''
+  # Password
+  password: ''
   
 # The shop
 shop:
@@ -124,17 +163,16 @@ shop:
     rideable_pearl: 700
     stacking_potato: 300
     clown_fish: 1500
-    magical_saddle: 250
 
-# Admin list
-adminlist:
+# Staff list
+stafflist:
 
-  # The amount of hours after which admins may be removed from the admin list
+  # The amount of hours after which staff may be removed from the admin list
   clean_threshold_hours: 167
 
-  # Give the default CONSOLE senior admin privileges.
+  # Give the default CONSOLE admin privileges.
   # Handy in development environments.
-  console_is_senior: true
+  console_is_admin: true
   
 # CoreProtect
 coreprotect:
@@ -157,7 +195,7 @@ forceip:
 
 # TotalFreedom Social Media Links, casing will be preserved
 social_links:
-  Forum: 'https://totalfreedom.boards.net/'
+  Forum: 'https://forum.totalfreedom.me'
   Website: 'https://totalfreedom.me/'
   Discord: 'https://discordapp.com/invite/XXjmAmV/'
 
@@ -205,9 +243,9 @@ allow:
 # * The first section is a letter which indicates which rank may use this command
 #   Valid ranks:
 #   n - Nobody (Completely disabled)
-#   c - Senior Admins (Console)
-#   t - Telnet Admins (Console)
-#   s - Super Admins (Any in-game admin)
+#   c - Trial Mods (Console)
+#   m - Admins (Console)
+#   s - Staff (Any in-game admin)
 #   o - Ops (Non-Ops won't be able to use it)
 #
 # * The second section is a letter which indicates what to do when a player executes that command.
@@ -254,7 +292,7 @@ blocked_commands:
   - 'n:b:/bossbar:_'
   - 'n:b://forceload:_'
 
-  # Admin commands
+  # Staff commands
   - 's:b:/save-all:_'
   - 's:b:/kick:_'
   - 's:b:/socialspy:_'
@@ -341,16 +379,10 @@ flatlands:
   generate_params: 16,stone,32,dirt,1,grass_block
 
 # Admin-Only Mode
-admin_only_mode: false
+staff_only_mode: false
 
 # Toggle Chat
 toggle_chat: true
-
-# Protected Areas - Protect areas so that only admins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
-protectarea:
-  enabled: true
-  auto_protect_spawnpoints: true
-  auto_protect_radius: 25.0
 
 # Host Sender Names - Names that indicate automated services or host-based consoles you want to block from using some commands.
 # Make sure these are all lower-case.
@@ -369,7 +401,7 @@ announcer:
   prefix: '&5[&eTotalFreedom&5] &b'
 
   announcements:
-  - 'Be sure to visit our forums at &6http://totalfreedom.boards.net/'
+  - 'Be sure to visit our forums at &6https://forum.totalfreedom.me/'
   - 'If you are not OP, be sure to ask!'
   - 'Somebody breaking the rules? Report it! /report <user> <reason>'
   - 'Griefing is not allowed!'
@@ -386,18 +418,18 @@ announcer:
   - 'Player vs player while in creative or god mode is forbidden!'
   - 'Spawn killing is forbidden!'
   - 'Invisible potions are allowed!'
-  - 'Serial griefing and trolling will result in a permanent ban!'
+  - 'Serial griefing and trolling will result in an indefinite ban!'
   - 'Racism, nazism, and sexism are strictly forbidden!'
   - 'Join our Discord server! Link: https://discordapp.com/invite/XXjmAmV/'
 
-# What to display in the admininfo command.
-admininfo:
-  - '&bHow to apply for admin on the TotalFreedom Server:'
-  - ' &6- Do not ask for admin in game'
+# What to display in the staffinfo command.
+staffinfo:
+  - '&bHow to apply for staff on the TotalFreedom Server:'
+  - ' &6- Do not ask for staff in game'
   - ' &2- Be helpful within the server'
   - ' &6- Report those breaking the rules'
   - ' &2- And apply on our forums at the link:'
-  - '    &9www.totalfreedom.boards.net'
+  - '    &9https://forum.totalfreedom.me/'
   
 # What to display in the vote command.
 votinginfo:
@@ -471,6 +503,7 @@ service_checker_url: http://status.mojang.com/check
 # HTTPD server
 httpd:
   enabled: true
+  host: play.totalfreedom.me
   port: 28966
   public_folder: ./public_html
 

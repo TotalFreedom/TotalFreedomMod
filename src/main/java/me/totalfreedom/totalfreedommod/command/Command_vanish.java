@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.ONLY_IN_GAME)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Vanish/unvanish yourself.", usage = "/<command> [-s[ilent]]", aliases = "v")
 public class Command_vanish extends FreedomCommand
 {
@@ -34,7 +34,7 @@ public class Command_vanish extends FreedomCommand
             }
         }
 
-        if (plugin.al.isVanished(playerSender.getName()))
+        if (plugin.sl.isVanished(playerSender.getName()))
         {
             if (silent)
             {
@@ -59,18 +59,18 @@ public class Command_vanish extends FreedomCommand
 
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.al.isAdmin(player))
+                if (plugin.sl.isAdmin(player))
                 {
                     playerMsg(player, ChatColor.YELLOW + sender.getName() + " has unvanished and is now visible to everyone.");
                 }
-                if (!plugin.al.isAdmin(player))
+                if (!plugin.sl.isAdmin(player))
                 {
                     player.showPlayer(plugin, playerSender);
                 }
             }
             plugin.esb.setVanished(playerSender.getName(), false);
             playerSender.setPlayerListName(StringUtils.substring(displayName, 0, 16));
-            plugin.al.vanished.remove(playerSender.getName());
+            plugin.sl.vanished.remove(playerSender.getName());
         }
         else
         {
@@ -79,7 +79,7 @@ public class Command_vanish extends FreedomCommand
                 @Override
                 public void run()
                 {
-                    if (plugin.al.isVanished(playerSender.getName()))
+                    if (plugin.sl.isVanished(playerSender.getName()))
                     {
                         playerSender.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "You are hidden from other players."));
                     }
@@ -101,11 +101,11 @@ public class Command_vanish extends FreedomCommand
             for (Player player : server.getOnlinePlayers())
             {
                 {
-                    if (plugin.al.isAdmin(player))
+                    if (plugin.sl.isAdmin(player))
                     {
                         playerMsg(player, ChatColor.YELLOW + sender.getName() + " has vanished and is now only visible to admins.");
                     }
-                    if (!plugin.al.isAdmin(player))
+                    if (!plugin.sl.isAdmin(player))
                     {
                         player.hidePlayer(plugin, playerSender);
                     }
@@ -113,7 +113,7 @@ public class Command_vanish extends FreedomCommand
             }
 
             plugin.esb.setVanished(playerSender.getName(), true);
-            plugin.al.vanished.add(playerSender.getName());
+            plugin.sl.vanished.add(playerSender.getName());
         }
         return true;
     }

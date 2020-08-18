@@ -10,17 +10,16 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.config.IConfig;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-public class Ban implements IConfig
+public class Ban
 {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
@@ -28,6 +27,9 @@ public class Ban implements IConfig
     @Getter
     @Setter
     private String username = null;
+    @Getter
+    @Setter
+    private UUID uuid = null;
     @Getter
     private final List<String> ips = Lists.newArrayList();
     @Getter
@@ -47,9 +49,10 @@ public class Ban implements IConfig
     {
     }
 
-    public Ban(String username, String ip, String by, Date at, Date expire, String reason)
+    public Ban(String username, UUID uuid, String ip, String by, Date at, Date expire, String reason)
     {
         this(username,
+                uuid,
                 Arrays.asList(ip),
                 by,
                 at,
@@ -57,9 +60,10 @@ public class Ban implements IConfig
                 reason);
     }
 
-    public Ban(String username, List<String> ips, String by, Date at, Date expire, String reason)
+    public Ban(String username, UUID uuid, List<String> ips, String by, Date at, Date expire, String reason)
     {
         this.username = username;
+        this.uuid = uuid;
         if (ips != null)
         {
             this.ips.addAll(ips);
@@ -80,12 +84,12 @@ public class Ban implements IConfig
 
     public static Ban forPlayerIp(Player player, CommandSender by, Date expiry, String reason)
     {
-        return new Ban(null, Arrays.asList(FUtil.getIp(player)), by.getName(), Date.from(Instant.now()), expiry, reason);
+        return new Ban(null, null, Arrays.asList(FUtil.getIp(player)), by.getName(), Date.from(Instant.now()), expiry, reason);
     }
 
     public static Ban forPlayerIp(String ip, CommandSender by, Date expiry, String reason)
     {
-        return new Ban(null, ip, by.getName(), Date.from(Instant.now()), expiry, reason);
+        return new Ban(null, null, ip, by.getName(), Date.from(Instant.now()), expiry, reason);
     }
 
     //
@@ -98,7 +102,8 @@ public class Ban implements IConfig
     public static Ban forPlayerName(String player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player,
-                new ArrayList<String>(),
+                null,
+                new ArrayList<>(),
                 by.getName(),
                 Date.from(Instant.now()),
                 expiry,
@@ -115,6 +120,7 @@ public class Ban implements IConfig
     public static Ban forPlayer(Player player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player.getName(),
+                player.getUniqueId(),
                 FUtil.getIp(player),
                 by.getName(),
                 Date.from(Instant.now()),
@@ -125,6 +131,7 @@ public class Ban implements IConfig
     public static Ban forPlayerFuzzy(Player player, CommandSender by, Date expiry, String reason)
     {
         return new Ban(player.getName(),
+                player.getUniqueId(),
                 FUtil.getFuzzyIp(FUtil.getIp(player)),
                 by.getName(),
                 Date.from(Instant.now()),
@@ -135,6 +142,11 @@ public class Ban implements IConfig
     public boolean hasUsername()
     {
         return username != null && !username.isEmpty();
+    }
+
+    public boolean hasUUID()
+    {
+        return uuid != null;
     }
 
     public boolean addIp(String ip)
@@ -236,31 +248,6 @@ public class Ban implements IConfig
         }
 
         return !(hasUsername() && !(getUsername().equalsIgnoreCase(ban.getUsername())));
-    }
-
-    @Override
-    public int hashCode()
-    {
-        int hash = 7;
-        hash = 79 * hash + (this.username != null ? this.username.toLowerCase().hashCode() : 0);
-        hash = 79 * hash + (this.ips != null ? this.ips.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public void loadFrom(ConfigurationSection cs)
-    {
-    }
-
-    @Override
-    public void saveTo(ConfigurationSection cs)
-    {
-    }
-
-    @Override
-    public boolean isValid()
-    {
-        return username != null || !ips.isEmpty();
     }
 
     private void dedupeIps()

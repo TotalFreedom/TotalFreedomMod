@@ -1,11 +1,11 @@
 package me.totalfreedom.totalfreedommod;
 
 import com.google.common.base.Strings;
-import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Displayable;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FSync;
 import me.totalfreedom.totalfreedommod.util.FUtil;
@@ -65,7 +65,7 @@ public class ChatManager extends FreedomService
             return;
         }
 
-        if (!ConfigEntry.TOGGLE_CHAT.getBoolean() && !plugin.al.isAdmin(player))
+        if (!ConfigEntry.TOGGLE_CHAT.getBoolean() && !plugin.sl.isStaff(player))
         {
             event.setCancelled(true);
             playerMsg(player, "Chat is currently disabled.", org.bukkit.ChatColor.RED);
@@ -87,10 +87,10 @@ public class ChatManager extends FreedomService
             return;
         }
 
-        // Check for adminchat
-        if (fPlayer.inAdminChat())
+        // Check for staffchat
+        if (fPlayer.inStaffChat())
         {
-            FSync.adminChatMessage(player, message);
+            FSync.staffChatMessage(player, message);
             event.setCancelled(true);
             return;
         }
@@ -123,7 +123,7 @@ public class ChatManager extends FreedomService
         }
         
         // Check for mentions
-        Boolean mentionEveryone = ChatColor.stripColor(message).toLowerCase().contains("@everyone") && plugin.al.isAdmin(player);
+        Boolean mentionEveryone = ChatColor.stripColor(message).toLowerCase().contains("@everyone") && plugin.sl.isStaff(player);
         for (Player p : server.getOnlinePlayers())
         {
             if (ChatColor.stripColor(message).toLowerCase().contains("@" + p.getName().toLowerCase()) || mentionEveryone)
@@ -136,76 +136,44 @@ public class ChatManager extends FreedomService
         event.setFormat(format);
 
         // Send to discord
-        if (!ConfigEntry.ADMIN_ONLY_MODE.getBoolean() && !Bukkit.hasWhitelist() && !plugin.pl.getPlayer(player).isMuted() && !plugin.tfg.inGuildChat(player))
+        if (!ConfigEntry.STAFF_ONLY_MODE.getBoolean() && !Bukkit.hasWhitelist() && !plugin.pl.getPlayer(player).isMuted() && !plugin.tfg.inGuildChat(player))
         {
             plugin.dc.messageChatChannel(plugin.dc.deformat(player.getName()) + " \u00BB " + ChatColor.stripColor(message));
         }
     }
 
-    public ChatColor getColor(Admin admin, Displayable display)
+    public ChatColor getColor(Displayable display)
     {
         ChatColor color = display.getColor();
-        if (admin.getOldTags())
-        {
-
-            if (color.equals(ChatColor.AQUA))
-            {
-                color = ChatColor.GOLD;
-            }
-            else if (color.equals(ChatColor.GOLD))
-            {
-                color = ChatColor.LIGHT_PURPLE;
-            }
-            else if (color.equals(ChatColor.DARK_RED))
-            {
-                color = ChatColor.BLUE;
-            }
-        }
         return color;
     }
 
-    public String getColoredTag(Admin admin, Displayable display)
+    public String getColoredTag(Displayable display)
     {
         ChatColor color = display.getColor();
-        if (admin.getOldTags())
-        {
-
-            if (color.equals(ChatColor.AQUA))
-            {
-                color = ChatColor.GOLD;
-            }
-            else if (color.equals(ChatColor.GOLD))
-            {
-                color = ChatColor.LIGHT_PURPLE;
-            }
-            else if (color.equals(ChatColor.DARK_RED))
-            {
-                color = ChatColor.BLUE;
-            }
-        }
         return color + display.getAbbr();
     }
 
-    public void adminChat(CommandSender sender, String message)
+    public void staffChat(CommandSender sender, String message)
     {
         Displayable display = plugin.rm.getDisplay(sender);
-        FLog.info("[ADMIN] " + sender.getName() + " " + display.getTag() + ": " + message, true);
+        FLog.info("[STAFF] " + sender.getName() + " " + display.getTag() + ": " + message, true);
 
         for (Player player : server.getOnlinePlayers())
         {
-            if (plugin.al.isAdmin(player))
+            if (plugin.sl.isStaff(player))
             {
-                Admin admin = plugin.al.getAdmin(player);
-                if (!Strings.isNullOrEmpty(admin.getAcFormat()))
+                StaffMember staffMember = plugin.sl.getAdmin(player);
+                if (!Strings.isNullOrEmpty(staffMember.getAcFormat()))
                 {
-                    String format = admin.getAcFormat();
-                    ChatColor color = getColor(admin, display);
+                    String format = staffMember.getAcFormat();
+                    ChatColor color = getColor(display);
                     String msg = format.replace("%name%", sender.getName()).replace("%rank%", display.getAbbr()).replace("%rankcolor%", color.toString()).replace("%msg%", message);
                     player.sendMessage(FUtil.colorize(msg));
                 }
                 else
                 {
-                    player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + ChatColor.DARK_GRAY + " [" + getColoredTag(admin, display) + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + ": " + ChatColor.GOLD + FUtil.colorize(message));
+                    player.sendMessage("[" + ChatColor.AQUA + "STAFF" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + sender.getName() + ChatColor.DARK_GRAY + " [" + getColoredTag(display) + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + ": " + ChatColor.GOLD + FUtil.colorize(message));
                 }
             }
         }
@@ -215,7 +183,7 @@ public class ChatManager extends FreedomService
     {
         for (Player player : server.getOnlinePlayers())
         {
-            if (plugin.al.isAdmin(player))
+            if (plugin.sl.isStaff(player))
             {
                 playerMsg(player, ChatColor.RED + "[REPORTS] " + ChatColor.GOLD + reporter.getName() + " has reported " + reported.getName() + " for " + report);
                 FLog.info("[REPORTS] " + reporter.getName() + " has reported " + reported.getName() + " for " + report);

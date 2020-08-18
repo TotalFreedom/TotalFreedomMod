@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Sets everyone's WorldEdit block modification limit to the default limit or to a custom limit.", usage = "/<command> [limit]", aliases = "setl,swl")
 public class Command_setlimit extends FreedomCommand
 {
@@ -43,7 +43,7 @@ public class Command_setlimit extends FreedomCommand
         }
         if (success)
         {
-            FUtil.adminAction(sender.getName(), "Setting everyone's WorldEdit block modification limit to " + amount + ".", true);
+            FUtil.staffAction(sender.getName(), "Setting everyone's WorldEdit block modification limit to " + amount + ".", true);
         }
         return true;
     }

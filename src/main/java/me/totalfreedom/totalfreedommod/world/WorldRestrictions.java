@@ -30,9 +30,6 @@ public class WorldRestrictions extends FreedomService
 
     private final Map<Flag<?>, Object> flags = new HashMap<Flag<?>, Object>()
     {{
-        put(Flags.BLOCK_PLACE, StateFlag.State.DENY);
-        put(Flags.BLOCK_BREAK, StateFlag.State.DENY);
-        put(Flags.BUILD, StateFlag.State.DENY);
         put(Flags.PLACE_VEHICLE, StateFlag.State.DENY);
         put(Flags.DESTROY_VEHICLE, StateFlag.State.DENY);
         put(Flags.ENTITY_ITEM_FRAME_DESTROY, StateFlag.State.DENY);
@@ -60,7 +57,7 @@ public class WorldRestrictions extends FreedomService
             }
         }
 
-        if (!plugin.al.isAdmin(player) && player.getWorld().equals(plugin.wm.adminworld.getWorld()))
+        if (!plugin.sl.isStaff(player) && player.getWorld().equals(plugin.wm.staffworld.getWorld()))
         {
             return true;
         }
@@ -136,7 +133,7 @@ public class WorldRestrictions extends FreedomService
                for obtaining a list of a plugin's commands are returning null for world edit. */
             String command = event.getMessage().split("\\s+")[0].substring(1, event.getMessage().split("\\s+")[0].length()).toLowerCase();
 
-            String allowed = player.getWorld().equals(plugin.wm.adminworld.getWorld()) ? "Admins" : "Master Builders";
+            String allowed = player.getWorld().equals(plugin.wm.staffworld.getWorld()) ? "Staff" : "Master Builders";
 
             if (command.startsWith("/") || BLOCKED_WORLDEDIT_COMMANDS.contains(command))
             {

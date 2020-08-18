@@ -28,7 +28,7 @@ public class Command_creative extends FreedomCommand
             return true;
         }
 
-        checkRank(Rank.SUPER_ADMIN);
+        checkRank(Rank.TRIAL_MOD);
 
         if (args[0].equals("-a"))
         {
@@ -37,7 +37,7 @@ public class Command_creative extends FreedomCommand
                 targetPlayer.setGameMode(GameMode.CREATIVE);
             }
 
-            FUtil.adminAction(sender.getName(), "Changing everyone's gamemode to creative", false);
+            FUtil.staffAction(sender.getName(), "Changing everyone's gamemode to creative", false);
             msg("Your gamemode has been set to creative.");
             return true;
         }

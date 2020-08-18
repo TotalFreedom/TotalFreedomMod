@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.admin.Admin;
+import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.HTMLGenerationTools;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDPageBuilder;
 import me.totalfreedom.totalfreedommod.httpd.HTTPDaemon;
@@ -22,6 +22,7 @@ import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Method;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -114,12 +115,10 @@ public class Module_schematic extends HTTPDModule
                     }
                 });
 
-                out
-                        .append(HTMLGenerationTools.heading("Schematics:", 1))
+                out.append(HTMLGenerationTools.heading("Schematics:", 1))
                         .append("<ul>")
                         .append(StringUtils.join(schematicsFormatted, "\r\n"))
                         .append("</ul>");
-
                 break;
             }
             case DOWNLOAD:
@@ -165,11 +164,23 @@ public class Module_schematic extends HTTPDModule
             }
             default:
             {
-                out.append(HTMLGenerationTools.paragraph("Invalid request mode."));
+                out.append(HTMLGenerationTools.heading("Schematic Submodules", 1));
+                out.append("<ul><li>");
+                out.append("<a href=\"http://")
+                        .append(ConfigEntry.HTTPD_HOST.getString())
+                        .append(":")
+                        .append(ConfigEntry.HTTPD_PORT.getInteger())
+                        .append("/schematic/list")
+                        .append("\">Schematic List</a></li>")
+                        .append("<li><a href=\"http://")
+                        .append(ConfigEntry.HTTPD_HOST.getString())
+                        .append(":")
+                        .append(ConfigEntry.HTTPD_PORT.getInteger())
+                        .append("/schematic/upload")
+                        .append("\">Upload Schematics</a></li></ul>");
                 break;
             }
         }
-
         return out.toString();
     }
 
@@ -215,7 +226,6 @@ public class Module_schematic extends HTTPDModule
         {
             throw new SchematicTransferException("Schematic already exists on the server.");
         }
-
 
         try
         {
@@ -270,9 +280,9 @@ public class Module_schematic extends HTTPDModule
 
     private boolean isAuthorized(String remoteAddress)
     {
-        Admin adminEntry = plugin.al.getEntryByIp(remoteAddress);
+        StaffMember staffMemberEntry = plugin.sl.getEntryByIp(remoteAddress);
         PlayerData data = plugin.pl.getDataByIp(remoteAddress);
-        return ((adminEntry != null && adminEntry.isActive()) || data != null && data.isMasterBuilder());
+        return ((staffMemberEntry != null && staffMemberEntry.isActive()) || data != null && data.isMasterBuilder());
     }
 
     private static class SchematicTransferException extends Exception
@@ -344,5 +354,4 @@ public class Module_schematic extends HTTPDModule
             return INVALID;
         }
     }
-
 }

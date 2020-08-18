@@ -65,7 +65,6 @@ public class CommandLoader extends FreedomService
         {
             try
             {
-                FLog.debug("Loading command class " + commandClass.getSimpleName());
                 add(commandClass.newInstance());
             }
             catch (InstantiationException | IllegalAccessException | ExceptionInInitializerError ex)
@@ -73,10 +72,7 @@ public class CommandLoader extends FreedomService
                 FLog.warning("Failed to register command: /" + commandClass.getSimpleName().replace("Command_" , ""));
             }
         }
-    }
 
-    public int getCommandAmount()
-    {
-        return commands.size();
+        FLog.info("Loaded " + commands.size() + " commands");
     }
 }

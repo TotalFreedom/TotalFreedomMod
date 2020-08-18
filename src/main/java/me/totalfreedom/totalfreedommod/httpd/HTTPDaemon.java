@@ -12,17 +12,18 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD.Response;
 import me.totalfreedom.totalfreedommod.httpd.module.HTTPDModule;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_activitylog;
-import me.totalfreedom.totalfreedommod.httpd.module.Module_admins;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_bans;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_file;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_help;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_indefbans;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_index;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_list;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_logfile;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_logs;
-import me.totalfreedom.totalfreedommod.httpd.module.Module_permbans;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_players;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_punishments;
 import me.totalfreedom.totalfreedommod.httpd.module.Module_schematic;
+import me.totalfreedom.totalfreedommod.httpd.module.Module_staff;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -47,22 +48,22 @@ public class HTTPDaemon extends FreedomService
         }
 
         port = ConfigEntry.HTTPD_PORT.getInteger();
-        ;
         httpd = new HTTPD(port);
 
         // Modules
         modules.clear();
         module("activitylog", Module_activitylog.class, true);
-        module("admins", Module_admins.class, true);
+        module("staff", Module_staff.class, true);
         module("bans", Module_bans.class, true);
         module("help", Module_help.class, false);
         module("list", Module_list.class, false);
         module("logfile", Module_logfile.class, true);
         module("logs", Module_logs.class, true);
-        module("permbans", Module_permbans.class, true);
+        module("indefbans", Module_indefbans.class, true);
         module("players", Module_players.class, false);
         module("punishments", Module_punishments.class, true);
         module("schematic", Module_schematic.class, true);
+        module("index", Module_index.class, false);
 
         try
         {
@@ -103,7 +104,6 @@ public class HTTPDaemon extends FreedomService
 
     private class HTTPD extends NanoHTTPD
     {
-
         private HTTPD(int port)
         {
             super(port);
@@ -177,8 +177,6 @@ public class HTTPDaemon extends FreedomService
                 FLog.severe(ex);
             }
         }
-
         return response;
     }
-
 }

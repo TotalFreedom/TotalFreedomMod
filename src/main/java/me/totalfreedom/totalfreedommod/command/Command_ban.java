@@ -18,11 +18,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Bans the specified player.", usage = "/<command> <username> [reason] [-nrb | -q]", aliases = "gtfo")
 public class Command_ban extends FreedomCommand
 {
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
@@ -105,7 +104,10 @@ public class Command_ban extends FreedomCommand
                     }
                 }
             }
-
+            else
+            {
+                msg("Banned " + player.getName() + " quietly.");
+            }
             // Kill player
             player.setHealth(0.0);
         }
@@ -122,7 +124,17 @@ public class Command_ban extends FreedomCommand
         }
 
         // Ban player
-        Ban ban = Ban.forPlayerName(username, sender, null, reason);
+        Ban ban;
+
+        if (player != null)
+        {
+            ban = Ban.forPlayer(player, sender, null, reason);
+        }
+        else
+        {
+            ban = Ban.forPlayerName(username, sender, null, reason);
+        }
+
         for (String ip : ips)
         {
             ban.addIp(ip);
@@ -142,7 +154,7 @@ public class Command_ban extends FreedomCommand
                 bcast.append(" - Reason: ").append(ChatColor.YELLOW).append(reason);
             }
             msg(sender, ChatColor.GRAY + username + " has been banned and IP is: " + StringUtils.join(ips, ", "));
-            FUtil.adminAction(sender.getName(), String.format(bcast.toString()), true);
+            FUtil.staffAction(sender.getName(), String.format(bcast.toString()), true);
         }
 
         // Kick player and handle others on IP

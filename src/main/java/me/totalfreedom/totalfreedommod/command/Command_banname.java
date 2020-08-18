@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Bans the specified name.", usage = "/<command> <name> [reason] [-q]")
 public class Command_banname extends FreedomCommand
 {
@@ -55,7 +55,7 @@ public class Command_banname extends FreedomCommand
 
         if (!silent)
         {
-            FUtil.adminAction(sender.getName(), "Banned the name " + name, true);
+            FUtil.staffAction(sender.getName(), "Banned the name " + name, true);
         }
 
         Player player = getPlayer(name);

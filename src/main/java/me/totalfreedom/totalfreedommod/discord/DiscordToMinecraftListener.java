@@ -20,7 +20,7 @@ public class DiscordToMinecraftListener extends ListenerAdapter
         String chat_channel_id = ConfigEntry.DISCORD_CHAT_CHANNEL_ID.getString();
         if (event.getMember() != null && !chat_channel_id.isEmpty() && event.getChannel().getId().equals(chat_channel_id))
         {
-            if (!event.getAuthor().getId().equals(Discord.bot.getSelfUser().getId()))
+            if (!event.getAuthor().getId().equals(Discord.bot.getSelfUser().getId()) && !event.getMessage().getContentDisplay().isEmpty())
             {
                 Member member = event.getMember();
                 String tag = getDisplay(member);
@@ -65,20 +65,20 @@ public class DiscordToMinecraftListener extends ListenerAdapter
         {
             return Title.ASSISTANT_EXECUTIVE.getColoredTag();
         }
-        // Senior Admins
-        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_SENIOR_ROLE_ID.getString())))
+        // Admins
+        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_ADMIN_ROLE_ID.getString())))
         {
-            return Rank.SENIOR_ADMIN.getColoredTag();
+            return Rank.ADMIN.getColoredTag();
         }
-        // Telnet Admins
-        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_TELNET_ROLE_ID.getString())))
+        // Mods
+        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_MOD_ROLE_ID.getString())))
         {
-            return Rank.TELNET_ADMIN.getColoredTag();
+            return Rank.MOD.getColoredTag();
         }
-        // Super Admins
-        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_SUPER_ROLE_ID.getString())))
+        // Trial Mods
+        else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_TRIAL_MOD_ROLE_ID.getString())))
         {
-            return Rank.SUPER_ADMIN.getColoredTag();
+            return Rank.TRIAL_MOD.getColoredTag();
         }
         // Master Builders
         else if (member.getRoles().contains(server.getRoleById(ConfigEntry.DISCORD_MASTER_BUILDER_ROLE_ID.getString())))
@@ -91,5 +91,4 @@ public class DiscordToMinecraftListener extends ListenerAdapter
             return null;
         }
     }
-
 }

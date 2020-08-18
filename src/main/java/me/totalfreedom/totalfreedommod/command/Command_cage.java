@@ -15,7 +15,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Place a cage around someone with certain blocks, or someone's player head.", usage = "/<command> <purge | <partialname> [head | block] [playername | blockname]")
 public class Command_cage extends FreedomCommand
 {
@@ -30,7 +30,7 @@ public class Command_cage extends FreedomCommand
         String skullName = null;
         if ("purge".equals(args[0]))
         {
-            FUtil.adminAction(sender.getName(), "Uncaging all players", true);
+            FUtil.staffAction(sender.getName(), "Uncaging all players", true);
             for (Player player : server.getOnlinePlayers())
             {
                 final FPlayer fPlayer = plugin.pl.getPlayer(player);
@@ -101,11 +101,11 @@ public class Command_cage extends FreedomCommand
 
         if (outerMaterial == Material.PLAYER_HEAD)
         {
-            FUtil.adminAction(sender.getName(), "Caging " + player.getName() + " in " + skullName, true);
+            FUtil.staffAction(sender.getName(), "Caging " + player.getName() + " in " + skullName, true);
         }
         else
         {
-            FUtil.adminAction(sender.getName(), "Caging " + player.getName(), true);
+            FUtil.staffAction(sender.getName(), "Caging " + player.getName(), true);
         }
         return true;
     }
@@ -113,7 +113,7 @@ public class Command_cage extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (!plugin.al.isAdmin(sender))
+        if (!plugin.sl.isStaff(sender))
         {
             return null;
         }

@@ -12,10 +12,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Allows for admins to configure time, and weather of the AdminWorld, and allows for admins and ops to go to the AdminWorld.",
+@CommandParameters(description = "Allows for staff to configure time, and weather of the StaffWorld, and allows for staff and ops to go to the StaffWorld.",
         usage = "/<command> [time <morning | noon | evening | night> | weather <off | rain | storm>]",
-        aliases = "aw")
-public class Command_adminworld extends FreedomCommand
+        aliases = "sw")
+public class Command_staffworld extends FreedomCommand
 {
 
     private enum CommandMode
@@ -60,26 +60,25 @@ public class Command_adminworld extends FreedomCommand
                         return false;
                     }
 
-                    World adminWorld = null;
+                    World staffWorld = null;
                     try
                     {
-                        adminWorld = plugin.wm.adminworld.getWorld();
+                        staffWorld = plugin.wm.staffworld.getWorld();
                     }
                     catch (Exception ex)
                     {
                     }
 
-                    if (adminWorld == null || playerSender.getWorld() == adminWorld)
+                    if (staffWorld == null || playerSender.getWorld() == staffWorld)
                     {
                         msg("Going to the main world.");
                         playerSender.teleport(server.getWorlds().get(0).getSpawnLocation());
                     }
                     else
                     {
-                        msg("Going to the AdminWorld.");
-                        plugin.wm.adminworld.sendToWorld(playerSender);
+                        msg("Going to the StaffWorld.");
+                        plugin.wm.staffworld.sendToWorld(playerSender);
                     }
-
                     break;
                 }
                 case TIME:
@@ -91,8 +90,8 @@ public class Command_adminworld extends FreedomCommand
                         WorldTime timeOfDay = WorldTime.getByAlias(args[1]);
                         if (timeOfDay != null)
                         {
-                            plugin.wm.adminworld.setTimeOfDay(timeOfDay);
-                            msg("AdminWorld time set to: " + timeOfDay.name());
+                            plugin.wm.staffworld.setTimeOfDay(timeOfDay);
+                            msg("StaffWorld time set to: " + timeOfDay.name());
                         }
                         else
                         {
@@ -115,8 +114,8 @@ public class Command_adminworld extends FreedomCommand
                         WorldWeather weatherMode = WorldWeather.getByAlias(args[1]);
                         if (weatherMode != null)
                         {
-                            plugin.wm.adminworld.setWeatherMode(weatherMode);
-                            msg("AdminWorld weather set to: " + weatherMode.name());
+                            plugin.wm.staffworld.setWeatherMode(weatherMode);
+                            msg("StaffWorld weather set to: " + weatherMode.name());
                         }
                         else
                         {
@@ -152,7 +151,7 @@ public class Command_adminworld extends FreedomCommand
     // TODO: Redo this properly
     private void assertCommandPerms(CommandSender sender, Player playerSender) throws PermissionDeniedException
     {
-        if (!(sender instanceof Player) || playerSender == null || !isAdmin(sender))
+        if (!(sender instanceof Player) || playerSender == null || !isStaff(sender))
         {
             throw new PermissionDeniedException();
         }
@@ -177,7 +176,7 @@ public class Command_adminworld extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (!plugin.al.isAdmin(sender))
+        if (!plugin.sl.isStaff(sender))
         {
             return Collections.emptyList();
         }

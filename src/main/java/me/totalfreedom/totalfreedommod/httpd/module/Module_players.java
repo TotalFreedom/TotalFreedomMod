@@ -1,9 +1,9 @@
 package me.totalfreedom.totalfreedommod.httpd.module;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,42 +25,42 @@ public class Module_players extends HTTPDModule
         final JSONObject responseObject = new JSONObject();
 
         final JSONArray players = new JSONArray();
-        final JSONArray onlineadmins = new JSONArray();
+        final JSONArray onlinestaff = new JSONArray();
         final JSONArray masterbuilders = new JSONArray();
-        final JSONArray superadmins = new JSONArray();
-        final JSONArray telnetadmins = new JSONArray();
-        final JSONArray senioradmins = new JSONArray();
+        final JSONArray trialmods = new JSONArray();
+        final JSONArray mods = new JSONArray();
+        final JSONArray admins = new JSONArray();
         final JSONArray developers = new JSONArray();
         final JSONArray executives = new JSONArray();
 
         // All online players
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            if (!plugin.al.isVanished(player.getName()))
+            if (!plugin.sl.isVanished(player.getName()))
             {
                 players.add(player.getName());
-                if (plugin.al.isAdmin(player) && !plugin.al.isAdminImpostor(player))
+                if (plugin.sl.isStaff(player) && !plugin.sl.isStaffImpostor(player))
                 {
-                    onlineadmins.add(player.getName());
+                    onlinestaff.add(player.getName());
                 }
             }
         }
 
-        // Admins
-        for (Admin admin : plugin.al.getActiveAdmins())
+        // Staff
+        for (StaffMember staffMember : plugin.sl.getActiveStaffMembers())
         {
-            final String username = admin.getName();
+            final String username = staffMember.getName();
 
-            switch (admin.getRank())
+            switch (staffMember.getRank())
             {
-                case SUPER_ADMIN:
-                    superadmins.add(username);
+                case TRIAL_MOD:
+                    trialmods.add(username);
                     break;
-                case TELNET_ADMIN:
-                    telnetadmins.add(username);
+                case MOD:
+                    mods.add(username);
                     break;
-                case SENIOR_ADMIN:
-                    senioradmins.add(username);
+                case ADMIN:
+                    admins.add(username);
                     break;
             }
         }
@@ -75,11 +75,11 @@ public class Module_players extends HTTPDModule
 
         responseObject.put("players", players);
         responseObject.put("masterbuilders", masterbuilders);
-        responseObject.put("superadmins", superadmins);
-        responseObject.put("telnetadmins", telnetadmins);
-        responseObject.put("senioradmins", senioradmins);
+        responseObject.put("trialmods", trialmods);
+        responseObject.put("mods", mods);
+        responseObject.put("admins", admins);
         responseObject.put("developers", developers);
-        responseObject.put("executives", developers);
+        responseObject.put("executives", executives);
 
         final NanoHTTPD.Response response = new NanoHTTPD.Response(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_JSON, responseObject.toString());
         response.addHeader("Access-Control-Allow-Origin", "*");

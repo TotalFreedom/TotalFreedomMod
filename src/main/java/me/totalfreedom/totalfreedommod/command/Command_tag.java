@@ -48,7 +48,7 @@ public class Command_tag extends FreedomCommand
 
                 for (final Player player : server.getOnlinePlayers())
                 {
-                    if (plugin.al.isVanished(player.getName()) && !plugin.al.isAdmin(sender))
+                    if (plugin.sl.isVanished(player.getName()) && !plugin.sl.isStaff(sender))
                     {
                         continue;
                     }
@@ -63,13 +63,13 @@ public class Command_tag extends FreedomCommand
             }
             else if ("clearall".equalsIgnoreCase(args[0]))
             {
-                if (!plugin.al.isAdmin(sender))
+                if (!plugin.sl.isStaff(sender))
                 {
                     noPerms();
                     return true;
                 }
 
-                FUtil.adminAction(sender.getName(), "Removing all tags", false);
+                FUtil.staffAction(sender.getName(), "Removing all tags", false);
 
                 int count = 0;
                 for (final Player player : server.getOnlinePlayers())
@@ -113,7 +113,7 @@ public class Command_tag extends FreedomCommand
         {
             if ("clear".equalsIgnoreCase(args[0]))
             {
-                if (!plugin.al.isAdmin(sender))
+                if (!plugin.sl.isStaff(sender))
                 {
                     noPerms();
                     return true;
@@ -156,7 +156,7 @@ public class Command_tag extends FreedomCommand
                                 });
                 final String outputTag = FUtil.colorize(strippedTag);
 
-                int tagLimit = (plugin.al.isAdmin(sender) ? 30 : 20);
+                int tagLimit = (plugin.sl.isStaff(sender) ? 30 : 20);
 
                 final String rawTag = ChatColor.stripColor(outputTag).toLowerCase();
 
@@ -166,7 +166,7 @@ public class Command_tag extends FreedomCommand
                     return true;
                 }
 
-                if (!plugin.al.isAdmin(sender))
+                if (!plugin.sl.isStaff(sender))
                 {
                     for (String word : FORBIDDEN_WORDS)
                     {
@@ -233,7 +233,7 @@ public class Command_tag extends FreedomCommand
                 tag = StringUtils.join(splitTag, "");
                 final String outputTag = FUtil.colorize(tag);
 
-                int tagLimit = (plugin.al.isAdmin(sender) ? 30 : 20);
+                int tagLimit = (plugin.sl.isStaff(sender) ? 30 : 20);
 
                 final String rawTag = ChatColor.stripColor(outputTag).toLowerCase();
 
@@ -243,7 +243,7 @@ public class Command_tag extends FreedomCommand
                     return true;
                 }
 
-                if (!plugin.al.isAdmin(sender))
+                if (!plugin.sl.isStaff(sender))
                 {
                     for (String word : FORBIDDEN_WORDS)
                     {

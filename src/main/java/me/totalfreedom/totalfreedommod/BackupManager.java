@@ -1,15 +1,13 @@
 package me.totalfreedom.totalfreedommod;
 
-import com.sk89q.worldedit.bukkit.BukkitConfiguration;
 import java.io.File;
-import me.totalfreedom.totalfreedommod.banning.PermbanList;
+import me.totalfreedom.totalfreedommod.banning.IndefiniteBanList;
 import me.totalfreedom.totalfreedommod.config.YamlConfig;
 import me.totalfreedom.totalfreedommod.permissions.PermissionConfig;
 import me.totalfreedom.totalfreedommod.punishments.PunishmentList;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.util.FileUtil;
-import org.yaml.snakeyaml.Yaml;
 
 public class BackupManager extends FreedomService
 {
@@ -31,7 +29,7 @@ public class BackupManager extends FreedomService
     public void createAllBackups()
     {
         createBackups(TotalFreedomMod.CONFIG_FILENAME, true);
-        createBackups(PermbanList.CONFIG_FILENAME);
+        createBackups(IndefiniteBanList.CONFIG_FILENAME);
         createBackups(PermissionConfig.PERMISSIONS_FILENAME, true);
         createBackups(PunishmentList.CONFIG_FILENAME);
         createBackups("database.db");

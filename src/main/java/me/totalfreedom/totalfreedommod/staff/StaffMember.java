@@ -1,8 +1,8 @@
-package me.totalfreedom.totalfreedommod.admin;
+package me.totalfreedom.totalfreedommod.staff;
 
-import com.google.common.collect.Lists;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
-public class Admin
+public class StaffMember
 {
 
     @Getter
@@ -27,9 +27,9 @@ public class Admin
     private boolean active = true;
     @Getter
     @Setter
-    private Rank rank = Rank.SUPER_ADMIN;
+    private Rank rank = Rank.TRIAL_MOD;
     @Getter
-    private final List<String> ips = Lists.newArrayList();
+    private final List<String> ips = new ArrayList<>();
     @Getter
     @Setter
     private Date lastLogin = new Date();
@@ -47,18 +47,15 @@ public class Admin
     private String acFormat = null;
     @Getter
     @Setter
-    private Boolean oldTags = false;
-    @Getter
-    @Setter
-    private Boolean logStick = false;
+    private String ampUsername = null;
 
-    public Admin(Player player)
+    public StaffMember(Player player)
     {
         this.name = player.getName();
         this.ips.add(FUtil.getIp(player));
     }
 
-    public Admin(ResultSet resultSet)
+    public StaffMember(ResultSet resultSet)
     {
         try
         {
@@ -72,12 +69,11 @@ public class Admin
             this.commandSpy = resultSet.getBoolean("command_spy");
             this.potionSpy = resultSet.getBoolean("potion_spy");
             this.acFormat = resultSet.getString("ac_format");
-            this.oldTags = resultSet.getBoolean("old_tags");
-            this.logStick = resultSet.getBoolean("log_stick");
+            this.ampUsername = resultSet.getString("amp_username");
         }
         catch (SQLException e)
         {
-            FLog.severe("Failed to load admin: " + e.getMessage());
+            FLog.severe("Failed to load staff: " + e.getMessage());
         }
     }
 
@@ -86,7 +82,7 @@ public class Admin
     {
         final StringBuilder output = new StringBuilder();
 
-        output.append("Admin: ").append(name).append("\n")
+        output.append("Staff: ").append(name).append("\n")
                 .append("- IPs: ").append(StringUtils.join(ips, ", ")).append("\n")
                 .append("- Last Login: ").append(FUtil.dateToString(lastLogin)).append("\n")
                 .append("- Custom Login Message: ").append(loginMessage).append("\n")
@@ -94,17 +90,9 @@ public class Admin
                 .append("- Is Active: ").append(active).append("\n")
                 .append("- Potion Spy: ").append(potionSpy).append("\n")
                 .append("- Admin Chat Format: ").append(acFormat).append("\n")
-                .append("- Old Tags: ").append(oldTags).append("\n")
-                .append("- Log Stick: ").append(logStick).append("\n");
+                .append("- AMP Username: ").append(ampUsername).append("\n");
 
         return output.toString();
-    }
-
-    public void loadFrom(Player player)
-    {
-        name = player.getName();
-        ips.clear();
-        ips.add(FUtil.getIp(player));
     }
 
     public Map<String, Object> toSQLStorable()
@@ -120,15 +108,9 @@ public class Admin
             put("command_spy", commandSpy);
             put("potion_spy", potionSpy);
             put("ac_format", acFormat);
-            put("old_tags", oldTags);
-            put("log_stick", logStick);
+            put("amp_username", ampUsername);
         }};
         return map;
-    }
-
-    public boolean isAtLeast(Rank pRank)
-    {
-        return rank.isAtLeast(pRank);
     }
 
     public boolean hasLoginMessage()
@@ -174,7 +156,7 @@ public class Admin
 
         if (!active)
         {
-            if (getRank().isAtLeast(Rank.TELNET_ADMIN))
+            if (getRank().isAtLeast(Rank.MOD))
             {
                 if (plugin.btb != null)
                 {

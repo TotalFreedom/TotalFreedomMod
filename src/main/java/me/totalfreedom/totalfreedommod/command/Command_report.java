@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.ONLY_IN_GAME, blockHostConsole = true)
-@CommandParameters(description = "Report a player for all admins to see.", usage = "/<command> <player> <reason>")
+@CommandParameters(description = "Report a player for all staff to see.", usage = "/<command> <player> <reason>")
 public class Command_report extends FreedomCommand
 {
 
@@ -38,9 +38,9 @@ public class Command_report extends FreedomCommand
             }
         }
 
-        if (plugin.al.isAdmin(player))
+        if (plugin.sl.isStaff(player))
         {
-            msg(ChatColor.RED + "You can not report an admin.");
+            msg(ChatColor.RED + "You can not report server staff.");
             return true;
         }
 

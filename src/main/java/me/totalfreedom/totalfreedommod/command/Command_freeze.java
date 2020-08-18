@@ -8,8 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Freeze/Unfreeze a specified player, or all non-admins on the server.", usage = "/<command> [target | purge]", aliases = "fr")
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
+@CommandParameters(description = "Freeze/Unfreeze a specified player, or all non-staff on the server.", usage = "/<command> [target | purge]", aliases = "fr")
 public class Command_freeze extends FreedomCommand
 {
 
@@ -23,31 +23,30 @@ public class Command_freeze extends FreedomCommand
 
             if (!gFreeze)
             {
-                FUtil.adminAction(sender.getName(), "Disabling global player freeze", false);
+                FUtil.staffAction(sender.getName(), "Disabling global player freeze", false);
                 msg("Players are now free to move.");
                 return true;
             }
 
-            FUtil.adminAction(sender.getName(), "Enabling global player freeze", false);
+            FUtil.staffAction(sender.getName(), "Enabling global player freeze", false);
             for (Player player : server.getOnlinePlayers())
             {
-                if (!isAdmin(player))
+                if (!isStaff(player))
                 {
                     player.sendTitle(ChatColor.RED + "You've been globally frozen.", ChatColor.YELLOW + "Please be patient and you will be unfrozen shortly.", 20, 100, 60);
                     msg(player, "You have been globally frozen due to an OP breaking the rules, please wait and you will be unfrozen soon.", ChatColor.RED);
                 }
             }
             msg("Players are now frozen.");
-
             return true;
         }
 
         if (args[0].equals("purge"))
         {
-            FUtil.adminAction(sender.getName(), "Unfreezing all players", false);
+            FUtil.staffAction(sender.getName(), "Unfreezing all players", false);
             for (Player player : server.getOnlinePlayers())
             {
-                if (!isAdmin(player))
+                if (!isStaff(player))
                 {
                     player.sendTitle(ChatColor.GREEN + "You've been unfrozen.", ChatColor.YELLOW + "You may now move again.", 20, 100, 60);
                 }
@@ -69,7 +68,6 @@ public class Command_freeze extends FreedomCommand
 
         msg(player.getName() + " has been " + (fd.isFrozen() ? "frozen" : "unfrozen") + ".");
         msg(player, "You have been " + (fd.isFrozen() ? "frozen" : "unfrozen") + ".", ChatColor.AQUA);
-
         return true;
     }
 }

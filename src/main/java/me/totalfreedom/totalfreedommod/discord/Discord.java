@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod.discord;
 
-import com.earth2me.essentials.User;
 import com.google.common.base.Strings;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,7 +7,6 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -16,12 +14,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import javax.security.auth.login.LoginException;
 import me.totalfreedom.totalfreedommod.FreedomService;
-import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.player.PlayerData;
 import me.totalfreedom.totalfreedommod.rank.Rank;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import net.dv8tion.jda.api.AccountType;
+import me.totalfreedom.totalfreedommod.util.FUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -33,6 +31,7 @@ import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.internal.utils.concurrent.CountingThreadFactory;
@@ -49,7 +48,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Discord extends FreedomService
 {
-    
+
     public static HashMap<String, PlayerData> LINK_CODES = new HashMap<>();
     public static HashMap<String, PlayerData> VERIFICATION_CODES = new HashMap<>();
     public ScheduledThreadPoolExecutor RATELIMIT_EXECUTOR;
@@ -78,20 +77,20 @@ public class Discord extends FreedomService
         }
         try
         {
-            bot = new JDABuilder(AccountType.BOT)
-                    .setToken(ConfigEntry.DISCORD_TOKEN.getString())
-                    .addEventListeners(new PrivateMessageListener())
-                    .addEventListeners(new DiscordToMinecraftListener())
+            bot = JDABuilder.createDefault(ConfigEntry.DISCORD_TOKEN.getString())
+                    .addEventListeners(new PrivateMessageListener(),
+                            new DiscordToMinecraftListener(),
+                            new ListenerAdapter()
+                            {
+                                @Override
+                                public void onReady(ReadyEvent event)
+                                {
+                                    new StartEvent(event.getJDA()).start();
+                                }
+                            })
                     .setAutoReconnect(true)
                     .setRateLimitPool(RATELIMIT_EXECUTOR)
-                    .addEventListeners(new ListenerAdapter()
-                    {
-                        @Override
-                        public void onReady(ReadyEvent event)
-                        {
-                            new StartEvent(event.getJDA()).start();
-                        }
-                    }).build();
+                    .build();
             FLog.info("Discord verification bot has successfully enabled!");
         }
         catch (LoginException e)
@@ -104,7 +103,7 @@ public class Discord extends FreedomService
         }
         catch (NoClassDefFoundError e)
         {
-            FLog.warning("The JDA plugin is not installed, therefore the bot cannot start.");
+            FLog.warning("The JDA plugin is not installed, therefore the discord bot cannot start.");
             FLog.warning("To resolve this error, please download the latest JDA from: https://github.com/TFPatches/Minecraft-JDA/releases");
         }
 
@@ -144,11 +143,19 @@ public class Discord extends FreedomService
         }
     }
 
+    public void sendAMPInfo(PlayerData playerData, String username, String password)
+    {
+        User user = bot.getUserById(playerData.getDiscordID());
+        String message = "The following is your AMP details:\n\nUsername: " + username + "\nPassword: " + password + "\n\nYou can connect to AMP at " + plugin.amp.URL;
+        PrivateChannel privateChannel = user.openPrivateChannel().complete();
+        privateChannel.sendMessage(message).complete();
+    }
+
     public boolean sendBackupCodes(PlayerData playerData)
     {
         List<String> codes = generateBackupCodes();
         List<String> encryptedCodes = generateEncryptedBackupCodes(codes);
-        net.dv8tion.jda.api.entities.User user = bot.getUserById(playerData.getDiscordID());
+        User user = bot.getUserById(playerData.getDiscordID());
         File file = generateBackupCodesFile(playerData.getName(), codes);
         if (file == null)
         {
@@ -167,20 +174,9 @@ public class Discord extends FreedomService
         List<String> codes = new ArrayList<>();
         for (int i = 0; i < 10; i++)
         {
-            codes.add(randomString(10));
+            codes.add(FUtil.randomAlphanumericString(10));
         }
         return codes;
-    }
-
-    public String randomString(int size)
-    {
-        List<String> chars = Arrays.asList("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz".split("(?!^)"));
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < size; i++)
-        {
-            stringBuilder.append(chars.get(random.nextInt(chars.size())));
-        }
-        return stringBuilder.toString();
     }
 
     public String generateCode(int size)
@@ -252,24 +248,6 @@ public class Discord extends FreedomService
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerJoin(PlayerJoinEvent event)
-    {
-        if (!plugin.al.isVanished(event.getPlayer().getName()))
-        {
-            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " joined the server" + "**");
-        }
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerLeave(PlayerQuitEvent event)
-    {
-        if (!plugin.al.isVanished(event.getPlayer().getName()))
-        {
-            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " left the server" + "**");
-        }
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDeath(PlayerDeathEvent event)
     {
         try
@@ -290,6 +268,24 @@ public class Discord extends FreedomService
     public void onStart()
     {
         startBot();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerJoin(PlayerJoinEvent event)
+    {
+        if (!plugin.sl.isVanished(event.getPlayer().getName()))
+        {
+            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " joined the server" + "**");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerLeave(PlayerQuitEvent event)
+    {
+        if (!plugin.sl.isVanished(event.getPlayer().getName()))
+        {
+            messageChatChannel("**" + deformat(event.getPlayer().getName()) + " left the server" + "**");
+        }
     }
 
     public void messageChatChannel(String message)
@@ -374,10 +370,10 @@ public class Discord extends FreedomService
         embedBuilder.setDescription(reason);
         embedBuilder.setFooter("Reported by " + reporter.getName(), "https://minotar.net/helm/" + reporter.getName() + ".png");
         embedBuilder.setTimestamp(Instant.from(ZonedDateTime.now()));
-        String location = "World: " + reported.getLocation().getWorld().getName() + ", X: " + reported.getLocation().getBlockX() + ", Y: " + reported.getLocation().getBlockY() + ", Z: " +  reported.getLocation().getBlockZ();
+        String location = "World: " + reported.getLocation().getWorld().getName() + ", X: " + reported.getLocation().getBlockX() + ", Y: " + reported.getLocation().getBlockY() + ", Z: " + reported.getLocation().getBlockZ();
         embedBuilder.addField("Location", location, true);
         embedBuilder.addField("Game Mode", WordUtils.capitalizeFully(reported.getGameMode().name()), true);
-        User user = plugin.esb.getEssentialsUser(reported.getName());
+        com.earth2me.essentials.User user = plugin.esb.getEssentialsUser(reported.getName());
         embedBuilder.addField("God Mode", WordUtils.capitalizeFully(String.valueOf(user.isGodModeEnabled())), true);
         if (user.getNickname() != null)
         {
@@ -388,7 +384,7 @@ public class Discord extends FreedomService
         return true;
     }
 
-    public static boolean syncRoles(Admin admin, String discordID)
+    public static boolean syncRoles(StaffMember staffMember, String discordID)
     {
         if (discordID == null)
         {
@@ -398,7 +394,7 @@ public class Discord extends FreedomService
         Guild server = bot.getGuildById(ConfigEntry.DISCORD_SERVER_ID.getString());
         if (server == null)
         {
-            FLog.severe("The discord server ID specified is invalid, or the bot is not on the server.");
+            FLog.severe("The Discord server ID specified is invalid, or the bot is not on the server.");
             return false;
         }
 
@@ -408,87 +404,87 @@ public class Discord extends FreedomService
             return false;
         }
 
-        Role superAdminRole = server.getRoleById(ConfigEntry.DISCORD_SUPER_ROLE_ID.getString());
-        if (superAdminRole == null)
+        Role trialModRole = server.getRoleById(ConfigEntry.DISCORD_TRIAL_MOD_ROLE_ID.getString());
+        if (trialModRole == null)
         {
-            FLog.severe("The specified Super Admin role does not exist!");
+            FLog.severe("The specified Trial Mod role does not exist!");
             return false;
         }
-        Role telnetAdminRole = server.getRoleById(ConfigEntry.DISCORD_TELNET_ROLE_ID.getString());
-        if (telnetAdminRole == null)
+        Role modRole = server.getRoleById(ConfigEntry.DISCORD_MOD_ROLE_ID.getString());
+        if (modRole == null)
         {
-            FLog.severe("The specified Telnet Admin role does not exist!");
+            FLog.severe("The specified Mod role does not exist!");
             return false;
         }
-        Role seniorAdminRole = server.getRoleById(ConfigEntry.DISCORD_SENIOR_ROLE_ID.getString());
-        if (seniorAdminRole == null)
+        Role adminRole = server.getRoleById(ConfigEntry.DISCORD_ADMIN_ROLE_ID.getString());
+        if (adminRole == null)
         {
-            FLog.severe("The specified Senior Admin role does not exist!");
+            FLog.severe("The specified Admin role does not exist!");
             return false;
         }
 
-        if (!admin.isActive())
+        if (!staffMember.isActive())
         {
-            if (member.getRoles().contains(superAdminRole))
+            if (member.getRoles().contains(trialModRole))
             {
-                server.removeRoleFromMember(member, superAdminRole).complete();
+                server.removeRoleFromMember(member, trialModRole).complete();
             }
-            if (member.getRoles().contains(telnetAdminRole))
+            if (member.getRoles().contains(modRole))
             {
-                server.removeRoleFromMember(member, telnetAdminRole).complete();
+                server.removeRoleFromMember(member, modRole).complete();
             }
-            if (member.getRoles().contains(seniorAdminRole))
+            if (member.getRoles().contains(adminRole))
             {
-                server.removeRoleFromMember(member, seniorAdminRole).complete();
+                server.removeRoleFromMember(member, adminRole).complete();
             }
             return true;
         }
 
-        if (admin.getRank().equals(Rank.SUPER_ADMIN))
+        if (staffMember.getRank().equals(Rank.TRIAL_MOD))
         {
-            if (!member.getRoles().contains(superAdminRole))
+            if (!member.getRoles().contains(trialModRole))
             {
-                server.addRoleToMember(member, superAdminRole).complete();
+                server.addRoleToMember(member, trialModRole).complete();
             }
-            if (member.getRoles().contains(telnetAdminRole))
+            if (member.getRoles().contains(modRole))
             {
-                server.removeRoleFromMember(member, telnetAdminRole).complete();
+                server.removeRoleFromMember(member, modRole).complete();
             }
-            if (member.getRoles().contains(seniorAdminRole))
+            if (member.getRoles().contains(adminRole))
             {
-                server.removeRoleFromMember(member, seniorAdminRole).complete();
+                server.removeRoleFromMember(member, adminRole).complete();
             }
             return true;
         }
-        else if (admin.getRank().equals(Rank.TELNET_ADMIN))
+        else if (staffMember.getRank().equals(Rank.MOD))
         {
-            if (!member.getRoles().contains(telnetAdminRole))
+            if (!member.getRoles().contains(modRole))
             {
-                server.addRoleToMember(member, telnetAdminRole).complete();
+                server.addRoleToMember(member, modRole).complete();
             }
-            if (member.getRoles().contains(superAdminRole))
+            if (member.getRoles().contains(trialModRole))
             {
-                server.removeRoleFromMember(member, superAdminRole).complete();
+                server.removeRoleFromMember(member, trialModRole).complete();
             }
-            if (member.getRoles().contains(seniorAdminRole))
+            if (member.getRoles().contains(adminRole))
             {
-                server.removeRoleFromMember(member, seniorAdminRole).complete();
+                server.removeRoleFromMember(member, adminRole).complete();
             }
             return true;
         }
-        else if (admin.getRank().equals(Rank.SENIOR_ADMIN))
+        else if (staffMember.getRank().equals(Rank.ADMIN))
         {
-            if (!member.getRoles().contains(seniorAdminRole))
+            if (!member.getRoles().contains(adminRole))
             {
-                server.addRoleToMember(member, seniorAdminRole).complete();
+                server.addRoleToMember(member, adminRole).complete();
             }
-            if (member.getRoles().contains(superAdminRole))
+            if (member.getRoles().contains(trialModRole))
             {
-                server.removeRoleFromMember(member, superAdminRole).complete();
+                server.removeRoleFromMember(member, trialModRole).complete();
             }
-            if (member.getRoles().contains(telnetAdminRole))
+            if (member.getRoles().contains(modRole))
             {
-                server.removeRoleFromMember(member, telnetAdminRole).complete();
+                server.removeRoleFromMember(member, modRole).complete();
             }
             return true;
         }

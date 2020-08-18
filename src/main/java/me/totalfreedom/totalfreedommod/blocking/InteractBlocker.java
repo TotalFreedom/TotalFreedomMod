@@ -5,7 +5,6 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.Groups;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -91,7 +90,7 @@ public class InteractBlocker extends FreedomService
         {
             case WATER_BUCKET:
             {
-                if (plugin.al.isAdmin(player) || ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
+                if (plugin.sl.isStaff(player) || ConfigEntry.ALLOW_WATER_PLACE.getBoolean())
                 {
                     break;
                 }
@@ -104,7 +103,7 @@ public class InteractBlocker extends FreedomService
 
             case LAVA_BUCKET:
             {
-                if (plugin.al.isAdmin(player) || ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
+                if (plugin.sl.isStaff(player) || ConfigEntry.ALLOW_LAVA_PLACE.getBoolean())
                 {
                     break;
                 }

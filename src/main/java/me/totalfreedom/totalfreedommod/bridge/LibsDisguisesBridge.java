@@ -1,16 +1,15 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
+import me.libraryaddict.disguise.BlockedDisguises;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.LibsDisguises;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.util.FLog;
-import me.libraryaddict.disguise.BlockedDisguises;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class LibsDisguisesBridge extends FreedomService
 {
-
     private LibsDisguises libsDisguisesPlugin = null;
 
     @Override
@@ -64,7 +63,7 @@ public class LibsDisguisesBridge extends FreedomService
         return null;
     }
 
-    public void undisguiseAll(boolean admins)
+    public void undisguiseAll(boolean staff)
     {
         try
         {
@@ -79,7 +78,7 @@ public class LibsDisguisesBridge extends FreedomService
             {
                 if (DisguiseAPI.isDisguised(player))
                 {
-                    if (!admins && plugin.al.isAdmin(player))
+                    if (!staff && plugin.sl.isStaff(player))
                     {
                         continue;
                     }

@@ -23,4 +23,34 @@ public class FreedomServiceHandler
     {
         return services.size();
     }
+
+    public void startServices()
+    {
+        for (FreedomService service : getServices())
+        {
+            try
+            {
+                service.onStart();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void stopServices()
+    {
+        for (FreedomService service : getServices())
+        {
+            try
+            {
+                service.onStop();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 }

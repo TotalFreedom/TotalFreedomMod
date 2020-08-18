@@ -11,7 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SENIOR_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.ADMIN, source = SourceType.BOTH)
 @CommandParameters(description = "Sends a guardian particle effect with an enderman scream to the specified player.", usage = "/<command> <player>")
 public class Command_scare extends FreedomCommand
 {
@@ -53,7 +53,7 @@ public class Command_scare extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (args.length == 1 && plugin.al.isAdmin(sender))
+        if (args.length == 1 && plugin.sl.isStaff(sender))
         {
             return FUtil.getPlayerList();
         }

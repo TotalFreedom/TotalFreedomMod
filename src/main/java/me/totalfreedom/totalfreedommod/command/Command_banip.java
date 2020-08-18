@@ -11,7 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH, blockHostConsole = true)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH, blockHostConsole = true)
 @CommandParameters(description = "Bans the specified ip.", usage = "/<command> <ip> [reason] [-q]")
 public class Command_banip extends FreedomCommand
 {
@@ -72,7 +72,7 @@ public class Command_banip extends FreedomCommand
             {
                 // Broadcast
                 FLog.info(ChatColor.RED + sender.getName() + " - Banned the IP " + ip);
-                String message = ChatColor.RED + sender.getName() + " - Banned " + (plugin.al.isAdmin(player) ? "the IP " + ip : "an IP");
+                String message = ChatColor.RED + sender.getName() + " - Banned " + (plugin.sl.isStaff(player) ? "the IP " + ip : "an IP");
                 player.sendMessage(message);
             }
         }

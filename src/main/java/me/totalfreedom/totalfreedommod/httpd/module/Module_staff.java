@@ -1,13 +1,13 @@
 package me.totalfreedom.totalfreedommod.httpd.module;
 
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.admin.Admin;
 import me.totalfreedom.totalfreedommod.httpd.NanoHTTPD;
+import me.totalfreedom.totalfreedommod.staff.StaffMember;
 
-public class Module_admins extends HTTPDModule
+public class Module_staff extends HTTPDModule
 {
 
-    public Module_admins(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
+    public Module_staff(TotalFreedomMod plugin, NanoHTTPD.HTTPSession session)
     {
         super(plugin, session);
     }
@@ -42,7 +42,7 @@ public class Module_admins extends HTTPDModule
 
     private boolean isAuthorized(String remoteAddress)
     {
-        Admin entry = plugin.al.getEntryByIp(remoteAddress);
+        StaffMember entry = plugin.sl.getEntryByIp(remoteAddress);
         return entry != null && entry.isActive();
     }
 }

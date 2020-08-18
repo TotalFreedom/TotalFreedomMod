@@ -2,7 +2,6 @@ package me.totalfreedom.totalfreedommod.command;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.totalfreedom.totalfreedommod.admin.AdminList;
 import me.totalfreedom.totalfreedommod.rank.Rank;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
@@ -37,7 +36,7 @@ public class Command_op extends FreedomCommand
             if (player.getName().toLowerCase().contains(targetName) || player.getDisplayName().toLowerCase().contains(targetName)
                     || player.getName().contains(targetName) || player.getDisplayName().contains(targetName))
             {
-                if (!player.isOp() && !AdminList.vanished.contains(player.getName()))
+                if (!player.isOp() && !plugin.sl.isVanished(player.getName()))
                 {
                     matchedPlayerNames.add(player.getName());
                     player.setOp(true);
@@ -50,7 +49,7 @@ public class Command_op extends FreedomCommand
         {
             if (!silent)
             {
-                FUtil.adminAction(sender.getName(), "Opping " + StringUtils.join(matchedPlayerNames, ", "), false);
+                FUtil.staffAction(sender.getName(), "Opping " + StringUtils.join(matchedPlayerNames, ", "), false);
             }
         }
         else

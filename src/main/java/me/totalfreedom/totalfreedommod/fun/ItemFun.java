@@ -104,40 +104,46 @@ public class ItemFun extends FreedomService
 
         Player player = event.getPlayer();
         Entity entity = event.getRightClicked();
+        FPlayer fPlayer = plugin.pl.getPlayer(player);
 
         if (player.getInventory().getItemInMainHand().getType().equals(Material.POTATO) || entity.getType().equals(EntityType.PLAYER))
         {
-            if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory().getItemInMainHand(), plugin.sh.getStackingPotato()))
+            if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory(), plugin.sh.getStackingPotato()))
             {
+                if (entity instanceof Player)
+                {
+                    return;
+                }
                 player.addPassenger(entity);
                 player.sendMessage("Stacked " + entity.getName());
             }
         }
 
-        if (onCooldown(player, ShopItem.MAGICAL_SADDLE))
+        if (player.getInventory().getItemInMainHand().getType().equals(Material.BONE) || entity.getType().equals(EntityType.PLAYER))
         {
-            player.sendMessage(ChatColor.RED + "You're currently on a cool-down for 15 seconds.");
-            return;
-        }
-
-        if (player.getInventory().getItemInMainHand().getType().equals(Material.SADDLE) || player.getInventory().getItemInOffHand().getType().equals(Material.SADDLE) || entity.getType().equals(EntityType.PLAYER))
-        {
-            if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.MAGICAL_SADDLE, player.getInventory().getItemInMainHand(), plugin.sh.getMagicalSaddle()) || plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.MAGICAL_SADDLE, player.getInventory().getItemInOffHand(), plugin.sh.getMagicalSaddle()))
+            if (!fPlayer.mobThrowerEnabled())
             {
-                entity.addPassenger(player);
-                cooldown(player, ShopItem.MAGICAL_SADDLE, 15);
-                if (entity instanceof Player)
-                {
-                    entity.sendMessage(ChatColor.GRAY + player.getName() + " is now riding you, run /eject to eject them.");
-                }
+                return;
             }
+
+            Location playerLoc = player.getLocation();
+            Vector direction = playerLoc.getDirection().normalize();
+
+            LivingEntity livingEntity = (LivingEntity)event.getRightClicked();
+            EntityType entityType = livingEntity.getType();
+            if (!(entityType == fPlayer.mobThrowerCreature()))
+            {
+                return;
+            }
+
+            livingEntity.setVelocity(direction.multiply(fPlayer.mobThrowerSpeed()));
+            fPlayer.enqueueMob(livingEntity);
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamage(EntityDamageByEntityEvent event)
     {
-
         Entity entity = event.getEntity();
 
         if (entity instanceof Player || !(event.getDamager() instanceof Player))
@@ -152,7 +158,7 @@ public class ItemFun extends FreedomService
             return;
         }
 
-        if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory().getItemInMainHand(), plugin.sh.getStackingPotato()))
+        if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.STACKING_POTATO, player.getInventory(), plugin.sh.getStackingPotato()))
         {
             return;
         }
@@ -175,24 +181,6 @@ public class ItemFun extends FreedomService
 
         switch (event.getMaterial())
         {
-            case BONE:
-            {
-                if (!fPlayer.mobThrowerEnabled())
-                {
-                    break;
-                }
-
-                Location player_pos = player.getLocation();
-                Vector direction = player_pos.getDirection().normalize();
-
-                LivingEntity rezzed_mob = (LivingEntity)player.getWorld().spawnEntity(player_pos.add(direction.multiply(2.0)), fPlayer.mobThrowerCreature());
-                rezzed_mob.setVelocity(direction.multiply(fPlayer.mobThrowerSpeed()));
-                fPlayer.enqueueMob(rezzed_mob);
-
-                event.setCancelled(true);
-                break;
-            }
-
             case GUNPOWDER:
             {
                 if (!fPlayer.isMP44Armed())
@@ -215,7 +203,7 @@ public class ItemFun extends FreedomService
 
             case BLAZE_ROD:
             {
-                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.LIGHTNING_ROD, player.getInventory().getItemInMainHand(), plugin.sh.getLightningRod()))
+                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.LIGHTNING_ROD, player.getInventory(), plugin.sh.getLightningRod()))
                 {
                     break;
                 }
@@ -239,7 +227,7 @@ public class ItemFun extends FreedomService
 
             case FIRE_CHARGE:
             {
-                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.FIRE_BALL, player.getInventory().getItemInMainHand(), plugin.sh.getFireBall()))
+                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.FIRE_BALL, player.getInventory(), plugin.sh.getFireBall()))
                 {
                     break;
                 }
@@ -263,7 +251,7 @@ public class ItemFun extends FreedomService
                 final int RADIUS_HIT = 5;
                 final int STRENGTH = 4;
 
-                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.CLOWN_FISH, player.getInventory().getItemInMainHand(), plugin.sh.getClownFish()))
+                if (!plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.CLOWN_FISH, player.getInventory(), plugin.sh.getClownFish()))
                 {
                     break;
                 }
@@ -329,7 +317,7 @@ public class ItemFun extends FreedomService
         if (entity instanceof EnderPearl && entity.getShooter() instanceof Player)
         {
             Player player = (Player)entity.getShooter();
-            if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.RIDEABLE_PEARL, player.getInventory().getItemInMainHand(), plugin.sh.getRideablePearl()))
+            if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.RIDEABLE_PEARL, player.getInventory(), plugin.sh.getRideablePearl()))
             {
                 entity.addPassenger(player);
             }
@@ -390,7 +378,7 @@ public class ItemFun extends FreedomService
         PlayerData data = plugin.pl.getData(player);
         PlayerInventory inv = event.getPlayer().getInventory();
         ItemStack rod = inv.getItemInMainHand();
-        if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.GRAPPLING_HOOK, player.getInventory().getItemInMainHand(), plugin.sh.getGrapplingHook()))
+        if (plugin.sh.isRealItem(plugin.pl.getData(player), ShopItem.GRAPPLING_HOOK, player.getInventory(), plugin.sh.getGrapplingHook()))
         {
             if (event.getState() == PlayerFishEvent.State.REEL_IN || event.getState() == PlayerFishEvent.State.IN_GROUND)
             {

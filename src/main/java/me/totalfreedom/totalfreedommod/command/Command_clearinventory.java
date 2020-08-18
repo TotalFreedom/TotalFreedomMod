@@ -29,11 +29,11 @@ public class Command_clearinventory extends FreedomCommand
         }
         else
         {
-            if (plugin.al.isAdmin(sender))
+            if (plugin.sl.isStaff(sender))
             {
                 if (args[0].equals("-a"))
                 {
-                    FUtil.adminAction(sender.getName(), "Clearing everyone's inventory", true);
+                    FUtil.staffAction(sender.getName(), "Clearing everyone's inventory", true);
                     for (Player player : server.getOnlinePlayers())
                     {
                         player.getInventory().clear();
@@ -67,7 +67,7 @@ public class Command_clearinventory extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (args.length == 1 && plugin.al.isAdmin(sender))
+        if (args.length == 1 && plugin.sl.isStaff(sender))
         {
             List<String> players = FUtil.getPlayerList();
             players.add("-a");

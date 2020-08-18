@@ -1,6 +1,5 @@
 package me.totalfreedom.totalfreedommod.command;
 
-import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.rank.Rank;
@@ -28,18 +27,16 @@ public class Command_totalfreedommod extends FreedomCommand
                 return false;
             }
 
-            if (!plugin.al.isAdmin(sender))
+            if (!plugin.sl.isStaff(sender))
             {
                 noPerms();
                 return true;
             }
 
             plugin.config.load();
-            for (FreedomService service : plugin.fsh.getServices())
-            {
-                service.onStop();
-                service.onStart();
-            }
+
+            plugin.fsh.stopServices();
+            plugin.fsh.startServices();
 
             final String message = String.format("%s v%s reloaded.",
                     TotalFreedomMod.pluginName,

@@ -47,6 +47,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.json.simple.JSONArray;
+import static org.bukkit.Bukkit.getServer;
 
 public class FUtil
 {
@@ -146,7 +147,7 @@ public class FUtil
         List<String> names = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            if (!TotalFreedomMod.plugin().al.isVanished(player.getName()))
+            if (!TotalFreedomMod.plugin().sl.isVanished(player.getName()))
             {
                 names.add(player.getName());
             }
@@ -223,7 +224,7 @@ public class FUtil
             List<String> headers = new ArrayList<>();
             headers.add("Accept:application/json");
             headers.add("Content-Type:application/json");
-            String response = postRequestToEndpoint("https://api.mojang.com/profiles/minecraft", "POST", headers, json.toString());
+            String response = sendRequest("https://api.mojang.com/profiles/minecraft", "POST", headers, json.toString());
             // Don't care how stupid this looks, couldn't find anything to parse a json string to something readable in java with something not horrendously huge, maybe im just retarded
             Pattern pattern = Pattern.compile("(?<=\"id\":\")[a-f0-9].{31}");
             Matcher matcher = pattern.matcher(response);
@@ -240,7 +241,7 @@ public class FUtil
         return null;
     }
 
-    public static String postRequestToEndpoint(String endpoint, String method, List<String>headers, String body) throws IOException
+    public static String sendRequest(String endpoint, String method, List<String>headers, String body) throws IOException
     {
         URL url = new URL(endpoint);
         HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
@@ -314,9 +315,9 @@ public class FUtil
         player.setFlying(flying);
     }
 
-    public static void adminAction(String adminName, String action, boolean isRed)
+    public static void staffAction(String staffMemberName, String action, boolean isRed)
     {
-        FUtil.bcastMsg(adminName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
+        FUtil.bcastMsg(staffMemberName + " - " + action, (isRed ? ChatColor.RED : ChatColor.AQUA));
     }
 
     public static String formatLocation(Location location)
@@ -627,7 +628,7 @@ public class FUtil
 
     public static String getNMSVersion()
     {
-        String packageName = Bukkit.getServer().getClass().getPackage().getName();
+        String packageName = getServer().getClass().getPackage().getName();
         return packageName.substring(packageName.lastIndexOf('.') + 1);
     }
 
@@ -640,11 +641,25 @@ public class FUtil
 
     public static String randomString(int length)
     {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789-_=+[]{};:,.<>~";
+        String randomString = "";
+        for (int i = 0; i < length; i++)
+        {
+            int selectedCharacter = randomInteger(1, characters.length()) - 1;
+
+            randomString += characters.charAt(selectedCharacter);
+        }
+
+        return randomString;
+
+    }
+
+    public static String randomAlphanumericString(int length)
+    {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
         String randomString = "";
         for (int i = 0; i < length; i++)
         {
-
             int selectedCharacter = randomInteger(1, characters.length()) - 1;
 
             randomString += characters.charAt(selectedCharacter);

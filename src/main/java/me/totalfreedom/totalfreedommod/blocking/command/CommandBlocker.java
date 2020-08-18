@@ -12,6 +12,7 @@ import me.totalfreedom.totalfreedommod.config.ConfigEntry;
 import me.totalfreedom.totalfreedommod.util.FLog;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
@@ -19,7 +20,6 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.SimplePluginManager;
 
 public class CommandBlocker extends FreedomService
@@ -171,7 +171,7 @@ public class CommandBlocker extends FreedomService
 
         for (String part : commandParts)
         {
-            if (command.startsWith("/") && !plugin.al.isAdmin(sender) && (part.contains("#copy") || part.contains("#clipboard")))
+            if (command.startsWith("/") && !plugin.sl.isStaff(sender) && (part.contains("#copy") || part.contains("#clipboard")))
             {
                 FUtil.playerMsg(sender, "WorldEdit copy variables are disabled.");
                 return true;

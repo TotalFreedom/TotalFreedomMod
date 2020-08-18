@@ -13,7 +13,7 @@ public class Command_forcekill extends FreedomCommand
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (!plugin.al.isAdmin(sender) && !senderIsConsole)
+        if (!plugin.sl.isMod(sender) && !senderIsConsole)
         {
             playerSender.setHealth(0);
             return true;

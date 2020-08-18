@@ -17,7 +17,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.BOTH)
 @CommandParameters(description = "Remove all blocks of a certain type in the radius of certain players.", usage = "/<command> <block> [radius (default=50)] [player]")
 public class Command_ro extends FreedomCommand
 {
@@ -92,10 +92,10 @@ public class Command_ro extends FreedomCommand
             names = StringUtils.join(materials, ", ");
         }
 
-        World adminWorld = null;
+        World staffWorld = null;
         try
         {
-            adminWorld = plugin.wm.adminworld.getWorld();
+            staffWorld = plugin.wm.staffworld.getWorld();
         }
         catch (Exception ex)
         {
@@ -104,11 +104,11 @@ public class Command_ro extends FreedomCommand
         int affected = 0;
         if (targetPlayer == null)
         {
-            FUtil.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of all players... Brace for lag!", false);
+            FUtil.staffAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of all players... Brace for lag!", false);
 
             for (final Player player : server.getOnlinePlayers())
             {
-                if (player.getWorld() == adminWorld)
+                if (player.getWorld() == staffWorld)
                 {
                     continue;
                 }
@@ -121,9 +121,9 @@ public class Command_ro extends FreedomCommand
         }
         else
         {
-            if (targetPlayer.getWorld() != adminWorld)
+            if (targetPlayer.getWorld() != staffWorld)
             {
-                FUtil.adminAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
+                FUtil.staffAction(sender.getName(), "Removing all " + names + " within " + radius + " blocks of " + targetPlayer.getName(), false);
                 for (Material material : materials)
                 {
                     affected += replaceBlocks(targetPlayer.getLocation(), material, Material.AIR, radius);
@@ -131,8 +131,7 @@ public class Command_ro extends FreedomCommand
             }
         }
 
-        FUtil.adminAction(sender.getName(), "Remove complete! " + affected + " blocks removed.", false);
-
+        FUtil.staffAction(sender.getName(), "Remove complete! " + affected + " blocks removed.", false);
         return true;
     }
 
@@ -176,7 +175,6 @@ public class Command_ro extends FreedomCommand
                 }
             }
         }
-
         return affected;
     }
 }

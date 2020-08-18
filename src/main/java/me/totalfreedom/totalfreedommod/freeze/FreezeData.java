@@ -62,14 +62,13 @@ public class FreezeData
             @Override
             public void run()
             {
-                if (!plugin().al.isAdminImpostor(player) && plugin().pl.isPlayerImpostor(player))
+                if (!plugin().sl.isStaffImpostor(player) && plugin().pl.isPlayerImpostor(player))
                 {
-                    FUtil.adminAction("TotalFreedom", "Unfreezing " + player.getName(), false);
+                    FUtil.staffAction("TotalFreedom", "Unfreezing " + player.getName(), false);
                     setFrozen(false);
                 }
             }
 
         }.runTaskLater(plugin(), AUTO_PURGE_TICKS);
     }
-
 }

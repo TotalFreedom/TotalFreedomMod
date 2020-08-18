@@ -41,12 +41,12 @@ public class Command_potion extends FreedomCommand
             }
             else if (args[0].equalsIgnoreCase("clearall"))
             {
-                if (!(plugin.al.isAdmin(sender) || senderIsConsole))
+                if (!(plugin.sl.isStaff(sender) || senderIsConsole))
                 {
                     noPerms();
                     return true;
                 }
-                FUtil.adminAction(sender.getName(), "Cleared all potion effects from all players", true);
+                FUtil.staffAction(sender.getName(), "Cleared all potion effects from all players", true);
                 for (Player target : server.getOnlinePlayers())
                 {
                     for (PotionEffect potion_effect : target.getActivePotionEffects())
@@ -76,9 +76,9 @@ public class Command_potion extends FreedomCommand
                     return true;
                 }
 
-                if (!plugin.al.isAdmin(sender))
+                if (!plugin.sl.isStaff(sender))
                 {
-                    msg(ChatColor.RED + "Only admins can clear potion effects from other players.");
+                    msg(ChatColor.RED + "Only staff can clear potion effects from other players.");
                     return true;
                 }
 
@@ -104,7 +104,7 @@ public class Command_potion extends FreedomCommand
                 {
                     target = getPlayer(args[4]);
 
-                    if (target == null || plugin.al.isVanished(target.getName()) && !plugin.al.isAdmin(sender))
+                    if (target == null || plugin.sl.isVanished(target.getName()) && !plugin.sl.isStaff(sender))
                     {
                         msg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;
@@ -117,9 +117,9 @@ public class Command_potion extends FreedomCommand
                     return true;
                 }
 
-                if (!plugin.al.isAdmin(sender))
+                if (!plugin.sl.isStaff(sender))
                 {
-                    sender.sendMessage(ChatColor.RED + "Only admins can apply potion effects to other players.");
+                    sender.sendMessage(ChatColor.RED + "Only staff can apply potion effects to other players.");
                     return true;
                 }
 
@@ -183,7 +183,7 @@ public class Command_potion extends FreedomCommand
         {
             List<String> arguments = new ArrayList<>();
             arguments.addAll(Arrays.asList("list", "clear", "add"));
-            if (plugin.al.isAdmin(sender))
+            if (plugin.sl.isStaff(sender))
             {
                 arguments.add("clearall");
             }
@@ -193,7 +193,7 @@ public class Command_potion extends FreedomCommand
         {
             if (args[0].equals("clear"))
             {
-                if (plugin.al.isAdmin(sender))
+                if (plugin.sl.isStaff(sender))
                 {
                     return FUtil.getPlayerList();
                 }
@@ -217,7 +217,7 @@ public class Command_potion extends FreedomCommand
                 return Arrays.asList("<amplifier>");
             }
         }
-        else if (args.length == 5 && plugin.al.isAdmin(sender))
+        else if (args.length == 5 && plugin.sl.isStaff(sender))
         {
             if (args[0].equals("add"))
             {

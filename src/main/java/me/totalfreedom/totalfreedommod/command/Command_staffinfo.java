@@ -11,24 +11,23 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = Rank.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Information on how to apply for admin.", usage = "/<command>", aliases = "ai")
-public class Command_admininfo extends FreedomCommand
+@CommandParameters(description = "Information on how to apply for staff.", usage = "/<command>", aliases = "si")
+public class Command_staffinfo extends FreedomCommand
 {
 
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        List<String> adminInfo = ConfigEntry.ADMIN_INFO.getStringList();
+        List<String> staffInfo = ConfigEntry.STAFF_INFO.getStringList();
 
-        if (adminInfo.isEmpty())
+        if (staffInfo.isEmpty())
         {
-            msg("The admin information section of the config.yml file has not been configured.", ChatColor.RED);
+            msg("The staff information section of the config.yml file has not been configured.", ChatColor.RED);
         }
         else
         {
-            msg(FUtil.colorize(StringUtils.join(adminInfo, "\n")));
+            msg(FUtil.colorize(StringUtils.join(staffInfo, "\n")));
         }
-
         return true;
     }
 }

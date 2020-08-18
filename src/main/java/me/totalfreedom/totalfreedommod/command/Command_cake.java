@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-@CommandPermissions(level = Rank.SUPER_ADMIN, source = SourceType.BOTH)
+@CommandPermissions(level = Rank.MOD, source = SourceType.BOTH)
 @CommandParameters(description = "For the people that are still alive - gives a cake to everyone on the server.", usage = "/<command>")
 public class Command_cake extends FreedomCommand
 {
@@ -32,7 +32,7 @@ public class Command_cake extends FreedomCommand
         heldItemMeta.setDisplayName(ChatColor.WHITE + "The " + ChatColor.DARK_GRAY + "Lie");
         heldItem.setItemMeta(heldItemMeta);
 
-        for (final Player player : this.server.getOnlinePlayers())
+        for (Player player : server.getOnlinePlayers())
         {
             final int firstEmpty = player.getInventory().firstEmpty();
             if (firstEmpty >= 0)

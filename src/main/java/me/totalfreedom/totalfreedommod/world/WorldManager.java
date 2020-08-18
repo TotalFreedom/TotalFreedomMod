@@ -2,17 +2,13 @@ package me.totalfreedom.totalfreedommod.world;
 
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.config.ConfigEntry;
-import me.totalfreedom.totalfreedommod.player.FPlayer;
 import me.totalfreedom.totalfreedommod.util.FUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
@@ -21,14 +17,14 @@ public class WorldManager extends FreedomService
 {
 
     public Flatlands flatlands;
-    public AdminWorld adminworld;
+    public StaffWorld staffworld;
     public MasterBuilderWorld masterBuilderWorld;
     public HubWorld hubworld;
 
     public WorldManager()
     {
         this.flatlands = new Flatlands();
-        this.adminworld = new AdminWorld();
+        this.staffworld = new StaffWorld();
         this.masterBuilderWorld = new MasterBuilderWorld();
         this.hubworld = new HubWorld();
     }
@@ -37,7 +33,7 @@ public class WorldManager extends FreedomService
     public void onStart()
     {
         flatlands.getWorld();
-        adminworld.getWorld();
+        staffworld.getWorld();
         masterBuilderWorld.getWorld();
         hubworld.getWorld();
 
@@ -58,7 +54,7 @@ public class WorldManager extends FreedomService
     public void onStop()
     {
         flatlands.getWorld().save();
-        adminworld.getWorld().save();
+        staffworld.getWorld().save();
         masterBuilderWorld.getWorld().save();
         hubworld.getWorld().save();
     }
@@ -68,7 +64,7 @@ public class WorldManager extends FreedomService
     {
         try
         {
-            if (event.getWorld().equals(adminworld.getWorld()) && adminworld.getWeatherMode() != WorldWeather.OFF)
+            if (event.getWorld().equals(staffworld.getWorld()) && staffworld.getWeatherMode() != WorldWeather.OFF)
             {
                 return;
             }
@@ -96,7 +92,7 @@ public class WorldManager extends FreedomService
     {
         try
         {
-            if (event.getWorld().equals(adminworld.getWorld()) && adminworld.getWeatherMode() != WorldWeather.OFF)
+            if (event.getWorld().equals(staffworld.getWorld()) && staffworld.getWeatherMode() != WorldWeather.OFF)
             {
                 return;
             }

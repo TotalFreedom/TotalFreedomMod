@@ -11,9 +11,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Verify an admin without giving them administrator permissions.", usage = "/<command> <player>", aliases = "vna")
-public class Command_verifynoadmin extends FreedomCommand
+@CommandPermissions(level = Rank.MOD, source = SourceType.BOTH)
+@CommandParameters(description = "Verify a staff member without giving them staff permissions.", usage = "/<command> <player>", aliases = "vns")
+public class Command_verifynostaff extends FreedomCommand
 {
 
     @Override
@@ -32,32 +32,32 @@ public class Command_verifynoadmin extends FreedomCommand
             return true;
         }
 
-        if (plugin.al.isAdminImpostor(player))
+        if (plugin.sl.isStaffImpostor(player))
         {
-            if (!plugin.al.verifiedNoAdmins.contains(player.getName()))
+            if (!plugin.sl.verifiedNoStaff.contains(player.getName()))
             {
-                plugin.al.verifiedNoAdmins.add(player.getName());
+                plugin.sl.verifiedNoStaff.add(player.getName());
             }
             String ip = FUtil.getIp(player);
-            if (!plugin.al.verifiedNoAdminIps.containsKey(player.getName()))
+            if (!plugin.sl.verifiedNoStaffIps.containsKey(player.getName()))
             {
                 List<String> ips = new ArrayList<>();
                 ips.add(ip);
-                plugin.al.verifiedNoAdminIps.put(player.getName(), ips);
+                plugin.sl.verifiedNoStaffIps.put(player.getName(), ips);
             }
             else
             {
-                List<String> ips = plugin.al.verifiedNoAdminIps.get(player.getName());
+                List<String> ips = plugin.sl.verifiedNoStaffIps.get(player.getName());
                 if (!ips.contains(ip))
                 {
                     ips.add(ip);
-                    plugin.al.verifiedNoAdmins.remove(player.getName());
-                    plugin.al.verifiedNoAdminIps.put(player.getName(), ips);
+                    plugin.sl.verifiedNoStaff.remove(player.getName());
+                    plugin.sl.verifiedNoStaffIps.put(player.getName(), ips);
 
                 }
             }
             plugin.rm.updateDisplay(player);
-            FUtil.adminAction(sender.getName(), "Verified " + player.getName() + ", without administrator permissions.", true);
+            FUtil.staffAction(sender.getName(), "Verified " + player.getName() + ", without staff permissions.", true);
             player.setOp(true);
             player.sendMessage(YOU_ARE_OP);
             final FPlayer fPlayer = plugin.pl.getPlayer(player);
@@ -66,11 +66,11 @@ public class Command_verifynoadmin extends FreedomCommand
                 fPlayer.getFreezeData().setFrozen(false);
                 player.sendMessage(ChatColor.GRAY + "You have been unfrozen.");
             }
-            msg("Verified " + player.getName() + " but didn't give them admin permissions", ChatColor.GREEN);
+            msg("Verified " + player.getName() + " but didn't give them staff permissions", ChatColor.GREEN);
         }
         else
         {
-            msg(player.getName() + " is not an admin imposter.", ChatColor.RED);
+            msg(player.getName() + " is not a staff imposter.", ChatColor.RED);
         }
 
         return true;
@@ -84,7 +84,7 @@ public class Command_verifynoadmin extends FreedomCommand
             List<String> adminImposters = new ArrayList<>();
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.al.isAdminImpostor(player))
+                if (plugin.sl.isStaffImpostor(player))
                 {
                     adminImposters.add(player.getName());
                 }

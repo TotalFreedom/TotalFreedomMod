@@ -12,11 +12,10 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 @CommandParameters(description = "Check your permissions", usage = "/<command> [prefix | reload]")
 public class Command_permissions extends FreedomCommand
 {
-
     @Override
     public boolean run(CommandSender sender, Player playerSender, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (args.length > 0 && args[0].equals("reload") && plugin.al.isAdmin(sender))
+        if (args.length > 0 && args[0].equals("reload") && plugin.sl.isStaff(sender))
         {
             plugin.permissions.load();
             plugin.pem.loadPermissionNodes();

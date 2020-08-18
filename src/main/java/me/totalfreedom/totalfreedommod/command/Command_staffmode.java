@@ -10,9 +10,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(level = Rank.TELNET_ADMIN, source = SourceType.BOTH)
-@CommandParameters(description = "Denies joining of operators and only allows admins to join.", usage = "/<command> [on | off]")
-public class Command_adminmode extends FreedomCommand
+@CommandPermissions(level = Rank.MOD, source = SourceType.BOTH)
+@CommandParameters(description = "Denies joining of operators and only allows staff members to join.", usage = "/<command> [on | off]")
+public class Command_staffmode extends FreedomCommand
 {
 
     @Override
@@ -25,19 +25,19 @@ public class Command_adminmode extends FreedomCommand
 
         if (args[0].equalsIgnoreCase("off"))
         {
-            ConfigEntry.ADMIN_ONLY_MODE.setBoolean(false);
-            FUtil.adminAction(sender.getName(), "Opening the server to all players.", true);
+            ConfigEntry.STAFF_ONLY_MODE.setBoolean(false);
+            FUtil.staffAction(sender.getName(), "Opening the server to all players.", true);
             return true;
         }
         else if (args[0].equalsIgnoreCase("on"))
         {
-            ConfigEntry.ADMIN_ONLY_MODE.setBoolean(true);
-            FUtil.adminAction(sender.getName(), "Closing the server to non-admins.", true);
+            ConfigEntry.STAFF_ONLY_MODE.setBoolean(true);
+            FUtil.staffAction(sender.getName(), "Closing the server to non-staff.", true);
             for (Player player : server.getOnlinePlayers())
             {
-                if (!isAdmin(player))
+                if (!isStaff(player))
                 {
-                    player.kickPlayer("Server is now closed to non-admins.");
+                    player.kickPlayer("Server is now closed to non-staff.");
                 }
             }
             return true;
@@ -49,7 +49,7 @@ public class Command_adminmode extends FreedomCommand
     @Override
     public List<String> getTabCompleteOptions(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (args.length == 1 && plugin.al.isAdmin(sender) && !(sender instanceof Player))
+        if (args.length == 1 && plugin.sl.isStaff(sender) && !(sender instanceof Player))
         {
             return Arrays.asList("on", "off");
         }

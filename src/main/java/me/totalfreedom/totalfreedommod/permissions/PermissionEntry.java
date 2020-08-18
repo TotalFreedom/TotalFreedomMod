@@ -9,9 +9,9 @@ public enum PermissionEntry
     REMOVE("remove"),
     OPERATORS("operators"),
     MASTER_BUILDERS("master_builders"),
-    SUPER_ADMINS("super_admins"),
-    TELNET_ADMINS("telnet_admins"),
-    SENIOR_ADMINS("senior_admins");
+    TRIAL_MODS("trial_mods"),
+    MODS("mods"),
+    ADMINS("admins");
 
 
     private final String configName;
