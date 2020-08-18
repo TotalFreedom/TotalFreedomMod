@@ -71,10 +71,10 @@ public class Command_kick extends FreedomCommand
             {
                 FUtil.staffAction(sender.getName(), "Kicking " + player.getName(), true);
             }
-         else
-         {
-            msg("Kicked " + player.getName() + " quietly.");
-         }
+        }
+        else
+        {
+            msg("Kicked " + player,getName() + " quietly.");
         }
 
         player.kickPlayer(builder.toString());
