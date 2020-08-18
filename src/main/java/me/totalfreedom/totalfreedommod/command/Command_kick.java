@@ -74,7 +74,7 @@ public class Command_kick extends FreedomCommand
         }
         else
         {
-            msg("Kicked " + player,getName() + " quietly.");
+            msg("Kicked " + player.getName() + " quietly.");
         }
 
         player.kickPlayer(builder.toString());
