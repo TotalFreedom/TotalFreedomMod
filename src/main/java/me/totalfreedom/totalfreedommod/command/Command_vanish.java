@@ -13,7 +13,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import static me.totalfreedom.totalfreedommod.util.FUtil.playerMsg;
 
 @CommandPermissions(level = Rank.TRIAL_MOD, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Vanish/unvanish yourself.", usage = "/<command> [-s[ilent]]", aliases = "v")
@@ -56,14 +55,11 @@ public class Command_vanish extends FreedomCommand
 
             plugin.pl.getData(playerSender).setTag(tag);
             FLog.info(playerSender.getName() + " is no longer vanished.");
+            plugin.sl.messageAllStaff(ChatColor.YELLOW + sender.getName() + " has unvanished and is now visible to everyone.");
 
             for (Player player : server.getOnlinePlayers())
             {
-                if (plugin.sl.isAdmin(player))
-                {
-                    playerMsg(player, ChatColor.YELLOW + sender.getName() + " has unvanished and is now visible to everyone.");
-                }
-                if (!plugin.sl.isAdmin(player))
+                if (!plugin.sl.isStaff(player))
                 {
                     player.showPlayer(plugin, playerSender);
                 }
@@ -98,17 +94,13 @@ public class Command_vanish extends FreedomCommand
             }
 
             FLog.info(playerSender.getName() + " is now vanished.");
+            plugin.sl.messageAllStaff(ChatColor.YELLOW + sender.getName() + " has vanished and is now only visible to staff members.");
+
             for (Player player : server.getOnlinePlayers())
             {
+                if (!plugin.sl.isStaff(player))
                 {
-                    if (plugin.sl.isAdmin(player))
-                    {
-                        playerMsg(player, ChatColor.YELLOW + sender.getName() + " has vanished and is now only visible to admins.");
-                    }
-                    if (!plugin.sl.isAdmin(player))
-                    {
-                        player.hidePlayer(plugin, playerSender);
-                    }
+                    player.hidePlayer(plugin, playerSender);
                 }
             }
 

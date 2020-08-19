@@ -31,7 +31,7 @@ public class VanishHandler extends FreedomService
 
         for (Player p : server.getOnlinePlayers())
         {
-            if (!plugin.sl.isAdmin(player) && plugin.sl.isVanished(p.getName()))
+            if (!plugin.sl.isStaff(player) && plugin.sl.isVanished(p.getName()))
             {
                 player.hidePlayer(plugin, p);
             }
@@ -39,7 +39,7 @@ public class VanishHandler extends FreedomService
 
         for (Player p : server.getOnlinePlayers())
         {
-            if (!plugin.sl.isAdmin(p) && plugin.sl.isVanished(player.getName()))
+            if (!plugin.sl.isStaff(p) && plugin.sl.isVanished(player.getName()))
             {
                 p.hidePlayer(plugin, player);
             }
