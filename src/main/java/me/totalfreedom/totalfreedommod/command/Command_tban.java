@@ -71,7 +71,7 @@ public class Command_tban extends FreedomCommand
 
         StringBuilder kick = new StringBuilder()
                 .append(ChatColor.RED)
-                .append("You have been temporarily banned for five minutes. Please read totalfreedom.me for more info.");
+                .append("You have been temporarily banned for five minutes. Please read https://freedomsite.boards.net for more info.");
 
         if (!quiet)
         {

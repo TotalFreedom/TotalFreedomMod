@@ -32,11 +32,6 @@
         <url>https://totalfreedom.me</url>
     </organization>
 
-    <scm>
-        <connection>scm:git:git@github.com:TFPatches/TotalFreedomMod.git</connection>
-        <developerConnection>scm:git:git@github.com:TFPatches/TotalFreedomMod.git</developerConnection>
-        <url>git@github.com:TFPatches/TotalFreedomMod.git</url>
-    </scm>
 
     <repositories>
         <repository>
@@ -376,31 +371,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <!-- Buildnumber -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-
-                <configuration>
-                    <buildNumberPropertyName>maven.buildnumber</buildNumberPropertyName>
-                    <buildNumberPropertiesFileLocation>${project.basedir}/src/main/resources/build.properties
-                    </buildNumberPropertiesFileLocation>
-                    <format>{0,number,#}</format>
-                    <items>
-                        <item>buildNumber</item>
-                    </items>
-                </configuration>
             </plugin>
 
             <!-- Shade -->

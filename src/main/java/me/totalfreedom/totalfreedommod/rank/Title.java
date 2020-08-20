@@ -12,7 +12,7 @@ public enum Title implements Displayable
     ASSISTANT_EXECUTIVE("an", "Assistant Executive", ChatColor.RED, org.bukkit.ChatColor.RED, "Asst Exec", true),
     EXECUTIVE("an", "Executive", ChatColor.RED, org.bukkit.ChatColor.RED, "Exec", true),
     DEVELOPER("a", "Developer", ChatColor.DARK_PURPLE, org.bukkit.ChatColor.DARK_PURPLE, "Dev", true),
-    OWNER("the", "Owner", ChatColor.of("#ff0000"), org.bukkit.ChatColor.DARK_RED, "Owner", true);
+    OWNER("the", "Manager", ChatColor.of("#ff0000"), org.bukkit.ChatColor.DARK_RED, "Mgmt.", true);
 
     private final String determiner;
     @Getter

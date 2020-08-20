@@ -80,12 +80,12 @@ public class Command_smite extends FreedomCommand
 
         if (!silent)
         {
-            FUtil.bcastMsg(player.getName() + " has been a naughty, naughty boy.", ChatColor.RED);
+            FUtil.bcastMsg(player.getName() + " has been a bad player!", ChatColor.RED);
             if (reason != null)
             {
-                FUtil.bcastMsg("  Reason: " + ChatColor.YELLOW + reason, ChatColor.RED);
+                FUtil.bcastMsg("Reason: " + ChatColor.YELLOW + reason, ChatColor.RED);
             }
-            FUtil.bcastMsg("  Smitten by: " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
+            FUtil.bcastMsg("Smitten by: " + ChatColor.YELLOW + sender.getName(), ChatColor.RED);
         }
         else
         {

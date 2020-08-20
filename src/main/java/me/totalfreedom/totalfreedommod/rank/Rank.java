@@ -7,10 +7,10 @@ public enum Rank implements Displayable
 {
     IMPOSTOR("an", "Impostor", Type.PLAYER, "Imp", ChatColor.YELLOW, null, false),
     NON_OP("a", "Non-Op", Type.PLAYER, "", ChatColor.WHITE, null, false),
-    OP("an", "Operator", Type.PLAYER, "OP", ChatColor.GREEN, null, false),
-    TRIAL_MOD("a", "Trial Moderator", Type.STAFF, "Trial Mod", ChatColor.AQUA, org.bukkit.ChatColor.AQUA, true),
-    MOD("a", "Moderator", Type.STAFF, "Mod", ChatColor.DARK_GREEN, org.bukkit.ChatColor.DARK_GREEN, true),
-    ADMIN("an", "Administrator", Type.STAFF, "Admin", ChatColor.GOLD, org.bukkit.ChatColor.GOLD, true),
+    OP("an", "Operator", Type.PLAYER, "OP", ChatColor.GRAY, null, false),
+    TRIAL_MOD("a", "Trial Mod", Type.STAFF, "Trial Mod", ChatColor.DARK_GREEN, org.bukkit.ChatColor.DARK_GREEN, true),
+    MOD("a", "Mod", Type.STAFF, "Mod", ChatColor.AQUA, org.bukkit.ChatColor.AQUA, true),
+    ADMIN("an", "Admin", Type.STAFF, "Admin", ChatColor.RED, org.bukkit.ChatColor.RED, true),
     MOD_CONSOLE("the", "Console", Type.STAFF_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false),
     ADMIN_CONSOLE("the", "Console", Type.STAFF_CONSOLE, "Console", ChatColor.DARK_PURPLE, null, false);
     @Getter

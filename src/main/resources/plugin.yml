@@ -1,4 +1,4 @@
-name: TotalFreedomMod
+name: Freedom
 main: me.totalfreedom.totalfreedommod.TotalFreedomMod
 version: ${project.version}
 description: Plugin for the Total Freedom server.

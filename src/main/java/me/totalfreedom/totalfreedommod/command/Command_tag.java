@@ -35,8 +35,8 @@ public class Command_tag extends FreedomCommand
 
         if (args[0].equals("-s") || args[0].equals("-save"))
         {
-            save = true;
-            args = ArrayUtils.remove(args, 0);
+            msg(ChatColor.RED + "Saving tags is unavailable! Under maintenance.");
+            return true;
         }
 
         if (args.length == 1)
