@@ -16,6 +16,16 @@ This plugin was originally coded by StevenLawson (Madgeek1450), with Jerom van d
 ### Security ###
 Please read [SECURITY.md](SECURITY.md) and any published [GitHub Security Advisories](https://github.com/TotalFreedom/TotalFreedomMod/security/advisories) before using or redistributing this software.
 
+### Licensing ###
+TotalFreedomMod remains licensed under [TFGL 2.0](LICENSE.md). Steven Lawson has
+permanently waived its prohibition on Object-form redistribution, permitting
+maintained forks and others to distribute compiled binary releases subject to
+the remaining license terms. See the
+[binary distribution permission](BINARY-DISTRIBUTION-PERMISSION.md) for details.
+
+This permission does not indicate that binaries from this unmaintained repository
+are secure or recommended.
+
 ### Contributing ###
 This repository is unmaintained. See [CONTRIBUTING.md](CONTRIBUTING.md) only if you are forking or studying the code.
 
